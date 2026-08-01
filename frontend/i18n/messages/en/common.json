@@ -1219,12 +1219,12 @@
     "subtitle": "View and manage prescriptions from your doctors",
     "myPrescriptionsSubtitle": "View and manage all your prescriptions from doctors",
     "loading": "Loading prescriptions...",
-    "pendingAlert": "You have {count} pending prescriptions that require your review.",
+    "pendingAlert": "You have {count} prescriptions awaiting receipt acknowledgment.",
     "filters": {
       "all": "All",
-      "pending": "Pending",
-      "accepted": "Accepted",
-      "rejected": "Rejected"
+      "pending": "Awaiting acknowledgment",
+      "accepted": "Receipt acknowledged",
+      "rejected": "Discrepancy reported"
     },
     "types": {
       "medication": "Medication",
@@ -1232,14 +1232,14 @@
       "surgeryProcedure": "Surgery/Procedure"
     },
     "status": {
-      "accepted": "Accepted",
-      "rejected": "Rejected"
+      "accepted": "Receipt acknowledged",
+      "rejected": "Discrepancy reported"
     },
     "actions": {
       "tryAgain": "Try Again",
-      "accept": "Accept",
-      "reject": "Reject",
-      "rejectPrescription": "Reject Prescription"
+      "accept": "Acknowledge receipt",
+      "reject": "Report discrepancy",
+      "rejectPrescription": "Report discrepancy"
     },
     "empty": {
       "title": "No Prescriptions Found",
@@ -1247,19 +1247,19 @@
       "filtered": "No {status} prescriptions found."
     },
     "messages": {
-      "accepted": "Prescription accepted and added to medical history",
-      "rejected": "Prescription rejected"
+      "accepted": "Prescription receipt acknowledged and added to medical history",
+      "rejected": "Prescription discrepancy reported"
     },
     "errors": {
       "loadFailed": "Failed to load prescriptions",
-      "acceptFailed": "Failed to accept prescription",
-      "rejectFailed": "Failed to reject prescription"
+      "acceptFailed": "Failed to acknowledge prescription receipt",
+      "rejectFailed": "Failed to report prescription discrepancy"
     },
     "dialogs": {
-      "rejectTitle": "Reject Prescription",
-      "rejectDescription": "Please provide a reason for rejecting this prescription (optional).",
-      "reasonOptional": "Reason (Optional)",
-      "reasonPlaceholder": "e.g., I'm allergic to this medication..."
+      "rejectTitle": "Report a prescription discrepancy",
+      "rejectDescription": "Describe anything that differs from what your doctor discussed (optional).",
+      "reasonOptional": "Discrepancy (Optional)",
+      "reasonPlaceholder": "e.g., the medicine strength is different..."
     }
   },
   "privacy": {

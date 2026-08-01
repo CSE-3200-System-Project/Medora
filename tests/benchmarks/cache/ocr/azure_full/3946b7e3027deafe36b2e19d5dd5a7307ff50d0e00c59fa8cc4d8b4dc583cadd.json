@@ -1,0 +1,410 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "3946b7e3027deafe36b2e19d5dd5a7307ff50d0e00c59fa8cc4d8b4dc583cadd",
+  "record_id": "RX-0064",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 31575.826000000234,
+  "failure": null,
+  "response_sha256": "6190d467ff079b483d582cfa81acd89ffccb7485ea927e3d5ffec49f2d97c304",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / 04819\nG040\nMedical Center:\nPilgrim ID\n1193194\nPassport No\nMaktab No_\nName\nMD KHAIRUZZAMAN WIAH\nBender.\nMALE\nDistrict\nThana_\nHEALTH PROFILE\n12000\n1. Blood Group:\nNO\n2. Blood Pressure:\n3. Heart Disease:\nCH\n4. Lung Disease:\n8.3\n5. Kidney Disease:\nCN\n6. Diabetes.\nNO\n7. Montal Disease:\n81\n8. Blood Sugar (RBS):\nNO\n8. Weight:\n10. Liver Disease:\n11. Drug History:\nAnidebefc\n12 Any other abnormalities:\n27-May-2024\nChief Complaints:\nViệt No:\nDate:\n. Frequent Corse\nPubs\nTemp\nAnsamla-\nDehydration-\nRespiration-\nOthers-\nORS (12)\n8\nFES/RBS-\nECG\nProvisional Diagonosis\n2M\nHTN\nKURIGRAM\nA12001005\n41\nएम एमचिकन लॉगांव पिनियन गया वाकगत चना थे बारजनजाति अविनाश जपनारे मान जानाढ़ स्टर।\nSemid D+\n2-124 58+\nTu. ZiMAX 500\nG+-0 × 3 days.",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "TREATMENT CARD / 04819",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "G040",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Medical Center:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Pilgrim ID",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "1193194",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Passport No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Maktab No_",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Name",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "MD KHAIRUZZAMAN WIAH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Bender.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "MALE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "District",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Thana_",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "12000",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "1. Blood Group:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "2. Blood Pressure:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "3. Heart Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "CH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "4. Lung Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "8.3",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "5. Kidney Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "CN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "6. Diabetes.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "7. Montal Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "81",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "8. Blood Sugar (RBS):",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "8. Weight:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "10. Liver Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "11. Drug History:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Anidebefc",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "12 Any other abnormalities:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "27-May-2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Việt No:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Date:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": ". Frequent Corse",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Pubs",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Temp",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Ansamla-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "ORS (12)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "8",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "FES/RBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "2M",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "HTN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "KURIGRAM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "A12001005",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "41",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "एम एमचिकन लॉगांव पिनियन गया वाकगत चना थे बारजनजाति अविनाश जपनारे मान जानाढ़ स्टर।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Semid D+",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "2-124 58+",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Tu. ZiMAX 500",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "G+-0 × 3 days.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      }
+    ]
+  }
+}

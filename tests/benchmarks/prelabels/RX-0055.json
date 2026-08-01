@@ -1,0 +1,1476 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0055",
+  "source_sha256": "859a353ff86fe85d6bf0c512eefb69a1182cca3a7e23ca293647c6809bc666d1",
+  "raw_transcription": "FENTIGAL VAGINAL CREAM I VÝ\n+0\nbom + Tun vous (nom)\nstato\nmicrogest (com)\nexp.\n1\n1-+\no +o2 Pain Will pines [200ml 2/09/204\n0-40+12\nTab Duvadilan Tom) tom\nदवाजी लगाव समग्र :\nविकान 50 6शतक",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "Fentigal",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Bom Tun Vous",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Stato",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Microgest",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Exp",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Pain Oil",
+      "strength": "200ml",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Cu-tab",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "9585d2a85d7d7f1b81e1d788a5ad4f76b0467dbb9fa1187353d7a70f83b54a53"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "b6fdc9af7cd01e6d777efbdcef3b5ee7265fd91107dc292793475bf15aa9d02e"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "be7111e0aea4df8ab6e6b377553dbffa85a88a9abc339fa02cf359986d2bab62"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "8\nDR.NOFISA KHATUN (NOFSI)\nMEBS.B.C.S.FCPS(Gyne 5 Obs)\nta  n oe  o\nConsultant(Obs&Gyne)\n6\nRNo.42741\nyc\nmoh.\nName:\nDate02SEP\np9fn-mm\nRyo\n-\nwnmhpn\nmmi\n1\nFENTIGALVAGN CREAMIV\nHe\nnen\n2/0\nm1\npw+1+0\n1ON\nAwm\n074h\noFnp-1oon\ntt\nwp-by\nAeni\nmengyeston\nCu0'\n5\n-8m\nPlA\n5H1-34\nFm\npH-\nM\n0gwy\nTunmom\n040+\nCRD\ntah Duvadiln Jom\ntot\nM\n-89\nF8RC",
+      "lines": [
+        {
+          "text": "8",
+          "bbox": {
+            "x_min": 101.0,
+            "y_min": 37.0,
+            "x_max": 231.0,
+            "y_max": 63.0
+          },
+          "page": 1,
+          "confidence": 0.658
+        },
+        {
+          "text": "DR.NOFISA KHATUN (NOFSI)",
+          "bbox": {
+            "x_min": 361.0,
+            "y_min": 42.0,
+            "x_max": 505.0,
+            "y_max": 68.0
+          },
+          "page": 1,
+          "confidence": 0.943
+        },
+        {
+          "text": "MEBS.B.C.S.FCPS(Gyne 5 Obs)",
+          "bbox": {
+            "x_min": 362.0,
+            "y_min": 62.0,
+            "x_max": 463.0,
+            "y_max": 77.0
+          },
+          "page": 1,
+          "confidence": 0.787
+        },
+        {
+          "text": "ta  n oe  o",
+          "bbox": {
+            "x_min": 362.0,
+            "y_min": 84.0,
+            "x_max": 503.0,
+            "y_max": 101.0
+          },
+          "page": 1,
+          "confidence": 0.571
+        },
+        {
+          "text": "Consultant(Obs&Gyne)",
+          "bbox": {
+            "x_min": 363.0,
+            "y_min": 75.0,
+            "x_max": 437.0,
+            "y_max": 89.0
+          },
+          "page": 1,
+          "confidence": 0.85
+        },
+        {
+          "text": "6",
+          "bbox": {
+            "x_min": 95.0,
+            "y_min": 86.0,
+            "x_max": 144.0,
+            "y_max": 108.0
+          },
+          "page": 1,
+          "confidence": 0.363
+        },
+        {
+          "text": "RNo.42741",
+          "bbox": {
+            "x_min": 362.0,
+            "y_min": 98.0,
+            "x_max": 407.0,
+            "y_max": 112.0
+          },
+          "page": 1,
+          "confidence": 0.895
+        },
+        {
+          "text": "yc",
+          "bbox": {
+            "x_min": 109.0,
+            "y_min": 116.0,
+            "x_max": 131.0,
+            "y_max": 132.0
+          },
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "moh.",
+          "bbox": {
+            "x_min": 254.0,
+            "y_min": 113.0,
+            "x_max": 337.0,
+            "y_max": 143.0
+          },
+          "page": 1,
+          "confidence": 0.738
+        },
+        {
+          "text": "Name:",
+          "bbox": {
+            "x_min": 215.0,
+            "y_min": 127.0,
+            "x_max": 242.0,
+            "y_max": 138.0
+          },
+          "page": 1,
+          "confidence": 0.933
+        },
+        {
+          "text": "Date02SEP",
+          "bbox": {
+            "x_min": 424.0,
+            "y_min": 126.0,
+            "x_max": 499.0,
+            "y_max": 147.0
+          },
+          "page": 1,
+          "confidence": 0.878
+        },
+        {
+          "text": "p9fn-mm",
+          "bbox": {
+            "x_min": 111.0,
+            "y_min": 136.0,
+            "x_max": 201.0,
+            "y_max": 165.0
+          },
+          "page": 1,
+          "confidence": 0.599
+        },
+        {
+          "text": "Ryo",
+          "bbox": {
+            "x_min": 227.0,
+            "y_min": 152.0,
+            "x_max": 261.0,
+            "y_max": 179.0
+          },
+          "page": 1,
+          "confidence": 0.775
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 110.0,
+            "y_min": 171.0,
+            "x_max": 116.0,
+            "y_max": 176.0
+          },
+          "page": 1,
+          "confidence": 0.691
+        },
+        {
+          "text": "wnmhpn",
+          "bbox": {
+            "x_min": 116.0,
+            "y_min": 165.0,
+            "x_max": 209.0,
+            "y_max": 196.0
+          },
+          "page": 1,
+          "confidence": 0.541
+        },
+        {
+          "text": "mmi",
+          "bbox": {
+            "x_min": 151.0,
+            "y_min": 212.0,
+            "x_max": 199.0,
+            "y_max": 236.0
+          },
+          "page": 1,
+          "confidence": 0.605
+        },
+        {
+          "text": "1",
+          "bbox": {
+            "x_min": 243.0,
+            "y_min": 212.0,
+            "x_max": 248.0,
+            "y_max": 217.0
+          },
+          "page": 1,
+          "confidence": 0.105
+        },
+        {
+          "text": "FENTIGALVAGN CREAMIV",
+          "bbox": {
+            "x_min": 253.0,
+            "y_min": 199.0,
+            "x_max": 353.0,
+            "y_max": 225.0
+          },
+          "page": 1,
+          "confidence": 0.766
+        },
+        {
+          "text": "He",
+          "bbox": {
+            "x_min": 260.0,
+            "y_min": 216.0,
+            "x_max": 303.0,
+            "y_max": 232.0
+          },
+          "page": 1,
+          "confidence": 0.298
+        },
+        {
+          "text": "nen",
+          "bbox": {
+            "x_min": 319.0,
+            "y_min": 215.0,
+            "x_max": 349.0,
+            "y_max": 225.0
+          },
+          "page": 1,
+          "confidence": 0.247
+        },
+        {
+          "text": "2/0",
+          "bbox": {
+            "x_min": 265.0,
+            "y_min": 230.0,
+            "x_max": 288.0,
+            "y_max": 238.0
+          },
+          "page": 1,
+          "confidence": 0.191
+        },
+        {
+          "text": "m1",
+          "bbox": {
+            "x_min": 126.0,
+            "y_min": 246.0,
+            "x_max": 215.0,
+            "y_max": 270.0
+          },
+          "page": 1,
+          "confidence": 0.39
+        },
+        {
+          "text": "pw+1+0",
+          "bbox": {
+            "x_min": 141.0,
+            "y_min": 267.0,
+            "x_max": 210.0,
+            "y_max": 294.0
+          },
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "1ON",
+          "bbox": {
+            "x_min": 333.0,
+            "y_min": 283.0,
+            "x_max": 353.0,
+            "y_max": 293.0
+          },
+          "page": 1,
+          "confidence": 0.489
+        },
+        {
+          "text": "Awm",
+          "bbox": {
+            "x_min": 367.0,
+            "y_min": 278.0,
+            "x_max": 401.0,
+            "y_max": 289.0
+          },
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "074h",
+          "bbox": {
+            "x_min": 264.0,
+            "y_min": 285.0,
+            "x_max": 322.0,
+            "y_max": 302.0
+          },
+          "page": 1,
+          "confidence": 0.552
+        },
+        {
+          "text": "oFnp-1oon",
+          "bbox": {
+            "x_min": 129.0,
+            "y_min": 288.0,
+            "x_max": 227.0,
+            "y_max": 322.0
+          },
+          "page": 1,
+          "confidence": 0.559
+        },
+        {
+          "text": "tt",
+          "bbox": {
+            "x_min": 331.0,
+            "y_min": 310.0,
+            "x_max": 371.0,
+            "y_max": 327.0
+          },
+          "page": 1,
+          "confidence": 0.329
+        },
+        {
+          "text": "wp-by",
+          "bbox": {
+            "x_min": 140.0,
+            "y_min": 316.0,
+            "x_max": 205.0,
+            "y_max": 345.0
+          },
+          "page": 1,
+          "confidence": 0.595
+        },
+        {
+          "text": "Aeni",
+          "bbox": {
+            "x_min": 133.0,
+            "y_min": 334.0,
+            "x_max": 185.0,
+            "y_max": 369.0
+          },
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "mengyeston",
+          "bbox": {
+            "x_min": 372.0,
+            "y_min": 324.0,
+            "x_max": 478.0,
+            "y_max": 360.0
+          },
+          "page": 1,
+          "confidence": 0.575
+        },
+        {
+          "text": "Cu0'",
+          "bbox": {
+            "x_min": 339.0,
+            "y_min": 350.0,
+            "x_max": 367.0,
+            "y_max": 367.0
+          },
+          "page": 1,
+          "confidence": 0.439
+        },
+        {
+          "text": "5",
+          "bbox": {
+            "x_min": 407.0,
+            "y_min": 359.0,
+            "x_max": 412.0,
+            "y_max": 364.0
+          },
+          "page": 1,
+          "confidence": 0.174
+        },
+        {
+          "text": "-8m",
+          "bbox": {
+            "x_min": 456.0,
+            "y_min": 353.0,
+            "x_max": 482.0,
+            "y_max": 364.0
+          },
+          "page": 1,
+          "confidence": 0.296
+        },
+        {
+          "text": "PlA",
+          "bbox": {
+            "x_min": 121.0,
+            "y_min": 373.0,
+            "x_max": 155.0,
+            "y_max": 399.0
+          },
+          "page": 1,
+          "confidence": 0.519
+        },
+        {
+          "text": "5H1-34",
+          "bbox": {
+            "x_min": 145.0,
+            "y_min": 387.0,
+            "x_max": 205.0,
+            "y_max": 414.0
+          },
+          "page": 1,
+          "confidence": 0.741
+        },
+        {
+          "text": "Fm",
+          "bbox": {
+            "x_min": 153.0,
+            "y_min": 407.0,
+            "x_max": 196.0,
+            "y_max": 438.0
+          },
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "pH-",
+          "bbox": {
+            "x_min": 171.0,
+            "y_min": 422.0,
+            "x_max": 227.0,
+            "y_max": 449.0
+          },
+          "page": 1,
+          "confidence": 0.488
+        },
+        {
+          "text": "M",
+          "bbox": {
+            "x_min": 423.0,
+            "y_min": 468.0,
+            "x_max": 450.0,
+            "y_max": 484.0
+          },
+          "page": 1,
+          "confidence": 0.777
+        },
+        {
+          "text": "0gwy",
+          "bbox": {
+            "x_min": 437.0,
+            "y_min": 475.0,
+            "x_max": 490.0,
+            "y_max": 498.0
+          },
+          "page": 1,
+          "confidence": 0.408
+        },
+        {
+          "text": "Tunmom",
+          "bbox": {
+            "x_min": 202.0,
+            "y_min": 456.0,
+            "x_max": 310.0,
+            "y_max": 514.0
+          },
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "040+",
+          "bbox": {
+            "x_min": 367.0,
+            "y_min": 504.0,
+            "x_max": 406.0,
+            "y_max": 518.0
+          },
+          "page": 1,
+          "confidence": 0.496
+        },
+        {
+          "text": "CRD",
+          "bbox": {
+            "x_min": 84.0,
+            "y_min": 529.0,
+            "x_max": 123.0,
+            "y_max": 546.0
+          },
+          "page": 1,
+          "confidence": 0.521
+        },
+        {
+          "text": "tah Duvadiln Jom",
+          "bbox": {
+            "x_min": 262.0,
+            "y_min": 510.0,
+            "x_max": 429.0,
+            "y_max": 546.0
+          },
+          "page": 1,
+          "confidence": 0.709
+        },
+        {
+          "text": "tot",
+          "bbox": {
+            "x_min": 336.0,
+            "y_min": 542.0,
+            "x_max": 388.0,
+            "y_max": 564.0
+          },
+          "page": 1,
+          "confidence": 0.483
+        },
+        {
+          "text": "M",
+          "bbox": {
+            "x_min": 394.0,
+            "y_min": 563.0,
+            "x_max": 412.0,
+            "y_max": 575.0
+          },
+          "page": 1,
+          "confidence": 0.526
+        },
+        {
+          "text": "-89",
+          "bbox": {
+            "x_min": 82.0,
+            "y_min": 580.0,
+            "x_max": 187.0,
+            "y_max": 593.0
+          },
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "F8RC",
+          "bbox": {
+            "x_min": 85.0,
+            "y_min": 596.0,
+            "x_max": 275.0,
+            "y_max": 609.0
+          },
+          "page": 1,
+          "confidence": 0.2
+        }
+      ],
+      "medications": [
+        {
+          "name": "Dr Nofisa Khatun",
+          "matched_term": "Dr Nofisa Khatun",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.424
+        },
+        {
+          "name": "Mebs Fcps Gyne",
+          "matched_term": "Mebs Fcps Gyne",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.354
+        },
+        {
+          "name": "Consultant Obs Gyne Ta Oe",
+          "matched_term": "Consultant Obs Gyne Ta Oe",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.268
+        },
+        {
+          "name": "Brnoaid",
+          "matched_term": "Brnoaid",
+          "drug_id": "35e4b7ce-49b8-4f7a-9f8f-96209803b805",
+          "brand_id": "581013e1-4798-402f-a5f0-6637681175ec",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.783
+        },
+        {
+          "name": "Moho",
+          "matched_term": "Moho",
+          "drug_id": "10f62e2c-64f0-4a95-b1ff-2654453ea3ed",
+          "brand_id": "d2bdf38e-3c36-4b36-aab7-5d231ceacb7e",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.728
+        },
+        {
+          "name": "Name Fn-Mm",
+          "matched_term": "Name Fn-Mm",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.345
+        },
+        {
+          "name": "Bryona",
+          "matched_term": "Bryona",
+          "drug_id": "5bc05289-3a93-4e35-938c-f531a8ff8745",
+          "brand_id": "dc2f6932-7513-4e6f-b848-efb8d716ad72",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.729
+        },
+        {
+          "name": "Wnmhpn",
+          "matched_term": "Wnmhpn",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.277
+        },
+        {
+          "name": "Fentigal",
+          "matched_term": "Fentigal",
+          "drug_id": "831f023e-3f29-4ded-af44-1ab6364896f1",
+          "brand_id": "69eff9bc-1ad5-4295-a99f-530921774469",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.725
+        },
+        {
+          "name": "Mmi",
+          "matched_term": "Mmi",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.16
+        },
+        {
+          "name": "Nen He Pw",
+          "matched_term": "Nen He Pw",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.158
+        },
+        {
+          "name": "Sawmet",
+          "matched_term": "Sawmet",
+          "drug_id": "c036d764-b515-4ba6-9303-d6748951b0ed",
+          "brand_id": "84ba4783-2ef1-4204-b911-d66a1a6b0682",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.613
+        },
+        {
+          "name": "Ofnp- Oon Tt Wp-By",
+          "matched_term": "Ofnp- Oon Tt Wp-By",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.222
+        },
+        {
+          "name": "Mengyeston",
+          "matched_term": "Mengyeston",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.259
+        },
+        {
+          "name": "Aeni Cu",
+          "matched_term": "Aeni Cu",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.173
+        },
+        {
+          "name": "FM Plus",
+          "matched_term": "FM Plus",
+          "drug_id": "c0ed95e6-2451-46b7-9199-1c1286638e6a",
+          "brand_id": "d88f9836-6eb2-4347-88b6-9ccfcfca1854",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.481
+        },
+        {
+          "name": "Tunmom Gwy",
+          "matched_term": "Tunmom Gwy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.254
+        },
+        {
+          "name": "Tah Duvadiln Jom",
+          "matched_term": "Tah Duvadiln Jom",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.319
+        },
+        {
+          "name": "Crd",
+          "matched_term": "Crd",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.234
+        },
+        {
+          "name": "Toti",
+          "matched_term": "Toti",
+          "drug_id": "ce9bb01f-7c41-4462-a295-b236bf931543",
+          "brand_id": "8fca6ded-cf77-4ecc-8993-c7b75090dfed",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.581
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "18 नफिश वाजून (नयदि)\nपरविनिधान, वि.वि.इम (मश) उर्फभूमिद्य (गहिंदी वह वान),\nरुकि वे हैंरण शिंगणा स कारणउसे\n।-ग्रीन कियादेव सामान (पिटल्स कानशा, रामलाइज, वास़)\nविधि नं . ९२९82\nDR.NOFISA KHATUN (NOFSI)\nMEBS. B.C.S, FCPS(Gyne 5 066)\nConsultant (Obs &Gyne]\nX-Shahid Zieor Rahman Medical Colege Hospital, Bogura:\nRoy No 42741\nName:\nmon. Jene\nAge:\n23/2\nDate: 02 SEP 2005\nRxo\ntituly with\nFENTIGAL VAGINAL CREAM IVY\npone +1+0\ncap. microgest (worm)\nPIA\n5TH - 340\npm=+\nPHI-+\n-Tan, millicom)\n0 to\" Tab Nili pines [200ml\n-30pm\nकमान :\nगाउननि क्लिनिक\nव्याशाध्यम जाने शुभमकाल नरगा.\nमोक (कांग्रजिन :ग्राफ उन्पेनिया, पक्का।\nगिविवादनव बनाई ०३१३३-३२००४१\n4/09/204\nTab Duvadilan (iom)\n010-20/m\nवाशी मचान समग्र :\nमिनगाम भव इसका समापन।\nविकान को दरढक\nझाड़ जगा वशंख।\nदिए ज :- भावकी भाष्पादकता समग्र हेमिल्टन ' बदमाशनीय कानिकलजा छटाई महम ध्यानद्युत।",
+      "lines": [
+        {
+          "text": "18 नफिश वाजून (नयदि)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "परविनिधान, वि.वि.इम (मश) उर्फभूमिद्य (गहिंदी वह वान),",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "रुकि वे हैंरण शिंगणा स कारणउसे",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "।-ग्रीन कियादेव सामान (पिटल्स कानशा, रामलाइज, वास़)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "विधि नं . ९२९82",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "DR.NOFISA KHATUN (NOFSI)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "MEBS. B.C.S, FCPS(Gyne 5 066)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "Consultant (Obs &Gyne]",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "X-Shahid Zieor Rahman Medical Colege Hospital, Bogura:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "Roy No 42741",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "Name:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "mon. Jene",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "Age:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "23/2",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "Date: 02 SEP 2005",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "Rxo",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "tituly with",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "FENTIGAL VAGINAL CREAM IVY",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "pone +1+0",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "cap. microgest (worm)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "PIA",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "5TH - 340",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "pm=+",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "PHI-+",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "-Tan, millicom)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "0 to\" Tab Nili pines [200ml",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "-30pm",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "कमान :",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "गाउननि क्लिनिक",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "व्याशाध्यम जाने शुभमकाल नरगा.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "मोक (कांग्रजिन :ग्राफ उन्पेनिया, पक्का।",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "गिविवादनव बनाई ०३१३३-३२००४१",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "4/09/204",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "Tab Duvadilan (iom)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "010-20/m",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "वाशी मचान समग्र :",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "मिनगाम भव इसका समापन।",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "विकान को दरढक",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "झाड़ जगा वशंख।",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "दिए ज :- भावकी भाष्पादकता समग्र हेमिल्टन ' बदमाशनीय कानिकलजा छटाई महम ध्यानद्युत।",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.397
+        }
+      ],
+      "medications": [
+        {
+          "name": "Dr Nofisa Khatun",
+          "matched_term": "Dr Nofisa Khatun",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.179
+        },
+        {
+          "name": "Mebs Fcps Gyne",
+          "matched_term": "Mebs Fcps Gyne",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.179
+        },
+        {
+          "name": "Consultant Obs Gyne",
+          "matched_term": "Consultant Obs Gyne",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.179
+        },
+        {
+          "name": "X-Shahid Zieor Rahman",
+          "matched_term": "X-Shahid Zieor Rahman",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.179
+        },
+        {
+          "name": "Roy No",
+          "matched_term": "Roy No",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.179
+        },
+        {
+          "name": "Name",
+          "matched_term": "Name",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.179
+        },
+        {
+          "name": "Mon",
+          "matched_term": "Mon",
+          "drug_id": "807a6dae-2bc9-408f-ab46-85ee4b7712c1",
+          "brand_id": "3634ba03-dfe2-48f3-a5ba-037e5712341f",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.559
+        },
+        {
+          "name": "Age M",
+          "matched_term": "Age M",
+          "drug_id": "32593a88-50e8-4254-9d22-7d1a52c84504",
+          "brand_id": "86fe087a-92e9-4a39-8921-ab758e162e76",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.559
+        },
+        {
+          "name": "Date Sep",
+          "matched_term": "Date Sep",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.179
+        },
+        {
+          "name": "Rxo",
+          "matched_term": "Rxo",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.179
+        },
+        {
+          "name": "Tituly With",
+          "matched_term": "Tituly With",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.179
+        },
+        {
+          "name": "Fentigal",
+          "matched_term": "Fentigal",
+          "drug_id": "831f023e-3f29-4ded-af44-1ab6364896f1",
+          "brand_id": "69eff9bc-1ad5-4295-a99f-530921774469",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.559
+        },
+        {
+          "name": "Pone",
+          "matched_term": "Pone",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.179
+        },
+        {
+          "name": "Microgest",
+          "matched_term": "Microgest",
+          "drug_id": "66e73bba-c22e-4548-8f18-8b2b3575d7ea",
+          "brand_id": "e58f9a4e-32c4-47d8-ac70-f35856d76175",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.559
+        },
+        {
+          "name": "Pia Th Pm",
+          "matched_term": "Pia Th Pm",
+          "drug_id": "34d4169e-0795-45bb-b29d-4873102e5bdd",
+          "brand_id": "d0b0ae89-2410-4cb2-8d47-177b89add88e",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.179
+        },
+        {
+          "name": "Typhi",
+          "matched_term": "Typhi",
+          "drug_id": "817bb696-a304-424c-b092-8b1921ae43aa",
+          "brand_id": "24b2fd66-9f58-401c-8b3b-e87312ae01a1",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.505
+        },
+        {
+          "name": "E-Tan",
+          "matched_term": "E-Tan",
+          "drug_id": "9dff0641-71c5-420c-96b2-1eb99b9f1c6c",
+          "brand_id": "ac2a718a-85ef-4807-9bcb-131ceabfb293",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.559
+        },
+        {
+          "name": "To Nili Pines Pm",
+          "matched_term": "To Nili Pines Pm",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "200ml",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.23
+        },
+        {
+          "name": "Cu-tab",
+          "matched_term": "Cu-tab",
+          "drug_id": "3973b7fc-afc7-4263-8fce-cc93e630d5c1",
+          "brand_id": "ca35f4be-de34-4476-803b-bb9dd37949b2",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.559
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "Fentigal",
+          "matched_term": "Fentigal",
+          "drug_id": "831f023e-3f29-4ded-af44-1ab6364896f1",
+          "brand_id": "69eff9bc-1ad5-4295-a99f-530921774469",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.57
+        },
+        {
+          "name": "Bom Tun Vous",
+          "matched_term": "Bom Tun Vous",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.19
+        },
+        {
+          "name": "Stato",
+          "matched_term": "Stato",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.19
+        },
+        {
+          "name": "Microgest",
+          "matched_term": "Microgest",
+          "drug_id": "66e73bba-c22e-4548-8f18-8b2b3575d7ea",
+          "brand_id": "e58f9a4e-32c4-47d8-ac70-f35856d76175",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.57
+        },
+        {
+          "name": "Exp",
+          "matched_term": "Exp",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.19
+        },
+        {
+          "name": "Pain Oil",
+          "matched_term": "Pain Oil",
+          "drug_id": "c594262a-cf2c-4b25-a6dd-a3d730891ac5",
+          "brand_id": "7c832b0e-2ada-4b96-9c86-6cb29d77a504",
+          "dosage": "200ml",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.621
+        },
+        {
+          "name": "Cu-tab",
+          "matched_term": "Cu-tab",
+          "drug_id": "3973b7fc-afc7-4263-8fce-cc93e630d5c1",
+          "brand_id": "ca35f4be-de34-4476-803b-bb9dd37949b2",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.57
+        }
+      ],
+      "raw_text": "FENTIGAL VAGINAL CREAM I VÝ\n+0\nbom + Tun vous (nom)\nstato\nmicrogest (com)\nexp.\n1\n1-+\no +o2 Pain Will pines [200ml 2/09/204\n0-40+12\nTab Duvadilan Tom) tom\nदवाजी लगाव समग्र :\nविकान 50 6शतक",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 16644,
+        "detected_regions": 1,
+        "ocr_line_count": 13,
+        "yolo_avg_confidence": 0.8951,
+        "yolo_min_confidence": 0.8951,
+        "yolo_max_confidence": 0.8951,
+        "ocr_avg_confidence": 0.422,
+        "ocr_min_confidence": 0.422,
+        "ocr_max_confidence": 0.422,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 200.2854461669922,
+              "y_min": 170.85263061523438,
+              "x_max": 513.1130981445312,
+              "y_max": 577.8076171875
+            },
+            "score": 0.8951
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "FENTIGAL VAGINAL CREAM I VÝ",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.422
+          },
+          {
+            "text": "+0",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.422
+          },
+          {
+            "text": "bom + Tun vous (nom)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.422
+          },
+          {
+            "text": "stato",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.422
+          },
+          {
+            "text": "microgest (com)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.422
+          },
+          {
+            "text": "exp.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.422
+          },
+          {
+            "text": "1",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.422
+          },
+          {
+            "text": "1-+",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.422
+          },
+          {
+            "text": "o +o2 Pain Will pines [200ml 2/09/204",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.422
+          },
+          {
+            "text": "0-40+12",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.422
+          },
+          {
+            "text": "Tab Duvadilan Tom) tom",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.422
+          },
+          {
+            "text": "दवाजी लगाव समग्र :",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.422
+          },
+          {
+            "text": "विकान 50 6शतक",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.422
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "4b2982e1b833cd14eeb167a4a5b0024302aa9d9bf93032d13c405f76885fd2dc",
+  "record_id": "RX-0084",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 19881.701099991915,
+  "failure": null,
+  "response_sha256": "cffb1a77a42d8af63ba791e06e1e8113ac2f8dc2289f3909fc88cba402f912ed",
+  "response": {
+    "raw_text": "TAB. Taten (1 mg)\n- Clobetasome aint --- D\nDO Napa Extend (185mg)-@\nstats (west end) -Brev\nCap Onceprazole (20m)\n> + ats (euro camp)",
+    "lines": [
+      {
+        "text": "TAB. Taten (1 mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.451
+      },
+      {
+        "text": "- Clobetasome aint --- D",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.451
+      },
+      {
+        "text": "DO Napa Extend (185mg)-@",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.451
+      },
+      {
+        "text": "stats (west end) -Brev",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.451
+      },
+      {
+        "text": "Cap Onceprazole (20m)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.451
+      },
+      {
+        "text": "> + ats (euro camp)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.451
+      }
+    ]
+  }
+}

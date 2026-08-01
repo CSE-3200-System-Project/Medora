@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "12b4344ebc54bec70fdaa67330a356a1ce6382c89529d8d033235fe41698039e",
+  "record_id": "RX-0066",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 4569.70399999409,
+  "failure": null,
+  "response_sha256": "a0c0778f4da67258146124529013015ba5e27f7c48288ad95087fed3ccffcd3d",
+  "response": {
+    "raw_text": "6. mehryt /um",
+    "lines": [
+      {
+        "text": "6. mehryt /um",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.176
+      }
+    ]
+  }
+}

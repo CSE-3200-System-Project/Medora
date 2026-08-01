@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Query, Request, Response, status
+from fastapi import APIRouter, Depends, Header, HTTPException, Query, Request, Response, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import distinct, func, literal, select, and_
 from sqlalchemy.orm import aliased, load_only
@@ -31,6 +31,8 @@ from typing import List
 from datetime import datetime, timedelta, timezone, date as date_class, time as time_class
 from zoneinfo import ZoneInfo
 import re
+import hashlib
+import json
 
 router = APIRouter()
 
@@ -267,6 +269,7 @@ async def _latest_pending_reschedules_by_appointment(
 @router.post("/", response_model=AppointmentResponse, status_code=status.HTTP_201_CREATED)
 async def create_appointment(
     appointment_data: AppointmentCreate,
+    idempotency_key: str = Header(..., alias="Idempotency-Key", min_length=8, max_length=128),
     user: any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db)
 ):
@@ -313,6 +316,9 @@ async def create_appointment(
         slot_time_val = time_class(appt_dt_raw.hour, appt_dt_raw.minute)
 
     appt_dt = _canonicalize_appointment_datetime(appt_dt_raw, slot_time_val)
+    request_hash = hashlib.sha256(
+        json.dumps(appointment_data.model_dump(mode="json"), sort_keys=True, separators=(",", ":")).encode("utf-8")
+    ).hexdigest()
 
     try:
         new_appointment = await appointment_service.create_appointment(
@@ -326,6 +332,8 @@ async def create_appointment(
             reason=appointment_data.reason,
             notes=appointment_data.notes,
             duration_minutes=doctor.appointment_duration or 30,
+            idempotency_key=idempotency_key,
+            request_hash=request_hash,
         )
 
         await db.commit()

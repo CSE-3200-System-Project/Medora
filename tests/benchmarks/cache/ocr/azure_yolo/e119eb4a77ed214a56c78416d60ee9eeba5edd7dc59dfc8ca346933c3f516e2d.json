@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "e119eb4a77ed214a56c78416d60ee9eeba5edd7dc59dfc8ca346933c3f516e2d",
+  "record_id": "RX-0051",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 9111.358900001505,
+  "failure": null,
+  "response_sha256": "e94df41878ce41e8a91124af5114fd58d02c26b6d327bdf3f118c1ef43ecc987",
+  "response": {
+    "raw_text": "7\nTM Joint Subluxation. (U)\n1\nVOLIGEL THE ANTIMON.\n/\nButler. OxICAM (20Ml)\n1\nlas. PANTONIX (20Mg)\npoll wow 2/2 close\n1\nClu. CARTILAGE MAX10VS\n14091\nChamber :\nHitech Multicare Hospital Ltd.\n164. East K.",
+    "lines": [
+      {
+        "text": "7",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "TM Joint Subluxation. (U)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "VOLIGEL THE ANTIMON.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "/",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Butler. OxICAM (20Ml)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "las. PANTONIX (20Mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "poll wow 2/2 close",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Clu. CARTILAGE MAX10VS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "14091",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Chamber :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Hitech Multicare Hospital Ltd.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "164. East K.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      }
+    ]
+  }
+}

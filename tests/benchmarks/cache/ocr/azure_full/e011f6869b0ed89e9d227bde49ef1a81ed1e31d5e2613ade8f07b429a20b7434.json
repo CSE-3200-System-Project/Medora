@@ -1,0 +1,146 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "e011f6869b0ed89e9d227bde49ef1a81ed1e31d5e2613ade8f07b429a20b7434",
+  "record_id": "RX-0098",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 14666.459799991571,
+  "failure": null,
+  "response_sha256": "dd12ac93f151cdcea151df445e05b2deeda2369c8d4e9a5be3ff2a90e892d57e",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Haj Office\nMakkahiMadnah(Jeddah\nTREATMENT CARD/ FTYITE\nMedica. Center:\nकश्चन नं. G048\nParim D\nPassport No\nA01842524\nMrktab Nu\nName_\nHEALTH PROFILE\nNO\nChef Compraista:\nRx\n* Tex. Plc (51%)\nCxham\nECH\nProviGonal Diagnosis\nइल टमिष्ठान (लकरा हिलिसिस (गय वंशमें) कन् क बाबहा ण्डी वडिवच उन्हें कम अन्दर शर।",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "Bangladesh Haj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "MakkahiMadnah(Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "TREATMENT CARD/ FTYITE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "Medica. Center:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "कश्चन नं. G048",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "Parim D",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "Passport No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "A01842524",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "Mrktab Nu",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "Name_",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "Chef Compraista:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "* Tex. Plc (51%)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "Cxham",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "ECH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "ProviGonal Diagnosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "इल टमिष्ठान (लकरा हिलिसिस (गय वंशमें) कन् क बाबहा ण्डी वडिवच उन्हें कम अन्दर शर।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      }
+    ]
+  }
+}

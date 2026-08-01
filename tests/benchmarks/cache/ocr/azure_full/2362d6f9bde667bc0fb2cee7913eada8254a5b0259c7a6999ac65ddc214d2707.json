@@ -1,0 +1,176 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "2362d6f9bde667bc0fb2cee7913eada8254a5b0259c7a6999ac65ddc214d2707",
+  "record_id": "RX-0073",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 17362.426399995456,
+  "failure": null,
+  "response_sha256": "99f5b04c012b4cf7ab1ee57ae0c38084eab21b49e1414de0e9b169c12e7ffdc9",
+  "response": {
+    "raw_text": "7/2]: MD. Zakir Hossain Siddiqui\nराठिया/ज्थिम न .: 820377 भजनी: MCPaXYRIN\nडिकरिश्मा पछवा :\n(बादशव वर्णना, भीखगान\nकलाखल, नाग निर्णय\nबादश शेख\nDENTAL WING\n9\n.....\n22-8-21\nDIE ..\nTap. Cf B (400mg)\n1+0+1\n-9 pm\nIno ?-\n2\nCap. Seet (20m)\n1+0+1\n3\nViodone M/W.\nX-ray- or\nB.D.S. (OUG (OMS)\nDENTAL SURGEON\nBNS HAJI MO\nIN\nR",
+    "lines": [
+      {
+        "text": "7/2]: MD. Zakir Hossain Siddiqui",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.591
+      },
+      {
+        "text": "राठिया/ज्थिम न .: 820377 भजनी: MCPaXYRIN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.591
+      },
+      {
+        "text": "डिकरिश्मा पछवा :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.591
+      },
+      {
+        "text": "(बादशव वर्णना, भीखगान",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.591
+      },
+      {
+        "text": "कलाखल, नाग निर्णय",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.591
+      },
+      {
+        "text": "बादश शेख",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.591
+      },
+      {
+        "text": "DENTAL WING",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.591
+      },
+      {
+        "text": "9",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.591
+      },
+      {
+        "text": ".....",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.591
+      },
+      {
+        "text": "22-8-21",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.591
+      },
+      {
+        "text": "DIE ..",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.591
+      },
+      {
+        "text": "Tap. Cf B (400mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.591
+      },
+      {
+        "text": "1+0+1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.591
+      },
+      {
+        "text": "-9 pm",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.591
+      },
+      {
+        "text": "Ino ?-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.591
+      },
+      {
+        "text": "2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.591
+      },
+      {
+        "text": "Cap. Seet (20m)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.591
+      },
+      {
+        "text": "1+0+1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.591
+      },
+      {
+        "text": "3",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.591
+      },
+      {
+        "text": "Viodone M/W.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.591
+      },
+      {
+        "text": "X-ray- or",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.591
+      },
+      {
+        "text": "B.D.S. (OUG (OMS)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.591
+      },
+      {
+        "text": "DENTAL SURGEON",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.591
+      },
+      {
+        "text": "BNS HAJI MO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.591
+      },
+      {
+        "text": "IN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.591
+      },
+      {
+        "text": "R",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.591
+      }
+    ]
+  }
+}

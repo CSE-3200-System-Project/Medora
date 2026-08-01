@@ -1,0 +1,1557 @@
+{
+  "schema_version": "1.0.0",
+  "executed_at": "2026-08-01T17:26:26.981478+00:00",
+  "protocol": {
+    "concurrency": [
+      2,
+      10,
+      50
+    ],
+    "repetitions_per_level": 30,
+    "warmup_per_level": 1
+  },
+  "warmup_excluded": {
+    "2": {
+      "repetition": 0,
+      "successes": 1,
+      "conflicts": 1,
+      "unexpected": [],
+      "unique_appointment_ids": 1,
+      "database_rows": 1,
+      "idempotent_replay": true,
+      "idempotency_mismatch_rejected": true,
+      "outbox": {
+        "processed": true,
+        "provider_propagation_ms": 205.607
+      },
+      "request_latencies_ms": [
+        241.0914999927627,
+        219.50609999476
+      ],
+      "passed": true
+    },
+    "10": {
+      "repetition": 31,
+      "successes": 1,
+      "conflicts": 9,
+      "unexpected": [],
+      "unique_appointment_ids": 1,
+      "database_rows": 1,
+      "idempotent_replay": true,
+      "idempotency_mismatch_rejected": true,
+      "outbox": {
+        "processed": true,
+        "provider_propagation_ms": 1014.5980000000001
+      },
+      "request_latencies_ms": [
+        643.2670000067446,
+        638.8622999947984,
+        778.9317999995546,
+        957.1690999873681,
+        1033.919399997103,
+        702.214399992954,
+        1217.7291000116384,
+        1164.0434000000823,
+        1094.6020999981556,
+        860.6107000086922
+      ],
+      "passed": true
+    },
+    "50": {
+      "repetition": 62,
+      "successes": 1,
+      "conflicts": 49,
+      "unexpected": [],
+      "unique_appointment_ids": 1,
+      "database_rows": 1,
+      "idempotent_replay": true,
+      "idempotency_mismatch_rejected": true,
+      "outbox": {
+        "processed": true,
+        "provider_propagation_ms": 1631.993
+      },
+      "request_latencies_ms": [
+        703.0503999994835,
+        716.2352000013925,
+        698.0619999958435,
+        731.9637000036892,
+        736.1008000007132,
+        867.8098000091268,
+        799.3759999953909,
+        1045.2507000009064,
+        926.6532000037841,
+        984.3082000006689,
+        1105.3302999935113,
+        1159.9308000004385,
+        1219.2988000024343,
+        1279.6601000009105,
+        1340.1737999956822,
+        1734.6298000047682,
+        1358.2165999978315,
+        1362.9962999984855,
+        1378.9732000004733,
+        1391.4916000067024,
+        1403.2278999948176,
+        1416.3433000067016,
+        1428.3047000062652,
+        1439.7558000055142,
+        1450.4570999997668,
+        1460.9015000023646,
+        1471.6735999973025,
+        1484.3677000026219,
+        1496.7191000032471,
+        1507.7132000005804,
+        1520.3781000018353,
+        1532.8295999934198,
+        1544.7358999954304,
+        1553.543099988019,
+        1567.4320999969495,
+        1575.0903000007384,
+        1584.1039000079036,
+        1590.2472000016132,
+        1599.5680000050925,
+        1609.266800005571,
+        1618.334800004959,
+        1634.1843999980483,
+        1644.8558999982197,
+        1655.206099996576,
+        1668.5124000068754,
+        1679.5959000010043,
+        1692.9582000011578,
+        1698.2538000011118,
+        1708.7638000084553,
+        1716.5222999901744
+      ],
+      "passed": true
+    }
+  },
+  "results": [
+    {
+      "concurrency": 2,
+      "repetitions": 30,
+      "passed_repetitions": 30,
+      "passed": true,
+      "transaction_latency_ms": {
+        "scope": "HTTP request through committed transaction",
+        "n": 60,
+        "mean": 57.010483333093966,
+        "p50": 52.29639999743085,
+        "p95": 81.12760000221897,
+        "p99": 83.99939999799244
+      },
+      "notification_propagation_latency_ms": {
+        "scope": "outbox creation to processed_at; not database consistency",
+        "n": 30,
+        "mean": 92.06736666666667,
+        "p50": 84.971,
+        "p95": 124.542,
+        "p99": 134.114
+      },
+      "raw": [
+        {
+          "repetition": 1,
+          "successes": 1,
+          "conflicts": 1,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 107.27799999999999
+          },
+          "passed": true
+        },
+        {
+          "repetition": 2,
+          "successes": 1,
+          "conflicts": 1,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 76.572
+          },
+          "passed": true
+        },
+        {
+          "repetition": 3,
+          "successes": 1,
+          "conflicts": 1,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 78.178
+          },
+          "passed": true
+        },
+        {
+          "repetition": 4,
+          "successes": 1,
+          "conflicts": 1,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 84.971
+          },
+          "passed": true
+        },
+        {
+          "repetition": 5,
+          "successes": 1,
+          "conflicts": 1,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 85.78099999999999
+          },
+          "passed": true
+        },
+        {
+          "repetition": 6,
+          "successes": 1,
+          "conflicts": 1,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 83.122
+          },
+          "passed": true
+        },
+        {
+          "repetition": 7,
+          "successes": 1,
+          "conflicts": 1,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 71.154
+          },
+          "passed": true
+        },
+        {
+          "repetition": 8,
+          "successes": 1,
+          "conflicts": 1,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 75.09100000000001
+          },
+          "passed": true
+        },
+        {
+          "repetition": 9,
+          "successes": 1,
+          "conflicts": 1,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 87.94200000000001
+          },
+          "passed": true
+        },
+        {
+          "repetition": 10,
+          "successes": 1,
+          "conflicts": 1,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 75.45599999999999
+          },
+          "passed": true
+        },
+        {
+          "repetition": 11,
+          "successes": 1,
+          "conflicts": 1,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 65.205
+          },
+          "passed": true
+        },
+        {
+          "repetition": 12,
+          "successes": 1,
+          "conflicts": 1,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 73.547
+          },
+          "passed": true
+        },
+        {
+          "repetition": 13,
+          "successes": 1,
+          "conflicts": 1,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 66.75
+          },
+          "passed": true
+        },
+        {
+          "repetition": 14,
+          "successes": 1,
+          "conflicts": 1,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 120.43900000000001
+          },
+          "passed": true
+        },
+        {
+          "repetition": 15,
+          "successes": 1,
+          "conflicts": 1,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 124.542
+          },
+          "passed": true
+        },
+        {
+          "repetition": 16,
+          "successes": 1,
+          "conflicts": 1,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 116.83200000000001
+          },
+          "passed": true
+        },
+        {
+          "repetition": 17,
+          "successes": 1,
+          "conflicts": 1,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 93.786
+          },
+          "passed": true
+        },
+        {
+          "repetition": 18,
+          "successes": 1,
+          "conflicts": 1,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 72.494
+          },
+          "passed": true
+        },
+        {
+          "repetition": 19,
+          "successes": 1,
+          "conflicts": 1,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 75.692
+          },
+          "passed": true
+        },
+        {
+          "repetition": 20,
+          "successes": 1,
+          "conflicts": 1,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 82.178
+          },
+          "passed": true
+        },
+        {
+          "repetition": 21,
+          "successes": 1,
+          "conflicts": 1,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 114.203
+          },
+          "passed": true
+        },
+        {
+          "repetition": 22,
+          "successes": 1,
+          "conflicts": 1,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 134.114
+          },
+          "passed": true
+        },
+        {
+          "repetition": 23,
+          "successes": 1,
+          "conflicts": 1,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 91.707
+          },
+          "passed": true
+        },
+        {
+          "repetition": 24,
+          "successes": 1,
+          "conflicts": 1,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 102.581
+          },
+          "passed": true
+        },
+        {
+          "repetition": 25,
+          "successes": 1,
+          "conflicts": 1,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 82.38
+          },
+          "passed": true
+        },
+        {
+          "repetition": 26,
+          "successes": 1,
+          "conflicts": 1,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 124.369
+          },
+          "passed": true
+        },
+        {
+          "repetition": 27,
+          "successes": 1,
+          "conflicts": 1,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 85.913
+          },
+          "passed": true
+        },
+        {
+          "repetition": 28,
+          "successes": 1,
+          "conflicts": 1,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 118.203
+          },
+          "passed": true
+        },
+        {
+          "repetition": 29,
+          "successes": 1,
+          "conflicts": 1,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 107.033
+          },
+          "passed": true
+        },
+        {
+          "repetition": 30,
+          "successes": 1,
+          "conflicts": 1,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 84.508
+          },
+          "passed": true
+        }
+      ]
+    },
+    {
+      "concurrency": 10,
+      "repetitions": 30,
+      "passed_repetitions": 30,
+      "passed": true,
+      "transaction_latency_ms": {
+        "scope": "HTTP request through committed transaction",
+        "n": 300,
+        "mean": 420.83641366674175,
+        "p50": 379.84059999871533,
+        "p95": 658.9295000012498,
+        "p99": 736.424500006251
+      },
+      "notification_propagation_latency_ms": {
+        "scope": "outbox creation to processed_at; not database consistency",
+        "n": 30,
+        "mean": 634.8437,
+        "p50": 621.2379999999999,
+        "p95": 793.882,
+        "p99": 829.0
+      },
+      "raw": [
+        {
+          "repetition": 32,
+          "successes": 1,
+          "conflicts": 9,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 684.409
+          },
+          "passed": true
+        },
+        {
+          "repetition": 33,
+          "successes": 1,
+          "conflicts": 9,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 829.0
+          },
+          "passed": true
+        },
+        {
+          "repetition": 34,
+          "successes": 1,
+          "conflicts": 9,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 773.415
+          },
+          "passed": true
+        },
+        {
+          "repetition": 35,
+          "successes": 1,
+          "conflicts": 9,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 675.391
+          },
+          "passed": true
+        },
+        {
+          "repetition": 36,
+          "successes": 1,
+          "conflicts": 9,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 671.782
+          },
+          "passed": true
+        },
+        {
+          "repetition": 37,
+          "successes": 1,
+          "conflicts": 9,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 783.408
+          },
+          "passed": true
+        },
+        {
+          "repetition": 38,
+          "successes": 1,
+          "conflicts": 9,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 765.486
+          },
+          "passed": true
+        },
+        {
+          "repetition": 39,
+          "successes": 1,
+          "conflicts": 9,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 792.669
+          },
+          "passed": true
+        },
+        {
+          "repetition": 40,
+          "successes": 1,
+          "conflicts": 9,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 657.833
+          },
+          "passed": true
+        },
+        {
+          "repetition": 41,
+          "successes": 1,
+          "conflicts": 9,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 634.861
+          },
+          "passed": true
+        },
+        {
+          "repetition": 42,
+          "successes": 1,
+          "conflicts": 9,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 631.0559999999999
+          },
+          "passed": true
+        },
+        {
+          "repetition": 43,
+          "successes": 1,
+          "conflicts": 9,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 637.427
+          },
+          "passed": true
+        },
+        {
+          "repetition": 44,
+          "successes": 1,
+          "conflicts": 9,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 615.539
+          },
+          "passed": true
+        },
+        {
+          "repetition": 45,
+          "successes": 1,
+          "conflicts": 9,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 621.2379999999999
+          },
+          "passed": true
+        },
+        {
+          "repetition": 46,
+          "successes": 1,
+          "conflicts": 9,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 575.346
+          },
+          "passed": true
+        },
+        {
+          "repetition": 47,
+          "successes": 1,
+          "conflicts": 9,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 544.321
+          },
+          "passed": true
+        },
+        {
+          "repetition": 48,
+          "successes": 1,
+          "conflicts": 9,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 573.828
+          },
+          "passed": true
+        },
+        {
+          "repetition": 49,
+          "successes": 1,
+          "conflicts": 9,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 515.586
+          },
+          "passed": true
+        },
+        {
+          "repetition": 50,
+          "successes": 1,
+          "conflicts": 9,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 535.708
+          },
+          "passed": true
+        },
+        {
+          "repetition": 51,
+          "successes": 1,
+          "conflicts": 9,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 519.927
+          },
+          "passed": true
+        },
+        {
+          "repetition": 52,
+          "successes": 1,
+          "conflicts": 9,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 516.8589999999999
+          },
+          "passed": true
+        },
+        {
+          "repetition": 53,
+          "successes": 1,
+          "conflicts": 9,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 546.705
+          },
+          "passed": true
+        },
+        {
+          "repetition": 54,
+          "successes": 1,
+          "conflicts": 9,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 548.662
+          },
+          "passed": true
+        },
+        {
+          "repetition": 55,
+          "successes": 1,
+          "conflicts": 9,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 569.564
+          },
+          "passed": true
+        },
+        {
+          "repetition": 56,
+          "successes": 1,
+          "conflicts": 9,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 793.882
+          },
+          "passed": true
+        },
+        {
+          "repetition": 57,
+          "successes": 1,
+          "conflicts": 9,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 616.236
+          },
+          "passed": true
+        },
+        {
+          "repetition": 58,
+          "successes": 1,
+          "conflicts": 9,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 512.5189999999999
+          },
+          "passed": true
+        },
+        {
+          "repetition": 59,
+          "successes": 1,
+          "conflicts": 9,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 603.838
+          },
+          "passed": true
+        },
+        {
+          "repetition": 60,
+          "successes": 1,
+          "conflicts": 9,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 646.098
+          },
+          "passed": true
+        },
+        {
+          "repetition": 61,
+          "successes": 1,
+          "conflicts": 9,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 652.7180000000001
+          },
+          "passed": true
+        }
+      ]
+    },
+    {
+      "concurrency": 50,
+      "repetitions": 30,
+      "passed_repetitions": 30,
+      "passed": true,
+      "transaction_latency_ms": {
+        "scope": "HTTP request through committed transaction",
+        "n": 1500,
+        "mean": 1290.3708284668683,
+        "p50": 1308.4285000077216,
+        "p95": 1789.7548000037204,
+        "p99": 2302.941300004022
+      },
+      "notification_propagation_latency_ms": {
+        "scope": "outbox creation to processed_at; not database consistency",
+        "n": 30,
+        "mean": 1514.3961,
+        "p50": 1468.048,
+        "p95": 1739.325,
+        "p99": 2148.519
+      },
+      "raw": [
+        {
+          "repetition": 63,
+          "successes": 1,
+          "conflicts": 49,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 1674.838
+          },
+          "passed": true
+        },
+        {
+          "repetition": 64,
+          "successes": 1,
+          "conflicts": 49,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 1716.226
+          },
+          "passed": true
+        },
+        {
+          "repetition": 65,
+          "successes": 1,
+          "conflicts": 49,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 1736.348
+          },
+          "passed": true
+        },
+        {
+          "repetition": 66,
+          "successes": 1,
+          "conflicts": 49,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 1688.273
+          },
+          "passed": true
+        },
+        {
+          "repetition": 67,
+          "successes": 1,
+          "conflicts": 49,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 1365.1290000000001
+          },
+          "passed": true
+        },
+        {
+          "repetition": 68,
+          "successes": 1,
+          "conflicts": 49,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 1353.007
+          },
+          "passed": true
+        },
+        {
+          "repetition": 69,
+          "successes": 1,
+          "conflicts": 49,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 1530.662
+          },
+          "passed": true
+        },
+        {
+          "repetition": 70,
+          "successes": 1,
+          "conflicts": 49,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 1729.815
+          },
+          "passed": true
+        },
+        {
+          "repetition": 71,
+          "successes": 1,
+          "conflicts": 49,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 1633.676
+          },
+          "passed": true
+        },
+        {
+          "repetition": 72,
+          "successes": 1,
+          "conflicts": 49,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 1597.556
+          },
+          "passed": true
+        },
+        {
+          "repetition": 73,
+          "successes": 1,
+          "conflicts": 49,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 1739.325
+          },
+          "passed": true
+        },
+        {
+          "repetition": 74,
+          "successes": 1,
+          "conflicts": 49,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 1620.786
+          },
+          "passed": true
+        },
+        {
+          "repetition": 75,
+          "successes": 1,
+          "conflicts": 49,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 2148.519
+          },
+          "passed": true
+        },
+        {
+          "repetition": 76,
+          "successes": 1,
+          "conflicts": 49,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 1612.453
+          },
+          "passed": true
+        },
+        {
+          "repetition": 77,
+          "successes": 1,
+          "conflicts": 49,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 1609.904
+          },
+          "passed": true
+        },
+        {
+          "repetition": 78,
+          "successes": 1,
+          "conflicts": 49,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 1614.316
+          },
+          "passed": true
+        },
+        {
+          "repetition": 79,
+          "successes": 1,
+          "conflicts": 49,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 1515.5819999999999
+          },
+          "passed": true
+        },
+        {
+          "repetition": 80,
+          "successes": 1,
+          "conflicts": 49,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 1395.96
+          },
+          "passed": true
+        },
+        {
+          "repetition": 81,
+          "successes": 1,
+          "conflicts": 49,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 1311.544
+          },
+          "passed": true
+        },
+        {
+          "repetition": 82,
+          "successes": 1,
+          "conflicts": 49,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 1338.511
+          },
+          "passed": true
+        },
+        {
+          "repetition": 83,
+          "successes": 1,
+          "conflicts": 49,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 1326.758
+          },
+          "passed": true
+        },
+        {
+          "repetition": 84,
+          "successes": 1,
+          "conflicts": 49,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 1347.429
+          },
+          "passed": true
+        },
+        {
+          "repetition": 85,
+          "successes": 1,
+          "conflicts": 49,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 1372.354
+          },
+          "passed": true
+        },
+        {
+          "repetition": 86,
+          "successes": 1,
+          "conflicts": 49,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 1341.015
+          },
+          "passed": true
+        },
+        {
+          "repetition": 87,
+          "successes": 1,
+          "conflicts": 49,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 1316.218
+          },
+          "passed": true
+        },
+        {
+          "repetition": 88,
+          "successes": 1,
+          "conflicts": 49,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 1286.0149999999999
+          },
+          "passed": true
+        },
+        {
+          "repetition": 89,
+          "successes": 1,
+          "conflicts": 49,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 1319.992
+          },
+          "passed": true
+        },
+        {
+          "repetition": 90,
+          "successes": 1,
+          "conflicts": 49,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 1305.741
+          },
+          "passed": true
+        },
+        {
+          "repetition": 91,
+          "successes": 1,
+          "conflicts": 49,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 1468.048
+          },
+          "passed": true
+        },
+        {
+          "repetition": 92,
+          "successes": 1,
+          "conflicts": 49,
+          "unexpected": [],
+          "unique_appointment_ids": 1,
+          "database_rows": 1,
+          "idempotent_replay": true,
+          "idempotency_mismatch_rejected": true,
+          "outbox": {
+            "processed": true,
+            "provider_propagation_ms": 1415.883
+          },
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "passed": true,
+  "limitations": [
+    "Outbox processed_at measures application delivery processing, not a user's network rendering time.",
+    "All identities and appointment records in this fixture are synthetic."
+  ]
+}

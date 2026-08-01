@@ -1219,12 +1219,12 @@
     "subtitle": "View and manage prescriptions from your doctors",
     "myPrescriptionsSubtitle": "View and manage all your prescriptions from doctors",
     "loading": "Loading prescriptions...",
-    "pendingAlert": "You have {count} pending prescriptions that require your review.",
+    "pendingAlert": "আপনার {count}টি প্রেসক্রিপশনের প্রাপ্তি নিশ্চিত করা বাকি।",
     "filters": {
       "all": "All",
-      "pending": "Pending",
-      "accepted": "Accepted",
-      "rejected": "Rejected"
+      "pending": "প্রাপ্তি নিশ্চিত করা বাকি",
+      "accepted": "প্রাপ্তি নিশ্চিত হয়েছে",
+      "rejected": "অমিল জানানো হয়েছে"
     },
     "types": {
       "medication": "Medication",
@@ -1232,14 +1232,14 @@
       "surgeryProcedure": "Surgery/Procedure"
     },
     "status": {
-      "accepted": "Accepted",
-      "rejected": "Rejected"
+      "accepted": "প্রাপ্তি নিশ্চিত হয়েছে",
+      "rejected": "অমিল জানানো হয়েছে"
     },
     "actions": {
       "tryAgain": "Try Again",
-      "accept": "Accept",
-      "reject": "Reject",
-      "rejectPrescription": "Reject Prescription"
+      "accept": "প্রাপ্তি নিশ্চিত করুন",
+      "reject": "অমিল জানান",
+      "rejectPrescription": "অমিল জানান"
     },
     "empty": {
       "title": "No Prescriptions Found",
@@ -1247,19 +1247,19 @@
       "filtered": "No {status} prescriptions found."
     },
     "messages": {
-      "accepted": "Prescription accepted and added to medical history",
-      "rejected": "Prescription rejected"
+      "accepted": "প্রেসক্রিপশনের প্রাপ্তি নিশ্চিত হয়েছে এবং ইতিহাসে যোগ হয়েছে",
+      "rejected": "প্রেসক্রিপশনের অমিল জানানো হয়েছে"
     },
     "errors": {
       "loadFailed": "Failed to load prescriptions",
-      "acceptFailed": "Failed to accept prescription",
-      "rejectFailed": "Failed to reject prescription"
+      "acceptFailed": "প্রেসক্রিপশনের প্রাপ্তি নিশ্চিত করা যায়নি",
+      "rejectFailed": "প্রেসক্রিপশনের অমিল জানানো যায়নি"
     },
     "dialogs": {
-      "rejectTitle": "Reject Prescription",
-      "rejectDescription": "Please provide a reason for rejecting this prescription (optional).",
-      "reasonOptional": "Reason (Optional)",
-      "reasonPlaceholder": "e.g., I'm allergic to this medication..."
+      "rejectTitle": "প্রেসক্রিপশনের অমিল জানান",
+      "rejectDescription": "ডাক্তারের আলোচনার সঙ্গে কোনো পার্থক্য থাকলে লিখুন (ঐচ্ছিক)।",
+      "reasonOptional": "অমিল (ঐচ্ছিক)",
+      "reasonPlaceholder": "যেমন: ওষুধের মাত্রা ভিন্ন..."
     }
   },
   "privacy": {

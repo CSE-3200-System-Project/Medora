@@ -1,0 +1,187 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0024",
+  "source_sha256": "4da0e9a8e3a90a7ee7214abd95d3f57448215565e180fce20b585ac504f0d4c1",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:25:56.090907+00:00",
+  "runtime_ms": 5836.7183999944245,
+  "output": {
+    "medications": [
+      {
+        "name": "Al",
+        "matched_term": "Al",
+        "drug_id": "22b649ff-5d11-46b7-a65e-c8cec4321194",
+        "brand_id": "1a0212a1-4d5e-4f0e-818c-8e568c6c281f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.573
+      },
+      {
+        "name": "Inflam",
+        "matched_term": "Inflam",
+        "drug_id": "f34cbbaf-f01b-422c-9f36-1f86d9477258",
+        "brand_id": "ee949da0-5d26-4a4e-a03d-709e07d4ec47",
+        "dosage": "400g",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.478
+      },
+      {
+        "name": "The Exorep",
+        "matched_term": "The Exorep",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": "1+0+1",
+        "quantity": null,
+        "confidence": 0.243
+      },
+      {
+        "name": "Levo",
+        "matched_term": "Levo",
+        "drug_id": "3aff74b6-d60a-4e4a-8eae-aaffe2800b9c",
+        "brand_id": "f3d0abf7-510a-4e3b-8b04-bf33a77000b1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.573
+      },
+      {
+        "name": "Opis",
+        "matched_term": "Opis",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": "1+1+0",
+        "quantity": null,
+        "confidence": 0.243
+      },
+      {
+        "name": "Nasa Drop",
+        "matched_term": "Nasa Drop",
+        "drug_id": "c568bd68-0560-48e2-a40f-6e7266ad3b60",
+        "brand_id": "fa09f326-240f-4587-b1f7-6e5bfb91bdf6",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.573
+      }
+    ],
+    "raw_text": "on\nal Diagoncels\n736 Inflar (imprese) 400g\n1+1\nThe Exorep\n1+0+1\n0+0+1\n0+0+1 - (10)\nlevo flox\nOpis\n1+1-01\nNasal drop.",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 5788,
+      "detected_regions": 1,
+      "ocr_line_count": 12,
+      "yolo_avg_confidence": 0.9041,
+      "yolo_min_confidence": 0.9041,
+      "yolo_max_confidence": 0.9041,
+      "ocr_avg_confidence": 0.429,
+      "ocr_min_confidence": 0.429,
+      "ocr_max_confidence": 0.429,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 186.6005096435547,
+            "y_min": 251.407470703125,
+            "x_max": 496.8915710449219,
+            "y_max": 555.4812622070312
+          },
+          "score": 0.9041
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "on",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.429
+        },
+        {
+          "text": "al Diagoncels",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.429
+        },
+        {
+          "text": "736 Inflar (imprese) 400g",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.429
+        },
+        {
+          "text": "1+1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.429
+        },
+        {
+          "text": "The Exorep",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.429
+        },
+        {
+          "text": "1+0+1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.429
+        },
+        {
+          "text": "0+0+1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.429
+        },
+        {
+          "text": "0+0+1 - (10)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.429
+        },
+        {
+          "text": "levo flox",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.429
+        },
+        {
+          "text": "Opis",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.429
+        },
+        {
+          "text": "1+1-01",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.429
+        },
+        {
+          "text": "Nasal drop.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.429
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

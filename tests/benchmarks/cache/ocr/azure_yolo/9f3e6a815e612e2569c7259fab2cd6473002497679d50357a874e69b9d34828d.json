@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "9f3e6a815e612e2569c7259fab2cd6473002497679d50357a874e69b9d34828d",
+  "record_id": "RX-0034",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 6977.015500000562,
+  "failure": null,
+  "response_sha256": "344cb18c77327a4408a9db86b6cd65f1e15a8efde7764817f9a0cdf4ef4d46e8",
+  "response": {
+    "raw_text": "Rx\nบทบาธาวิน kakar\nสตรอ นาฬิการน 1\n- 26. Trilock (10g) (10\n04042.\n)\n1 horas",
+    "lines": [
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.357
+      },
+      {
+        "text": "บทบาธาวิน kakar",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.357
+      },
+      {
+        "text": "สตรอ นาฬิการน 1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.357
+      },
+      {
+        "text": "- 26. Trilock (10g) (10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.357
+      },
+      {
+        "text": "04042.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.357
+      },
+      {
+        "text": ")",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.357
+      },
+      {
+        "text": "1 horas",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.357
+      }
+    ]
+  }
+}

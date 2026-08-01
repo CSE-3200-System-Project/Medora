@@ -1,0 +1,398 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "paddle_full",
+  "source_sha256": "eb24a733d4e19d92cd08fced82df304f4a7d22ac2f91adad6d40023052aac000",
+  "record_id": "RX-0004",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "runtime_ms": 25496.239300002344,
+  "failure": null,
+  "response_sha256": "e3ee0f1c814f01e1791afc7da14239feb445eee216d69fb6649953122cc8041e",
+  "response": {
+    "raw_text": "A\ne\nAella\nwokoh\nQ\n(hei) oeey\nCoeooa\n52k\ny\nCAX\nO\nc+o+c\nc+c+c\n0\n&\nKEe\n2\nqo9\nSyo\ne\nqob\nt4308\nQt\nB\nJ/yowren\nDyoopo\n4s+p\n2\nshops\nAPy\n9\nDn\ntlla\n91-98",
+    "lines": [
+      {
+        "text": "A",
+        "bbox": {
+          "x_min": 172.0,
+          "y_min": 3.0,
+          "x_max": 375.0,
+          "y_max": 48.0
+        },
+        "page": 1,
+        "confidence": 0.247
+      },
+      {
+        "text": "e",
+        "bbox": {
+          "x_min": 459.0,
+          "y_min": 6.0,
+          "x_max": 604.0,
+          "y_max": 213.0
+        },
+        "page": 1,
+        "confidence": 0.246
+      },
+      {
+        "text": "Aella",
+        "bbox": {
+          "x_min": 687.0,
+          "y_min": 10.0,
+          "x_max": 802.0,
+          "y_max": 241.0
+        },
+        "page": 1,
+        "confidence": 0.362
+      },
+      {
+        "text": "wokoh",
+        "bbox": {
+          "x_min": 371.0,
+          "y_min": 299.0,
+          "x_max": 700.0,
+          "y_max": 815.0
+        },
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "Q",
+        "bbox": {
+          "x_min": 198.0,
+          "y_min": 341.0,
+          "x_max": 350.0,
+          "y_max": 660.0
+        },
+        "page": 1,
+        "confidence": 0.206
+      },
+      {
+        "text": "(hei) oeey",
+        "bbox": {
+          "x_min": 1710.0,
+          "y_min": 368.0,
+          "x_max": 2000.0,
+          "y_max": 1050.0
+        },
+        "page": 1,
+        "confidence": 0.408
+      },
+      {
+        "text": "Coeooa",
+        "bbox": {
+          "x_min": 2804.0,
+          "y_min": 390.0,
+          "x_max": 3072.0,
+          "y_max": 1012.0
+        },
+        "page": 1,
+        "confidence": 0.283
+      },
+      {
+        "text": "52k",
+        "bbox": {
+          "x_min": 676.0,
+          "y_min": 414.0,
+          "x_max": 814.0,
+          "y_max": 1164.0
+        },
+        "page": 1,
+        "confidence": 0.509
+      },
+      {
+        "text": "y",
+        "bbox": {
+          "x_min": 2097.0,
+          "y_min": 439.0,
+          "x_max": 2141.0,
+          "y_max": 492.0
+        },
+        "page": 1,
+        "confidence": 0.404
+      },
+      {
+        "text": "CAX",
+        "bbox": {
+          "x_min": 2334.0,
+          "y_min": 591.0,
+          "x_max": 2342.0,
+          "y_max": 611.0
+        },
+        "page": 1,
+        "confidence": 0.173
+      },
+      {
+        "text": "O",
+        "bbox": {
+          "x_min": 2335.0,
+          "y_min": 635.0,
+          "x_max": 2341.0,
+          "y_max": 642.0
+        },
+        "page": 1,
+        "confidence": 0.118
+      },
+      {
+        "text": "c+o+c",
+        "bbox": {
+          "x_min": 2627.0,
+          "y_min": 683.0,
+          "x_max": 2741.0,
+          "y_max": 1059.0
+        },
+        "page": 1,
+        "confidence": 0.712
+      },
+      {
+        "text": "c+c+c",
+        "bbox": {
+          "x_min": 2071.0,
+          "y_min": 743.0,
+          "x_max": 2200.0,
+          "y_max": 1149.0
+        },
+        "page": 1,
+        "confidence": 0.735
+      },
+      {
+        "text": "0",
+        "bbox": {
+          "x_min": 3120.0,
+          "y_min": 744.0,
+          "x_max": 3251.0,
+          "y_max": 1165.0
+        },
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "&",
+        "bbox": {
+          "x_min": 3429.0,
+          "y_min": 722.0,
+          "x_max": 3564.0,
+          "y_max": 872.0
+        },
+        "page": 1,
+        "confidence": 0.185
+      },
+      {
+        "text": "KEe",
+        "bbox": {
+          "x_min": 464.0,
+          "y_min": 890.0,
+          "x_max": 563.0,
+          "y_max": 1090.0
+        },
+        "page": 1,
+        "confidence": 0.322
+      },
+      {
+        "text": "2",
+        "bbox": {
+          "x_min": 236.0,
+          "y_min": 937.0,
+          "x_max": 503.0,
+          "y_max": 2460.0
+        },
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "qo9",
+        "bbox": {
+          "x_min": 1766.0,
+          "y_min": 1162.0,
+          "x_max": 1958.0,
+          "y_max": 1464.0
+        },
+        "page": 1,
+        "confidence": 0.472
+      },
+      {
+        "text": "Syo",
+        "bbox": {
+          "x_min": 3431.0,
+          "y_min": 1156.0,
+          "x_max": 3568.0,
+          "y_max": 1426.0
+        },
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "e",
+        "bbox": {
+          "x_min": 2381.0,
+          "y_min": 1183.0,
+          "x_max": 2618.0,
+          "y_max": 1492.0
+        },
+        "page": 1,
+        "confidence": 0.191
+      },
+      {
+        "text": "qob",
+        "bbox": {
+          "x_min": 2889.0,
+          "y_min": 1210.0,
+          "x_max": 3048.0,
+          "y_max": 1485.0
+        },
+        "page": 1,
+        "confidence": 0.391
+      },
+      {
+        "text": "t4308",
+        "bbox": {
+          "x_min": 669.0,
+          "y_min": 1384.0,
+          "x_max": 870.0,
+          "y_max": 2079.0
+        },
+        "page": 1,
+        "confidence": 0.358
+      },
+      {
+        "text": "Qt",
+        "bbox": {
+          "x_min": 1421.0,
+          "y_min": 1506.0,
+          "x_max": 1608.0,
+          "y_max": 1649.0
+        },
+        "page": 1,
+        "confidence": 0.539
+      },
+      {
+        "text": "B",
+        "bbox": {
+          "x_min": 4407.0,
+          "y_min": 1565.0,
+          "x_max": 4584.0,
+          "y_max": 1782.0
+        },
+        "page": 1,
+        "confidence": 0.205
+      },
+      {
+        "text": "J/yowren",
+        "bbox": {
+          "x_min": 3249.0,
+          "y_min": 1950.0,
+          "x_max": 3519.0,
+          "y_max": 2672.0
+        },
+        "page": 1,
+        "confidence": 0.478
+      },
+      {
+        "text": "Dyoopo",
+        "bbox": {
+          "x_min": 1792.0,
+          "y_min": 2035.0,
+          "x_max": 2034.0,
+          "y_max": 2657.0
+        },
+        "page": 1,
+        "confidence": 0.45
+      },
+      {
+        "text": "4s+p",
+        "bbox": {
+          "x_min": 3087.0,
+          "y_min": 2054.0,
+          "x_max": 3276.0,
+          "y_max": 2689.0
+        },
+        "page": 1,
+        "confidence": 0.504
+      },
+      {
+        "text": "2",
+        "bbox": {
+          "x_min": 766.0,
+          "y_min": 2217.0,
+          "x_max": 892.0,
+          "y_max": 2577.0
+        },
+        "page": 1,
+        "confidence": 0.711
+      },
+      {
+        "text": "shops",
+        "bbox": {
+          "x_min": 1600.0,
+          "y_min": 2461.0,
+          "x_max": 1869.0,
+          "y_max": 2856.0
+        },
+        "page": 1,
+        "confidence": 0.71
+      },
+      {
+        "text": "APy",
+        "bbox": {
+          "x_min": 2692.0,
+          "y_min": 2457.0,
+          "x_max": 2844.0,
+          "y_max": 2764.0
+        },
+        "page": 1,
+        "confidence": 0.554
+      },
+      {
+        "text": "9",
+        "bbox": {
+          "x_min": 2928.0,
+          "y_min": 2466.0,
+          "x_max": 3079.0,
+          "y_max": 2704.0
+        },
+        "page": 1,
+        "confidence": 0.639
+      },
+      {
+        "text": "Dn",
+        "bbox": {
+          "x_min": 1126.0,
+          "y_min": 2684.0,
+          "x_max": 1260.0,
+          "y_max": 2871.0
+        },
+        "page": 1,
+        "confidence": 0.165
+      },
+      {
+        "text": "tlla",
+        "bbox": {
+          "x_min": 839.0,
+          "y_min": 3054.0,
+          "x_max": 968.0,
+          "y_max": 3248.0
+        },
+        "page": 1,
+        "confidence": 0.363
+      },
+      {
+        "text": "91-98",
+        "bbox": {
+          "x_min": 994.0,
+          "y_min": 3077.0,
+          "x_max": 1180.0,
+          "y_max": 3462.0
+        },
+        "page": 1,
+        "confidence": 0.846
+      }
+    ]
+  }
+}

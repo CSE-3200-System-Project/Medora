@@ -1,0 +1,1456 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0088",
+  "source_sha256": "53753e97a4cc1233497059cefca392a7d003c20c1bafc028076a07962f5f0d10",
+  "raw_transcription": "R.\nTab Tolen ( 1mg )\nTab. MOND I KONST\nLachclase sachet\n. Tab. E somcornou | 20 mg",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "Tolec",
+      "strength": "1mg",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Mon",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Lachclase Sachet",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Leucorin 500 mg Tablet",
+      "strength": "20 mg",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "a8ea0d5e12f80c783194d13ba90375c54d868b5d803ed7fbe2fd40c0af77f0ce"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "b7e70e4e697d3239a31a1b757f738025d8c9c97f571b18cea8d0882bbc8d025c"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "449423db7d67cf5dde883089672139937ac8291ad61b14bab09610b9d6f4e0cc"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nargladeh He Ctin\nVakkahdannarJeduah\nMcelCar\nTREATMENTCARD\n4341109\n4\nPoelse\nKaarhvo\nane\nWE\nC\nAOXT\nCete\nT4\nHEALTH PROFILE\nR\n1Exx\n3\n7.Nem\n4.\n11. 2r-g Hwmy\nWaeht.\nNyeereme\nChier Complains\nR\n30\nTab.Toning\n30\nC0\nHE\nTFx\ninaoma\n3\nDahynarslioa\nTbmw\nFaqsliar\nGHS\n+0+0\n0n\nLos soh\n-50\nTb.52\nrosnes-\nQ+0+.\nECG\nProwsiunar Diagonosis\nCommn d\nt\ne\nwreo",
+      "lines": [
+        {
+          "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+          "bbox": {
+            "x_min": 189.0,
+            "y_min": 53.0,
+            "x_max": 445.0,
+            "y_max": 68.0
+          },
+          "page": 1,
+          "confidence": 0.928
+        },
+        {
+          "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+          "bbox": {
+            "x_min": 248.0,
+            "y_min": 66.0,
+            "x_max": 392.0,
+            "y_max": 76.0
+          },
+          "page": 1,
+          "confidence": 0.944
+        },
+        {
+          "text": "argladeh He Ctin",
+          "bbox": {
+            "x_min": 273.0,
+            "y_min": 72.0,
+            "x_max": 364.0,
+            "y_max": 91.0
+          },
+          "page": 1,
+          "confidence": 0.646
+        },
+        {
+          "text": "VakkahdannarJeduah",
+          "bbox": {
+            "x_min": 273.0,
+            "y_min": 84.0,
+            "x_max": 367.0,
+            "y_max": 97.0
+          },
+          "page": 1,
+          "confidence": 0.779
+        },
+        {
+          "text": "McelCar",
+          "bbox": {
+            "x_min": 147.0,
+            "y_min": 107.0,
+            "x_max": 213.0,
+            "y_max": 129.0
+          },
+          "page": 1,
+          "confidence": 0.552
+        },
+        {
+          "text": "TREATMENTCARD",
+          "bbox": {
+            "x_min": 262.0,
+            "y_min": 103.0,
+            "x_max": 382.0,
+            "y_max": 113.0
+          },
+          "page": 1,
+          "confidence": 0.963
+        },
+        {
+          "text": "4341109",
+          "bbox": {
+            "x_min": 334.0,
+            "y_min": 117.0,
+            "x_max": 368.0,
+            "y_max": 130.0
+          },
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "4",
+          "bbox": {
+            "x_min": 395.0,
+            "y_min": 107.0,
+            "x_max": 461.0,
+            "y_max": 122.0
+          },
+          "page": 1,
+          "confidence": 0.876
+        },
+        {
+          "text": "Poelse",
+          "bbox": {
+            "x_min": 272.0,
+            "y_min": 120.0,
+            "x_max": 315.0,
+            "y_max": 134.0
+          },
+          "page": 1,
+          "confidence": 0.53
+        },
+        {
+          "text": "Kaarhvo",
+          "bbox": {
+            "x_min": 399.0,
+            "y_min": 123.0,
+            "x_max": 432.0,
+            "y_max": 133.0
+          },
+          "page": 1,
+          "confidence": 0.512
+        },
+        {
+          "text": "ane",
+          "bbox": {
+            "x_min": 151.0,
+            "y_min": 134.0,
+            "x_max": 170.0,
+            "y_max": 145.0
+          },
+          "page": 1,
+          "confidence": 0.447
+        },
+        {
+          "text": "WE",
+          "bbox": {
+            "x_min": 180.0,
+            "y_min": 138.0,
+            "x_max": 215.0,
+            "y_max": 152.0
+          },
+          "page": 1,
+          "confidence": 0.831
+        },
+        {
+          "text": "C",
+          "bbox": {
+            "x_min": 437.0,
+            "y_min": 129.0,
+            "x_max": 447.0,
+            "y_max": 139.0
+          },
+          "page": 1,
+          "confidence": 0.289
+        },
+        {
+          "text": "AOXT",
+          "bbox": {
+            "x_min": 151.0,
+            "y_min": 146.0,
+            "x_max": 173.0,
+            "y_max": 154.0
+          },
+          "page": 1,
+          "confidence": 0.375
+        },
+        {
+          "text": "Cete",
+          "bbox": {
+            "x_min": 232.0,
+            "y_min": 141.0,
+            "x_max": 256.0,
+            "y_max": 154.0
+          },
+          "page": 1,
+          "confidence": 0.686
+        },
+        {
+          "text": "T4",
+          "bbox": {
+            "x_min": 250.0,
+            "y_min": 139.0,
+            "x_max": 284.0,
+            "y_max": 149.0
+          },
+          "page": 1,
+          "confidence": 0.359
+        },
+        {
+          "text": "HEALTH PROFILE",
+          "bbox": {
+            "x_min": 277.0,
+            "y_min": 151.0,
+            "x_max": 358.0,
+            "y_max": 173.0
+          },
+          "page": 1,
+          "confidence": 0.875
+        },
+        {
+          "text": "R",
+          "bbox": {
+            "x_min": 218.0,
+            "y_min": 175.0,
+            "x_max": 277.0,
+            "y_max": 198.0
+          },
+          "page": 1,
+          "confidence": 0.571
+        },
+        {
+          "text": "1Exx",
+          "bbox": {
+            "x_min": 220.0,
+            "y_min": 166.0,
+            "x_max": 273.0,
+            "y_max": 184.0
+          },
+          "page": 1,
+          "confidence": 0.614
+        },
+        {
+          "text": "3",
+          "bbox": {
+            "x_min": 358.0,
+            "y_min": 166.0,
+            "x_max": 413.0,
+            "y_max": 182.0
+          },
+          "page": 1,
+          "confidence": 0.486
+        },
+        {
+          "text": "7.Nem",
+          "bbox": {
+            "x_min": 221.0,
+            "y_min": 193.0,
+            "x_max": 289.0,
+            "y_max": 204.0
+          },
+          "page": 1,
+          "confidence": 0.647
+        },
+        {
+          "text": "4.",
+          "bbox": {
+            "x_min": 280.0,
+            "y_min": 187.0,
+            "x_max": 289.0,
+            "y_max": 193.0
+          },
+          "page": 1,
+          "confidence": 0.406
+        },
+        {
+          "text": "11. 2r-g Hwmy",
+          "bbox": {
+            "x_min": 218.0,
+            "y_min": 209.0,
+            "x_max": 267.0,
+            "y_max": 220.0
+          },
+          "page": 1,
+          "confidence": 0.656
+        },
+        {
+          "text": "Waeht.",
+          "bbox": {
+            "x_min": 225.0,
+            "y_min": 202.0,
+            "x_max": 253.0,
+            "y_max": 209.0
+          },
+          "page": 1,
+          "confidence": 0.704
+        },
+        {
+          "text": "Nyeereme",
+          "bbox": {
+            "x_min": 358.0,
+            "y_min": 204.0,
+            "x_max": 440.0,
+            "y_max": 222.0
+          },
+          "page": 1,
+          "confidence": 0.529
+        },
+        {
+          "text": "Chier Complains",
+          "bbox": {
+            "x_min": 148.0,
+            "y_min": 228.0,
+            "x_max": 217.0,
+            "y_max": 239.0
+          },
+          "page": 1,
+          "confidence": 0.802
+        },
+        {
+          "text": "R",
+          "bbox": {
+            "x_min": 260.0,
+            "y_min": 236.0,
+            "x_max": 286.0,
+            "y_max": 261.0
+          },
+          "page": 1,
+          "confidence": 0.266
+        },
+        {
+          "text": "30",
+          "bbox": {
+            "x_min": 145.0,
+            "y_min": 264.0,
+            "x_max": 163.0,
+            "y_max": 281.0
+          },
+          "page": 1,
+          "confidence": 0.333
+        },
+        {
+          "text": "Tab.Toning",
+          "bbox": {
+            "x_min": 279.0,
+            "y_min": 257.0,
+            "x_max": 381.0,
+            "y_max": 277.0
+          },
+          "page": 1,
+          "confidence": 0.75
+        },
+        {
+          "text": "30",
+          "bbox": {
+            "x_min": 169.0,
+            "y_min": 277.0,
+            "x_max": 206.0,
+            "y_max": 288.0
+          },
+          "page": 1,
+          "confidence": 0.341
+        },
+        {
+          "text": "C0",
+          "bbox": {
+            "x_min": 414.0,
+            "y_min": 277.0,
+            "x_max": 431.0,
+            "y_max": 289.0
+          },
+          "page": 1,
+          "confidence": 0.226
+        },
+        {
+          "text": "HE",
+          "bbox": {
+            "x_min": 146.0,
+            "y_min": 304.0,
+            "x_max": 165.0,
+            "y_max": 311.0
+          },
+          "page": 1,
+          "confidence": 0.34
+        },
+        {
+          "text": "TFx",
+          "bbox": {
+            "x_min": 284.0,
+            "y_min": 295.0,
+            "x_max": 400.0,
+            "y_max": 309.0
+          },
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "inaoma",
+          "bbox": {
+            "x_min": 146.0,
+            "y_min": 313.0,
+            "x_max": 174.0,
+            "y_max": 324.0
+          },
+          "page": 1,
+          "confidence": 0.577
+        },
+        {
+          "text": "3",
+          "bbox": {
+            "x_min": 428.0,
+            "y_min": 309.0,
+            "x_max": 442.0,
+            "y_max": 321.0
+          },
+          "page": 1,
+          "confidence": 0.391
+        },
+        {
+          "text": "Dahynarslioa",
+          "bbox": {
+            "x_min": 143.0,
+            "y_min": 325.0,
+            "x_max": 182.0,
+            "y_max": 335.0
+          },
+          "page": 1,
+          "confidence": 0.565
+        },
+        {
+          "text": "Tbmw",
+          "bbox": {
+            "x_min": 283.0,
+            "y_min": 326.0,
+            "x_max": 410.0,
+            "y_max": 344.0
+          },
+          "page": 1,
+          "confidence": 0.571
+        },
+        {
+          "text": "Faqsliar",
+          "bbox": {
+            "x_min": 142.0,
+            "y_min": 337.0,
+            "x_max": 181.0,
+            "y_max": 347.0
+          },
+          "page": 1,
+          "confidence": 0.606
+        },
+        {
+          "text": "GHS",
+          "bbox": {
+            "x_min": 142.0,
+            "y_min": 350.0,
+            "x_max": 167.0,
+            "y_max": 359.0
+          },
+          "page": 1,
+          "confidence": 0.462
+        },
+        {
+          "text": "+0+0",
+          "bbox": {
+            "x_min": 307.0,
+            "y_min": 349.0,
+            "x_max": 359.0,
+            "y_max": 360.0
+          },
+          "page": 1,
+          "confidence": 0.582
+        },
+        {
+          "text": "0n",
+          "bbox": {
+            "x_min": 374.0,
+            "y_min": 348.0,
+            "x_max": 421.0,
+            "y_max": 362.0
+          },
+          "page": 1,
+          "confidence": 0.368
+        },
+        {
+          "text": "Los soh",
+          "bbox": {
+            "x_min": 293.0,
+            "y_min": 363.0,
+            "x_max": 408.0,
+            "y_max": 382.0
+          },
+          "page": 1,
+          "confidence": 0.632
+        },
+        {
+          "text": "-50",
+          "bbox": {
+            "x_min": 440.0,
+            "y_min": 402.0,
+            "x_max": 474.0,
+            "y_max": 417.0
+          },
+          "page": 1,
+          "confidence": 0.65
+        },
+        {
+          "text": "Tb.52",
+          "bbox": {
+            "x_min": 291.0,
+            "y_min": 414.0,
+            "x_max": 471.0,
+            "y_max": 432.0
+          },
+          "page": 1,
+          "confidence": 0.717
+        },
+        {
+          "text": "rosnes-",
+          "bbox": {
+            "x_min": 130.0,
+            "y_min": 438.0,
+            "x_max": 171.0,
+            "y_max": 455.0
+          },
+          "page": 1,
+          "confidence": 0.725
+        },
+        {
+          "text": "Q+0+.",
+          "bbox": {
+            "x_min": 319.0,
+            "y_min": 439.0,
+            "x_max": 374.0,
+            "y_max": 449.0
+          },
+          "page": 1,
+          "confidence": 0.644
+        },
+        {
+          "text": "ECG",
+          "bbox": {
+            "x_min": 131.0,
+            "y_min": 456.0,
+            "x_max": 150.0,
+            "y_max": 467.0
+          },
+          "page": 1,
+          "confidence": 0.924
+        },
+        {
+          "text": "Prowsiunar Diagonosis",
+          "bbox": {
+            "x_min": 128.0,
+            "y_min": 483.0,
+            "x_max": 223.0,
+            "y_max": 497.0
+          },
+          "page": 1,
+          "confidence": 0.871
+        },
+        {
+          "text": "Commn d",
+          "bbox": {
+            "x_min": 124.0,
+            "y_min": 503.0,
+            "x_max": 228.0,
+            "y_max": 517.0
+          },
+          "page": 1,
+          "confidence": 0.681
+        },
+        {
+          "text": "t",
+          "bbox": {
+            "x_min": 420.0,
+            "y_min": 497.0,
+            "x_max": 446.0,
+            "y_max": 508.0
+          },
+          "page": 1,
+          "confidence": 0.751
+        },
+        {
+          "text": "e",
+          "bbox": {
+            "x_min": 141.0,
+            "y_min": 525.0,
+            "x_max": 156.0,
+            "y_max": 537.0
+          },
+          "page": 1,
+          "confidence": 0.438
+        },
+        {
+          "text": "wreo",
+          "bbox": {
+            "x_min": 160.0,
+            "y_min": 523.0,
+            "x_max": 251.0,
+            "y_max": 540.0
+          },
+          "page": 1,
+          "confidence": 0.649
+        }
+      ],
+      "medications": [
+        {
+          "name": "Government Of The",
+          "matched_term": "Government Of The",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.418
+        },
+        {
+          "name": "Minista",
+          "matched_term": "Minista",
+          "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+          "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.805
+        },
+        {
+          "name": "Argladeh He Ctin",
+          "matched_term": "Argladeh He Ctin",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.291
+        },
+        {
+          "name": "Vakkahdannarjeduah",
+          "matched_term": "Vakkahdannarjeduah",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.351
+        },
+        {
+          "name": "Treatmentcard",
+          "matched_term": "Treatmentcard",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.433
+        },
+        {
+          "name": "Mcelcar",
+          "matched_term": "Mcelcar",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.304
+        },
+        {
+          "name": "Poelse",
+          "matched_term": "Poelse",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.239
+        },
+        {
+          "name": "Kaarhvo",
+          "matched_term": "Kaarhvo",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.18
+        },
+        {
+          "name": "Anet",
+          "matched_term": "Anet",
+          "drug_id": "a93ef9f9-0a7e-4298-b5a9-d2db5160887b",
+          "brand_id": "2508f3fe-771c-4503-a3e6-67a683bdaf06",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.626
+        },
+        {
+          "name": "Cete",
+          "matched_term": "Cete",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.309
+        },
+        {
+          "name": "Aoxt",
+          "matched_term": "Aoxt",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.169
+        },
+        {
+          "name": "4-Health",
+          "matched_term": "4-Health",
+          "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+          "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.646
+        },
+        {
+          "name": "N-Nem",
+          "matched_term": "N-Nem",
+          "drug_id": "141672a2-2463-46de-a416-d1cd8c4b2440",
+          "brand_id": "cf8cc3be-65c1-403c-af18-912e37c7ee6a",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.671
+        },
+        {
+          "name": "Waeht",
+          "matched_term": "Waeht",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.317
+        },
+        {
+          "name": "Nyeereme",
+          "matched_term": "Nyeereme",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.238
+        },
+        {
+          "name": "R-G Hwmy",
+          "matched_term": "R-G Hwmy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.295
+        },
+        {
+          "name": "Chier Complains",
+          "matched_term": "Chier Complains",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.24
+        },
+        {
+          "name": "Toning",
+          "matched_term": "Toning",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.186
+        },
+        {
+          "name": "Tfx He",
+          "matched_term": "Tfx He",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.223
+        },
+        {
+          "name": "Inaoma",
+          "matched_term": "Inaoma",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.26
+        },
+        {
+          "name": "Dahynarslioa",
+          "matched_term": "Dahynarslioa",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.254
+        },
+        {
+          "name": "Tbmw",
+          "matched_term": "Tbmw",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.257
+        },
+        {
+          "name": "Faqsliar",
+          "matched_term": "Faqsliar",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.233
+        },
+        {
+          "name": "Ghs",
+          "matched_term": "Ghs",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.208
+        },
+        {
+          "name": "Losa",
+          "matched_term": "Losa",
+          "drug_id": "9dff0641-71c5-420c-96b2-1eb99b9f1c6c",
+          "brand_id": "51c9adc2-1e0e-4d98-aad3-434a37b4a865",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.68
+        },
+        {
+          "name": "Rosnes",
+          "matched_term": "Rosnes",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.308
+        },
+        {
+          "name": "Ecg",
+          "matched_term": "Ecg",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.416
+        },
+        {
+          "name": "Prowsiunar Diagonosis",
+          "matched_term": "Prowsiunar Diagonosis",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.365
+        },
+        {
+          "name": "Commn",
+          "matched_term": "Commn",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.306
+        },
+        {
+          "name": "Wreo",
+          "matched_term": "Wreo",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.245
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hell Offire\nMakkah annat: Jeddah\nTREATMENT CARD : KRIZIOM\nMedical Carter\nSTUNT: G140\nWasich n _!!\nB\nHEALTH PROFILE\nК. 11 я:18+.\n6.5\n24 Muy 2004\nChiel Complaints:\nR:\nTab Tolan (ing)\n0+++3-20 Mm\nAndsova\nDehyuralita -\nTab. Moren ( wong)\n. Tab. E somconnou | 20 ~5\n20\nFSSRBS-\nProvisional Diagonosis\nCommon Cita\né coretigation.\nरूस (मण्टिकन गराज किविध्या दवा शोदानत उत्ना व या बद्धानंदणि अधिवाद पनमारे राय वालाक हृदय।\nTE\n7 V",
+      "lines": [
+        {
+          "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "Bangladesh Hell Offire",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "Makkah annat: Jeddah",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "TREATMENT CARD : KRIZIOM",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "Medical Carter",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "STUNT: G140",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "Wasich n _!!",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "B",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "HEALTH PROFILE",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "К. 11 я:18+.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "6.5",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "24 Muy 2004",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "Chiel Complaints:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "R:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "Tab Tolan (ing)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "0+++3-20 Mm",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "Andsova",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "Dehyuralita -",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "Tab. Moren ( wong)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": ". Tab. E somconnou | 20 ~5",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "20",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "FSSRBS-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "Provisional Diagonosis",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "Common Cita",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "é coretigation.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "रूस (मण्टिकन गराज किविध्या दवा शोदानत उत्ना व या बद्धानंदणि अधिवाद पनमारे राय वालाक हृदय।",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "TE",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "7 V",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        }
+      ],
+      "medications": [
+        {
+          "name": "Government Of The",
+          "matched_term": "Government Of The",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.214
+        },
+        {
+          "name": "Minista",
+          "matched_term": "Minista",
+          "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+          "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.594
+        },
+        {
+          "name": "Bangladesh Hell Offire",
+          "matched_term": "Bangladesh Hell Offire",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.214
+        },
+        {
+          "name": "Makkah Annat Jeddah",
+          "matched_term": "Makkah Annat Jeddah",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.214
+        },
+        {
+          "name": "Treatment Card Kriziom",
+          "matched_term": "Treatment Card Kriziom",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.214
+        },
+        {
+          "name": "Medical Air",
+          "matched_term": "Medical Air",
+          "drug_id": "f498ed97-bc40-410d-872a-e0fdeab4c569",
+          "brand_id": "8e3694b5-9a0b-483b-bc93-e01afc35f844",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.594
+        },
+        {
+          "name": "Stunt",
+          "matched_term": "Stunt",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.214
+        },
+        {
+          "name": "Wasich",
+          "matched_term": "Wasich",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.214
+        },
+        {
+          "name": "4-Health",
+          "matched_term": "4-Health",
+          "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+          "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.594
+        },
+        {
+          "name": "Muy",
+          "matched_term": "Muy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.214
+        },
+        {
+          "name": "Chiel Complaints",
+          "matched_term": "Chiel Complaints",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.214
+        },
+        {
+          "name": "Tolan Ing Mm",
+          "matched_term": "Tolan Ing Mm",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.214
+        },
+        {
+          "name": "Andsova",
+          "matched_term": "Andsova",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.214
+        },
+        {
+          "name": "Dehyuralita",
+          "matched_term": "Dehyuralita",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.214
+        },
+        {
+          "name": "Memoren",
+          "matched_term": "Memoren",
+          "drug_id": "798f99a9-29a2-4d4c-8e04-e6705e5e7ab6",
+          "brand_id": "f95d68fb-d4ce-44d7-9c1a-80dbf09c6eb6",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.594
+        },
+        {
+          "name": "Lnc 5 Tablet",
+          "matched_term": "Lnc 5 Tablet",
+          "drug_id": "071aa341-8b90-45e4-a884-48ec05010243",
+          "brand_id": "0e3d4bb0-7a2e-4562-a688-ee0b61d2e8fb",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.594
+        },
+        {
+          "name": "Fssrbs",
+          "matched_term": "Fssrbs",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.214
+        },
+        {
+          "name": "Provisional Diagonosis",
+          "matched_term": "Provisional Diagonosis",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.214
+        },
+        {
+          "name": "Common Cita",
+          "matched_term": "Common Cita",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.214
+        },
+        {
+          "name": "Coretigation Te",
+          "matched_term": "Coretigation Te",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.214
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "Tolec",
+          "matched_term": "Tolec",
+          "drug_id": "7bd081c9-0f2c-43e9-a13b-bda66a48cf11",
+          "brand_id": "88ec6dac-9568-4a3d-baa1-bc91a2996dc6",
+          "dosage": "1mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.651
+        },
+        {
+          "name": "Mon",
+          "matched_term": "Mon",
+          "drug_id": "807a6dae-2bc9-408f-ab46-85ee4b7712c1",
+          "brand_id": "3634ba03-dfe2-48f3-a5ba-037e5712341f",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.6
+        },
+        {
+          "name": "Lachclase Sachet",
+          "matched_term": "Lachclase Sachet",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.22
+        },
+        {
+          "name": "Leucorin 500 mg Tablet",
+          "matched_term": "Leucorin 500 mg Tablet",
+          "drug_id": "899e5f03-44c6-493c-a283-13a926678f23",
+          "brand_id": "ff5ede77-8b39-4b1f-b0e8-8033291e7ad0",
+          "dosage": "20 mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.575
+        }
+      ],
+      "raw_text": "R.\nTab Tolen ( 1mg )\nTab. MOND I KONST\nLachclase sachet\n. Tab. E somcornou | 20 mg",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 6434,
+        "detected_regions": 1,
+        "ocr_line_count": 5,
+        "yolo_avg_confidence": 0.9267,
+        "yolo_min_confidence": 0.9267,
+        "yolo_max_confidence": 0.9267,
+        "ocr_avg_confidence": 0.489,
+        "ocr_min_confidence": 0.489,
+        "ocr_max_confidence": 0.489,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 254.979248046875,
+              "y_min": 241.62033081054688,
+              "x_max": 522.7243041992188,
+              "y_max": 493.81683349609375
+            },
+            "score": 0.9267
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "R.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.489
+          },
+          {
+            "text": "Tab Tolen ( 1mg )",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.489
+          },
+          {
+            "text": "Tab. MOND I KONST",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.489
+          },
+          {
+            "text": "Lachclase sachet",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.489
+          },
+          {
+            "text": ". Tab. E somcornou | 20 mg",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.489
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

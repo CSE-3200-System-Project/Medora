@@ -79,6 +79,10 @@ export interface MedicalReport {
   shared_with_doctors: boolean;
   ocr_engine: string | null;
   processing_time_ms: number | null;
+  processing_mode: "local" | "cloud";
+  review_status: "pending_review" | "human_verified";
+  reviewed_at: string | null;
+  reviewed_by_id: string | null;
   created_at: string;
   updated_at: string | null;
   results: ReportTestResult[];
@@ -209,6 +213,18 @@ export async function getMedicalReport(
     throw new Error(errorMessage || "Failed to fetch report details");
   }
 
+  return await response.json();
+}
+
+export async function confirmMedicalReportOcr(reportId: string): Promise<MedicalReport> {
+  const headers = await getAuthHeaders();
+  const response = await fetch(`${BACKEND_URL}/medical-reports/${reportId}/confirm-ocr`, {
+    method: "POST",
+    headers,
+  });
+  if (!response.ok) {
+    throw new Error((await parseErrorResponse(response)) || "Failed to confirm OCR review");
+  }
   return await response.json();
 }
 

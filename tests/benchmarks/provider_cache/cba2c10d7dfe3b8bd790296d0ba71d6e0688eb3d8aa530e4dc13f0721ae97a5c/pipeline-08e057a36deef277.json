@@ -1,0 +1,199 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0043",
+  "source_sha256": "cba2c10d7dfe3b8bd790296d0ba71d6e0688eb3d8aa530e4dc13f0721ae97a5c",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:29:16.951083+00:00",
+  "runtime_ms": 10052.640800000518,
+  "output": {
+    "medications": [
+      {
+        "name": "Weakness",
+        "matched_term": "Weakness",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.255
+      },
+      {
+        "name": "Gen",
+        "matched_term": "Gen",
+        "drug_id": "49b07d6d-c94f-4461-abd7-e3d1352682ea",
+        "brand_id": "3f36e600-7ec6-4d28-a473-1a14d6e90658",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.635
+      },
+      {
+        "name": "Anorex",
+        "matched_term": "Anorex",
+        "drug_id": "a9db1a7e-8d62-4155-927d-09e8cb39976c",
+        "brand_id": "47853f7f-6e68-4788-831a-4cb12cc62059",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.635
+      },
+      {
+        "name": "Tuba",
+        "matched_term": "Tuba",
+        "drug_id": "0e496455-ba8e-4826-9407-63177d457b44",
+        "brand_id": "a3a6a5be-cbf4-4cdc-a45c-812b86a2f484",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.635
+      },
+      {
+        "name": "Hat",
+        "matched_term": "Hat",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.255
+      },
+      {
+        "name": "Alben",
+        "matched_term": "Alben",
+        "drug_id": "22b649ff-5d11-46b7-a65e-c8cec4321194",
+        "brand_id": "7ef2dcbb-2ad7-4c14-aad1-9e1bff4febd7",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.635
+      }
+    ],
+    "raw_text": "Weakness\nGen\nW Anorexia\nB/2\nTub.\nAM.\n17/\nHat\n1\nTub. Xantia (1500\nHat1\nTab. Alben-\n20)\n2)",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 10018,
+      "detected_regions": 1,
+      "ocr_line_count": 14,
+      "yolo_avg_confidence": 0.8543,
+      "yolo_min_confidence": 0.8543,
+      "yolo_max_confidence": 0.8543,
+      "ocr_avg_confidence": 0.567,
+      "ocr_min_confidence": 0.567,
+      "ocr_max_confidence": 0.567,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 826.5251831054687,
+            "y_min": 1127.7515464782714,
+            "x_max": 3267.6808776855464,
+            "y_max": 3567.045427703857
+          },
+          "score": 0.8543
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Weakness",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.567
+        },
+        {
+          "text": "Gen",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.567
+        },
+        {
+          "text": "W Anorexia",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.567
+        },
+        {
+          "text": "B/2",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.567
+        },
+        {
+          "text": "Tub.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.567
+        },
+        {
+          "text": "AM.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.567
+        },
+        {
+          "text": "17/",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.567
+        },
+        {
+          "text": "Hat",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.567
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.567
+        },
+        {
+          "text": "Tub. Xantia (1500",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.567
+        },
+        {
+          "text": "Hat1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.567
+        },
+        {
+          "text": "Tab. Alben-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.567
+        },
+        {
+          "text": "20)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.567
+        },
+        {
+          "text": "2)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.567
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

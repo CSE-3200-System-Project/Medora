@@ -1,0 +1,259 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0037",
+  "source_sha256": "646b85c32d947e5f16fd56778f53d36eb93ac38029dee270c913c449e60ed44f",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:40:00.782840+00:00",
+  "runtime_ms": 11086.996000012732,
+  "output": {
+    "raw_text": "वृत्मन (अडीद)\nDr. Md. Sakhawat Hossain (Sajih)\nM.B.B.S.(D.V). C.C.D.(Budem)\nM.D (Pediatric)- ICMM\nटर्बाइन, मिठ, किरणार विश्णवक्त, (्यांडिमिन य कामादनविन (वारण विक)\nIn\nReliman AUF\nAge Or, Wt: Rsts, Date: 1.2.2024\nR\n.\n. Gas. Fenolen (60 mg)\n01072\n. Mis. Arcokant (5mg).\n00072\nBSR\n1.56.\n..\nProzent Cream.\n9.5.\nสดาล 2 การ\nX-my Nasopharynx.\nL/v.\n,",
+    "lines": [
+      {
+        "text": "वृत्मन (अडीद)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "Dr. Md. Sakhawat Hossain (Sajih)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "M.B.B.S.(D.V). C.C.D.(Budem)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "M.D (Pediatric)- ICMM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "टर्बाइन, मिठ, किरणार विश्णवक्त, (्यांडिमिन य कामादनविन (वारण विक)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "In",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "Reliman AUF",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "Age Or, Wt: Rsts, Date: 1.2.2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "R",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": ".",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": ". Gas. Fenolen (60 mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "01072",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": ". Mis. Arcokant (5mg).",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "00072",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "BSR",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "1.56.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "..",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "Prozent Cream.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "9.5.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "สดาล 2 การ",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "X-my Nasopharynx.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "L/v.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": ",",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      }
+    ],
+    "medications": [
+      {
+        "name": "Dr Md Sakhawat",
+        "matched_term": "Dr Md Sakhawat",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.24
+      },
+      {
+        "name": "Budemet",
+        "matched_term": "Budemet",
+        "drug_id": "a4407879-84ca-48a4-bfb7-e5b5a40fe3d9",
+        "brand_id": "a8efa12c-4fbe-472d-bf8f-9e7bad9e429f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.62
+      },
+      {
+        "name": "Pediatric Icmm In",
+        "matched_term": "Pediatric Icmm In",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.24
+      },
+      {
+        "name": "Reliman Auf",
+        "matched_term": "Reliman Auf",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.24
+      },
+      {
+        "name": "Age M",
+        "matched_term": "Age M",
+        "drug_id": "32593a88-50e8-4254-9d22-7d1a52c84504",
+        "brand_id": "86fe087a-92e9-4a39-8921-ab758e162e76",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.62
+      },
+      {
+        "name": "Gas-T",
+        "matched_term": "Gas-T",
+        "drug_id": "4b861ef9-7a9a-4211-a236-be539eaa191f",
+        "brand_id": "d4519774-1477-45bd-b6bb-74e0b9dd78c4",
+        "dosage": "60 mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.671
+      },
+      {
+        "name": "Mis Arcokant",
+        "matched_term": "Mis Arcokant",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "5mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.291
+      },
+      {
+        "name": "Bsr",
+        "matched_term": "Bsr",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.24
+      },
+      {
+        "name": "Prozen",
+        "matched_term": "Prozen",
+        "drug_id": "e7099295-51c8-4667-be2d-d3dabae28917",
+        "brand_id": "103ed7d0-329d-4abe-818e-b5b1d02dc4a6",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.62
+      },
+      {
+        "name": "X-My Nasopharynx",
+        "matched_term": "X-My Nasopharynx",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.24
+      }
+    ]
+  }
+}

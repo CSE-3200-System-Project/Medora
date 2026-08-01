@@ -51,6 +51,10 @@ class PrescriptionOCRMeta(BaseModel):
     ocr_avg_confidence: Optional[float] = None
     ocr_min_confidence: Optional[float] = None
     ocr_max_confidence: Optional[float] = None
+    processing_mode: str = "local"
+    provider: str = "paddleocr_local"
+    review_required: bool = True
+    authoritative_writeback: bool = False
 
 
 class PrescriptionExtractionResponse(BaseModel):
@@ -60,3 +64,4 @@ class PrescriptionExtractionResponse(BaseModel):
     raw_text: str = ""
     meta: PrescriptionOCRMeta | None = None
     file: Optional[MediaFileResponse] = None
+    warning: str = "Unconfirmed OCR draft. Verify every field against the source image before use."

@@ -1,0 +1,489 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0092",
+  "source_sha256": "465c8733aafd29b7c8fc248605a172dba66a583dd6c8a263715cef96186eca01",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T18:07:54.019200+00:00",
+  "runtime_ms": 23272.458599996753,
+  "output": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Half Office\nTREATMENT CARD / <1481-14\nModun' Center;\n@op= F085\nX1885758\nÜST FIGOZA FEOUM\nGender\nDeilu: RANGPUR\nHEALTH PROFILE\nNO\n4 Lund DitHen\n5. Kaumty Cisceao: NO\nH. Nund Sogar IRBSX\n9. Weight:\nAnshypertens ve. And-Ju-ntm? Any other abrax naities\n21 KAY 2324\nChief Complaints.\nSome-t\nRx\nTab. Levofloxacin ( 5mm)\nTak paracetamol ( Soon)\nAndemla-\nDefrydration-\nRespiration-\n1\n· Cap. menasole (200g)\nstats- cimm)\nFESIRBS-\nECG\nProvisional Diagonosis\nएवं दसविद्वान एलेख शिविरमा (भवा वष्द्मत्र मना की वस्था -यदि यदिवाड़ जयवाडे मदत प्टिक मदद।",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "Bangladesh Half Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "TREATMENT CARD / <1481-14",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "Modun' Center;",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "@op= F085",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "X1885758",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "ÜST FIGOZA FEOUM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "Gender",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "Deilu: RANGPUR",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "4 Lund DitHen",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "5. Kaumty Cisceao: NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "H. Nund Sogar IRBSX",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "9. Weight:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "Anshypertens ve. And-Ju-ntm? Any other abrax naities",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "21 KAY 2324",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "Chief Complaints.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "Some-t",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "Tab. Levofloxacin ( 5mm)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "Tak paracetamol ( Soon)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "Andemla-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "Defrydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "· Cap. menasole (200g)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "stats- cimm)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "FESIRBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "एवं दसविद्वान एलेख शिविरमा (भवा वष्द्मत्र मना की वस्था -यदि यदिवाड़ जयवाडे मदत प्टिक मदद।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      }
+    ],
+    "medications": [
+      {
+        "name": "Government Of The",
+        "matched_term": "Government Of The",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.234
+      },
+      {
+        "name": "Minista",
+        "matched_term": "Minista",
+        "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+        "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.614
+      },
+      {
+        "name": "Bangladesh Half Office",
+        "matched_term": "Bangladesh Half Office",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.234
+      },
+      {
+        "name": "Treatment Card",
+        "matched_term": "Treatment Card",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.234
+      },
+      {
+        "name": "Modun Center Op",
+        "matched_term": "Modun Center Op",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.234
+      },
+      {
+        "name": "St Figoza Feoum",
+        "matched_term": "St Figoza Feoum",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.234
+      },
+      {
+        "name": "Gender",
+        "matched_term": "Gender",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.234
+      },
+      {
+        "name": "Deilu Rangpur",
+        "matched_term": "Deilu Rangpur",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.234
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.614
+      },
+      {
+        "name": "Lund Dithen",
+        "matched_term": "Lund Dithen",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.234
+      },
+      {
+        "name": "Kaumty Cisceao No",
+        "matched_term": "Kaumty Cisceao No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.234
+      },
+      {
+        "name": "Nund Sogar Irbsx",
+        "matched_term": "Nund Sogar Irbsx",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.234
+      },
+      {
+        "name": "Weight",
+        "matched_term": "Weight",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.234
+      },
+      {
+        "name": "Anshypertens Ve And-Ju-Ntm",
+        "matched_term": "Anshypertens Ve And-Ju-Ntm",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.234
+      },
+      {
+        "name": "Kay",
+        "matched_term": "Kay",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.234
+      },
+      {
+        "name": "Chief Complaints",
+        "matched_term": "Chief Complaints",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.234
+      },
+      {
+        "name": "Some-T Rx",
+        "matched_term": "Some-T Rx",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.234
+      },
+      {
+        "name": "levofloxacin",
+        "matched_term": "levofloxacin",
+        "drug_id": "c9c174fc-688b-4fe7-aced-800db53994f2",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.614
+      },
+      {
+        "name": "paracetamol",
+        "matched_term": "paracetamol",
+        "drug_id": "506f3ed5-2dc3-434c-9383-7ee8fdc53209",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.614
+      },
+      {
+        "name": "Andemla",
+        "matched_term": "Andemla",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.234
+      },
+      {
+        "name": "Defrydration",
+        "matched_term": "Defrydration",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.234
+      },
+      {
+        "name": "Respira",
+        "matched_term": "Respira",
+        "drug_id": "656b8f01-ab73-41c9-ac79-e2f8912cd7a5",
+        "brand_id": "e9aaae9c-065c-4fdb-a25f-c5f67053015e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.614
+      },
+      {
+        "name": "Menasole",
+        "matched_term": "Menasole",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "200g",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.285
+      },
+      {
+        "name": "Stats- Cimm",
+        "matched_term": "Stats- Cimm",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.234
+      },
+      {
+        "name": "Fesirbs",
+        "matched_term": "Fesirbs",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.234
+      },
+      {
+        "name": "Ecg",
+        "matched_term": "Ecg",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.234
+      },
+      {
+        "name": "Provisional Diagonosis",
+        "matched_term": "Provisional Diagonosis",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.234
+      }
+    ]
+  }
+}

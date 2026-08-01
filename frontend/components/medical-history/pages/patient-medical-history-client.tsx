@@ -395,7 +395,7 @@ function PatientMedicalHistoryPage() {
   const [hospitalizations, setHospitalizations] = useState<{ reason: string; year: string; duration?: string }[]>([]);
   const [vaccinations, setVaccinations] = useState<{ name: string; date: string; next_due?: string }[]>([]);
   
-  // Doctor prescriptions state (accepted prescriptions from consultations)
+  // Doctor prescriptions whose receipt the patient acknowledged.
   const [doctorPrescriptions, setDoctorPrescriptions] = useState<Prescription[]>([]);
   const [doctorMedicationFilter, setDoctorMedicationFilter] = useState<"active" | "expired" | "all">("active");
   const [myMedicationFilter, setMyMedicationFilter] = useState<"active" | "expired" | "all">("active");
@@ -1785,7 +1785,7 @@ function PatientMedicalHistoryPage() {
                     {doctorMedsPagination.pageItems.map((prescription) => {
                         const visibleDoctorMeds = prescription.medications.filter((med) => {
                           const duration = med.duration_value ? `${med.duration_value} ${med.duration_unit}` : "";
-                          const startedDate = med.start_date || prescription.accepted_at || prescription.created_at;
+                          const startedDate = med.start_date || prescription.acknowledged_at || prescription.created_at;
                           const expired = isMedicationExpired({
                             started_date: startedDate,
                             duration,
@@ -1809,7 +1809,7 @@ function PatientMedicalHistoryPage() {
                           {visibleDoctorMeds.map((med: MedicationPrescription) => (
                             (() => {
                               const duration = med.duration_value ? `${med.duration_value} ${med.duration_unit}` : "";
-                              const startedDate = med.start_date || prescription.accepted_at || prescription.created_at;
+                              const startedDate = med.start_date || prescription.acknowledged_at || prescription.created_at;
                               const expired = isMedicationExpired({
                                 started_date: startedDate,
                                 duration,

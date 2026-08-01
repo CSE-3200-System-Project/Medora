@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0104",
+  "source_sha256": "e39c6d5cea8678a43e86101c823c0e753ddf2a454fdc890a9ad7efbd9eed10e7",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:40:10.472273+00:00",
+  "runtime_ms": 11963.677699997788,
+  "output": {
+    "medications": [
+      {
+        "name": "Cincozin Pln",
+        "matched_term": "Cincozin Pln",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.28
+      },
+      {
+        "name": "Etato",
+        "matched_term": "Etato",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.28
+      }
+    ],
+    "raw_text": "Rx\n- P. Cincozin pln\netato\n-\n29.08.2018",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 11925,
+      "detected_regions": 1,
+      "ocr_line_count": 5,
+      "yolo_avg_confidence": 0.868,
+      "yolo_min_confidence": 0.868,
+      "yolo_max_confidence": 0.868,
+      "ocr_avg_confidence": 0.622,
+      "ocr_min_confidence": 0.622,
+      "ocr_max_confidence": 0.622,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 292.5655517578125,
+            "y_min": 256.05377197265625,
+            "x_max": 539.77490234375,
+            "y_max": 456.00390625
+          },
+          "score": 0.868
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Rx",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.622
+        },
+        {
+          "text": "- P. Cincozin pln",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.622
+        },
+        {
+          "text": "etato",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.622
+        },
+        {
+          "text": "-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.622
+        },
+        {
+          "text": "29.08.2018",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.622
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

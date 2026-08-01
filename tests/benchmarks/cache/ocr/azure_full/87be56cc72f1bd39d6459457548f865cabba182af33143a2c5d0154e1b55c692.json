@@ -1,0 +1,254 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "87be56cc72f1bd39d6459457548f865cabba182af33143a2c5d0154e1b55c692",
+  "record_id": "RX-0074",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 20642.905999993673,
+  "failure": null,
+  "response_sha256": "e4495ee84044e364a3eadd8c81973100858a811dee950b9b9b3361a92707fa9a",
+  "response": {
+    "raw_text": "हिकिश्माक कड़क थमड ब्बाभीव बारशशंख\n820377\nhaMCPO (X)\n(बाभीव नाग M ZHSIDD1007\nसक्षम 54 yks\nCMH/CWC/MI ROOM HAJI MOHSIN 0/12 / 7/9/2018\nमिक सिप्लाटर्ड्स राविश उ स्वाटशन वर्णना\nडिकिस्मतकन बारशुभख, पछता 3 मात्रन\nChief Complaints :\nCOPD\n09\nSerialtio: ..... 200000000\nDate :: 1 7 SEP 2018\nessae 300ad on\nO/E : 7/9/18\n30 days 18.10.18\npar\nGieron (15-\nBP- 140/8\n1001\nComer (som\nAdv/ Investigation :\n15 days. 15.11.18\n02.12.18\n17.12.18\n21.01. 19-30 day\n07/10.\nTampo mx (20\nP/D :\n01 mins 18.02.19\nAm 19/ 3- 1/8\n21. S.K\n-25/s\nमौखिक\n€\nRx\nA HTw\nna\nAngelook (52",
+    "lines": [
+      {
+        "text": "हिकिश्माक कड़क थमड ब्बाभीव बारशशंख",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "820377",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "haMCPO (X)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "(बाभीव नाग M ZHSIDD1007",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "सक्षम 54 yks",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "CMH/CWC/MI ROOM HAJI MOHSIN 0/12 / 7/9/2018",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "मिक सिप्लाटर्ड्स राविश उ स्वाटशन वर्णना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "डिकिस्मतकन बारशुभख, पछता 3 मात्रन",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "Chief Complaints :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "COPD",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "09",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "Serialtio: ..... 200000000",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "Date :: 1 7 SEP 2018",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "essae 300ad on",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "O/E : 7/9/18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "30 days 18.10.18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "par",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "Gieron (15-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "BP- 140/8",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "1001",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "Comer (som",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "Adv/ Investigation :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "15 days. 15.11.18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "02.12.18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "17.12.18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "21.01. 19-30 day",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "07/10.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "Tampo mx (20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "P/D :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "01 mins 18.02.19",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "Am 19/ 3- 1/8",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "21. S.K",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "-25/s",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "मौखिक",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "€",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "A HTw",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "na",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "Angelook (52",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      }
+    ]
+  }
+}

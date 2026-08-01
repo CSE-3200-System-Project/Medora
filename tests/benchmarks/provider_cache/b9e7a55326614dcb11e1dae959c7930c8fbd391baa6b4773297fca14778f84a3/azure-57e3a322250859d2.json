@@ -1,0 +1,263 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0011",
+  "source_sha256": "b9e7a55326614dcb11e1dae959c7930c8fbd391baa6b4773297fca14778f84a3",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:24:51.366418+00:00",
+  "runtime_ms": 13235.755300003802,
+  "output": {
+    "raw_text": "यागोन ठिकिश्मा एकल\n+\nकिहीको : पानशव भारताच्याक (कामन कहापुत्री (स्कालिए आकरब)\n(शा दलालर वक्तिश मन्नू)\nडी.डी. वज चय नि (मड़ा)\n* घरकानाम इस्लाम पूर, रविकिशन प्पाबारंग 201930-635000\n#: 4 88 . 00/02/28\nTU- Acos - (500 kg)\n2.\n3\n4.\n2+0+2- RAW 2MY SHAT\n- Anokant - 90mg\n0+0+2- RHY ME 2000\nFossical -D\nArtvide :\n6.\n5.\n2+0+2 - Qw MA THAT\nFlexi - Locke\n2+0+2 - 210 9 9\nShop - Diequex plus-1ph\n7.\nSKALP - Baugh lin - 8PM\n1.\n0+0+2-201918 9 814 1\nSp - Dexilend-(30kg)",
+    "lines": [
+      {
+        "text": "यागोन ठिकिश्मा एकल",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.394
+      },
+      {
+        "text": "+",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.394
+      },
+      {
+        "text": "किहीको : पानशव भारताच्याक (कामन कहापुत्री (स्कालिए आकरब)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.394
+      },
+      {
+        "text": "(शा दलालर वक्तिश मन्नू)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.394
+      },
+      {
+        "text": "डी.डी. वज चय नि (मड़ा)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.394
+      },
+      {
+        "text": "* घरकानाम इस्लाम पूर, रविकिशन प्पाबारंग 201930-635000",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.394
+      },
+      {
+        "text": "#: 4 88 . 00/02/28",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.394
+      },
+      {
+        "text": "TU- Acos - (500 kg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.394
+      },
+      {
+        "text": "2.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.394
+      },
+      {
+        "text": "3",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.394
+      },
+      {
+        "text": "4.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.394
+      },
+      {
+        "text": "2+0+2- RAW 2MY SHAT",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.394
+      },
+      {
+        "text": "- Anokant - 90mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.394
+      },
+      {
+        "text": "0+0+2- RHY ME 2000",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.394
+      },
+      {
+        "text": "Fossical -D",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.394
+      },
+      {
+        "text": "Artvide :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.394
+      },
+      {
+        "text": "6.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.394
+      },
+      {
+        "text": "5.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.394
+      },
+      {
+        "text": "2+0+2 - Qw MA THAT",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.394
+      },
+      {
+        "text": "Flexi - Locke",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.394
+      },
+      {
+        "text": "2+0+2 - 210 9 9",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.394
+      },
+      {
+        "text": "Shop - Diequex plus-1ph",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.394
+      },
+      {
+        "text": "7.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.394
+      },
+      {
+        "text": "SKALP - Baugh lin - 8PM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.394
+      },
+      {
+        "text": "1.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.394
+      },
+      {
+        "text": "0+0+2-201918 9 814 1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.394
+      },
+      {
+        "text": "Sp - Dexilend-(30kg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.394
+      }
+    ],
+    "medications": [
+      {
+        "name": "Acos",
+        "matched_term": "Acos",
+        "drug_id": "95ed09d1-d0fa-4bd6-bce6-0baff4c63ed4",
+        "brand_id": "7eb33414-339a-4101-a31e-198d378ca938",
+        "dosage": null,
+        "frequency": "2+0+2",
+        "quantity": null,
+        "confidence": 0.607
+      },
+      {
+        "name": "Anokant",
+        "matched_term": "Anokant",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "90mg",
+        "frequency": "0+0+2",
+        "quantity": null,
+        "confidence": 0.278
+      },
+      {
+        "name": "Fossical-D",
+        "matched_term": "Fossical-D",
+        "drug_id": "61e0ca13-0ef4-43c3-9fe2-59206d406cd4",
+        "brand_id": "b69149d5-560f-4e27-a24c-1c5e6134b4ed",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.557
+      },
+      {
+        "name": "Artvide",
+        "matched_term": "Artvide",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": "2+0+2",
+        "quantity": null,
+        "confidence": 0.227
+      },
+      {
+        "name": "Flexi",
+        "matched_term": "Flexi",
+        "drug_id": "8254bbfb-9bb9-4746-b780-f095d1908327",
+        "brand_id": "383e42ce-b82e-4c44-bbcf-4dc225550ece",
+        "dosage": null,
+        "frequency": "2+0+2+2",
+        "quantity": null,
+        "confidence": 0.607
+      },
+      {
+        "name": "Shop Diequex Plus-",
+        "matched_term": "Shop Diequex Plus-",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.177
+      },
+      {
+        "name": "Skalp Baugh Lin",
+        "matched_term": "Skalp Baugh Lin",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": "0+0+2+2",
+        "quantity": null,
+        "confidence": 0.227
+      },
+      {
+        "name": "Dexilend",
+        "matched_term": "Dexilend",
+        "drug_id": "0a5b6087-8ab2-4445-a3c6-5608feac56f7",
+        "brand_id": "de68dc7e-3680-47c0-9bcc-84b311c44556",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.557
+      }
+    ]
+  }
+}

@@ -1,0 +1,260 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "7864061a13856420108e03fd1218774404f4f1e48c501376920b28feb2d84440",
+  "record_id": "RX-0036",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 38415.815200001816,
+  "failure": null,
+  "response_sha256": "5da327ef5a0b223c1c44e8672d1c1d03437d8ca7e1afa89a6e9c605d038281a1",
+  "response": {
+    "raw_text": "21131217675435\nOpperation Note :\nDate :__\n3/2/24\nTinve\nAnaesthesia ...\nSAB\nSurgeon\nAndesthatist ...\nAsst Surgeon (1) :..\nAssistant (2) :\ner Boppy\nIndication :\n110 2 4/5\nIncision ...\nPfannenstiel\nName of Opperation\nLuis\nProcedure & Findings :\nUnder all aseptic\nprecaution LUCS was fire\n(Baby Note\n81.0\nfemale Wt 25kg A/S\n3/1/24\n7:50 PM DOB ---\nHbsAg (scr)\nBaby Blood Group\nTreatment on Discharge:\n, Tab Cefaclan (500mg) 2-0-2-915\ncap, flux (500mg) 2+3+2+2-79145\n, Tab Rokel (10mg) 2010 , Gina COM\nTab. Pomimo (20mg) 2010-2014\nTro PhoLm 210 SISTO + 20OR\n, Tak Pearlcal 24002 - 3Ans\n, Tab 1 him STAx 2 - Jappo\n, Tak Laxy 1 (3mg) 01015- 20für\nvoltalin suppository\n1 stick P/R. 505 (1) Bor tourt 2025)\nGAVISOL Suspension",
+    "lines": [
+      {
+        "text": "21131217675435",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "Opperation Note :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "Date :__",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "3/2/24",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "Tinve",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "Anaesthesia ...",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "SAB",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "Surgeon",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "Andesthatist ...",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "Asst Surgeon (1) :..",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "Assistant (2) :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "er Boppy",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "Indication :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "110 2 4/5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "Incision ...",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "Pfannenstiel",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "Name of Opperation",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "Luis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "Procedure & Findings :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "Under all aseptic",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "precaution LUCS was fire",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "(Baby Note",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "81.0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "female Wt 25kg A/S",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "3/1/24",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "7:50 PM DOB ---",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "HbsAg (scr)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "Baby Blood Group",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "Treatment on Discharge:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": ", Tab Cefaclan (500mg) 2-0-2-915",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "cap, flux (500mg) 2+3+2+2-79145",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": ", Tab Rokel (10mg) 2010 , Gina COM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "Tab. Pomimo (20mg) 2010-2014",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "Tro PhoLm 210 SISTO + 20OR",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": ", Tak Pearlcal 24002 - 3Ans",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": ", Tab 1 him STAx 2 - Jappo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": ", Tak Laxy 1 (3mg) 01015- 20für",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "voltalin suppository",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "1 stick P/R. 505 (1) Bor tourt 2025)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "GAVISOL Suspension",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.528
+      }
+    ]
+  }
+}

@@ -1,0 +1,6 @@
+{"id":"synthetic-rx-001","text":"Napa 500mg 1+0+1 5 days","expected":{"name":"Napa","dosage":"500mg","frequency":"1+0+1","quantity":"5 days"}}
+{"id":"synthetic-rx-002","text":"Metformin 500mg BD 30 days","expected":{"name":"Metformin","dosage":"500mg","frequency":"BD","quantity":"30 days"}}
+{"id":"synthetic-rx-003","text":"Amlodipine 5mg OD continue","expected":{"name":"Amlodipine","dosage":"5mg","frequency":"OD","quantity":"continue"}}
+{"id":"synthetic-rx-004","text":"Losartan 50mg 1+1+0 10 days","expected":{"name":"Losartan","dosage":"50mg","frequency":"1+1+0","quantity":"10 days"}}
+{"id":"synthetic-rx-005","text":"Napa 650mg OD ৭ days","expected":{"name":"Napa","dosage":"650mg","frequency":"OD","quantity":"7 days"}}
+{"id":"synthetic-rx-006","text":"Omeprazole 20mg 1+0+1 ১৪ days","expected":{"name":"Omeprazole","dosage":"20mg","frequency":"1+0+1","quantity":"14 days"}}

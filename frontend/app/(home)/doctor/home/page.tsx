@@ -402,7 +402,7 @@ export default async function DoctorHomePage() {
                       <p className="font-semibold text-foreground">{item.title}</p>
                       <p className="mt-1 text-sm text-muted-foreground">
                         Status: {item.status.replace("_", " ")}
-                        {item.related_patient_id ? ` â€¢ Patient ${item.related_patient_id.slice(0, 8)}` : ""}
+                        {item.related_patient_id ? ` • Patient ${item.related_patient_id.slice(0, 8)}` : ""}
                       </p>
                     </div>
                   );

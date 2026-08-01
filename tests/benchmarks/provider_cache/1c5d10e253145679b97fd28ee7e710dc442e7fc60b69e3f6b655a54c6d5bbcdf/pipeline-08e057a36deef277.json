@@ -1,0 +1,291 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0053",
+  "source_sha256": "1c5d10e253145679b97fd28ee7e710dc442e7fc60b69e3f6b655a54c6d5bbcdf",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:31:35.835628+00:00",
+  "runtime_ms": 13218.407299995306,
+  "output": {
+    "medications": [
+      {
+        "name": "Sty",
+        "matched_term": "Sty",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.245
+      },
+      {
+        "name": "Jab Cafaclaw",
+        "matched_term": "Jab Cafaclaw",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "500 mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.296
+      },
+      {
+        "name": "Utramal Retard",
+        "matched_term": "Utramal Retard",
+        "drug_id": "e2a22109-84b4-41f6-a606-aa8a6abeea03",
+        "brand_id": "a0d74fce-3bd3-4394-a84c-110af7b076b1",
+        "dosage": "100mg",
+        "frequency": "0+0+2",
+        "quantity": null,
+        "confidence": 0.725
+      },
+      {
+        "name": "Of Surgel",
+        "matched_term": "Of Surgel",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "200g",
+        "frequency": "2+0+2",
+        "quantity": null,
+        "confidence": 0.345
+      },
+      {
+        "name": "Ancor A",
+        "matched_term": "Ancor A",
+        "drug_id": "763e8e3f-7bea-463c-8bbf-9b2ba367beb3",
+        "brand_id": "e7d3f13f-a440-4e64-8285-8d03b65da584",
+        "dosage": null,
+        "frequency": "0+0+2+6",
+        "quantity": null,
+        "confidence": 0.674
+      },
+      {
+        "name": "Jal Regos",
+        "matched_term": "Jal Regos",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "20 mg",
+        "frequency": "2+0+0+0",
+        "quantity": null,
+        "confidence": 0.345
+      },
+      {
+        "name": "Cp",
+        "matched_term": "Cp",
+        "drug_id": "4f0c5564-7aa5-49d7-a24b-ac57c04134df",
+        "brand_id": "f4d2cbe7-e4f0-4ca6-b1f3-2a92ddecc524",
+        "dosage": "24Mg",
+        "frequency": "6+0+2",
+        "quantity": null,
+        "confidence": 0.725
+      },
+      {
+        "name": "Novorapid",
+        "matched_term": "Novorapid",
+        "drug_id": "16be8bb3-983e-4b50-9f73-e35eb4699284",
+        "brand_id": "5ab9a9c7-ad9c-4a16-a391-8c4fbd444b67",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.625
+      },
+      {
+        "name": "Glysup",
+        "matched_term": "Glysup",
+        "drug_id": "ca4fcea8-6a89-49d0-a82e-8161f0c0d260",
+        "brand_id": "d2dc3cfd-fb8d-4b87-8eb4-8e6e925d0e3a",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.625
+      },
+      {
+        "name": "Si Novo-Rafia",
+        "matched_term": "Si Novo-Rafia",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.245
+      },
+      {
+        "name": "A-Cof",
+        "matched_term": "A-Cof",
+        "drug_id": "44d50961-2f21-4317-ad2a-ff7b8d4fd683",
+        "brand_id": "e2054e74-8169-414d-8071-f6c90faab637",
+        "dosage": "500mg",
+        "frequency": "0+2+2+6",
+        "quantity": null,
+        "confidence": 0.725
+      }
+    ],
+    "raw_text": "sty\n. Jab Cafaclaw (500 mg)\n· Tab U-tremal Retard (100mg)\n0+ 0+2 8935\n· of Surgel (200g)\n2+0+2 (a1323 cam-)-993-\n. Tab Ancos A\n0+0+2 -6475\n-\nJal Regos (20 mg)\n2+0+0-04/25\n· Cp Lubilan (24Mg)\n6+0+2 - Apesar 220 22\n85.12.23\nY. Si Novo Rapid\nGlysup (2.3gm)\n$3.2.23\nSi novo-Rafia\n22+20+2012\nCof Polycel (500mg)\n0+2+2-6955",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 13177,
+      "detected_regions": 1,
+      "ocr_line_count": 21,
+      "yolo_avg_confidence": 0.8954,
+      "yolo_min_confidence": 0.8954,
+      "yolo_max_confidence": 0.8954,
+      "ocr_avg_confidence": 0.544,
+      "ocr_min_confidence": 0.544,
+      "ocr_max_confidence": 0.544,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 311.72601318359375,
+            "y_min": 220.39892578125,
+            "x_max": 928.9190673828125,
+            "y_max": 1157.380859375
+          },
+          "score": 0.8954
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "sty",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": ". Jab Cafaclaw (500 mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "· Tab U-tremal Retard (100mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "0+ 0+2 8935",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "· of Surgel (200g)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "2+0+2 (a1323 cam-)-993-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": ". Tab Ancos A",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "0+0+2 -6475",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "Jal Regos (20 mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "2+0+0-04/25",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "· Cp Lubilan (24Mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "6+0+2 - Apesar 220 22",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "85.12.23",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "Y. Si Novo Rapid",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "Glysup (2.3gm)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "$3.2.23",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "Si novo-Rafia",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "22+20+2012",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "Cof Polycel (500mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "0+2+2-6955",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

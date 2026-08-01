@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "53250e1708bf1a746f08678b9a3d105f30e7eb6256d4ccfbb389d0682a856721",
+  "record_id": "RX-0032",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 5765.544800000498,
+  "failure": null,
+  "response_sha256": "53b37520ea81f60b7a9d5472c7a18394e34ddea2aad9079a8f315cfe8c617bd3",
+  "response": {
+    "raw_text": "Tob. PIC\n50\nstata\n1\nCap. Owcp\n20\n> tots\n28\n.\nTab. Fexo 120\notots\n20\n1 Tob. Metro 400\n19.05.",
+    "lines": [
+      {
+        "text": "Tob. PIC",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.675
+      },
+      {
+        "text": "50",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.675
+      },
+      {
+        "text": "stata",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.675
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.675
+      },
+      {
+        "text": "Cap. Owcp",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.675
+      },
+      {
+        "text": "20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.675
+      },
+      {
+        "text": "> tots",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.675
+      },
+      {
+        "text": "28",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.675
+      },
+      {
+        "text": ".",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.675
+      },
+      {
+        "text": "Tab. Fexo 120",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.675
+      },
+      {
+        "text": "otots",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.675
+      },
+      {
+        "text": "20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.675
+      },
+      {
+        "text": "1 Tob. Metro 400",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.675
+      },
+      {
+        "text": "19.05.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.675
+      }
+    ]
+  }
+}

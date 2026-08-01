@@ -1,0 +1,140 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "f984b0862482568943b8daeec1876767956b5e47bafdf2e1f0bdee7995bd6618",
+  "record_id": "RX-0076",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 11382.22540001152,
+  "failure": null,
+  "response_sha256": "9bcccd73dcedbed792e6529fd5c10b6ea3861d5553619feea7480a8108426dee",
+  "response": {
+    "raw_text": "Angulock\n(\n0+07\n1\n12.\nCinnamon (13-\n1\n1+011\n50\n1\nComet 1\n€\n-6m\nअमूल एक\n(मालिमिन) डि. कार्ड (कार्डियनछि)\nने विनयष्ट\nPantano\n١\n100\n1",
+    "lines": [
+      {
+        "text": "Angulock",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "(",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "0+07",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "12.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "Cinnamon (13-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "1+011",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "50",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "Comet 1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "€",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "-6m",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "अमूल एक",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "(मालिमिन) डि. कार्ड (कार्डियनछि)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "ने विनयष्ट",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "Pantano",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "١",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "100",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      }
+    ]
+  }
+}

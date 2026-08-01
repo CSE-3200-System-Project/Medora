@@ -1,0 +1,254 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "8a608a218b0750284efd06dae52d6a19054e05c7efa29fb1f021bb4660753a64",
+  "record_id": "RX-0002",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 19324.313899996923,
+  "failure": null,
+  "response_sha256": "9ecf7ef6998e19ef16eaf824811a81053c1c4e51050a4ac298334db185dd4587",
+  "response": {
+    "raw_text": "छिकिश्मक कड़क बाभीन बारश शेख\nWIO\nवस्तु (बर्माफ)-७७\nबागीस नाग\nMZ HSiddique\nवराम\n40y\nबादशव नाग\nNHQ\nछिकिश्माअब नाशमना\nENT OPD\nS. NO-\n36\nROOM NO\n02\n1\n4 ch. Pharynning\nDATE\n14.01.16\nKilbar In\n+0+1\n7 dias\nJab- Fexo\n120\n0-10+1\n3\nTab-moram 10 mg\n0+0+1 (250m)\nSa\nAJELJUDIACOM A0\nMajor\nCMH\nficar\nMOBOBUR JAT/SO\nVÍZHOM LAH ENS\n-\nIssued 15 day\n14-1-16\n18-2-16",
+    "lines": [
+      {
+        "text": "छिकिश्मक कड़क बाभीन बारश शेख",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "WIO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "वस्तु (बर्माफ)-७७",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "बागीस नाग",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "MZ HSiddique",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "वराम",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "40y",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "बादशव नाग",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "NHQ",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "छिकिश्माअब नाशमना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "ENT OPD",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "S. NO-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "36",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "ROOM NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "02",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "4 ch. Pharynning",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "DATE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "14.01.16",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "Kilbar In",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "+0+1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "7 dias",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "Jab- Fexo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "120",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "0-10+1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "3",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "Tab-moram 10 mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "0+0+1 (250m)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "Sa",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "AJELJUDIACOM A0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "Major",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "CMH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "ficar",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "MOBOBUR JAT/SO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "VÍZHOM LAH ENS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "Issued 15 day",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "14-1-16",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "18-2-16",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      }
+    ]
+  }
+}

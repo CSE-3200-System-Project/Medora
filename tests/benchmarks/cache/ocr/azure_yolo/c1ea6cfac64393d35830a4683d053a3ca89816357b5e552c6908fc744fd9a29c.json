@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "c1ea6cfac64393d35830a4683d053a3ca89816357b5e552c6908fc744fd9a29c",
+  "record_id": "RX-0095",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 9752.313399993,
+  "failure": null,
+  "response_sha256": "1e92cf4c680687e84c0bf890af2c815dfe8fdb6d23810474a6e393b13ce9b158",
+  "response": {
+    "raw_text": "Cap Fucksacin (20)30)\nCap Amoxyelite tele Maaco\n---\nNeomicina sont (2)\n-7de clarzepam's\nam\nponses aintrat e cotone",
+    "lines": [
+      {
+        "text": "Cap Fucksacin (20)30)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.436
+      },
+      {
+        "text": "Cap Amoxyelite tele Maaco",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.436
+      },
+      {
+        "text": "---",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.436
+      },
+      {
+        "text": "Neomicina sont (2)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.436
+      },
+      {
+        "text": "-7de clarzepam's",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.436
+      },
+      {
+        "text": "am",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.436
+      },
+      {
+        "text": "ponses aintrat e cotone",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.436
+      }
+    ]
+  }
+}

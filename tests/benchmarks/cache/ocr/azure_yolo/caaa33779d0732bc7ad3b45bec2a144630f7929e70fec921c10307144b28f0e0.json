@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "caaa33779d0732bc7ad3b45bec2a144630f7929e70fec921c10307144b28f0e0",
+  "record_id": "RX-0075",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 8689.248199996655,
+  "failure": null,
+  "response_sha256": "29e06b33c1f23b928f6b998867339f490a20136e534d02118c77ee8c39756a35",
+  "response": {
+    "raw_text": "6\n& Angilock Su\nor\nDe 2\nTab Comet 500\n1 x oc 1 A\nTre\nApara la\nCep Sucho\n245/310/35/148 Hay\n5\n- JAMS",
+    "lines": [
+      {
+        "text": "6",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "& Angilock Su",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "or",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "De 2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "Tab Comet 500",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "1 x oc 1 A",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "Tre",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "Apara la",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "Cep Sucho",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "245/310/35/148 Hay",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "- JAMS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      }
+    ]
+  }
+}

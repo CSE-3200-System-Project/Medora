@@ -1,0 +1,451 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0077",
+  "source_sha256": "4ae29fc9c81ea773646433279e4129069c7cb8aa632e012359e112ab552d724e",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T18:01:43.013431+00:00",
+  "runtime_ms": 20757.529499998782,
+  "output": {
+    "raw_text": "वर्क (बमडि) - 44\nछिकिश्मक कड़क बाणीव बारश शेख\n8 7128\n10.09.16\nR-Og ...\nD-OF\nजजाणीव नाम 820377\nMEH\nS/O\nवयाम\n14 year\n0\nSiddique Mepo\nडिकिस्मटकर बारशनना\nRt . knee a che\nfollowing sporting inguy\nADT =1\nVarus/valsus.for\n€)\nRt Km\nXmy\nNAD\nRx\nTas Naproxen 250ml\n1+0+0\n10\nTap One (200g)\n1foto\n10\nsono\nScheid\nRAHMAN\nMajo\nCISpl : Pohopaedics\nCMH Dháng\nIssue\n12.9.16\nAmimul\nMA-I\nसिर",
+    "lines": [
+      {
+        "text": "वर्क (बमडि) - 44",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "छिकिश्मक कड़क बाणीव बारश शेख",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "8 7128",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "10.09.16",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "R-Og ...",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "D-OF",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "जजाणीव नाम 820377",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "MEH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "S/O",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "वयाम",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "14 year",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "Siddique Mepo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "डिकिस्मटकर बारशनना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "Rt . knee a che",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "following sporting inguy",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "ADT =1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "Varus/valsus.for",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "€)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "Rt Km",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "Xmy",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "NAD",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "Tas Naproxen 250ml",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "1+0+0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "Tap One (200g)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "1foto",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "sono",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "Scheid",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "RAHMAN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "Majo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "CISpl : Pohopaedics",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "CMH Dháng",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "Issue",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "12.9.16",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "Amimul",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "MA-I",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "सिर",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      }
+    ],
+    "medications": [
+      {
+        "name": "Meh",
+        "matched_term": "Meh",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.263
+      },
+      {
+        "name": "Dpl40",
+        "matched_term": "Dpl40",
+        "drug_id": "6bcf2cd6-2eaf-4ac3-9a2b-e8403659312f",
+        "brand_id": "caf0c5fb-4177-44db-bbb4-abebf19a50dc",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.479
+      },
+      {
+        "name": "Siddique Mepo",
+        "matched_term": "Siddique Mepo",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.263
+      },
+      {
+        "name": "Rt Knee Che",
+        "matched_term": "Rt Knee Che",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.263
+      },
+      {
+        "name": "Following Sporting Inguy",
+        "matched_term": "Following Sporting Inguy",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.263
+      },
+      {
+        "name": "Adt",
+        "matched_term": "Adt",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.263
+      },
+      {
+        "name": "Varus Valsus For Rt Km",
+        "matched_term": "Varus Valsus For Rt Km",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.263
+      },
+      {
+        "name": "Xmy",
+        "matched_term": "Xmy",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.263
+      },
+      {
+        "name": "Nad Rx",
+        "matched_term": "Nad Rx",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.263
+      },
+      {
+        "name": "naproxen",
+        "matched_term": "naproxen",
+        "drug_id": "daa2f35b-44db-456e-9f07-5beb817cf44c",
+        "brand_id": null,
+        "dosage": "250ml",
+        "frequency": "1+0+0",
+        "quantity": null,
+        "confidence": 0.743
+      },
+      {
+        "name": "Tap One Foto",
+        "matched_term": "Tap One Foto",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "200g",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.314
+      },
+      {
+        "name": "Sono",
+        "matched_term": "Sono",
+        "drug_id": "fdb9b884-324a-417f-af32-b815efbd5b16",
+        "brand_id": "2cf2e3cf-dc14-4e3e-8a11-4f310bf1aa87",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.643
+      },
+      {
+        "name": "Scheid",
+        "matched_term": "Scheid",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.263
+      },
+      {
+        "name": "Rahman",
+        "matched_term": "Rahman",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.263
+      },
+      {
+        "name": "Majo",
+        "matched_term": "Majo",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.263
+      },
+      {
+        "name": "Cisplat",
+        "matched_term": "Cisplat",
+        "drug_id": "32084387-2df2-4d03-bd42-8e8fcec58821",
+        "brand_id": "b6166091-0e71-4e57-a318-56d1a6e89d1c",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.643
+      },
+      {
+        "name": "Cmh Dh Ng",
+        "matched_term": "Cmh Dh Ng",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.263
+      },
+      {
+        "name": "Issue",
+        "matched_term": "Issue",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.263
+      },
+      {
+        "name": "Amimul Ma-I",
+        "matched_term": "Amimul Ma-I",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.263
+      }
+    ]
+  }
+}

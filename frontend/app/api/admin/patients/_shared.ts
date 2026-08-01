@@ -1,10 +1,5 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import {
-  ADMIN_COOKIE_NAME,
-  getAdminSecret,
-  verifyAdminAccessToken,
-} from "@/lib/admin-auth";
 
 const BACKEND_URL = (process.env.BACKEND_URL || "http://localhost:8000").replace(/\/$/, "");
 
@@ -12,10 +7,10 @@ export const DEFAULT_PATIENT_BAN_REASON = "Moderation action by admin";
 export const DEFAULT_PATIENT_DELETE_REASON = "Removed by admin";
 
 export async function callAdminBackend(path: string, init?: RequestInit) {
-  const adminSecret = getAdminSecret();
   const cookieStore = await cookies();
-  const token = cookieStore.get(ADMIN_COOKIE_NAME)?.value;
-  if (!adminSecret || !(await verifyAdminAccessToken(token, adminSecret))) {
+  const token = cookieStore.get("session_token")?.value;
+  const role = cookieStore.get("user_role")?.value?.toLowerCase();
+  if (!token || role !== "admin") {
     const response = new Response(
       JSON.stringify({ detail: "Admin session is missing or expired" }),
       {
@@ -30,7 +25,7 @@ export async function callAdminBackend(path: string, init?: RequestInit) {
     ...init,
     headers: {
       "Content-Type": "application/json",
-      "X-Admin-Password": adminSecret,
+      Authorization: `Bearer ${token}`,
       ...(init?.headers || {}),
     },
     cache: "no-store",

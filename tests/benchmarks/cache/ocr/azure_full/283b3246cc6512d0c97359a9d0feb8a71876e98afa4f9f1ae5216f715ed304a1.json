@@ -1,0 +1,254 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "283b3246cc6512d0c97359a9d0feb8a71876e98afa4f9f1ae5216f715ed304a1",
+  "record_id": "RX-0044",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 38769.86269999179,
+  "failure": null,
+  "response_sha256": "7ee820a442f873d98f88b22093c45efb80a6ede9ca61ce920aef23e94d576cb2",
+  "response": {
+    "raw_text": "77\nहिकिश्मक कड़क बाभीड़ बारश शेख\nW/OMEH Siddique\nजर (वर्माड)-9\nब्बाभीव नाग\n820377\nस्वादभव नाथ\n464\nS/m डिकिस्मतकब बारशनना\n10.09.17\nBx lub. Zimax 50\nofot ?- >\n5\n26. Cough for 15 days. Gub. mona\nBreathing differently 070+2 95\nF/H10 Br. asthma\nRub. Koti\no to to5\n· Lyje. Ambrux\n> 1Ph\n· X- ray chert P/A\n0\nview\n.\n*Nebulisation I '5 ml N/s+ Cmet\n1 ml 1/1 +3 ml M/S\n- stat.\nRif to SPL of\nMedicine Dept of\nDAK for\nneedful advice\nplean\nMOR\nS. No ...\nRoom N\nTime. ..\nDate.\nब्बाभीन ना\n8",
+    "lines": [
+      {
+        "text": "77",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "हिकिश्मक कड़क बाभीड़ बारश शेख",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "W/OMEH Siddique",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "जर (वर्माड)-9",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "ब्बाभीव नाग",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "820377",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "स्वादभव नाथ",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "464",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "S/m डिकिस्मतकब बारशनना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "10.09.17",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "Bx lub. Zimax 50",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "ofot ?- >",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "26. Cough for 15 days. Gub. mona",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "Breathing differently 070+2 95",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "F/H10 Br. asthma",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "Rub. Koti",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "o to to5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "· Lyje. Ambrux",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "> 1Ph",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "· X- ray chert P/A",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "view",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": ".",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "*Nebulisation I '5 ml N/s+ Cmet",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "1 ml 1/1 +3 ml M/S",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "- stat.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "Rif to SPL of",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "Medicine Dept of",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "DAK for",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "needful advice",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "plean",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "MOR",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "S. No ...",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "Room N",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "Time. ..",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "Date.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "ब्बाभीन ना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "8",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.579
+      }
+    ]
+  }
+}

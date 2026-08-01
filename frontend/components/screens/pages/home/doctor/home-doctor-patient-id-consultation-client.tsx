@@ -854,7 +854,11 @@ export default function ConsultationPage() {
       setOcrAttachmentName(file.name);
       setOcrAttachmentKind(isPdf ? "pdf" : "image");
 
-      const extracted = await extractPrescriptionFromImage(file, { saveFile: false });
+      const extracted = await extractPrescriptionFromImage(file, {
+        saveFile: false,
+        processingMode: "local",
+        dataSubjectId: patientId,
+      });
       const detectedMedicines = (extracted.medications || [])
         .map((item) => ({
           name: (item.name || "").trim(),

@@ -17,15 +17,17 @@ pytestmark = [pytest.mark.backend, pytest.mark.integration]
 async def test_auth_booking_consultation_prescription_lifecycle(backend_client, db_session, auth_token_map) -> None:
     patient_account: Profile = ProfileFactory(role=UserRole.PATIENT, first_name="Rahim", last_name="Uddin")
     doctor_account: Profile = ProfileFactory(role=UserRole.DOCTOR, first_name="Farhana", last_name="Islam")
+    admin_account: Profile = ProfileFactory(role=UserRole.ADMIN, first_name="Release", last_name="Admin")
 
     patient_medical: PatientProfile = PatientProfileFactory(profile_id=patient_account.id)
     doctor_profile = DoctorProfileFactory(profile_id=doctor_account.id, day_time_slots={"Friday": ["8:00 PM - 10:00 PM"]})
 
-    db_session.add_all([patient_account, doctor_account, patient_medical, doctor_profile])
+    db_session.add_all([patient_account, doctor_account, admin_account, patient_medical, doctor_profile])
     await db_session.commit()
 
     auth_token_map["patient-token"] = {"sub": patient_account.id, "email": patient_account.email}
     auth_token_map["doctor-token"] = {"sub": doctor_account.id, "email": doctor_account.email}
+    auth_token_map["admin-token"] = {"sub": admin_account.id, "email": admin_account.email}
 
     auth_me = await backend_client.get("/auth/me", headers={"Authorization": "Bearer patient-token"})
     assert auth_me.status_code == 200
@@ -41,7 +43,7 @@ async def test_auth_booking_consultation_prescription_lifecycle(backend_client, 
 
     create_appointment = await backend_client.post(
         "/appointment/",
-        headers={"Authorization": "Bearer patient-token"},
+        headers={"Authorization": "Bearer patient-token", "Idempotency-Key": "clinical-lifecycle-booking-v1"},
         json=booking_payload,
     )
     assert create_appointment.status_code == 201, create_appointment.text
@@ -50,7 +52,7 @@ async def test_auth_booking_consultation_prescription_lifecycle(backend_client, 
 
     admin_approval = await backend_client.post(
         f"/admin/appointments/{appointment_id}/approve",
-        headers={"X-Admin-Password": "test-admin-password-123"},
+        headers={"Authorization": "Bearer admin-token"},
         json={"notes": "Approved by integration test"},
     )
     assert admin_approval.status_code == 200, admin_approval.text
@@ -100,18 +102,22 @@ async def test_auth_booking_consultation_prescription_lifecycle(backend_client, 
     assert prescription_response.status_code == 200, prescription_response.text
     prescription_payload = prescription_response.json()
     prescription_id = prescription_payload["id"]
-    assert prescription_payload["status"] == "pending"
+    assert prescription_payload["status"] == "pending_acknowledgment"
 
     accept_response = await backend_client.post(
-        f"/consultation/patient/prescription/{prescription_id}/accept",
+        f"/consultation/patient/prescription/{prescription_id}/acknowledge",
         headers={"Authorization": "Bearer patient-token"},
     )
     assert accept_response.status_code == 200, accept_response.text
-    assert accept_response.json()["status"] == "accepted"
+    # Deprecated alias remains for one release, but it reports the new
+    # acknowledgment state and never clinical approval.
+    assert accept_response.json()["status"] == "receipt_acknowledged"
+    assert accept_response.json()["clinical_approval"] is False
 
     fetch_prescription = await backend_client.get(
         f"/consultation/patient/prescription/{prescription_id}",
         headers={"Authorization": "Bearer patient-token"},
     )
     assert fetch_prescription.status_code == 200, fetch_prescription.text
-    assert fetch_prescription.json()["status"] == "accepted"
+    assert fetch_prescription.json()["status"] == "receipt_acknowledged"
+    assert fetch_prescription.json()["clinical_approval"] is False

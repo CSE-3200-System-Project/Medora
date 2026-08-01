@@ -36,5 +36,9 @@ class AIDoctorSearchResponse(BaseModel):
     # - extracted_specialty_names: List[str] - All specialties used for search
     # - total_specialties_matched: int
     # - fallback_reason: Optional[str] - Explanation when fallbacks are used
-    # - symptoms, severity, duration_days, etc. from LLM response
+    # Navigation explanation metadata returned by the model.
     patient_context_factors: Optional[List[PatientContextFactor]] = None  # Medical history factors influencing search
+    requires_immediate_care: bool = False
+    safety_message: Optional[str] = None
+    uncertain: bool = False
+    manual_browse_available: bool = True

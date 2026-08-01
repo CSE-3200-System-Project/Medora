@@ -1,0 +1,128 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "87be56cc72f1bd39d6459457548f865cabba182af33143a2c5d0154e1b55c692",
+  "record_id": "RX-0074",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 11023.196199996164,
+  "failure": null,
+  "response_sha256": "c9616c09d0e30663e18fa82c62c76cb29f92921fbcd94a0d6a735d90a187d71d",
+  "response": {
+    "raw_text": ". 12.\nAngulark 152\npar\nGuerin (15-\n1000\n2012\n12. Comer (som\n0-30day\n07 /1\n12.19\ncinto was\n(20\n3- 1/\n21.4.168\n201\n1\n-\n25/s",
+    "lines": [
+      {
+        "text": ". 12.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.512
+      },
+      {
+        "text": "Angulark 152",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.512
+      },
+      {
+        "text": "par",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.512
+      },
+      {
+        "text": "Guerin (15-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.512
+      },
+      {
+        "text": "1000",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.512
+      },
+      {
+        "text": "2012",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.512
+      },
+      {
+        "text": "12. Comer (som",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.512
+      },
+      {
+        "text": "0-30day",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.512
+      },
+      {
+        "text": "07 /1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.512
+      },
+      {
+        "text": "12.19",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.512
+      },
+      {
+        "text": "cinto was",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.512
+      },
+      {
+        "text": "(20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.512
+      },
+      {
+        "text": "3- 1/",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.512
+      },
+      {
+        "text": "21.4.168",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.512
+      },
+      {
+        "text": "201",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.512
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.512
+      },
+      {
+        "text": "-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.512
+      },
+      {
+        "text": "25/s",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.512
+      }
+    ]
+  }
+}

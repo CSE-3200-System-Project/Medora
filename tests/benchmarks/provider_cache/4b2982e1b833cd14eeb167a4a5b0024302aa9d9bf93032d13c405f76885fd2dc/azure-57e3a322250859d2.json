@@ -1,0 +1,689 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0084",
+  "source_sha256": "4b2982e1b833cd14eeb167a4a5b0024302aa9d9bf93032d13c405f76885fd2dc",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T18:04:28.748351+00:00",
+  "runtime_ms": 29322.876199992606,
+  "output": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / बादशन'\n0m= $026\nMedical Center:\n0244193\nAge\nNURUL IS_VA\nThanEATKHIL\nDistrict NOAKHAL\nHEALTH PROFILE\n12390\n2. Bince Freesure\nNO\n1. Bland Group:\n4. Lung Disease.\nNO\n3. Hep T DGUD\nNO\n7 Mortal Discage: 70\n10. Liver Disease;\n12. Amycomer sonormalilies:\nChief Complaints\nVien Na:\nItching\nw/3\nMP rath.\n. TAB Taten ( mg)\nClobetasome aint __\nTAB, Napa Extend (665mg)-10\nCap Omeprazole (Dem)\nFBS RBS-\nECG\nProvisional Diagonosis\nMarian No 34\nA:3580185\nPassport No\nNgmo\n5. Kidney Decase. NO\n8. Blood Sugar IRHS)\nBP\nTomp:\nDenyo:Allo-\nRespiration-\nOthers\n24/05/24",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "TREATMENT CARD / बादशन'",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "0m= $026",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Medical Center:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "0244193",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Age",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "NURUL IS_VA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "ThanEATKHIL",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "District NOAKHAL",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "12390",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "2. Bince Freesure",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "1. Bland Group:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "4. Lung Disease.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "3. Hep T DGUD",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "7 Mortal Discage: 70",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "10. Liver Disease;",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "12. Amycomer sonormalilies:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Chief Complaints",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Vien Na:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Itching",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "w/3",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "MP rath.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": ". TAB Taten ( mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Clobetasome aint __",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "TAB, Napa Extend (665mg)-10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Cap Omeprazole (Dem)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "FBS RBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Marian No 34",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "A:3580185",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Passport No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Ngmo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "5. Kidney Decase. NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "8. Blood Sugar IRHS)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "BP",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Tomp:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Denyo:Allo-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Others",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "24/05/24",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      }
+    ],
+    "medications": [
+      {
+        "name": "Government Of The",
+        "matched_term": "Government Of The",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.287
+      },
+      {
+        "name": "Minista",
+        "matched_term": "Minista",
+        "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+        "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.667
+      },
+      {
+        "name": "Bangladesh Hajj Office",
+        "matched_term": "Bangladesh Hajj Office",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.287
+      },
+      {
+        "name": "Makkah Madinah Jeddah",
+        "matched_term": "Makkah Madinah Jeddah",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.287
+      },
+      {
+        "name": "Treatment Card",
+        "matched_term": "Treatment Card",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.287
+      },
+      {
+        "name": "Medical Air",
+        "matched_term": "Medical Air",
+        "drug_id": "f498ed97-bc40-410d-872a-e0fdeab4c569",
+        "brand_id": "8e3694b5-9a0b-483b-bc93-e01afc35f844",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.667
+      },
+      {
+        "name": "Age M",
+        "matched_term": "Age M",
+        "drug_id": "32593a88-50e8-4254-9d22-7d1a52c84504",
+        "brand_id": "86fe087a-92e9-4a39-8921-ab758e162e76",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.667
+      },
+      {
+        "name": "Nurul Is Va",
+        "matched_term": "Nurul Is Va",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.287
+      },
+      {
+        "name": "Thaneatkhil",
+        "matched_term": "Thaneatkhil",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.287
+      },
+      {
+        "name": "District Noakhal",
+        "matched_term": "District Noakhal",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.287
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.667
+      },
+      {
+        "name": "Bince Freesure No",
+        "matched_term": "Bince Freesure No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.287
+      },
+      {
+        "name": "Bland Group",
+        "matched_term": "Bland Group",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.287
+      },
+      {
+        "name": "Lung Disease No",
+        "matched_term": "Lung Disease No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.287
+      },
+      {
+        "name": "Hepa",
+        "matched_term": "Hepa",
+        "drug_id": "d11c3aa2-fdd7-4316-a7ce-d6f530adaa4c",
+        "brand_id": "afbcdbaa-9fa5-4f85-a433-d8c07f459443",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.667
+      },
+      {
+        "name": "Mortal Discage",
+        "matched_term": "Mortal Discage",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.287
+      },
+      {
+        "name": "MU Liver",
+        "matched_term": "MU Liver",
+        "drug_id": "1bab76b3-f92c-4ccf-9294-319b19ac2a24",
+        "brand_id": "e3e656ee-5a99-4f75-af4d-71d32865d3e5",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.667
+      },
+      {
+        "name": "Dpl20",
+        "matched_term": "Dpl20",
+        "drug_id": "6bcf2cd6-2eaf-4ac3-9a2b-e8403659312f",
+        "brand_id": "5fdbcd45-a936-4532-b31b-0191ed789c78",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.503
+      },
+      {
+        "name": "Chief Complaints",
+        "matched_term": "Chief Complaints",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.287
+      },
+      {
+        "name": "Vien Na",
+        "matched_term": "Vien Na",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.287
+      },
+      {
+        "name": "Itchin",
+        "matched_term": "Itchin",
+        "drug_id": "836df208-5e75-4b04-a52e-39018399c91a",
+        "brand_id": "b603caa2-60a9-42d3-bdc0-a97d46f5f931",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.667
+      },
+      {
+        "name": "Mp Rath",
+        "matched_term": "Mp Rath",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.287
+      },
+      {
+        "name": "Taten Mg",
+        "matched_term": "Taten Mg",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.287
+      },
+      {
+        "name": "Clobetasome Aint",
+        "matched_term": "Clobetasome Aint",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.287
+      },
+      {
+        "name": "Napa Extend",
+        "matched_term": "Napa Extend",
+        "drug_id": "55b2f26d-d4f8-49ec-aaf8-01b4d6b55eda",
+        "brand_id": "3d6cf61a-b968-41e2-9dbd-b77b9e4551f0",
+        "dosage": "665mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.718
+      },
+      {
+        "name": "omeprazole",
+        "matched_term": "omeprazole",
+        "drug_id": "a6163acf-c078-4714-b3a6-cdfaae9f75c0",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.667
+      },
+      {
+        "name": "Fbs Rbs",
+        "matched_term": "Fbs Rbs",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.287
+      },
+      {
+        "name": "Ecg",
+        "matched_term": "Ecg",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.287
+      },
+      {
+        "name": "Provisional Diagonosis",
+        "matched_term": "Provisional Diagonosis",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.287
+      },
+      {
+        "name": "Marian No",
+        "matched_term": "Marian No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.287
+      },
+      {
+        "name": "Passport No",
+        "matched_term": "Passport No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.287
+      },
+      {
+        "name": "Ngmo",
+        "matched_term": "Ngmo",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.287
+      },
+      {
+        "name": "Kidney Decase No",
+        "matched_term": "Kidney Decase No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.287
+      },
+      {
+        "name": "Blood Vita",
+        "matched_term": "Blood Vita",
+        "drug_id": "c4e19466-8a9c-40fb-abd3-e0ce767f4c70",
+        "brand_id": "957c897c-cea9-49c4-be64-81b7ca21a2fd",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.667
+      },
+      {
+        "name": "Tomp",
+        "matched_term": "Tomp",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.287
+      },
+      {
+        "name": "Denyo Allo",
+        "matched_term": "Denyo Allo",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.287
+      },
+      {
+        "name": "Respira",
+        "matched_term": "Respira",
+        "drug_id": "656b8f01-ab73-41c9-ac79-e2f8912cd7a5",
+        "brand_id": "e9aaae9c-065c-4fdb-a25f-c5f67053015e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.667
+      },
+      {
+        "name": "Othera",
+        "matched_term": "Othera",
+        "drug_id": "25a9f52e-b192-462a-b9a3-bef96e0f684d",
+        "brand_id": "43ed2ac7-38ef-4fe3-a605-a6fb9b07264e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.667
+      }
+    ]
+  }
+}

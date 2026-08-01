@@ -305,11 +305,11 @@ export function AdminAuditLogClient({
                               </span>
                             </div>
                           ) : (
-                            <span className="text-muted-foreground">â€”</span>
+                            <span className="text-muted-foreground">—</span>
                           )}
                         </TableCell>
                         <TableCell className="text-muted-foreground max-w-[200px] truncate">
-                          {log.notes || "â€”"}
+                          {log.notes || "—"}
                         </TableCell>
                       </TableRow>
                     ))}

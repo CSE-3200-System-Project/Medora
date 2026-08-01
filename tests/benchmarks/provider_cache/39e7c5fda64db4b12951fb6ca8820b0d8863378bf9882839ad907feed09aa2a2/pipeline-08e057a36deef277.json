@@ -1,0 +1,155 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0069",
+  "source_sha256": "39e7c5fda64db4b12951fb6ca8820b0d8863378bf9882839ad907feed09aa2a2",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:34:29.911348+00:00",
+  "runtime_ms": 6081.4131000079215,
+  "output": {
+    "medications": [
+      {
+        "name": "Pud",
+        "matched_term": "Pud",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.241
+      },
+      {
+        "name": "Ompregole Lo",
+        "matched_term": "Ompregole Lo",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.241
+      },
+      {
+        "name": "Bisacodyl 5",
+        "matched_term": "Bisacodyl 5",
+        "drug_id": "81097a17-588c-4fcb-8f98-e6e6bdf5586b",
+        "brand_id": "09509f0d-eaf5-4d04-b91d-d484e2032e60",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.621
+      },
+      {
+        "name": "Nye Extral",
+        "matched_term": "Nye Extral",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.241
+      }
+    ],
+    "raw_text": "PUD\n(20\n4. ompregole Lo\nTo. Binacodyl 5\n5\n01071\n1016.\n2. Nye Extral\n2015.\ny",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 6042,
+      "detected_regions": 1,
+      "ocr_line_count": 10,
+      "yolo_avg_confidence": 0.9105,
+      "yolo_min_confidence": 0.9105,
+      "yolo_max_confidence": 0.9105,
+      "ocr_avg_confidence": 0.535,
+      "ocr_min_confidence": 0.535,
+      "ocr_max_confidence": 0.535,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 249.8068389892578,
+            "y_min": 268.4384460449219,
+            "x_max": 548.542236328125,
+            "y_max": 539.9508056640625
+          },
+          "score": 0.9105
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "PUD",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.535
+        },
+        {
+          "text": "(20",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.535
+        },
+        {
+          "text": "4. ompregole Lo",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.535
+        },
+        {
+          "text": "To. Binacodyl 5",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.535
+        },
+        {
+          "text": "5",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.535
+        },
+        {
+          "text": "01071",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.535
+        },
+        {
+          "text": "1016.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.535
+        },
+        {
+          "text": "2. Nye Extral",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.535
+        },
+        {
+          "text": "2015.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.535
+        },
+        {
+          "text": "y",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.535
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

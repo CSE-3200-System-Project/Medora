@@ -1,0 +1,1002 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0068",
+  "source_sha256": "292db0daec300ea1c371b756e79357f3abf36bd7cdb7037dd39d5dba6a132aa9",
+  "provider": "paddle",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T18:00:56.646411+00:00",
+  "runtime_ms": 32303.33039999823,
+  "output": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUSLIC OF BANGLADES\nMINISTRY OF RELIGIOUSAFFAIRS\nMakkah/Madinah/Jeddah\nBanglacesa HatEaece\nMadice Contore\nTREATMENT CARD\nPOnE\nS112\nFrgrm ID\nMEARDLLHYEEHDA\nPasscrNe\n40704474\nVapanto\nNome\nWALE\nDismot\nHAHSPER\nCade\nHEALTH PROFILE\n1.\nHO\n2\nL40\n16\n35\nNO\nd Sp\n89\n2 m\n10.1D0e350\nCOF\nDatc:\n4 a 2624\nChief Compasints:\nViait No:\nRS\nOF.\nPate\n7yMon\nBr-\nTernp-\nAnaeme-\ny\nDenydraton-\nRespiralion-\n-+\nOthers\nthy\nAcecloune\n+otr\nn\nlap.omonis\nfO\nORS\nFBS/RBS-\nECG\nProvisional Diagonosis",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUSLIC OF BANGLADES",
+        "bbox": {
+          "x_min": 161.0,
+          "y_min": 77.0,
+          "x_max": 426.0,
+          "y_max": 91.0
+        },
+        "page": 1,
+        "confidence": 0.913
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUSAFFAIRS",
+        "bbox": {
+          "x_min": 221.0,
+          "y_min": 88.0,
+          "x_max": 374.0,
+          "y_max": 101.0
+        },
+        "page": 1,
+        "confidence": 0.947
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": {
+          "x_min": 249.0,
+          "y_min": 108.0,
+          "x_max": 347.0,
+          "y_max": 118.0
+        },
+        "page": 1,
+        "confidence": 0.955
+      },
+      {
+        "text": "Banglacesa HatEaece",
+        "bbox": {
+          "x_min": 253.0,
+          "y_min": 100.0,
+          "x_max": 343.0,
+          "y_max": 107.0
+        },
+        "page": 1,
+        "confidence": 0.603
+      },
+      {
+        "text": "Madice Contore",
+        "bbox": {
+          "x_min": 114.0,
+          "y_min": 126.0,
+          "x_max": 190.0,
+          "y_max": 156.0
+        },
+        "page": 1,
+        "confidence": 0.634
+      },
+      {
+        "text": "TREATMENT CARD",
+        "bbox": {
+          "x_min": 237.0,
+          "y_min": 124.0,
+          "x_max": 366.0,
+          "y_max": 138.0
+        },
+        "page": 1,
+        "confidence": 0.962
+      },
+      {
+        "text": "POnE",
+        "bbox": {
+          "x_min": 382.0,
+          "y_min": 133.0,
+          "x_max": 418.0,
+          "y_max": 144.0
+        },
+        "page": 1,
+        "confidence": 0.277
+      },
+      {
+        "text": "S112",
+        "bbox": {
+          "x_min": 420.0,
+          "y_min": 128.0,
+          "x_max": 447.0,
+          "y_max": 139.0
+        },
+        "page": 1,
+        "confidence": 0.994
+      },
+      {
+        "text": "Frgrm ID",
+        "bbox": {
+          "x_min": 116.0,
+          "y_min": 145.0,
+          "x_max": 154.0,
+          "y_max": 158.0
+        },
+        "page": 1,
+        "confidence": 0.683
+      },
+      {
+        "text": "MEARDLLHYEEHDA",
+        "bbox": {
+          "x_min": 153.0,
+          "y_min": 149.0,
+          "x_max": 248.0,
+          "y_max": 163.0
+        },
+        "page": 1,
+        "confidence": 0.54
+      },
+      {
+        "text": "PasscrNe",
+        "bbox": {
+          "x_min": 251.0,
+          "y_min": 145.0,
+          "x_max": 294.0,
+          "y_max": 156.0
+        },
+        "page": 1,
+        "confidence": 0.6
+      },
+      {
+        "text": "40704474",
+        "bbox": {
+          "x_min": 319.0,
+          "y_min": 140.0,
+          "x_max": 354.0,
+          "y_max": 151.0
+        },
+        "page": 1,
+        "confidence": 0.559
+      },
+      {
+        "text": "Vapanto",
+        "bbox": {
+          "x_min": 384.0,
+          "y_min": 145.0,
+          "x_max": 418.0,
+          "y_max": 156.0
+        },
+        "page": 1,
+        "confidence": 0.501
+      },
+      {
+        "text": "Nome",
+        "bbox": {
+          "x_min": 116.0,
+          "y_min": 157.0,
+          "x_max": 142.0,
+          "y_max": 168.0
+        },
+        "page": 1,
+        "confidence": 0.779
+      },
+      {
+        "text": "WALE",
+        "bbox": {
+          "x_min": 158.0,
+          "y_min": 162.0,
+          "x_max": 178.0,
+          "y_max": 174.0
+        },
+        "page": 1,
+        "confidence": 0.923
+      },
+      {
+        "text": "Dismot",
+        "bbox": {
+          "x_min": 204.0,
+          "y_min": 166.0,
+          "x_max": 230.0,
+          "y_max": 177.0
+        },
+        "page": 1,
+        "confidence": 0.738
+      },
+      {
+        "text": "HAHSPER",
+        "bbox": {
+          "x_min": 233.0,
+          "y_min": 161.0,
+          "x_max": 270.0,
+          "y_max": 171.0
+        },
+        "page": 1,
+        "confidence": 0.375
+      },
+      {
+        "text": "Cade",
+        "bbox": {
+          "x_min": 115.0,
+          "y_min": 167.0,
+          "x_max": 138.0,
+          "y_max": 178.0
+        },
+        "page": 1,
+        "confidence": 0.698
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": {
+          "x_min": 260.0,
+          "y_min": 180.0,
+          "x_max": 341.0,
+          "y_max": 194.0
+        },
+        "page": 1,
+        "confidence": 0.95
+      },
+      {
+        "text": "1.",
+        "bbox": {
+          "x_min": 192.0,
+          "y_min": 192.0,
+          "x_max": 246.0,
+          "y_max": 206.0
+        },
+        "page": 1,
+        "confidence": 0.832
+      },
+      {
+        "text": "HO",
+        "bbox": {
+          "x_min": 258.0,
+          "y_min": 192.0,
+          "x_max": 274.0,
+          "y_max": 213.0
+        },
+        "page": 1,
+        "confidence": 0.478
+      },
+      {
+        "text": "2",
+        "bbox": {
+          "x_min": 342.0,
+          "y_min": 192.0,
+          "x_max": 398.0,
+          "y_max": 204.0
+        },
+        "page": 1,
+        "confidence": 0.423
+      },
+      {
+        "text": "L40",
+        "bbox": {
+          "x_min": 422.0,
+          "y_min": 174.0,
+          "x_max": 453.0,
+          "y_max": 205.0
+        },
+        "page": 1,
+        "confidence": 0.15
+      },
+      {
+        "text": "16",
+        "bbox": {
+          "x_min": 427.0,
+          "y_min": 194.0,
+          "x_max": 446.0,
+          "y_max": 218.0
+        },
+        "page": 1,
+        "confidence": 0.145
+      },
+      {
+        "text": "35",
+        "bbox": {
+          "x_min": 258.0,
+          "y_min": 218.0,
+          "x_max": 271.0,
+          "y_max": 226.0
+        },
+        "page": 1,
+        "confidence": 0.241
+      },
+      {
+        "text": "NO",
+        "bbox": {
+          "x_min": 261.0,
+          "y_min": 210.0,
+          "x_max": 271.0,
+          "y_max": 218.0
+        },
+        "page": 1,
+        "confidence": 0.644
+      },
+      {
+        "text": "d Sp",
+        "bbox": {
+          "x_min": 341.0,
+          "y_min": 216.0,
+          "x_max": 418.0,
+          "y_max": 230.0
+        },
+        "page": 1,
+        "confidence": 0.5
+      },
+      {
+        "text": "89",
+        "bbox": {
+          "x_min": 429.0,
+          "y_min": 211.0,
+          "x_max": 447.0,
+          "y_max": 233.0
+        },
+        "page": 1,
+        "confidence": 0.414
+      },
+      {
+        "text": "2 m",
+        "bbox": {
+          "x_min": 340.0,
+          "y_min": 229.0,
+          "x_max": 431.0,
+          "y_max": 246.0
+        },
+        "page": 1,
+        "confidence": 0.657
+      },
+      {
+        "text": "10.1D0e350",
+        "bbox": {
+          "x_min": 341.0,
+          "y_min": 226.0,
+          "x_max": 398.0,
+          "y_max": 233.0
+        },
+        "page": 1,
+        "confidence": 0.57
+      },
+      {
+        "text": "COF",
+        "bbox": {
+          "x_min": 264.0,
+          "y_min": 245.0,
+          "x_max": 293.0,
+          "y_max": 255.0
+        },
+        "page": 1,
+        "confidence": 0.712
+      },
+      {
+        "text": "Datc:",
+        "bbox": {
+          "x_min": 366.0,
+          "y_min": 249.0,
+          "x_max": 388.0,
+          "y_max": 266.0
+        },
+        "page": 1,
+        "confidence": 0.733
+      },
+      {
+        "text": "4 a 2624",
+        "bbox": {
+          "x_min": 388.0,
+          "y_min": 242.0,
+          "x_max": 426.0,
+          "y_max": 253.0
+        },
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "Chief Compasints:",
+        "bbox": {
+          "x_min": 113.0,
+          "y_min": 256.0,
+          "x_max": 188.0,
+          "y_max": 266.0
+        },
+        "page": 1,
+        "confidence": 0.869
+      },
+      {
+        "text": "Viait No:",
+        "bbox": {
+          "x_min": 226.0,
+          "y_min": 254.0,
+          "x_max": 256.0,
+          "y_max": 265.0
+        },
+        "page": 1,
+        "confidence": 0.801
+      },
+      {
+        "text": "RS",
+        "bbox": {
+          "x_min": 243.0,
+          "y_min": 287.0,
+          "x_max": 264.0,
+          "y_max": 305.0
+        },
+        "page": 1,
+        "confidence": 0.423
+      },
+      {
+        "text": "OF.",
+        "bbox": {
+          "x_min": 106.0,
+          "y_min": 297.0,
+          "x_max": 127.0,
+          "y_max": 311.0
+        },
+        "page": 1,
+        "confidence": 0.947
+      },
+      {
+        "text": "Pate",
+        "bbox": {
+          "x_min": 104.0,
+          "y_min": 311.0,
+          "x_max": 127.0,
+          "y_max": 322.0
+        },
+        "page": 1,
+        "confidence": 0.606
+      },
+      {
+        "text": "7yMon",
+        "bbox": {
+          "x_min": 281.0,
+          "y_min": 304.0,
+          "x_max": 361.0,
+          "y_max": 322.0
+        },
+        "page": 1,
+        "confidence": 0.615
+      },
+      {
+        "text": "Br-",
+        "bbox": {
+          "x_min": 104.0,
+          "y_min": 323.0,
+          "x_max": 121.0,
+          "y_max": 336.0
+        },
+        "page": 1,
+        "confidence": 0.689
+      },
+      {
+        "text": "Ternp-",
+        "bbox": {
+          "x_min": 105.0,
+          "y_min": 337.0,
+          "x_max": 130.0,
+          "y_max": 349.0
+        },
+        "page": 1,
+        "confidence": 0.768
+      },
+      {
+        "text": "Anaeme-",
+        "bbox": {
+          "x_min": 105.0,
+          "y_min": 351.0,
+          "x_max": 139.0,
+          "y_max": 361.0
+        },
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "y",
+        "bbox": {
+          "x_min": 274.0,
+          "y_min": 337.0,
+          "x_max": 430.0,
+          "y_max": 370.0
+        },
+        "page": 1,
+        "confidence": 0.801
+      },
+      {
+        "text": "Denydraton-",
+        "bbox": {
+          "x_min": 102.0,
+          "y_min": 363.0,
+          "x_max": 156.0,
+          "y_max": 377.0
+        },
+        "page": 1,
+        "confidence": 0.919
+      },
+      {
+        "text": "Respiralion-",
+        "bbox": {
+          "x_min": 103.0,
+          "y_min": 378.0,
+          "x_max": 151.0,
+          "y_max": 389.0
+        },
+        "page": 1,
+        "confidence": 0.879
+      },
+      {
+        "text": "-+",
+        "bbox": {
+          "x_min": 299.0,
+          "y_min": 364.0,
+          "x_max": 360.0,
+          "y_max": 383.0
+        },
+        "page": 1,
+        "confidence": 0.518
+      },
+      {
+        "text": "Others",
+        "bbox": {
+          "x_min": 102.0,
+          "y_min": 392.0,
+          "x_max": 130.0,
+          "y_max": 403.0
+        },
+        "page": 1,
+        "confidence": 0.978
+      },
+      {
+        "text": "thy",
+        "bbox": {
+          "x_min": 285.0,
+          "y_min": 385.0,
+          "x_max": 334.0,
+          "y_max": 410.0
+        },
+        "page": 1,
+        "confidence": 0.679
+      },
+      {
+        "text": "Acecloune",
+        "bbox": {
+          "x_min": 323.0,
+          "y_min": 374.0,
+          "x_max": 492.0,
+          "y_max": 403.0
+        },
+        "page": 1,
+        "confidence": 0.656
+      },
+      {
+        "text": "+otr",
+        "bbox": {
+          "x_min": 326.0,
+          "y_min": 392.0,
+          "x_max": 527.0,
+          "y_max": 430.0
+        },
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "n",
+        "bbox": {
+          "x_min": 487.0,
+          "y_min": 411.0,
+          "x_max": 533.0,
+          "y_max": 429.0
+        },
+        "page": 1,
+        "confidence": 0.914
+      },
+      {
+        "text": "lap.omonis",
+        "bbox": {
+          "x_min": 302.0,
+          "y_min": 426.0,
+          "x_max": 425.0,
+          "y_max": 462.0
+        },
+        "page": 1,
+        "confidence": 0.7
+      },
+      {
+        "text": "fO",
+        "bbox": {
+          "x_min": 355.0,
+          "y_min": 453.0,
+          "x_max": 426.0,
+          "y_max": 473.0
+        },
+        "page": 1,
+        "confidence": 0.419
+      },
+      {
+        "text": "ORS",
+        "bbox": {
+          "x_min": 318.0,
+          "y_min": 487.0,
+          "x_max": 376.0,
+          "y_max": 512.0
+        },
+        "page": 1,
+        "confidence": 0.685
+      },
+      {
+        "text": "FBS/RBS-",
+        "bbox": {
+          "x_min": 95.0,
+          "y_min": 498.0,
+          "x_max": 140.0,
+          "y_max": 512.0
+        },
+        "page": 1,
+        "confidence": 0.901
+      },
+      {
+        "text": "ECG",
+        "bbox": {
+          "x_min": 94.0,
+          "y_min": 514.0,
+          "x_max": 119.0,
+          "y_max": 529.0
+        },
+        "page": 1,
+        "confidence": 0.992
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": {
+          "x_min": 93.0,
+          "y_min": 542.0,
+          "x_max": 198.0,
+          "y_max": 561.0
+        },
+        "page": 1,
+        "confidence": 0.974
+      }
+    ],
+    "medications": [
+      {
+        "name": "Government Of The",
+        "matched_term": "Government Of The",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.411
+      },
+      {
+        "name": "Minista",
+        "matched_term": "Minista",
+        "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+        "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.806
+      },
+      {
+        "name": "Banglacesa Hateaece",
+        "matched_term": "Banglacesa Hateaece",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.271
+      },
+      {
+        "name": "Makkah Madinah Jeddah",
+        "matched_term": "Makkah Madinah Jeddah",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.43
+      },
+      {
+        "name": "Treatment Card",
+        "matched_term": "Treatment Card",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.433
+      },
+      {
+        "name": "Madice Contore",
+        "matched_term": "Madice Contore",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.366
+      },
+      {
+        "name": "Pone",
+        "matched_term": "Pone",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.188
+      },
+      {
+        "name": "Frgrm Id",
+        "matched_term": "Frgrm Id",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.307
+      },
+      {
+        "name": "Passcrne",
+        "matched_term": "Passcrne",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.27
+      },
+      {
+        "name": "Vapanto",
+        "matched_term": "Vapanto",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.225
+      },
+      {
+        "name": "Meardllhyeehda",
+        "matched_term": "Meardllhyeehda",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.243
+      },
+      {
+        "name": "Nome",
+        "matched_term": "Nome",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.351
+      },
+      {
+        "name": "Hahsper",
+        "matched_term": "Hahsper",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.169
+      },
+      {
+        "name": "Wale",
+        "matched_term": "Wale",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.415
+      },
+      {
+        "name": "Dismot",
+        "matched_term": "Dismot",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.332
+      },
+      {
+        "name": "Cade",
+        "matched_term": "Cade",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.191
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.622
+      },
+      {
+        "name": "A-Cof",
+        "matched_term": "A-Cof",
+        "drug_id": "44d50961-2f21-4317-ad2a-ff7b8d4fd683",
+        "brand_id": "e2054e74-8169-414d-8071-f6c90faab637",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.7
+      },
+      {
+        "name": "Datc",
+        "matched_term": "Datc",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.33
+      },
+      {
+        "name": "Viait No",
+        "matched_term": "Viait No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.36
+      },
+      {
+        "name": "Chief Compasints Rs Of Ymon",
+        "matched_term": "Chief Compasints Rs Of Ymon",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.321
+      },
+      {
+        "name": "Pate Br",
+        "matched_term": "Pate Br",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.291
+      },
+      {
+        "name": "Ternp",
+        "matched_term": "Ternp",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.353
+      },
+      {
+        "name": "Anaeme",
+        "matched_term": "Anaeme",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.335
+      },
+      {
+        "name": "Denydraton",
+        "matched_term": "Denydraton",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.323
+      },
+      {
+        "name": "Aceclof",
+        "matched_term": "Aceclof",
+        "drug_id": "8254bbfb-9bb9-4746-b780-f095d1908327",
+        "brand_id": "29d9f867-76db-4c3f-a5e0-4dddfa21be4a",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.675
+      },
+      {
+        "name": "Respira",
+        "matched_term": "Respira",
+        "drug_id": "656b8f01-ab73-41c9-ac79-e2f8912cd7a5",
+        "brand_id": "e9aaae9c-065c-4fdb-a25f-c5f67053015e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.776
+      },
+      {
+        "name": "Thy",
+        "matched_term": "Thy",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.306
+      },
+      {
+        "name": "Othera",
+        "matched_term": "Othera",
+        "drug_id": "25a9f52e-b192-462a-b9a3-bef96e0f684d",
+        "brand_id": "43ed2ac7-38ef-4fe3-a605-a6fb9b07264e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.82
+      },
+      {
+        "name": "Cotra",
+        "matched_term": "Cotra",
+        "drug_id": "59c18094-74d4-452d-8ac0-42caf844e2dc",
+        "brand_id": "52a32b4e-7afb-4cbc-8eeb-3cf4fc28ebca",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.672
+      },
+      {
+        "name": "Lap",
+        "matched_term": "Lap",
+        "drug_id": "41094d0e-3d68-46e7-8480-d54f5226ce1b",
+        "brand_id": "e201e3d0-9a2d-410c-a7a7-89f367a9ad82",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.632
+      },
+      {
+        "name": "Ors",
+        "matched_term": "Ors",
+        "drug_id": "12a43e5c-db8c-4d0d-b6db-b9420608d490",
+        "brand_id": "670d5587-de9a-4cbd-aac8-ca8827834e09",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.688
+      },
+      {
+        "name": "Fbs Rbs",
+        "matched_term": "Fbs Rbs",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.405
+      },
+      {
+        "name": "Ecg",
+        "matched_term": "Ecg",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.446
+      },
+      {
+        "name": "Provisional Diagonosis",
+        "matched_term": "Provisional Diagonosis",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.438
+      }
+    ]
+  }
+}

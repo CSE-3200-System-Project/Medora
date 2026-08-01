@@ -1,0 +1,125 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0092",
+  "source_sha256": "465c8733aafd29b7c8fc248605a172dba66a583dd6c8a263715cef96186eca01",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:38:27.050939+00:00",
+  "runtime_ms": 5228.086000002804,
+  "output": {
+    "medications": [
+      {
+        "name": "levofloxacin",
+        "matched_term": "levofloxacin",
+        "drug_id": "c9c174fc-688b-4fe7-aced-800db53994f2",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.652
+      },
+      {
+        "name": "paracetamol",
+        "matched_term": "paracetamol",
+        "drug_id": "506f3ed5-2dc3-434c-9383-7ee8fdc53209",
+        "brand_id": null,
+        "dosage": "500g",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.703
+      },
+      {
+        "name": "Toto -Loind",
+        "matched_term": "Toto -Loind",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.272
+      },
+      {
+        "name": "omeprazole",
+        "matched_term": "omeprazole",
+        "drug_id": "a6163acf-c078-4714-b3a6-cdfaae9f75c0",
+        "brand_id": null,
+        "dosage": "20mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.703
+      }
+    ],
+    "raw_text": "Rx\nTab. Levofloxacin ( 5mm)\nTak paracetamol ( 500g)\n0 toto -loind 10\n· Cap- meprazole (20mg)",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 5188,
+      "detected_regions": 1,
+      "ocr_line_count": 5,
+      "yolo_avg_confidence": 0.8898,
+      "yolo_min_confidence": 0.8898,
+      "yolo_max_confidence": 0.8898,
+      "ocr_avg_confidence": 0.605,
+      "ocr_min_confidence": 0.605,
+      "ocr_max_confidence": 0.605,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 234.71510314941406,
+            "y_min": 226.16925048828125,
+            "x_max": 514.6351928710938,
+            "y_max": 369.1676025390625
+          },
+          "score": 0.8898
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Rx",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.605
+        },
+        {
+          "text": "Tab. Levofloxacin ( 5mm)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.605
+        },
+        {
+          "text": "Tak paracetamol ( 500g)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.605
+        },
+        {
+          "text": "0 toto -loind 10",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.605
+        },
+        {
+          "text": "· Cap- meprazole (20mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.605
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

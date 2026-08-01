@@ -1,0 +1,1212 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0073",
+  "source_sha256": "2362d6f9bde667bc0fb2cee7913eada8254a5b0259c7a6999ac65ddc214d2707",
+  "raw_transcription": "DENTAL WING\nSE MI,\n9\n22-8-21\nPF ARRIVAL ___!!!!!!!!\n1cup. Caf 3\n400mg\n1+0+1\nInvi-\nX-Nay -\nOPG\nCap. Seeto\n(20m\n)\n1+0+1\n3\nViodove M/W.\nKAMAN\nB.D.S. (OU G (OMS)\nDENTAL SURGEON\nBNS HAJI MOHLIN",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "Aid-Dental",
+      "strength": "",
+      "dose": "",
+      "frequency": "2+8+2",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Pf Arrival",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Cup Caf",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "",
+      "strength": "400mg",
+      "dose": "",
+      "frequency": "1+0+1",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Invi",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "X-Nay",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Opg",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Seeto",
+      "strength": "",
+      "dose": "",
+      "frequency": "1+0+1",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Viodove",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Kaman",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Ou Oms",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Aid-Dental",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Bns Haji Mohlin",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "a9c6760d9efb07921ceb386d081c49f37f459a498be3b6a4323e2cbe7ec153ca"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "16d680b3636b0da5fc9088b00cc9a312ae4a3b0c04e22a967749d26e6a2004b7"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "dbf25bb13a893696847b6c677718e1a7e50fa2eeedd90be3e4406b7a05e1ab0c"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "hnont\n((nos)\nx4\nh\n9\nO\n0\n-\nmalps\nARO\n1+0+\n1+0+\nSIA\n120\nDEEENETNEE\nC\nOWNNAH SNO\nSdo\nA\nDIED\ns'a'e\n87\nDETING\nTMARRT\n5\n4\n8\nine\nC\n1",
+      "lines": [
+        {
+          "text": "hnont",
+          "bbox": {
+            "x_min": 1566.0,
+            "y_min": 368.0,
+            "x_max": 1790.0,
+            "y_max": 826.0
+          },
+          "page": 1,
+          "confidence": 0.396
+        },
+        {
+          "text": "((nos)",
+          "bbox": {
+            "x_min": 2203.0,
+            "y_min": 387.0,
+            "x_max": 2424.0,
+            "y_max": 797.0
+          },
+          "page": 1,
+          "confidence": 0.633
+        },
+        {
+          "text": "x4",
+          "bbox": {
+            "x_min": 648.0,
+            "y_min": 463.0,
+            "x_max": 917.0,
+            "y_max": 1529.0
+          },
+          "page": 1,
+          "confidence": 0.378
+        },
+        {
+          "text": "h",
+          "bbox": {
+            "x_min": 1978.0,
+            "y_min": 538.0,
+            "x_max": 2189.0,
+            "y_max": 770.0
+          },
+          "page": 1,
+          "confidence": 0.372
+        },
+        {
+          "text": "9",
+          "bbox": {
+            "x_min": 1806.0,
+            "y_min": 578.0,
+            "x_max": 2070.0,
+            "y_max": 747.0
+          },
+          "page": 1,
+          "confidence": 0.269
+        },
+        {
+          "text": "O",
+          "bbox": {
+            "x_min": 2001.0,
+            "y_min": 633.0,
+            "x_max": 2009.0,
+            "y_max": 646.0
+          },
+          "page": 1,
+          "confidence": 0.173
+        },
+        {
+          "text": "0",
+          "bbox": {
+            "x_min": 2032.0,
+            "y_min": 633.0,
+            "x_max": 2041.0,
+            "y_max": 649.0
+          },
+          "page": 1,
+          "confidence": 0.134
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 2036.0,
+            "y_min": 639.0,
+            "x_max": 2047.0,
+            "y_max": 650.0
+          },
+          "page": 1,
+          "confidence": 0.159
+        },
+        {
+          "text": "malps",
+          "bbox": {
+            "x_min": 490.0,
+            "y_min": 659.0,
+            "x_max": 676.0,
+            "y_max": 1332.0
+          },
+          "page": 1,
+          "confidence": 0.297
+        },
+        {
+          "text": "ARO",
+          "bbox": {
+            "x_min": 1011.0,
+            "y_min": 883.0,
+            "x_max": 1128.0,
+            "y_max": 1060.0
+          },
+          "page": 1,
+          "confidence": 0.429
+        },
+        {
+          "text": "1+0+",
+          "bbox": {
+            "x_min": 2406.0,
+            "y_min": 920.0,
+            "x_max": 2500.0,
+            "y_max": 1299.0
+          },
+          "page": 1,
+          "confidence": 0.837
+        },
+        {
+          "text": "1+0+",
+          "bbox": {
+            "x_min": 1824.0,
+            "y_min": 963.0,
+            "x_max": 1928.0,
+            "y_max": 1407.0
+          },
+          "page": 1,
+          "confidence": 0.741
+        },
+        {
+          "text": "SIA",
+          "bbox": {
+            "x_min": 3571.0,
+            "y_min": 1189.0,
+            "x_max": 3633.0,
+            "y_max": 1300.0
+          },
+          "page": 1,
+          "confidence": 0.901
+        },
+        {
+          "text": "120",
+          "bbox": {
+            "x_min": 2247.0,
+            "y_min": 1422.0,
+            "x_max": 2351.0,
+            "y_max": 1596.0
+          },
+          "page": 1,
+          "confidence": 0.727
+        },
+        {
+          "text": "DEEENETNEE",
+          "bbox": {
+            "x_min": 3632.0,
+            "y_min": 1447.0,
+            "x_max": 3709.0,
+            "y_max": 1974.0
+          },
+          "page": 1,
+          "confidence": 0.49
+        },
+        {
+          "text": "C",
+          "bbox": {
+            "x_min": 1639.0,
+            "y_min": 1481.0,
+            "x_max": 1651.0,
+            "y_max": 1497.0
+          },
+          "page": 1,
+          "confidence": 0.12
+        },
+        {
+          "text": "OWNNAH SNO",
+          "bbox": {
+            "x_min": 3694.0,
+            "y_min": 1510.0,
+            "x_max": 3792.0,
+            "y_max": 1982.0
+          },
+          "page": 1,
+          "confidence": 0.454
+        },
+        {
+          "text": "Sdo",
+          "bbox": {
+            "x_min": 2294.0,
+            "y_min": 1621.0,
+            "x_max": 2403.0,
+            "y_max": 1854.0
+          },
+          "page": 1,
+          "confidence": 0.417
+        },
+        {
+          "text": "A",
+          "bbox": {
+            "x_min": 3482.0,
+            "y_min": 1671.0,
+            "x_max": 3562.0,
+            "y_max": 1782.0
+          },
+          "page": 1,
+          "confidence": 0.266
+        },
+        {
+          "text": "DIED",
+          "bbox": {
+            "x_min": 1057.0,
+            "y_min": 1722.0,
+            "x_max": 1152.0,
+            "y_max": 2053.0
+          },
+          "page": 1,
+          "confidence": 0.461
+        },
+        {
+          "text": "s'a'e",
+          "bbox": {
+            "x_min": 3544.0,
+            "y_min": 1795.0,
+            "x_max": 3625.0,
+            "y_max": 1971.0
+          },
+          "page": 1,
+          "confidence": 0.584
+        },
+        {
+          "text": "87",
+          "bbox": {
+            "x_min": 1602.0,
+            "y_min": 2046.0,
+            "x_max": 1783.0,
+            "y_max": 2662.0
+          },
+          "page": 1,
+          "confidence": 0.349
+        },
+        {
+          "text": "DETING",
+          "bbox": {
+            "x_min": 1390.0,
+            "y_min": 2105.0,
+            "x_max": 1578.0,
+            "y_max": 2868.0
+          },
+          "page": 1,
+          "confidence": 0.545
+        },
+        {
+          "text": "TMARRT",
+          "bbox": {
+            "x_min": 1759.0,
+            "y_min": 2314.0,
+            "x_max": 1858.0,
+            "y_max": 2646.0
+          },
+          "page": 1,
+          "confidence": 0.55
+        },
+        {
+          "text": "5",
+          "bbox": {
+            "x_min": 1598.0,
+            "y_min": 2347.0,
+            "x_max": 1611.0,
+            "y_max": 2363.0
+          },
+          "page": 1,
+          "confidence": 0.428
+        },
+        {
+          "text": "4",
+          "bbox": {
+            "x_min": 1603.0,
+            "y_min": 2383.0,
+            "x_max": 1614.0,
+            "y_max": 2397.0
+          },
+          "page": 1,
+          "confidence": 0.316
+        },
+        {
+          "text": "8",
+          "bbox": {
+            "x_min": 962.0,
+            "y_min": 2446.0,
+            "x_max": 1044.0,
+            "y_max": 2942.0
+          },
+          "page": 1,
+          "confidence": 0.742
+        },
+        {
+          "text": "ine",
+          "bbox": {
+            "x_min": 2167.0,
+            "y_min": 2488.0,
+            "x_max": 2262.0,
+            "y_max": 2768.0
+          },
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "C",
+          "bbox": {
+            "x_min": 2202.0,
+            "y_min": 2486.0,
+            "x_max": 2225.0,
+            "y_max": 2518.0
+          },
+          "page": 1,
+          "confidence": 0.521
+        },
+        {
+          "text": "1",
+          "bbox": {
+            "x_min": 1546.0,
+            "y_min": 2546.0,
+            "x_max": 1596.0,
+            "y_max": 2601.0
+          },
+          "page": 1,
+          "confidence": 0.4
+        }
+      ],
+      "medications": [
+        {
+          "name": "Hnont",
+          "matched_term": "Hnont",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.178
+        },
+        {
+          "name": "Nos",
+          "matched_term": "Nos",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.136
+        },
+        {
+          "name": "Malps",
+          "matched_term": "Malps",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.134
+        },
+        {
+          "name": "Aro-D",
+          "matched_term": "Aro-D",
+          "drug_id": "d9e502f4-3f8c-4e98-b927-d0b2dbd8e547",
+          "brand_id": "3a2a6d82-3578-4da3-a0ca-8eb35f49f058",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.681
+        },
+        {
+          "name": "Sia",
+          "matched_term": "Sia",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.366
+        },
+        {
+          "name": "Deeenetnee",
+          "matched_term": "Deeenetnee",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.137
+        },
+        {
+          "name": "Ownnah Sno",
+          "matched_term": "Ownnah Sno",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.204
+        },
+        {
+          "name": "Risdon",
+          "matched_term": "Risdon",
+          "drug_id": "a3104c8e-5cc1-4f81-b69e-c8b306dff1c8",
+          "brand_id": "4f458dd1-c4fc-4723-89ca-2b1d364c20ae",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.534
+        },
+        {
+          "name": "Died",
+          "matched_term": "Died",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.209
+        },
+        {
+          "name": "Deting",
+          "matched_term": "Deting",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.245
+        },
+        {
+          "name": "Tmarrt",
+          "matched_term": "Tmarrt",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.23
+        },
+        {
+          "name": "Inem",
+          "matched_term": "Inem",
+          "drug_id": "14035a21-f16a-4230-9990-bcda496c0a40",
+          "brand_id": "d7d04e8a-41cf-4e91-8af7-367a099f1b72",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.634
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "7/2]: MD. Zakir Hossain Siddiqui\nराठिया/ज्थिम न .: 820377 भजनी: MCPaXYRIN\nडिकरिश्मा पछवा :\n(बादशव वर्णना, भीखगान\nकलाखल, नाग निर्णय\nबादश शेख\nDENTAL WING\n9\n.....\n22-8-21\nDIE ..\nTap. Cf B (400mg)\n1+0+1\n-9 pm\nIno ?-\n2\nCap. Seet (20m)\n1+0+1\n3\nViodone M/W.\nX-ray- or\nB.D.S. (OUG (OMS)\nDENTAL SURGEON\nBNS HAJI MO\nIN\nR",
+      "lines": [
+        {
+          "text": "7/2]: MD. Zakir Hossain Siddiqui",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.591
+        },
+        {
+          "text": "राठिया/ज्थिम न .: 820377 भजनी: MCPaXYRIN",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.591
+        },
+        {
+          "text": "डिकरिश्मा पछवा :",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.591
+        },
+        {
+          "text": "(बादशव वर्णना, भीखगान",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.591
+        },
+        {
+          "text": "कलाखल, नाग निर्णय",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.591
+        },
+        {
+          "text": "बादश शेख",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.591
+        },
+        {
+          "text": "DENTAL WING",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.591
+        },
+        {
+          "text": "9",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.591
+        },
+        {
+          "text": ".....",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.591
+        },
+        {
+          "text": "22-8-21",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.591
+        },
+        {
+          "text": "DIE ..",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.591
+        },
+        {
+          "text": "Tap. Cf B (400mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.591
+        },
+        {
+          "text": "1+0+1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.591
+        },
+        {
+          "text": "-9 pm",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.591
+        },
+        {
+          "text": "Ino ?-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.591
+        },
+        {
+          "text": "2",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.591
+        },
+        {
+          "text": "Cap. Seet (20m)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.591
+        },
+        {
+          "text": "1+0+1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.591
+        },
+        {
+          "text": "3",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.591
+        },
+        {
+          "text": "Viodone M/W.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.591
+        },
+        {
+          "text": "X-ray- or",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.591
+        },
+        {
+          "text": "B.D.S. (OUG (OMS)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.591
+        },
+        {
+          "text": "DENTAL SURGEON",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.591
+        },
+        {
+          "text": "BNS HAJI MO",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.591
+        },
+        {
+          "text": "IN",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.591
+        },
+        {
+          "text": "R",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.591
+        }
+      ],
+      "medications": [
+        {
+          "name": "Md Zakir Hossain",
+          "matched_term": "Md Zakir Hossain",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.266
+        },
+        {
+          "name": "Mcpaxyrin",
+          "matched_term": "Mcpaxyrin",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.266
+        },
+        {
+          "name": "Aid-Dental",
+          "matched_term": "Aid-Dental",
+          "drug_id": "7380ce0e-e43f-426d-a383-a059ff2f1b31",
+          "brand_id": "0e6e3fa8-8305-4495-a766-d95dbd5a7194",
+          "dosage": null,
+          "frequency": "2+8+2",
+          "quantity": null,
+          "confidence": 0.695
+        },
+        {
+          "name": "Die",
+          "matched_term": "Die",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.266
+        },
+        {
+          "name": "Tap Cf Pm",
+          "matched_term": "Tap Cf Pm",
+          "drug_id": "34d4169e-0795-45bb-b29d-4873102e5bdd",
+          "brand_id": "d0b0ae89-2410-4cb2-8d47-177b89add88e",
+          "dosage": "400mg",
+          "frequency": "1+0+1",
+          "quantity": null,
+          "confidence": 0.366
+        },
+        {
+          "name": "Ino",
+          "matched_term": "Ino",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.266
+        },
+        {
+          "name": "Seet",
+          "matched_term": "Seet",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": "1+0+1",
+          "quantity": null,
+          "confidence": 0.315
+        },
+        {
+          "name": "Viodone",
+          "matched_term": "Viodone",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.266
+        },
+        {
+          "name": "Raj X",
+          "matched_term": "Raj X",
+          "drug_id": "55605964-60fc-4b7d-b8a5-5b1a29c1958e",
+          "brand_id": "4fec4283-9b86-4a99-9aee-c98bce96b537",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.646
+        },
+        {
+          "name": "Oug Oms",
+          "matched_term": "Oug Oms",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.266
+        },
+        {
+          "name": "Aid-Dental",
+          "matched_term": "Aid-Dental",
+          "drug_id": "7380ce0e-e43f-426d-a383-a059ff2f1b31",
+          "brand_id": "0e6e3fa8-8305-4495-a766-d95dbd5a7194",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.646
+        },
+        {
+          "name": "Bns Haji Mo In",
+          "matched_term": "Bns Haji Mo In",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.266
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "Aid-Dental",
+          "matched_term": "Aid-Dental",
+          "drug_id": "7380ce0e-e43f-426d-a383-a059ff2f1b31",
+          "brand_id": "0e6e3fa8-8305-4495-a766-d95dbd5a7194",
+          "dosage": null,
+          "frequency": "2+8+2",
+          "quantity": null,
+          "confidence": 0.711
+        },
+        {
+          "name": "Pf Arrival",
+          "matched_term": "Pf Arrival",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.282
+        },
+        {
+          "name": "Cup Caf",
+          "matched_term": "Cup Caf",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.282
+        },
+        {
+          "name": null,
+          "matched_term": null,
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "400mg",
+          "frequency": "1+0+1",
+          "quantity": null,
+          "confidence": 0.382
+        },
+        {
+          "name": "Invi",
+          "matched_term": "Invi",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.282
+        },
+        {
+          "name": "X-Nay",
+          "matched_term": "X-Nay",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.282
+        },
+        {
+          "name": "Opg",
+          "matched_term": "Opg",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.282
+        },
+        {
+          "name": "Seeto",
+          "matched_term": "Seeto",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": "1+0+1",
+          "quantity": null,
+          "confidence": 0.331
+        },
+        {
+          "name": "Viodove",
+          "matched_term": "Viodove",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.282
+        },
+        {
+          "name": "Kaman",
+          "matched_term": "Kaman",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.282
+        },
+        {
+          "name": "Ou Oms",
+          "matched_term": "Ou Oms",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.282
+        },
+        {
+          "name": "Aid-Dental",
+          "matched_term": "Aid-Dental",
+          "drug_id": "7380ce0e-e43f-426d-a383-a059ff2f1b31",
+          "brand_id": "0e6e3fa8-8305-4495-a766-d95dbd5a7194",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.662
+        },
+        {
+          "name": "Bns Haji Mohlin",
+          "matched_term": "Bns Haji Mohlin",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.282
+        }
+      ],
+      "raw_text": "DENTAL WING\nSE MI,\n9\n22-8-21\nPF ARRIVAL ___!!!!!!!!\n1cup. Caf 3\n400mg\n1+0+1\nInvi-\nX-Nay -\nOPG\nCap. Seeto\n(20m\n)\n1+0+1\n3\nViodove M/W.\nKAMAN\nB.D.S. (OU G (OMS)\nDENTAL SURGEON\nBNS HAJI MOHLIN",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 17667,
+        "detected_regions": 1,
+        "ocr_line_count": 21,
+        "yolo_avg_confidence": 0.85,
+        "yolo_min_confidence": 0.85,
+        "yolo_max_confidence": 0.85,
+        "ocr_avg_confidence": 0.626,
+        "ocr_min_confidence": 0.626,
+        "ocr_max_confidence": 0.626,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 485.8221588134765,
+              "y_min": 1341.2745723724365,
+              "x_max": 3140.9086746215817,
+              "y_max": 3858.204681396484
+            },
+            "score": 0.85
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "DENTAL WING",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.626
+          },
+          {
+            "text": "SE MI,",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.626
+          },
+          {
+            "text": "9",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.626
+          },
+          {
+            "text": "22-8-21",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.626
+          },
+          {
+            "text": "PF ARRIVAL ___!!!!!!!!",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.626
+          },
+          {
+            "text": "1cup. Caf 3",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.626
+          },
+          {
+            "text": "400mg",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.626
+          },
+          {
+            "text": "1+0+1",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.626
+          },
+          {
+            "text": "Invi-",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.626
+          },
+          {
+            "text": "X-Nay -",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.626
+          },
+          {
+            "text": "OPG",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.626
+          },
+          {
+            "text": "Cap. Seeto",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.626
+          },
+          {
+            "text": "(20m",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.626
+          },
+          {
+            "text": ")",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.626
+          },
+          {
+            "text": "1+0+1",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.626
+          },
+          {
+            "text": "3",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.626
+          },
+          {
+            "text": "Viodove M/W.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.626
+          },
+          {
+            "text": "KAMAN",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.626
+          },
+          {
+            "text": "B.D.S. (OU G (OMS)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.626
+          },
+          {
+            "text": "DENTAL SURGEON",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.626
+          },
+          {
+            "text": "BNS HAJI MOHLIN",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.626
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0096",
+  "source_sha256": "241cb16db618c778b2ffe07c31dc9ebedaa22f08cdeedb1de4d4f68fd3237b63",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:38:55.496471+00:00",
+  "runtime_ms": 4886.595799995121,
+  "output": {
+    "medications": [
+      {
+        "name": "Dystry",
+        "matched_term": "Dystry",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.24
+      },
+      {
+        "name": "Tal Agitano Mycin In",
+        "matched_term": "Tal Agitano Mycin In",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.24
+      },
+      {
+        "name": "metronidazole",
+        "matched_term": "metronidazole",
+        "drug_id": "9ef536e4-2a30-4f0b-a361-97523aa50fb6",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.62
+      }
+    ],
+    "raw_text": "Dystry\n· Tal. Agitano mycin 500\n07072- 6157\n· IN.\nMetronidazole 400\n10\n2737)\n· DR5 - 5\n20/5",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 4851,
+      "detected_regions": 1,
+      "ocr_line_count": 9,
+      "yolo_avg_confidence": 0.8862,
+      "yolo_min_confidence": 0.8862,
+      "yolo_max_confidence": 0.8862,
+      "ocr_avg_confidence": 0.534,
+      "ocr_min_confidence": 0.534,
+      "ocr_max_confidence": 0.534,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 210.2053985595703,
+            "y_min": 250.8526611328125,
+            "x_max": 561.1046752929688,
+            "y_max": 539.63037109375
+          },
+          "score": 0.8862
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Dystry",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "· Tal. Agitano mycin 500",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "07072- 6157",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "· IN.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "Metronidazole 400",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "10",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "2737)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "· DR5 - 5",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "20/5",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

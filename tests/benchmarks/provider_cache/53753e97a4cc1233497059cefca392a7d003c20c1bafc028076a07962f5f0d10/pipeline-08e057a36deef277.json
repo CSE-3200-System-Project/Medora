@@ -1,0 +1,125 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0088",
+  "source_sha256": "53753e97a4cc1233497059cefca392a7d003c20c1bafc028076a07962f5f0d10",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:37:44.213397+00:00",
+  "runtime_ms": 6469.304300000658,
+  "output": {
+    "medications": [
+      {
+        "name": "Tolec",
+        "matched_term": "Tolec",
+        "drug_id": "7bd081c9-0f2c-43e9-a13b-bda66a48cf11",
+        "brand_id": "88ec6dac-9568-4a3d-baa1-bc91a2996dc6",
+        "dosage": "1mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.651
+      },
+      {
+        "name": "Mon",
+        "matched_term": "Mon",
+        "drug_id": "807a6dae-2bc9-408f-ab46-85ee4b7712c1",
+        "brand_id": "3634ba03-dfe2-48f3-a5ba-037e5712341f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.6
+      },
+      {
+        "name": "Lachclase Sachet",
+        "matched_term": "Lachclase Sachet",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.22
+      },
+      {
+        "name": "Leucorin 500 mg Tablet",
+        "matched_term": "Leucorin 500 mg Tablet",
+        "drug_id": "899e5f03-44c6-493c-a283-13a926678f23",
+        "brand_id": "ff5ede77-8b39-4b1f-b0e8-8033291e7ad0",
+        "dosage": "20 mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.575
+      }
+    ],
+    "raw_text": "R.\nTab Tolen ( 1mg )\nTab. MOND I KONST\nLachclase sachet\n. Tab. E somcornou | 20 mg",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 6434,
+      "detected_regions": 1,
+      "ocr_line_count": 5,
+      "yolo_avg_confidence": 0.9267,
+      "yolo_min_confidence": 0.9267,
+      "yolo_max_confidence": 0.9267,
+      "ocr_avg_confidence": 0.489,
+      "ocr_min_confidence": 0.489,
+      "ocr_max_confidence": 0.489,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 254.979248046875,
+            "y_min": 241.62033081054688,
+            "x_max": 522.7243041992188,
+            "y_max": 493.81683349609375
+          },
+          "score": 0.9267
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "R.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.489
+        },
+        {
+          "text": "Tab Tolen ( 1mg )",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.489
+        },
+        {
+          "text": "Tab. MOND I KONST",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.489
+        },
+        {
+          "text": "Lachclase sachet",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.489
+        },
+        {
+          "text": ". Tab. E somcornou | 20 mg",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.489
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

@@ -1,0 +1,273 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0054",
+  "source_sha256": "b75d2de53cee1fba01f0e09ff0f1f131ff96901ad25fe468518a09d90c407a98",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:52:50.178963+00:00",
+  "runtime_ms": 12468.7270999857,
+  "output": {
+    "raw_text": "ES (NICVD)\nLADESH\nIFICATE\nAGE.G. S. SEX (MTF)\nVa\nOF DISCHARGE 4.8.1.\nIFSCM(USA)\nARING\n(Name & Signature)\nTREATMENTION DISCHARGE\nTahle 2.5\nROSuva to\npayer No\nEdecide 40,50\ncoport\n8\nName and Signature af Ductor",
+    "lines": [
+      {
+        "text": "ES (NICVD)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "LADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "IFICATE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "AGE.G. S. SEX (MTF)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "Va",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "OF DISCHARGE 4.8.1.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "IFSCM(USA)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "ARING",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "(Name & Signature)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "TREATMENTION DISCHARGE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "Tahle 2.5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "ROSuva to",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "payer No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "Edecide 40,50",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "coport",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "8",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "Name and Signature af Ductor",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      }
+    ],
+    "medications": [
+      {
+        "name": "ES-G",
+        "matched_term": "ES-G",
+        "drug_id": "cf20d302-ac56-4f97-8e17-355a83b820f0",
+        "brand_id": "60799c72-503f-4315-84d0-392d48cce6ae",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.645
+      },
+      {
+        "name": "Ladesh",
+        "matched_term": "Ladesh",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.265
+      },
+      {
+        "name": "Ificate",
+        "matched_term": "Ificate",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.265
+      },
+      {
+        "name": "Age M",
+        "matched_term": "Age M",
+        "drug_id": "32593a88-50e8-4254-9d22-7d1a52c84504",
+        "brand_id": "86fe087a-92e9-4a39-8921-ab758e162e76",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.645
+      },
+      {
+        "name": "Of Discharge",
+        "matched_term": "Of Discharge",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.265
+      },
+      {
+        "name": "Ifscm Usa",
+        "matched_term": "Ifscm Usa",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.265
+      },
+      {
+        "name": "Arin",
+        "matched_term": "Arin",
+        "drug_id": "3f5a7b45-6e3b-44b7-9c7d-4297491c7543",
+        "brand_id": "c917ecb5-b021-4a26-8382-33797bb7caa0",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.645
+      },
+      {
+        "name": "Name Signature",
+        "matched_term": "Name Signature",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.265
+      },
+      {
+        "name": "Treatmention Discharge",
+        "matched_term": "Treatmention Discharge",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.265
+      },
+      {
+        "name": "Tahle",
+        "matched_term": "Tahle",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.265
+      },
+      {
+        "name": "Rosuva",
+        "matched_term": "Rosuva",
+        "drug_id": "853d7984-f924-4f93-9691-25537eae946f",
+        "brand_id": "1de92390-8fa0-43ca-8368-145447a52828",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.645
+      },
+      {
+        "name": "Payer No",
+        "matched_term": "Payer No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.265
+      },
+      {
+        "name": "Edemide",
+        "matched_term": "Edemide",
+        "drug_id": "fd4ae442-9f4d-46ab-8266-02e89b2111ba",
+        "brand_id": "ff889cd1-593c-4fef-91e9-52ca875828a8",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.645
+      },
+      {
+        "name": "Coport",
+        "matched_term": "Coport",
+        "drug_id": "bc82e979-13c2-4154-b374-dc90898cbad9",
+        "brand_id": "d08fa4a1-08f3-4432-b5da-cbf904fb9669",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.645
+      },
+      {
+        "name": "Name And Signature",
+        "matched_term": "Name And Signature",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.265
+      }
+    ]
+  }
+}

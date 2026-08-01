@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "eb24a733d4e19d92cd08fced82df304f4a7d22ac2f91adad6d40023052aac000",
+  "record_id": "RX-0004",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 7488.256000011461,
+  "failure": null,
+  "response_sha256": "5d01baa78052a829bfcc32575c807195cff16068dd95555cdc210c906196993f",
+  "response": {
+    "raw_text": "Tamen (ro)\n. Tab\n2tata-\nSec/10/20)\nBeniticken\nCap\n2+0+)-\nDeslor(30mg)\nlab\n@\n.\nORS -\n2",
+    "lines": [
+      {
+        "text": "Tamen (ro)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.636
+      },
+      {
+        "text": ". Tab",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.636
+      },
+      {
+        "text": "2tata-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.636
+      },
+      {
+        "text": "Sec/10/20)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.636
+      },
+      {
+        "text": "Beniticken",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.636
+      },
+      {
+        "text": "Cap",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.636
+      },
+      {
+        "text": "2+0+)-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.636
+      },
+      {
+        "text": "Deslor(30mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.636
+      },
+      {
+        "text": "lab",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.636
+      },
+      {
+        "text": "@",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.636
+      },
+      {
+        "text": ".",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.636
+      },
+      {
+        "text": "ORS -",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.636
+      },
+      {
+        "text": "2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.636
+      }
+    ]
+  }
+}

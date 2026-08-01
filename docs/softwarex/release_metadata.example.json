@@ -1,0 +1,17 @@
+{
+  "version": "v1.0.0",
+  "release_date": "RELEASE_PENDING",
+  "git_commit": "RELEASE_PENDING",
+  "zenodo_doi": "RELEASE_PENDING",
+  "zenodo_url": "RELEASE_PENDING",
+  "archive_sha256": "RELEASE_PENDING",
+  "source_repository": "https://github.com/CSE-3200-System-Project/Medora",
+  "approval": {
+    "authority": "RELEASE_PENDING",
+    "date": "RELEASE_PENDING",
+    "reference": "RELEASE_PENDING",
+    "scope": "Permanent public download and inclusion in the Zenodo software archive"
+  },
+  "verification_artifact": "docs/softwarex/generated/verification.json"
+}
+

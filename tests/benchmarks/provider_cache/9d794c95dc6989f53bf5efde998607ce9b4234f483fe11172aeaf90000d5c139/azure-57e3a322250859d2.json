@@ -1,0 +1,253 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0026",
+  "source_sha256": "9d794c95dc6989f53bf5efde998607ce9b4234f483fe11172aeaf90000d5c139",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:34:06.908298+00:00",
+  "runtime_ms": 25490.362399999867,
+  "output": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hall Office\nMakkalıModinah/Jeddah\nTREATMENT CARDI ARTIME\n******* F291\nThata Harsi\nHEALTH PROFILE\n5. Kkincy 00wasy: 47\nChiat Complaints:\nTob. Glichizite 80\nTAM:\n2015\n29.1 month\nFESORES\nProvisunal Diagoncals\nएवं चिकन भुत हैवण एवं बयान जन । वापस यह हुल्यित गदगद गद, कानपुर शूट।",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "Bangladesh Hall Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "MakkalıModinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "TREATMENT CARDI ARTIME",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "******* F291",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "Thata Harsi",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "5. Kkincy 00wasy: 47",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "Chiat Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "Tob. Glichizite 80",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "TAM:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "2015",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "29.1 month",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "FESORES",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "Provisunal Diagoncals",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "एवं चिकन भुत हैवण एवं बयान जन । वापस यह हुल्यित गदगद गद, कानपुर शूट।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      }
+    ],
+    "medications": [
+      {
+        "name": "Government Of The",
+        "matched_term": "Government Of The",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.224
+      },
+      {
+        "name": "Minista",
+        "matched_term": "Minista",
+        "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+        "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.604
+      },
+      {
+        "name": "Bangladesh Hall Office",
+        "matched_term": "Bangladesh Hall Office",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.224
+      },
+      {
+        "name": "Makkal Modinah Jeddah",
+        "matched_term": "Makkal Modinah Jeddah",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.224
+      },
+      {
+        "name": "Treatment Cardi Artime",
+        "matched_term": "Treatment Cardi Artime",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.224
+      },
+      {
+        "name": "Thata Harsi",
+        "matched_term": "Thata Harsi",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.224
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.604
+      },
+      {
+        "name": "Kkincy Wasy",
+        "matched_term": "Kkincy Wasy",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.224
+      },
+      {
+        "name": "Chiat Complaints",
+        "matched_term": "Chiat Complaints",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.224
+      },
+      {
+        "name": "Tobi",
+        "matched_term": "Tobi",
+        "drug_id": "8a86cdee-2fcf-4e7c-9ff1-7b9f5cbe963c",
+        "brand_id": "f12d01f6-fb0a-4262-aeb9-35cacd831746",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.604
+      },
+      {
+        "name": "Tam 20%",
+        "matched_term": "Tam 20%",
+        "drug_id": "3862e996-1b11-4a22-abb2-03682dafce5a",
+        "brand_id": "b3a967f5-01b5-4aa1-bdcf-6784eddbed98",
+        "dosage": null,
+        "frequency": null,
+        "quantity": "1 month",
+        "confidence": 0.508
+      },
+      {
+        "name": "Fesores",
+        "matched_term": "Fesores",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.224
+      },
+      {
+        "name": "Provisunal Diagoncals",
+        "matched_term": "Provisunal Diagoncals",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.224
+      }
+    ]
+  }
+}

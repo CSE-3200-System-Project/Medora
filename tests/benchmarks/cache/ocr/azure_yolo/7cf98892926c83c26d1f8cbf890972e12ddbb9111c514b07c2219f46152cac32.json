@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "7cf98892926c83c26d1f8cbf890972e12ddbb9111c514b07c2219f46152cac32",
+  "record_id": "RX-0047",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 6809.803099997225,
+  "failure": null,
+  "response_sha256": "4c3e87ffda492c8e78ee874a39cb2b454791c938864351dc3e18eb16c09f1e0d",
+  "response": {
+    "raw_text": "Lap SECholsom\nHon-\n3\n2. 702\n9 MONAS(A)\nofons\n15\n3. 700 TOFEN (JMS)",
+    "lines": [
+      {
+        "text": "Lap SECholsom",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.561
+      },
+      {
+        "text": "Hon-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.561
+      },
+      {
+        "text": "3",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.561
+      },
+      {
+        "text": "2. 702",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.561
+      },
+      {
+        "text": "9 MONAS(A)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.561
+      },
+      {
+        "text": "ofons",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.561
+      },
+      {
+        "text": "15",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.561
+      },
+      {
+        "text": "3. 700 TOFEN (JMS)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.561
+      }
+    ]
+  }
+}

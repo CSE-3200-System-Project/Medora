@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "292db0daec300ea1c371b756e79357f3abf36bd7cdb7037dd39d5dba6a132aa9",
+  "record_id": "RX-0068",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 14988.52870000701,
+  "failure": null,
+  "response_sha256": "464ee9f26f5e1e2a67d1a7c118a3b92e38fe5929ecc4b1a3c65d8a917b152bf2",
+  "response": {
+    "raw_text": "Mernas\n0-++7) -\n4% Aceciofenac (1)\nLap americ (10)\nORS (2)",
+    "lines": [
+      {
+        "text": "Mernas",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.437
+      },
+      {
+        "text": "0-++7) -",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.437
+      },
+      {
+        "text": "4% Aceciofenac (1)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.437
+      },
+      {
+        "text": "Lap americ (10)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.437
+      },
+      {
+        "text": "ORS (2)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.437
+      }
+    ]
+  }
+}

@@ -1,10 +1,8 @@
 /// <reference lib="webworker" />
 import type { PrecacheEntry, SerwistGlobalConfig } from "serwist";
 import {
-  BackgroundSyncQueue,
   CacheFirst,
   ExpirationPlugin,
-  NetworkFirst,
   Serwist,
   StaleWhileRevalidate,
   type RuntimeCaching,
@@ -18,20 +16,13 @@ declare global {
 
 declare const self: ServiceWorkerGlobalScope & typeof globalThis;
 
-// Background sync queue for failed API requests
-const bgSyncQueue = new BackgroundSyncQueue("medora-api-queue", {
-  maxRetentionTime: 24 * 60, // 24 hours in minutes
-});
-
-const API_CACHE_TTL_SECONDS = Number(process.env.NEXT_PUBLIC_PERF_API_CACHE_TTL ?? "60") || 60;
-
 function toManifestUrl(entry: PrecacheEntry | string): string {
   const url = typeof entry === "string" ? entry : entry.url;
   return url.replaceAll("\\", "/");
 }
 
 function isInstallCriticalAsset(url: string): boolean {
-  if (url === "/" || url === "/manifest.json" || url.startsWith("/icons/")) {
+  if (url === "/manifest.json" || url.startsWith("/icons/")) {
     return true;
   }
 
@@ -73,8 +64,7 @@ const runtimeCaching: RuntimeCaching[] = [
       request.method === "GET" &&
       (url.pathname.startsWith("/icons/") ||
         url.pathname.startsWith("/images/") ||
-        url.pathname.startsWith("/assets/") ||
-        url.pathname.startsWith("/_next/image")),
+        url.pathname.startsWith("/assets/")),
     handler: new StaleWhileRevalidate({
       cacheName: "image-assets-v1",
       plugins: [new ExpirationPlugin({ maxEntries: 80, maxAgeSeconds: 14 * 24 * 60 * 60 })],
@@ -87,51 +77,21 @@ const runtimeCaching: RuntimeCaching[] = [
       plugins: [new ExpirationPlugin({ maxEntries: 20, maxAgeSeconds: 30 * 24 * 60 * 60 })],
     }),
   },
-  {
-    matcher: ({ request, sameOrigin, url }) =>
-      request.method === "GET" &&
-      ((sameOrigin && url.pathname.startsWith("/api/")) ||
-        (!sameOrigin && url.pathname.startsWith("/api/"))),
-    handler: new StaleWhileRevalidate({
-      cacheName: "api-get-v1",
-      plugins: [new ExpirationPlugin({ maxEntries: 40, maxAgeSeconds: API_CACHE_TTL_SECONDS })],
-    }),
-  },
-  {
-    matcher: ({ request, sameOrigin, url }) =>
-      sameOrigin &&
-      request.method === "GET" &&
-      request.mode === "navigate" &&
-      !url.pathname.startsWith("/api/"),
-    handler: new NetworkFirst({
-      cacheName: "pages-v1",
-      networkTimeoutSeconds: 3,
-      plugins: [new ExpirationPlugin({ maxEntries: 30, maxAgeSeconds: 24 * 60 * 60 })],
-    }),
-  },
 ];
 
-// Listen for failed fetch requests and add to background sync queue
-self.addEventListener("fetch", (event: FetchEvent) => {
-  const url = new URL(event.request.url);
-
-  // Only queue POST/PATCH/PUT requests to the backend API for background sync
-  if (
-    url.pathname.startsWith("/api/") &&
-    ["POST", "PATCH", "PUT"].includes(event.request.method)
-  ) {
-    const bgSyncLogic = async () => {
-      try {
-        const response = await fetch(event.request.clone());
-        return response;
-      } catch {
-        await bgSyncQueue.pushRequest({ request: event.request });
-        return Response.error();
-      }
-    };
-
-    event.respondWith(bgSyncLogic());
-  }
+// Logout/session-expiry cleanup. Only immutable public assets may be cached,
+// but clearing all Medora caches also removes data left by older workers.
+self.addEventListener("message", (event: ExtendableMessageEvent) => {
+  if (event.data?.type !== "PURGE_MEDORA_PRIVATE_DATA") return;
+  event.waitUntil(
+    caches.keys().then((names) =>
+      Promise.all(
+        names
+          .filter((name) => name.includes("medora") || name.includes("api-") || name.includes("pages-"))
+          .map((name) => caches.delete(name)),
+      ),
+    ),
+  );
 });
 
 // Push notification handler

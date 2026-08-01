@@ -1,0 +1,243 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0082",
+  "source_sha256": "6a0ed023147fba6b6f155fa1e8086090dd6c7f2e3deced52ab2cfad3da93b24d",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:36:50.562665+00:00",
+  "runtime_ms": 14501.212700008182,
+  "output": {
+    "medications": [
+      {
+        "name": "Taj Gomes To",
+        "matched_term": "Taj Gomes To",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "50mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.298
+      },
+      {
+        "name": "Tems",
+        "matched_term": "Tems",
+        "drug_id": "93b07e61-f161-4b5c-aacf-e0ec0b295426",
+        "brand_id": "c5f8c598-aa6c-4a76-91a5-00c7f059b290",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.627
+      },
+      {
+        "name": "V-Tas",
+        "matched_term": "V-Tas",
+        "drug_id": "085c7194-9766-436a-b4ca-6b32da00cd11",
+        "brand_id": "2fe406ba-7cc6-40e8-b326-71dd5b0ba3b9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.627
+      },
+      {
+        "name": "Ta Hewolx Itopid",
+        "matched_term": "Ta Hewolx Itopid",
+        "drug_id": "ad1b7386-cd43-4651-900f-4f33bd42065c",
+        "brand_id": "3a591435-34a1-46e2-a6fc-2a79061c4ecd",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.247
+      },
+      {
+        "name": "Rosu",
+        "matched_term": "Rosu",
+        "drug_id": "853d7984-f924-4f93-9691-25537eae946f",
+        "brand_id": "3dc9e193-1c4d-44e2-85d4-7a37fd402fc7",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.627
+      },
+      {
+        "name": "Itdel Wo La",
+        "matched_term": "Itdel Wo La",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.247
+      },
+      {
+        "name": "Pantomax",
+        "matched_term": "Pantomax",
+        "drug_id": "44118117-7ed9-45fd-88c1-3f784fc10710",
+        "brand_id": "10461437-f5d9-4b5b-af00-3b2192a38536",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.627
+      },
+      {
+        "name": "Chamber",
+        "matched_term": "Chamber",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.247
+      },
+      {
+        "name": "Hitech Multicare Hospital",
+        "matched_term": "Hitech Multicare Hospital",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.247
+      },
+      {
+        "name": "Nome Of Care",
+        "matched_term": "Nome Of Care",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.247
+      },
+      {
+        "name": "East Kafrul Dhaka",
+        "matched_term": "East Kafrul Dhaka",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.247
+      }
+    ],
+    "raw_text": "· 1 Taj Gomes 2/ 50mg +To meglio\nEs 展开开展工业区 Tems A 2015\n3 Tas. 201 52 1+00 00\n(4) Ta. Hewolx 15L\nITOPIMAÇON 220\n8) Ts, ROSU 5W other we Mag\nItdel wo\nla.\nPantomx 29\nChamber :\nHitech Multicare Hospital Ltd.\nNome of care\n164, East Kafrul, Dhaka Cantonment DLI.",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 14467,
+      "detected_regions": 1,
+      "ocr_line_count": 13,
+      "yolo_avg_confidence": 0.8585,
+      "yolo_min_confidence": 0.8585,
+      "yolo_max_confidence": 0.8585,
+      "ocr_avg_confidence": 0.548,
+      "ocr_min_confidence": 0.548,
+      "ocr_max_confidence": 0.548,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 94.2470703125,
+            "y_min": 569.9505615234375,
+            "x_max": 919.23193359375,
+            "y_max": 1172.9017333984375
+          },
+          "score": 0.8585
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "· 1 Taj Gomes 2/ 50mg +To meglio",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.548
+        },
+        {
+          "text": "Es 展开开展工业区 Tems A 2015",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.548
+        },
+        {
+          "text": "3 Tas. 201 52 1+00 00",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.548
+        },
+        {
+          "text": "(4) Ta. Hewolx 15L",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.548
+        },
+        {
+          "text": "ITOPIMAÇON 220",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.548
+        },
+        {
+          "text": "8) Ts, ROSU 5W other we Mag",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.548
+        },
+        {
+          "text": "Itdel wo",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.548
+        },
+        {
+          "text": "la.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.548
+        },
+        {
+          "text": "Pantomx 29",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.548
+        },
+        {
+          "text": "Chamber :",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.548
+        },
+        {
+          "text": "Hitech Multicare Hospital Ltd.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.548
+        },
+        {
+          "text": "Nome of care",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.548
+        },
+        {
+          "text": "164, East Kafrul, Dhaka Cantonment DLI.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.548
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

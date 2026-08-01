@@ -1,0 +1,297 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0030",
+  "source_sha256": "dd5c997f98ee0ddc9693363126ca75d12e79ce13674f5582db5aa22ba8dbceca",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:36:22.358436+00:00",
+  "runtime_ms": 17990.765299997292,
+  "output": {
+    "raw_text": "Dr. Monowara Begumi\nTak\nOmideas\n2-12 12 ted\nLosectil . v\nCap\nRecipro (spo -)\nWt- 65 kg .\ntárca-2.\n· Cap\nI treacen ( we)\nLower abdominal pain\n( Lett - side )\nTab\nDinew Ground\nDM .\n* THICOTCH वियकृत कर\nनमूनाड़ छाड़ाशननिक (मणाव नि:\nक्रमात = केमनाया गयाएक शामनालान डाजमाथे।\nफ्री फूड (माड, कि.मी. ०-२०२०, हाजमाई\nTOMAT SPI 03949-884008. 03909-329635",
+    "lines": [
+      {
+        "text": "Dr. Monowara Begumi",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Tak",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Omideas",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "2-12 12 ted",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Losectil . v",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Cap",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Recipro (spo -)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Wt- 65 kg .",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "tárca-2.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "· Cap",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "I treacen ( we)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Lower abdominal pain",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "( Lett - side )",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Tab",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Dinew Ground",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "DM .",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "* THICOTCH वियकृत कर",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "नमूनाड़ छाड़ाशननिक (मणाव नि:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "क्रमात = केमनाया गयाएक शामनालान डाजमाथे।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "फ्री फूड (माड, कि.मी. ०-२०२०, हाजमाई",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "TOMAT SPI 03949-884008. 03909-329635",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      }
+    ],
+    "medications": [
+      {
+        "name": "Dr Monowara Begumi",
+        "matched_term": "Dr Monowara Begumi",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.214
+      },
+      {
+        "name": "Tak",
+        "matched_term": "Tak",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.214
+      },
+      {
+        "name": "Omidex",
+        "matched_term": "Omidex",
+        "drug_id": "7b1fa286-3a42-4d88-b689-49b453895844",
+        "brand_id": "2fa10de1-431c-4434-ba2c-f4ae8b7032a3",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.594
+      },
+      {
+        "name": "Ted",
+        "matched_term": "Ted",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.214
+      },
+      {
+        "name": "Losectil V",
+        "matched_term": "Losectil V",
+        "drug_id": "7b1fa286-3a42-4d88-b689-49b453895844",
+        "brand_id": "f86d6e44-59f4-4fa4-8b24-74d54737b5b5",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.594
+      },
+      {
+        "name": "D-Cap",
+        "matched_term": "D-Cap",
+        "drug_id": "e19d17d9-3fac-4185-8757-32f0d322ee98",
+        "brand_id": "30128340-f4e9-487f-8f85-f67d3b82460f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.594
+      },
+      {
+        "name": "Rocipro",
+        "matched_term": "Rocipro",
+        "drug_id": "8b7ef7af-6374-437d-af80-916fd76dba4b",
+        "brand_id": "ab638b46-8b64-4b3d-b83e-ce5bf1022935",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.594
+      },
+      {
+        "name": "D-Cap",
+        "matched_term": "D-Cap",
+        "drug_id": "e19d17d9-3fac-4185-8757-32f0d322ee98",
+        "brand_id": "30128340-f4e9-487f-8f85-f67d3b82460f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.594
+      },
+      {
+        "name": "Treacen We",
+        "matched_term": "Treacen We",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.214
+      },
+      {
+        "name": "Lowet",
+        "matched_term": "Lowet",
+        "drug_id": "9a46e064-ae17-41c3-83c9-f4a915403397",
+        "brand_id": "dbaea456-c883-4d89-b531-79982d7eeedf",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.594
+      },
+      {
+        "name": "Lett Side",
+        "matched_term": "Lett Side",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.214
+      },
+      {
+        "name": "C-Tab",
+        "matched_term": "C-Tab",
+        "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+        "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.594
+      },
+      {
+        "name": "Dined",
+        "matched_term": "Dined",
+        "drug_id": "10df6dcf-73db-4fb7-9c49-9fe23233983b",
+        "brand_id": "c6236797-1a23-4b78-b4f6-c99e6e0447c3",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.594
+      },
+      {
+        "name": "Thicotch",
+        "matched_term": "Thicotch",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.214
+      },
+      {
+        "name": "Toma",
+        "matched_term": "Toma",
+        "drug_id": "ab9a0b2a-60ce-486b-b4ca-8a1427486295",
+        "brand_id": "2a4acea9-b73c-4a81-84cd-f43c03f17323",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.594
+      }
+    ]
+  }
+}

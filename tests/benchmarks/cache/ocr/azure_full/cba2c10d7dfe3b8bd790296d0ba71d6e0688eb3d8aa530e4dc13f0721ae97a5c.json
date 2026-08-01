@@ -1,0 +1,206 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "cba2c10d7dfe3b8bd790296d0ba71d6e0688eb3d8aa530e4dc13f0721ae97a5c",
+  "record_id": "RX-0043",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 13160.116400002153,
+  "failure": null,
+  "response_sha256": "d048e79d1fc94379e4408201de5bb456c3d16f8ca00df424fa60fa60ef0b3c17",
+  "response": {
+    "raw_text": "S10\nणिकिश्मक कड़क ब्बाभीव वादशं भरज\nजांगीन नाम 820377M24 Seddiand uckइन\n15 Pm\nवोटगव नाग\nडिकिस्मतकर बातशुभ\nनिर\nS.NO-12\n19.01.17\nc/c\nThen weakness\n@ Anorexia\nB/c\nTub .\nund i AM.\n19.1.17.\nTub. Kuntid (150)\nAdv\nTab. Alben-DS\n2\nग्राह काशिन (शुक्र\nगगलवान वाकमान\nको ढना जा रही गर्मीन\nनाग :\n00\nयाशाम\nसम्भव\nब्राड\nचाइना\nम\nजातिया",
+    "lines": [
+      {
+        "text": "S10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "णिकिश्मक कड़क ब्बाभीव वादशं भरज",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "जांगीन नाम 820377M24 Seddiand uckइन",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "15 Pm",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "वोटगव नाग",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "डिकिस्मतकर बातशुभ",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "निर",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "S.NO-12",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "19.01.17",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "c/c",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "Then weakness",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "@ Anorexia",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "B/c",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "Tub .",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "und i AM.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "19.1.17.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "Tub. Kuntid (150)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "Adv",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "Tab. Alben-DS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "ग्राह काशिन (शुक्र",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "गगलवान वाकमान",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "को ढना जा रही गर्मीन",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "नाग :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "00",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "याशाम",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "सम्भव",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "ब्राड",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "चाइना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "म",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "जातिया",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      }
+    ]
+  }
+}

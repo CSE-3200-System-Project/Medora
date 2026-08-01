@@ -1,8 +1,18 @@
 # Medora - Complete Project Overview
 
+> **Archived project overview.** This predates the SoftwareX consent, caching, OCR
+> review, and maturity corrections. It is retained for history, not as current
+> architecture or validation evidence; see `README.md` and `docs/README.md`.
+
 ## Executive Summary
 
-**Medora** is a production-grade, AI-native healthcare platform built for Bangladesh that unifies patient records, verified doctor operations, and safety-first clinical assistance into one end-to-end digital care system. Built as a CSE-3200 System Project at **KUET (Khulna University of Science and Technology)**, the platform serves three stakeholder roles: **patients**, **doctors**, and **administrators**.
+**Medora** is an open-source bilingual research platform developed in Bangladesh
+that brings patient-managed records, doctor workflows, appointment coordination,
+and review-gated artificial-intelligence features into one system. Built as a
+CSE-3200 System Project at **KUET (Khulna University of Engineering &
+Technology)**, it supports patients, doctors, and individually authenticated
+administrators. It is not a clinically validated medical device or a
+production-readiness claim.
 
 ### Why This System Matters
 
@@ -378,9 +388,9 @@ frontend/app/
 ## Deployment & CI/CD
 
 ### Production Deployment
-- **Frontend**: [PLACEHOLDER_FRONTEND_URL]
-- **Backend**: [PLACEHOLDER_BACKEND_URL]
-- **AI OCR Service**: [PLACEHOLDER_AI_SERVICE_URL]
+- **Frontend**: deployment-specific; this research release does not assert a public production instance
+- **Backend**: deployment-specific; run locally or deploy using `docs/DEPLOYMENT.md`
+- **AI OCR service**: deployment-specific; local and external trust boundaries are documented separately
 
 ### CI/CD Pipelines (GitHub Actions)
 

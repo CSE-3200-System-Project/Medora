@@ -1,0 +1,181 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0070",
+  "source_sha256": "2cddb5b7172cffe7adc1ac4aebef3ea1bec868251b799687e4c81b762db8ac08",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:59:41.659470+00:00",
+  "runtime_ms": 6507.760299995425,
+  "output": {
+    "raw_text": "साकारकर समग्र :\nअंकिनिन मकान से, on) की क्यूटफ\nकुमार :\nया फनान , कयान\nमावाल्मंड रखाव:्यासगार, पालनव शंज्ञा\nभाई शमिबूल समान\nकि.डि.मि. बाद. समाधि ( ग्रहऋणरिंगनाम)\n(सून 5 नाटकन ऊ नन दनिधन झाड)\nमायारेन 1 01717-879034\nनाम है\nकाविन: 3.2.24\nC/C\nTb-Fixoet plus (250)(14)\n2-62 अवाय नम -\nTab - Eforcix- (2) (कामा वरफाल\nONE\n@p Moxpri0-(20) (14)\n2नजर धाचान फोर्ड\n3.2.27\nGalaxy A04s",
+    "lines": [
+      {
+        "text": "साकारकर समग्र :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.362
+      },
+      {
+        "text": "अंकिनिन मकान से, on) की क्यूटफ",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.362
+      },
+      {
+        "text": "कुमार :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.362
+      },
+      {
+        "text": "या फनान , कयान",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.362
+      },
+      {
+        "text": "मावाल्मंड रखाव:्यासगार, पालनव शंज्ञा",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.362
+      },
+      {
+        "text": "भाई शमिबूल समान",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.362
+      },
+      {
+        "text": "कि.डि.मि. बाद. समाधि ( ग्रहऋणरिंगनाम)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.362
+      },
+      {
+        "text": "(सून 5 नाटकन ऊ नन दनिधन झाड)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.362
+      },
+      {
+        "text": "मायारेन 1 01717-879034",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.362
+      },
+      {
+        "text": "नाम है",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.362
+      },
+      {
+        "text": "काविन: 3.2.24",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.362
+      },
+      {
+        "text": "C/C",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.362
+      },
+      {
+        "text": "Tb-Fixoet plus (250)(14)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.362
+      },
+      {
+        "text": "2-62 अवाय नम -",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.362
+      },
+      {
+        "text": "Tab - Eforcix- (2) (कामा वरफाल",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.362
+      },
+      {
+        "text": "ONE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.362
+      },
+      {
+        "text": "@p Moxpri0-(20) (14)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.362
+      },
+      {
+        "text": "2नजर धाचान फोर्ड",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.362
+      },
+      {
+        "text": "3.2.27",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.362
+      },
+      {
+        "text": "Galaxy A04s",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.362
+      }
+    ],
+    "medications": [
+      {
+        "name": "Tb-Fixoet Plus",
+        "matched_term": "Tb-Fixoet Plus",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.163
+      },
+      {
+        "name": "Eforcix",
+        "matched_term": "Eforcix",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.163
+      },
+      {
+        "name": "One",
+        "matched_term": "One",
+        "drug_id": "7a0d5861-e33d-4c57-bcc0-0db12e2d3495",
+        "brand_id": "d5d56cde-21e6-448a-9d62-ae293b8b6642",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.543
+      },
+      {
+        "name": "Galaxy",
+        "matched_term": "Galaxy",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.163
+      }
+    ]
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "e29b4376e6aad9521f8e236ffcbf417121c1d7b31c19b2be1ae81841959ca9c2",
+  "record_id": "RX-0094",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 7982.2301999956835,
+  "failure": null,
+  "response_sha256": "fe479fbfa6b3972d17006a94ade329e4bbdf4f3f927c3bddba17223771653f29",
+  "response": {
+    "raw_text": "To Tolparis (10)\n140EL\nColumn Dz (D)\n1+0+1",
+    "lines": [
+      {
+        "text": "To Tolparis (10)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.337
+      },
+      {
+        "text": "140EL",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.337
+      },
+      {
+        "text": "Column Dz (D)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.337
+      },
+      {
+        "text": "1+0+1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.337
+      }
+    ]
+  }
+}

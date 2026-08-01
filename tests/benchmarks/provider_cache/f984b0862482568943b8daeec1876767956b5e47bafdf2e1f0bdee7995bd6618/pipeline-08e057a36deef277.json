@@ -1,0 +1,215 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0076",
+  "source_sha256": "f984b0862482568943b8daeec1876767956b5e47bafdf2e1f0bdee7995bd6618",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:35:41.992231+00:00",
+  "runtime_ms": 11382.22540001152,
+  "output": {
+    "medications": [
+      {
+        "name": "Angilock",
+        "matched_term": "Angilock",
+        "drug_id": "9dff0641-71c5-420c-96b2-1eb99b9f1c6c",
+        "brand_id": "7f029a4c-3c7f-4e52-a3e4-dc88434564c3",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.616
+      },
+      {
+        "name": "Cinnamon Oil",
+        "matched_term": "Cinnamon Oil",
+        "drug_id": "f4bf2adb-b018-4248-9f25-83a51683c588",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.616
+      },
+      {
+        "name": "Comet",
+        "matched_term": "Comet",
+        "drug_id": "9b1187f0-7a83-469b-ba7e-9767f208c540",
+        "brand_id": "37de78cc-ac31-4284-9057-77743b7e844f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.616
+      },
+      {
+        "name": "Pantac",
+        "matched_term": "Pantac",
+        "drug_id": "33050dbe-6840-4659-9f97-6934464c26d5",
+        "brand_id": "088b7903-da26-4424-8e59-7a9928944830",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.616
+      }
+    ],
+    "raw_text": "Angulock\n(\n0+07\n1\n12.\nCinnamon (13-\n1\n1+011\n50\n1\nComet 1\n€\n-6m\nअमूल एक\n(मालिमिन) डि. कार्ड (कार्डियनछि)\nने विनयष्ट\nPantano\n١\n100\n1",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 11335,
+      "detected_regions": 1,
+      "ocr_line_count": 20,
+      "yolo_avg_confidence": 0.8976,
+      "yolo_min_confidence": 0.8976,
+      "yolo_max_confidence": 0.8976,
+      "ocr_avg_confidence": 0.525,
+      "ocr_min_confidence": 0.525,
+      "ocr_max_confidence": 0.525,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 1685.587781524658,
+            "y_min": 2262.792034912109,
+            "x_max": 3284.4217636108397,
+            "y_max": 3960.1334503173825
+          },
+          "score": 0.8976
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Angulock",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "(",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "0+07",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "12.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "Cinnamon (13-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "1+011",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "50",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "Comet 1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "€",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "-6m",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "अमूल एक",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "(मालिमिन) डि. कार्ड (कार्डियनछि)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "ने विनयष्ट",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "Pantano",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "١",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "100",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

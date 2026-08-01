@@ -1,0 +1,207 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0040",
+  "source_sha256": "762fc38d4c1f699cf341aabbd997d914d9fa1ce30089b563e5275082da63a306",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:28:40.704310+00:00",
+  "runtime_ms": 10039.462500004447,
+  "output": {
+    "medications": [
+      {
+        "name": "Om",
+        "matched_term": "Om",
+        "drug_id": "7b1fa286-3a42-4d88-b689-49b453895844",
+        "brand_id": "700cdeb2-764e-47af-b487-2fa6ef4ee00b",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.687
+      },
+      {
+        "name": "Patient Type Gener Rx",
+        "matched_term": "Patient Type Gener Rx",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.307
+      },
+      {
+        "name": "Zolivox",
+        "matched_term": "Zolivox",
+        "drug_id": "a5caa618-2161-4a4c-90d3-480e4f778bc1",
+        "brand_id": "f5ab39a4-e65b-42ea-830a-2f681881b0d5",
+        "dosage": "400mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.583
+      },
+      {
+        "name": "To Fixeet Plus",
+        "matched_term": "To Fixeet Plus",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.307
+      },
+      {
+        "name": "Flexi",
+        "matched_term": "Flexi",
+        "drug_id": "8254bbfb-9bb9-4746-b780-f095d1908327",
+        "brand_id": "383e42ce-b82e-4c44-bbcf-4dc225550ece",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.687
+      },
+      {
+        "name": "Ty For",
+        "matched_term": "Ty For",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.307
+      },
+      {
+        "name": "Vonopa 20",
+        "matched_term": "Vonopa 20",
+        "drug_id": "55ebb327-c9ab-4e8e-9422-344e90e9d649",
+        "brand_id": "cf9aa7d5-0ada-4550-947a-4d628c05f1b1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.578
+      },
+      {
+        "name": "Kalcoral-D",
+        "matched_term": "Kalcoral-D",
+        "drug_id": "84b923fc-375e-4de6-a60d-722f8088a8e0",
+        "brand_id": "f67625aa-9efb-4f52-ace1-96db2bb8bf0c",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.687
+      }
+    ],
+    "raw_text": "Om NO. 19 ( Emergency )\nPatient Type : Gener\nRx\n36. Zoli vox (400mg)\nTo. Fixeet plus 250\n30. Flexi 100\n20 ty for)\n20. Vonopa 20\nKalconst-D\nno\n2\n0",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 10004,
+      "detected_regions": 1,
+      "ocr_line_count": 12,
+      "yolo_avg_confidence": 0.8991,
+      "yolo_min_confidence": 0.8991,
+      "yolo_max_confidence": 0.8991,
+      "ocr_avg_confidence": 0.683,
+      "ocr_min_confidence": 0.683,
+      "ocr_max_confidence": 0.683,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 190.25929260253906,
+            "y_min": 169.5868682861328,
+            "x_max": 554.275146484375,
+            "y_max": 577.984619140625
+          },
+          "score": 0.8991
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Om NO. 19 ( Emergency )",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.683
+        },
+        {
+          "text": "Patient Type : Gener",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.683
+        },
+        {
+          "text": "Rx",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.683
+        },
+        {
+          "text": "36. Zoli vox (400mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.683
+        },
+        {
+          "text": "To. Fixeet plus 250",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.683
+        },
+        {
+          "text": "30. Flexi 100",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.683
+        },
+        {
+          "text": "20 ty for)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.683
+        },
+        {
+          "text": "20. Vonopa 20",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.683
+        },
+        {
+          "text": "Kalconst-D",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.683
+        },
+        {
+          "text": "no",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.683
+        },
+        {
+          "text": "2",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.683
+        },
+        {
+          "text": "0",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.683
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

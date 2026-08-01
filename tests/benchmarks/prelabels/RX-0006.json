@@ -1,0 +1,1155 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0006",
+  "source_sha256": "67679b02ad347fe6d7c8babc8db2f93308f70e34636b933cda4f195dcfb07818",
+  "raw_transcription": "Rx,\n. Tal Pantones\n20mg)\n1+0+1\n20\nTal Algin ( say)\n1+0 +1\ntomy\n10",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "Tal Pantones",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "",
+      "strength": "20mg",
+      "dose": "",
+      "frequency": "1+0+1",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Algin",
+      "strength": "",
+      "dose": "",
+      "frequency": "1+0+1",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Tomy",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "d058e4339aa531f877ee843d6e2644ddf8707a896af87e1d7bd7a21a9c380326"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "e92bef8a481d2161c804188dd67f66ba2ad9ad9d8e57df3563bb3a948b17891a"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "7f3a718629936b24744090d3e9256b84e3d7761df07a34e49de4404838bd197b"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "Gos)enbiy\nohsh\n9-\nCnOE\no\nMONINNNIUNNTN\n2\n1\nMW\npA\n+0+1\nWIY\nCNANA\n1+0+1\nR\nTel\nT\ntoug\nK\npo\nOow\n2\nmooy\n3\nf\nof\n2\n/9\nC\nR\nC\nASlG\nJRD\n10l6\nM",
+      "lines": [
+        {
+          "text": "Gos)enbiy",
+          "bbox": {
+            "x_min": 2506.0,
+            "y_min": 56.0,
+            "x_max": 2892.0,
+            "y_max": 1096.0
+          },
+          "page": 1,
+          "confidence": 0.485
+        },
+        {
+          "text": "ohsh",
+          "bbox": {
+            "x_min": 778.0,
+            "y_min": 169.0,
+            "x_max": 1023.0,
+            "y_max": 675.0
+          },
+          "page": 1,
+          "confidence": 0.343
+        },
+        {
+          "text": "9-",
+          "bbox": {
+            "x_min": 566.0,
+            "y_min": 184.0,
+            "x_max": 683.0,
+            "y_max": 695.0
+          },
+          "page": 1,
+          "confidence": 0.498
+        },
+        {
+          "text": "CnOE",
+          "bbox": {
+            "x_min": 2043.0,
+            "y_min": 218.0,
+            "x_max": 2205.0,
+            "y_max": 641.0
+          },
+          "page": 1,
+          "confidence": 0.401
+        },
+        {
+          "text": "o",
+          "bbox": {
+            "x_min": 3002.0,
+            "y_min": 327.0,
+            "x_max": 3197.0,
+            "y_max": 562.0
+          },
+          "page": 1,
+          "confidence": 0.42
+        },
+        {
+          "text": "MONINNNIUNNTN",
+          "bbox": {
+            "x_min": 3976.0,
+            "y_min": 366.0,
+            "x_max": 4110.0,
+            "y_max": 1125.0
+          },
+          "page": 1,
+          "confidence": 0.34
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 2400.0,
+            "y_min": 484.0,
+            "x_max": 2537.0,
+            "y_max": 609.0
+          },
+          "page": 1,
+          "confidence": 0.935
+        },
+        {
+          "text": "1",
+          "bbox": {
+            "x_min": 3822.0,
+            "y_min": 480.0,
+            "x_max": 3873.0,
+            "y_max": 541.0
+          },
+          "page": 1,
+          "confidence": 0.281
+        },
+        {
+          "text": "MW",
+          "bbox": {
+            "x_min": 3780.0,
+            "y_min": 568.0,
+            "x_max": 3958.0,
+            "y_max": 955.0
+          },
+          "page": 1,
+          "confidence": 0.667
+        },
+        {
+          "text": "pA",
+          "bbox": {
+            "x_min": 760.0,
+            "y_min": 689.0,
+            "x_max": 971.0,
+            "y_max": 1848.0
+          },
+          "page": 1,
+          "confidence": 0.331
+        },
+        {
+          "text": "+0+1",
+          "bbox": {
+            "x_min": 2794.0,
+            "y_min": 685.0,
+            "x_max": 2951.0,
+            "y_max": 1222.0
+          },
+          "page": 1,
+          "confidence": 0.705
+        },
+        {
+          "text": "WIY",
+          "bbox": {
+            "x_min": 961.0,
+            "y_min": 749.0,
+            "x_max": 1033.0,
+            "y_max": 1053.0
+          },
+          "page": 1,
+          "confidence": 0.501
+        },
+        {
+          "text": "CNANA",
+          "bbox": {
+            "x_min": 4229.0,
+            "y_min": 782.0,
+            "x_max": 4301.0,
+            "y_max": 1086.0
+          },
+          "page": 1,
+          "confidence": 0.31
+        },
+        {
+          "text": "1+0+1",
+          "bbox": {
+            "x_min": 2224.0,
+            "y_min": 834.0,
+            "x_max": 2388.0,
+            "y_max": 1349.0
+          },
+          "page": 1,
+          "confidence": 0.9
+        },
+        {
+          "text": "R",
+          "bbox": {
+            "x_min": 4152.0,
+            "y_min": 960.0,
+            "x_max": 4166.0,
+            "y_max": 970.0
+          },
+          "page": 1,
+          "confidence": 0.123
+        },
+        {
+          "text": "Tel",
+          "bbox": {
+            "x_min": 2493.0,
+            "y_min": 1117.0,
+            "x_max": 2735.0,
+            "y_max": 1501.0
+          },
+          "page": 1,
+          "confidence": 0.365
+        },
+        {
+          "text": "T",
+          "bbox": {
+            "x_min": 1883.0,
+            "y_min": 1217.0,
+            "x_max": 2086.0,
+            "y_max": 1587.0
+          },
+          "page": 1,
+          "confidence": 0.26
+        },
+        {
+          "text": "toug",
+          "bbox": {
+            "x_min": 923.0,
+            "y_min": 1262.0,
+            "x_max": 1111.0,
+            "y_max": 1616.0
+          },
+          "page": 1,
+          "confidence": 0.35
+        },
+        {
+          "text": "K",
+          "bbox": {
+            "x_min": 1607.0,
+            "y_min": 1335.0,
+            "x_max": 1801.0,
+            "y_max": 1578.0
+          },
+          "page": 1,
+          "confidence": 0.348
+        },
+        {
+          "text": "po",
+          "bbox": {
+            "x_min": 2693.0,
+            "y_min": 1863.0,
+            "x_max": 2875.0,
+            "y_max": 2170.0
+          },
+          "page": 1,
+          "confidence": 0.363
+        },
+        {
+          "text": "Oow",
+          "bbox": {
+            "x_min": 811.0,
+            "y_min": 1954.0,
+            "x_max": 957.0,
+            "y_max": 2446.0
+          },
+          "page": 1,
+          "confidence": 0.453
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 1070.0,
+            "y_min": 2196.0,
+            "x_max": 1161.0,
+            "y_max": 2545.0
+          },
+          "page": 1,
+          "confidence": 0.682
+        },
+        {
+          "text": "mooy",
+          "bbox": {
+            "x_min": 2557.0,
+            "y_min": 2340.0,
+            "x_max": 2802.0,
+            "y_max": 2797.0
+          },
+          "page": 1,
+          "confidence": 0.445
+        },
+        {
+          "text": "3",
+          "bbox": {
+            "x_min": 2331.0,
+            "y_min": 2394.0,
+            "x_max": 2649.0,
+            "y_max": 2811.0
+          },
+          "page": 1,
+          "confidence": 0.169
+        },
+        {
+          "text": "f",
+          "bbox": {
+            "x_min": 3050.0,
+            "y_min": 2382.0,
+            "x_max": 3362.0,
+            "y_max": 2722.0
+          },
+          "page": 1,
+          "confidence": 0.908
+        },
+        {
+          "text": "of",
+          "bbox": {
+            "x_min": 1866.0,
+            "y_min": 2558.0,
+            "x_max": 2096.0,
+            "y_max": 2857.0
+          },
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 2038.0,
+            "y_min": 2573.0,
+            "x_max": 2223.0,
+            "y_max": 2933.0
+          },
+          "page": 1,
+          "confidence": 0.239
+        },
+        {
+          "text": "/9",
+          "bbox": {
+            "x_min": 1574.0,
+            "y_min": 2570.0,
+            "x_max": 1823.0,
+            "y_max": 2963.0
+          },
+          "page": 1,
+          "confidence": 0.684
+        },
+        {
+          "text": "C",
+          "bbox": {
+            "x_min": 1703.0,
+            "y_min": 2646.0,
+            "x_max": 1719.0,
+            "y_max": 2660.0
+          },
+          "page": 1,
+          "confidence": 0.163
+        },
+        {
+          "text": "R",
+          "bbox": {
+            "x_min": 1991.0,
+            "y_min": 2667.0,
+            "x_max": 2000.0,
+            "y_max": 2692.0
+          },
+          "page": 1,
+          "confidence": 0.148
+        },
+        {
+          "text": "C",
+          "bbox": {
+            "x_min": 1995.0,
+            "y_min": 2662.0,
+            "x_max": 2006.0,
+            "y_max": 2691.0
+          },
+          "page": 1,
+          "confidence": 0.076
+        },
+        {
+          "text": "ASlG",
+          "bbox": {
+            "x_min": 1069.0,
+            "y_min": 3069.0,
+            "x_max": 1159.0,
+            "y_max": 3260.0
+          },
+          "page": 1,
+          "confidence": 0.447
+        },
+        {
+          "text": "JRD",
+          "bbox": {
+            "x_min": 532.0,
+            "y_min": 3245.0,
+            "x_max": 666.0,
+            "y_max": 3429.0
+          },
+          "page": 1,
+          "confidence": 0.414
+        },
+        {
+          "text": "10l6",
+          "bbox": {
+            "x_min": 981.0,
+            "y_min": 3295.0,
+            "x_max": 1099.0,
+            "y_max": 3460.0
+          },
+          "page": 1,
+          "confidence": 0.324
+        },
+        {
+          "text": "M",
+          "bbox": {
+            "x_min": 751.0,
+            "y_min": 3293.0,
+            "x_max": 929.0,
+            "y_max": 3466.0
+          },
+          "page": 1,
+          "confidence": 0.404
+        }
+      ],
+      "medications": [
+        {
+          "name": "Gos Enbiy",
+          "matched_term": "Gos Enbiy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.218
+        },
+        {
+          "name": "Ohsh",
+          "matched_term": "Ohsh",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.189
+        },
+        {
+          "name": "Cnoe",
+          "matched_term": "Cnoe",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.185
+        },
+        {
+          "name": "Moninnniunntn Femwan",
+          "matched_term": "Moninnniunntn Femwan",
+          "drug_id": "b96d1e7f-1592-42e8-a8ff-3ef46fd1fb10",
+          "brand_id": "dfdf12b8-49da-41d8-b060-894059e71dce",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.244
+        },
+        {
+          "name": "Wiy",
+          "matched_term": "Wiy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.225
+        },
+        {
+          "name": "Cnana",
+          "matched_term": "Cnana",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": "1+0+1",
+          "quantity": null,
+          "confidence": 0.249
+        },
+        {
+          "name": "Tel",
+          "matched_term": "Tel",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.141
+        },
+        {
+          "name": "Toug Po",
+          "matched_term": "Toug Po",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.159
+        },
+        {
+          "name": "Oow",
+          "matched_term": "Oow",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.255
+        },
+        {
+          "name": "Mooy Of",
+          "matched_term": "Mooy Of",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.17
+        },
+        {
+          "name": "Aslg",
+          "matched_term": "Aslg",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.201
+        },
+        {
+          "name": "Jrd",
+          "matched_term": "Jrd",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.171
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "(जयणि\nIm\nबसु (बर्यदि)-45\nडिकिश्मक कड़क ब्बाभीव बारश्रज\n1\nब्बाभीव नाग\nw) O Mepo mZit sigelser\n45YRS\nBNS NNM\nस्वाटभव नाग\nडिकिस्मतकब बारशनना\na\ntroenterolo\n11\nDate\n26/2/\nCMH Dnak\n601\nD-22\nUL :\nPain in\nupper abd.\nSIP\nCholecystectomy\nRx,\nTal Pantones\n20mg)\n1+0+1\n20\n. Tab Algin ( sang)\n1+0+1\n10\n.\n102\nMani-\nMONIRA HAQUE RATHE\nTHESOHNGangin\nTrainde in Medicine\nAPDONCMII Dhaka\nबिना\nशनि",
+      "lines": [
+        {
+          "text": "(जयणि",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "Im",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "बसु (बर्यदि)-45",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "डिकिश्मक कड़क ब्बाभीव बारश्रज",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "ब्बाभीव नाग",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "w) O Mepo mZit sigelser",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "45YRS",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "BNS NNM",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "स्वाटभव नाग",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "डिकिस्मतकब बारशनना",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "a",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "troenterolo",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "11",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "Date",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "26/2/",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "CMH Dnak",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "601",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "D-22",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "UL :",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "Pain in",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "upper abd.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "SIP",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "Cholecystectomy",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "Rx,",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "Tal Pantones",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "20mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "1+0+1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "20",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": ". Tab Algin ( sang)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "1+0+1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "10",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": ".",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "102",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "Mani-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "MONIRA HAQUE RATHE",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "THESOHNGangin",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "Trainde in Medicine",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "APDONCMII Dhaka",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "बिना",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "शनि",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.58
+        }
+      ],
+      "medications": [
+        {
+          "name": "Mepol",
+          "matched_term": "Mepol",
+          "drug_id": "a0ba02de-af44-451d-94d0-daf6ea7740e8",
+          "brand_id": "6c76f1c5-d615-4d8c-9d28-d95efcd38642",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.641
+        },
+        {
+          "name": "Bns Nnm",
+          "matched_term": "Bns Nnm",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "Troenterolo",
+          "matched_term": "Troenterolo",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "Date",
+          "matched_term": "Date",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "Cmh Dnak Ul",
+          "matched_term": "Cmh Dnak Ul",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "P-Pain",
+          "matched_term": "P-Pain",
+          "drug_id": "44efad0f-7a28-4a0b-9077-8ca85d853d8c",
+          "brand_id": "7db2139b-a196-495a-93f9-22bdc4b424f7",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.641
+        },
+        {
+          "name": "Acimix Supper-L",
+          "matched_term": "Acimix Supper-L",
+          "drug_id": "d82a4889-231e-4e06-8721-688f9c29d7ec",
+          "brand_id": "f52e3d93-d381-4947-a506-e87e7e4f38ec",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.641
+        },
+        {
+          "name": "Sip",
+          "matched_term": "Sip",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "Cholecystectomy Rx",
+          "matched_term": "Cholecystectomy Rx",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "Tal Pantones",
+          "matched_term": "Tal Pantones",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": null,
+          "matched_term": null,
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "20mg",
+          "frequency": "1+0+1",
+          "quantity": null,
+          "confidence": 0.362
+        },
+        {
+          "name": "Algin",
+          "matched_term": "Algin",
+          "drug_id": "291ab7c7-25e1-4a8a-9a2b-4a359507bea9",
+          "brand_id": "3d1be21f-d198-40f5-8899-ed964f623777",
+          "dosage": null,
+          "frequency": "1+0+1",
+          "quantity": null,
+          "confidence": 0.691
+        },
+        {
+          "name": "Manil",
+          "matched_term": "Manil",
+          "drug_id": "92cc83b7-d137-4b5f-aa22-3a707abb4374",
+          "brand_id": "d992c8a7-723a-40f9-97e0-78b80f0c6fb0",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.641
+        },
+        {
+          "name": "Monira Haque Rathe",
+          "matched_term": "Monira Haque Rathe",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "Thesohngangin",
+          "matched_term": "Thesohngangin",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "Trainde In Medicine",
+          "matched_term": "Trainde In Medicine",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "Apdoncmii Dhaka",
+          "matched_term": "Apdoncmii Dhaka",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "Tal Pantones",
+          "matched_term": "Tal Pantones",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.347
+        },
+        {
+          "name": null,
+          "matched_term": null,
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "20mg",
+          "frequency": "1+0+1",
+          "quantity": null,
+          "confidence": 0.448
+        },
+        {
+          "name": "Algin",
+          "matched_term": "Algin",
+          "drug_id": "291ab7c7-25e1-4a8a-9a2b-4a359507bea9",
+          "brand_id": "3d1be21f-d198-40f5-8899-ed964f623777",
+          "dosage": null,
+          "frequency": "1+0+1",
+          "quantity": null,
+          "confidence": 0.777
+        },
+        {
+          "name": "Tomy",
+          "matched_term": "Tomy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.347
+        }
+      ],
+      "raw_text": "Rx,\n. Tal Pantones\n20mg)\n1+0+1\n20\nTal Algin ( say)\n1+0 +1\ntomy\n10",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 27544,
+        "detected_regions": 1,
+        "ocr_line_count": 9,
+        "yolo_avg_confidence": 0.8385,
+        "yolo_min_confidence": 0.8385,
+        "yolo_max_confidence": 0.8385,
+        "ocr_avg_confidence": 0.772,
+        "ocr_min_confidence": 0.772,
+        "ocr_max_confidence": 0.772,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 1692.771329498291,
+              "y_min": 1433.0715179443357,
+              "x_max": 3440.792477416992,
+              "y_max": 3638.369592285156
+            },
+            "score": 0.8385
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "Rx,",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.772
+          },
+          {
+            "text": ". Tal Pantones",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.772
+          },
+          {
+            "text": "20mg)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.772
+          },
+          {
+            "text": "1+0+1",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.772
+          },
+          {
+            "text": "20",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.772
+          },
+          {
+            "text": "Tal Algin ( say)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.772
+          },
+          {
+            "text": "1+0 +1",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.772
+          },
+          {
+            "text": "tomy",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.772
+          },
+          {
+            "text": "10",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.772
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

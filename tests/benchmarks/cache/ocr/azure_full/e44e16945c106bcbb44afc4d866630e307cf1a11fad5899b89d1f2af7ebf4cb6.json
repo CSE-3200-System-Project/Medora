@@ -1,0 +1,224 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "e44e16945c106bcbb44afc4d866630e307cf1a11fad5899b89d1f2af7ebf4cb6",
+  "record_id": "RX-0003",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 17388.518699997803,
+  "failure": null,
+  "response_sha256": "2049c58b7e12084e11e908081e087f884e602aa20f70c2ea0fc8cdbb101585a5",
+  "response": {
+    "raw_text": "W/O\n42\nकिकिश्मक कड़क ब्बानीव बादइन4\n40 ye\nजांगीड नाय MEt Siddidee Mego (x) सक्षम\n420377\nहिकिश्माकब बारशमना\nस्वादगव नाग\nशिर\nSIM\n09-06-16\nce -\nDPVY\nAdv\n0\n0\nपति:\n-5, 15Ft.\nQUAVIRRA BO 3MUY\n· Cap,\nsecto\n204\n?tot?\n20\n· Tab. Domin (Joy]\neszyro\n20\n· Cap. Feofol\ntoto\nRend to SPL of\nhe Gynae & obs.\nof DCMH for needful\naction.\nविथ",
+    "lines": [
+      {
+        "text": "W/O",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "42",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "किकिश्मक कड़क ब्बानीव बादइन4",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "40 ye",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "जांगीड नाय MEt Siddidee Mego (x) सक्षम",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "420377",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "हिकिश्माकब बारशमना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "स्वादगव नाग",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "शिर",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "SIM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "09-06-16",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "ce -",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "DPVY",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "Adv",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "पति:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "-5, 15Ft.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "QUAVIRRA BO 3MUY",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "· Cap,",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "secto",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "204",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "?tot?",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "· Tab. Domin (Joy]",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "eszyro",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "· Cap. Feofol",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "toto",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "Rend to SPL of",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "he Gynae & obs.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "of DCMH for needful",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "action.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "विथ",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      }
+    ]
+  }
+}

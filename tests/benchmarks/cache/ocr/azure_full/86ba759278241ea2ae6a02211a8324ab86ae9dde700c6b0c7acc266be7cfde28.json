@@ -1,0 +1,404 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "86ba759278241ea2ae6a02211a8324ab86ae9dde700c6b0c7acc266be7cfde28",
+  "record_id": "RX-0065",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 32356.922000006307,
+  "failure": null,
+  "response_sha256": "43276105e6a8c1c77bcf53bb249408f6d4929cfe91014d207860001fd97ce140",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / यावशभय\nG079\nMedical Center;\nA06128984\nPilgrim ID\n1256135\nPassport No\nName\nMD SADRUL ISLAM\nGender\nMALE\nDistrict\nHEALTH PROFILE\n120/80\nNO\n1. Blood Group:\nNO\nNO\n3. Heart Disease:\nNO\n4. Lung Disease:\n5.5\n5. Kidney Disease:\nNO\n6. Dlabelos:\nNO\n7. Mental Disease:\n75\n8. Blood Sugar (RBS):\nNO\n9. Weight:\n10. Liver Disease:\n11. Drug History:\n12. Any other abnormalities:\n27 May 2004\nChief Complaints:\nVisit No:\nDate:\nOVE :-\nPulse-\nBP.\nTemp-\nAnaemia-\nDehydration-\nRespiration-\nOthers-\nFBSIRBS-22-4 mmol/L\nECG\nProvisional Diagonosis\nएम (ष्टिकम एग्जाम हिकिकिया गया नयामन बना थ यानकन्वी धकिंवाद्र क्याये मान खानतक बाय।\n19 mixtoal 30/70\n10+0+8 (B)- 67ans 316 anizer\nth\nmoltomax 500\n202+2-\n151\nMaktab No\nRANGPUR\nThana\n2. Blood Pressure:",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "TREATMENT CARD / यावशभय",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "G079",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "Medical Center;",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "A06128984",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "Pilgrim ID",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "1256135",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "Passport No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "Name",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "MD SADRUL ISLAM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "Gender",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "MALE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "District",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "120/80",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "1. Blood Group:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "3. Heart Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "4. Lung Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "5.5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "5. Kidney Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "6. Dlabelos:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "7. Mental Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "75",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "8. Blood Sugar (RBS):",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "9. Weight:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "10. Liver Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "11. Drug History:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "12. Any other abnormalities:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "27 May 2004",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "Visit No:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "Date:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "OVE :-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "Pulse-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "BP.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "Temp-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "Anaemia-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "FBSIRBS-22-4 mmol/L",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "एम (ष्टिकम एग्जाम हिकिकिया गया नयामन बना थ यानकन्वी धकिंवाद्र क्याये मान खानतक बाय।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "19 mixtoal 30/70",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "10+0+8 (B)- 67ans 316 anizer",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "th",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "moltomax 500",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "202+2-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "151",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "Maktab No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "RANGPUR",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "Thana",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "2. Blood Pressure:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.749
+      }
+    ]
+  }
+}

@@ -1,0 +1,392 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "08a0c7f2a1502139d885112749af9bc74fc471cf86516ebff0640998923b7bf0",
+  "record_id": "RX-0028",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 39739.60579998675,
+  "failure": null,
+  "response_sha256": "c47be19afeaa66f354423601635fadd6ab6a5b16596b8ba62e16116b1d12954c",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD/ यायश नज\nMedical Center\nOTO-1* G003\nName\nMO SOPEUL ALAM\nAge .M!\nGender\nMALE\nDistric PANCHAGARH\nThe PODA\nHEALTH PROFILE\n0+\n1. Blood Group.\n2. Blood Pressure:\n130M0\nNO\n3. Heart Disease:\n4. Lung Disease:\nNO\n5. Kidney Diense: NO\n6. Diebeles\n7, Mental Discade: 71\n8. Blood Sugar (RBS)\n9. Weigly\n10. Liver Disease.\n11. Drug History.\n12. Any other abnormal tios. NO\nChief Complaints:\n1 bain &\nQue blant\nPuke-\nBP\nTemp-\nAnaemia-\nDehydration-\nRespiration-\nOthers-\nFBSIRBS-\nEOG\nProvisional Diagonosis\n2nd COPY\nVai No:\nDaPi May 2024\nTab. Ketordas (10mg)\n7 days\no Cup. Omeprazol (20mg)\nTrots\n18\n· Tab. Calcium\n$ 28\n· Diclofena - gel.\nएम एमस्टिकम :मकरव हिलियमा मया अष्टण्व कमा ये बाबडालवटी चैटिंगबात करणाये नाम आनटफ घटने।\n25/05/202\nPilgrim ID\n8002401\nPasaport No\nA05023280\nMaktab No __ 07",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "TREATMENT CARD/ यायश नज",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Medical Center",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "OTO-1* G003",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Name",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "MO SOPEUL ALAM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Age .M!",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Gender",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "MALE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Distric PANCHAGARH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "The PODA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "0+",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "1. Blood Group.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "2. Blood Pressure:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "130M0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "3. Heart Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "4. Lung Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "5. Kidney Diense: NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "6. Diebeles",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "7, Mental Discade: 71",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "8. Blood Sugar (RBS)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "9. Weigly",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "10. Liver Disease.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "11. Drug History.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "12. Any other abnormal tios. NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "1 bain &",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Que blant",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Puke-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "BP",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Temp-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Anaemia-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "FBSIRBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "EOG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "2nd COPY",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Vai No:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "DaPi May 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Tab. Ketordas (10mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "7 days",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "o Cup. Omeprazol (20mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Trots",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "· Tab. Calcium",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "$ 28",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "· Diclofena - gel.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "एम एमस्टिकम :मकरव हिलियमा मया अष्टण्व कमा ये बाबडालवटी चैटिंगबात करणाये नाम आनटफ घटने।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "25/05/202",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Pilgrim ID",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "8002401",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Pasaport No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "A05023280",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Maktab No __ 07",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      }
+    ]
+  }
+}

@@ -1,0 +1,291 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0094",
+  "source_sha256": "e29b4376e6aad9521f8e236ffcbf417121c1d7b31c19b2be1ae81841959ca9c2",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T18:08:20.907634+00:00",
+  "runtime_ms": 13963.823999991291,
+  "output": {
+    "raw_text": "S\nGOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nCandleoch Heij Office\nTREATMENT CARDIFFIST\nHEALTH PROFILE\n2. El :: al Press.m.\nChef Complains:\nThe Tolparis ( 10)\n/+0+1\nCehattrailkr\nRosalraticr-\nCalen DI (Tv)\n1+0+)\n-2.6.\nFES.RES\nECG\nProvis onel Diagonceis\nDiclefaune gel-2\n2",
+    "lines": [
+      {
+        "text": "S",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Candleoch Heij Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "TREATMENT CARDIFFIST",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "2. El :: al Press.m.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Chef Complains:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "The Tolparis ( 10)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "/+0+1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Cehattrailkr",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Rosalraticr-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Calen DI (Tv)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "1+0+)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "-2.6.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "FES.RES",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Provis onel Diagonceis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Diclefaune gel-2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      }
+    ],
+    "medications": [
+      {
+        "name": "Government Of The",
+        "matched_term": "Government Of The",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Minista",
+        "matched_term": "Minista",
+        "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+        "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.663
+      },
+      {
+        "name": "Candleoch Heij Office",
+        "matched_term": "Candleoch Heij Office",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Treatment Cardiffist",
+        "matched_term": "Treatment Cardiffist",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.663
+      },
+      {
+        "name": "Es-Press",
+        "matched_term": "Es-Press",
+        "drug_id": "f0e5b41b-a68b-4b60-a3a8-100d060fe7f7",
+        "brand_id": "d8841705-58dc-43c3-a2e2-63e736a66f7e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.663
+      },
+      {
+        "name": "Chef Complains",
+        "matched_term": "Chef Complains",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "The Tolparis",
+        "matched_term": "The Tolparis",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Cehattrailkr",
+        "matched_term": "Cehattrailkr",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Rosalraticr",
+        "matched_term": "Rosalraticr",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Calen Di Tv",
+        "matched_term": "Calen Di Tv",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Fes Res",
+        "matched_term": "Fes Res",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Ecg",
+        "matched_term": "Ecg",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Provit",
+        "matched_term": "Provit",
+        "drug_id": "0a4cb4a5-856a-4091-b9f3-a76b429bdded",
+        "brand_id": "5d85a936-e5e8-4e0f-870a-5583574c4e4c",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.663
+      },
+      {
+        "name": "Diclefaune Gel",
+        "matched_term": "Diclefaune Gel",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      }
+    ]
+  }
+}

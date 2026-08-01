@@ -1,0 +1,453 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0090",
+  "source_sha256": "ed166aee660273228c302c9ec3e3d53375b1e356d3e448d17f50bc9ed7603b29",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T18:07:07.461154+00:00",
+  "runtime_ms": 18858.18300000392,
+  "output": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nExvictodesh Hall Office\nMakka:vadinateJeddah\nTREATMENT CARD / 480\n*:** * F078\n~: 2210.30\nMAKRON5 500\nSonovi\nHEALTH PROFILE\n11: Drug Hoxy:\nChief Complainta:\nVNENC.\nLAP\nBisat Five\nPUNTO\nTomp\nDat yraallar-\nHospraut-\nOthers-\nparacetamol (sr)\nA+++3-6742\nFBSRBS-\nProvisional Diagoncsis\nRx\nNaproxen ( 5mg)\nomeprazole crant me\n2.1012 - CR2\nFexofenadin (120m)\nMusical Certen\nBY\nN",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Exvictodesh Hall Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Makka:vadinateJeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "TREATMENT CARD / 480",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "*:** * F078",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "~: 2210.30",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "MAKRON5 500",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Sonovi",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "11: Drug Hoxy:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Chief Complainta:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "VNENC.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "LAP",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Bisat Five",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "PUNTO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Tomp",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Dat yraallar-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Hospraut-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "paracetamol (sr)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "A+++3-6742",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "FBSRBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Provisional Diagoncsis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Naproxen ( 5mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "omeprazole crant me",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "2.1012 - CR2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Fexofenadin (120m)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Musical Certen",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "BY",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "N",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      }
+    ],
+    "medications": [
+      {
+        "name": "Government Of The",
+        "matched_term": "Government Of The",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.258
+      },
+      {
+        "name": "Minista",
+        "matched_term": "Minista",
+        "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+        "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.638
+      },
+      {
+        "name": "Exvictodesh Hall Office",
+        "matched_term": "Exvictodesh Hall Office",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.258
+      },
+      {
+        "name": "Makka Vadinatejeddah",
+        "matched_term": "Makka Vadinatejeddah",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.258
+      },
+      {
+        "name": "Treatment Card Makron",
+        "matched_term": "Treatment Card Makron",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.258
+      },
+      {
+        "name": "Sonovi",
+        "matched_term": "Sonovi",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.258
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.638
+      },
+      {
+        "name": "Drug Hoxy",
+        "matched_term": "Drug Hoxy",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.258
+      },
+      {
+        "name": "Chief Complainta",
+        "matched_term": "Chief Complainta",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.258
+      },
+      {
+        "name": "Vnenc",
+        "matched_term": "Vnenc",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.258
+      },
+      {
+        "name": "Lap",
+        "matched_term": "Lap",
+        "drug_id": "41094d0e-3d68-46e7-8480-d54f5226ce1b",
+        "brand_id": "e201e3d0-9a2d-410c-a7a7-89f367a9ad82",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.638
+      },
+      {
+        "name": "Bisan",
+        "matched_term": "Bisan",
+        "drug_id": "e980c126-ecb1-4e93-b906-3b0016bc7ba7",
+        "brand_id": "15f40ad5-94c3-410d-aff9-ddc8efaf8e6e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.638
+      },
+      {
+        "name": "Punto",
+        "matched_term": "Punto",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.258
+      },
+      {
+        "name": "Tomp",
+        "matched_term": "Tomp",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.258
+      },
+      {
+        "name": "Dat Yraallar",
+        "matched_term": "Dat Yraallar",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.258
+      },
+      {
+        "name": "Hospraut",
+        "matched_term": "Hospraut",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.258
+      },
+      {
+        "name": "Othera",
+        "matched_term": "Othera",
+        "drug_id": "25a9f52e-b192-462a-b9a3-bef96e0f684d",
+        "brand_id": "43ed2ac7-38ef-4fe3-a605-a6fb9b07264e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.638
+      },
+      {
+        "name": "paracetamol",
+        "matched_term": "paracetamol",
+        "drug_id": "506f3ed5-2dc3-434c-9383-7ee8fdc53209",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.638
+      },
+      {
+        "name": "Fbsrbs",
+        "matched_term": "Fbsrbs",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.258
+      },
+      {
+        "name": "Provisional Diagoncsis Rx",
+        "matched_term": "Provisional Diagoncsis Rx",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.258
+      },
+      {
+        "name": "naproxen",
+        "matched_term": "naproxen",
+        "drug_id": "daa2f35b-44db-456e-9f07-5beb817cf44c",
+        "brand_id": null,
+        "dosage": "5mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.689
+      },
+      {
+        "name": "omeprazole",
+        "matched_term": "omeprazole",
+        "drug_id": "a6163acf-c078-4714-b3a6-cdfaae9f75c0",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.638
+      },
+      {
+        "name": "Fexofenadine",
+        "matched_term": "Fexofenadine",
+        "drug_id": "9273a76a-e410-4de4-9598-ed58aede0ead",
+        "brand_id": "ebc09f59-c30a-4a3c-a3d3-fb85b4bf58e7",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.638
+      },
+      {
+        "name": "Musical Certen Baby-2",
+        "matched_term": "Musical Certen Baby-2",
+        "drug_id": "0f6b6134-40f4-440a-8052-dcc68191a96f",
+        "brand_id": "b114a20d-5add-4f67-8ac8-6b18b3cff194",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.258
+      }
+    ]
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "241cb16db618c778b2ffe07c31dc9ebedaa22f08cdeedb1de4d4f68fd3237b63",
+  "record_id": "RX-0096",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 4886.595799995121,
+  "failure": null,
+  "response_sha256": "a0fb489d66952e9c7de667fb7c0c20587528634033fc53aff54d3173e8284870",
+  "response": {
+    "raw_text": "Dystry\n· Tal. Agitano mycin 500\n07072- 6157\n· IN.\nMetronidazole 400\n10\n2737)\n· DR5 - 5\n20/5",
+    "lines": [
+      {
+        "text": "Dystry",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "· Tal. Agitano mycin 500",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "07072- 6157",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "· IN.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "Metronidazole 400",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "2737)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "· DR5 - 5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "20/5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      }
+    ]
+  }
+}

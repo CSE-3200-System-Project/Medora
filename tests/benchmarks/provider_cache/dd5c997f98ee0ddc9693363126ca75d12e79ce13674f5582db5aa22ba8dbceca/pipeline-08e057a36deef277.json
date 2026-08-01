@@ -1,0 +1,199 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0030",
+  "source_sha256": "dd5c997f98ee0ddc9693363126ca75d12e79ce13674f5582db5aa22ba8dbceca",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:26:53.672987+00:00",
+  "runtime_ms": 7482.556199989631,
+  "output": {
+    "medications": [
+      {
+        "name": "Tais",
+        "matched_term": "Tais",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.24
+      },
+      {
+        "name": "Omsider",
+        "matched_term": "Omsider",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.24
+      },
+      {
+        "name": "Losectil V",
+        "matched_term": "Losectil V",
+        "drug_id": "7b1fa286-3a42-4d88-b689-49b453895844",
+        "brand_id": "f86d6e44-59f4-4fa4-8b24-74d54737b5b5",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.62
+      },
+      {
+        "name": "C-Tab",
+        "matched_term": "C-Tab",
+        "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+        "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.62
+      },
+      {
+        "name": "Rocipro",
+        "matched_term": "Rocipro",
+        "drug_id": "8b7ef7af-6374-437d-af80-916fd76dba4b",
+        "brand_id": "ab638b46-8b64-4b3d-b83e-ce5bf1022935",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.62
+      },
+      {
+        "name": "D-Cap",
+        "matched_term": "D-Cap",
+        "drug_id": "e19d17d9-3fac-4185-8757-32f0d322ee98",
+        "brand_id": "30128340-f4e9-487f-8f85-f67d3b82460f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.62
+      },
+      {
+        "name": "Trace Uma",
+        "matched_term": "Trace Uma",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.24
+      },
+      {
+        "name": "Ain",
+        "matched_term": "Ain",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.24
+      },
+      {
+        "name": "Direvos Tro Mg",
+        "matched_term": "Direvos Tro Mg",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.24
+      }
+    ],
+    "raw_text": "Tais\nOmsider\nCap Losectil. v\nTab\nRecipro (spo-)\n· Cap\nI trace (uma)\nain\nTab Direvos tro mg",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 7447,
+      "detected_regions": 1,
+      "ocr_line_count": 9,
+      "yolo_avg_confidence": 0.8818,
+      "yolo_min_confidence": 0.8818,
+      "yolo_max_confidence": 0.8818,
+      "ocr_avg_confidence": 0.534,
+      "ocr_min_confidence": 0.534,
+      "ocr_max_confidence": 0.534,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 267.1414794921875,
+            "y_min": 144.82046508789062,
+            "x_max": 468.8184509277344,
+            "y_max": 365.06365966796875
+          },
+          "score": 0.8818
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Tais",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "Omsider",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "Cap Losectil. v",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "Tab",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "Recipro (spo-)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "· Cap",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "I trace (uma)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "ain",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "Tab Direvos tro mg",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

@@ -1,0 +1,398 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "f0ef1919ebad9d5007a95a09c3fb02c8f733b986aa1e354fd309a225ae395e31",
+  "record_id": "RX-0105",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 32620.49279999337,
+  "failure": null,
+  "response_sha256": "e8ff0fa9e454e75f71cff16c1d8dda873774bf4e0c86b526c6bba858f27bd05c",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / वानशनज\nG017\nकार्बन नएं\nPilgrim ID ____ 0174068\nPasaport No\nA00380027\nMaktab No.\nGender ....\nMALE\nDistrict CHATTOGRAM\nKHULSHI\nThana\nHEALTH PROFILE\n1. Blood Group:\nNO\n2. Blood Pressure:\nNO\n3. Heart Disease:\n5. Kidney Disease:\nNO\n4. Lung Disease:\n5.67\n7. Mental Disease:\nNO\n6. Diabetes:\nNO\n9, Weight:\n10. Liver Disease:\n11. Drug History:\n12. Any other abnormalities:\nChief Complaints:\n- Feet pim\nVisit No:\n2nd COPY\n27 May 2024\nRx,\n- 04. Naproxen (500mg)-20\nPulso-\nTop- 120/80 months\nTemp-\nAnaemia-\nDehydration-\nRespiration-\nOthers-\nFBS/RBS-\nECG\nProvisional Diagonosis\nDate:\n50\n- Cap. fratid (como)\n29.04.2018\nएम एसविटिकन गणेशव डिकिदिया गया अटपटा सभा । बारह गमणि अधिवाता वरनाई ऋण वामटर पटना।\nNO\n8. Blood Sugar (RBS);\nNO\nMedical Center:\nNamo _.\nJANIL AKHTAR\n... Ago",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "TREATMENT CARD / वानशनज",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "G017",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "कार्बन नएं",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "Pilgrim ID ____ 0174068",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "Pasaport No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "A00380027",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "Maktab No.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "Gender ....",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "MALE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "District CHATTOGRAM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "KHULSHI",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "Thana",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "1. Blood Group:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "2. Blood Pressure:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "3. Heart Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "5. Kidney Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "4. Lung Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "5.67",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "7. Mental Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "6. Diabetes:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "9, Weight:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "10. Liver Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "11. Drug History:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "12. Any other abnormalities:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "- Feet pim",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "Visit No:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "2nd COPY",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "27 May 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "Rx,",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "- 04. Naproxen (500mg)-20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "Pulso-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "Top- 120/80 months",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "Temp-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "Anaemia-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "FBS/RBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "Date:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "50",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "- Cap. fratid (como)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "29.04.2018",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "एम एसविटिकन गणेशव डिकिदिया गया अटपटा सभा । बारह गमणि अधिवाता वरनाई ऋण वामटर पटना।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "8. Blood Sugar (RBS);",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "Medical Center:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "Namo _.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "JANIL AKHTAR",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": "... Ago",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.757
+      }
+    ]
+  }
+}

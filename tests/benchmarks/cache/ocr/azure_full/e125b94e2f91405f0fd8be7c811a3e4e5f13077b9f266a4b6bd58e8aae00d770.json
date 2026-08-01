@@ -1,0 +1,296 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "e125b94e2f91405f0fd8be7c811a3e4e5f13077b9f266a4b6bd58e8aae00d770",
+  "record_id": "RX-0056",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 29333.10530000017,
+  "failure": null,
+  "response_sha256": "cfbd397b324ca1dd61a514f94f29bd269377aa9fd607570bb9c587e100ac6e50",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hall Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / 41481 **\nMedical Center:\n100154252\nMaksub No CT\nW TAS UDOIN MAHRUD\nAgn AT\nNamp\nMALE\nDistri ;! GAZIFUR\nHEALTH PROFILE\nt. Blood Group\n2 Bloed Press.rn\n4 Lung Dosasa\nDiabetes:\n7. Mortal Discuss 62\n8. Blend Sagar (RDS)\n10. Liver Disease\na. Weight:\n11 Drug Hatary:\n12. Any onhat abnormalan:Nº\nChief Complaints:\nDel24 May 7024\n10\nPude-\nAP\nTema-\nAnaemia\nDehydration-\nRespiration-\nOthers\nFBS/RBS-\nECG\n26.05.2020\nProvisional Diagonosis\n126 paracetam ol\nTab Fexo (20 mg)\n10\nरूस (एसिडिकण (मनोज डिदिया गया काशुगर कला । बादहुआ थाकिवार अयमाह मटन खानाफ शाय।\n( ***** G163\nFignim ID\n01 12001\nGende",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Bangladesh Hall Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "TREATMENT CARD / 41481 **",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Medical Center:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "100154252",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Maksub No CT",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "W TAS UDOIN MAHRUD",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Agn AT",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Namp",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "MALE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Distri ;! GAZIFUR",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "t. Blood Group",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "2 Bloed Press.rn",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "4 Lung Dosasa",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Diabetes:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "7. Mortal Discuss 62",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "8. Blend Sagar (RDS)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "10. Liver Disease",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "a. Weight:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "11 Drug Hatary:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "12. Any onhat abnormalan:Nº",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Del24 May 7024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Pude-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "AP",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Tema-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Anaemia",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Others",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "FBS/RBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "26.05.2020",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "126 paracetam ol",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Tab Fexo (20 mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "रूस (एसिडिकण (मनोज डिदिया गया काशुगर कला । बादहुआ थाकिवार अयमाह मटन खानाफ शाय।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "( ***** G163",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Fignim ID",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "01 12001",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Gende",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      }
+    ]
+  }
+}

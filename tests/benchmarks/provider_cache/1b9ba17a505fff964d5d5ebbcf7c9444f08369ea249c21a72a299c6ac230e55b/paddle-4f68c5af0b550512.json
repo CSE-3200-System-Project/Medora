@@ -1,0 +1,409 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0038",
+  "source_sha256": "1b9ba17a505fff964d5d5ebbcf7c9444f08369ea249c21a72a299c6ac230e55b",
+  "provider": "paddle",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:40:11.956698+00:00",
+  "runtime_ms": 13834.581499992055,
+  "output": {
+    "raw_text": "Aminul Islam Sheikh\nTPiso\n022!\nRA\nn\n58\nmcna\n+0-8\nwostaun\n+\n5\ncondan\nAn20w\nBabi.\nAte\nr\nTAxan\ntn\ntoto-oun\nS.\nMucoso\n222-n\nTah  E\ntot-",
+    "lines": [
+      {
+        "text": "Aminul Islam Sheikh",
+        "bbox": {
+          "x_min": 257.0,
+          "y_min": 78.0,
+          "x_max": 274.0,
+          "y_max": 195.0
+        },
+        "page": 1,
+        "confidence": 0.93
+      },
+      {
+        "text": "TPiso",
+        "bbox": {
+          "x_min": 393.0,
+          "y_min": 77.0,
+          "x_max": 513.0,
+          "y_max": 100.0
+        },
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "022!",
+        "bbox": {
+          "x_min": 308.0,
+          "y_min": 99.0,
+          "x_max": 366.0,
+          "y_max": 119.0
+        },
+        "page": 1,
+        "confidence": 0.61
+      },
+      {
+        "text": "RA",
+        "bbox": {
+          "x_min": 346.0,
+          "y_min": 123.0,
+          "x_max": 372.0,
+          "y_max": 145.0
+        },
+        "page": 1,
+        "confidence": 0.904
+      },
+      {
+        "text": "n",
+        "bbox": {
+          "x_min": 207.0,
+          "y_min": 147.0,
+          "x_max": 218.0,
+          "y_max": 156.0
+        },
+        "page": 1,
+        "confidence": 0.424
+      },
+      {
+        "text": "58",
+        "bbox": {
+          "x_min": 202.0,
+          "y_min": 160.0,
+          "x_max": 219.0,
+          "y_max": 172.0
+        },
+        "page": 1,
+        "confidence": 0.212
+      },
+      {
+        "text": "mcna",
+        "bbox": {
+          "x_min": 342.0,
+          "y_min": 151.0,
+          "x_max": 458.0,
+          "y_max": 176.0
+        },
+        "page": 1,
+        "confidence": 0.61
+      },
+      {
+        "text": "+0-8",
+        "bbox": {
+          "x_min": 400.0,
+          "y_min": 174.0,
+          "x_max": 521.0,
+          "y_max": 194.0
+        },
+        "page": 1,
+        "confidence": 0.547
+      },
+      {
+        "text": "wostaun",
+        "bbox": {
+          "x_min": 389.0,
+          "y_min": 196.0,
+          "x_max": 463.0,
+          "y_max": 219.0
+        },
+        "page": 1,
+        "confidence": 0.778
+      },
+      {
+        "text": "+",
+        "bbox": {
+          "x_min": 429.0,
+          "y_min": 222.0,
+          "x_max": 446.0,
+          "y_max": 230.0
+        },
+        "page": 1,
+        "confidence": 0.433
+      },
+      {
+        "text": "5",
+        "bbox": {
+          "x_min": 357.0,
+          "y_min": 249.0,
+          "x_max": 371.0,
+          "y_max": 257.0
+        },
+        "page": 1,
+        "confidence": 0.162
+      },
+      {
+        "text": "condan",
+        "bbox": {
+          "x_min": 394.0,
+          "y_min": 243.0,
+          "x_max": 468.0,
+          "y_max": 262.0
+        },
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "An20w",
+        "bbox": {
+          "x_min": 388.0,
+          "y_min": 283.0,
+          "x_max": 495.0,
+          "y_max": 310.0
+        },
+        "page": 1,
+        "confidence": 0.614
+      },
+      {
+        "text": "Babi.",
+        "bbox": {
+          "x_min": 387.0,
+          "y_min": 324.0,
+          "x_max": 440.0,
+          "y_max": 344.0
+        },
+        "page": 1,
+        "confidence": 0.636
+      },
+      {
+        "text": "Ate",
+        "bbox": {
+          "x_min": 121.0,
+          "y_min": 374.0,
+          "x_max": 175.0,
+          "y_max": 395.0
+        },
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "r",
+        "bbox": {
+          "x_min": 438.0,
+          "y_min": 366.0,
+          "x_max": 493.0,
+          "y_max": 388.0
+        },
+        "page": 1,
+        "confidence": 0.663
+      },
+      {
+        "text": "TAxan",
+        "bbox": {
+          "x_min": 214.0,
+          "y_min": 388.0,
+          "x_max": 334.0,
+          "y_max": 411.0
+        },
+        "page": 1,
+        "confidence": 0.687
+      },
+      {
+        "text": "tn",
+        "bbox": {
+          "x_min": 104.0,
+          "y_min": 399.0,
+          "x_max": 201.0,
+          "y_max": 420.0
+        },
+        "page": 1,
+        "confidence": 0.614
+      },
+      {
+        "text": "toto-oun",
+        "bbox": {
+          "x_min": 248.0,
+          "y_min": 412.0,
+          "x_max": 339.0,
+          "y_max": 437.0
+        },
+        "page": 1,
+        "confidence": 0.535
+      },
+      {
+        "text": "S.",
+        "bbox": {
+          "x_min": 212.0,
+          "y_min": 448.0,
+          "x_max": 241.0,
+          "y_max": 468.0
+        },
+        "page": 1,
+        "confidence": 0.478
+      },
+      {
+        "text": "Mucoso",
+        "bbox": {
+          "x_min": 248.0,
+          "y_min": 440.0,
+          "x_max": 319.0,
+          "y_max": 461.0
+        },
+        "page": 1,
+        "confidence": 0.81
+      },
+      {
+        "text": "222-n",
+        "bbox": {
+          "x_min": 243.0,
+          "y_min": 459.0,
+          "x_max": 352.0,
+          "y_max": 478.0
+        },
+        "page": 1,
+        "confidence": 0.742
+      },
+      {
+        "text": "Tah  E",
+        "bbox": {
+          "x_min": 188.0,
+          "y_min": 484.0,
+          "x_max": 392.0,
+          "y_max": 511.0
+        },
+        "page": 1,
+        "confidence": 0.624
+      },
+      {
+        "text": "tot-",
+        "bbox": {
+          "x_min": 240.0,
+          "y_min": 508.0,
+          "x_max": 351.0,
+          "y_max": 535.0
+        },
+        "page": 1,
+        "confidence": 0.796
+      }
+    ],
+    "medications": [
+      {
+        "name": "Tpiso",
+        "matched_term": "Tpiso",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.243
+      },
+      {
+        "name": "Aminul Islam Sheikh Ra",
+        "matched_term": "Aminul Islam Sheikh Ra",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.323
+      },
+      {
+        "name": "MCN",
+        "matched_term": "MCN",
+        "drug_id": "c3795dfb-90b2-4d83-ad4f-cf457cb60d06",
+        "brand_id": "e1429e00-0000-4eef-b666-1d316ad547cf",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.585
+      },
+      {
+        "name": "Wostaun",
+        "matched_term": "Wostaun",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.272
+      },
+      {
+        "name": "Condan An",
+        "matched_term": "Condan An",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.225
+      },
+      {
+        "name": "Babin",
+        "matched_term": "Babin",
+        "drug_id": "0f6b6134-40f4-440a-8052-dcc68191a96f",
+        "brand_id": "97c625f5-e2e0-44a2-b274-89eb2c7a96c8",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.672
+      },
+      {
+        "name": "Ate",
+        "matched_term": "Ate",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.26
+      },
+      {
+        "name": "Taxan Gtn",
+        "matched_term": "Taxan Gtn",
+        "drug_id": "a0585f4d-1ae2-4429-aea8-78ee7ab8ad24",
+        "brand_id": "8a069129-77e6-4c68-9af8-3d6ed0a63c1f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      },
+      {
+        "name": "Toto-Oun",
+        "matched_term": "Toto-Oun",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.241
+      },
+      {
+        "name": "Mucosol",
+        "matched_term": "Mucosol",
+        "drug_id": "4a80597c-fec7-4129-8681-586f80115729",
+        "brand_id": "f3315b3c-0388-4bb0-b729-d96a472f6052",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.685
+      },
+      {
+        "name": "E-Tan",
+        "matched_term": "E-Tan",
+        "drug_id": "9dff0641-71c5-420c-96b2-1eb99b9f1c6c",
+        "brand_id": "ac2a718a-85ef-4807-9bcb-131ceabfb293",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.661
+      },
+      {
+        "name": "Toti",
+        "matched_term": "Toti",
+        "drug_id": "ce9bb01f-7c41-4462-a295-b236bf931543",
+        "brand_id": "8fca6ded-cf77-4ecc-8993-c7b75090dfed",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.738
+      }
+    ]
+  }
+}

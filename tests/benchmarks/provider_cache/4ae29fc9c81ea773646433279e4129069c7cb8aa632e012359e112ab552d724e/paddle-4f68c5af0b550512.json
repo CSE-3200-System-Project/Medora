@@ -1,0 +1,642 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0077",
+  "source_sha256": "4ae29fc9c81ea773646433279e4129069c7cb8aa632e012359e112ab552d724e",
+  "provider": "paddle",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T18:04:54.283350+00:00",
+  "runtime_ms": 26876.952899998287,
+  "output": {
+    "raw_text": "USIE\nM5la\n15-\nx\n12\ne\nAHMAN\nopieeeee\n0\nfoor\nOEn\nKED\nom0..\nCHHWI\n0+0+\ny\nOS\n0+0+1\nO\nhD\nrbr\nC\ny.c\nm+\nS\n4\nts08\n2\nO\nA\nN\nI-HW\nCt\nS\nM\n90\nO\n+\nLP4\nP0\n0\nSSLe\n2\n7760'01\n60-8\n2\nAla",
+    "lines": [
+      {
+        "text": "USIE",
+        "bbox": {
+          "x_min": 778.0,
+          "y_min": 31.0,
+          "x_max": 898.0,
+          "y_max": 233.0
+        },
+        "page": 1,
+        "confidence": 0.204
+      },
+      {
+        "text": "M5la",
+        "bbox": {
+          "x_min": 987.0,
+          "y_min": 63.0,
+          "x_max": 1085.0,
+          "y_max": 278.0
+        },
+        "page": 1,
+        "confidence": 0.2
+      },
+      {
+        "text": "15-",
+        "bbox": {
+          "x_min": 335.0,
+          "y_min": 345.0,
+          "x_max": 421.0,
+          "y_max": 456.0
+        },
+        "page": 1,
+        "confidence": 0.738
+      },
+      {
+        "text": "x",
+        "bbox": {
+          "x_min": 258.0,
+          "y_min": 437.0,
+          "x_max": 397.0,
+          "y_max": 761.0
+        },
+        "page": 1,
+        "confidence": 0.299
+      },
+      {
+        "text": "12",
+        "bbox": {
+          "x_min": 706.0,
+          "y_min": 533.0,
+          "x_max": 848.0,
+          "y_max": 1289.0
+        },
+        "page": 1,
+        "confidence": 0.479
+      },
+      {
+        "text": "e",
+        "bbox": {
+          "x_min": 2243.0,
+          "y_min": 522.0,
+          "x_max": 2383.0,
+          "y_max": 708.0
+        },
+        "page": 1,
+        "confidence": 0.567
+      },
+      {
+        "text": "AHMAN",
+        "bbox": {
+          "x_min": 3249.0,
+          "y_min": 562.0,
+          "x_max": 3361.0,
+          "y_max": 842.0
+        },
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "opieeeee",
+        "bbox": {
+          "x_min": 3411.0,
+          "y_min": 585.0,
+          "x_max": 3497.0,
+          "y_max": 889.0
+        },
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "0",
+        "bbox": {
+          "x_min": 2614.0,
+          "y_min": 590.0,
+          "x_max": 2712.0,
+          "y_max": 684.0
+        },
+        "page": 1,
+        "confidence": 0.367
+      },
+      {
+        "text": "foor",
+        "bbox": {
+          "x_min": 2403.0,
+          "y_min": 693.0,
+          "x_max": 2602.0,
+          "y_max": 995.0
+        },
+        "page": 1,
+        "confidence": 0.424
+      },
+      {
+        "text": "OEn",
+        "bbox": {
+          "x_min": 596.0,
+          "y_min": 873.0,
+          "x_max": 720.0,
+          "y_max": 1328.0
+        },
+        "page": 1,
+        "confidence": 0.344
+      },
+      {
+        "text": "KED",
+        "bbox": {
+          "x_min": 507.0,
+          "y_min": 1015.0,
+          "x_max": 599.0,
+          "y_max": 1193.0
+        },
+        "page": 1,
+        "confidence": 0.266
+      },
+      {
+        "text": "om0..",
+        "bbox": {
+          "x_min": 2437.0,
+          "y_min": 1032.0,
+          "x_max": 2583.0,
+          "y_max": 1455.0
+        },
+        "page": 1,
+        "confidence": 0.634
+      },
+      {
+        "text": "CHHWI",
+        "bbox": {
+          "x_min": 3374.0,
+          "y_min": 1069.0,
+          "x_max": 3498.0,
+          "y_max": 1349.0
+        },
+        "page": 1,
+        "confidence": 0.527
+      },
+      {
+        "text": "0+0+",
+        "bbox": {
+          "x_min": 2615.0,
+          "y_min": 1084.0,
+          "x_max": 2720.0,
+          "y_max": 1480.0
+        },
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "y",
+        "bbox": {
+          "x_min": 3231.0,
+          "y_min": 1124.0,
+          "x_max": 3433.0,
+          "y_max": 1312.0
+        },
+        "page": 1,
+        "confidence": 0.424
+      },
+      {
+        "text": "OS",
+        "bbox": {
+          "x_min": 3176.0,
+          "y_min": 1177.0,
+          "x_max": 3261.0,
+          "y_max": 1302.0
+        },
+        "page": 1,
+        "confidence": 0.71
+      },
+      {
+        "text": "0+0+1",
+        "bbox": {
+          "x_min": 2259.0,
+          "y_min": 1214.0,
+          "x_max": 2370.0,
+          "y_max": 1667.0
+        },
+        "page": 1,
+        "confidence": 0.49
+      },
+      {
+        "text": "O",
+        "bbox": {
+          "x_min": 3308.0,
+          "y_min": 1266.0,
+          "x_max": 3393.0,
+          "y_max": 1333.0
+        },
+        "page": 1,
+        "confidence": 0.256
+      },
+      {
+        "text": "hD",
+        "bbox": {
+          "x_min": 2412.0,
+          "y_min": 1384.0,
+          "x_max": 2652.0,
+          "y_max": 1722.0
+        },
+        "page": 1,
+        "confidence": 0.487
+      },
+      {
+        "text": "rbr",
+        "bbox": {
+          "x_min": 596.0,
+          "y_min": 1426.0,
+          "x_max": 783.0,
+          "y_max": 1860.0
+        },
+        "page": 1,
+        "confidence": 0.331
+      },
+      {
+        "text": "C",
+        "bbox": {
+          "x_min": 1813.0,
+          "y_min": 1584.0,
+          "x_max": 2046.0,
+          "y_max": 1722.0
+        },
+        "page": 1,
+        "confidence": 0.277
+      },
+      {
+        "text": "y.c",
+        "bbox": {
+          "x_min": 1840.0,
+          "y_min": 1914.0,
+          "x_max": 2041.0,
+          "y_max": 2895.0
+        },
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "m+",
+        "bbox": {
+          "x_min": 2337.0,
+          "y_min": 1958.0,
+          "x_max": 2508.0,
+          "y_max": 2404.0
+        },
+        "page": 1,
+        "confidence": 0.433
+      },
+      {
+        "text": "S",
+        "bbox": {
+          "x_min": 469.0,
+          "y_min": 1972.0,
+          "x_max": 637.0,
+          "y_max": 2082.0
+        },
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "4",
+        "bbox": {
+          "x_min": 2026.0,
+          "y_min": 2097.0,
+          "x_max": 2129.0,
+          "y_max": 2251.0
+        },
+        "page": 1,
+        "confidence": 0.284
+      },
+      {
+        "text": "ts08",
+        "bbox": {
+          "x_min": 505.0,
+          "y_min": 2240.0,
+          "x_max": 742.0,
+          "y_max": 3283.0
+        },
+        "page": 1,
+        "confidence": 0.538
+      },
+      {
+        "text": "2",
+        "bbox": {
+          "x_min": 749.0,
+          "y_min": 2302.0,
+          "x_max": 862.0,
+          "y_max": 2647.0
+        },
+        "page": 1,
+        "confidence": 0.714
+      },
+      {
+        "text": "O",
+        "bbox": {
+          "x_min": 707.0,
+          "y_min": 2329.0,
+          "x_max": 735.0,
+          "y_max": 2370.0
+        },
+        "page": 1,
+        "confidence": 0.135
+      },
+      {
+        "text": "A",
+        "bbox": {
+          "x_min": 651.0,
+          "y_min": 2366.0,
+          "x_max": 742.0,
+          "y_max": 2550.0
+        },
+        "page": 1,
+        "confidence": 0.14
+      },
+      {
+        "text": "N",
+        "bbox": {
+          "x_min": 2529.0,
+          "y_min": 2431.0,
+          "x_max": 2657.0,
+          "y_max": 2762.0
+        },
+        "page": 1,
+        "confidence": 0.411
+      },
+      {
+        "text": "I-HW",
+        "bbox": {
+          "x_min": 3418.0,
+          "y_min": 2440.0,
+          "x_max": 3677.0,
+          "y_max": 2694.0
+        },
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "Ct",
+        "bbox": {
+          "x_min": 2355.0,
+          "y_min": 2501.0,
+          "x_max": 2588.0,
+          "y_max": 2931.0
+        },
+        "page": 1,
+        "confidence": 0.325
+      },
+      {
+        "text": "S",
+        "bbox": {
+          "x_min": 683.0,
+          "y_min": 2576.0,
+          "x_max": 756.0,
+          "y_max": 2664.0
+        },
+        "page": 1,
+        "confidence": 0.21
+      },
+      {
+        "text": "M",
+        "bbox": {
+          "x_min": 1964.0,
+          "y_min": 2592.0,
+          "x_max": 1972.0,
+          "y_max": 2604.0
+        },
+        "page": 1,
+        "confidence": 0.121
+      },
+      {
+        "text": "90",
+        "bbox": {
+          "x_min": 1969.0,
+          "y_min": 2589.0,
+          "x_max": 1977.0,
+          "y_max": 2606.0
+        },
+        "page": 1,
+        "confidence": 0.158
+      },
+      {
+        "text": "O",
+        "bbox": {
+          "x_min": 2519.0,
+          "y_min": 2589.0,
+          "x_max": 2526.0,
+          "y_max": 2595.0
+        },
+        "page": 1,
+        "confidence": 0.067
+      },
+      {
+        "text": "+",
+        "bbox": {
+          "x_min": 1021.0,
+          "y_min": 2608.0,
+          "x_max": 1200.0,
+          "y_max": 2918.0
+        },
+        "page": 1,
+        "confidence": 0.274
+      },
+      {
+        "text": "LP4",
+        "bbox": {
+          "x_min": 1727.0,
+          "y_min": 2615.0,
+          "x_max": 1863.0,
+          "y_max": 2911.0
+        },
+        "page": 1,
+        "confidence": 0.252
+      },
+      {
+        "text": "P0",
+        "bbox": {
+          "x_min": 1959.0,
+          "y_min": 2657.0,
+          "x_max": 1968.0,
+          "y_max": 2682.0
+        },
+        "page": 1,
+        "confidence": 0.182
+      },
+      {
+        "text": "0",
+        "bbox": {
+          "x_min": 3332.0,
+          "y_min": 2693.0,
+          "x_max": 3430.0,
+          "y_max": 2803.0
+        },
+        "page": 1,
+        "confidence": 0.308
+      },
+      {
+        "text": "SSLe",
+        "bbox": {
+          "x_min": 3189.0,
+          "y_min": 2743.0,
+          "x_max": 3390.0,
+          "y_max": 2915.0
+        },
+        "page": 1,
+        "confidence": 0.509
+      },
+      {
+        "text": "2",
+        "bbox": {
+          "x_min": 3415.0,
+          "y_min": 2742.0,
+          "x_max": 3536.0,
+          "y_max": 2896.0
+        },
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "7760'01",
+        "bbox": {
+          "x_min": 357.0,
+          "y_min": 2748.0,
+          "x_max": 499.0,
+          "y_max": 3160.0
+        },
+        "page": 1,
+        "confidence": 0.887
+      },
+      {
+        "text": "60-8",
+        "bbox": {
+          "x_min": 447.0,
+          "y_min": 2753.0,
+          "x_max": 538.0,
+          "y_max": 3010.0
+        },
+        "page": 1,
+        "confidence": 0.805
+      },
+      {
+        "text": "2",
+        "bbox": {
+          "x_min": 594.0,
+          "y_min": 3044.0,
+          "x_max": 607.0,
+          "y_max": 3054.0
+        },
+        "page": 1,
+        "confidence": 0.218
+      },
+      {
+        "text": "Ala",
+        "bbox": {
+          "x_min": 798.0,
+          "y_min": 3118.0,
+          "x_max": 896.0,
+          "y_max": 3295.0
+        },
+        "page": 1,
+        "confidence": 0.335
+      }
+    ],
+    "medications": [
+      {
+        "name": "Usie La",
+        "matched_term": "Usie La",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.187
+      },
+      {
+        "name": "Ahman",
+        "matched_term": "Ahman",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.272
+      },
+      {
+        "name": "Opieeeee",
+        "matched_term": "Opieeeee",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.213
+      },
+      {
+        "name": "Foor",
+        "matched_term": "Foor",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.191
+      },
+      {
+        "name": "Oen",
+        "matched_term": "Oen",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.155
+      },
+      {
+        "name": "Ked Om",
+        "matched_term": "Ked Om",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.203
+      },
+      {
+        "name": "Chhwi Os Hd",
+        "matched_term": "Chhwi Os Hd",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": "0+0+1",
+        "quantity": null,
+        "confidence": 0.278
+      },
+      {
+        "name": "Lorbrexen",
+        "matched_term": "Lorbrexen",
+        "drug_id": "d8364e9d-5315-4222-bdd3-2052bc784fd2",
+        "brand_id": "02b563fe-f446-483f-a169-255dac1e8628",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.539
+      },
+      {
+        "name": "Ssle",
+        "matched_term": "Ssle",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.272
+      },
+      {
+        "name": "ALA",
+        "matched_term": "ALA",
+        "drug_id": "314554e5-c818-4f96-841c-7421502aa9a4",
+        "brand_id": "ee100fc5-9256-4f0e-a1c2-7d5a2946bd5f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.531
+      }
+    ]
+  }
+}

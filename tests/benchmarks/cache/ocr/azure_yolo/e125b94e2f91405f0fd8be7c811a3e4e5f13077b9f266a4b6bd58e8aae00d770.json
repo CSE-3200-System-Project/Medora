@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "e125b94e2f91405f0fd8be7c811a3e4e5f13077b9f266a4b6bd58e8aae00d770",
+  "record_id": "RX-0056",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 9049.524699992617,
+  "failure": null,
+  "response_sha256": "044f52adec1446ad6df3e9507a064bc6dea34f1e6d4156c635bdb3a0d64f7eed",
+  "response": {
+    "raw_text": "10\nthe parace tam of\nコナローナーの です~\nTab Aexo Com\n入門\n0++)",
+    "lines": [
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "the parace tam of",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "コナローナーの です~",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "Tab Aexo Com",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "入門",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "0++)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      }
+    ]
+  }
+}

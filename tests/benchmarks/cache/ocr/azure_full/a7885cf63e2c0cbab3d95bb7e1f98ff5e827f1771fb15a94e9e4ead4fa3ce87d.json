@@ -1,0 +1,302 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "a7885cf63e2c0cbab3d95bb7e1f98ff5e827f1771fb15a94e9e4ead4fa3ce87d",
+  "record_id": "RX-0080",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 30103.84399999748,
+  "failure": null,
+  "response_sha256": "97a0a6713752c9e9c6073db900def372a038129d430fd93fb8316e0bf09c7c4f",
+  "response": {
+    "raw_text": "छ: घाबियून व्यान भूयन\nप्यविविधम (गया), परमिनियम ((मडिमिन)\nअथि (कार्डिशनजि), विनियम (नाश)\nनिर्णयळ हिकिएगढ़\n(मडिमिन, कमरदान, वाउबुद, डैकद्रकान,\nवाउ/जाधीशज्म, ब्रिजिटमटननि ९ छायाटवजिमि\nडाडीस रुमटवान रेनडिजिडेंट स रामनाठान\nगड़-के-वाश्ना नगर, जका।\nविध्यणिमि वखि: न१-७७२२०\n30 AUG\nwf-61K/\nDr. Arifur Rahman Sumon\nMBBS (DMC), FCPS (Medicine)\nMD (Cardiology), BCS (Health)\nMedicine & Heart Specialist\nClinical and Interventional Cardiologist\nNational Institute of Cardiovascular Diseases\nSher-e-Bangla Nagar, Dhaka.\nShawna Aktor, 56%\nBP120/80 €\nदेवनामकाइनाम\nभूत लर्था कबद्दन।\nDMIPHIM Instructor+ Open cheles\nRx\n1. Tab. Gemer 1/500g/ 1+00 ante 2018 75\n2. las. Tems 40mg ottimo\n3. Th. Bristol 5mg 1+0 0g )\n2. Ta. ROSU 5W OTHELLO\nJ. T6. Pantowy LOV I+vel ho\nNUTOON\nMaltofer 508/2\nwith supplied normal\n60\nเราสามาร ใน\n6. Tw. Folison 52 OTH+ MUSCOLO\n220\n1. 5. Nitoxin Sur 1+0+1 6/w\nChamber :\nHitech Multicare Hospital Ltd.\nhome of care\n164, East Kafrul, Dhaka Cantonment, Dhaka-1206\nAppointment Center Hot Line : 01969959097, Diagnostic Information Desk : 01708574403\nEmergency Medical Oficer : 01407093684, Floor Manager : 01673120711, 01407093887\nAmbulance Service : 01917042946, 01682912304, E-mail : hitechmch164@gmail.com\nमिनिर्यातन्द्र कना एनाइन : ०३७७७४२४०४१\nवाणी ऊनचाव गमत्र : गधा 8.00गो - ब्रांड ४.००में (कमबाद वह)\n8.",
+    "lines": [
+      {
+        "text": "छ: घाबियून व्यान भूयन",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "प्यविविधम (गया), परमिनियम ((मडिमिन)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "अथि (कार्डिशनजि), विनियम (नाश)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "निर्णयळ हिकिएगढ़",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "(मडिमिन, कमरदान, वाउबुद, डैकद्रकान,",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "वाउ/जाधीशज्म, ब्रिजिटमटननि ९ छायाटवजिमि",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "डाडीस रुमटवान रेनडिजिडेंट स रामनाठान",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "गड़-के-वाश्ना नगर, जका।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "विध्यणिमि वखि: न१-७७२२०",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "30 AUG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "wf-61K/",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Dr. Arifur Rahman Sumon",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "MBBS (DMC), FCPS (Medicine)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "MD (Cardiology), BCS (Health)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Medicine & Heart Specialist",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Clinical and Interventional Cardiologist",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "National Institute of Cardiovascular Diseases",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Sher-e-Bangla Nagar, Dhaka.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Shawna Aktor, 56%",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "BP120/80 €",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "देवनामकाइनाम",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "भूत लर्था कबद्दन।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "DMIPHIM Instructor+ Open cheles",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "1. Tab. Gemer 1/500g/ 1+00 ante 2018 75",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "2. las. Tems 40mg ottimo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "3. Th. Bristol 5mg 1+0 0g )",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "2. Ta. ROSU 5W OTHELLO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "J. T6. Pantowy LOV I+vel ho",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "NUTOON",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Maltofer 508/2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "with supplied normal",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "60",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "เราสามาร ใน",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "6. Tw. Folison 52 OTH+ MUSCOLO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "220",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "1. 5. Nitoxin Sur 1+0+1 6/w",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Chamber :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Hitech Multicare Hospital Ltd.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "home of care",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "164, East Kafrul, Dhaka Cantonment, Dhaka-1206",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Appointment Center Hot Line : 01969959097, Diagnostic Information Desk : 01708574403",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Emergency Medical Oficer : 01407093684, Floor Manager : 01673120711, 01407093887",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Ambulance Service : 01917042946, 01682912304, E-mail : hitechmch164@gmail.com",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "मिनिर्यातन्द्र कना एनाइन : ०३७७७४२४०४१",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "वाणी ऊनचाव गमत्र : गधा 8.00गो - ब्रांड ४.००में (कमबाद वह)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "8.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      }
+    ]
+  }
+}

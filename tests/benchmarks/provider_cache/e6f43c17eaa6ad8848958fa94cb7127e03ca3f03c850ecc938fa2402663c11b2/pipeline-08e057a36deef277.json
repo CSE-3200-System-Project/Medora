@@ -1,0 +1,131 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0012",
+  "source_sha256": "e6f43c17eaa6ad8848958fa94cb7127e03ca3f03c850ecc938fa2402663c11b2",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:23:40.433898+00:00",
+  "runtime_ms": 4446.521400008351,
+  "output": {
+    "medications": [
+      {
+        "name": "Don-A",
+        "matched_term": "Don-A",
+        "drug_id": "6eeecd6b-6d46-4c5d-ac75-18c15ef40d6d",
+        "brand_id": "0bab5a2e-85b5-45b4-af8b-b203bdab3eeb",
+        "dosage": "10Mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.739
+      },
+      {
+        "name": "D-Cap",
+        "matched_term": "D-Cap",
+        "drug_id": "e19d17d9-3fac-4185-8757-32f0d322ee98",
+        "brand_id": "30128340-f4e9-487f-8f85-f67d3b82460f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.688
+      },
+      {
+        "name": "Esotid",
+        "matched_term": "Esotid",
+        "drug_id": "d71d040a-cf0b-46ae-b67f-00e3787f0c6b",
+        "brand_id": "fe6e1172-e918-409a-a1e5-734c83e14d43",
+        "dosage": "20 mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.739
+      },
+      {
+        "name": "Sinalax",
+        "matched_term": "Sinalax",
+        "drug_id": "ea48704b-778f-4631-8733-263e25673587",
+        "brand_id": "32805153-8041-456c-adc0-32e02c0c8a7f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.688
+      }
+    ],
+    "raw_text": ". Tab. DON-A (10Mg)\nCap.\nESOTID ( 20 mg)\nSINALAX SACHET\n278- 2017\n- 29",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 4410,
+      "detected_regions": 1,
+      "ocr_line_count": 6,
+      "yolo_avg_confidence": 0.8505,
+      "yolo_min_confidence": 0.8505,
+      "yolo_max_confidence": 0.8505,
+      "ocr_avg_confidence": 0.685,
+      "ocr_min_confidence": 0.685,
+      "ocr_max_confidence": 0.685,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 255.02584838867188,
+            "y_min": 255.2388458251953,
+            "x_max": 519.459228515625,
+            "y_max": 408.6538391113281
+          },
+          "score": 0.8505
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": ". Tab. DON-A (10Mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.685
+        },
+        {
+          "text": "Cap.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.685
+        },
+        {
+          "text": "ESOTID ( 20 mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.685
+        },
+        {
+          "text": "SINALAX SACHET",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.685
+        },
+        {
+          "text": "278- 2017",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.685
+        },
+        {
+          "text": "- 29",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.685
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

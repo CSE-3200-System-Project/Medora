@@ -1,0 +1,141 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0031",
+  "source_sha256": "20ddb5520391e7f4c0de317ce9bcf1385a172417dda9a6162d6a66b9d0a80738",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:26:59.463877+00:00",
+  "runtime_ms": 5740.5467000062345,
+  "output": {
+    "medications": [
+      {
+        "name": "Fexofenadine",
+        "matched_term": "Fexofenadine",
+        "drug_id": "9273a76a-e410-4de4-9598-ed58aede0ead",
+        "brand_id": "ebc09f59-c30a-4a3c-a3d3-fb85b4bf58e7",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.598
+      },
+      {
+        "name": "Otper",
+        "matched_term": "Otper",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.218
+      },
+      {
+        "name": "One",
+        "matched_term": "One",
+        "drug_id": "7a0d5861-e33d-4c57-bcc0-0db12e2d3495",
+        "brand_id": "d5d56cde-21e6-448a-9d62-ae293b8b6642",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.598
+      },
+      {
+        "name": "Tae Marcolet",
+        "matched_term": "Tae Marcolet",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.218
+      },
+      {
+        "name": "Islastig",
+        "matched_term": "Islastig",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.218
+      }
+    ],
+    "raw_text": "Rx\n+ Tab Ferofenadine (1205)\notper\nCy One prazete\nTae Marcolet\nislastig",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 5704,
+      "detected_regions": 1,
+      "ocr_line_count": 6,
+      "yolo_avg_confidence": 0.8841,
+      "yolo_min_confidence": 0.8841,
+      "yolo_max_confidence": 0.8841,
+      "ocr_avg_confidence": 0.485,
+      "ocr_min_confidence": 0.485,
+      "ocr_max_confidence": 0.485,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 276.0977783203125,
+            "y_min": 240.5714874267578,
+            "x_max": 468.5104675292969,
+            "y_max": 408.57354736328125
+          },
+          "score": 0.8841
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Rx",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.485
+        },
+        {
+          "text": "+ Tab Ferofenadine (1205)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.485
+        },
+        {
+          "text": "otper",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.485
+        },
+        {
+          "text": "Cy One prazete",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.485
+        },
+        {
+          "text": "Tae Marcolet",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.485
+        },
+        {
+          "text": "islastig",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.485
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

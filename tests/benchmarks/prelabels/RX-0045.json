@@ -1,0 +1,1360 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0045",
+  "source_sha256": "ae82c911dbc2006e32d39adc5dad0e402e6d9db5c11531f27618b3b35b02a014",
+  "raw_transcription": "Date :-\n11 Find: 0 -YA\nSer No :-\nRoom No :-\nC-67\nSub- Acute lyrsidiler\n(Hypoth grand chose)\nFF25.\nTSH = 89.85 uschd.\nPT =5-1 Duath.\nIssoal 15 day\n11/10/17\nTil-\n1\nFT, TSH .\nThyrox (50 equ)\n2 -to-to (GwTO)\nST.\nMD ABDULLAH-AL-MAMU",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "Date",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Find -Ya",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Sera",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Room No",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Sub- Acute Lyrsidiler",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Hypoten",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Batshulary",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Pt Duath",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "15 days",
+      "instructions": ""
+    },
+    {
+      "medicine": "Til",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Ft Tsh",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Thyrox",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "To-Al",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Md Abdullah-Al-Mamu",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "dfddd6947e11ab92f798f8c88448b76793d1ffe354e80855ad125e25ae004bc0"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "1004fe6518966c664a8309f12c11d69a3679c1480c8a60c7fbbdf452bfacadb7"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "871d64ae08bd9198bb040ab56eb12006304045577b1356fc645bd40fbe69b2ef"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "UGIE\n8-56\nAEG\nk\n-\nyy\ndop\nCaeenen\n2\nMAAAAUAAUUAAAAT\nC\nM\nholeyr\nR\nO\n-\nCC\n-TSR\nm98.08+5\n1\nL\nAS2\n2\nA\ntt80z8\n0p1\nEnrennnnnneeeg\nROWOOO\nElfo1\n9-\nAglG\nae\nseenNo\nMEL\n56\nK",
+      "lines": [
+        {
+          "text": "UGIE",
+          "bbox": {
+            "x_min": 654.0,
+            "y_min": 19.0,
+            "x_max": 778.0,
+            "y_max": 222.0
+          },
+          "page": 1,
+          "confidence": 0.198
+        },
+        {
+          "text": "8-56",
+          "bbox": {
+            "x_min": 1082.0,
+            "y_min": 29.0,
+            "x_max": 1200.0,
+            "y_max": 280.0
+          },
+          "page": 1,
+          "confidence": 0.617
+        },
+        {
+          "text": "AEG",
+          "bbox": {
+            "x_min": 866.0,
+            "y_min": 50.0,
+            "x_max": 947.0,
+            "y_max": 250.0
+          },
+          "page": 1,
+          "confidence": 0.253
+        },
+        {
+          "text": "k",
+          "bbox": {
+            "x_min": 644.0,
+            "y_min": 324.0,
+            "x_max": 803.0,
+            "y_max": 754.0
+          },
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 755.0,
+            "y_min": 331.0,
+            "x_max": 775.0,
+            "y_max": 344.0
+          },
+          "page": 1,
+          "confidence": 0.162
+        },
+        {
+          "text": "yy",
+          "bbox": {
+            "x_min": 1412.0,
+            "y_min": 371.0,
+            "x_max": 1676.0,
+            "y_max": 1434.0
+          },
+          "page": 1,
+          "confidence": 0.343
+        },
+        {
+          "text": "dop",
+          "bbox": {
+            "x_min": 2380.0,
+            "y_min": 434.0,
+            "x_max": 2485.0,
+            "y_max": 698.0
+          },
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "Caeenen",
+          "bbox": {
+            "x_min": 3991.0,
+            "y_min": 537.0,
+            "x_max": 4134.0,
+            "y_max": 1212.0
+          },
+          "page": 1,
+          "confidence": 0.273
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 211.0,
+            "y_min": 552.0,
+            "x_max": 397.0,
+            "y_max": 2028.0
+          },
+          "page": 1,
+          "confidence": 0.352
+        },
+        {
+          "text": "MAAAAUAAUUAAAAT",
+          "bbox": {
+            "x_min": 3870.0,
+            "y_min": 567.0,
+            "x_max": 3991.0,
+            "y_max": 1198.0
+          },
+          "page": 1,
+          "confidence": 0.31
+        },
+        {
+          "text": "C",
+          "bbox": {
+            "x_min": 656.0,
+            "y_min": 996.0,
+            "x_max": 757.0,
+            "y_max": 1116.0
+          },
+          "page": 1,
+          "confidence": 0.315
+        },
+        {
+          "text": "M",
+          "bbox": {
+            "x_min": 409.0,
+            "y_min": 1028.0,
+            "x_max": 423.0,
+            "y_max": 1055.0
+          },
+          "page": 1,
+          "confidence": 0.08
+        },
+        {
+          "text": "holeyr",
+          "bbox": {
+            "x_min": 3941.0,
+            "y_min": 1035.0,
+            "x_max": 4021.0,
+            "y_max": 1203.0
+          },
+          "page": 1,
+          "confidence": 0.422
+        },
+        {
+          "text": "R",
+          "bbox": {
+            "x_min": 4043.0,
+            "y_min": 1113.0,
+            "x_max": 4052.0,
+            "y_max": 1128.0
+          },
+          "page": 1,
+          "confidence": 0.116
+        },
+        {
+          "text": "O",
+          "bbox": {
+            "x_min": 4128.0,
+            "y_min": 1131.0,
+            "x_max": 4141.0,
+            "y_max": 1139.0
+          },
+          "page": 1,
+          "confidence": 0.075
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 4129.0,
+            "y_min": 1124.0,
+            "x_max": 4141.0,
+            "y_max": 1136.0
+          },
+          "page": 1,
+          "confidence": 0.168
+        },
+        {
+          "text": "CC",
+          "bbox": {
+            "x_min": 4029.0,
+            "y_min": 1145.0,
+            "x_max": 4037.0,
+            "y_max": 1162.0
+          },
+          "page": 1,
+          "confidence": 0.26
+        },
+        {
+          "text": "-TSR",
+          "bbox": {
+            "x_min": 1475.0,
+            "y_min": 1435.0,
+            "x_max": 1589.0,
+            "y_max": 1867.0
+          },
+          "page": 1,
+          "confidence": 0.721
+        },
+        {
+          "text": "m98.08+5",
+          "bbox": {
+            "x_min": 2099.0,
+            "y_min": 1430.0,
+            "x_max": 2296.0,
+            "y_max": 2524.0
+          },
+          "page": 1,
+          "confidence": 0.687
+        },
+        {
+          "text": "1",
+          "bbox": {
+            "x_min": 2772.0,
+            "y_min": 1647.0,
+            "x_max": 2903.0,
+            "y_max": 1760.0
+          },
+          "page": 1,
+          "confidence": 0.117
+        },
+        {
+          "text": "L",
+          "bbox": {
+            "x_min": 2999.0,
+            "y_min": 1712.0,
+            "x_max": 3094.0,
+            "y_max": 1840.0
+          },
+          "page": 1,
+          "confidence": 0.148
+        },
+        {
+          "text": "AS2",
+          "bbox": {
+            "x_min": 3455.0,
+            "y_min": 1720.0,
+            "x_max": 3657.0,
+            "y_max": 2320.0
+          },
+          "page": 1,
+          "confidence": 0.731
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 651.0,
+            "y_min": 1770.0,
+            "x_max": 745.0,
+            "y_max": 2145.0
+          },
+          "page": 1,
+          "confidence": 0.436
+        },
+        {
+          "text": "A",
+          "bbox": {
+            "x_min": 1416.0,
+            "y_min": 1760.0,
+            "x_max": 1481.0,
+            "y_max": 1829.0
+          },
+          "page": 1,
+          "confidence": 0.333
+        },
+        {
+          "text": "tt80z8",
+          "bbox": {
+            "x_min": 24.0,
+            "y_min": 2056.0,
+            "x_max": 304.0,
+            "y_max": 2847.0
+          },
+          "page": 1,
+          "confidence": 0.62
+        },
+        {
+          "text": "0p1",
+          "bbox": {
+            "x_min": 981.0,
+            "y_min": 2177.0,
+            "x_max": 1161.0,
+            "y_max": 2839.0
+          },
+          "page": 1,
+          "confidence": 0.569
+        },
+        {
+          "text": "Enrennnnnneeeg",
+          "bbox": {
+            "x_min": 882.0,
+            "y_min": 2304.0,
+            "x_max": 1009.0,
+            "y_max": 3058.0
+          },
+          "page": 1,
+          "confidence": 0.322
+        },
+        {
+          "text": "ROWOOO",
+          "bbox": {
+            "x_min": 1130.0,
+            "y_min": 2321.0,
+            "x_max": 1212.0,
+            "y_max": 2658.0
+          },
+          "page": 1,
+          "confidence": 0.505
+        },
+        {
+          "text": "Elfo1",
+          "bbox": {
+            "x_min": 2968.0,
+            "y_min": 2545.0,
+            "x_max": 3147.0,
+            "y_max": 2957.0
+          },
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "9-",
+          "bbox": {
+            "x_min": 1342.0,
+            "y_min": 2571.0,
+            "x_max": 1500.0,
+            "y_max": 3008.0
+          },
+          "page": 1,
+          "confidence": 0.793
+        },
+        {
+          "text": "AglG",
+          "bbox": {
+            "x_min": 660.0,
+            "y_min": 2709.0,
+            "x_max": 758.0,
+            "y_max": 2928.0
+          },
+          "page": 1,
+          "confidence": 0.256
+        },
+        {
+          "text": "ae",
+          "bbox": {
+            "x_min": 1052.0,
+            "y_min": 2860.0,
+            "x_max": 1143.0,
+            "y_max": 3149.0
+          },
+          "page": 1,
+          "confidence": 0.352
+        },
+        {
+          "text": "seenNo",
+          "bbox": {
+            "x_min": 1133.0,
+            "y_min": 2899.0,
+            "x_max": 1241.0,
+            "y_max": 3150.0
+          },
+          "page": 1,
+          "confidence": 0.616
+        },
+        {
+          "text": "MEL",
+          "bbox": {
+            "x_min": 4071.0,
+            "y_min": 3281.0,
+            "x_max": 4130.0,
+            "y_max": 3414.0
+          },
+          "page": 1,
+          "confidence": 0.43
+        },
+        {
+          "text": "56",
+          "bbox": {
+            "x_min": 2599.0,
+            "y_min": 3357.0,
+            "x_max": 2656.0,
+            "y_max": 3457.0
+          },
+          "page": 1,
+          "confidence": 0.41
+        },
+        {
+          "text": "K",
+          "bbox": {
+            "x_min": 2455.0,
+            "y_min": 3398.0,
+            "x_max": 2497.0,
+            "y_max": 3431.0
+          },
+          "page": 1,
+          "confidence": 0.78
+        }
+      ],
+      "medications": [
+        {
+          "name": "Ugie",
+          "matched_term": "Ugie",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.183
+        },
+        {
+          "name": "Aeg Yy",
+          "matched_term": "Aeg Yy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.145
+        },
+        {
+          "name": "Dop",
+          "matched_term": "Dop",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.236
+        },
+        {
+          "name": "Caeenen",
+          "matched_term": "Caeenen",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.141
+        },
+        {
+          "name": "Maaaauaauuaaaat",
+          "matched_term": "Maaaauaauuaaaat",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.106
+        },
+        {
+          "name": "Holeyr Cc",
+          "matched_term": "Holeyr Cc",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.13
+        },
+        {
+          "name": "Tsr As Tt",
+          "matched_term": "Tsr As Tt",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.207
+        },
+        {
+          "name": "Enrennnnnneeeg",
+          "matched_term": "Enrennnnnneeeg",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.145
+        },
+        {
+          "name": "Rowooo Elfo",
+          "matched_term": "Rowooo Elfo",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.282
+        },
+        {
+          "name": "Aegle",
+          "matched_term": "Aegle",
+          "drug_id": "1947b29e-24a3-4e1e-a76f-051325bfc642",
+          "brand_id": "0813f6ab-6bad-417c-a5c5-812e3d3d1506",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.36
+        },
+        {
+          "name": "Seenno",
+          "matched_term": "Seenno",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.277
+        },
+        {
+          "name": "Melo",
+          "matched_term": "Melo",
+          "drug_id": "3f5a7b45-6e3b-44b7-9c7d-4297491c7543",
+          "brand_id": "bcb65418-dbd2-4a66-af20-4260fdaae5d3",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.623
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "820377\nछिकिश्मक कड़क स्वाभीव वारश श्व\nअभीव नाय oMPH Sio q सक्षम ५७५\nशनि\nबादशव नाग\nEndrocrinology-OPD\nDate :-\n11 +1:0 -2\nSer No :-\nRoom No :-\nC-67\n· A Sub- Acute thyroidiler\n(Hypoth grand phase)\nFF\nTSH= 89.85 uschal.\nPT=5-1 Duralh.\nIssoal 15 day\n11/10/17\n2\nFTA, TSY\nThyrox (50 equ)\n2-to-to (5wTO)\nMD ABDULLAH-AL-MAMI\nMajor\nClassified Spl in Medicine\n(Endocrinologist)\n24 H Dhaka\nR\n55\nरेना\nगतियह\nS/m\nडिकिश्मद्ब बादशाम\nजबानीड\n23-8-",
+      "lines": [
+        {
+          "text": "820377",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "छिकिश्मक कड़क स्वाभीव वारश श्व",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "अभीव नाय oMPH Sio q सक्षम ५७५",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "शनि",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "बादशव नाग",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "Endrocrinology-OPD",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "Date :-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "11 +1:0 -2",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "Ser No :-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "Room No :-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "C-67",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "· A Sub- Acute thyroidiler",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "(Hypoth grand phase)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "FF",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "TSH= 89.85 uschal.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "PT=5-1 Duralh.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "Issoal 15 day",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "11/10/17",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "2",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "FTA, TSY",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "Thyrox (50 equ)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "2-to-to (5wTO)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "MD ABDULLAH-AL-MAMI",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "Major",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "Classified Spl in Medicine",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "(Endocrinologist)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "24 H Dhaka",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "R",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "55",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "रेना",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "गतियह",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "S/m",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "डिकिश्मद्ब बादशाम",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "जबानीड",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "23-8-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.537
+        }
+      ],
+      "medications": [
+        {
+          "name": "Omph Sio",
+          "matched_term": "Omph Sio",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.242
+        },
+        {
+          "name": "Endrocrinology-Opd",
+          "matched_term": "Endrocrinology-Opd",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.242
+        },
+        {
+          "name": "Date",
+          "matched_term": "Date",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": "1+0+2",
+          "quantity": null,
+          "confidence": 0.291
+        },
+        {
+          "name": "Sera",
+          "matched_term": "Sera",
+          "drug_id": "0c80f251-c670-4600-a21a-9636e2597190",
+          "brand_id": "b0a44631-faed-4ab1-b3a2-a450bdf611ce",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.622
+        },
+        {
+          "name": "Room No",
+          "matched_term": "Room No",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.242
+        },
+        {
+          "name": "Sub- Acute Thyroidiler",
+          "matched_term": "Sub- Acute Thyroidiler",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.242
+        },
+        {
+          "name": "Hypoten",
+          "matched_term": "Hypoten",
+          "drug_id": "83b1372d-43ef-4277-afee-9fcbaabc9f34",
+          "brand_id": "b4957d1b-abf1-4283-94fe-7da27a92ee9c",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.622
+        },
+        {
+          "name": "Batshulary",
+          "matched_term": "Batshulary",
+          "drug_id": "51551439-a8c9-4f23-a901-512010f618d5",
+          "brand_id": "7a2470f0-f45f-4e00-8403-411755b26ccb",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.622
+        },
+        {
+          "name": "Pt Duralh",
+          "matched_term": "Pt Duralh",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": "15 days",
+          "confidence": 0.291
+        },
+        {
+          "name": "Ceftax",
+          "matched_term": "Ceftax",
+          "drug_id": "e951211e-7a43-403f-8caf-3c0038f8e961",
+          "brand_id": "41597df5-b0f6-49af-804f-ecd810cbd362",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.622
+        },
+        {
+          "name": "Thyrox",
+          "matched_term": "Thyrox",
+          "drug_id": "6e4675e6-9d07-42e7-b506-3d6b423f1c93",
+          "brand_id": "ca3e085f-ae52-4682-aed0-8d8454c17c95",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.622
+        },
+        {
+          "name": "Md Abdullah-Al-Mami",
+          "matched_term": "Md Abdullah-Al-Mami",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.242
+        },
+        {
+          "name": "Major",
+          "matched_term": "Major",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.242
+        },
+        {
+          "name": "Classified Spl In",
+          "matched_term": "Classified Spl In",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.242
+        },
+        {
+          "name": "Endocrinologist",
+          "matched_term": "Endocrinologist",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.242
+        },
+        {
+          "name": "Gandhakadi Malahar / Gandhak Malam",
+          "matched_term": "Gandhakadi Malahar / Gandhak Malam",
+          "drug_id": "f88f1aca-87b5-469d-9fd7-3c338892b21b",
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.545
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "Date",
+          "matched_term": "Date",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.281
+        },
+        {
+          "name": "Find -Ya",
+          "matched_term": "Find -Ya",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.281
+        },
+        {
+          "name": "Sera",
+          "matched_term": "Sera",
+          "drug_id": "0c80f251-c670-4600-a21a-9636e2597190",
+          "brand_id": "b0a44631-faed-4ab1-b3a2-a450bdf611ce",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.661
+        },
+        {
+          "name": "Room No",
+          "matched_term": "Room No",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.281
+        },
+        {
+          "name": "Sub- Acute Lyrsidiler",
+          "matched_term": "Sub- Acute Lyrsidiler",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.281
+        },
+        {
+          "name": "Hypoten",
+          "matched_term": "Hypoten",
+          "drug_id": "83b1372d-43ef-4277-afee-9fcbaabc9f34",
+          "brand_id": "b4957d1b-abf1-4283-94fe-7da27a92ee9c",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.661
+        },
+        {
+          "name": "Batshulary",
+          "matched_term": "Batshulary",
+          "drug_id": "51551439-a8c9-4f23-a901-512010f618d5",
+          "brand_id": "7a2470f0-f45f-4e00-8403-411755b26ccb",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.661
+        },
+        {
+          "name": "Pt Duath",
+          "matched_term": "Pt Duath",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": "15 days",
+          "confidence": 0.331
+        },
+        {
+          "name": "Til",
+          "matched_term": "Til",
+          "drug_id": "654b7cd1-5571-4387-a406-40c7ded996d9",
+          "brand_id": "6c230c98-5f37-4310-95d5-6c44f42ead40",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.661
+        },
+        {
+          "name": "Ft Tsh",
+          "matched_term": "Ft Tsh",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.281
+        },
+        {
+          "name": "Thyrox",
+          "matched_term": "Thyrox",
+          "drug_id": "6e4675e6-9d07-42e7-b506-3d6b423f1c93",
+          "brand_id": "ca3e085f-ae52-4682-aed0-8d8454c17c95",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.661
+        },
+        {
+          "name": "To-Al",
+          "matched_term": "To-Al",
+          "drug_id": "778ec774-428c-4ec9-a180-1dbfb7821a1c",
+          "brand_id": "27bf5a0b-0b3d-42df-b980-25bf68e38cc2",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.661
+        },
+        {
+          "name": "Md Abdullah-Al-Mamu",
+          "matched_term": "Md Abdullah-Al-Mamu",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.281
+        }
+      ],
+      "raw_text": "Date :-\n11 Find: 0 -YA\nSer No :-\nRoom No :-\nC-67\nSub- Acute lyrsidiler\n(Hypoth grand chose)\nFF25.\nTSH = 89.85 uschd.\nPT =5-1 Duath.\nIssoal 15 day\n11/10/17\nTil-\n1\nFT, TSH .\nThyrox (50 equ)\n2 -to-to (GwTO)\nST.\nMD ABDULLAH-AL-MAMU",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 15741,
+        "detected_regions": 1,
+        "ocr_line_count": 19,
+        "yolo_avg_confidence": 0.7043,
+        "yolo_min_confidence": 0.7043,
+        "yolo_max_confidence": 0.7043,
+        "ocr_avg_confidence": 0.625,
+        "ocr_min_confidence": 0.625,
+        "ocr_max_confidence": 0.625,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 197.44790802001953,
+              "y_min": 1031.8603313446044,
+              "x_max": 3133.393951416015,
+              "y_max": 4001.299281311035
+            },
+            "score": 0.7043
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "Date :-",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.625
+          },
+          {
+            "text": "11 Find: 0 -YA",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.625
+          },
+          {
+            "text": "Ser No :-",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.625
+          },
+          {
+            "text": "Room No :-",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.625
+          },
+          {
+            "text": "C-67",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.625
+          },
+          {
+            "text": "Sub- Acute lyrsidiler",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.625
+          },
+          {
+            "text": "(Hypoth grand chose)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.625
+          },
+          {
+            "text": "FF25.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.625
+          },
+          {
+            "text": "TSH = 89.85 uschd.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.625
+          },
+          {
+            "text": "PT =5-1 Duath.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.625
+          },
+          {
+            "text": "Issoal 15 day",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.625
+          },
+          {
+            "text": "11/10/17",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.625
+          },
+          {
+            "text": "Til-",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.625
+          },
+          {
+            "text": "1",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.625
+          },
+          {
+            "text": "FT, TSH .",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.625
+          },
+          {
+            "text": "Thyrox (50 equ)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.625
+          },
+          {
+            "text": "2 -to-to (GwTO)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.625
+          },
+          {
+            "text": "ST.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.625
+          },
+          {
+            "text": "MD ABDULLAH-AL-MAMU",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.625
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

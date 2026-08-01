@@ -59,14 +59,9 @@ class MedicineMatcher:
         matches = self._score_and_deduplicate(ocr_text, ranked_rows)
         if matches:
             best = matches[0]
-            logger.info(
-                "medicine_match input=%r matched=%r confidence=%.3f",
-                ocr_text[:120],
-                best.matched_term,
-                best.confidence,
-            )
+            logger.info("medicine_match_complete matched=%s confidence=%.3f", bool(best.matched_term), best.confidence)
         else:
-            logger.info("medicine_match input=%r matched=None", ocr_text[:120])
+            logger.info("medicine_match_complete matched=false")
 
         return matches[:requested_top_k]
 

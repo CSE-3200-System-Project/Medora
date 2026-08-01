@@ -1,0 +1,568 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0075",
+  "source_sha256": "caaa33779d0732bc7ad3b45bec2a144630f7929e70fec921c10307144b28f0e0",
+  "provider": "paddle",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T18:03:40.579254+00:00",
+  "runtime_ms": 32361.71490000561,
+  "output": {
+    "raw_text": "84\nB\nanbppig\n2\n2AE\n1\nV\nL\nG\nLPR\n2\n9uTe'sy\nC\no\n1\nSO\nR\n8\n19081\nO\n907\nShopo-pons\nEN\nO\nX\nb/-\nArnerneeengen\n19081\nhnrshes\n8008\nCMNOOOM\nO\n3\n-\n&\n2\nA\ndo\naoee\nJ\nP\n3E\n&99",
+    "lines": [
+      {
+        "text": "84",
+        "bbox": {
+          "x_min": 2378.0,
+          "y_min": 1221.0,
+          "x_max": 2557.0,
+          "y_max": 1545.0
+        },
+        "page": 1,
+        "confidence": 0.383
+      },
+      {
+        "text": "B",
+        "bbox": {
+          "x_min": 2848.0,
+          "y_min": 1228.0,
+          "x_max": 3033.0,
+          "y_max": 1538.0
+        },
+        "page": 1,
+        "confidence": 0.69
+      },
+      {
+        "text": "anbppig",
+        "bbox": {
+          "x_min": 834.0,
+          "y_min": 1394.0,
+          "x_max": 983.0,
+          "y_max": 1893.0
+        },
+        "page": 1,
+        "confidence": 0.583
+      },
+      {
+        "text": "2",
+        "bbox": {
+          "x_min": 1038.0,
+          "y_min": 1485.0,
+          "x_max": 1118.0,
+          "y_max": 1623.0
+        },
+        "page": 1,
+        "confidence": 0.535
+      },
+      {
+        "text": "2AE",
+        "bbox": {
+          "x_min": 4317.0,
+          "y_min": 1509.0,
+          "x_max": 4407.0,
+          "y_max": 1790.0
+        },
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "1",
+        "bbox": {
+          "x_min": 1014.0,
+          "y_min": 1587.0,
+          "x_max": 1130.0,
+          "y_max": 1730.0
+        },
+        "page": 1,
+        "confidence": 0.136
+      },
+      {
+        "text": "V",
+        "bbox": {
+          "x_min": 984.0,
+          "y_min": 1618.0,
+          "x_max": 990.0,
+          "y_max": 1626.0
+        },
+        "page": 1,
+        "confidence": 0.407
+      },
+      {
+        "text": "L",
+        "bbox": {
+          "x_min": 1411.0,
+          "y_min": 1636.0,
+          "x_max": 1595.0,
+          "y_max": 1869.0
+        },
+        "page": 1,
+        "confidence": 0.128
+      },
+      {
+        "text": "G",
+        "bbox": {
+          "x_min": 3659.0,
+          "y_min": 1636.0,
+          "x_max": 3764.0,
+          "y_max": 1723.0
+        },
+        "page": 1,
+        "confidence": 0.319
+      },
+      {
+        "text": "LPR",
+        "bbox": {
+          "x_min": 334.0,
+          "y_min": 1639.0,
+          "x_max": 478.0,
+          "y_max": 1927.0
+        },
+        "page": 1,
+        "confidence": 0.843
+      },
+      {
+        "text": "2",
+        "bbox": {
+          "x_min": 2321.0,
+          "y_min": 1686.0,
+          "x_max": 2669.0,
+          "y_max": 1981.0
+        },
+        "page": 1,
+        "confidence": 0.127
+      },
+      {
+        "text": "9uTe'sy",
+        "bbox": {
+          "x_min": 3213.0,
+          "y_min": 1701.0,
+          "x_max": 3451.0,
+          "y_max": 2687.0
+        },
+        "page": 1,
+        "confidence": 0.512
+      },
+      {
+        "text": "C",
+        "bbox": {
+          "x_min": 981.0,
+          "y_min": 1716.0,
+          "x_max": 994.0,
+          "y_max": 1730.0
+        },
+        "page": 1,
+        "confidence": 0.195
+      },
+      {
+        "text": "o",
+        "bbox": {
+          "x_min": 984.0,
+          "y_min": 1733.0,
+          "x_max": 993.0,
+          "y_max": 1744.0
+        },
+        "page": 1,
+        "confidence": 0.116
+      },
+      {
+        "text": "1",
+        "bbox": {
+          "x_min": 986.0,
+          "y_min": 1748.0,
+          "x_max": 993.0,
+          "y_max": 1758.0
+        },
+        "page": 1,
+        "confidence": 0.103
+      },
+      {
+        "text": "SO",
+        "bbox": {
+          "x_min": 2500.0,
+          "y_min": 1885.0,
+          "x_max": 2518.0,
+          "y_max": 1893.0
+        },
+        "page": 1,
+        "confidence": 0.236
+      },
+      {
+        "text": "R",
+        "bbox": {
+          "x_min": 1912.0,
+          "y_min": 1923.0,
+          "x_max": 1922.0,
+          "y_max": 1936.0
+        },
+        "page": 1,
+        "confidence": 0.168
+      },
+      {
+        "text": "8",
+        "bbox": {
+          "x_min": 2540.0,
+          "y_min": 1879.0,
+          "x_max": 2728.0,
+          "y_max": 2081.0
+        },
+        "page": 1,
+        "confidence": 0.183
+      },
+      {
+        "text": "19081",
+        "bbox": {
+          "x_min": 2117.0,
+          "y_min": 1932.0,
+          "x_max": 2299.0,
+          "y_max": 2417.0
+        },
+        "page": 1,
+        "confidence": 0.491
+      },
+      {
+        "text": "O",
+        "bbox": {
+          "x_min": 1914.0,
+          "y_min": 1948.0,
+          "x_max": 1925.0,
+          "y_max": 1960.0
+        },
+        "page": 1,
+        "confidence": 0.073
+      },
+      {
+        "text": "907",
+        "bbox": {
+          "x_min": 1962.0,
+          "y_min": 1953.0,
+          "x_max": 2097.0,
+          "y_max": 2522.0
+        },
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "Shopo-pons",
+        "bbox": {
+          "x_min": 2250.0,
+          "y_min": 1954.0,
+          "x_max": 2401.0,
+          "y_max": 2663.0
+        },
+        "page": 1,
+        "confidence": 0.329
+      },
+      {
+        "text": "EN",
+        "bbox": {
+          "x_min": 875.0,
+          "y_min": 1996.0,
+          "x_max": 1049.0,
+          "y_max": 2877.0
+        },
+        "page": 1,
+        "confidence": 0.33
+      },
+      {
+        "text": "O",
+        "bbox": {
+          "x_min": 3527.0,
+          "y_min": 2014.0,
+          "x_max": 3540.0,
+          "y_max": 2022.0
+        },
+        "page": 1,
+        "confidence": 0.201
+      },
+      {
+        "text": "X",
+        "bbox": {
+          "x_min": 2411.0,
+          "y_min": 2029.0,
+          "x_max": 2452.0,
+          "y_max": 2058.0
+        },
+        "page": 1,
+        "confidence": 0.117
+      },
+      {
+        "text": "b/-",
+        "bbox": {
+          "x_min": 2482.0,
+          "y_min": 2011.0,
+          "x_max": 2801.0,
+          "y_max": 2844.0
+        },
+        "page": 1,
+        "confidence": 0.667
+      },
+      {
+        "text": "Arnerneeengen",
+        "bbox": {
+          "x_min": 3116.0,
+          "y_min": 2034.0,
+          "x_max": 3230.0,
+          "y_max": 2780.0
+        },
+        "page": 1,
+        "confidence": 0.324
+      },
+      {
+        "text": "19081",
+        "bbox": {
+          "x_min": 2369.0,
+          "y_min": 2056.0,
+          "x_max": 2491.0,
+          "y_max": 2336.0
+        },
+        "page": 1,
+        "confidence": 0.732
+      },
+      {
+        "text": "hnrshes",
+        "bbox": {
+          "x_min": 1516.0,
+          "y_min": 2070.0,
+          "x_max": 1628.0,
+          "y_max": 2800.0
+        },
+        "page": 1,
+        "confidence": 0.476
+      },
+      {
+        "text": "8008",
+        "bbox": {
+          "x_min": 740.0,
+          "y_min": 2110.0,
+          "x_max": 908.0,
+          "y_max": 2906.0
+        },
+        "page": 1,
+        "confidence": 0.398
+      },
+      {
+        "text": "CMNOOOM",
+        "bbox": {
+          "x_min": 1082.0,
+          "y_min": 2122.0,
+          "x_max": 1190.0,
+          "y_max": 2870.0
+        },
+        "page": 1,
+        "confidence": 0.383
+      },
+      {
+        "text": "O",
+        "bbox": {
+          "x_min": 2953.0,
+          "y_min": 2246.0,
+          "x_max": 3067.0,
+          "y_max": 2386.0
+        },
+        "page": 1,
+        "confidence": 0.29
+      },
+      {
+        "text": "3",
+        "bbox": {
+          "x_min": 1818.0,
+          "y_min": 2294.0,
+          "x_max": 1970.0,
+          "y_max": 2419.0
+        },
+        "page": 1,
+        "confidence": 0.377
+      },
+      {
+        "text": "-",
+        "bbox": {
+          "x_min": 3022.0,
+          "y_min": 2325.0,
+          "x_max": 3031.0,
+          "y_max": 2337.0
+        },
+        "page": 1,
+        "confidence": 0.714
+      },
+      {
+        "text": "&",
+        "bbox": {
+          "x_min": 2985.0,
+          "y_min": 2346.0,
+          "x_max": 3135.0,
+          "y_max": 2519.0
+        },
+        "page": 1,
+        "confidence": 0.249
+      },
+      {
+        "text": "2",
+        "bbox": {
+          "x_min": 3913.0,
+          "y_min": 2372.0,
+          "x_max": 4122.0,
+          "y_max": 2596.0
+        },
+        "page": 1,
+        "confidence": 0.467
+      },
+      {
+        "text": "A",
+        "bbox": {
+          "x_min": 1940.0,
+          "y_min": 2414.0,
+          "x_max": 1946.0,
+          "y_max": 2420.0
+        },
+        "page": 1,
+        "confidence": 0.075
+      },
+      {
+        "text": "do",
+        "bbox": {
+          "x_min": 1712.0,
+          "y_min": 2470.0,
+          "x_max": 1815.0,
+          "y_max": 2681.0
+        },
+        "page": 1,
+        "confidence": 0.353
+      },
+      {
+        "text": "aoee",
+        "bbox": {
+          "x_min": 2028.0,
+          "y_min": 2497.0,
+          "x_max": 2122.0,
+          "y_max": 2753.0
+        },
+        "page": 1,
+        "confidence": 0.213
+      },
+      {
+        "text": "J",
+        "bbox": {
+          "x_min": 3515.0,
+          "y_min": 2510.0,
+          "x_max": 3660.0,
+          "y_max": 2657.0
+        },
+        "page": 1,
+        "confidence": 0.91
+      },
+      {
+        "text": "P",
+        "bbox": {
+          "x_min": 534.0,
+          "y_min": 2596.0,
+          "x_max": 782.0,
+          "y_max": 2782.0
+        },
+        "page": 1,
+        "confidence": 0.117
+      },
+      {
+        "text": "3E",
+        "bbox": {
+          "x_min": 2345.0,
+          "y_min": 2585.0,
+          "x_max": 2463.0,
+          "y_max": 2797.0
+        },
+        "page": 1,
+        "confidence": 0.344
+      },
+      {
+        "text": "&99",
+        "bbox": {
+          "x_min": 2268.0,
+          "y_min": 3165.0,
+          "x_max": 2751.0,
+          "y_max": 3468.0
+        },
+        "page": 1,
+        "confidence": 0.282
+      }
+    ],
+    "medications": [
+      {
+        "name": "Anbppig Ae",
+        "matched_term": "Anbppig Ae",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.165
+      },
+      {
+        "name": "Alpro",
+        "matched_term": "Alpro",
+        "drug_id": "10df6dcf-73db-4fb7-9c49-9fe23233983b",
+        "brand_id": "9d3e7930-ac2c-4a42-b576-025a4051300f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.513
+      },
+      {
+        "name": "Shopo-Pons En",
+        "matched_term": "Shopo-Pons En",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.148
+      },
+      {
+        "name": "Arnerneeengen",
+        "matched_term": "Arnerneeengen",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.238
+      },
+      {
+        "name": "Hnrshes",
+        "matched_term": "Hnrshes",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.197
+      },
+      {
+        "name": "Cmnooom Do",
+        "matched_term": "Cmnooom Do",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.164
+      },
+      {
+        "name": "Aoee",
+        "matched_term": "Aoee",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.168
+      }
+    ]
+  }
+}

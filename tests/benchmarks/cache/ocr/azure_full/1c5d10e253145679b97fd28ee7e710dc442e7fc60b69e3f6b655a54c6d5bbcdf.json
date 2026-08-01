@@ -1,0 +1,380 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "1c5d10e253145679b97fd28ee7e710dc442e7fc60b69e3f6b655a54c6d5bbcdf",
+  "record_id": "RX-0053",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 25260.61500000651,
+  "failure": null,
+  "response_sha256": "3c74d62c853abf6d20da2b589c51fa779fae41e3f77c7e28ccca56403a51fbe1",
+  "response": {
+    "raw_text": "डॉ. नाउन बारवियान\nपथविविध्यम, परमिनियम (जाजानी)\nघयम ((शभाटणेविनियरानि मार्णारी)\nप्रीमियम (पाठ्यनिका)\nअनारहन, ज्याशावकनिक, निडाड, निखनानी 8 ज्ञानविज्ञान मार्जन\nमश्काब्री जाधानिक, भाटणेविनियानि 3 भावकिग्राम माशि विधान\nनशेप (माश्याउद्यानी (मणिटिकन कानज, गया।\nDr. Shaon Shahriar\nMBBS, FCPS (Surgery)\nMS (Hepatobiliary Surgery), FACS (USA)\nGeneral, Laparoscopic, Liver, Biliary and Panc\nAssistant Professor, Department of Hepatobiliary {\nShaheed Suhrawardy Medical College, Dhaka\nWeb: www.shaonshahriar.com\n=\nM\nP\nName:\nMs. Samina Alles\nAge: 56 ys Date :\n45TH POD of hernioplasty\nA\nP\nA\nP\n2\nRE\nDI.\nWord-Healthy\ntrain - 20 cc\n. Jab Cafaclaw (500 mg)\n2+0+2-6935\n. Tab U-tramal Retard (100mg)\n0+ 0+ 2- 8 Pir\n· of Serget (200g)\n2+0+2 (2132mg (n=1)-993-\n· Jal Ancos A\n0+0+2-6475\nJab Regos (20 kg)\n.\n2+0+0-60725\n· Cap Lubilan (24Mg)\n. 12.23\nY. Sij Novo Rapid\nGlysup (2.3gm)\n.\n$3.12.23\nDi Novo-Rafia\n22+20+2012\nCaf Polycel (500mg)\n0+2+2-0955\nशारलाक\nत्र वक श्रामभाकाल लि:\nघाटनाक (भिवभूद्-20)\nबाड़ी - ०२ ७०७, ८बा७-०२, एक-वि, मिद्रभूत, गया।\nमिडियारनब जना: ०७१२, ०२-४४०००४०२, ०३३३४२२४४४८\n-\nजानी ललचाव मयग्रा\nमक्षा ◌े - द्वार ४ जै नर्यद्\nF",
+    "lines": [
+      {
+        "text": "डॉ. नाउन बारवियान",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "पथविविध्यम, परमिनियम (जाजानी)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "घयम ((शभाटणेविनियरानि मार्णारी)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "प्रीमियम (पाठ्यनिका)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "अनारहन, ज्याशावकनिक, निडाड, निखनानी 8 ज्ञानविज्ञान मार्जन",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "मश्काब्री जाधानिक, भाटणेविनियानि 3 भावकिग्राम माशि विधान",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "नशेप (माश्याउद्यानी (मणिटिकन कानज, गया।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "Dr. Shaon Shahriar",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "MBBS, FCPS (Surgery)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "MS (Hepatobiliary Surgery), FACS (USA)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "General, Laparoscopic, Liver, Biliary and Panc",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "Assistant Professor, Department of Hepatobiliary {",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "Shaheed Suhrawardy Medical College, Dhaka",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "Web: www.shaonshahriar.com",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "=",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "M",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "P",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "Name:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "Ms. Samina Alles",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "Age: 56 ys Date :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "45TH POD of hernioplasty",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "A",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "P",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "A",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "P",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "RE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "DI.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "Word-Healthy",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "train - 20 cc",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": ". Jab Cafaclaw (500 mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "2+0+2-6935",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": ". Tab U-tramal Retard (100mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "0+ 0+ 2- 8 Pir",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "· of Serget (200g)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "2+0+2 (2132mg (n=1)-993-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "· Jal Ancos A",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "0+0+2-6475",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "Jab Regos (20 kg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": ".",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "2+0+0-60725",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "· Cap Lubilan (24Mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": ". 12.23",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "Y. Sij Novo Rapid",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "Glysup (2.3gm)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": ".",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "$3.12.23",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "Di Novo-Rafia",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "22+20+2012",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "Caf Polycel (500mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "0+2+2-0955",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "शारलाक",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "त्र वक श्रामभाकाल लि:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "घाटनाक (भिवभूद्-20)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "बाड़ी - ०२ ७०७, ८बा७-०२, एक-वि, मिद्रभूत, गया।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "मिडियारनब जना: ०७१२, ०२-४४०००४०२, ०३३३४२२४४४८",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "जानी ललचाव मयग्रा",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "मक्षा ◌े - द्वार ४ जै नर्यद्",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "F",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      }
+    ]
+  }
+}

@@ -1,0 +1,203 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0052",
+  "source_sha256": "c354199512c96675951d23f668f0e7a23ec754b5d1d0226294ae123a436e6a10",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:31:22.552302+00:00",
+  "runtime_ms": 8680.060799990315,
+  "output": {
+    "medications": [
+      {
+        "name": "Plan A",
+        "matched_term": "Plan A",
+        "drug_id": "ee083766-b963-450e-ae26-a76f683b5abb",
+        "brand_id": "f1bf957e-55c4-444c-b1c8-54e0c3dfd225",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.642
+      },
+      {
+        "name": "Hernioplasty Sab Mesh",
+        "matched_term": "Hernioplasty Sab Mesh",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.262
+      },
+      {
+        "name": "Jal Dassban Mm Hg",
+        "matched_term": "Jal Dassban Mm Hg",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "0.5mg",
+        "frequency": "0+0+2",
+        "quantity": null,
+        "confidence": 0.362
+      },
+      {
+        "name": "Refer To Pakm",
+        "matched_term": "Refer To Pakm",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.262
+      },
+      {
+        "name": "Di-Control",
+        "matched_term": "Di-Control",
+        "drug_id": "8d338b82-c2e8-4998-8343-f63bf310eb97",
+        "brand_id": "e6e91bf5-81b1-48ad-8d06-4de85f528274",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.642
+      },
+      {
+        "name": "Active Otc",
+        "matched_term": "Active Otc",
+        "drug_id": "cd3f0cd3-7faf-4216-bc18-c7ecabb297cf",
+        "brand_id": "c835af29-578d-4a67-bd44-163fc92d8067",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.642
+      },
+      {
+        "name": "Mido",
+        "matched_term": "Mido",
+        "drug_id": "29bdb870-be12-4ba0-852f-92613c0ad4aa",
+        "brand_id": "1f44d74e-4760-40ee-aa8e-35881bd30af7",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.642
+      }
+    ],
+    "raw_text": "Plan\nHernioplasty V SAB (mesh repair)\n21.11.23\nJal Dassban (0.5mg)\n0+0+2- yarar 2(25\n21.11.23\n/90 mm Hg\nRefer to PAKM Fazlul Haque si\nfor control QHTN & DM & short\nactive insulin\n-13 5Telange\n87\nMid",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 8645,
+      "detected_regions": 1,
+      "ocr_line_count": 13,
+      "yolo_avg_confidence": 0.8629,
+      "yolo_min_confidence": 0.8629,
+      "yolo_max_confidence": 0.8629,
+      "ocr_avg_confidence": 0.582,
+      "ocr_min_confidence": 0.582,
+      "ocr_max_confidence": 0.582,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 169.92507934570312,
+            "y_min": 257.613525390625,
+            "x_max": 951.885986328125,
+            "y_max": 870.6458740234375
+          },
+          "score": 0.8629
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Plan",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.582
+        },
+        {
+          "text": "Hernioplasty V SAB (mesh repair)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.582
+        },
+        {
+          "text": "21.11.23",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.582
+        },
+        {
+          "text": "Jal Dassban (0.5mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.582
+        },
+        {
+          "text": "0+0+2- yarar 2(25",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.582
+        },
+        {
+          "text": "21.11.23",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.582
+        },
+        {
+          "text": "/90 mm Hg",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.582
+        },
+        {
+          "text": "Refer to PAKM Fazlul Haque si",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.582
+        },
+        {
+          "text": "for control QHTN & DM & short",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.582
+        },
+        {
+          "text": "active insulin",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.582
+        },
+        {
+          "text": "-13 5Telange",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.582
+        },
+        {
+          "text": "87",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.582
+        },
+        {
+          "text": "Mid",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.582
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

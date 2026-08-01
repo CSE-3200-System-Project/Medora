@@ -14,6 +14,8 @@ class Settings(BaseSettings):
     AI_PROVIDER: str = "groq"
     AI_PROVIDER_TIMEOUT_SECONDS: float = 20.0
     AI_PROVIDER_MAX_RETRIES: int = 2
+    AI_MOCK_MODEL: str = "medora-deterministic-mock-v1"
+    AI_AUDIT_CONTENT_ENABLED: bool = False
     GROQ_MODEL: str = "openai/gpt-oss-120b"
     GEMINI_MODEL: str = "gemini-2.5-flash"
     CEREBRAS_CLOUD_MODEL: str = "gpt-oss-120b"
@@ -49,8 +51,6 @@ class Settings(BaseSettings):
     GOOGLE_CLIENT_SECRET: str | None = None
     GOOGLE_REDIRECT_URI: str = "http://localhost:8000/oauth/google/callback"
     FRONTEND_URL: str = "http://localhost:3000"
-    ADMIN_PASSWORD: str | None = None
-
     ALLOWED_ORIGINS: str = ""   # Comma-separated list of origins
     PRELOAD_WHISPER_ON_STARTUP: bool = True
 

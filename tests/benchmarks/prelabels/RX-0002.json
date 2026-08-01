@@ -1,0 +1,1234 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0002",
+  "source_sha256": "8a608a218b0750284efd06dae52d6a19054e05c7efa29fb1f021bb4660753a64",
+  "raw_transcription": "Ch. Phanynings\n1\nKilbar\n5n\n1\n1+0+1\n7 dias\nTab- Fexo\n20\n16\n010+1\nTab-moram 10mg\n0-+0+1",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "C-Rich",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Kilbac",
+      "strength": "",
+      "dose": "",
+      "frequency": "1+0+1",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Diasy",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Fexo",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Moram",
+      "strength": "10mg",
+      "dose": "",
+      "frequency": "0+0+1",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "03ec32c84ab9d09ff59beec9f7c06628e66530c955c3cccef5b596825c07f58b"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "a844bed36fbde167f1e64979a354045fd7176de9b9171febd9cdf93e763ca423"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "5acd1abf668754a7a939c80a7379f15f2515848a93a45bda27aee2d091b00408"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "M-\nRO,\nwee\nmpt\nus\nCwol\netl\n0\nD\n1+014\nww\nLee\n2\n3seo\nY\n1+0+\n1\nTO\n2\nN\no\n88'S\nK\n3\n2\nMese\n91-1051\n8\n10\nH\nOlio\nR\n.\nR\nKG\n1\nC\nDogra\nASO\n2\n2\n3",
+      "lines": [
+        {
+          "text": "M-",
+          "bbox": {
+            "x_min": 138.0,
+            "y_min": 201.0,
+            "x_max": 268.0,
+            "y_max": 683.0
+          },
+          "page": 1,
+          "confidence": 0.531
+        },
+        {
+          "text": "RO,",
+          "bbox": {
+            "x_min": 338.0,
+            "y_min": 296.0,
+            "x_max": 594.0,
+            "y_max": 712.0
+          },
+          "page": 1,
+          "confidence": 0.485
+        },
+        {
+          "text": "wee",
+          "bbox": {
+            "x_min": 2550.0,
+            "y_min": 329.0,
+            "x_max": 2673.0,
+            "y_max": 694.0
+          },
+          "page": 1,
+          "confidence": 0.437
+        },
+        {
+          "text": "mpt",
+          "bbox": {
+            "x_min": 1804.0,
+            "y_min": 312.0,
+            "x_max": 2182.0,
+            "y_max": 896.0
+          },
+          "page": 1,
+          "confidence": 0.553
+        },
+        {
+          "text": "us",
+          "bbox": {
+            "x_min": 1584.0,
+            "y_min": 391.0,
+            "x_max": 1680.0,
+            "y_max": 591.0
+          },
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "Cwol",
+          "bbox": {
+            "x_min": 2841.0,
+            "y_min": 423.0,
+            "x_max": 2997.0,
+            "y_max": 918.0
+          },
+          "page": 1,
+          "confidence": 0.655
+        },
+        {
+          "text": "etl",
+          "bbox": {
+            "x_min": 2294.0,
+            "y_min": 465.0,
+            "x_max": 2456.0,
+            "y_max": 712.0
+          },
+          "page": 1,
+          "confidence": 0.427
+        },
+        {
+          "text": "0",
+          "bbox": {
+            "x_min": 2325.0,
+            "y_min": 829.0,
+            "x_max": 2395.0,
+            "y_max": 1028.0
+          },
+          "page": 1,
+          "confidence": 0.658
+        },
+        {
+          "text": "D",
+          "bbox": {
+            "x_min": 2707.0,
+            "y_min": 812.0,
+            "x_max": 2884.0,
+            "y_max": 1039.0
+          },
+          "page": 1,
+          "confidence": 0.129
+        },
+        {
+          "text": "1+014",
+          "bbox": {
+            "x_min": 2521.0,
+            "y_min": 859.0,
+            "x_max": 2680.0,
+            "y_max": 1360.0
+          },
+          "page": 1,
+          "confidence": 0.657
+        },
+        {
+          "text": "ww",
+          "bbox": {
+            "x_min": 2902.0,
+            "y_min": 907.0,
+            "x_max": 2998.0,
+            "y_max": 1301.0
+          },
+          "page": 1,
+          "confidence": 0.416
+        },
+        {
+          "text": "Lee",
+          "bbox": {
+            "x_min": 421.0,
+            "y_min": 921.0,
+            "x_max": 510.0,
+            "y_max": 1079.0
+          },
+          "page": 1,
+          "confidence": 0.279
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 222.0,
+            "y_min": 958.0,
+            "x_max": 388.0,
+            "y_max": 2315.0
+          },
+          "page": 1,
+          "confidence": 0.356
+        },
+        {
+          "text": "3seo",
+          "bbox": {
+            "x_min": 3926.0,
+            "y_min": 982.0,
+            "x_max": 4233.0,
+            "y_max": 1134.0
+          },
+          "page": 1,
+          "confidence": 0.404
+        },
+        {
+          "text": "Y",
+          "bbox": {
+            "x_min": 2283.0,
+            "y_min": 1001.0,
+            "x_max": 2426.0,
+            "y_max": 1175.0
+          },
+          "page": 1,
+          "confidence": 0.649
+        },
+        {
+          "text": "1+0+",
+          "bbox": {
+            "x_min": 1908.0,
+            "y_min": 1019.0,
+            "x_max": 2081.0,
+            "y_max": 1359.0
+          },
+          "page": 1,
+          "confidence": 0.633
+        },
+        {
+          "text": "1",
+          "bbox": {
+            "x_min": 909.0,
+            "y_min": 1025.0,
+            "x_max": 1178.0,
+            "y_max": 1637.0
+          },
+          "page": 1,
+          "confidence": 0.213
+        },
+        {
+          "text": "TO",
+          "bbox": {
+            "x_min": 498.0,
+            "y_min": 1371.0,
+            "x_max": 597.0,
+            "y_max": 1580.0
+          },
+          "page": 1,
+          "confidence": 0.425
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 2311.0,
+            "y_min": 1441.0,
+            "x_max": 2477.0,
+            "y_max": 1660.0
+          },
+          "page": 1,
+          "confidence": 0.103
+        },
+        {
+          "text": "N",
+          "bbox": {
+            "x_min": 1665.0,
+            "y_min": 1460.0,
+            "x_max": 1778.0,
+            "y_max": 1603.0
+          },
+          "page": 1,
+          "confidence": 0.172
+        },
+        {
+          "text": "o",
+          "bbox": {
+            "x_min": 2905.0,
+            "y_min": 1462.0,
+            "x_max": 3008.0,
+            "y_max": 1597.0
+          },
+          "page": 1,
+          "confidence": 0.195
+        },
+        {
+          "text": "88'S",
+          "bbox": {
+            "x_min": 400.0,
+            "y_min": 1568.0,
+            "x_max": 658.0,
+            "y_max": 2026.0
+          },
+          "page": 1,
+          "confidence": 0.459
+        },
+        {
+          "text": "K",
+          "bbox": {
+            "x_min": 1374.0,
+            "y_min": 1856.0,
+            "x_max": 1531.0,
+            "y_max": 2021.0
+          },
+          "page": 1,
+          "confidence": 0.345
+        },
+        {
+          "text": "3",
+          "bbox": {
+            "x_min": 2851.0,
+            "y_min": 1890.0,
+            "x_max": 2951.0,
+            "y_max": 1984.0
+          },
+          "page": 1,
+          "confidence": 0.625
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 645.0,
+            "y_min": 2085.0,
+            "x_max": 749.0,
+            "y_max": 2427.0
+          },
+          "page": 1,
+          "confidence": 0.578
+        },
+        {
+          "text": "Mese",
+          "bbox": {
+            "x_min": 4249.0,
+            "y_min": 2360.0,
+            "x_max": 4308.0,
+            "y_max": 2535.0
+          },
+          "page": 1,
+          "confidence": 0.283
+        },
+        {
+          "text": "91-1051",
+          "bbox": {
+            "x_min": 1164.0,
+            "y_min": 2383.0,
+            "x_max": 1278.0,
+            "y_max": 2722.0
+          },
+          "page": 1,
+          "confidence": 0.772
+        },
+        {
+          "text": "8",
+          "bbox": {
+            "x_min": 2663.0,
+            "y_min": 2457.0,
+            "x_max": 2735.0,
+            "y_max": 2527.0
+          },
+          "page": 1,
+          "confidence": 0.494
+        },
+        {
+          "text": "10",
+          "bbox": {
+            "x_min": 935.0,
+            "y_min": 2446.0,
+            "x_max": 1190.0,
+            "y_max": 2647.0
+          },
+          "page": 1,
+          "confidence": 0.189
+        },
+        {
+          "text": "H",
+          "bbox": {
+            "x_min": 526.0,
+            "y_min": 2516.0,
+            "x_max": 610.0,
+            "y_max": 2612.0
+          },
+          "page": 1,
+          "confidence": 0.235
+        },
+        {
+          "text": "Olio",
+          "bbox": {
+            "x_min": 273.0,
+            "y_min": 2551.0,
+            "x_max": 501.0,
+            "y_max": 2903.0
+          },
+          "page": 1,
+          "confidence": 0.301
+        },
+        {
+          "text": "R",
+          "bbox": {
+            "x_min": 880.0,
+            "y_min": 2555.0,
+            "x_max": 933.0,
+            "y_max": 2624.0
+          },
+          "page": 1,
+          "confidence": 0.143
+        },
+        {
+          "text": ".",
+          "bbox": {
+            "x_min": 2550.0,
+            "y_min": 2691.0,
+            "x_max": 2559.0,
+            "y_max": 2704.0
+          },
+          "page": 1,
+          "confidence": 0.137
+        },
+        {
+          "text": "R",
+          "bbox": {
+            "x_min": 2551.0,
+            "y_min": 2708.0,
+            "x_max": 2559.0,
+            "y_max": 2731.0
+          },
+          "page": 1,
+          "confidence": 0.129
+        },
+        {
+          "text": "KG",
+          "bbox": {
+            "x_min": 461.0,
+            "y_min": 2723.0,
+            "x_max": 575.0,
+            "y_max": 3074.0
+          },
+          "page": 1,
+          "confidence": 0.172
+        },
+        {
+          "text": "1",
+          "bbox": {
+            "x_min": 876.0,
+            "y_min": 2858.0,
+            "x_max": 907.0,
+            "y_max": 2893.0
+          },
+          "page": 1,
+          "confidence": 0.068
+        },
+        {
+          "text": "C",
+          "bbox": {
+            "x_min": 992.0,
+            "y_min": 2866.0,
+            "x_max": 1009.0,
+            "y_max": 2874.0
+          },
+          "page": 1,
+          "confidence": 0.102
+        },
+        {
+          "text": "Dogra",
+          "bbox": {
+            "x_min": 825.0,
+            "y_min": 2875.0,
+            "x_max": 1333.0,
+            "y_max": 3071.0
+          },
+          "page": 1,
+          "confidence": 0.423
+        },
+        {
+          "text": "ASO",
+          "bbox": {
+            "x_min": 661.0,
+            "y_min": 2916.0,
+            "x_max": 753.0,
+            "y_max": 3105.0
+          },
+          "page": 1,
+          "confidence": 0.268
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 1176.0,
+            "y_min": 2934.0,
+            "x_max": 1185.0,
+            "y_max": 2947.0
+          },
+          "page": 1,
+          "confidence": 0.11
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 1205.0,
+            "y_min": 2940.0,
+            "x_max": 1210.0,
+            "y_max": 2947.0
+          },
+          "page": 1,
+          "confidence": 0.233
+        },
+        {
+          "text": "3",
+          "bbox": {
+            "x_min": 205.0,
+            "y_min": 3374.0,
+            "x_max": 275.0,
+            "y_max": 3466.0
+          },
+          "page": 1,
+          "confidence": 0.435
+        }
+      ],
+      "medications": [
+        {
+          "name": "Campto",
+          "matched_term": "Campto",
+          "drug_id": "8f595dbf-529d-4513-842a-bf91ecff4add",
+          "brand_id": "0cafc2ae-008c-4f96-b40a-0bb1bfd76c41",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.629
+        },
+        {
+          "name": "D-Sweet",
+          "matched_term": "D-Sweet",
+          "drug_id": "dba30b2d-56fb-4f96-b0f5-eb6cef26f3cb",
+          "brand_id": "326a23c3-922f-42bf-9d36-e0289d7575b8",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.601
+        },
+        {
+          "name": "Cwol",
+          "matched_term": "Cwol",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.295
+        },
+        {
+          "name": "Etl Ww",
+          "matched_term": "Etl Ww",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.206
+        },
+        {
+          "name": "Lee Seo To",
+          "matched_term": "Lee Seo To",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.175
+        },
+        {
+          "name": "Mese",
+          "matched_term": "Mese",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.178
+        },
+        {
+          "name": "Ginkgo",
+          "matched_term": "Ginkgo",
+          "drug_id": "f5f8040a-5bcb-4748-b797-011437e0979a",
+          "brand_id": "89ad6245-515c-420d-9c9d-f17b61ad47a3",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.287
+        },
+        {
+          "name": "Dogra",
+          "matched_term": "Dogra",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.19
+        },
+        {
+          "name": "Aso",
+          "matched_term": "Aso",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.118
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "छिकिश्मक कड़क बाभीन बारश शेख\nWIO\nवस्तु (बर्माफ)-७७\nबागीस नाग\nMZ HSiddique\nवराम\n40y\nबादशव नाग\nNHQ\nछिकिश्माअब नाशमना\nENT OPD\nS. NO-\n36\nROOM NO\n02\n1\n4 ch. Pharynning\nDATE\n14.01.16\nKilbar In\n+0+1\n7 dias\nJab- Fexo\n120\n0-10+1\n3\nTab-moram 10 mg\n0+0+1 (250m)\nSa\nAJELJUDIACOM A0\nMajor\nCMH\nficar\nMOBOBUR JAT/SO\nVÍZHOM LAH ENS\n-\nIssued 15 day\n14-1-16\n18-2-16",
+      "lines": [
+        {
+          "text": "छिकिश्मक कड़क बाभीन बारश शेख",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "WIO",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "वस्तु (बर्माफ)-७७",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "बागीस नाग",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "MZ HSiddique",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "वराम",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "40y",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "बादशव नाग",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "NHQ",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "छिकिश्माअब नाशमना",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "ENT OPD",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "S. NO-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "36",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "ROOM NO",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "02",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "4 ch. Pharynning",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "DATE",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "14.01.16",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "Kilbar In",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "+0+1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "7 dias",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "Jab- Fexo",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "120",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "0-10+1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "3",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "Tab-moram 10 mg",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "0+0+1 (250m)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "Sa",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "AJELJUDIACOM A0",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "Major",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "CMH",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "ficar",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "MOBOBUR JAT/SO",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "VÍZHOM LAH ENS",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "Issued 15 day",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "14-1-16",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": "18-2-16",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.598
+        }
+      ],
+      "medications": [
+        {
+          "name": "Wio",
+          "matched_term": "Wio",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.269
+        },
+        {
+          "name": "Amzith",
+          "matched_term": "Amzith",
+          "drug_id": "01034f29-48ab-41a5-ab2d-8e85dea95f0a",
+          "brand_id": "5c66c10f-6d99-4108-8efc-d3475e610d3c",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.649
+        },
+        {
+          "name": "Nhq",
+          "matched_term": "Nhq",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.269
+        },
+        {
+          "name": "Ent Opd No-Spa",
+          "matched_term": "Ent Opd No-Spa",
+          "drug_id": "c115c340-f9a8-4fd4-a758-6de6e2d7532c",
+          "brand_id": "4f660548-82a7-4bf4-9b7c-93ef96c13f9e",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.269
+        },
+        {
+          "name": "Room No",
+          "matched_term": "Room No",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.269
+        },
+        {
+          "name": "C-Rich",
+          "matched_term": "C-Rich",
+          "drug_id": "30b8fd7b-f9bb-4bf5-84cb-9112108f6019",
+          "brand_id": "cae4927f-e4ac-481b-82d2-6c774b453b5a",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.649
+        },
+        {
+          "name": "Date",
+          "matched_term": "Date",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.269
+        },
+        {
+          "name": "Kilbac",
+          "matched_term": "Kilbac",
+          "drug_id": "96fe382c-8be6-4b55-b983-1b5d653512a4",
+          "brand_id": "59df47a1-056d-4c7c-a681-12c2eb13ddd5",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.649
+        },
+        {
+          "name": "Diasy",
+          "matched_term": "Diasy",
+          "drug_id": "64a8c181-d38d-426b-8d5d-63d3c5d28e97",
+          "brand_id": "25eae96a-e9d4-4806-9a6c-d67fbd4ee428",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.649
+        },
+        {
+          "name": "Fexo",
+          "matched_term": "Fexo",
+          "drug_id": "65aea84f-80a6-4e35-bad0-af864d7c279b",
+          "brand_id": "09312576-01a3-40b7-8d64-5a602e67f407",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.649
+        },
+        {
+          "name": "Moram Sa",
+          "matched_term": "Moram Sa",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "10 mg",
+          "frequency": "0+0+1",
+          "quantity": null,
+          "confidence": 0.37
+        },
+        {
+          "name": "Ajeljudiacom",
+          "matched_term": "Ajeljudiacom",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.269
+        },
+        {
+          "name": "Major",
+          "matched_term": "Major",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.269
+        },
+        {
+          "name": "Cmh",
+          "matched_term": "Cmh",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.269
+        },
+        {
+          "name": "Ficard",
+          "matched_term": "Ficard",
+          "drug_id": "3516bbdc-9119-451c-9d31-dda03633a360",
+          "brand_id": "3a80688d-60bc-4963-96c2-c1289c8fe06b",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.649
+        },
+        {
+          "name": "Mobobur Jat So",
+          "matched_term": "Mobobur Jat So",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.269
+        },
+        {
+          "name": "Zhom Lah Ens",
+          "matched_term": "Zhom Lah Ens",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": "4+1+1",
+          "quantity": "15 days",
+          "confidence": 0.368
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "C-Rich",
+          "matched_term": "C-Rich",
+          "drug_id": "30b8fd7b-f9bb-4bf5-84cb-9112108f6019",
+          "brand_id": "cae4927f-e4ac-481b-82d2-6c774b453b5a",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.683
+        },
+        {
+          "name": "Kilbac",
+          "matched_term": "Kilbac",
+          "drug_id": "96fe382c-8be6-4b55-b983-1b5d653512a4",
+          "brand_id": "59df47a1-056d-4c7c-a681-12c2eb13ddd5",
+          "dosage": null,
+          "frequency": "1+0+1",
+          "quantity": null,
+          "confidence": 0.732
+        },
+        {
+          "name": "Diasy",
+          "matched_term": "Diasy",
+          "drug_id": "64a8c181-d38d-426b-8d5d-63d3c5d28e97",
+          "brand_id": "25eae96a-e9d4-4806-9a6c-d67fbd4ee428",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.683
+        },
+        {
+          "name": "Fexo",
+          "matched_term": "Fexo",
+          "drug_id": "65aea84f-80a6-4e35-bad0-af864d7c279b",
+          "brand_id": "09312576-01a3-40b7-8d64-5a602e67f407",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.683
+        },
+        {
+          "name": "Moram",
+          "matched_term": "Moram",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "10mg",
+          "frequency": "0+0+1",
+          "quantity": null,
+          "confidence": 0.403
+        }
+      ],
+      "raw_text": "Ch. Phanynings\n1\nKilbar\n5n\n1\n1+0+1\n7 dias\nTab- Fexo\n20\n16\n010+1\nTab-moram 10mg\n0-+0+1",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 11443,
+        "detected_regions": 1,
+        "ocr_line_count": 13,
+        "yolo_avg_confidence": 0.8426,
+        "yolo_min_confidence": 0.8426,
+        "yolo_max_confidence": 0.8426,
+        "ocr_avg_confidence": 0.673,
+        "ocr_min_confidence": 0.673,
+        "ocr_max_confidence": 0.673,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 1138.7987319946287,
+              "y_min": 755.9445091247558,
+              "x_max": 3351.73059387207,
+              "y_max": 3982.1546188354487
+            },
+            "score": 0.8426
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "Ch. Phanynings",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.673
+          },
+          {
+            "text": "1",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.673
+          },
+          {
+            "text": "Kilbar",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.673
+          },
+          {
+            "text": "5n",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.673
+          },
+          {
+            "text": "1",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.673
+          },
+          {
+            "text": "1+0+1",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.673
+          },
+          {
+            "text": "7 dias",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.673
+          },
+          {
+            "text": "Tab- Fexo",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.673
+          },
+          {
+            "text": "20",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.673
+          },
+          {
+            "text": "16",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.673
+          },
+          {
+            "text": "010+1",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.673
+          },
+          {
+            "text": "Tab-moram 10mg",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.673
+          },
+          {
+            "text": "0-+0+1",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.673
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

@@ -1,5 +1,4 @@
 import { type NextRequest, NextResponse } from 'next/server'
-import { getAdminSecret, verifyAdminAccessToken } from '@/lib/admin-auth'
 
 // Routes only accessible when logged OUT
 const authRoutes = [
@@ -20,6 +19,7 @@ const publicRoutes = [
   '/verify-email',
   '/verify-pending',
   '/account-blocked',
+  '/session-cleanup',
 ]
 
 // Routes that do NOT require auth and are not auth- or admin-specific
@@ -46,12 +46,11 @@ export async function proxy(request: NextRequest) {
   const userRole = request.cookies.get('user_role')?.value?.toLowerCase()
   const onboardingCompleted = request.cookies.get('onboarding_completed')?.value
   const onboardingSkipped = request.cookies.get('onboarding_skipped')?.value
-  const adminAccess = request.cookies.get('admin_access')?.value
   const verificationStatus = request.cookies.get('verification_status')?.value
   const blockedReason = request.cookies.get('account_blocked_reason')?.value
 
   const isLoggedIn = !!sessionToken
-  const isAdmin = await verifyAdminAccessToken(adminAccess, getAdminSecret())
+  const isAdmin = isLoggedIn && userRole === 'admin'
 
   const isAuthRoute = authRoutes.some(route => pathname.startsWith(route))
   const isAdminRoute = adminRoutes.some(route => pathname.startsWith(route))

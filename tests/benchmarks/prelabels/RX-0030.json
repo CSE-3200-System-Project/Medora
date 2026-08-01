@@ -1,0 +1,1123 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0030",
+  "source_sha256": "dd5c997f98ee0ddc9693363126ca75d12e79ce13674f5582db5aa22ba8dbceca",
+  "raw_transcription": "Tais\nOmsider\nCap Losectil. v\nTab\nRecipro (spo-)\n· Cap\nI trace (uma)\nain\nTab Direvos tro mg",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "Tais",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Omsider",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Losectil V",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "C-Tab",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Rocipro",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "D-Cap",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Trace Uma",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Ain",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Direvos Tro Mg",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "d5de9e987ba7c7a169492eecaa1bba258bdfc09837282d8189635b283738ec28"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "b3141320fc90fef627cefce19caf121fbc025cdf9339894056d45c66207a0b06"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "237b13d97e385b450ea932db11b0a48e921a7ba05cb08c38e6b85b528af06550"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "C\n60\nTE\nARL\nlou\nOmidony\n+\ntee\nSK\ny\nCop\nLosectil-v\n)\nTab\nRocipro sp\nW-65\n)\ntarca-2.\nCap\nIcm(\nHH)-\n2\nLower.abcomial pain\n(Llt-nde)\nTA6\nDinw\n50n\n++\nDM.\nS\n.303\n3-c8-yahoo.co\n49-38909-39",
+      "lines": [
+        {
+          "text": "C",
+          "bbox": {
+            "x_min": 113.0,
+            "y_min": 125.0,
+            "x_max": 124.0,
+            "y_max": 132.0
+          },
+          "page": 1,
+          "confidence": 0.065
+        },
+        {
+          "text": "60",
+          "bbox": {
+            "x_min": 331.0,
+            "y_min": 135.0,
+            "x_max": 350.0,
+            "y_max": 146.0
+          },
+          "page": 1,
+          "confidence": 0.438
+        },
+        {
+          "text": "TE",
+          "bbox": {
+            "x_min": 365.0,
+            "y_min": 141.0,
+            "x_max": 390.0,
+            "y_max": 152.0
+          },
+          "page": 1,
+          "confidence": 0.506
+        },
+        {
+          "text": "ARL",
+          "bbox": {
+            "x_min": 387.0,
+            "y_min": 138.0,
+            "x_max": 421.0,
+            "y_max": 149.0
+          },
+          "page": 1,
+          "confidence": 0.185
+        },
+        {
+          "text": "lou",
+          "bbox": {
+            "x_min": 287.0,
+            "y_min": 153.0,
+            "x_max": 307.0,
+            "y_max": 165.0
+          },
+          "page": 1,
+          "confidence": 0.584
+        },
+        {
+          "text": "Omidony",
+          "bbox": {
+            "x_min": 303.0,
+            "y_min": 151.0,
+            "x_max": 357.0,
+            "y_max": 169.0
+          },
+          "page": 1,
+          "confidence": 0.833
+        },
+        {
+          "text": "+",
+          "bbox": {
+            "x_min": 317.0,
+            "y_min": 170.0,
+            "x_max": 368.0,
+            "y_max": 188.0
+          },
+          "page": 1,
+          "confidence": 0.767
+        },
+        {
+          "text": "tee",
+          "bbox": {
+            "x_min": 372.0,
+            "y_min": 170.0,
+            "x_max": 391.0,
+            "y_max": 182.0
+          },
+          "page": 1,
+          "confidence": 0.542
+        },
+        {
+          "text": "SK",
+          "bbox": {
+            "x_min": 375.0,
+            "y_min": 179.0,
+            "x_max": 392.0,
+            "y_max": 191.0
+          },
+          "page": 1,
+          "confidence": 0.387
+        },
+        {
+          "text": "y",
+          "bbox": {
+            "x_min": 395.0,
+            "y_min": 176.0,
+            "x_max": 436.0,
+            "y_max": 187.0
+          },
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "Cop",
+          "bbox": {
+            "x_min": 293.0,
+            "y_min": 187.0,
+            "x_max": 317.0,
+            "y_max": 207.0
+          },
+          "page": 1,
+          "confidence": 0.93
+        },
+        {
+          "text": "Losectil-v",
+          "bbox": {
+            "x_min": 328.0,
+            "y_min": 189.0,
+            "x_max": 380.0,
+            "y_max": 208.0
+          },
+          "page": 1,
+          "confidence": 0.798
+        },
+        {
+          "text": ")",
+          "bbox": {
+            "x_min": 330.0,
+            "y_min": 215.0,
+            "x_max": 369.0,
+            "y_max": 229.0
+          },
+          "page": 1,
+          "confidence": 0.469
+        },
+        {
+          "text": "Tab",
+          "bbox": {
+            "x_min": 304.0,
+            "y_min": 234.0,
+            "x_max": 323.0,
+            "y_max": 247.0
+          },
+          "page": 1,
+          "confidence": 0.708
+        },
+        {
+          "text": "Rocipro sp",
+          "bbox": {
+            "x_min": 335.0,
+            "y_min": 229.0,
+            "x_max": 426.0,
+            "y_max": 253.0
+          },
+          "page": 1,
+          "confidence": 0.77
+        },
+        {
+          "text": "W-65",
+          "bbox": {
+            "x_min": 143.0,
+            "y_min": 253.0,
+            "x_max": 232.0,
+            "y_max": 274.0
+          },
+          "page": 1,
+          "confidence": 0.832
+        },
+        {
+          "text": ")",
+          "bbox": {
+            "x_min": 338.0,
+            "y_min": 256.0,
+            "x_max": 379.0,
+            "y_max": 270.0
+          },
+          "page": 1,
+          "confidence": 0.55
+        },
+        {
+          "text": "tarca-2.",
+          "bbox": {
+            "x_min": 156.0,
+            "y_min": 279.0,
+            "x_max": 221.0,
+            "y_max": 297.0
+          },
+          "page": 1,
+          "confidence": 0.779
+        },
+        {
+          "text": "Cap",
+          "bbox": {
+            "x_min": 313.0,
+            "y_min": 277.0,
+            "x_max": 330.0,
+            "y_max": 291.0
+          },
+          "page": 1,
+          "confidence": 0.951
+        },
+        {
+          "text": "Icm(",
+          "bbox": {
+            "x_min": 349.0,
+            "y_min": 269.0,
+            "x_max": 431.0,
+            "y_max": 293.0
+          },
+          "page": 1,
+          "confidence": 0.649
+        },
+        {
+          "text": "HH)-",
+          "bbox": {
+            "x_min": 352.0,
+            "y_min": 294.0,
+            "x_max": 395.0,
+            "y_max": 311.0
+          },
+          "page": 1,
+          "confidence": 0.643
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 393.0,
+            "y_min": 285.0,
+            "x_max": 459.0,
+            "y_max": 313.0
+          },
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "Lower.abcomial pain",
+          "bbox": {
+            "x_min": 157.0,
+            "y_min": 297.0,
+            "x_max": 277.0,
+            "y_max": 324.0
+          },
+          "page": 1,
+          "confidence": 0.869
+        },
+        {
+          "text": "(Llt-nde)",
+          "bbox": {
+            "x_min": 205.0,
+            "y_min": 314.0,
+            "x_max": 276.0,
+            "y_max": 343.0
+          },
+          "page": 1,
+          "confidence": 0.668
+        },
+        {
+          "text": "TA6",
+          "bbox": {
+            "x_min": 322.0,
+            "y_min": 319.0,
+            "x_max": 345.0,
+            "y_max": 330.0
+          },
+          "page": 1,
+          "confidence": 0.372
+        },
+        {
+          "text": "Dinw",
+          "bbox": {
+            "x_min": 358.0,
+            "y_min": 316.0,
+            "x_max": 395.0,
+            "y_max": 331.0
+          },
+          "page": 1,
+          "confidence": 0.755
+        },
+        {
+          "text": "50n",
+          "bbox": {
+            "x_min": 389.0,
+            "y_min": 309.0,
+            "x_max": 437.0,
+            "y_max": 329.0
+          },
+          "page": 1,
+          "confidence": 0.481
+        },
+        {
+          "text": "++",
+          "bbox": {
+            "x_min": 358.0,
+            "y_min": 336.0,
+            "x_max": 396.0,
+            "y_max": 354.0
+          },
+          "page": 1,
+          "confidence": 0.555
+        },
+        {
+          "text": "DM.",
+          "bbox": {
+            "x_min": 175.0,
+            "y_min": 350.0,
+            "x_max": 210.0,
+            "y_max": 368.0
+          },
+          "page": 1,
+          "confidence": 0.816
+        },
+        {
+          "text": "S",
+          "bbox": {
+            "x_min": 146.0,
+            "y_min": 369.0,
+            "x_max": 300.0,
+            "y_max": 404.0
+          },
+          "page": 1,
+          "confidence": 0.306
+        },
+        {
+          "text": ".303",
+          "bbox": {
+            "x_min": 95.0,
+            "y_min": 535.0,
+            "x_max": 243.0,
+            "y_max": 557.0
+          },
+          "page": 1,
+          "confidence": 0.485
+        },
+        {
+          "text": "3-c8-yahoo.co",
+          "bbox": {
+            "x_min": 95.0,
+            "y_min": 541.0,
+            "x_max": 278.0,
+            "y_max": 571.0
+          },
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "49-38909-39",
+          "bbox": {
+            "x_min": 99.0,
+            "y_min": 554.0,
+            "x_max": 277.0,
+            "y_max": 581.0
+          },
+          "page": 1,
+          "confidence": 0.603
+        }
+      ],
+      "medications": [
+        {
+          "name": "Arl Te",
+          "matched_term": "Arl Te",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.155
+        },
+        {
+          "name": "Omidon",
+          "matched_term": "Omidon",
+          "drug_id": "9be00680-287a-4d77-b894-f7e1af72ef33",
+          "brand_id": "426d7909-6917-4081-8f73-389e4ef479af",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.755
+        },
+        {
+          "name": "Lou",
+          "matched_term": "Lou",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.304
+        },
+        {
+          "name": "Tee Sk",
+          "matched_term": "Tee Sk",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.22
+        },
+        {
+          "name": "H-Cop",
+          "matched_term": "H-Cop",
+          "drug_id": "23d6efcc-6c77-4b09-9f8f-eac3518528c7",
+          "brand_id": "fea7a14c-d1c5-4fff-9fec-3d114ccd25e2",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.798
+        },
+        {
+          "name": "Losectil V",
+          "matched_term": "Losectil V",
+          "drug_id": "7b1fa286-3a42-4d88-b689-49b453895844",
+          "brand_id": "f86d6e44-59f4-4fa4-8b24-74d54737b5b5",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.665
+        },
+        {
+          "name": "Rocipro",
+          "matched_term": "Rocipro",
+          "drug_id": "8b7ef7af-6374-437d-af80-916fd76dba4b",
+          "brand_id": "ab638b46-8b64-4b3d-b83e-ce5bf1022935",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.727
+        },
+        {
+          "name": "C-Tab",
+          "matched_term": "C-Tab",
+          "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+          "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.694
+        },
+        {
+          "name": "Sicmon",
+          "matched_term": "Sicmon",
+          "drug_id": "6247daac-e75b-434e-b69f-eae643b49b67",
+          "brand_id": "cb3268a6-b116-480e-8f15-2978c8b40a92",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.672
+        },
+        {
+          "name": "D-Cap",
+          "matched_term": "D-Cap",
+          "drug_id": "e19d17d9-3fac-4185-8757-32f0d322ee98",
+          "brand_id": "30128340-f4e9-487f-8f85-f67d3b82460f",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.808
+        },
+        {
+          "name": "Chhohi",
+          "matched_term": "Chhohi",
+          "drug_id": "d4a25391-a052-429c-af4b-bdaa3066e9c2",
+          "brand_id": "19f8429d-3e43-4c72-be0b-ee06a4bb3bd4",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.495
+        },
+        {
+          "name": "Lowet",
+          "matched_term": "Lowet",
+          "drug_id": "9a46e064-ae17-41c3-83c9-f4a915403397",
+          "brand_id": "dbaea456-c883-4d89-b531-79982d7eeedf",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.684
+        },
+        {
+          "name": "Llt-Nde",
+          "matched_term": "Llt-Nde",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.301
+        },
+        {
+          "name": "Din",
+          "matched_term": "Din",
+          "drug_id": "f0ca115c-8bf1-468b-b81e-afc5d8f4b361",
+          "brand_id": "a681d405-dd44-4fe6-86cc-8cf24e3265ae",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.627
+        },
+        {
+          "name": "Sufoof Hajrul Yahood",
+          "matched_term": "Sufoof Hajrul Yahood",
+          "drug_id": "61a2bbb6-9bf8-4ef7-9708-66c09035ccba",
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.519
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "Dr. Monowara Begumi\nTak\nOmideas\n2-12 12 ted\nLosectil . v\nCap\nRecipro (spo -)\nWt- 65 kg .\ntárca-2.\n· Cap\nI treacen ( we)\nLower abdominal pain\n( Lett - side )\nTab\nDinew Ground\nDM .\n* THICOTCH वियकृत कर\nनमूनाड़ छाड़ाशननिक (मणाव नि:\nक्रमात = केमनाया गयाएक शामनालान डाजमाथे।\nफ्री फूड (माड, कि.मी. ०-२०२०, हाजमाई\nTOMAT SPI 03949-884008. 03909-329635",
+      "lines": [
+        {
+          "text": "Dr. Monowara Begumi",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "Tak",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "Omideas",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "2-12 12 ted",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "Losectil . v",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "Cap",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "Recipro (spo -)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "Wt- 65 kg .",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "tárca-2.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "· Cap",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "I treacen ( we)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "Lower abdominal pain",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "( Lett - side )",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "Tab",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "Dinew Ground",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "DM .",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "* THICOTCH वियकृत कर",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "नमूनाड़ छाड़ाशननिक (मणाव नि:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "क्रमात = केमनाया गयाएक शामनालान डाजमाथे।",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "फ्री फूड (माड, कि.मी. ०-२०२०, हाजमाई",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "TOMAT SPI 03949-884008. 03909-329635",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.475
+        }
+      ],
+      "medications": [
+        {
+          "name": "Dr Monowara Begumi",
+          "matched_term": "Dr Monowara Begumi",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.214
+        },
+        {
+          "name": "Tak",
+          "matched_term": "Tak",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.214
+        },
+        {
+          "name": "Omidex",
+          "matched_term": "Omidex",
+          "drug_id": "7b1fa286-3a42-4d88-b689-49b453895844",
+          "brand_id": "2fa10de1-431c-4434-ba2c-f4ae8b7032a3",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.594
+        },
+        {
+          "name": "Ted",
+          "matched_term": "Ted",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.214
+        },
+        {
+          "name": "Losectil V",
+          "matched_term": "Losectil V",
+          "drug_id": "7b1fa286-3a42-4d88-b689-49b453895844",
+          "brand_id": "f86d6e44-59f4-4fa4-8b24-74d54737b5b5",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.594
+        },
+        {
+          "name": "D-Cap",
+          "matched_term": "D-Cap",
+          "drug_id": "e19d17d9-3fac-4185-8757-32f0d322ee98",
+          "brand_id": "30128340-f4e9-487f-8f85-f67d3b82460f",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.594
+        },
+        {
+          "name": "Rocipro",
+          "matched_term": "Rocipro",
+          "drug_id": "8b7ef7af-6374-437d-af80-916fd76dba4b",
+          "brand_id": "ab638b46-8b64-4b3d-b83e-ce5bf1022935",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.594
+        },
+        {
+          "name": "D-Cap",
+          "matched_term": "D-Cap",
+          "drug_id": "e19d17d9-3fac-4185-8757-32f0d322ee98",
+          "brand_id": "30128340-f4e9-487f-8f85-f67d3b82460f",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.594
+        },
+        {
+          "name": "Treacen We",
+          "matched_term": "Treacen We",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.214
+        },
+        {
+          "name": "Lowet",
+          "matched_term": "Lowet",
+          "drug_id": "9a46e064-ae17-41c3-83c9-f4a915403397",
+          "brand_id": "dbaea456-c883-4d89-b531-79982d7eeedf",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.594
+        },
+        {
+          "name": "Lett Side",
+          "matched_term": "Lett Side",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.214
+        },
+        {
+          "name": "C-Tab",
+          "matched_term": "C-Tab",
+          "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+          "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.594
+        },
+        {
+          "name": "Dined",
+          "matched_term": "Dined",
+          "drug_id": "10df6dcf-73db-4fb7-9c49-9fe23233983b",
+          "brand_id": "c6236797-1a23-4b78-b4f6-c99e6e0447c3",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.594
+        },
+        {
+          "name": "Thicotch",
+          "matched_term": "Thicotch",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.214
+        },
+        {
+          "name": "Toma",
+          "matched_term": "Toma",
+          "drug_id": "ab9a0b2a-60ce-486b-b4ca-8a1427486295",
+          "brand_id": "2a4acea9-b73c-4a81-84cd-f43c03f17323",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.594
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "Tais",
+          "matched_term": "Tais",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.24
+        },
+        {
+          "name": "Omsider",
+          "matched_term": "Omsider",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.24
+        },
+        {
+          "name": "Losectil V",
+          "matched_term": "Losectil V",
+          "drug_id": "7b1fa286-3a42-4d88-b689-49b453895844",
+          "brand_id": "f86d6e44-59f4-4fa4-8b24-74d54737b5b5",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.62
+        },
+        {
+          "name": "C-Tab",
+          "matched_term": "C-Tab",
+          "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+          "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.62
+        },
+        {
+          "name": "Rocipro",
+          "matched_term": "Rocipro",
+          "drug_id": "8b7ef7af-6374-437d-af80-916fd76dba4b",
+          "brand_id": "ab638b46-8b64-4b3d-b83e-ce5bf1022935",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.62
+        },
+        {
+          "name": "D-Cap",
+          "matched_term": "D-Cap",
+          "drug_id": "e19d17d9-3fac-4185-8757-32f0d322ee98",
+          "brand_id": "30128340-f4e9-487f-8f85-f67d3b82460f",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.62
+        },
+        {
+          "name": "Trace Uma",
+          "matched_term": "Trace Uma",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.24
+        },
+        {
+          "name": "Ain",
+          "matched_term": "Ain",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.24
+        },
+        {
+          "name": "Direvos Tro Mg",
+          "matched_term": "Direvos Tro Mg",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.24
+        }
+      ],
+      "raw_text": "Tais\nOmsider\nCap Losectil. v\nTab\nRecipro (spo-)\n· Cap\nI trace (uma)\nain\nTab Direvos tro mg",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 7447,
+        "detected_regions": 1,
+        "ocr_line_count": 9,
+        "yolo_avg_confidence": 0.8818,
+        "yolo_min_confidence": 0.8818,
+        "yolo_max_confidence": 0.8818,
+        "ocr_avg_confidence": 0.534,
+        "ocr_min_confidence": 0.534,
+        "ocr_max_confidence": 0.534,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 267.1414794921875,
+              "y_min": 144.82046508789062,
+              "x_max": 468.8184509277344,
+              "y_max": 365.06365966796875
+            },
+            "score": 0.8818
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "Tais",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.534
+          },
+          {
+            "text": "Omsider",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.534
+          },
+          {
+            "text": "Cap Losectil. v",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.534
+          },
+          {
+            "text": "Tab",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.534
+          },
+          {
+            "text": "Recipro (spo-)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.534
+          },
+          {
+            "text": "· Cap",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.534
+          },
+          {
+            "text": "I trace (uma)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.534
+          },
+          {
+            "text": "ain",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.534
+          },
+          {
+            "text": "Tab Direvos tro mg",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.534
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

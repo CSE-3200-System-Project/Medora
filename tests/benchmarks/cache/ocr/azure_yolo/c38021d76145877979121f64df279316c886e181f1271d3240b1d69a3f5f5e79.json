@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "c38021d76145877979121f64df279316c886e181f1271d3240b1d69a3f5f5e79",
+  "record_id": "RX-0059",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 13573.390300007304,
+  "failure": null,
+  "response_sha256": "222800eb9f41ded7e8c9cb1e10b568eb5d2ee684bda6e31f2b869d1ee1edc195",
+  "response": {
+    "raw_text": "Rx\n.Tab. Furosemid + stinonolachine\n(2015m)\n2+40- 6AT\n· petroleum cully-\n· cap. magnaside (20g)\n+ tata - @ Pha",
+    "lines": [
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.471
+      },
+      {
+        "text": ".Tab. Furosemid + stinonolachine",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.471
+      },
+      {
+        "text": "(2015m)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.471
+      },
+      {
+        "text": "2+40- 6AT",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.471
+      },
+      {
+        "text": "· petroleum cully-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.471
+      },
+      {
+        "text": "· cap. magnaside (20g)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.471
+      },
+      {
+        "text": "+ tata - @ Pha",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.471
+      }
+    ]
+  }
+}

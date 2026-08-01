@@ -1,0 +1,451 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0055",
+  "source_sha256": "859a353ff86fe85d6bf0c512eefb69a1182cca3a7e23ca293647c6809bc666d1",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:53:08.480257+00:00",
+  "runtime_ms": 18287.990999990143,
+  "output": {
+    "raw_text": "18 नफिश वाजून (नयदि)\nपरविनिधान, वि.वि.इम (मश) उर्फभूमिद्य (गहिंदी वह वान),\nरुकि वे हैंरण शिंगणा स कारणउसे\n।-ग्रीन कियादेव सामान (पिटल्स कानशा, रामलाइज, वास़)\nविधि नं . ९२९82\nDR.NOFISA KHATUN (NOFSI)\nMEBS. B.C.S, FCPS(Gyne 5 066)\nConsultant (Obs &Gyne]\nX-Shahid Zieor Rahman Medical Colege Hospital, Bogura:\nRoy No 42741\nName:\nmon. Jene\nAge:\n23/2\nDate: 02 SEP 2005\nRxo\ntituly with\nFENTIGAL VAGINAL CREAM IVY\npone +1+0\ncap. microgest (worm)\nPIA\n5TH - 340\npm=+\nPHI-+\n-Tan, millicom)\n0 to\" Tab Nili pines [200ml\n-30pm\nकमान :\nगाउननि क्लिनिक\nव्याशाध्यम जाने शुभमकाल नरगा.\nमोक (कांग्रजिन :ग्राफ उन्पेनिया, पक्का।\nगिविवादनव बनाई ०३१३३-३२००४१\n4/09/204\nTab Duvadilan (iom)\n010-20/m\nवाशी मचान समग्र :\nमिनगाम भव इसका समापन।\nविकान को दरढक\nझाड़ जगा वशंख।\nदिए ज :- भावकी भाष्पादकता समग्र हेमिल्टन ' बदमाशनीय कानिकलजा छटाई महम ध्यानद्युत।",
+    "lines": [
+      {
+        "text": "18 नफिश वाजून (नयदि)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "परविनिधान, वि.वि.इम (मश) उर्फभूमिद्य (गहिंदी वह वान),",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "रुकि वे हैंरण शिंगणा स कारणउसे",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "।-ग्रीन कियादेव सामान (पिटल्स कानशा, रामलाइज, वास़)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "विधि नं . ९२९82",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "DR.NOFISA KHATUN (NOFSI)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "MEBS. B.C.S, FCPS(Gyne 5 066)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "Consultant (Obs &Gyne]",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "X-Shahid Zieor Rahman Medical Colege Hospital, Bogura:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "Roy No 42741",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "Name:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "mon. Jene",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "Age:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "23/2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "Date: 02 SEP 2005",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "Rxo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "tituly with",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "FENTIGAL VAGINAL CREAM IVY",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "pone +1+0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "cap. microgest (worm)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "PIA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "5TH - 340",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "pm=+",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "PHI-+",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "-Tan, millicom)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "0 to\" Tab Nili pines [200ml",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "-30pm",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "कमान :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "गाउननि क्लिनिक",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "व्याशाध्यम जाने शुभमकाल नरगा.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "मोक (कांग्रजिन :ग्राफ उन्पेनिया, पक्का।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "गिविवादनव बनाई ०३१३३-३२००४१",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "4/09/204",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "Tab Duvadilan (iom)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "010-20/m",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "वाशी मचान समग्र :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "मिनगाम भव इसका समापन।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "विकान को दरढक",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "झाड़ जगा वशंख।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "दिए ज :- भावकी भाष्पादकता समग्र हेमिल्टन ' बदमाशनीय कानिकलजा छटाई महम ध्यानद्युत।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      }
+    ],
+    "medications": [
+      {
+        "name": "Dr Nofisa Khatun",
+        "matched_term": "Dr Nofisa Khatun",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.179
+      },
+      {
+        "name": "Mebs Fcps Gyne",
+        "matched_term": "Mebs Fcps Gyne",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.179
+      },
+      {
+        "name": "Consultant Obs Gyne",
+        "matched_term": "Consultant Obs Gyne",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.179
+      },
+      {
+        "name": "X-Shahid Zieor Rahman",
+        "matched_term": "X-Shahid Zieor Rahman",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.179
+      },
+      {
+        "name": "Roy No",
+        "matched_term": "Roy No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.179
+      },
+      {
+        "name": "Name",
+        "matched_term": "Name",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.179
+      },
+      {
+        "name": "Mon",
+        "matched_term": "Mon",
+        "drug_id": "807a6dae-2bc9-408f-ab46-85ee4b7712c1",
+        "brand_id": "3634ba03-dfe2-48f3-a5ba-037e5712341f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.559
+      },
+      {
+        "name": "Age M",
+        "matched_term": "Age M",
+        "drug_id": "32593a88-50e8-4254-9d22-7d1a52c84504",
+        "brand_id": "86fe087a-92e9-4a39-8921-ab758e162e76",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.559
+      },
+      {
+        "name": "Date Sep",
+        "matched_term": "Date Sep",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.179
+      },
+      {
+        "name": "Rxo",
+        "matched_term": "Rxo",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.179
+      },
+      {
+        "name": "Tituly With",
+        "matched_term": "Tituly With",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.179
+      },
+      {
+        "name": "Fentigal",
+        "matched_term": "Fentigal",
+        "drug_id": "831f023e-3f29-4ded-af44-1ab6364896f1",
+        "brand_id": "69eff9bc-1ad5-4295-a99f-530921774469",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.559
+      },
+      {
+        "name": "Pone",
+        "matched_term": "Pone",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.179
+      },
+      {
+        "name": "Microgest",
+        "matched_term": "Microgest",
+        "drug_id": "66e73bba-c22e-4548-8f18-8b2b3575d7ea",
+        "brand_id": "e58f9a4e-32c4-47d8-ac70-f35856d76175",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.559
+      },
+      {
+        "name": "Pia Th Pm",
+        "matched_term": "Pia Th Pm",
+        "drug_id": "34d4169e-0795-45bb-b29d-4873102e5bdd",
+        "brand_id": "d0b0ae89-2410-4cb2-8d47-177b89add88e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.179
+      },
+      {
+        "name": "Typhi",
+        "matched_term": "Typhi",
+        "drug_id": "817bb696-a304-424c-b092-8b1921ae43aa",
+        "brand_id": "24b2fd66-9f58-401c-8b3b-e87312ae01a1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.505
+      },
+      {
+        "name": "E-Tan",
+        "matched_term": "E-Tan",
+        "drug_id": "9dff0641-71c5-420c-96b2-1eb99b9f1c6c",
+        "brand_id": "ac2a718a-85ef-4807-9bcb-131ceabfb293",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.559
+      },
+      {
+        "name": "To Nili Pines Pm",
+        "matched_term": "To Nili Pines Pm",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "200ml",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.23
+      },
+      {
+        "name": "Cu-tab",
+        "matched_term": "Cu-tab",
+        "drug_id": "3973b7fc-afc7-4263-8fce-cc93e630d5c1",
+        "brand_id": "ca35f4be-de34-4476-803b-bb9dd37949b2",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.559
+      }
+    ]
+  }
+}

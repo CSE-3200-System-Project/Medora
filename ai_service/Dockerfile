@@ -1,7 +1,7 @@
 # ============================================================================
 # STAGE 1: BUILD — install heavy dependencies in isolation
 # ============================================================================
-FROM --platform=linux/amd64 python:3.11-slim AS builder
+FROM python:3.11-slim AS builder
 
 WORKDIR /app
 
@@ -17,14 +17,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt .
+COPY requirements-release.txt ./requirements.txt
 RUN pip install --upgrade pip setuptools wheel && \
     pip install --prefix=/install -r requirements.txt
 
 # ============================================================================
 # STAGE 2: RUNTIME — lean production image
 # ============================================================================
-FROM --platform=linux/amd64 python:3.11-slim AS runtime
+FROM python:3.11-slim AS runtime
 
 WORKDIR /app
 

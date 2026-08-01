@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "b75d2de53cee1fba01f0e09ff0f1f131ff96901ad25fe468518a09d90c407a98",
+  "record_id": "RX-0054",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 8621.072099995217,
+  "failure": null,
+  "response_sha256": "eac528f0f04215c7b869839104fa07ba4c1d700959630c184c060f1c5b5ae723",
+  "response": {
+    "raw_text": "TREATMENTION DISCHARGE\nTabls L. 5\nเสาะ\n- Solcher so\n- جرين\nRosuva to\ncedemida 40,90\n6 Caport",
+    "lines": [
+      {
+        "text": "TREATMENTION DISCHARGE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.45
+      },
+      {
+        "text": "Tabls L. 5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.45
+      },
+      {
+        "text": "เสาะ",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.45
+      },
+      {
+        "text": "- Solcher so",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.45
+      },
+      {
+        "text": "- جرين",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.45
+      },
+      {
+        "text": "Rosuva to",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.45
+      },
+      {
+        "text": "cedemida 40,90",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.45
+      },
+      {
+        "text": "6 Caport",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.45
+      }
+    ]
+  }
+}

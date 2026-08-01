@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "4da0e9a8e3a90a7ee7214abd95d3f57448215565e180fce20b585ac504f0d4c1",
+  "record_id": "RX-0024",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 5836.7183999944245,
+  "failure": null,
+  "response_sha256": "963171effdec32014b110ee83749ed0b55fc3dc5758ba0f6cb16bf6c98206311",
+  "response": {
+    "raw_text": "on\nal Diagoncels\n736 Inflar (imprese) 400g\n1+1\nThe Exorep\n1+0+1\n0+0+1\n0+0+1 - (10)\nlevo flox\nOpis\n1+1-01\nNasal drop.",
+    "lines": [
+      {
+        "text": "on",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.429
+      },
+      {
+        "text": "al Diagoncels",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.429
+      },
+      {
+        "text": "736 Inflar (imprese) 400g",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.429
+      },
+      {
+        "text": "1+1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.429
+      },
+      {
+        "text": "The Exorep",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.429
+      },
+      {
+        "text": "1+0+1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.429
+      },
+      {
+        "text": "0+0+1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.429
+      },
+      {
+        "text": "0+0+1 - (10)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.429
+      },
+      {
+        "text": "levo flox",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.429
+      },
+      {
+        "text": "Opis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.429
+      },
+      {
+        "text": "1+1-01",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.429
+      },
+      {
+        "text": "Nasal drop.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.429
+      }
+    ]
+  }
+}

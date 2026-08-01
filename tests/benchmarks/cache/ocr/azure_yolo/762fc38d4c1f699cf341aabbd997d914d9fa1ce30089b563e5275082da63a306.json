@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "762fc38d4c1f699cf341aabbd997d914d9fa1ce30089b563e5275082da63a306",
+  "record_id": "RX-0040",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 10039.462500004447,
+  "failure": null,
+  "response_sha256": "e279dfbf893dc70e04d3812e9be2e84c0b1b80a51bfc757a75b2fad26eef2059",
+  "response": {
+    "raw_text": "Om NO. 19 ( Emergency )\nPatient Type : Gener\nRx\n36. Zoli vox (400mg)\nTo. Fixeet plus 250\n30. Flexi 100\n20 ty for)\n20. Vonopa 20\nKalconst-D\nno\n2\n0",
+    "lines": [
+      {
+        "text": "Om NO. 19 ( Emergency )",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.683
+      },
+      {
+        "text": "Patient Type : Gener",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.683
+      },
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.683
+      },
+      {
+        "text": "36. Zoli vox (400mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.683
+      },
+      {
+        "text": "To. Fixeet plus 250",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.683
+      },
+      {
+        "text": "30. Flexi 100",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.683
+      },
+      {
+        "text": "20 ty for)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.683
+      },
+      {
+        "text": "20. Vonopa 20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.683
+      },
+      {
+        "text": "Kalconst-D",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.683
+      },
+      {
+        "text": "no",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.683
+      },
+      {
+        "text": "2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.683
+      },
+      {
+        "text": "0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.683
+      }
+    ]
+  }
+}

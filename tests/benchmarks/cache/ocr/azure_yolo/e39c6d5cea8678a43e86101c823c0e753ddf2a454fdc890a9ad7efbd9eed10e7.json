@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "e39c6d5cea8678a43e86101c823c0e753ddf2a454fdc890a9ad7efbd9eed10e7",
+  "record_id": "RX-0104",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 11963.677699997788,
+  "failure": null,
+  "response_sha256": "4d643e8ced2e191450b6303b38ea3255ec835e94b8fe3026bc9cab22179ad32f",
+  "response": {
+    "raw_text": "Rx\n- P. Cincozin pln\netato\n-\n29.08.2018",
+    "lines": [
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "- P. Cincozin pln",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "etato",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "29.08.2018",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      }
+    ]
+  }
+}

@@ -1,0 +1,619 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0081",
+  "source_sha256": "d8597a0782afb94fad92cdf5ebdfb4b7f526c82f24aefa826dfbcf7c751aae49",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T18:03:28.359434+00:00",
+  "runtime_ms": 33001.60689999757,
+  "output": {
+    "raw_text": "७: घाबिकून वश्यान मूयन\nघूमविविधम (णका), व्यमिनियम ((डिमिन)\n4यदि (कार्डिसनजि), विनियम (याश)\nविष्णचण् डिकिष्मक\nडिमिन, रुमटबाग, वालजुन, ऊँकरणन,\nवाल/जार्थाइज्ज, चिउटमणि & छायादवण्मि\nआजीय रुमटवान इनहिडिडिस & रामभाकाल\nलड़-रे-वास्ना नगव, पढ़ा।\nविध्यडिमि (बखि: न१- ७७२४४\nShawne Aktu, 560\nWF69KJ\nDMITHIM Opencheler\nCBG\nHuptrects+ Invisionel Herwiert\nR 1451 25 m\n1 The Gemer 1/5av\nHATONO MATOSON\nAncon A\n1 7 NOV 2023\n1 Th, 2.5/5mg 0+ d+1 ano\nIncisional Hernia\n5 Tas. Pantonix 20mg 1+0+1 and horst\n4 15. ROSU5V other no\n5 Tay Albenos 50 MW\nWIEN\nDr. Dret Arjun\n10 भिना प्रकाश/याग\nअनि ससी कबब्बन।\nChamber :\nHitech Multicare Hospital Ltd.\n164, East Kafrul, Dhaka Cantonment, Dhaka-1206\nAppointment Center Hot Line : 01969959097, Diagnostic Information Desk : D1708574403\nEmergency Medical Oficer : 01407093884, Floor Manager : 01673120711, 01407093887\nAmbulance Service : 01917042946, 01682912304, E-mail : hitechmch164@gmail.com\nमिनियाटनज ऊना एजैफॉरेन : 3840018009\nजानी लमचांद समग्र : मच्या ७.७०७ - ग्राफ 8.00णे (कजल्बाद वक्र)\nhome of care\n88M\n5GM\nDr. Arifur Rahman Sumon\nMBBS (DMC), FCPS (Medicine)\nMD (Cardiology), BCS (Health)\nMedicine & Heart Specialist\nClinical and Interventional Cardiologist\nNational Institute of Cardiovascular Diseases\nSher-e-Bangla Nagar, Dhaka.\n1 4 NOV 2023\na-Teria",
+    "lines": [
+      {
+        "text": "७: घाबिकून वश्यान मूयन",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "घूमविविधम (णका), व्यमिनियम ((डिमिन)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "4यदि (कार्डिसनजि), विनियम (याश)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "विष्णचण् डिकिष्मक",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "डिमिन, रुमटबाग, वालजुन, ऊँकरणन,",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "वाल/जार्थाइज्ज, चिउटमणि & छायादवण्मि",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "आजीय रुमटवान इनहिडिडिस & रामभाकाल",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "लड़-रे-वास्ना नगव, पढ़ा।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "विध्यडिमि (बखि: न१- ७७२४४",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "Shawne Aktu, 560",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "WF69KJ",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "DMITHIM Opencheler",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "CBG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "Huptrects+ Invisionel Herwiert",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "R 1451 25 m",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "1 The Gemer 1/5av",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "HATONO MATOSON",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "Ancon A",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "1 7 NOV 2023",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "1 Th, 2.5/5mg 0+ d+1 ano",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "Incisional Hernia",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "5 Tas. Pantonix 20mg 1+0+1 and horst",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "4 15. ROSU5V other no",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "5 Tay Albenos 50 MW",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "WIEN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "Dr. Dret Arjun",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "10 भिना प्रकाश/याग",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "अनि ससी कबब्बन।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "Chamber :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "Hitech Multicare Hospital Ltd.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "164, East Kafrul, Dhaka Cantonment, Dhaka-1206",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "Appointment Center Hot Line : 01969959097, Diagnostic Information Desk : D1708574403",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "Emergency Medical Oficer : 01407093884, Floor Manager : 01673120711, 01407093887",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "Ambulance Service : 01917042946, 01682912304, E-mail : hitechmch164@gmail.com",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "मिनियाटनज ऊना एजैफॉरेन : 3840018009",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "जानी लमचांद समग्र : मच्या ७.७०७ - ग्राफ 8.00णे (कजल्बाद वक्र)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "home of care",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "88M",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "5GM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "Dr. Arifur Rahman Sumon",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "MBBS (DMC), FCPS (Medicine)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "MD (Cardiology), BCS (Health)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "Medicine & Heart Specialist",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "Clinical and Interventional Cardiologist",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "National Institute of Cardiovascular Diseases",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "Sher-e-Bangla Nagar, Dhaka.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "1 4 NOV 2023",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "a-Teria",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      }
+    ],
+    "medications": [
+      {
+        "name": "Shawne Aktu Wf Kj",
+        "matched_term": "Shawne Aktu Wf Kj",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.275
+      },
+      {
+        "name": "Dmithim Opencheler",
+        "matched_term": "Dmithim Opencheler",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.275
+      },
+      {
+        "name": "Cbg",
+        "matched_term": "Cbg",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.275
+      },
+      {
+        "name": "Huptrects Invisionel Herwiert",
+        "matched_term": "Huptrects Invisionel Herwiert",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.275
+      },
+      {
+        "name": "Gemer",
+        "matched_term": "Gemer",
+        "drug_id": "fc00df5c-8466-4ef0-9f46-adc59dbfe708",
+        "brand_id": "abb3f024-5bf8-4f18-b9b3-16e9699fe84d",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.655
+      },
+      {
+        "name": "Hatono Matoson",
+        "matched_term": "Hatono Matoson",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.275
+      },
+      {
+        "name": "Ancor A",
+        "matched_term": "Ancor A",
+        "drug_id": "763e8e3f-7bea-463c-8bbf-9b2ba367beb3",
+        "brand_id": "e7d3f13f-a440-4e64-8285-8d03b65da584",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.655
+      },
+      {
+        "name": "Nova",
+        "matched_term": "Nova",
+        "drug_id": "d11c3aa2-fdd7-4316-a7ce-d6f530adaa4c",
+        "brand_id": "83636fdc-0dc3-4e10-8a5b-8ed2d0822677",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.655
+      },
+      {
+        "name": "A Th",
+        "matched_term": "A Th",
+        "drug_id": "0496fb01-5fc6-44d6-942d-297b36fff49b",
+        "brand_id": "f882c379-3d91-43a2-86c2-06a66c2e3ab5",
+        "dosage": "5mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "Incisional Hernia",
+        "matched_term": "Incisional Hernia",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.275
+      },
+      {
+        "name": "Pantonix",
+        "matched_term": "Pantonix",
+        "drug_id": "02feb704-d572-47fb-86ce-915bb49ae3bf",
+        "brand_id": "774f8bc5-f9e8-4909-9eab-790aff5b6631",
+        "dosage": "20mg",
+        "frequency": "1+0+1",
+        "quantity": null,
+        "confidence": 0.755
+      },
+      {
+        "name": "Rosu",
+        "matched_term": "Rosu",
+        "drug_id": "853d7984-f924-4f93-9691-25537eae946f",
+        "brand_id": "3dc9e193-1c4d-44e2-85d4-7a37fd402fc7",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.655
+      },
+      {
+        "name": "Tay Albenos Mw",
+        "matched_term": "Tay Albenos Mw",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.275
+      },
+      {
+        "name": "Wien",
+        "matched_term": "Wien",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.275
+      },
+      {
+        "name": "Dr Dret Arjun",
+        "matched_term": "Dr Dret Arjun",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.275
+      },
+      {
+        "name": "Chamber",
+        "matched_term": "Chamber",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.275
+      },
+      {
+        "name": "Hitech Multicare Hospital",
+        "matched_term": "Hitech Multicare Hospital",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.275
+      },
+      {
+        "name": "East Kafrul Dhaka",
+        "matched_term": "East Kafrul Dhaka",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.275
+      },
+      {
+        "name": "Appointment Center Hot",
+        "matched_term": "Appointment Center Hot",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.275
+      },
+      {
+        "name": "Emergency Medical Oficer",
+        "matched_term": "Emergency Medical Oficer",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.275
+      },
+      {
+        "name": "Ambulance Service E-Mail",
+        "matched_term": "Ambulance Service E-Mail",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.275
+      },
+      {
+        "name": "Fuxtil Iv 1.5Gm/Vial",
+        "matched_term": "Fuxtil Iv 1.5Gm/Vial",
+        "drug_id": "96a1575e-7e65-4637-96f9-11c600ab18a5",
+        "brand_id": "b48cb95e-7600-40bd-aaf8-bc7d958fb84e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.48
+      },
+      {
+        "name": "Dr Arifur Rahman",
+        "matched_term": "Dr Arifur Rahman",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.275
+      },
+      {
+        "name": "Mbbs Dmc Fcps",
+        "matched_term": "Mbbs Dmc Fcps",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.275
+      },
+      {
+        "name": "Md Cardiology Bcs",
+        "matched_term": "Md Cardiology Bcs",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.275
+      },
+      {
+        "name": "Medicid",
+        "matched_term": "Medicid",
+        "drug_id": "7b953eeb-d68e-4cd8-962f-408132ea606a",
+        "brand_id": "42712950-3a7b-46f5-a307-7d12f109ed2f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.655
+      },
+      {
+        "name": "Clinical And Interventional",
+        "matched_term": "Clinical And Interventional",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.275
+      },
+      {
+        "name": "National Institute Of",
+        "matched_term": "National Institute Of",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.275
+      },
+      {
+        "name": "Sher-E-Bangla Nagar Dhaka",
+        "matched_term": "Sher-E-Bangla Nagar Dhaka",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.275
+      },
+      {
+        "name": "Nova",
+        "matched_term": "Nova",
+        "drug_id": "d11c3aa2-fdd7-4316-a7ce-d6f530adaa4c",
+        "brand_id": "83636fdc-0dc3-4e10-8a5b-8ed2d0822677",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.655
+      },
+      {
+        "name": "A-Teria",
+        "matched_term": "A-Teria",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.275
+      }
+    ]
+  }
+}

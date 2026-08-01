@@ -1,0 +1,206 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "e49c9dc6ec176376b8ef61850a843b303b85e6095fa6b41d4d03ee192e9766f2",
+  "record_id": "RX-0050",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 31320.02559999819,
+  "failure": null,
+  "response_sha256": "5ceaf36b097233605a40ba23d078e849c4f30e0c69399d4fdb17832927afa5d2",
+  "response": {
+    "raw_text": "देश\n22.11. 18 वोटनव नाग\nR· Cap. Fluelex 500 mg\n2+2 +2+2-\nCle :-\nParonychia\n1\nH/ Hyperthyroidism\n7\n10\nTube. Pantonika\n2to 40\n18\n1- close\nFrom\n›\nTab. mona 10 mg\n. OGTT\n-\nhab. Cevil-\n2\n070+2->(5).\nWooo Skuncal Create\nRt to SPL of\nSlun & VD Depira(or)\nn\n1\nMBR VX na Siddique\nLady Medical\nent DAK for\nhab. Ale",
+    "lines": [
+      {
+        "text": "देश",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "22.11. 18 वोटनव नाग",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "R· Cap. Fluelex 500 mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "2+2 +2+2-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "Cle :-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "Paronychia",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "H/ Hyperthyroidism",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "7",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "Tube. Pantonika",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "2to 40",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "1- close",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "From",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "›",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "Tab. mona 10 mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": ". OGTT",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "hab. Cevil-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "070+2->(5).",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "Wooo Skuncal Create",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "Rt to SPL of",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "Slun & VD Depira(or)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "n",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "MBR VX na Siddique",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "Lady Medical",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "ent DAK for",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "hab. Ale",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.495
+      }
+    ]
+  }
+}

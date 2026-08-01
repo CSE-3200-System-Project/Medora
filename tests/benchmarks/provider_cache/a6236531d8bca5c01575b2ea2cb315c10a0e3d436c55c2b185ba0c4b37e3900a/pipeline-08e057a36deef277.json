@@ -1,0 +1,314 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0001",
+  "source_sha256": "a6236531d8bca5c01575b2ea2cb315c10a0e3d436c55c2b185ba0c4b37e3900a",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:17:12.289022+00:00",
+  "output": {
+    "medications": [
+      {
+        "name": "F-Son Nasal Spray",
+        "matched_term": "F-Son Nasal Spray",
+        "drug_id": "aa969304-04d6-4b4b-a9c1-cf6fab89d97b",
+        "brand_id": "b2a920b7-fde3-4938-a500-05fd3b1203fd",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.614
+      },
+      {
+        "name": "Inor",
+        "matched_term": "Inor",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.234
+      },
+      {
+        "name": "Cildip",
+        "matched_term": "Cildip",
+        "drug_id": "071aa341-8b90-45e4-a884-48ec05010243",
+        "brand_id": "18a95043-e60c-45fc-81b2-efad96ca5884",
+        "dosage": "5mg",
+        "frequency": "0+0+1+6",
+        "quantity": null,
+        "confidence": 0.715
+      },
+      {
+        "name": "Maxineb",
+        "matched_term": "Maxineb",
+        "drug_id": "3335359e-5d5e-4901-a1ed-432bf6b9243c",
+        "brand_id": "78e984ef-bf1d-4573-a979-db537c099c60",
+        "dosage": "2.5mg",
+        "frequency": "2+5+0+0",
+        "quantity": null,
+        "confidence": 0.715
+      },
+      {
+        "name": "Flexibac",
+        "matched_term": "Flexibac",
+        "drug_id": "06442e9e-5e66-4bbb-9ed3-e1bd30ca2da7",
+        "brand_id": "2ac58244-fb92-4a3b-abc6-a74dcebe2315",
+        "dosage": "5mg",
+        "frequency": "0+2+5",
+        "quantity": null,
+        "confidence": 0.715
+      },
+      {
+        "name": "Sindola Mto",
+        "matched_term": "Sindola Mto",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "2.5mg",
+        "frequency": "2+0+1",
+        "quantity": null,
+        "confidence": 0.335
+      },
+      {
+        "name": "Sergel",
+        "matched_term": "Sergel",
+        "drug_id": "735b7ee8-e4ed-42c5-bef1-0dec551dbc08",
+        "brand_id": "45556317-c1e7-4d2d-9c58-73cd669721e9",
+        "dosage": "20mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.665
+      },
+      {
+        "name": "Folison",
+        "matched_term": "Folison",
+        "drug_id": "4f39b4dc-f7a2-4d8a-b4b9-7e376b953cf9",
+        "brand_id": "e3be5a0e-5acd-47d5-a5c3-f5c79032396e",
+        "dosage": "5mg",
+        "frequency": "1+0+0",
+        "quantity": null,
+        "confidence": 0.715
+      },
+      {
+        "name": "Aristo D3",
+        "matched_term": "Aristo D3",
+        "drug_id": "918f2004-cc83-41b0-bf1d-c7b02ea0839d",
+        "brand_id": "ed7b6887-6951-44e2-9dd9-db68e0e61837",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.614
+      },
+      {
+        "name": "Bone Guard",
+        "matched_term": "Bone Guard",
+        "drug_id": "c261a197-adb5-44a4-8800-3e8ef9bc10ac",
+        "brand_id": "49f91f86-6616-48af-9d32-34215bd54ba4",
+        "dosage": "150mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.665
+      },
+      {
+        "name": "Indo-A",
+        "matched_term": "Indo-A",
+        "drug_id": "4a5650ca-84d7-454d-99fe-d3940fc52d96",
+        "brand_id": "5f8a4daa-bc0f-4d4d-9297-df1512b1aa7f",
+        "dosage": "100mg",
+        "frequency": "0+0+1",
+        "quantity": null,
+        "confidence": 0.715
+      },
+      {
+        "name": "Adv",
+        "matched_term": "Adv",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.234
+      },
+      {
+        "name": "Vcbce Esre Hb",
+        "matched_term": "Vcbce Esre Hb",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.234
+      },
+      {
+        "name": "Uricid",
+        "matched_term": "Uricid",
+        "drug_id": "3f5a7b45-6e3b-44b7-9c7d-4297491c7543",
+        "brand_id": "085e2d74-3e51-4c32-9eaf-11b31d9f3a35",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.614
+      }
+    ],
+    "raw_text": "· Nection Nasal Spray- EnTo\n-\ninor\nTab. cildip (5mg) 0+0+1-6-70\nTab. Maxineb (2.5mg) {+0+0-EnTe\n· Tab. Flexibac (5mg) {+0+2-5-]\n\" Tab. Sindola (2.5mg) 1/2+0+1/2 251:53- 5mTO\n\"Cap. sergel (20mg)\n\" Tab. Folison (5mg)\n1+0+020: 00-23735\n*\"Inj. Aristo D3 DE Octua large umar ate,\n0\nW\" Tab. Bone Guard (150mg) (+0+0 20;, andruner-of mine, wo of\nM. Inde-A Suppository (100mg) 0+0+1-Inin. com zopa composantes\n1\nAdv:\nVCBCE ESRe Hb% WS. creatinine WSGPT\n17.08.25\nw s. uric acid. Arthur 22. 3057 : (2)2020]\nit's.",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 14739,
+      "detected_regions": 1,
+      "ocr_line_count": 20,
+      "yolo_avg_confidence": 0.8427,
+      "yolo_min_confidence": 0.8427,
+      "yolo_max_confidence": 0.8427,
+      "ocr_avg_confidence": 0.52,
+      "ocr_min_confidence": 0.52,
+      "ocr_max_confidence": 0.52,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 794.0394401550293,
+            "y_min": 1007.6103210449219,
+            "x_max": 2754.627227783203,
+            "y_max": 2942.417526245117
+          },
+          "score": 0.8427
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "· Nection Nasal Spray- EnTo",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.52
+        },
+        {
+          "text": "-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.52
+        },
+        {
+          "text": "inor",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.52
+        },
+        {
+          "text": "Tab. cildip (5mg) 0+0+1-6-70",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.52
+        },
+        {
+          "text": "Tab. Maxineb (2.5mg) {+0+0-EnTe",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.52
+        },
+        {
+          "text": "· Tab. Flexibac (5mg) {+0+2-5-]",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.52
+        },
+        {
+          "text": "\" Tab. Sindola (2.5mg) 1/2+0+1/2 251:53- 5mTO",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.52
+        },
+        {
+          "text": "\"Cap. sergel (20mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.52
+        },
+        {
+          "text": "\" Tab. Folison (5mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.52
+        },
+        {
+          "text": "1+0+020: 00-23735",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.52
+        },
+        {
+          "text": "*\"Inj. Aristo D3 DE Octua large umar ate,",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.52
+        },
+        {
+          "text": "0",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.52
+        },
+        {
+          "text": "W\" Tab. Bone Guard (150mg) (+0+0 20;, andruner-of mine, wo of",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.52
+        },
+        {
+          "text": "M. Inde-A Suppository (100mg) 0+0+1-Inin. com zopa composantes",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.52
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.52
+        },
+        {
+          "text": "Adv:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.52
+        },
+        {
+          "text": "VCBCE ESRe Hb% WS. creatinine WSGPT",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.52
+        },
+        {
+          "text": "17.08.25",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.52
+        },
+        {
+          "text": "w s. uric acid. Arthur 22. 3057 : (2)2020]",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.52
+        },
+        {
+          "text": "it's.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.52
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

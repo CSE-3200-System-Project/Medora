@@ -1,0 +1,158 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "646b85c32d947e5f16fd56778f53d36eb93ac38029dee270c913c449e60ed44f",
+  "record_id": "RX-0037",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 11086.996000012732,
+  "failure": null,
+  "response_sha256": "d06693e66a373e09ed4cf298fe53ca61450b37a282fb1006d9dd4b5555d65258",
+  "response": {
+    "raw_text": "वृत्मन (अडीद)\nDr. Md. Sakhawat Hossain (Sajih)\nM.B.B.S.(D.V). C.C.D.(Budem)\nM.D (Pediatric)- ICMM\nटर्बाइन, मिठ, किरणार विश्णवक्त, (्यांडिमिन य कामादनविन (वारण विक)\nIn\nReliman AUF\nAge Or, Wt: Rsts, Date: 1.2.2024\nR\n.\n. Gas. Fenolen (60 mg)\n01072\n. Mis. Arcokant (5mg).\n00072\nBSR\n1.56.\n..\nProzent Cream.\n9.5.\nสดาล 2 การ\nX-my Nasopharynx.\nL/v.\n,",
+    "lines": [
+      {
+        "text": "वृत्मन (अडीद)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "Dr. Md. Sakhawat Hossain (Sajih)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "M.B.B.S.(D.V). C.C.D.(Budem)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "M.D (Pediatric)- ICMM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "टर्बाइन, मिठ, किरणार विश्णवक्त, (्यांडिमिन य कामादनविन (वारण विक)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "In",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "Reliman AUF",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "Age Or, Wt: Rsts, Date: 1.2.2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "R",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": ".",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": ". Gas. Fenolen (60 mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "01072",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": ". Mis. Arcokant (5mg).",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "00072",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "BSR",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "1.56.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "..",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "Prozent Cream.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "9.5.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "สดาล 2 การ",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "X-my Nasopharynx.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "L/v.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": ",",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      }
+    ]
+  }
+}

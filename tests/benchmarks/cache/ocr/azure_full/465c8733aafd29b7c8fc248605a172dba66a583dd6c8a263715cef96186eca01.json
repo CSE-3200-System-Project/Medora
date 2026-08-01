@@ -1,0 +1,218 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "465c8733aafd29b7c8fc248605a172dba66a583dd6c8a263715cef96186eca01",
+  "record_id": "RX-0092",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 23272.458599996753,
+  "failure": null,
+  "response_sha256": "9df6ffa99d7ec866dfa4159cfc4f0021be3f07981e6b058e685c0a5401be490b",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Half Office\nTREATMENT CARD / <1481-14\nModun' Center;\n@op= F085\nX1885758\nÜST FIGOZA FEOUM\nGender\nDeilu: RANGPUR\nHEALTH PROFILE\nNO\n4 Lund DitHen\n5. Kaumty Cisceao: NO\nH. Nund Sogar IRBSX\n9. Weight:\nAnshypertens ve. And-Ju-ntm? Any other abrax naities\n21 KAY 2324\nChief Complaints.\nSome-t\nRx\nTab. Levofloxacin ( 5mm)\nTak paracetamol ( Soon)\nAndemla-\nDefrydration-\nRespiration-\n1\n· Cap. menasole (200g)\nstats- cimm)\nFESIRBS-\nECG\nProvisional Diagonosis\nएवं दसविद्वान एलेख शिविरमा (भवा वष्द्मत्र मना की वस्था -यदि यदिवाड़ जयवाडे मदत प्टिक मदद।",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "Bangladesh Half Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "TREATMENT CARD / <1481-14",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "Modun' Center;",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "@op= F085",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "X1885758",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "ÜST FIGOZA FEOUM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "Gender",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "Deilu: RANGPUR",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "4 Lund DitHen",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "5. Kaumty Cisceao: NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "H. Nund Sogar IRBSX",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "9. Weight:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "Anshypertens ve. And-Ju-ntm? Any other abrax naities",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "21 KAY 2324",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "Chief Complaints.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "Some-t",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "Tab. Levofloxacin ( 5mm)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "Tak paracetamol ( Soon)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "Andemla-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "Defrydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "· Cap. menasole (200g)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "stats- cimm)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "FESIRBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "एवं दसविद्वान एलेख शिविरमा (भवा वष्द्मत्र मना की वस्था -यदि यदिवाड़ जयवाडे मदत प्टिक मदद।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.521
+      }
+    ]
+  }
+}

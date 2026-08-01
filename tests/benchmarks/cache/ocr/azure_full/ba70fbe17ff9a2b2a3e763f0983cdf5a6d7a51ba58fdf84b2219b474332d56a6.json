@@ -1,0 +1,332 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "ba70fbe17ff9a2b2a3e763f0983cdf5a6d7a51ba58fdf84b2219b474332d56a6",
+  "record_id": "RX-0063",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 32533.78120000707,
+  "failure": null,
+  "response_sha256": "890fe69e1ef2d6bcfded61051e66b7b89ea4f97a54136d96168794f0a2c3c2f5",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / वावशभज\nMedical Center:\n****** G189\nPilgrim ID 1421113\nPassaun No\nACB421277\nName\nMD NAZRUL ISLAM\nMakino No 15\nGender\nMALE\nDistrict MYMENSINGH\nFULBARIA\nThang\nHEALTH PROFILE\n1, Blood Group\n2. Brood Prusnum:\nNO\n3. Hoort DSonse: NO\n4. Lung Deease\n5 Kidney Disease: NO\nMental Disease: 66\n8 Blood Sugar (RBS)\nNO\n9. Weight:\n11. Drug History\n12. Any other abnormaliles\nChief Complaints:\nVisi No:\nDate:\nGay Metronidazole (40000)\n15\nPulse-\nBP\nTemip-\nGRS\n(3)\nAnaemia-\nDehydration-\nRespiration-\nOthers-\nCap. Esotid\nTab Metformin (500) 10\n20000\nVRBS-\nisional Diagonosis\n10 Liver Disease:\n17 May 2024",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "TREATMENT CARD / वावशभज",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Medical Center:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "****** G189",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Pilgrim ID 1421113",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Passaun No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "ACB421277",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Name",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "MD NAZRUL ISLAM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Makino No 15",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Gender",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "MALE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "District MYMENSINGH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "FULBARIA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Thang",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "1, Blood Group",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "2. Brood Prusnum:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "3. Hoort DSonse: NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "4. Lung Deease",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "5 Kidney Disease: NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Mental Disease: 66",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "8 Blood Sugar (RBS)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "9. Weight:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "11. Drug History",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "12. Any other abnormaliles",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Visi No:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Date:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Gay Metronidazole (40000)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "15",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Pulse-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "BP",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Temip-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "GRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "(3)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Anaemia-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Cap. Esotid",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Tab Metformin (500) 10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "20000",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "VRBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "isional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "10 Liver Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "17 May 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      }
+    ]
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "e6269be695acbc13c707dae27ab0e497bfce267e892763e0840e2af49de0dbfb",
+  "record_id": "RX-0102",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 6625.50850000116,
+  "failure": null,
+  "response_sha256": "e9f083ac7aaed21b8531c5ea1dbc52e772efec0cb3e9e6e31bbdd01a596eee88",
+  "response": {
+    "raw_text": "Vist No:\nDate:\nTab. calcio\n\" Cap. esotid-20\nseats groves goods\n0\n12\n26/5/24",
+    "lines": [
+      {
+        "text": "Vist No:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.592
+      },
+      {
+        "text": "Date:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.592
+      },
+      {
+        "text": "Tab. calcio",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.592
+      },
+      {
+        "text": "\" Cap. esotid-20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.592
+      },
+      {
+        "text": "seats groves goods",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.592
+      },
+      {
+        "text": "0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.592
+      },
+      {
+        "text": "12",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.592
+      },
+      {
+        "text": "26/5/24",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.592
+      }
+    ]
+  }
+}

@@ -1,0 +1,230 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "c1ea6cfac64393d35830a4683d053a3ca89816357b5e552c6908fc744fd9a29c",
+  "record_id": "RX-0095",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 24677.314500004286,
+  "failure": null,
+  "response_sha256": "9e0bbebdbaa975f37e333de8006e35df62acfc9899633154a73705f33d044f46",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / 14 911\nIcal Copia\nफैशन नया G597\n40510214G\nAge __ M.\nDHAKA\nThơm BỊ//THONCI\nHEALTH PROFILE\n1. Dkxsi! Group:\n2 Bind Pressure:\nNO\nS. KISTAY DECORA\nA. Disboks\nB. Blood Sugar IRBS)\n10. Lhvor brechen:\n11. Diog Hebory:\n12. Ary clher phonevattes NO\nif Complaints:\nCap Fuberlin\n2038\ndration-\niration\nNeomicina sint (2)\n-The clonazepam's\nam\n0-1440-50\npenses sintrad & cotture\nleonel Diagonvers\nएवं :पस्रिन और रिकिए। अब अक्षका बता से राशनंती अत्यंत उनकारे ग्राम प्रभाष गुन।\nNO\nCamp Amoxyelite Velmi Marco",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "TREATMENT CARD / 14 911",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "Ical Copia",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "फैशन नया G597",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "40510214G",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "Age __ M.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "DHAKA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "Thơm BỊ//THONCI",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "1. Dkxsi! Group:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "2 Bind Pressure:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "S. KISTAY DECORA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "A. Disboks",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "B. Blood Sugar IRBS)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "10. Lhvor brechen:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "11. Diog Hebory:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "12. Ary clher phonevattes NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "if Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "Cap Fuberlin",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "2038",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "dration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "iration",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "Neomicina sint (2)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "-The clonazepam's",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "am",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "0-1440-50",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "penses sintrad & cotture",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "leonel Diagonvers",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "एवं :पस्रिन और रिकिए। अब अक्षका बता से राशनंती अत्यंत उनकारे ग्राम प्रभाष गुन।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "Camp Amoxyelite Velmi Marco",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      }
+    ]
+  }
+}

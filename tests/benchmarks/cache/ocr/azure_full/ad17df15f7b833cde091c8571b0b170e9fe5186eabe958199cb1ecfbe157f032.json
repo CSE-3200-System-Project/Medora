@@ -1,0 +1,446 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "ad17df15f7b833cde091c8571b0b170e9fe5186eabe958199cb1ecfbe157f032",
+  "record_id": "RX-0014",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 49947.99190000049,
+  "failure": null,
+  "response_sha256": "072e9d2a7bba0afb8f1800c10f922aa826a9f5c30c6bcf6aff7b7d6c91adc2dd",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD/ ITEI'M\nG027\nMedical Center:\nPilgrim ID_\n1029198\nPasaport No\nMaktab No\nName ....\nMD NOSHARROF HOSSAIN\nDINÖPUR SADAR-\nGender\nMALE\nDistrict\nThang\nHEALTH PROFILE\n120480\n1. Blood Group:\nNO\n2. Blood Pressure:\nNO\n3. Heart Disease:\nNO\n4. Lung Disease:\n6. Kidney Disease:\nNO\n6. Diabetes:\n7. Mental Disease:\n65\nB. Blood Sugar (RBS);\nNO\n9. Weight:\n10. Liver Disease:\n11. Drug History:\n12. Any other abnormaliões:\nChief Complaints:\n- Sebrooms Cyst\nat the back\nVisit No:\nDate:\nOVE :-\nPulse-\nBF: 110/20mm Hg\nTemp-\nAnaemia-\nDehydration-\nRespiration-\nOthers-\n- 26 . Final (120 mg)\n0 +0+2.\n- Mardin-@\nFBSIRBS-\nECG\nProvisional Diagonosis\nR\n*_ Cap. Flux (500 ml)\napatata yararalter\n29.08.2018.\nएक व्यक्तियन लगता किकिला एन मण्डल बना ने बाबानगरी बक्सिर परनारे नाम नायक खबर।\ncawwt wen fantamer\nमेट्कम मटः\nEG0192029\nDINA PUR\nNO\n7.2\nNO\n27 May 2024\nAdr. Excision + 4/A.",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "TREATMENT CARD/ ITEI'M",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "G027",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "Medical Center:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "Pilgrim ID_",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "1029198",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "Pasaport No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "Maktab No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "Name ....",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "MD NOSHARROF HOSSAIN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "DINÖPUR SADAR-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "Gender",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "MALE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "District",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "Thang",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "120480",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "1. Blood Group:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "2. Blood Pressure:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "3. Heart Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "4. Lung Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "6. Kidney Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "6. Diabetes:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "7. Mental Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "65",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "B. Blood Sugar (RBS);",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "9. Weight:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "10. Liver Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "11. Drug History:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "12. Any other abnormaliões:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "- Sebrooms Cyst",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "at the back",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "Visit No:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "Date:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "OVE :-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "Pulse-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "BF: 110/20mm Hg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "Temp-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "Anaemia-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "- 26 . Final (120 mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "0 +0+2.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "- Mardin-@",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "FBSIRBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "R",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "*_ Cap. Flux (500 ml)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "apatata yararalter",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "29.08.2018.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "एक व्यक्तियन लगता किकिला एन मण्डल बना ने बाबानगरी बक्सिर परनारे नाम नायक खबर।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "cawwt wen fantamer",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "मेट्कम मटः",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "EG0192029",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "DINA PUR",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "7.2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "27 May 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "Adr. Excision + 4/A.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.723
+      }
+    ]
+  }
+}

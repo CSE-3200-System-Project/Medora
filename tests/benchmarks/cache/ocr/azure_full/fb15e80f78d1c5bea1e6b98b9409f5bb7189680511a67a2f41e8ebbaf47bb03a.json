@@ -1,0 +1,350 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "fb15e80f78d1c5bea1e6b98b9409f5bb7189680511a67a2f41e8ebbaf47bb03a",
+  "record_id": "RX-0029",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 35457.50869999756,
+  "failure": null,
+  "response_sha256": "6a8989b0d93dc1c998d38a1170878343e0856b16dd0a80230e4d01144123d694",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Har Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / 2790\nMedical Center\nS002\nPilgrim ID.101259\nPassport No\nA11457983\nNama MD IQBAL HOSSAIN\nMaktab No.\nGender MALE\nOLIOHUADANGA\nCHUADANGA SALTAR\nHEALTH PROFILE\n:00/100\n1 Blood Group NO\n3. Hean Dinasd: NO\n5. Kidney Diseaseig\n7 Mental Diseasegg\n5 Weight\n11. Drug History Antihyperfürerv-\n2. Blood Pressure:\nNC\n4 Lung Disease\n6. Diabetes:\nR. Blood Sugar (RBS): NO\n10. Liver Disease:\nNO\n12. Any other abnormaliies:\nChief Complaints:\nVisit NO.\nArd COPY\n26 May 2024\nDate\nOVE -\nBP\nTemp-\nAnaemia\nDehydration-\nRespiration-\nOthers-\nBS/RBS-\nCG\nvisional Diagonosis\nRx\n- Tab. Acectofence\n21012\n- This Myolax (50 mg)-\n20\nKb. DON-A\n(20\nCap oretid(20\n2+00)",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Bangladesh Har Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "TREATMENT CARD / 2790",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Medical Center",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "S002",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Pilgrim ID.101259",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Passport No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "A11457983",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Nama MD IQBAL HOSSAIN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Maktab No.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Gender MALE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "OLIOHUADANGA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "CHUADANGA SALTAR",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": ":00/100",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "1 Blood Group NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "3. Hean Dinasd: NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "5. Kidney Diseaseig",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "7 Mental Diseasegg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "5 Weight",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "11. Drug History Antihyperfürerv-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "2. Blood Pressure:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "NC",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "4 Lung Disease",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "6. Diabetes:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "R. Blood Sugar (RBS): NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "10. Liver Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "12. Any other abnormaliies:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Visit NO.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Ard COPY",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "26 May 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Date",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "OVE -",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "BP",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Temp-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Anaemia",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "BS/RBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "CG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "visional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "- Tab. Acectofence",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "21012",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "- This Myolax (50 mg)-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Kb. DON-A",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "(20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Cap oretid(20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "2+00)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      }
+    ]
+  }
+}

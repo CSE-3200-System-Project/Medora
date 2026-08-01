@@ -1,0 +1,354 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "paddle_full",
+  "source_sha256": "9d794c95dc6989f53bf5efde998607ce9b4234f483fe11172aeaf90000d5c139",
+  "record_id": "RX-0026",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "runtime_ms": 25063.51110000105,
+  "failure": null,
+  "response_sha256": "2a4ff09bb31b1b162da3bb360be6aca51f54c938b6110232f483524dedf9cf3f",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF SANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nMakkalModinahJetdah\nBamydesh Hali Qmice\nTREATMENTCARDI\ndcaicogsia\nF291\nPN_\nA0335309\nTaratr\nwde\nD7E\nDaril.\nWRANE\n.HEALTH PROFLE\nletls\n1p\nny o\nChiat Complalns:\nwot.M\nTbii\n-\nCE-\n12\nFURA-\nryurctor\n.oeysctor-\nOHEH\nEGG\nPmvisunal Dapuncslh",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF SANGLADESH",
+        "bbox": {
+          "x_min": 186.0,
+          "y_min": 17.0,
+          "x_max": 433.0,
+          "y_max": 41.0
+        },
+        "page": 1,
+        "confidence": 0.916
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": {
+          "x_min": 242.0,
+          "y_min": 30.0,
+          "x_max": 380.0,
+          "y_max": 46.0
+        },
+        "page": 1,
+        "confidence": 0.922
+      },
+      {
+        "text": "MakkalModinahJetdah",
+        "bbox": {
+          "x_min": 263.0,
+          "y_min": 47.0,
+          "x_max": 357.0,
+          "y_max": 63.0
+        },
+        "page": 1,
+        "confidence": 0.846
+      },
+      {
+        "text": "Bamydesh Hali Qmice",
+        "bbox": {
+          "x_min": 271.0,
+          "y_min": 39.0,
+          "x_max": 352.0,
+          "y_max": 52.0
+        },
+        "page": 1,
+        "confidence": 0.656
+      },
+      {
+        "text": "TREATMENTCARDI",
+        "bbox": {
+          "x_min": 255.0,
+          "y_min": 64.0,
+          "x_max": 373.0,
+          "y_max": 81.0
+        },
+        "page": 1,
+        "confidence": 0.892
+      },
+      {
+        "text": "dcaicogsia",
+        "bbox": {
+          "x_min": 152.0,
+          "y_min": 80.0,
+          "x_max": 212.0,
+          "y_max": 94.0
+        },
+        "page": 1,
+        "confidence": 0.499
+      },
+      {
+        "text": "F291",
+        "bbox": {
+          "x_min": 386.0,
+          "y_min": 72.0,
+          "x_max": 447.0,
+          "y_max": 83.0
+        },
+        "page": 1,
+        "confidence": 0.893
+      },
+      {
+        "text": "PN_",
+        "bbox": {
+          "x_min": 264.0,
+          "y_min": 86.0,
+          "x_max": 311.0,
+          "y_max": 98.0
+        },
+        "page": 1,
+        "confidence": 0.55
+      },
+      {
+        "text": "A0335309",
+        "bbox": {
+          "x_min": 329.0,
+          "y_min": 83.0,
+          "x_max": 362.0,
+          "y_max": 94.0
+        },
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "Taratr",
+        "bbox": {
+          "x_min": 368.0,
+          "y_min": 99.0,
+          "x_max": 417.0,
+          "y_max": 115.0
+        },
+        "page": 1,
+        "confidence": 0.547
+      },
+      {
+        "text": "wde",
+        "bbox": {
+          "x_min": 152.0,
+          "y_min": 111.0,
+          "x_max": 174.0,
+          "y_max": 122.0
+        },
+        "page": 1,
+        "confidence": 0.446
+      },
+      {
+        "text": "D7E",
+        "bbox": {
+          "x_min": 153.0,
+          "y_min": 103.0,
+          "x_max": 169.0,
+          "y_max": 111.0
+        },
+        "page": 1,
+        "confidence": 0.209
+      },
+      {
+        "text": "Daril.",
+        "bbox": {
+          "x_min": 228.0,
+          "y_min": 108.0,
+          "x_max": 255.0,
+          "y_max": 118.0
+        },
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "WRANE",
+        "bbox": {
+          "x_min": 254.0,
+          "y_min": 103.0,
+          "x_max": 286.0,
+          "y_max": 113.0
+        },
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": ".HEALTH PROFLE",
+        "bbox": {
+          "x_min": 273.0,
+          "y_min": 114.0,
+          "x_max": 348.0,
+          "y_max": 136.0
+        },
+        "page": 1,
+        "confidence": 0.82
+      },
+      {
+        "text": "letls",
+        "bbox": {
+          "x_min": 421.0,
+          "y_min": 119.0,
+          "x_max": 450.0,
+          "y_max": 168.0
+        },
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "1p",
+        "bbox": {
+          "x_min": 217.0,
+          "y_min": 135.0,
+          "x_max": 265.0,
+          "y_max": 145.0
+        },
+        "page": 1,
+        "confidence": 0.66
+      },
+      {
+        "text": "ny o",
+        "bbox": {
+          "x_min": 215.0,
+          "y_min": 145.0,
+          "x_max": 271.0,
+          "y_max": 162.0
+        },
+        "page": 1,
+        "confidence": 0.527
+      },
+      {
+        "text": "Chiat Complalns:",
+        "bbox": {
+          "x_min": 150.0,
+          "y_min": 187.0,
+          "x_max": 218.0,
+          "y_max": 202.0
+        },
+        "page": 1,
+        "confidence": 0.852
+      },
+      {
+        "text": "wot.M",
+        "bbox": {
+          "x_min": 246.0,
+          "y_min": 186.0,
+          "x_max": 277.0,
+          "y_max": 200.0
+        },
+        "page": 1,
+        "confidence": 0.45
+      },
+      {
+        "text": "Tbii",
+        "bbox": {
+          "x_min": 283.0,
+          "y_min": 201.0,
+          "x_max": 414.0,
+          "y_max": 237.0
+        },
+        "page": 1,
+        "confidence": 0.66
+      },
+      {
+        "text": "-",
+        "bbox": {
+          "x_min": 411.0,
+          "y_min": 211.0,
+          "x_max": 416.0,
+          "y_max": 216.0
+        },
+        "page": 1,
+        "confidence": 0.513
+      },
+      {
+        "text": "CE-",
+        "bbox": {
+          "x_min": 150.0,
+          "y_min": 227.0,
+          "x_max": 168.0,
+          "y_max": 239.0
+        },
+        "page": 1,
+        "confidence": 0.768
+      },
+      {
+        "text": "12",
+        "bbox": {
+          "x_min": 147.0,
+          "y_min": 246.0,
+          "x_max": 235.0,
+          "y_max": 267.0
+        },
+        "page": 1,
+        "confidence": 0.64
+      },
+      {
+        "text": "FURA-",
+        "bbox": {
+          "x_min": 150.0,
+          "y_min": 239.0,
+          "x_max": 172.0,
+          "y_max": 250.0
+        },
+        "page": 1,
+        "confidence": 0.643
+      },
+      {
+        "text": "ryurctor",
+        "bbox": {
+          "x_min": 154.0,
+          "y_min": 282.0,
+          "x_max": 193.0,
+          "y_max": 292.0
+        },
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": ".oeysctor-",
+        "bbox": {
+          "x_min": 153.0,
+          "y_min": 293.0,
+          "x_max": 191.0,
+          "y_max": 304.0
+        },
+        "page": 1,
+        "confidence": 0.619
+      },
+      {
+        "text": "OHEH",
+        "bbox": {
+          "x_min": 154.0,
+          "y_min": 306.0,
+          "x_max": 168.0,
+          "y_max": 313.0
+        },
+        "page": 1,
+        "confidence": 0.41
+      },
+      {
+        "text": "EGG",
+        "bbox": {
+          "x_min": 152.0,
+          "y_min": 399.0,
+          "x_max": 170.0,
+          "y_max": 410.0
+        },
+        "page": 1,
+        "confidence": 0.686
+      },
+      {
+        "text": "Pmvisunal Dapuncslh",
+        "bbox": {
+          "x_min": 150.0,
+          "y_min": 421.0,
+          "x_max": 230.0,
+          "y_max": 434.0
+        },
+        "page": 1,
+        "confidence": 0.763
+      }
+    ]
+  }
+}

@@ -1,0 +1,359 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0008",
+  "source_sha256": "2eb266e5dd1fe9d18a00d06afa4ae76179f8e0ed30fa403bb8a61bcffbcca6a7",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:23:34.420749+00:00",
+  "runtime_ms": 12854.70300000452,
+  "output": {
+    "raw_text": "31\nबस् (बर्माफि)- ७५\n420\n1737 820 377 Melo M 3H Siback 9673\nछिकिश्मक कड़क बांगीव बारश शेख\nडिकिशमाकन वासशमना\n1-8-85\n23-8-12\nye-\n0\nDermatitis.\nTab.\nDes\n(sy)\notota\n-बधि\nTab.\nB/C\not) to\n20\nTab.\nRanitid 150g\nS TSH\nFBS & 2 HABP\nPerition Cream\n9[0]-uph\nR\nbeen\nAdr\n0)\nबक (ख्याजि)\nबिशनना\nस्वादश्व नाथ",
+    "lines": [
+      {
+        "text": "31",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "बस् (बर्माफि)- ७५",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "420",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "1737 820 377 Melo M 3H Siback 9673",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "छिकिश्मक कड़क बांगीव बारश शेख",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "डिकिशमाकन वासशमना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "1-8-85",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "23-8-12",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "ye-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "Dermatitis.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "Tab.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "Des",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "(sy)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "otota",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "-बधि",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "Tab.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "B/C",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "ot) to",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "Tab.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "Ranitid 150g",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "S TSH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "FBS & 2 HABP",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "Perition Cream",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "9[0]-uph",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "R",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "been",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "Adr",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "0)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "बक (ख्याजि)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "बिशनना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "स्वादश्व नाथ",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      }
+    ],
+    "medications": [
+      {
+        "name": "Melo",
+        "matched_term": "Melo",
+        "drug_id": "3f5a7b45-6e3b-44b7-9c7d-4297491c7543",
+        "brand_id": "bcb65418-dbd2-4a66-af20-4260fdaae5d3",
+        "dosage": null,
+        "frequency": "1+8+8",
+        "quantity": null,
+        "confidence": 0.666
+      },
+      {
+        "name": "Dermatis",
+        "matched_term": "Dermatis",
+        "drug_id": "33734824-d9e4-4a0c-98ab-a558388aa63d",
+        "brand_id": "b1839730-3e96-4741-a283-368dbae7b975",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.616
+      },
+      {
+        "name": "C-Tab",
+        "matched_term": "C-Tab",
+        "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+        "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.616
+      },
+      {
+        "name": "Des",
+        "matched_term": "Des",
+        "drug_id": "ad345b67-70cd-4269-a187-86f0bd6b6d7e",
+        "brand_id": "619f6d0c-e29b-4b7f-9ac5-c11d18401173",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.616
+      },
+      {
+        "name": "Otota",
+        "matched_term": "Otota",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.236
+      },
+      {
+        "name": "C-Tab",
+        "matched_term": "C-Tab",
+        "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+        "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.616
+      },
+      {
+        "name": "C-Tab",
+        "matched_term": "C-Tab",
+        "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+        "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.616
+      },
+      {
+        "name": "Ranitid",
+        "matched_term": "Ranitid",
+        "drug_id": "e848c92a-5ecd-419b-a727-7806cbba7b52",
+        "brand_id": "5e6ec9c7-596b-4789-b5e6-e7ae96a439f5",
+        "dosage": "150g",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.667
+      },
+      {
+        "name": "Batshulary",
+        "matched_term": "Batshulary",
+        "drug_id": "51551439-a8c9-4f23-a901-512010f618d5",
+        "brand_id": "7a2470f0-f45f-4e00-8403-411755b26ccb",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.547
+      },
+      {
+        "name": "Fbs Habp",
+        "matched_term": "Fbs Habp",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.236
+      },
+      {
+        "name": "Perion",
+        "matched_term": "Perion",
+        "drug_id": "e8625404-8469-4452-904d-357bc4f52647",
+        "brand_id": "d25583a6-e252-4a2f-96d8-55054218e18a",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.616
+      },
+      {
+        "name": "Uph",
+        "matched_term": "Uph",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.236
+      },
+      {
+        "name": "Been",
+        "matched_term": "Been",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.236
+      },
+      {
+        "name": "Adr",
+        "matched_term": "Adr",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.236
+      }
+    ]
+  }
+}

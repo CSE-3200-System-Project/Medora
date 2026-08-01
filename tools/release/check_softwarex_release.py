@@ -1,0 +1,165 @@
+#!/usr/bin/env python3
+"""Fail closed unless the SoftwareX archive and manuscript are release-complete."""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import re
+import subprocess
+import sys
+import urllib.request
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+DOCS = ROOT / "docs" / "softwarex"
+PENDING = "RELEASE_PENDING"
+INCOMPLETE_PROVIDER_MARKERS = (
+    "release_pending",
+    "must be recorded at release execution",
+    "not established",
+    "not verified",
+    "unknown",
+)
+
+
+def fail(errors: list[str], message: str) -> None:
+    errors.append(message)
+
+
+def read_json(path: Path, errors: list[str]) -> dict:
+    if not path.exists():
+        fail(errors, f"missing {path.relative_to(ROOT)}")
+        return {}
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        fail(errors, f"invalid {path.relative_to(ROOT)}: {exc}")
+        return {}
+
+
+def manuscript_word_count(path: Path) -> int:
+    source = path.read_text(encoding="utf-8")
+    source = re.sub(r"%.*", " ", source)
+    source = re.sub(r"\\begin\{(?:table|figure|thebibliography)\}.*?\\end\{(?:table|figure|thebibliography)\}", " ", source, flags=re.S)
+    source = re.sub(r"\\(?:cite|ref|label|url|href|input)\{[^}]*\}", " ", source)
+    source = re.sub(r"\\[A-Za-z*]+(?:\[[^]]*\])?", " ", source)
+    source = re.sub(r"[^\w'-]+", " ", source, flags=re.UNICODE)
+    return len(source.split())
+
+
+def main() -> int:
+    errors: list[str] = []
+    metadata_path = DOCS / "release_metadata.json"
+    metadata = read_json(metadata_path, errors)
+    serialized = json.dumps(metadata)
+    if PENDING in serialized:
+        fail(errors, "release metadata contains RELEASE_PENDING")
+
+    manifest = read_json(ROOT / "tests" / "benchmarks" / "datasets" / "ocr_corpus_manifest.json", errors)
+    if not manifest.get("frozen"):
+        fail(errors, "OCR corpus manifest is not frozen")
+    records = manifest.get("records", [])
+    if len(records) != 105 or sum(bool(item.get("included_in_metrics")) for item in records) != 103:
+        fail(errors, "OCR manifest must contain 105 archive files and 103 metric records")
+
+    gold_path = ROOT / "tests" / "benchmarks" / "datasets" / "ocr_gold_standard.jsonl"
+    if not gold_path.exists() or sum(1 for line in gold_path.read_text(encoding="utf-8").splitlines() if line.strip()) != 103:
+        fail(errors, "gold standard must contain 103 adjudicated records")
+
+    provider_manifest = read_json(ROOT / "tests" / "benchmarks" / "provider_manifest.json", errors)
+    serialized_providers = json.dumps(provider_manifest).casefold()
+    if (
+        any(marker in serialized_providers for marker in INCOMPLETE_PROVIDER_MARKERS)
+        or not provider_manifest.get("execution_date")
+    ):
+        fail(errors, "provider manifest is incomplete or not execution-dated")
+
+    required_generated = (
+        "ocr_results.json", "ocr_results.tex", "booking_results.json",
+        "booking_results.tex", "safety_results.json", "safety_results.tex",
+        "release_metadata.tex", "dependency_container_model_checksums.json",
+        "verification.json",
+    )
+    for name in required_generated:
+        if not (DOCS / "generated" / name).exists():
+            fail(errors, f"missing generated artifact {name}")
+
+    manuscript = DOCS / "medora_softwarex.tex"
+    if not manuscript.exists():
+        fail(errors, "manuscript source is missing")
+    else:
+        source = manuscript.read_text(encoding="utf-8")
+        count = manuscript_word_count(manuscript)
+        if count > 3000:
+            fail(errors, f"manuscript body estimate is {count} words (>3000)")
+        forbidden = ("about 92", "approximately 92", "~92", "representative run", "production-grade")
+        for phrase in forbidden:
+            if phrase.casefold() in source.casefold():
+                fail(errors, f"manuscript contains forbidden unsupported phrase: {phrase}")
+
+    verification = read_json(DOCS / "generated" / "verification.json", errors)
+    required_checks = ("backend", "ai_service", "integration", "security", "benchmarks", "playwright", "frontend_lint", "frontend_build", "clean_docker")
+    try:
+        verification_commit = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+        if verification.get("git_commit") != verification_commit:
+            fail(errors, "verification evidence does not refer to HEAD")
+    except (OSError, subprocess.CalledProcessError) as exc:
+        fail(errors, f"cannot resolve verification commit: {exc}")
+    for check in required_checks:
+        receipt = verification.get("checks", {}).get(check, {})
+        if receipt.get("status") != "passed" or receipt.get("exit_code") != 0 or not receipt.get("command"):
+            fail(errors, f"verification check did not pass: {check}")
+            continue
+        log_value = receipt.get("log")
+        log_path = ROOT / str(log_value or "")
+        if not log_value or not log_path.is_file():
+            fail(errors, f"verification log is missing: {check}")
+        elif hashlib.sha256(log_path.read_bytes()).hexdigest() != receipt.get("log_sha256"):
+            fail(errors, f"verification log hash mismatch: {check}")
+
+    for report_name in ("ocr_results.json", "booking_results.json", "safety_results.json"):
+        report = read_json(DOCS / "generated" / report_name, errors)
+        if report.get("passed") is False:
+            fail(errors, f"generated report did not pass: {report_name}")
+
+    try:
+        actual_commit = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+        if metadata.get("git_commit") != actual_commit:
+            fail(errors, "release metadata commit does not match HEAD")
+        tracked_files = subprocess.check_output(["git", "ls-files"], cwd=ROOT, text=True).splitlines()
+        generated_python = [path for path in tracked_files if "/__pycache__/" in f"/{path}" or path.endswith((".pyc", ".pyo"))]
+        if generated_python:
+            fail(errors, f"generated Python bytecode is tracked ({len(generated_python)} files)")
+    except (OSError, subprocess.CalledProcessError) as exc:
+        fail(errors, f"cannot resolve git commit: {exc}")
+
+    archive = metadata.get("archive_path")
+    if archive:
+        archive_path = ROOT / archive
+        if not archive_path.exists():
+            fail(errors, "archive_path does not exist")
+        elif hashlib.sha256(archive_path.read_bytes()).hexdigest() != metadata.get("archive_sha256"):
+            fail(errors, "archive checksum does not match release metadata")
+
+    doi_url = metadata.get("zenodo_url")
+    if doi_url and PENDING not in str(doi_url):
+        try:
+            request = urllib.request.Request(str(doi_url), method="HEAD", headers={"User-Agent": "Medora-release-check/1.0"})
+            with urllib.request.urlopen(request, timeout=15) as response:
+                if response.status >= 400:
+                    fail(errors, f"Zenodo URL returned HTTP {response.status}")
+        except Exception as exc:  # network errors are release failures, not skips
+            fail(errors, f"Zenodo URL did not resolve: {exc}")
+
+    if errors:
+        print("SoftwareX release gate FAILED:", file=sys.stderr)
+        for error in errors:
+            print(f" - {error}", file=sys.stderr)
+        return 2
+    print("SoftwareX release gate passed")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

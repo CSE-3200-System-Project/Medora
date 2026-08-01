@@ -1,0 +1,169 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0027",
+  "source_sha256": "a53a5a38c877f6986307ce908c13cf2afbf910e218b74590e57d0a9b4a3f6556",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:26:34.609459+00:00",
+  "runtime_ms": 10229.914499999722,
+  "output": {
+    "medications": [
+      {
+        "name": "Levox",
+        "matched_term": "Levox",
+        "drug_id": "1c5df6bd-8f95-46c4-9c27-f0ce1a79402e",
+        "brand_id": "3812afb0-be6a-4e89-8ab9-dad1e0b3a768",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.61
+      },
+      {
+        "name": "D-EAR-DROPS",
+        "matched_term": "D-EAR-DROPS",
+        "drug_id": "b76d7008-2e65-4b45-9779-83a590e9845c",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.61
+      },
+      {
+        "name": "Fixen",
+        "matched_term": "Fixen",
+        "drug_id": "d613ceb8-7d4d-4a4e-8a96-0b455b6f7ac7",
+        "brand_id": "6f57f1c4-31e1-45d5-bb51-5015c6b1ca86",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.61
+      },
+      {
+        "name": "Toti",
+        "matched_term": "Toti",
+        "drug_id": "ce9bb01f-7c41-4462-a295-b236bf931543",
+        "brand_id": "8fca6ded-cf77-4ecc-8993-c7b75090dfed",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.433
+      },
+      {
+        "name": "One",
+        "matched_term": "One",
+        "drug_id": "7a0d5861-e33d-4c57-bcc0-0db12e2d3495",
+        "brand_id": "d5d56cde-21e6-448a-9d62-ae293b8b6642",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.61
+      },
+      {
+        "name": "Stoer",
+        "matched_term": "Stoer",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.23
+      }
+    ],
+    "raw_text": "Rx\n·1 Tab. Levox (5001)\nDrops.\n=) Tab. Fixel\n0-TOT ?-\nTab. P/C (2008)\nCap Ones (20)\n-\nstoer-",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 10187,
+      "detected_regions": 1,
+      "ocr_line_count": 9,
+      "yolo_avg_confidence": 0.8691,
+      "yolo_min_confidence": 0.8691,
+      "yolo_max_confidence": 0.8691,
+      "ocr_avg_confidence": 0.512,
+      "ocr_min_confidence": 0.512,
+      "ocr_max_confidence": 0.512,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 227.59982299804688,
+            "y_min": 255.14944458007812,
+            "x_max": 517.47607421875,
+            "y_max": 468.0440673828125
+          },
+          "score": 0.8691
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Rx",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.512
+        },
+        {
+          "text": "·1 Tab. Levox (5001)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.512
+        },
+        {
+          "text": "Drops.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.512
+        },
+        {
+          "text": "=) Tab. Fixel",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.512
+        },
+        {
+          "text": "0-TOT ?-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.512
+        },
+        {
+          "text": "Tab. P/C (2008)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.512
+        },
+        {
+          "text": "Cap Ones (20)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.512
+        },
+        {
+          "text": "-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.512
+        },
+        {
+          "text": "stoer-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.512
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

@@ -1,0 +1,176 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "df4a53feffd701249545ddc49d02bfaf97cba5aa159fe8c841d9787f6102c010",
+  "record_id": "RX-0048",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 14556.659599998966,
+  "failure": null,
+  "response_sha256": "a1c9ffb8f235fb9644e1cbebc3101861e213525447d406d19e1a093b406fc25e",
+  "response": {
+    "raw_text": "4 Hypervismidisom\nVB,. Tab. Carbizol 5r\n2×242\n2. Tcl Indevan 10\nlevel\n1\nRu .\nNO. ANWARÜL KABIR\nBrig lien\n· Ady Spl in Medicine unut\nEndocrinologist\nCMH Dhaka\n621\n13.7.2018\nw1 600\nTil Cambizol 52\n2004/\nMI.\nc .\n2.\nEl Indevar 10\n18\n3. Tale Prosmajor\noconel afines\nनाम M\n10",
+    "lines": [
+      {
+        "text": "4 Hypervismidisom",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.546
+      },
+      {
+        "text": "VB,. Tab. Carbizol 5r",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.546
+      },
+      {
+        "text": "2×242",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.546
+      },
+      {
+        "text": "2. Tcl Indevan 10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.546
+      },
+      {
+        "text": "level",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.546
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.546
+      },
+      {
+        "text": "Ru .",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.546
+      },
+      {
+        "text": "NO. ANWARÜL KABIR",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.546
+      },
+      {
+        "text": "Brig lien",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.546
+      },
+      {
+        "text": "· Ady Spl in Medicine unut",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.546
+      },
+      {
+        "text": "Endocrinologist",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.546
+      },
+      {
+        "text": "CMH Dhaka",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.546
+      },
+      {
+        "text": "621",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.546
+      },
+      {
+        "text": "13.7.2018",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.546
+      },
+      {
+        "text": "w1 600",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.546
+      },
+      {
+        "text": "Til Cambizol 52",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.546
+      },
+      {
+        "text": "2004/",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.546
+      },
+      {
+        "text": "MI.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.546
+      },
+      {
+        "text": "c .",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.546
+      },
+      {
+        "text": "2.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.546
+      },
+      {
+        "text": "El Indevar 10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.546
+      },
+      {
+        "text": "18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.546
+      },
+      {
+        "text": "3. Tale Prosmajor",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.546
+      },
+      {
+        "text": "oconel afines",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.546
+      },
+      {
+        "text": "नाम M",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.546
+      },
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.546
+      }
+    ]
+  }
+}

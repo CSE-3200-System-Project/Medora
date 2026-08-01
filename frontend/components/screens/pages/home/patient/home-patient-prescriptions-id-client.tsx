@@ -11,8 +11,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import {
   getPatientPrescription,
-  acceptPrescription,
-  rejectPrescription,
+  acknowledgePrescriptionReceipt,
+  reportPrescriptionDiscrepancy,
   Prescription,
 } from "@/lib/prescription-actions";
 import { buildClinicalPrescriptionDocumentHtml } from "@/lib/clinical-prescription-document";
@@ -132,10 +132,10 @@ export default function PatientPrescriptionDetailPage() {
     try {
       setActionLoading(true);
       setError(null);
-      await acceptPrescription(prescriptionId);
+      await acknowledgePrescriptionReceipt(prescriptionId);
       await loadPrescription();
     } catch (err: unknown) {
-      setError(resolveErrorMessage(err, "Failed to accept prescription"));
+      setError(resolveErrorMessage(err, "Failed to acknowledge prescription receipt"));
     } finally {
       setActionLoading(false);
     }
@@ -143,18 +143,18 @@ export default function PatientPrescriptionDetailPage() {
 
   const handleReject = async () => {
     if (!rejectReason.trim()) {
-      setError("Please provide a reason for rejection");
+      setError("Please describe the discrepancy");
       return;
     }
 
     try {
       setActionLoading(true);
       setError(null);
-      await rejectPrescription(prescriptionId, rejectReason);
+      await reportPrescriptionDiscrepancy(prescriptionId, rejectReason);
       await loadPrescription();
       setShowRejectForm(false);
     } catch (err: unknown) {
-      setError(resolveErrorMessage(err, "Failed to reject prescription"));
+      setError(resolveErrorMessage(err, "Failed to report prescription discrepancy"));
     } finally {
       setActionLoading(false);
     }
@@ -194,25 +194,25 @@ export default function PatientPrescriptionDetailPage() {
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case "pending":
+      case "pending_acknowledgment":
         return (
           <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">
             <Clock className="h-3 w-3 mr-1" />
-            Pending Review
+            Awaiting acknowledgment
           </Badge>
         );
-      case "accepted":
+      case "receipt_acknowledged":
         return (
           <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
             <CheckCircle2 className="h-3 w-3 mr-1" />
-            Accepted
+            Receipt acknowledged
           </Badge>
         );
-      case "rejected":
+      case "discrepancy_reported":
         return (
           <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">
             <XCircle className="h-3 w-3 mr-1" />
-            Rejected
+            Discrepancy reported
           </Badge>
         );
       default:
@@ -398,27 +398,27 @@ export default function PatientPrescriptionDetailPage() {
           </Card>
         )}
 
-        {prescription.status === "rejected" && prescription.rejection_reason ? (
+        {prescription.status === "discrepancy_reported" && prescription.discrepancy_reason ? (
           <Card className="border-red-200 prescription-page-chrome">
             <CardContent className="p-4">
               <div className="flex items-start gap-3">
                 <XCircle className="h-5 w-5 text-red-600 shrink-0 mt-0.5" />
                 <div>
-                  <p className="font-medium text-red-700">Rejection Reason</p>
-                  <p className="text-sm text-red-600 mt-1">{prescription.rejection_reason}</p>
+                  <p className="font-medium text-red-700">Reported discrepancy</p>
+                  <p className="text-sm text-red-600 mt-1">{prescription.discrepancy_reason}</p>
                 </div>
               </div>
             </CardContent>
           </Card>
         ) : null}
 
-        {prescription.status === "pending" ? (
+        {prescription.status === "pending_acknowledgment" ? (
           <Card className="prescription-page-chrome">
             <CardContent className="p-6">
               {!showRejectForm ? (
                 <div className="space-y-4">
                   <p className="text-center text-muted-foreground mb-4">
-                    Please review the prescription carefully before accepting or rejecting.
+                    Check the document against what you received. Acknowledgment confirms receipt only; it does not approve the treatment.
                   </p>
                   <div className="flex gap-4 justify-center flex-wrap">
                     <Button
@@ -428,7 +428,7 @@ export default function PatientPrescriptionDetailPage() {
                       disabled={actionLoading}
                     >
                       <XCircle className="h-4 w-4 mr-2" />
-                      Reject Prescription
+                      Report discrepancy
                     </Button>
                     <Button
                       variant="default"
@@ -441,16 +441,16 @@ export default function PatientPrescriptionDetailPage() {
                       ) : (
                         <CheckCircle2 className="h-4 w-4 mr-2" />
                       )}
-                      Accept Prescription
+                      Acknowledge receipt
                     </Button>
                   </div>
                 </div>
               ) : (
                 <div className="space-y-4">
-                  <Label htmlFor="rejectReason">Reason for Rejection</Label>
+                  <Label htmlFor="rejectReason">Describe the discrepancy</Label>
                   <Textarea
                     id="rejectReason"
-                    placeholder="Please explain why you are rejecting this prescription (e.g., allergies, side effects concern, cost, etc.)"
+                    placeholder="For example: medicine name, strength, or instruction differs from what the doctor discussed."
                     value={rejectReason}
                     onChange={(e) => setRejectReason(e.target.value)}
                     rows={3}
@@ -473,7 +473,7 @@ export default function PatientPrescriptionDetailPage() {
                       ) : (
                         <XCircle className="h-4 w-4 mr-2" />
                       )}
-                      Confirm Rejection
+                      Submit discrepancy
                     </Button>
                   </div>
                 </div>

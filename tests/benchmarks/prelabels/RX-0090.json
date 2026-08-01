@@ -1,0 +1,1494 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0090",
+  "source_sha256": "ed166aee660273228c302c9ec3e3d53375b1e356d3e448d17f50bc9ed7603b29",
+  "raw_transcription": "Rx\nTab_\nNaproxen ( 5mmg)\namopragile crant many\n2.to12- cr2\nFexofenadin (120m)\nTab.\nparacetamol (sr)\n0-+++3-674-",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "naproxen",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Amopragile Crant Many To Cr",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Fexofenadine",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "C-Tab",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "paracetamol",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "b0a8bb5b8c0c9d08ae2c3ef93285d9435156d6e44c478e87f4ba0e09ac244f12"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "87aafad8e1ebbb318816989313c0c35c87d87804d9471ed7245eaf6b10c35d08"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "369c19d2077660b4d4a3a733bb5f1edf6da4c7ebc52f90bd5f52a91edfeddc88"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "hHajDffic\nR\nREATMENT CARD\nF078\nFC\nPasseoc Hg\n3210\nMacanto_\nm.\nSonce\nFOAE\nTHOnBSETALR\n1Bt\nHEALTH PROFILE\n1om\n1\nNC\nNC\nCng Hsr\nChier Compiainta\nVachc\nJpn\nLap  F\nTab.\nNpxn\n5m\nQE\nPaso\n++\nC\nL.5P\nTomp\nQop\nAcona\nC\nDatydatisr\nTas\nFxmn1\nHesprauo-\nOtrs\n++-\nTAD\npnacinmlsn\n++\nGTL\nFESRBS-\nECG\nProvisional Diagoncsis",
+      "lines": [
+        {
+          "text": "hHajDffic",
+          "bbox": {
+            "x_min": 308.0,
+            "y_min": 113.0,
+            "x_max": 350.0,
+            "y_max": 123.0
+          },
+          "page": 1,
+          "confidence": 0.47
+        },
+        {
+          "text": "R",
+          "bbox": {
+            "x_min": 154.0,
+            "y_min": 130.0,
+            "x_max": 163.0,
+            "y_max": 138.0
+          },
+          "page": 1,
+          "confidence": 0.093
+        },
+        {
+          "text": "REATMENT CARD",
+          "bbox": {
+            "x_min": 257.0,
+            "y_min": 135.0,
+            "x_max": 377.0,
+            "y_max": 151.0
+          },
+          "page": 1,
+          "confidence": 0.869
+        },
+        {
+          "text": "F078",
+          "bbox": {
+            "x_min": 389.0,
+            "y_min": 139.0,
+            "x_max": 451.0,
+            "y_max": 156.0
+          },
+          "page": 1,
+          "confidence": 0.89
+        },
+        {
+          "text": "FC",
+          "bbox": {
+            "x_min": 145.0,
+            "y_min": 157.0,
+            "x_max": 182.0,
+            "y_max": 174.0
+          },
+          "page": 1,
+          "confidence": 0.612
+        },
+        {
+          "text": "Passeoc Hg",
+          "bbox": {
+            "x_min": 268.0,
+            "y_min": 157.0,
+            "x_max": 309.0,
+            "y_max": 168.0
+          },
+          "page": 1,
+          "confidence": 0.684
+        },
+        {
+          "text": "3210",
+          "bbox": {
+            "x_min": 327.0,
+            "y_min": 153.0,
+            "x_max": 361.0,
+            "y_max": 164.0
+          },
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "Macanto_",
+          "bbox": {
+            "x_min": 392.0,
+            "y_min": 155.0,
+            "x_max": 441.0,
+            "y_max": 166.0
+          },
+          "page": 1,
+          "confidence": 0.505
+        },
+        {
+          "text": "m.",
+          "bbox": {
+            "x_min": 429.0,
+            "y_min": 163.0,
+            "x_max": 439.0,
+            "y_max": 171.0
+          },
+          "page": 1,
+          "confidence": 0.33
+        },
+        {
+          "text": "Sonce",
+          "bbox": {
+            "x_min": 147.0,
+            "y_min": 177.0,
+            "x_max": 170.0,
+            "y_max": 188.0
+          },
+          "page": 1,
+          "confidence": 0.855
+        },
+        {
+          "text": "FOAE",
+          "bbox": {
+            "x_min": 176.0,
+            "y_min": 174.0,
+            "x_max": 206.0,
+            "y_max": 188.0
+          },
+          "page": 1,
+          "confidence": 0.59
+        },
+        {
+          "text": "THOnBSETALR",
+          "bbox": {
+            "x_min": 373.0,
+            "y_min": 173.0,
+            "x_max": 422.0,
+            "y_max": 184.0
+          },
+          "page": 1,
+          "confidence": 0.487
+        },
+        {
+          "text": "1Bt",
+          "bbox": {
+            "x_min": 212.0,
+            "y_min": 198.0,
+            "x_max": 265.0,
+            "y_max": 214.0
+          },
+          "page": 1,
+          "confidence": 0.301
+        },
+        {
+          "text": "HEALTH PROFILE",
+          "bbox": {
+            "x_min": 282.0,
+            "y_min": 189.0,
+            "x_max": 350.0,
+            "y_max": 200.0
+          },
+          "page": 1,
+          "confidence": 0.968
+        },
+        {
+          "text": "1om",
+          "bbox": {
+            "x_min": 432.0,
+            "y_min": 192.0,
+            "x_max": 453.0,
+            "y_max": 206.0
+          },
+          "page": 1,
+          "confidence": 0.306
+        },
+        {
+          "text": "1",
+          "bbox": {
+            "x_min": 350.0,
+            "y_min": 206.0,
+            "x_max": 406.0,
+            "y_max": 225.0
+          },
+          "page": 1,
+          "confidence": 0.268
+        },
+        {
+          "text": "NC",
+          "bbox": {
+            "x_min": 268.0,
+            "y_min": 218.0,
+            "x_max": 283.0,
+            "y_max": 228.0
+          },
+          "page": 1,
+          "confidence": 0.679
+        },
+        {
+          "text": "NC",
+          "bbox": {
+            "x_min": 433.0,
+            "y_min": 222.0,
+            "x_max": 445.0,
+            "y_max": 230.0
+          },
+          "page": 1,
+          "confidence": 0.397
+        },
+        {
+          "text": "Cng Hsr",
+          "bbox": {
+            "x_min": 210.0,
+            "y_min": 237.0,
+            "x_max": 260.0,
+            "y_max": 248.0
+          },
+          "page": 1,
+          "confidence": 0.669
+        },
+        {
+          "text": "Chier Compiainta",
+          "bbox": {
+            "x_min": 135.0,
+            "y_min": 252.0,
+            "x_max": 210.0,
+            "y_max": 268.0
+          },
+          "page": 1,
+          "confidence": 0.913
+        },
+        {
+          "text": "Vachc",
+          "bbox": {
+            "x_min": 236.0,
+            "y_min": 254.0,
+            "x_max": 270.0,
+            "y_max": 267.0
+          },
+          "page": 1,
+          "confidence": 0.263
+        },
+        {
+          "text": "Jpn",
+          "bbox": {
+            "x_min": 129.0,
+            "y_min": 275.0,
+            "x_max": 266.0,
+            "y_max": 293.0
+          },
+          "page": 1,
+          "confidence": 0.562
+        },
+        {
+          "text": "Lap  F",
+          "bbox": {
+            "x_min": 132.0,
+            "y_min": 264.0,
+            "x_max": 227.0,
+            "y_max": 281.0
+          },
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "Tab.",
+          "bbox": {
+            "x_min": 261.0,
+            "y_min": 289.0,
+            "x_max": 287.0,
+            "y_max": 301.0
+          },
+          "page": 1,
+          "confidence": 0.887
+        },
+        {
+          "text": "Npxn",
+          "bbox": {
+            "x_min": 305.0,
+            "y_min": 283.0,
+            "x_max": 387.0,
+            "y_max": 300.0
+          },
+          "page": 1,
+          "confidence": 0.707
+        },
+        {
+          "text": "5m",
+          "bbox": {
+            "x_min": 380.0,
+            "y_min": 281.0,
+            "x_max": 447.0,
+            "y_max": 298.0
+          },
+          "page": 1,
+          "confidence": 0.428
+        },
+        {
+          "text": "QE",
+          "bbox": {
+            "x_min": 132.0,
+            "y_min": 293.0,
+            "x_max": 150.0,
+            "y_max": 306.0
+          },
+          "page": 1,
+          "confidence": 0.759
+        },
+        {
+          "text": "Paso",
+          "bbox": {
+            "x_min": 130.0,
+            "y_min": 306.0,
+            "x_max": 152.0,
+            "y_max": 318.0
+          },
+          "page": 1,
+          "confidence": 0.802
+        },
+        {
+          "text": "++",
+          "bbox": {
+            "x_min": 316.0,
+            "y_min": 304.0,
+            "x_max": 366.0,
+            "y_max": 314.0
+          },
+          "page": 1,
+          "confidence": 0.692
+        },
+        {
+          "text": "C",
+          "bbox": {
+            "x_min": 441.0,
+            "y_min": 293.0,
+            "x_max": 469.0,
+            "y_max": 314.0
+          },
+          "page": 1,
+          "confidence": 0.089
+        },
+        {
+          "text": "L.5P",
+          "bbox": {
+            "x_min": 120.0,
+            "y_min": 318.0,
+            "x_max": 142.0,
+            "y_max": 329.0
+          },
+          "page": 1,
+          "confidence": 0.595
+        },
+        {
+          "text": "Tomp",
+          "bbox": {
+            "x_min": 129.0,
+            "y_min": 330.0,
+            "x_max": 152.0,
+            "y_max": 341.0
+          },
+          "page": 1,
+          "confidence": 0.942
+        },
+        {
+          "text": "Qop",
+          "bbox": {
+            "x_min": 255.0,
+            "y_min": 323.0,
+            "x_max": 292.0,
+            "y_max": 337.0
+          },
+          "page": 1,
+          "confidence": 0.276
+        },
+        {
+          "text": "Acona",
+          "bbox": {
+            "x_min": 128.0,
+            "y_min": 342.0,
+            "x_max": 160.0,
+            "y_max": 353.0
+          },
+          "page": 1,
+          "confidence": 0.838
+        },
+        {
+          "text": "C",
+          "bbox": {
+            "x_min": 401.0,
+            "y_min": 332.0,
+            "x_max": 461.0,
+            "y_max": 352.0
+          },
+          "page": 1,
+          "confidence": 0.424
+        },
+        {
+          "text": "Datydatisr",
+          "bbox": {
+            "x_min": 127.0,
+            "y_min": 355.0,
+            "x_max": 172.0,
+            "y_max": 365.0
+          },
+          "page": 1,
+          "confidence": 0.772
+        },
+        {
+          "text": "Tas",
+          "bbox": {
+            "x_min": 264.0,
+            "y_min": 352.0,
+            "x_max": 296.0,
+            "y_max": 366.0
+          },
+          "page": 1,
+          "confidence": 0.624
+        },
+        {
+          "text": "Fxmn1",
+          "bbox": {
+            "x_min": 321.0,
+            "y_min": 349.0,
+            "x_max": 460.0,
+            "y_max": 369.0
+          },
+          "page": 1,
+          "confidence": 0.666
+        },
+        {
+          "text": "Hesprauo-",
+          "bbox": {
+            "x_min": 125.0,
+            "y_min": 367.0,
+            "x_max": 169.0,
+            "y_max": 378.0
+          },
+          "page": 1,
+          "confidence": 0.731
+        },
+        {
+          "text": "Otrs",
+          "bbox": {
+            "x_min": 121.0,
+            "y_min": 378.0,
+            "x_max": 150.0,
+            "y_max": 392.0
+          },
+          "page": 1,
+          "confidence": 0.418
+        },
+        {
+          "text": "++-",
+          "bbox": {
+            "x_min": 337.0,
+            "y_min": 363.0,
+            "x_max": 448.0,
+            "y_max": 386.0
+          },
+          "page": 1,
+          "confidence": 0.875
+        },
+        {
+          "text": "TAD",
+          "bbox": {
+            "x_min": 274.0,
+            "y_min": 387.0,
+            "x_max": 305.0,
+            "y_max": 400.0
+          },
+          "page": 1,
+          "confidence": 0.731
+        },
+        {
+          "text": "pnacinmlsn",
+          "bbox": {
+            "x_min": 336.0,
+            "y_min": 382.0,
+            "x_max": 473.0,
+            "y_max": 402.0
+          },
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "++",
+          "bbox": {
+            "x_min": 354.0,
+            "y_min": 398.0,
+            "x_max": 413.0,
+            "y_max": 415.0
+          },
+          "page": 1,
+          "confidence": 0.885
+        },
+        {
+          "text": "GTL",
+          "bbox": {
+            "x_min": 430.0,
+            "y_min": 402.0,
+            "x_max": 456.0,
+            "y_max": 409.0
+          },
+          "page": 1,
+          "confidence": 0.409
+        },
+        {
+          "text": "FESRBS-",
+          "bbox": {
+            "x_min": 112.0,
+            "y_min": 479.0,
+            "x_max": 152.0,
+            "y_max": 493.0
+          },
+          "page": 1,
+          "confidence": 0.844
+        },
+        {
+          "text": "ECG",
+          "bbox": {
+            "x_min": 112.0,
+            "y_min": 495.0,
+            "x_max": 132.0,
+            "y_max": 507.0
+          },
+          "page": 1,
+          "confidence": 0.941
+        },
+        {
+          "text": "Provisional Diagoncsis",
+          "bbox": {
+            "x_min": 110.0,
+            "y_min": 525.0,
+            "x_max": 206.0,
+            "y_max": 538.0
+          },
+          "page": 1,
+          "confidence": 0.928
+        }
+      ],
+      "medications": [
+        {
+          "name": "Hhajdffic",
+          "matched_term": "Hhajdffic",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.127
+        },
+        {
+          "name": "Reatment Card Macanto Fc",
+          "matched_term": "Reatment Card Macanto Fc",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.307
+        },
+        {
+          "name": "Passeoc Hg",
+          "matched_term": "Passeoc Hg",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.228
+        },
+        {
+          "name": "Thonbsetalr",
+          "matched_term": "Thonbsetalr",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.219
+        },
+        {
+          "name": "Foae",
+          "matched_term": "Foae",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.266
+        },
+        {
+          "name": "Sonce",
+          "matched_term": "Sonce",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.385
+        },
+        {
+          "name": "4-Health",
+          "matched_term": "4-Health",
+          "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+          "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.599
+        },
+        {
+          "name": "Cng Hsr",
+          "matched_term": "Cng Hsr",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.301
+        },
+        {
+          "name": "Chier Compiainta",
+          "matched_term": "Chier Compiainta",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.411
+        },
+        {
+          "name": "Vachc",
+          "matched_term": "Vachc",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.118
+        },
+        {
+          "name": "Lap",
+          "matched_term": "Lap",
+          "drug_id": "41094d0e-3d68-46e7-8480-d54f5226ce1b",
+          "brand_id": "e201e3d0-9a2d-410c-a7a7-89f367a9ad82",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.667
+        },
+        {
+          "name": "Jpn",
+          "matched_term": "Jpn",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.223
+        },
+        {
+          "name": "Npxn",
+          "matched_term": "Npxn",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.318
+        },
+        {
+          "name": "C-Tab",
+          "matched_term": "C-Tab",
+          "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+          "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.653
+        },
+        {
+          "name": "Paso",
+          "matched_term": "Paso",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.314
+        },
+        {
+          "name": "Qop",
+          "matched_term": "Qop",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.124
+        },
+        {
+          "name": "Tomp",
+          "matched_term": "Tomp",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.307
+        },
+        {
+          "name": "Acona Fxmn",
+          "matched_term": "Acona Fxmn",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.338
+        },
+        {
+          "name": "V-Tas",
+          "matched_term": "V-Tas",
+          "drug_id": "085c7194-9766-436a-b4ca-6b32da00cd11",
+          "brand_id": "2fe406ba-7cc6-40e8-b326-71dd5b0ba3b9",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.661
+        },
+        {
+          "name": "Datydatisr",
+          "matched_term": "Datydatisr",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.371
+        },
+        {
+          "name": "Hesprauo",
+          "matched_term": "Hesprauo",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.329
+        },
+        {
+          "name": "Otrs",
+          "matched_term": "Otrs",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.188
+        },
+        {
+          "name": "Pnacinmlsn",
+          "matched_term": "Pnacinmlsn",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.254
+        },
+        {
+          "name": "Sb-Tad",
+          "matched_term": "Sb-Tad",
+          "drug_id": "2c90e207-7dcb-4d71-81c7-7f517d6e336b",
+          "brand_id": "53c35641-7c7a-43e5-b26d-8d747e7e6000",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.744
+        },
+        {
+          "name": "Gtl",
+          "matched_term": "Gtl",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.184
+        },
+        {
+          "name": "Fesrbs",
+          "matched_term": "Fesrbs",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.38
+        },
+        {
+          "name": "Ecg",
+          "matched_term": "Ecg",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.423
+        },
+        {
+          "name": "Provisional Diagoncsis",
+          "matched_term": "Provisional Diagoncsis",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.418
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nExvictodesh Hall Office\nMakka:vadinateJeddah\nTREATMENT CARD / 480\n*:** * F078\n~: 2210.30\nMAKRON5 500\nSonovi\nHEALTH PROFILE\n11: Drug Hoxy:\nChief Complainta:\nVNENC.\nLAP\nBisat Five\nPUNTO\nTomp\nDat yraallar-\nHospraut-\nOthers-\nparacetamol (sr)\nA+++3-6742\nFBSRBS-\nProvisional Diagoncsis\nRx\nNaproxen ( 5mg)\nomeprazole crant me\n2.1012 - CR2\nFexofenadin (120m)\nMusical Certen\nBY\nN",
+      "lines": [
+        {
+          "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "Exvictodesh Hall Office",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "Makka:vadinateJeddah",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "TREATMENT CARD / 480",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "*:** * F078",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "~: 2210.30",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "MAKRON5 500",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "Sonovi",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "HEALTH PROFILE",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "11: Drug Hoxy:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "Chief Complainta:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "VNENC.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "LAP",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "Bisat Five",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "PUNTO",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "Tomp",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "Dat yraallar-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "Hospraut-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "Others-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "paracetamol (sr)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "A+++3-6742",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "FBSRBS-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "Provisional Diagoncsis",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "Rx",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "Naproxen ( 5mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "omeprazole crant me",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "2.1012 - CR2",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "Fexofenadin (120m)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "Musical Certen",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "BY",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "N",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        }
+      ],
+      "medications": [
+        {
+          "name": "Government Of The",
+          "matched_term": "Government Of The",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.258
+        },
+        {
+          "name": "Minista",
+          "matched_term": "Minista",
+          "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+          "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.638
+        },
+        {
+          "name": "Exvictodesh Hall Office",
+          "matched_term": "Exvictodesh Hall Office",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.258
+        },
+        {
+          "name": "Makka Vadinatejeddah",
+          "matched_term": "Makka Vadinatejeddah",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.258
+        },
+        {
+          "name": "Treatment Card Makron",
+          "matched_term": "Treatment Card Makron",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.258
+        },
+        {
+          "name": "Sonovi",
+          "matched_term": "Sonovi",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.258
+        },
+        {
+          "name": "4-Health",
+          "matched_term": "4-Health",
+          "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+          "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.638
+        },
+        {
+          "name": "Drug Hoxy",
+          "matched_term": "Drug Hoxy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.258
+        },
+        {
+          "name": "Chief Complainta",
+          "matched_term": "Chief Complainta",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.258
+        },
+        {
+          "name": "Vnenc",
+          "matched_term": "Vnenc",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.258
+        },
+        {
+          "name": "Lap",
+          "matched_term": "Lap",
+          "drug_id": "41094d0e-3d68-46e7-8480-d54f5226ce1b",
+          "brand_id": "e201e3d0-9a2d-410c-a7a7-89f367a9ad82",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.638
+        },
+        {
+          "name": "Bisan",
+          "matched_term": "Bisan",
+          "drug_id": "e980c126-ecb1-4e93-b906-3b0016bc7ba7",
+          "brand_id": "15f40ad5-94c3-410d-aff9-ddc8efaf8e6e",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.638
+        },
+        {
+          "name": "Punto",
+          "matched_term": "Punto",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.258
+        },
+        {
+          "name": "Tomp",
+          "matched_term": "Tomp",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.258
+        },
+        {
+          "name": "Dat Yraallar",
+          "matched_term": "Dat Yraallar",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.258
+        },
+        {
+          "name": "Hospraut",
+          "matched_term": "Hospraut",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.258
+        },
+        {
+          "name": "Othera",
+          "matched_term": "Othera",
+          "drug_id": "25a9f52e-b192-462a-b9a3-bef96e0f684d",
+          "brand_id": "43ed2ac7-38ef-4fe3-a605-a6fb9b07264e",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.638
+        },
+        {
+          "name": "paracetamol",
+          "matched_term": "paracetamol",
+          "drug_id": "506f3ed5-2dc3-434c-9383-7ee8fdc53209",
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.638
+        },
+        {
+          "name": "Fbsrbs",
+          "matched_term": "Fbsrbs",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.258
+        },
+        {
+          "name": "Provisional Diagoncsis Rx",
+          "matched_term": "Provisional Diagoncsis Rx",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.258
+        },
+        {
+          "name": "naproxen",
+          "matched_term": "naproxen",
+          "drug_id": "daa2f35b-44db-456e-9f07-5beb817cf44c",
+          "brand_id": null,
+          "dosage": "5mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.689
+        },
+        {
+          "name": "omeprazole",
+          "matched_term": "omeprazole",
+          "drug_id": "a6163acf-c078-4714-b3a6-cdfaae9f75c0",
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.638
+        },
+        {
+          "name": "Fexofenadine",
+          "matched_term": "Fexofenadine",
+          "drug_id": "9273a76a-e410-4de4-9598-ed58aede0ead",
+          "brand_id": "ebc09f59-c30a-4a3c-a3d3-fb85b4bf58e7",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.638
+        },
+        {
+          "name": "Musical Certen Baby-2",
+          "matched_term": "Musical Certen Baby-2",
+          "drug_id": "0f6b6134-40f4-440a-8052-dcc68191a96f",
+          "brand_id": "b114a20d-5add-4f67-8ac8-6b18b3cff194",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.258
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "naproxen",
+          "matched_term": "naproxen",
+          "drug_id": "daa2f35b-44db-456e-9f07-5beb817cf44c",
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.599
+        },
+        {
+          "name": "Amopragile Crant Many To Cr",
+          "matched_term": "Amopragile Crant Many To Cr",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.219
+        },
+        {
+          "name": "Fexofenadine",
+          "matched_term": "Fexofenadine",
+          "drug_id": "9273a76a-e410-4de4-9598-ed58aede0ead",
+          "brand_id": "ebc09f59-c30a-4a3c-a3d3-fb85b4bf58e7",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.599
+        },
+        {
+          "name": "C-Tab",
+          "matched_term": "C-Tab",
+          "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+          "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.599
+        },
+        {
+          "name": "paracetamol",
+          "matched_term": "paracetamol",
+          "drug_id": "506f3ed5-2dc3-434c-9383-7ee8fdc53209",
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.599
+        }
+      ],
+      "raw_text": "Rx\nTab_\nNaproxen ( 5mmg)\namopragile crant many\n2.to12- cr2\nFexofenadin (120m)\nTab.\nparacetamol (sr)\n0-+++3-674-",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 14201,
+        "detected_regions": 1,
+        "ocr_line_count": 9,
+        "yolo_avg_confidence": 0.8957,
+        "yolo_min_confidence": 0.8957,
+        "yolo_max_confidence": 0.8957,
+        "ocr_avg_confidence": 0.486,
+        "ocr_min_confidence": 0.486,
+        "ocr_max_confidence": 0.486,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 240.5670166015625,
+              "y_min": 271.3439636230469,
+              "x_max": 518.917724609375,
+              "y_max": 445.5531921386719
+            },
+            "score": 0.8957
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "Rx",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.486
+          },
+          {
+            "text": "Tab_",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.486
+          },
+          {
+            "text": "Naproxen ( 5mmg)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.486
+          },
+          {
+            "text": "amopragile crant many",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.486
+          },
+          {
+            "text": "2.to12- cr2",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.486
+          },
+          {
+            "text": "Fexofenadin (120m)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.486
+          },
+          {
+            "text": "Tab.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.486
+          },
+          {
+            "text": "paracetamol (sr)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.486
+          },
+          {
+            "text": "0-+++3-674-",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.486
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

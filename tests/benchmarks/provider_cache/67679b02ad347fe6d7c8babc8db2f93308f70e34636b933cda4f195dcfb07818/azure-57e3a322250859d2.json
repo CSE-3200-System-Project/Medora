@@ -1,0 +1,437 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0006",
+  "source_sha256": "67679b02ad347fe6d7c8babc8db2f93308f70e34636b933cda4f195dcfb07818",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:22:56.988471+00:00",
+  "runtime_ms": 17122.62520000513,
+  "output": {
+    "raw_text": "(जयणि\nIm\nबसु (बर्यदि)-45\nडिकिश्मक कड़क ब्बाभीव बारश्रज\n1\nब्बाभीव नाग\nw) O Mepo mZit sigelser\n45YRS\nBNS NNM\nस्वाटभव नाग\nडिकिस्मतकब बारशनना\na\ntroenterolo\n11\nDate\n26/2/\nCMH Dnak\n601\nD-22\nUL :\nPain in\nupper abd.\nSIP\nCholecystectomy\nRx,\nTal Pantones\n20mg)\n1+0+1\n20\n. Tab Algin ( sang)\n1+0+1\n10\n.\n102\nMani-\nMONIRA HAQUE RATHE\nTHESOHNGangin\nTrainde in Medicine\nAPDONCMII Dhaka\nबिना\nशनि",
+    "lines": [
+      {
+        "text": "(जयणि",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "Im",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "बसु (बर्यदि)-45",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "डिकिश्मक कड़क ब्बाभीव बारश्रज",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "ब्बाभीव नाग",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "w) O Mepo mZit sigelser",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "45YRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "BNS NNM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "स्वाटभव नाग",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "डिकिस्मतकब बारशनना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "a",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "troenterolo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "11",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "Date",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "26/2/",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "CMH Dnak",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "601",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "D-22",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "UL :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "Pain in",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "upper abd.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "SIP",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "Cholecystectomy",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "Rx,",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "Tal Pantones",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "20mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "1+0+1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": ". Tab Algin ( sang)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "1+0+1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": ".",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "102",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "Mani-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "MONIRA HAQUE RATHE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "THESOHNGangin",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "Trainde in Medicine",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "APDONCMII Dhaka",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "बिना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "शनि",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      }
+    ],
+    "medications": [
+      {
+        "name": "Mepol",
+        "matched_term": "Mepol",
+        "drug_id": "a0ba02de-af44-451d-94d0-daf6ea7740e8",
+        "brand_id": "6c76f1c5-d615-4d8c-9d28-d95efcd38642",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.641
+      },
+      {
+        "name": "Bns Nnm",
+        "matched_term": "Bns Nnm",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.261
+      },
+      {
+        "name": "Troenterolo",
+        "matched_term": "Troenterolo",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.261
+      },
+      {
+        "name": "Date",
+        "matched_term": "Date",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.261
+      },
+      {
+        "name": "Cmh Dnak Ul",
+        "matched_term": "Cmh Dnak Ul",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.261
+      },
+      {
+        "name": "P-Pain",
+        "matched_term": "P-Pain",
+        "drug_id": "44efad0f-7a28-4a0b-9077-8ca85d853d8c",
+        "brand_id": "7db2139b-a196-495a-93f9-22bdc4b424f7",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.641
+      },
+      {
+        "name": "Acimix Supper-L",
+        "matched_term": "Acimix Supper-L",
+        "drug_id": "d82a4889-231e-4e06-8721-688f9c29d7ec",
+        "brand_id": "f52e3d93-d381-4947-a506-e87e7e4f38ec",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.641
+      },
+      {
+        "name": "Sip",
+        "matched_term": "Sip",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.261
+      },
+      {
+        "name": "Cholecystectomy Rx",
+        "matched_term": "Cholecystectomy Rx",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.261
+      },
+      {
+        "name": "Tal Pantones",
+        "matched_term": "Tal Pantones",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.261
+      },
+      {
+        "name": null,
+        "matched_term": null,
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "20mg",
+        "frequency": "1+0+1",
+        "quantity": null,
+        "confidence": 0.362
+      },
+      {
+        "name": "Algin",
+        "matched_term": "Algin",
+        "drug_id": "291ab7c7-25e1-4a8a-9a2b-4a359507bea9",
+        "brand_id": "3d1be21f-d198-40f5-8899-ed964f623777",
+        "dosage": null,
+        "frequency": "1+0+1",
+        "quantity": null,
+        "confidence": 0.691
+      },
+      {
+        "name": "Manil",
+        "matched_term": "Manil",
+        "drug_id": "92cc83b7-d137-4b5f-aa22-3a707abb4374",
+        "brand_id": "d992c8a7-723a-40f9-97e0-78b80f0c6fb0",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.641
+      },
+      {
+        "name": "Monira Haque Rathe",
+        "matched_term": "Monira Haque Rathe",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.261
+      },
+      {
+        "name": "Thesohngangin",
+        "matched_term": "Thesohngangin",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.261
+      },
+      {
+        "name": "Trainde In Medicine",
+        "matched_term": "Trainde In Medicine",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.261
+      },
+      {
+        "name": "Apdoncmii Dhaka",
+        "matched_term": "Apdoncmii Dhaka",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.261
+      }
+    ]
+  }
+}

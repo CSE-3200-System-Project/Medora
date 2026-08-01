@@ -1,0 +1,1013 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0078",
+  "source_sha256": "64e0e3a8f147bac5f1b4a2ad334ff996b23a401c0542e6e487a062c71146ff63",
+  "raw_transcription": "1\nKilbac (5mg)\n2000)\n-96m\n25, Napa\n2000)\nEsofia (200)\n3\n2000",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "Kilbac",
+      "strength": "5mg",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Napa",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Esofia",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "38022c955a0cc6cf7b26eb87af2b493150123c18af574ced43a4e3ee19efc86e"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "a8ca88a938b9f63f22f522a26a06c8facb6638746cf482419c19ad259e1866be"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "a826c4d188e25f6c469d29d258423c9e739806360f9405e53a4794130f5c21a3"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "JG\ne\nytn)\n(hes).p0qin\nNoypnPsa\nyt\n596\nC86\nndN\n4\n-\nC\n1\nMOUA\nD\n0\n0\n9e\nD\n5\n0\nF\nF2\nf\nR\nD\n3\ntt\n1\nWSR\nf1fn\n881\nGOO\nNi\n4\nBos\nOIM\nD\nAla",
+      "lines": [
+        {
+          "text": "JG",
+          "bbox": {
+            "x_min": 946.0,
+            "y_min": 23.0,
+            "x_max": 1018.0,
+            "y_max": 143.0
+          },
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "e",
+          "bbox": {
+            "x_min": 962.0,
+            "y_min": 23.0,
+            "x_max": 994.0,
+            "y_max": 40.0
+          },
+          "page": 1,
+          "confidence": 0.109
+        },
+        {
+          "text": "ytn)",
+          "bbox": {
+            "x_min": 180.0,
+            "y_min": 261.0,
+            "x_max": 344.0,
+            "y_max": 541.0
+          },
+          "page": 1,
+          "confidence": 0.396
+        },
+        {
+          "text": "(hes).p0qin",
+          "bbox": {
+            "x_min": 1793.0,
+            "y_min": 304.0,
+            "x_max": 1995.0,
+            "y_max": 947.0
+          },
+          "page": 1,
+          "confidence": 0.489
+        },
+        {
+          "text": "NoypnPsa",
+          "bbox": {
+            "x_min": 2881.0,
+            "y_min": 309.0,
+            "x_max": 3103.0,
+            "y_max": 982.0
+          },
+          "page": 1,
+          "confidence": 0.369
+        },
+        {
+          "text": "yt",
+          "bbox": {
+            "x_min": 3156.0,
+            "y_min": 393.0,
+            "x_max": 3448.0,
+            "y_max": 834.0
+          },
+          "page": 1,
+          "confidence": 0.772
+        },
+        {
+          "text": "596",
+          "bbox": {
+            "x_min": 2149.0,
+            "y_min": 418.0,
+            "x_max": 2363.0,
+            "y_max": 727.0
+          },
+          "page": 1,
+          "confidence": 0.619
+        },
+        {
+          "text": "C86",
+          "bbox": {
+            "x_min": 2713.0,
+            "y_min": 440.0,
+            "x_max": 2833.0,
+            "y_max": 709.0
+          },
+          "page": 1,
+          "confidence": 0.236
+        },
+        {
+          "text": "ndN",
+          "bbox": {
+            "x_min": 2418.0,
+            "y_min": 523.0,
+            "x_max": 2600.0,
+            "y_max": 879.0
+          },
+          "page": 1,
+          "confidence": 0.41
+        },
+        {
+          "text": "4",
+          "bbox": {
+            "x_min": 3998.0,
+            "y_min": 571.0,
+            "x_max": 4091.0,
+            "y_max": 1067.0
+          },
+          "page": 1,
+          "confidence": 0.742
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 3277.0,
+            "y_min": 640.0,
+            "x_max": 3290.0,
+            "y_max": 648.0
+          },
+          "page": 1,
+          "confidence": 0.1
+        },
+        {
+          "text": "C",
+          "bbox": {
+            "x_min": 3280.0,
+            "y_min": 648.0,
+            "x_max": 3290.0,
+            "y_max": 658.0
+          },
+          "page": 1,
+          "confidence": 0.105
+        },
+        {
+          "text": "1",
+          "bbox": {
+            "x_min": 2239.0,
+            "y_min": 689.0,
+            "x_max": 2327.0,
+            "y_max": 801.0
+          },
+          "page": 1,
+          "confidence": 0.326
+        },
+        {
+          "text": "MOUA",
+          "bbox": {
+            "x_min": 3864.0,
+            "y_min": 776.0,
+            "x_max": 3927.0,
+            "y_max": 951.0
+          },
+          "page": 1,
+          "confidence": 0.228
+        },
+        {
+          "text": "D",
+          "bbox": {
+            "x_min": 3200.0,
+            "y_min": 808.0,
+            "x_max": 3230.0,
+            "y_max": 853.0
+          },
+          "page": 1,
+          "confidence": 0.32
+        },
+        {
+          "text": "0",
+          "bbox": {
+            "x_min": 1670.0,
+            "y_min": 852.0,
+            "x_max": 1800.0,
+            "y_max": 1020.0
+          },
+          "page": 1,
+          "confidence": 0.319
+        },
+        {
+          "text": "0",
+          "bbox": {
+            "x_min": 3199.0,
+            "y_min": 879.0,
+            "x_max": 3236.0,
+            "y_max": 934.0
+          },
+          "page": 1,
+          "confidence": 0.443
+        },
+        {
+          "text": "9e",
+          "bbox": {
+            "x_min": 2642.0,
+            "y_min": 891.0,
+            "x_max": 2716.0,
+            "y_max": 1106.0
+          },
+          "page": 1,
+          "confidence": 0.409
+        },
+        {
+          "text": "D",
+          "bbox": {
+            "x_min": 2098.0,
+            "y_min": 935.0,
+            "x_max": 2134.0,
+            "y_max": 974.0
+          },
+          "page": 1,
+          "confidence": 0.311
+        },
+        {
+          "text": "5",
+          "bbox": {
+            "x_min": 3995.0,
+            "y_min": 1033.0,
+            "x_max": 4069.0,
+            "y_max": 1108.0
+          },
+          "page": 1,
+          "confidence": 0.299
+        },
+        {
+          "text": "0",
+          "bbox": {
+            "x_min": 3869.0,
+            "y_min": 1045.0,
+            "x_max": 3922.0,
+            "y_max": 1109.0
+          },
+          "page": 1,
+          "confidence": 0.237
+        },
+        {
+          "text": "F",
+          "bbox": {
+            "x_min": 3935.0,
+            "y_min": 1043.0,
+            "x_max": 4019.0,
+            "y_max": 1111.0
+          },
+          "page": 1,
+          "confidence": 0.118
+        },
+        {
+          "text": "F2",
+          "bbox": {
+            "x_min": 2451.0,
+            "y_min": 1078.0,
+            "x_max": 2539.0,
+            "y_max": 1244.0
+          },
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "f",
+          "bbox": {
+            "x_min": 1487.0,
+            "y_min": 1230.0,
+            "x_max": 1734.0,
+            "y_max": 1494.0
+          },
+          "page": 1,
+          "confidence": 0.115
+        },
+        {
+          "text": "R",
+          "bbox": {
+            "x_min": 1845.0,
+            "y_min": 1360.0,
+            "x_max": 1931.0,
+            "y_max": 1448.0
+          },
+          "page": 1,
+          "confidence": 0.145
+        },
+        {
+          "text": "D",
+          "bbox": {
+            "x_min": 2424.0,
+            "y_min": 1352.0,
+            "x_max": 2527.0,
+            "y_max": 1452.0
+          },
+          "page": 1,
+          "confidence": 0.232
+        },
+        {
+          "text": "3",
+          "bbox": {
+            "x_min": 2882.0,
+            "y_min": 1366.0,
+            "x_max": 3038.0,
+            "y_max": 1588.0
+          },
+          "page": 1,
+          "confidence": 0.469
+        },
+        {
+          "text": "tt",
+          "bbox": {
+            "x_min": 1363.0,
+            "y_min": 1454.0,
+            "x_max": 1517.0,
+            "y_max": 1806.0
+          },
+          "page": 1,
+          "confidence": 0.348
+        },
+        {
+          "text": "1",
+          "bbox": {
+            "x_min": 2889.0,
+            "y_min": 1544.0,
+            "x_max": 3033.0,
+            "y_max": 1740.0
+          },
+          "page": 1,
+          "confidence": 0.234
+        },
+        {
+          "text": "WSR",
+          "bbox": {
+            "x_min": 565.0,
+            "y_min": 1663.0,
+            "x_max": 722.0,
+            "y_max": 2453.0
+          },
+          "page": 1,
+          "confidence": 0.555
+        },
+        {
+          "text": "f1fn",
+          "bbox": {
+            "x_min": 1880.0,
+            "y_min": 2019.0,
+            "x_max": 2242.0,
+            "y_max": 2808.0
+          },
+          "page": 1,
+          "confidence": 0.31
+        },
+        {
+          "text": "881",
+          "bbox": {
+            "x_min": 1784.0,
+            "y_min": 2253.0,
+            "x_max": 1975.0,
+            "y_max": 2754.0
+          },
+          "page": 1,
+          "confidence": 0.674
+        },
+        {
+          "text": "GOO",
+          "bbox": {
+            "x_min": 1149.0,
+            "y_min": 2303.0,
+            "x_max": 1282.0,
+            "y_max": 2727.0
+          },
+          "page": 1,
+          "confidence": 0.422
+        },
+        {
+          "text": "Ni",
+          "bbox": {
+            "x_min": 934.0,
+            "y_min": 2445.0,
+            "x_max": 1073.0,
+            "y_max": 2648.0
+          },
+          "page": 1,
+          "confidence": 0.662
+        },
+        {
+          "text": "4",
+          "bbox": {
+            "x_min": 1301.0,
+            "y_min": 2568.0,
+            "x_max": 1455.0,
+            "y_max": 2706.0
+          },
+          "page": 1,
+          "confidence": 0.147
+        },
+        {
+          "text": "Bos",
+          "bbox": {
+            "x_min": 941.0,
+            "y_min": 2587.0,
+            "x_max": 1216.0,
+            "y_max": 2737.0
+          },
+          "page": 1,
+          "confidence": 0.363
+        },
+        {
+          "text": "OIM",
+          "bbox": {
+            "x_min": 87.0,
+            "y_min": 2785.0,
+            "x_max": 318.0,
+            "y_max": 3154.0
+          },
+          "page": 1,
+          "confidence": 0.314
+        },
+        {
+          "text": "D",
+          "bbox": {
+            "x_min": 202.0,
+            "y_min": 2845.0,
+            "x_max": 209.0,
+            "y_max": 2851.0
+          },
+          "page": 1,
+          "confidence": 0.077
+        },
+        {
+          "text": "Ala",
+          "bbox": {
+            "x_min": 632.0,
+            "y_min": 2941.0,
+            "x_max": 746.0,
+            "y_max": 3138.0
+          },
+          "page": 1,
+          "confidence": 0.474
+        }
+      ],
+      "medications": [
+        {
+          "name": "Ytn",
+          "matched_term": "Ytn",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.178
+        },
+        {
+          "name": "Diohes",
+          "matched_term": "Diohes",
+          "drug_id": "e9a3fa2e-1c44-4546-b11c-4ec7b9571aa6",
+          "brand_id": "7b3637fb-7204-4f27-9bd6-608c4ca421ac",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.6
+        },
+        {
+          "name": "Noypnpsa Yt",
+          "matched_term": "Noypnpsa Yt",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.225
+        },
+        {
+          "name": "Ndn",
+          "matched_term": "Ndn",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.151
+        },
+        {
+          "name": "Mou",
+          "matched_term": "Mou",
+          "drug_id": "bb6408d9-c56b-4bd2-aa4b-106aa9c367eb",
+          "brand_id": "1c74761c-a37a-46fb-a56a-91e65ae9243a",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.517
+        },
+        {
+          "name": "Wsr Fn",
+          "matched_term": "Wsr Fn",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.231
+        },
+        {
+          "name": "Goo Ni",
+          "matched_term": "Goo Ni",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.185
+        },
+        {
+          "name": "Bost",
+          "matched_term": "Bost",
+          "drug_id": "9a588110-bb63-4b9c-9e87-c29eaae94e7a",
+          "brand_id": "96825b7d-548d-485b-a03a-3e82a8f9c96a",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.543
+        },
+        {
+          "name": "Oim",
+          "matched_term": "Oim",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.088
+        },
+        {
+          "name": "ALA",
+          "matched_term": "ALA",
+          "drug_id": "314554e5-c818-4f96-841c-7421502aa9a4",
+          "brand_id": "ee100fc5-9256-4f0e-a1c2-7d5a2946bd5f",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.593
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "वक (वर्माड)-9\nW/O\n82037 7 डिकिस्मक कड़क बांगीव वादश श्व\nजांगीड़ नाथ M E H siddiquer (Mepo) रकम\n46 years\nडिकिस्मतकब बारशमना\nनिर\nबादशव नाम: STm\n55\nENT\nS. NO-\n3\n22-2-18\nalsoto Issue all\non, 22/2/18\nDas, Kilbac (sr)\n-96m\n0\n25, Napa\n200000\n3\n25. Esofia (20)\n2000)\n021: दूचालुल्यायान जान\n· : ऑरेंजलाजिस्टनानाडिय\n5\nन\nA CALL\nरेडि\nशातिर",
+      "lines": [
+        {
+          "text": "वक (वर्माड)-9",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.505
+        },
+        {
+          "text": "W/O",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.505
+        },
+        {
+          "text": "82037 7 डिकिस्मक कड़क बांगीव वादश श्व",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.505
+        },
+        {
+          "text": "जांगीड़ नाथ M E H siddiquer (Mepo) रकम",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.505
+        },
+        {
+          "text": "46 years",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.505
+        },
+        {
+          "text": "डिकिस्मतकब बारशमना",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.505
+        },
+        {
+          "text": "निर",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.505
+        },
+        {
+          "text": "बादशव नाम: STm",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.505
+        },
+        {
+          "text": "55",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.505
+        },
+        {
+          "text": "ENT",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.505
+        },
+        {
+          "text": "S. NO-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.505
+        },
+        {
+          "text": "3",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.505
+        },
+        {
+          "text": "22-2-18",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.505
+        },
+        {
+          "text": "alsoto Issue all",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.505
+        },
+        {
+          "text": "on, 22/2/18",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.505
+        },
+        {
+          "text": "Das, Kilbac (sr)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.505
+        },
+        {
+          "text": "-96m",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.505
+        },
+        {
+          "text": "0",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.505
+        },
+        {
+          "text": "25, Napa",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.505
+        },
+        {
+          "text": "200000",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.505
+        },
+        {
+          "text": "3",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.505
+        },
+        {
+          "text": "25. Esofia (20)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.505
+        },
+        {
+          "text": "2000)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.505
+        },
+        {
+          "text": "021: दूचालुल्यायान जान",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.505
+        },
+        {
+          "text": "· : ऑरेंजलाजिस्टनानाडिय",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.505
+        },
+        {
+          "text": "5",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.505
+        },
+        {
+          "text": "न",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.505
+        },
+        {
+          "text": "A CALL",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.505
+        },
+        {
+          "text": "रेडि",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.505
+        },
+        {
+          "text": "शातिर",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.505
+        }
+      ],
+      "medications": [
+        {
+          "name": "Siddiquer Mepo",
+          "matched_term": "Siddiquer Mepo",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.227
+        },
+        {
+          "name": "Years",
+          "matched_term": "Years",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.227
+        },
+        {
+          "name": "Stm",
+          "matched_term": "Stm",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.227
+        },
+        {
+          "name": "No-Spa",
+          "matched_term": "No-Spa",
+          "drug_id": "c115c340-f9a8-4fd4-a758-6de6e2d7532c",
+          "brand_id": "4f660548-82a7-4bf4-9b7c-93ef96c13f9e",
+          "dosage": null,
+          "frequency": "2+2+1",
+          "quantity": null,
+          "confidence": 0.517
+        },
+        {
+          "name": "Alsoto Issue All C On",
+          "matched_term": "Alsoto Issue All C On",
+          "drug_id": "ca790686-9b07-4462-9f81-40b6cd91ec1d",
+          "brand_id": "def73a68-4b16-42ee-8588-9314a79cac3e",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.227
+        },
+        {
+          "name": "Kilbac",
+          "matched_term": "Kilbac",
+          "drug_id": "96fe382c-8be6-4b55-b983-1b5d653512a4",
+          "brand_id": "59df47a1-056d-4c7c-a681-12c2eb13ddd5",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.607
+        },
+        {
+          "name": "Napa",
+          "matched_term": "Napa",
+          "drug_id": "497b3eaf-9214-4707-827e-b592072b4abf",
+          "brand_id": "32d2ccff-8c00-4a39-ba5a-61d2e971c751",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.607
+        },
+        {
+          "name": "Esofia",
+          "matched_term": "Esofia",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.227
+        },
+        {
+          "name": "A-Cal",
+          "matched_term": "A-Cal",
+          "drug_id": "0ce59c9f-0d4d-4bfd-9705-64272510ddd2",
+          "brand_id": "d17194f0-816a-455b-ba12-18a65a03de97",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.607
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "Kilbac",
+          "matched_term": "Kilbac",
+          "drug_id": "96fe382c-8be6-4b55-b983-1b5d653512a4",
+          "brand_id": "59df47a1-056d-4c7c-a681-12c2eb13ddd5",
+          "dosage": "5mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.658
+        },
+        {
+          "name": "Napa",
+          "matched_term": "Napa",
+          "drug_id": "497b3eaf-9214-4707-827e-b592072b4abf",
+          "brand_id": "32d2ccff-8c00-4a39-ba5a-61d2e971c751",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.607
+        },
+        {
+          "name": "Esofia",
+          "matched_term": "Esofia",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.227
+        }
+      ],
+      "raw_text": "1\nKilbac (5mg)\n2000)\n-96m\n25, Napa\n2000)\nEsofia (200)\n3\n2000",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 7120,
+        "detected_regions": 1,
+        "ocr_line_count": 9,
+        "yolo_avg_confidence": 0.8504,
+        "yolo_min_confidence": 0.8504,
+        "yolo_max_confidence": 0.8504,
+        "ocr_avg_confidence": 0.505,
+        "ocr_min_confidence": 0.505,
+        "ocr_max_confidence": 0.505,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 1754.3450073242186,
+              "y_min": 1577.898944854736,
+              "x_max": 3239.8820022583004,
+              "y_max": 3560.8194656372066
+            },
+            "score": 0.8504
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "1",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.505
+          },
+          {
+            "text": "Kilbac (5mg)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.505
+          },
+          {
+            "text": "2000)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.505
+          },
+          {
+            "text": "-96m",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.505
+          },
+          {
+            "text": "25, Napa",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.505
+          },
+          {
+            "text": "2000)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.505
+          },
+          {
+            "text": "Esofia (200)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.505
+          },
+          {
+            "text": "3",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.505
+          },
+          {
+            "text": "2000",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.505
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

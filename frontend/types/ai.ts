@@ -20,7 +20,6 @@ export interface ChoruiStructuredData {
   symptoms: string[];
   conditions: string[];
   duration: string;
-  severity: number;
 }
 
 export interface ChoruiIntakeRequest {
@@ -122,7 +121,6 @@ export const DEFAULT_CHORUI_STRUCTURED_DATA: ChoruiStructuredData = {
   symptoms: [],
   conditions: [],
   duration: "",
-  severity: 0,
 };
 
 export const CHORUI_DISCLAIMER =

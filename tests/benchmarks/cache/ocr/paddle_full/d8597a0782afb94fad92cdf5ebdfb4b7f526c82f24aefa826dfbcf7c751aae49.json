@@ -1,0 +1,563 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "paddle_full",
+  "source_sha256": "d8597a0782afb94fad92cdf5ebdfb4b7f526c82f24aefa826dfbcf7c751aae49",
+  "record_id": "RX-0081",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "runtime_ms": 43045.54730000382,
+  "failure": null,
+  "response_sha256": "fd640c1900ed20cc8d904e666d89b5fcd9a44806c9d30b29356338ac7124a4b4",
+  "response": {
+    "raw_text": "88M\n1GM\nDr.Arifur Rahman Sumon\nMBBS (DMC),FCPS (Medicine)\noilsn\nMD (Cardiology),BCs (Health)\n.\ndune\nMedicine & Heart Specialist\nRR\nClinical and Interventional Cardiologist\n14NOV 2CZ3\nNational Institute of Cardiovascular Diseases\nSher-e-Bangla Nagar,Dhaka.\nWFogK\n--\nShgmhA5b\n4-00\nWhonlean\nCOG\nM+HAH ORnceder\nHytnct nionl Howe+\n1\n5mr15\n1+ohoMo\n17 NOV 2023\nAnon A\no+t+0\nJn\nIncisionHoni\nEn+x20+b Mg\nee\nT5RosU5tVenO\nDn.pnet.Anjun\nT.Afbenos OM\nNF\ngM\nKenn in\nMOX\nMApOTEAP\n1\nChamber:\nHitech Multicare Hospital Ltd\n164East KatrulDhaka CantonmentDhoka1206\nhome ofcare\nAppneCrin01969959097DigicinftinDk01708574403\nEergeMedcOfice01407093884Fonger0167312071101407093887\n.-\nAmnceSece0191704294601682912304Emhtchmch164@gmol.com",
+    "lines": [
+      {
+        "text": "88M",
+        "bbox": {
+          "x_min": 0.0,
+          "y_min": 26.0,
+          "x_max": 39.0,
+          "y_max": 50.0
+        },
+        "page": 1,
+        "confidence": 0.8
+      },
+      {
+        "text": "1GM",
+        "bbox": {
+          "x_min": 0.0,
+          "y_min": 46.0,
+          "x_max": 39.0,
+          "y_max": 68.0
+        },
+        "page": 1,
+        "confidence": 0.586
+      },
+      {
+        "text": "Dr.Arifur Rahman Sumon",
+        "bbox": {
+          "x_min": 71.0,
+          "y_min": 57.0,
+          "x_max": 383.0,
+          "y_max": 79.0
+        },
+        "page": 1,
+        "confidence": 0.965
+      },
+      {
+        "text": "MBBS (DMC),FCPS (Medicine)",
+        "bbox": {
+          "x_min": 70.0,
+          "y_min": 78.0,
+          "x_max": 269.0,
+          "y_max": 97.0
+        },
+        "page": 1,
+        "confidence": 0.945
+      },
+      {
+        "text": "oilsn",
+        "bbox": {
+          "x_min": 1.0,
+          "y_min": 103.0,
+          "x_max": 41.0,
+          "y_max": 121.0
+        },
+        "page": 1,
+        "confidence": 0.727
+      },
+      {
+        "text": "MD (Cardiology),BCs (Health)",
+        "bbox": {
+          "x_min": 71.0,
+          "y_min": 99.0,
+          "x_max": 260.0,
+          "y_max": 113.0
+        },
+        "page": 1,
+        "confidence": 0.908
+      },
+      {
+        "text": ".",
+        "bbox": {
+          "x_min": 631.0,
+          "y_min": 94.0,
+          "x_max": 848.0,
+          "y_max": 119.0
+        },
+        "page": 1,
+        "confidence": 0.703
+      },
+      {
+        "text": "dune",
+        "bbox": {
+          "x_min": 2.0,
+          "y_min": 125.0,
+          "x_max": 41.0,
+          "y_max": 139.0
+        },
+        "page": 1,
+        "confidence": 0.497
+      },
+      {
+        "text": "Medicine & Heart Specialist",
+        "bbox": {
+          "x_min": 70.0,
+          "y_min": 116.0,
+          "x_max": 251.0,
+          "y_max": 130.0
+        },
+        "page": 1,
+        "confidence": 0.961
+      },
+      {
+        "text": "RR",
+        "bbox": {
+          "x_min": 724.0,
+          "y_min": 116.0,
+          "x_max": 847.0,
+          "y_max": 133.0
+        },
+        "page": 1,
+        "confidence": 0.531
+      },
+      {
+        "text": "Clinical and Interventional Cardiologist",
+        "bbox": {
+          "x_min": 71.0,
+          "y_min": 133.0,
+          "x_max": 327.0,
+          "y_max": 147.0
+        },
+        "page": 1,
+        "confidence": 0.971
+      },
+      {
+        "text": "14NOV 2CZ3",
+        "bbox": {
+          "x_min": 412.0,
+          "y_min": 128.0,
+          "x_max": 503.0,
+          "y_max": 159.0
+        },
+        "page": 1,
+        "confidence": 0.818
+      },
+      {
+        "text": "National Institute of Cardiovascular Diseases",
+        "bbox": {
+          "x_min": 71.0,
+          "y_min": 148.0,
+          "x_max": 345.0,
+          "y_max": 163.0
+        },
+        "page": 1,
+        "confidence": 0.97
+      },
+      {
+        "text": "Sher-e-Bangla Nagar,Dhaka.",
+        "bbox": {
+          "x_min": 72.0,
+          "y_min": 167.0,
+          "x_max": 251.0,
+          "y_max": 181.0
+        },
+        "page": 1,
+        "confidence": 0.941
+      },
+      {
+        "text": "WFogK",
+        "bbox": {
+          "x_min": 408.0,
+          "y_min": 190.0,
+          "x_max": 484.0,
+          "y_max": 225.0
+        },
+        "page": 1,
+        "confidence": 0.492
+      },
+      {
+        "text": "--",
+        "bbox": {
+          "x_min": 700.0,
+          "y_min": 186.0,
+          "x_max": 854.0,
+          "y_max": 206.0
+        },
+        "page": 1,
+        "confidence": 0.56
+      },
+      {
+        "text": "ShgmhA5b",
+        "bbox": {
+          "x_min": 74.0,
+          "y_min": 213.0,
+          "x_max": 264.0,
+          "y_max": 253.0
+        },
+        "page": 1,
+        "confidence": 0.71
+      },
+      {
+        "text": "4-00",
+        "bbox": {
+          "x_min": 696.0,
+          "y_min": 207.0,
+          "x_max": 852.0,
+          "y_max": 221.0
+        },
+        "page": 1,
+        "confidence": 0.476
+      },
+      {
+        "text": "Whonlean",
+        "bbox": {
+          "x_min": 589.0,
+          "y_min": 283.0,
+          "x_max": 755.0,
+          "y_max": 310.0
+        },
+        "page": 1,
+        "confidence": 0.557
+      },
+      {
+        "text": "COG",
+        "bbox": {
+          "x_min": 586.0,
+          "y_min": 316.0,
+          "x_max": 626.0,
+          "y_max": 346.0
+        },
+        "page": 1,
+        "confidence": 0.409
+      },
+      {
+        "text": "M+HAH ORnceder",
+        "bbox": {
+          "x_min": 168.0,
+          "y_min": 322.0,
+          "x_max": 377.0,
+          "y_max": 362.0
+        },
+        "page": 1,
+        "confidence": 0.593
+      },
+      {
+        "text": "Hytnct nionl Howe+",
+        "bbox": {
+          "x_min": 159.0,
+          "y_min": 373.0,
+          "x_max": 455.0,
+          "y_max": 416.0
+        },
+        "page": 1,
+        "confidence": 0.559
+      },
+      {
+        "text": "1",
+        "bbox": {
+          "x_min": 60.0,
+          "y_min": 508.0,
+          "x_max": 72.0,
+          "y_max": 517.0
+        },
+        "page": 1,
+        "confidence": 0.11
+      },
+      {
+        "text": "5mr15",
+        "bbox": {
+          "x_min": 64.0,
+          "y_min": 564.0,
+          "x_max": 317.0,
+          "y_max": 602.0
+        },
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "1+ohoMo",
+        "bbox": {
+          "x_min": 357.0,
+          "y_min": 551.0,
+          "x_max": 594.0,
+          "y_max": 585.0
+        },
+        "page": 1,
+        "confidence": 0.62
+      },
+      {
+        "text": "17 NOV 2023",
+        "bbox": {
+          "x_min": 705.0,
+          "y_min": 583.0,
+          "x_max": 802.0,
+          "y_max": 616.0
+        },
+        "page": 1,
+        "confidence": 0.866
+      },
+      {
+        "text": "Anon A",
+        "bbox": {
+          "x_min": 188.0,
+          "y_min": 608.0,
+          "x_max": 275.0,
+          "y_max": 643.0
+        },
+        "page": 1,
+        "confidence": 0.901
+      },
+      {
+        "text": "o+t+0",
+        "bbox": {
+          "x_min": 421.0,
+          "y_min": 623.0,
+          "x_max": 542.0,
+          "y_max": 661.0
+        },
+        "page": 1,
+        "confidence": 0.556
+      },
+      {
+        "text": "Jn",
+        "bbox": {
+          "x_min": 339.0,
+          "y_min": 644.0,
+          "x_max": 370.0,
+          "y_max": 663.0
+        },
+        "page": 1,
+        "confidence": 0.62
+      },
+      {
+        "text": "IncisionHoni",
+        "bbox": {
+          "x_min": 691.0,
+          "y_min": 657.0,
+          "x_max": 882.0,
+          "y_max": 695.0
+        },
+        "page": 1,
+        "confidence": 0.621
+      },
+      {
+        "text": "En+x20+b Mg",
+        "bbox": {
+          "x_min": 114.0,
+          "y_min": 695.0,
+          "x_max": 606.0,
+          "y_max": 744.0
+        },
+        "page": 1,
+        "confidence": 0.627
+      },
+      {
+        "text": "ee",
+        "bbox": {
+          "x_min": 703.0,
+          "y_min": 738.0,
+          "x_max": 790.0,
+          "y_max": 795.0
+        },
+        "page": 1,
+        "confidence": 0.368
+      },
+      {
+        "text": "T5RosU5tVenO",
+        "bbox": {
+          "x_min": 118.0,
+          "y_min": 770.0,
+          "x_max": 424.0,
+          "y_max": 810.0
+        },
+        "page": 1,
+        "confidence": 0.599
+      },
+      {
+        "text": "Dn.pnet.Anjun",
+        "bbox": {
+          "x_min": 714.0,
+          "y_min": 823.0,
+          "x_max": 915.0,
+          "y_max": 874.0
+        },
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "T.Afbenos OM",
+        "bbox": {
+          "x_min": 92.0,
+          "y_min": 845.0,
+          "x_max": 401.0,
+          "y_max": 885.0
+        },
+        "page": 1,
+        "confidence": 0.692
+      },
+      {
+        "text": "NF",
+        "bbox": {
+          "x_min": 455.0,
+          "y_min": 853.0,
+          "x_max": 497.0,
+          "y_max": 876.0
+        },
+        "page": 1,
+        "confidence": 0.462
+      },
+      {
+        "text": "gM",
+        "bbox": {
+          "x_min": 542.0,
+          "y_min": 863.0,
+          "x_max": 604.0,
+          "y_max": 898.0
+        },
+        "page": 1,
+        "confidence": 0.456
+      },
+      {
+        "text": "Kenn in",
+        "bbox": {
+          "x_min": 780.0,
+          "y_min": 872.0,
+          "x_max": 957.0,
+          "y_max": 919.0
+        },
+        "page": 1,
+        "confidence": 0.556
+      },
+      {
+        "text": "MOX",
+        "bbox": {
+          "x_min": 532.0,
+          "y_min": 904.0,
+          "x_max": 619.0,
+          "y_max": 935.0
+        },
+        "page": 1,
+        "confidence": 0.47
+      },
+      {
+        "text": "MApOTEAP",
+        "bbox": {
+          "x_min": 326.0,
+          "y_min": 991.0,
+          "x_max": 448.0,
+          "y_max": 1020.0
+        },
+        "page": 1,
+        "confidence": 0.413
+      },
+      {
+        "text": "1",
+        "bbox": {
+          "x_min": 332.0,
+          "y_min": 987.0,
+          "x_max": 345.0,
+          "y_max": 1000.0
+        },
+        "page": 1,
+        "confidence": 0.207
+      },
+      {
+        "text": "Chamber:",
+        "bbox": {
+          "x_min": 185.0,
+          "y_min": 1064.0,
+          "x_max": 256.0,
+          "y_max": 1083.0
+        },
+        "page": 1,
+        "confidence": 0.988
+      },
+      {
+        "text": "Hitech Multicare Hospital Ltd",
+        "bbox": {
+          "x_min": 182.0,
+          "y_min": 1085.0,
+          "x_max": 475.0,
+          "y_max": 1124.0
+        },
+        "page": 1,
+        "confidence": 0.959
+      },
+      {
+        "text": "164East KatrulDhaka CantonmentDhoka1206",
+        "bbox": {
+          "x_min": 204.0,
+          "y_min": 1119.0,
+          "x_max": 461.0,
+          "y_max": 1148.0
+        },
+        "page": 1,
+        "confidence": 0.881
+      },
+      {
+        "text": "home ofcare",
+        "bbox": {
+          "x_min": 78.0,
+          "y_min": 1140.0,
+          "x_max": 159.0,
+          "y_max": 1154.0
+        },
+        "page": 1,
+        "confidence": 0.818
+      },
+      {
+        "text": "AppneCrin01969959097DigicinftinDk01708574403",
+        "bbox": {
+          "x_min": 183.0,
+          "y_min": 1137.0,
+          "x_max": 481.0,
+          "y_max": 1161.0
+        },
+        "page": 1,
+        "confidence": 0.846
+      },
+      {
+        "text": "EergeMedcOfice01407093884Fonger0167312071101407093887",
+        "bbox": {
+          "x_min": 182.0,
+          "y_min": 1149.0,
+          "x_max": 480.0,
+          "y_max": 1177.0
+        },
+        "page": 1,
+        "confidence": 0.847
+      },
+      {
+        "text": ".-",
+        "bbox": {
+          "x_min": 532.0,
+          "y_min": 1146.0,
+          "x_max": 838.0,
+          "y_max": 1177.0
+        },
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "AmnceSece0191704294601682912304Emhtchmch164@gmol.com",
+        "bbox": {
+          "x_min": 180.0,
+          "y_min": 1162.0,
+          "x_max": 482.0,
+          "y_max": 1193.0
+        },
+        "page": 1,
+        "confidence": 0.819
+      }
+    ]
+  }
+}

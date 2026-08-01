@@ -1,0 +1,1945 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0053",
+  "source_sha256": "1c5d10e253145679b97fd28ee7e710dc442e7fc60b69e3f6b655a54c6d5bbcdf",
+  "raw_transcription": "sty\n. Jab Cafaclaw (500 mg)\n· Tab U-tremal Retard (100mg)\n0+ 0+2 8935\n· of Surgel (200g)\n2+0+2 (a1323 cam-)-993-\n. Tab Ancos A\n0+0+2 -6475\n-\nJal Regos (20 mg)\n2+0+0-04/25\n· Cp Lubilan (24Mg)\n6+0+2 - Apesar 220 22\n85.12.23\nY. Si Novo Rapid\nGlysup (2.3gm)\n$3.2.23\nSi novo-Rafia\n22+20+2012\nCof Polycel (500mg)\n0+2+2-6955",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "Sty",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Jab Cafaclaw",
+      "strength": "500 mg",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Utramal Retard",
+      "strength": "100mg",
+      "dose": "",
+      "frequency": "0+0+2",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Of Surgel",
+      "strength": "200g",
+      "dose": "",
+      "frequency": "2+0+2",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Ancor A",
+      "strength": "",
+      "dose": "",
+      "frequency": "0+0+2+6",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Jal Regos",
+      "strength": "20 mg",
+      "dose": "",
+      "frequency": "2+0+0+0",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Cp",
+      "strength": "24Mg",
+      "dose": "",
+      "frequency": "6+0+2",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Novorapid",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Glysup",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Si Novo-Rafia",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "A-Cof",
+      "strength": "500mg",
+      "dose": "",
+      "frequency": "0+2+2+6",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "88ee04a96385044b6a9655c62882f8becbec63588a34794502f11af4eee69bbe"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "88aa29709e04433723e0af08ee5585db9634fa1f841ace9e2a01c41ba68accd7"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "6363f3cfe45ab497529f920528b2dec8762598a3d6c1352ef31dadb73ec17f00"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "Dr. Shaon Shahriar\n.\nMBBS.FCPS (Surgery)\nor\nMS (Hepatobiliary Surgery).FACS (USA)\nGeneral, Laparoscopic, Liver, Biliary aad Panc\n1\nAssistant Professor, Department of Hepatobiliary\nShaheed Suhrawardy Medical College.Dhaka\nWeb.www.shaonshahriar.com\nM\nARCO\nAge:56Pate\nP\nName:M.Aammg\nA\naernifosty\n5THPOD\nD8\nOZ\nA\nfaeb(50\nJal\nP\nWoud-Healty\nDI\ndsain-20ec\neu-tonal Retr1ony\nBergel(3cay)\nob\nalAncos A\n-60\n+o+\nBe Regos Gony\n+0+0-\nhubilaau8)\n-aa\n6+0+\n8.1223\n2\nSynooo Rafid\nO\nHlyeub (3gm\n-\nD\nayms\nBpi!\nSlovo-\n2+0t02\nPolycef\n-\n(5oouy\nC\nt+a-\n-\nT\nCC\n00-34\n8-88",
+      "lines": [
+        {
+          "text": "Dr. Shaon Shahriar",
+          "bbox": {
+            "x_min": 556.0,
+            "y_min": 26.0,
+            "x_max": 773.0,
+            "y_max": 53.0
+          },
+          "page": 1,
+          "confidence": 0.956
+        },
+        {
+          "text": ".",
+          "bbox": {
+            "x_min": 91.0,
+            "y_min": 33.0,
+            "x_max": 283.0,
+            "y_max": 66.0
+          },
+          "page": 1,
+          "confidence": 0.791
+        },
+        {
+          "text": "MBBS.FCPS (Surgery)",
+          "bbox": {
+            "x_min": 558.0,
+            "y_min": 51.0,
+            "x_max": 698.0,
+            "y_max": 71.0
+          },
+          "page": 1,
+          "confidence": 0.964
+        },
+        {
+          "text": "or",
+          "bbox": {
+            "x_min": 4.0,
+            "y_min": 63.0,
+            "x_max": 30.0,
+            "y_max": 83.0
+          },
+          "page": 1,
+          "confidence": 0.372
+        },
+        {
+          "text": "MS (Hepatobiliary Surgery).FACS (USA)",
+          "bbox": {
+            "x_min": 560.0,
+            "y_min": 73.0,
+            "x_max": 798.0,
+            "y_max": 90.0
+          },
+          "page": 1,
+          "confidence": 0.951
+        },
+        {
+          "text": "General, Laparoscopic, Liver, Biliary aad Panc",
+          "bbox": {
+            "x_min": 561.0,
+            "y_min": 92.0,
+            "x_max": 837.0,
+            "y_max": 106.0
+          },
+          "page": 1,
+          "confidence": 0.914
+        },
+        {
+          "text": "1",
+          "bbox": {
+            "x_min": 10.0,
+            "y_min": 118.0,
+            "x_max": 28.0,
+            "y_max": 136.0
+          },
+          "page": 1,
+          "confidence": 0.431
+        },
+        {
+          "text": "Assistant Professor, Department of Hepatobiliary",
+          "bbox": {
+            "x_min": 562.0,
+            "y_min": 109.0,
+            "x_max": 831.0,
+            "y_max": 127.0
+          },
+          "page": 1,
+          "confidence": 0.955
+        },
+        {
+          "text": "Shaheed Suhrawardy Medical College.Dhaka",
+          "bbox": {
+            "x_min": 561.0,
+            "y_min": 128.0,
+            "x_max": 820.0,
+            "y_max": 146.0
+          },
+          "page": 1,
+          "confidence": 0.952
+        },
+        {
+          "text": "Web.www.shaonshahriar.com",
+          "bbox": {
+            "x_min": 562.0,
+            "y_min": 147.0,
+            "x_max": 744.0,
+            "y_max": 164.0
+          },
+          "page": 1,
+          "confidence": 0.969
+        },
+        {
+          "text": "M",
+          "bbox": {
+            "x_min": 21.0,
+            "y_min": 177.0,
+            "x_max": 36.0,
+            "y_max": 190.0
+          },
+          "page": 1,
+          "confidence": 0.997
+        },
+        {
+          "text": "ARCO",
+          "bbox": {
+            "x_min": 354.0,
+            "y_min": 185.0,
+            "x_max": 409.0,
+            "y_max": 211.0
+          },
+          "page": 1,
+          "confidence": 0.642
+        },
+        {
+          "text": "Age:56Pate",
+          "bbox": {
+            "x_min": 686.0,
+            "y_min": 183.0,
+            "x_max": 824.0,
+            "y_max": 214.0
+          },
+          "page": 1,
+          "confidence": 0.928
+        },
+        {
+          "text": "P",
+          "bbox": {
+            "x_min": 19.0,
+            "y_min": 199.0,
+            "x_max": 39.0,
+            "y_max": 219.0
+          },
+          "page": 1,
+          "confidence": 0.876
+        },
+        {
+          "text": "Name:M.Aammg",
+          "bbox": {
+            "x_min": 90.0,
+            "y_min": 190.0,
+            "x_max": 340.0,
+            "y_max": 221.0
+          },
+          "page": 1,
+          "confidence": 0.781
+        },
+        {
+          "text": "A",
+          "bbox": {
+            "x_min": 25.0,
+            "y_min": 230.0,
+            "x_max": 34.0,
+            "y_max": 243.0
+          },
+          "page": 1,
+          "confidence": 0.999
+        },
+        {
+          "text": "aernifosty",
+          "bbox": {
+            "x_min": 181.0,
+            "y_min": 219.0,
+            "x_max": 333.0,
+            "y_max": 258.0
+          },
+          "page": 1,
+          "confidence": 0.727
+        },
+        {
+          "text": "5THPOD",
+          "bbox": {
+            "x_min": 44.0,
+            "y_min": 230.0,
+            "x_max": 169.0,
+            "y_max": 275.0
+          },
+          "page": 1,
+          "confidence": 0.711
+        },
+        {
+          "text": "D8",
+          "bbox": {
+            "x_min": 150.0,
+            "y_min": 230.0,
+            "x_max": 199.0,
+            "y_max": 262.0
+          },
+          "page": 1,
+          "confidence": 0.26
+        },
+        {
+          "text": "OZ",
+          "bbox": {
+            "x_min": 355.0,
+            "y_min": 252.0,
+            "x_max": 371.0,
+            "y_max": 280.0
+          },
+          "page": 1,
+          "confidence": 0.323
+        },
+        {
+          "text": "A",
+          "bbox": {
+            "x_min": 26.0,
+            "y_min": 282.0,
+            "x_max": 35.0,
+            "y_max": 293.0
+          },
+          "page": 1,
+          "confidence": 0.998
+        },
+        {
+          "text": "faeb(50",
+          "bbox": {
+            "x_min": 428.0,
+            "y_min": 265.0,
+            "x_max": 642.0,
+            "y_max": 316.0
+          },
+          "page": 1,
+          "confidence": 0.646
+        },
+        {
+          "text": "Jal",
+          "bbox": {
+            "x_min": 375.0,
+            "y_min": 288.0,
+            "x_max": 417.0,
+            "y_max": 313.0
+          },
+          "page": 1,
+          "confidence": 0.557
+        },
+        {
+          "text": "P",
+          "bbox": {
+            "x_min": 25.0,
+            "y_min": 321.0,
+            "x_max": 37.0,
+            "y_max": 335.0
+          },
+          "page": 1,
+          "confidence": 0.91
+        },
+        {
+          "text": "Woud-Healty",
+          "bbox": {
+            "x_min": 55.0,
+            "y_min": 333.0,
+            "x_max": 238.0,
+            "y_max": 388.0
+          },
+          "page": 1,
+          "confidence": 0.662
+        },
+        {
+          "text": "DI",
+          "bbox": {
+            "x_min": 20.0,
+            "y_min": 359.0,
+            "x_max": 36.0,
+            "y_max": 373.0
+          },
+          "page": 1,
+          "confidence": 0.957
+        },
+        {
+          "text": "dsain-20ec",
+          "bbox": {
+            "x_min": 56.0,
+            "y_min": 386.0,
+            "x_max": 216.0,
+            "y_max": 426.0
+          },
+          "page": 1,
+          "confidence": 0.782
+        },
+        {
+          "text": "eu-tonal Retr1ony",
+          "bbox": {
+            "x_min": 384.0,
+            "y_min": 355.0,
+            "x_max": 757.0,
+            "y_max": 431.0
+          },
+          "page": 1,
+          "confidence": 0.605
+        },
+        {
+          "text": "Bergel(3cay)",
+          "bbox": {
+            "x_min": 440.0,
+            "y_min": 465.0,
+            "x_max": 599.0,
+            "y_max": 513.0
+          },
+          "page": 1,
+          "confidence": 0.651
+        },
+        {
+          "text": "ob",
+          "bbox": {
+            "x_min": 394.0,
+            "y_min": 488.0,
+            "x_max": 425.0,
+            "y_max": 512.0
+          },
+          "page": 1,
+          "confidence": 0.456
+        },
+        {
+          "text": "alAncos A",
+          "bbox": {
+            "x_min": 393.0,
+            "y_min": 553.0,
+            "x_max": 533.0,
+            "y_max": 604.0
+          },
+          "page": 1,
+          "confidence": 0.693
+        },
+        {
+          "text": "-60",
+          "bbox": {
+            "x_min": 519.0,
+            "y_min": 589.0,
+            "x_max": 628.0,
+            "y_max": 622.0
+          },
+          "page": 1,
+          "confidence": 0.556
+        },
+        {
+          "text": "+o+",
+          "bbox": {
+            "x_min": 426.0,
+            "y_min": 593.0,
+            "x_max": 533.0,
+            "y_max": 631.0
+          },
+          "page": 1,
+          "confidence": 0.754
+        },
+        {
+          "text": "Be Regos Gony",
+          "bbox": {
+            "x_min": 418.0,
+            "y_min": 632.0,
+            "x_max": 628.0,
+            "y_max": 693.0
+          },
+          "page": 1,
+          "confidence": 0.644
+        },
+        {
+          "text": "+0+0-",
+          "bbox": {
+            "x_min": 429.0,
+            "y_min": 680.0,
+            "x_max": 630.0,
+            "y_max": 736.0
+          },
+          "page": 1,
+          "confidence": 0.721
+        },
+        {
+          "text": "hubilaau8)",
+          "bbox": {
+            "x_min": 373.0,
+            "y_min": 725.0,
+            "x_max": 610.0,
+            "y_max": 802.0
+          },
+          "page": 1,
+          "confidence": 0.552
+        },
+        {
+          "text": "-aa",
+          "bbox": {
+            "x_min": 532.0,
+            "y_min": 741.0,
+            "x_max": 781.0,
+            "y_max": 806.0
+          },
+          "page": 1,
+          "confidence": 0.662
+        },
+        {
+          "text": "6+0+",
+          "bbox": {
+            "x_min": 432.0,
+            "y_min": 779.0,
+            "x_max": 550.0,
+            "y_max": 825.0
+          },
+          "page": 1,
+          "confidence": 0.758
+        },
+        {
+          "text": "8.1223",
+          "bbox": {
+            "x_min": 787.0,
+            "y_min": 787.0,
+            "x_max": 882.0,
+            "y_max": 849.0
+          },
+          "page": 1,
+          "confidence": 0.873
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 795.0,
+            "y_min": 824.0,
+            "x_max": 801.0,
+            "y_max": 829.0
+          },
+          "page": 1,
+          "confidence": 0.126
+        },
+        {
+          "text": "Synooo Rafid",
+          "bbox": {
+            "x_min": 353.0,
+            "y_min": 805.0,
+            "x_max": 551.0,
+            "y_max": 879.0
+          },
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "O",
+          "bbox": {
+            "x_min": 641.0,
+            "y_min": 842.0,
+            "x_max": 652.0,
+            "y_max": 850.0
+          },
+          "page": 1,
+          "confidence": 0.3
+        },
+        {
+          "text": "Hlyeub (3gm",
+          "bbox": {
+            "x_min": 394.0,
+            "y_min": 900.0,
+            "x_max": 590.0,
+            "y_max": 964.0
+          },
+          "page": 1,
+          "confidence": 0.715
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 383.0,
+            "y_min": 951.0,
+            "x_max": 397.0,
+            "y_max": 959.0
+          },
+          "page": 1,
+          "confidence": 0.193
+        },
+        {
+          "text": "D",
+          "bbox": {
+            "x_min": 427.0,
+            "y_min": 956.0,
+            "x_max": 445.0,
+            "y_max": 969.0
+          },
+          "page": 1,
+          "confidence": 0.246
+        },
+        {
+          "text": "ayms",
+          "bbox": {
+            "x_min": 417.0,
+            "y_min": 914.0,
+            "x_max": 795.0,
+            "y_max": 999.0
+          },
+          "page": 1,
+          "confidence": 0.435
+        },
+        {
+          "text": "Bpi!",
+          "bbox": {
+            "x_min": 506.0,
+            "y_min": 1013.0,
+            "x_max": 575.0,
+            "y_max": 1059.0
+          },
+          "page": 1,
+          "confidence": 0.65
+        },
+        {
+          "text": "Slovo-",
+          "bbox": {
+            "x_min": 434.0,
+            "y_min": 1037.0,
+            "x_max": 498.0,
+            "y_max": 1065.0
+          },
+          "page": 1,
+          "confidence": 0.644
+        },
+        {
+          "text": "2+0t02",
+          "bbox": {
+            "x_min": 420.0,
+            "y_min": 1061.0,
+            "x_max": 639.0,
+            "y_max": 1110.0
+          },
+          "page": 1,
+          "confidence": 0.746
+        },
+        {
+          "text": "Polycef",
+          "bbox": {
+            "x_min": 437.0,
+            "y_min": 1102.0,
+            "x_max": 527.0,
+            "y_max": 1143.0
+          },
+          "page": 1,
+          "confidence": 0.784
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 522.0,
+            "y_min": 1110.0,
+            "x_max": 533.0,
+            "y_max": 1120.0
+          },
+          "page": 1,
+          "confidence": 0.294
+        },
+        {
+          "text": "(5oouy",
+          "bbox": {
+            "x_min": 523.0,
+            "y_min": 1094.0,
+            "x_max": 616.0,
+            "y_max": 1130.0
+          },
+          "page": 1,
+          "confidence": 0.57
+        },
+        {
+          "text": "C",
+          "bbox": {
+            "x_min": 586.0,
+            "y_min": 1131.0,
+            "x_max": 606.0,
+            "y_max": 1146.0
+          },
+          "page": 1,
+          "confidence": 0.24
+        },
+        {
+          "text": "t+a-",
+          "bbox": {
+            "x_min": 447.0,
+            "y_min": 1134.0,
+            "x_max": 576.0,
+            "y_max": 1172.0
+          },
+          "page": 1,
+          "confidence": 0.546
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 466.0,
+            "y_min": 1190.0,
+            "x_max": 603.0,
+            "y_max": 1226.0
+          },
+          "page": 1,
+          "confidence": 0.636
+        },
+        {
+          "text": "T",
+          "bbox": {
+            "x_min": 767.0,
+            "y_min": 1189.0,
+            "x_max": 914.0,
+            "y_max": 1223.0
+          },
+          "page": 1,
+          "confidence": 0.57
+        },
+        {
+          "text": "CC",
+          "bbox": {
+            "x_min": 206.0,
+            "y_min": 1200.0,
+            "x_max": 436.0,
+            "y_max": 1269.0
+          },
+          "page": 1,
+          "confidence": 0.157
+        },
+        {
+          "text": "00-34",
+          "bbox": {
+            "x_min": 466.0,
+            "y_min": 1196.0,
+            "x_max": 727.0,
+            "y_max": 1247.0
+          },
+          "page": 1,
+          "confidence": 0.555
+        },
+        {
+          "text": "8-88",
+          "bbox": {
+            "x_min": 468.0,
+            "y_min": 1212.0,
+            "x_max": 756.0,
+            "y_max": 1263.0
+          },
+          "page": 1,
+          "confidence": 0.506
+        }
+      ],
+      "medications": [
+        {
+          "name": "Dr Shaon Shahriar",
+          "matched_term": "Dr Shaon Shahriar",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.393
+        },
+        {
+          "name": "Mbbs Fcps Surgery Or",
+          "matched_term": "Mbbs Fcps Surgery Or",
+          "drug_id": "e94848d5-c123-47fa-a308-04bc389cd70b",
+          "brand_id": "57f86bd4-264a-43a3-9971-d95ad5de8ad2",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.301
+        },
+        {
+          "name": "Ms Hepatobiliary Surgery",
+          "matched_term": "Ms Hepatobiliary Surgery",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.428
+        },
+        {
+          "name": "General Laparoscopic Liver",
+          "matched_term": "General Laparoscopic Liver",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.411
+        },
+        {
+          "name": "Assistant Professor Department",
+          "matched_term": "Assistant Professor Department",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.312
+        },
+        {
+          "name": "Shaheed Suhrawardy Medical",
+          "matched_term": "Shaheed Suhrawardy Medical",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.428
+        },
+        {
+          "name": "Web Www Shaonshahriar",
+          "matched_term": "Web Www Shaonshahriar",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.442
+        },
+        {
+          "name": "Age M",
+          "matched_term": "Age M",
+          "drug_id": "32593a88-50e8-4254-9d22-7d1a52c84504",
+          "brand_id": "86fe087a-92e9-4a39-8921-ab758e162e76",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.798
+        },
+        {
+          "name": "Arco",
+          "matched_term": "Arco",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.289
+        },
+        {
+          "name": "Name Aammg",
+          "matched_term": "Name Aammg",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.373
+        },
+        {
+          "name": "Aernifosty Thpod Oz",
+          "matched_term": "Aernifosty Thpod Oz",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.272
+        },
+        {
+          "name": "Faeb",
+          "matched_term": "Faeb",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.37
+        },
+        {
+          "name": "Jal",
+          "matched_term": "Jal",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.33
+        },
+        {
+          "name": "Woud-Healty",
+          "matched_term": "Woud-Healty",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.298
+        },
+        {
+          "name": "Eu-Tonal Retr Ony Di",
+          "matched_term": "Eu-Tonal Retr Ony Di",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.351
+        },
+        {
+          "name": "Dsain- Ec",
+          "matched_term": "Dsain- Ec",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.352
+        },
+        {
+          "name": "Bergel Cay Ob",
+          "matched_term": "Bergel Cay Ob",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.249
+        },
+        {
+          "name": "Alancos",
+          "matched_term": "Alancos",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.3
+        },
+        {
+          "name": "Be Regos Gony Hubilaau Azinaaf",
+          "matched_term": "Be Regos Gony Hubilaau Azinaaf",
+          "drug_id": "95ed09d1-d0fa-4bd6-bce6-0baff4c63ed4",
+          "brand_id": "8edb9d56-a3f4-44b8-96b2-3e6c791547f1",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.316
+        },
+        {
+          "name": "Synooo Rafid",
+          "matched_term": "Synooo Rafid",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.158
+        },
+        {
+          "name": "Hlyeub Gm",
+          "matched_term": "Hlyeub Gm",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.322
+        },
+        {
+          "name": "Ayms",
+          "matched_term": "Ayms",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.131
+        },
+        {
+          "name": "Bpi",
+          "matched_term": "Bpi",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.293
+        },
+        {
+          "name": "Slovo Oouy",
+          "matched_term": "Slovo Oouy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.294
+        },
+        {
+          "name": "Polycef",
+          "matched_term": "Polycef",
+          "drug_id": "e2c3cbb0-ae43-40fe-9788-2ec49e48615e",
+          "brand_id": "4ba06112-35db-44bd-ab11-ca85cf76bec7",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.594
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "डॉ. नाउन बारवियान\nपथविविध्यम, परमिनियम (जाजानी)\nघयम ((शभाटणेविनियरानि मार्णारी)\nप्रीमियम (पाठ्यनिका)\nअनारहन, ज्याशावकनिक, निडाड, निखनानी 8 ज्ञानविज्ञान मार्जन\nमश्काब्री जाधानिक, भाटणेविनियानि 3 भावकिग्राम माशि विधान\nनशेप (माश्याउद्यानी (मणिटिकन कानज, गया।\nDr. Shaon Shahriar\nMBBS, FCPS (Surgery)\nMS (Hepatobiliary Surgery), FACS (USA)\nGeneral, Laparoscopic, Liver, Biliary and Panc\nAssistant Professor, Department of Hepatobiliary {\nShaheed Suhrawardy Medical College, Dhaka\nWeb: www.shaonshahriar.com\n=\nM\nP\nName:\nMs. Samina Alles\nAge: 56 ys Date :\n45TH POD of hernioplasty\nA\nP\nA\nP\n2\nRE\nDI.\nWord-Healthy\ntrain - 20 cc\n. Jab Cafaclaw (500 mg)\n2+0+2-6935\n. Tab U-tramal Retard (100mg)\n0+ 0+ 2- 8 Pir\n· of Serget (200g)\n2+0+2 (2132mg (n=1)-993-\n· Jal Ancos A\n0+0+2-6475\nJab Regos (20 kg)\n.\n2+0+0-60725\n· Cap Lubilan (24Mg)\n. 12.23\nY. Sij Novo Rapid\nGlysup (2.3gm)\n.\n$3.12.23\nDi Novo-Rafia\n22+20+2012\nCaf Polycel (500mg)\n0+2+2-0955\nशारलाक\nत्र वक श्रामभाकाल लि:\nघाटनाक (भिवभूद्-20)\nबाड़ी - ०२ ७०७, ८बा७-०२, एक-वि, मिद्रभूत, गया।\nमिडियारनब जना: ०७१२, ०२-४४०००४०२, ०३३३४२२४४४८\n-\nजानी ललचाव मयग्रा\nमक्षा ◌े - द्वार ४ जै नर्यद्\nF",
+      "lines": [
+        {
+          "text": "डॉ. नाउन बारवियान",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "पथविविध्यम, परमिनियम (जाजानी)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "घयम ((शभाटणेविनियरानि मार्णारी)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "प्रीमियम (पाठ्यनिका)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "अनारहन, ज्याशावकनिक, निडाड, निखनानी 8 ज्ञानविज्ञान मार्जन",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "मश्काब्री जाधानिक, भाटणेविनियानि 3 भावकिग्राम माशि विधान",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "नशेप (माश्याउद्यानी (मणिटिकन कानज, गया।",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "Dr. Shaon Shahriar",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "MBBS, FCPS (Surgery)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "MS (Hepatobiliary Surgery), FACS (USA)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "General, Laparoscopic, Liver, Biliary and Panc",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "Assistant Professor, Department of Hepatobiliary {",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "Shaheed Suhrawardy Medical College, Dhaka",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "Web: www.shaonshahriar.com",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "=",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "M",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "P",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "Name:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "Ms. Samina Alles",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "Age: 56 ys Date :",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "45TH POD of hernioplasty",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "A",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "P",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "A",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "P",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "2",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "RE",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "DI.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "Word-Healthy",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "train - 20 cc",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": ". Jab Cafaclaw (500 mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "2+0+2-6935",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": ". Tab U-tramal Retard (100mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "0+ 0+ 2- 8 Pir",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "· of Serget (200g)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "2+0+2 (2132mg (n=1)-993-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "· Jal Ancos A",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "0+0+2-6475",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "Jab Regos (20 kg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": ".",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "2+0+0-60725",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "· Cap Lubilan (24Mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": ". 12.23",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "Y. Sij Novo Rapid",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "Glysup (2.3gm)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": ".",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "$3.12.23",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "Di Novo-Rafia",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "22+20+2012",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "Caf Polycel (500mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "0+2+2-0955",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "शारलाक",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "त्र वक श्रामभाकाल लि:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "घाटनाक (भिवभूद्-20)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "बाड़ी - ०२ ७०७, ८बा७-०२, एक-वि, मिद्रभूत, गया।",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "मिडियारनब जना: ०७१२, ०२-४४०००४०२, ०३३३४२२४४४८",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "जानी ललचाव मयग्रा",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "मक्षा ◌े - द्वार ४ जै नर्यद्",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        },
+        {
+          "text": "F",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.564
+        }
+      ],
+      "medications": [
+        {
+          "name": "Dr Shaon Shahriar",
+          "matched_term": "Dr Shaon Shahriar",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.254
+        },
+        {
+          "name": "Mbbs Fcps Surgery",
+          "matched_term": "Mbbs Fcps Surgery",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.254
+        },
+        {
+          "name": "Ms Hepatobiliary Surgery",
+          "matched_term": "Ms Hepatobiliary Surgery",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.254
+        },
+        {
+          "name": "General Laparoscopic Liver",
+          "matched_term": "General Laparoscopic Liver",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.254
+        },
+        {
+          "name": "Assistant Professor Department",
+          "matched_term": "Assistant Professor Department",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.254
+        },
+        {
+          "name": "Shaheed Suhrawardy Medical",
+          "matched_term": "Shaheed Suhrawardy Medical",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.254
+        },
+        {
+          "name": "Web Www Shaonshahriar",
+          "matched_term": "Web Www Shaonshahriar",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.254
+        },
+        {
+          "name": "Name",
+          "matched_term": "Name",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.254
+        },
+        {
+          "name": "Ms Samina Alles",
+          "matched_term": "Ms Samina Alles",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.254
+        },
+        {
+          "name": "Age M",
+          "matched_term": "Age M",
+          "drug_id": "32593a88-50e8-4254-9d22-7d1a52c84504",
+          "brand_id": "86fe087a-92e9-4a39-8921-ab758e162e76",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.634
+        },
+        {
+          "name": "A Th",
+          "matched_term": "A Th",
+          "drug_id": "0496fb01-5fc6-44d6-942d-297b36fff49b",
+          "brand_id": "f882c379-3d91-43a2-86c2-06a66c2e3ab5",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.477
+        },
+        {
+          "name": "Healthy Tab",
+          "matched_term": "Healthy Tab",
+          "drug_id": "db3548a5-cd66-4ce2-be42-5703b2b6cd9d",
+          "brand_id": "910a9a69-d478-4ca2-b71d-a19065cffde7",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.634
+        },
+        {
+          "name": "Train Cc",
+          "matched_term": "Train Cc",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.254
+        },
+        {
+          "name": "Jab Cafaclaw",
+          "matched_term": "Jab Cafaclaw",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "500 mg",
+          "frequency": "2+0+2+6",
+          "quantity": null,
+          "confidence": 0.354
+        },
+        {
+          "name": "Utramal Retard",
+          "matched_term": "Utramal Retard",
+          "drug_id": "e2a22109-84b4-41f6-a606-aa8a6abeea03",
+          "brand_id": "a0d74fce-3bd3-4394-a84c-110af7b076b1",
+          "dosage": "100mg",
+          "frequency": "0+0+2+8",
+          "quantity": null,
+          "confidence": 0.734
+        },
+        {
+          "name": "Of Serget",
+          "matched_term": "Of Serget",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "200g",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.305
+        },
+        {
+          "name": "O-20",
+          "matched_term": "O-20",
+          "drug_id": "7b1fa286-3a42-4d88-b689-49b453895844",
+          "brand_id": "fa6c4db4-9b7f-46ba-863c-5c6f63595cf4",
+          "dosage": "2132mg",
+          "frequency": "2+0+2",
+          "quantity": null,
+          "confidence": 0.354
+        },
+        {
+          "name": "Jal Ancos",
+          "matched_term": "Jal Ancos",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": "0+0+2+6",
+          "quantity": null,
+          "confidence": 0.303
+        },
+        {
+          "name": "Jab Regos Kg",
+          "matched_term": "Jab Regos Kg",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": "2+0+0+6",
+          "quantity": null,
+          "confidence": 0.303
+        },
+        {
+          "name": "Lubilax",
+          "matched_term": "Lubilax",
+          "drug_id": "fab9b13e-22da-4329-bd64-de65e3ce29a1",
+          "brand_id": "e31d6b44-b1ce-42f7-a70a-bafba95f0602",
+          "dosage": "24Mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.685
+        },
+        {
+          "name": "Sij Novo Rapid",
+          "matched_term": "Sij Novo Rapid",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.254
+        },
+        {
+          "name": "Glysup",
+          "matched_term": "Glysup",
+          "drug_id": "ca4fcea8-6a89-49d0-a82e-8161f0c0d260",
+          "brand_id": "d2dc3cfd-fb8d-4b87-8eb4-8e6e925d0e3a",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.634
+        },
+        {
+          "name": "Di Novo-Rafia",
+          "matched_term": "Di Novo-Rafia",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.254
+        },
+        {
+          "name": "Caf-N",
+          "matched_term": "Caf-N",
+          "drug_id": "a5c0f110-387e-409e-8e2b-9019bc64a9a1",
+          "brand_id": "c7960318-56db-4290-933e-e68620c76e92",
+          "dosage": "500mg",
+          "frequency": "0+2+2+0",
+          "quantity": null,
+          "confidence": 0.734
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "Sty",
+          "matched_term": "Sty",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.245
+        },
+        {
+          "name": "Jab Cafaclaw",
+          "matched_term": "Jab Cafaclaw",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "500 mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.296
+        },
+        {
+          "name": "Utramal Retard",
+          "matched_term": "Utramal Retard",
+          "drug_id": "e2a22109-84b4-41f6-a606-aa8a6abeea03",
+          "brand_id": "a0d74fce-3bd3-4394-a84c-110af7b076b1",
+          "dosage": "100mg",
+          "frequency": "0+0+2",
+          "quantity": null,
+          "confidence": 0.725
+        },
+        {
+          "name": "Of Surgel",
+          "matched_term": "Of Surgel",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "200g",
+          "frequency": "2+0+2",
+          "quantity": null,
+          "confidence": 0.345
+        },
+        {
+          "name": "Ancor A",
+          "matched_term": "Ancor A",
+          "drug_id": "763e8e3f-7bea-463c-8bbf-9b2ba367beb3",
+          "brand_id": "e7d3f13f-a440-4e64-8285-8d03b65da584",
+          "dosage": null,
+          "frequency": "0+0+2+6",
+          "quantity": null,
+          "confidence": 0.674
+        },
+        {
+          "name": "Jal Regos",
+          "matched_term": "Jal Regos",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "20 mg",
+          "frequency": "2+0+0+0",
+          "quantity": null,
+          "confidence": 0.345
+        },
+        {
+          "name": "Cp",
+          "matched_term": "Cp",
+          "drug_id": "4f0c5564-7aa5-49d7-a24b-ac57c04134df",
+          "brand_id": "f4d2cbe7-e4f0-4ca6-b1f3-2a92ddecc524",
+          "dosage": "24Mg",
+          "frequency": "6+0+2",
+          "quantity": null,
+          "confidence": 0.725
+        },
+        {
+          "name": "Novorapid",
+          "matched_term": "Novorapid",
+          "drug_id": "16be8bb3-983e-4b50-9f73-e35eb4699284",
+          "brand_id": "5ab9a9c7-ad9c-4a16-a391-8c4fbd444b67",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.625
+        },
+        {
+          "name": "Glysup",
+          "matched_term": "Glysup",
+          "drug_id": "ca4fcea8-6a89-49d0-a82e-8161f0c0d260",
+          "brand_id": "d2dc3cfd-fb8d-4b87-8eb4-8e6e925d0e3a",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.625
+        },
+        {
+          "name": "Si Novo-Rafia",
+          "matched_term": "Si Novo-Rafia",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.245
+        },
+        {
+          "name": "A-Cof",
+          "matched_term": "A-Cof",
+          "drug_id": "44d50961-2f21-4317-ad2a-ff7b8d4fd683",
+          "brand_id": "e2054e74-8169-414d-8071-f6c90faab637",
+          "dosage": "500mg",
+          "frequency": "0+2+2+6",
+          "quantity": null,
+          "confidence": 0.725
+        }
+      ],
+      "raw_text": "sty\n. Jab Cafaclaw (500 mg)\n· Tab U-tremal Retard (100mg)\n0+ 0+2 8935\n· of Surgel (200g)\n2+0+2 (a1323 cam-)-993-\n. Tab Ancos A\n0+0+2 -6475\n-\nJal Regos (20 mg)\n2+0+0-04/25\n· Cp Lubilan (24Mg)\n6+0+2 - Apesar 220 22\n85.12.23\nY. Si Novo Rapid\nGlysup (2.3gm)\n$3.2.23\nSi novo-Rafia\n22+20+2012\nCof Polycel (500mg)\n0+2+2-6955",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 13177,
+        "detected_regions": 1,
+        "ocr_line_count": 21,
+        "yolo_avg_confidence": 0.8954,
+        "yolo_min_confidence": 0.8954,
+        "yolo_max_confidence": 0.8954,
+        "ocr_avg_confidence": 0.544,
+        "ocr_min_confidence": 0.544,
+        "ocr_max_confidence": 0.544,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 311.72601318359375,
+              "y_min": 220.39892578125,
+              "x_max": 928.9190673828125,
+              "y_max": 1157.380859375
+            },
+            "score": 0.8954
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "sty",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.544
+          },
+          {
+            "text": ". Jab Cafaclaw (500 mg)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.544
+          },
+          {
+            "text": "· Tab U-tremal Retard (100mg)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.544
+          },
+          {
+            "text": "0+ 0+2 8935",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.544
+          },
+          {
+            "text": "· of Surgel (200g)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.544
+          },
+          {
+            "text": "2+0+2 (a1323 cam-)-993-",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.544
+          },
+          {
+            "text": ". Tab Ancos A",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.544
+          },
+          {
+            "text": "0+0+2 -6475",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.544
+          },
+          {
+            "text": "-",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.544
+          },
+          {
+            "text": "Jal Regos (20 mg)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.544
+          },
+          {
+            "text": "2+0+0-04/25",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.544
+          },
+          {
+            "text": "· Cp Lubilan (24Mg)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.544
+          },
+          {
+            "text": "6+0+2 - Apesar 220 22",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.544
+          },
+          {
+            "text": "85.12.23",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.544
+          },
+          {
+            "text": "Y. Si Novo Rapid",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.544
+          },
+          {
+            "text": "Glysup (2.3gm)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.544
+          },
+          {
+            "text": "$3.2.23",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.544
+          },
+          {
+            "text": "Si novo-Rafia",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.544
+          },
+          {
+            "text": "22+20+2012",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.544
+          },
+          {
+            "text": "Cof Polycel (500mg)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.544
+          },
+          {
+            "text": "0+2+2-6955",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.544
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

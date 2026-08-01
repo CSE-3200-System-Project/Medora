@@ -1,0 +1,596 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "paddle_full",
+  "source_sha256": "ba70fbe17ff9a2b2a3e763f0983cdf5a6d7a51ba58fdf84b2219b474332d56a6",
+  "record_id": "RX-0063",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "runtime_ms": 35504.822700007935,
+  "failure": null,
+  "response_sha256": "8bfed939a55fa0d7f486e9379a63cc02e8937dd5b9c0a870b641a766860348c3",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRSE\nBangladesh Hajj Office\nMakkah/Madinah/Jeddah\nMedical Center\nTREATMENT CARD/\nPmD14213\nG189\nMO NAZRUL ISLAM\nPasspon No\nA0B421277\nName_\nMaetab No35\nGender\nMALE\nThanEULBARIA.\nHEALTH PROFILE\n1.Blood Groug\n9989\n12930\n2Blood Presaun\n7Mental Disease66\n-NO\nNO\n9.Weght\n5\nBieed Sugar (RBS)\n11.Drg Histoy\nCher.Diss\nNO\nNO\nChief Complaints:\nVisNo\nDate\n17 May 2024\ni\nOIE\nPy metroridazoe\nPulse-\nBP-\n+3+\nTemp-\nSRS\nAnaemia-\nDehydration-\nRespiration-\nCap.Esohia\nOthers\nTobMelrmysot\nDeoco\nS/RBS-\nisional Diagonosis",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": {
+          "x_min": 149.0,
+          "y_min": 43.0,
+          "x_max": 454.0,
+          "y_max": 73.0
+        },
+        "page": 1,
+        "confidence": 0.946
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRSE",
+        "bbox": {
+          "x_min": 219.0,
+          "y_min": 61.0,
+          "x_max": 389.0,
+          "y_max": 83.0
+        },
+        "page": 1,
+        "confidence": 0.945
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": {
+          "x_min": 253.0,
+          "y_min": 75.0,
+          "x_max": 358.0,
+          "y_max": 93.0
+        },
+        "page": 1,
+        "confidence": 0.948
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": {
+          "x_min": 249.0,
+          "y_min": 88.0,
+          "x_max": 361.0,
+          "y_max": 106.0
+        },
+        "page": 1,
+        "confidence": 0.996
+      },
+      {
+        "text": "Medical Center",
+        "bbox": {
+          "x_min": 104.0,
+          "y_min": 117.0,
+          "x_max": 173.0,
+          "y_max": 133.0
+        },
+        "page": 1,
+        "confidence": 0.991
+      },
+      {
+        "text": "TREATMENT CARD/",
+        "bbox": {
+          "x_min": 236.0,
+          "y_min": 110.0,
+          "x_max": 377.0,
+          "y_max": 130.0
+        },
+        "page": 1,
+        "confidence": 0.961
+      },
+      {
+        "text": "PmD14213",
+        "bbox": {
+          "x_min": 102.0,
+          "y_min": 128.0,
+          "x_max": 177.0,
+          "y_max": 149.0
+        },
+        "page": 1,
+        "confidence": 0.713
+      },
+      {
+        "text": "G189",
+        "bbox": {
+          "x_min": 393.0,
+          "y_min": 127.0,
+          "x_max": 461.0,
+          "y_max": 141.0
+        },
+        "page": 1,
+        "confidence": 0.978
+      },
+      {
+        "text": "MO NAZRUL ISLAM",
+        "bbox": {
+          "x_min": 143.0,
+          "y_min": 143.0,
+          "x_max": 214.0,
+          "y_max": 160.0
+        },
+        "page": 1,
+        "confidence": 0.909
+      },
+      {
+        "text": "Passpon No",
+        "bbox": {
+          "x_min": 251.0,
+          "y_min": 137.0,
+          "x_max": 298.0,
+          "y_max": 154.0
+        },
+        "page": 1,
+        "confidence": 0.822
+      },
+      {
+        "text": "A0B421277",
+        "bbox": {
+          "x_min": 320.0,
+          "y_min": 137.0,
+          "x_max": 359.0,
+          "y_max": 151.0
+        },
+        "page": 1,
+        "confidence": 0.843
+      },
+      {
+        "text": "Name_",
+        "bbox": {
+          "x_min": 104.0,
+          "y_min": 147.0,
+          "x_max": 135.0,
+          "y_max": 161.0
+        },
+        "page": 1,
+        "confidence": 0.891
+      },
+      {
+        "text": "Maetab No35",
+        "bbox": {
+          "x_min": 392.0,
+          "y_min": 141.0,
+          "x_max": 447.0,
+          "y_max": 158.0
+        },
+        "page": 1,
+        "confidence": 0.777
+      },
+      {
+        "text": "Gender",
+        "bbox": {
+          "x_min": 106.0,
+          "y_min": 161.0,
+          "x_max": 134.0,
+          "y_max": 172.0
+        },
+        "page": 1,
+        "confidence": 0.987
+      },
+      {
+        "text": "MALE",
+        "bbox": {
+          "x_min": 145.0,
+          "y_min": 159.0,
+          "x_max": 167.0,
+          "y_max": 170.0
+        },
+        "page": 1,
+        "confidence": 0.998
+      },
+      {
+        "text": "ThanEULBARIA.",
+        "bbox": {
+          "x_min": 369.0,
+          "y_min": 154.0,
+          "x_max": 432.0,
+          "y_max": 185.0
+        },
+        "page": 1,
+        "confidence": 0.75
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": {
+          "x_min": 270.0,
+          "y_min": 185.0,
+          "x_max": 344.0,
+          "y_max": 196.0
+        },
+        "page": 1,
+        "confidence": 0.996
+      },
+      {
+        "text": "1.Blood Groug",
+        "bbox": {
+          "x_min": 191.0,
+          "y_min": 195.0,
+          "x_max": 248.0,
+          "y_max": 210.0
+        },
+        "page": 1,
+        "confidence": 0.878
+      },
+      {
+        "text": "9989",
+        "bbox": {
+          "x_min": 432.0,
+          "y_min": 199.0,
+          "x_max": 451.0,
+          "y_max": 231.0
+        },
+        "page": 1,
+        "confidence": 0.68
+      },
+      {
+        "text": "12930",
+        "bbox": {
+          "x_min": 433.0,
+          "y_min": 190.0,
+          "x_max": 456.0,
+          "y_max": 205.0
+        },
+        "page": 1,
+        "confidence": 0.829
+      },
+      {
+        "text": "2Blood Presaun",
+        "bbox": {
+          "x_min": 347.0,
+          "y_min": 200.0,
+          "x_max": 405.0,
+          "y_max": 210.0
+        },
+        "page": 1,
+        "confidence": 0.839
+      },
+      {
+        "text": "7Mental Disease66",
+        "bbox": {
+          "x_min": 190.0,
+          "y_min": 218.0,
+          "x_max": 268.0,
+          "y_max": 236.0
+        },
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": "-NO",
+        "bbox": {
+          "x_min": 252.0,
+          "y_min": 218.0,
+          "x_max": 267.0,
+          "y_max": 225.0
+        },
+        "page": 1,
+        "confidence": 0.753
+      },
+      {
+        "text": "NO",
+        "bbox": {
+          "x_min": 256.0,
+          "y_min": 210.0,
+          "x_max": 268.0,
+          "y_max": 217.0
+        },
+        "page": 1,
+        "confidence": 0.959
+      },
+      {
+        "text": "9.Weght",
+        "bbox": {
+          "x_min": 190.0,
+          "y_min": 231.0,
+          "x_max": 226.0,
+          "y_max": 242.0
+        },
+        "page": 1,
+        "confidence": 0.822
+      },
+      {
+        "text": "5",
+        "bbox": {
+          "x_min": 347.0,
+          "y_min": 226.0,
+          "x_max": 357.0,
+          "y_max": 236.0
+        },
+        "page": 1,
+        "confidence": 0.155
+      },
+      {
+        "text": "Bieed Sugar (RBS)",
+        "bbox": {
+          "x_min": 357.0,
+          "y_min": 222.0,
+          "x_max": 427.0,
+          "y_max": 238.0
+        },
+        "page": 1,
+        "confidence": 0.879
+      },
+      {
+        "text": "11.Drg Histoy",
+        "bbox": {
+          "x_min": 185.0,
+          "y_min": 235.0,
+          "x_max": 244.0,
+          "y_max": 252.0
+        },
+        "page": 1,
+        "confidence": 0.892
+      },
+      {
+        "text": "Cher.Diss",
+        "bbox": {
+          "x_min": 360.0,
+          "y_min": 234.0,
+          "x_max": 393.0,
+          "y_max": 241.0
+        },
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "NO",
+        "bbox": {
+          "x_min": 435.0,
+          "y_min": 226.0,
+          "x_max": 448.0,
+          "y_max": 234.0
+        },
+        "page": 1,
+        "confidence": 0.908
+      },
+      {
+        "text": "NO",
+        "bbox": {
+          "x_min": 435.0,
+          "y_min": 234.0,
+          "x_max": 447.0,
+          "y_max": 243.0
+        },
+        "page": 1,
+        "confidence": 0.974
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": {
+          "x_min": 103.0,
+          "y_min": 257.0,
+          "x_max": 186.0,
+          "y_max": 272.0
+        },
+        "page": 1,
+        "confidence": 0.924
+      },
+      {
+        "text": "VisNo",
+        "bbox": {
+          "x_min": 223.0,
+          "y_min": 258.0,
+          "x_max": 259.0,
+          "y_max": 272.0
+        },
+        "page": 1,
+        "confidence": 0.791
+      },
+      {
+        "text": "Date",
+        "bbox": {
+          "x_min": 372.0,
+          "y_min": 257.0,
+          "x_max": 392.0,
+          "y_max": 272.0
+        },
+        "page": 1,
+        "confidence": 0.961
+      },
+      {
+        "text": "17 May 2024",
+        "bbox": {
+          "x_min": 385.0,
+          "y_min": 253.0,
+          "x_max": 429.0,
+          "y_max": 264.0
+        },
+        "page": 1,
+        "confidence": 0.942
+      },
+      {
+        "text": "i",
+        "bbox": {
+          "x_min": 243.0,
+          "y_min": 287.0,
+          "x_max": 263.0,
+          "y_max": 303.0
+        },
+        "page": 1,
+        "confidence": 0.215
+      },
+      {
+        "text": "OIE",
+        "bbox": {
+          "x_min": 101.0,
+          "y_min": 305.0,
+          "x_max": 120.0,
+          "y_max": 316.0
+        },
+        "page": 1,
+        "confidence": 0.813
+      },
+      {
+        "text": "Py metroridazoe",
+        "bbox": {
+          "x_min": 285.0,
+          "y_min": 304.0,
+          "x_max": 415.0,
+          "y_max": 318.0
+        },
+        "page": 1,
+        "confidence": 0.678
+      },
+      {
+        "text": "Pulse-",
+        "bbox": {
+          "x_min": 101.0,
+          "y_min": 318.0,
+          "x_max": 124.0,
+          "y_max": 330.0
+        },
+        "page": 1,
+        "confidence": 0.922
+      },
+      {
+        "text": "BP-",
+        "bbox": {
+          "x_min": 99.0,
+          "y_min": 331.0,
+          "x_max": 115.0,
+          "y_max": 344.0
+        },
+        "page": 1,
+        "confidence": 0.847
+      },
+      {
+        "text": "+3+",
+        "bbox": {
+          "x_min": 321.0,
+          "y_min": 327.0,
+          "x_max": 371.0,
+          "y_max": 341.0
+        },
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "Temp-",
+        "bbox": {
+          "x_min": 100.0,
+          "y_min": 346.0,
+          "x_max": 125.0,
+          "y_max": 358.0
+        },
+        "page": 1,
+        "confidence": 0.943
+      },
+      {
+        "text": "SRS",
+        "bbox": {
+          "x_min": 300.0,
+          "y_min": 348.0,
+          "x_max": 346.0,
+          "y_max": 375.0
+        },
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "Anaemia-",
+        "bbox": {
+          "x_min": 98.0,
+          "y_min": 360.0,
+          "x_max": 134.0,
+          "y_max": 371.0
+        },
+        "page": 1,
+        "confidence": 0.909
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": {
+          "x_min": 96.0,
+          "y_min": 373.0,
+          "x_max": 149.0,
+          "y_max": 383.0
+        },
+        "page": 1,
+        "confidence": 0.947
+      },
+      {
+        "text": "Respiration-",
+        "bbox": {
+          "x_min": 93.0,
+          "y_min": 387.0,
+          "x_max": 142.0,
+          "y_max": 397.0
+        },
+        "page": 1,
+        "confidence": 0.982
+      },
+      {
+        "text": "Cap.Esohia",
+        "bbox": {
+          "x_min": 297.0,
+          "y_min": 385.0,
+          "x_max": 393.0,
+          "y_max": 408.0
+        },
+        "page": 1,
+        "confidence": 0.752
+      },
+      {
+        "text": "Others",
+        "bbox": {
+          "x_min": 91.0,
+          "y_min": 401.0,
+          "x_max": 119.0,
+          "y_max": 411.0
+        },
+        "page": 1,
+        "confidence": 0.957
+      },
+      {
+        "text": "TobMelrmysot",
+        "bbox": {
+          "x_min": 315.0,
+          "y_min": 427.0,
+          "x_max": 518.0,
+          "y_max": 458.0
+        },
+        "page": 1,
+        "confidence": 0.63
+      },
+      {
+        "text": "Deoco",
+        "bbox": {
+          "x_min": 361.0,
+          "y_min": 464.0,
+          "x_max": 448.0,
+          "y_max": 478.0
+        },
+        "page": 1,
+        "confidence": 0.439
+      },
+      {
+        "text": "S/RBS-",
+        "bbox": {
+          "x_min": 79.0,
+          "y_min": 510.0,
+          "x_max": 111.0,
+          "y_max": 524.0
+        },
+        "page": 1,
+        "confidence": 0.959
+      },
+      {
+        "text": "isional Diagonosis",
+        "bbox": {
+          "x_min": 81.0,
+          "y_min": 564.0,
+          "x_max": 172.0,
+          "y_max": 578.0
+        },
+        "page": 1,
+        "confidence": 0.953
+      }
+    ]
+  }
+}

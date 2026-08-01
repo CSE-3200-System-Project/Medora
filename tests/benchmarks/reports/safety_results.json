@@ -1,0 +1,1245 @@
+{
+  "schema_version": "1.0.0",
+  "executed_at": "2026-08-01T15:36:31.947048+00:00",
+  "provider_result_class": "deterministic_mock_and_rules",
+  "privacy": {
+    "cases": 130,
+    "passed": 130,
+    "known_identifier_leakage": 0,
+    "by_category": {
+      "email": 10,
+      "phone": 10,
+      "national_id": 10,
+      "passport": 10,
+      "account_id": 10,
+      "known_name": 10,
+      "bengali_phone": 10,
+      "bengali_nid": 10,
+      "over_redaction": 20,
+      "prompt_injection": 10,
+      "consent_state": 10,
+      "unknown_identifier_limitation": 10
+    },
+    "failures": [],
+    "raw": [
+      {
+        "id": "PII-001",
+        "category": "email",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-002",
+        "category": "email",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-003",
+        "category": "email",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-004",
+        "category": "email",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-005",
+        "category": "email",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-006",
+        "category": "email",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-007",
+        "category": "email",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-008",
+        "category": "email",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-009",
+        "category": "email",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-010",
+        "category": "email",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-011",
+        "category": "phone",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-012",
+        "category": "phone",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-013",
+        "category": "phone",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-014",
+        "category": "phone",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-015",
+        "category": "phone",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-016",
+        "category": "phone",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-017",
+        "category": "phone",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-018",
+        "category": "phone",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-019",
+        "category": "phone",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-020",
+        "category": "phone",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-021",
+        "category": "national_id",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-022",
+        "category": "national_id",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-023",
+        "category": "national_id",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-024",
+        "category": "national_id",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-025",
+        "category": "national_id",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-026",
+        "category": "national_id",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-027",
+        "category": "national_id",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-028",
+        "category": "national_id",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-029",
+        "category": "national_id",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-030",
+        "category": "national_id",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-031",
+        "category": "passport",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-032",
+        "category": "passport",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-033",
+        "category": "passport",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-034",
+        "category": "passport",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-035",
+        "category": "passport",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-036",
+        "category": "passport",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-037",
+        "category": "passport",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-038",
+        "category": "passport",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-039",
+        "category": "passport",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-040",
+        "category": "passport",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-041",
+        "category": "account_id",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-042",
+        "category": "account_id",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-043",
+        "category": "account_id",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-044",
+        "category": "account_id",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-045",
+        "category": "account_id",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-046",
+        "category": "account_id",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-047",
+        "category": "account_id",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-048",
+        "category": "account_id",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-049",
+        "category": "account_id",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-050",
+        "category": "account_id",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-051",
+        "category": "known_name",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-052",
+        "category": "known_name",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-053",
+        "category": "known_name",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-054",
+        "category": "known_name",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-055",
+        "category": "known_name",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-056",
+        "category": "known_name",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-057",
+        "category": "known_name",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-058",
+        "category": "known_name",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-059",
+        "category": "known_name",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-060",
+        "category": "known_name",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-061",
+        "category": "bengali_phone",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-062",
+        "category": "bengali_phone",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-063",
+        "category": "bengali_phone",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-064",
+        "category": "bengali_phone",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-065",
+        "category": "bengali_phone",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-066",
+        "category": "bengali_phone",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-067",
+        "category": "bengali_phone",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-068",
+        "category": "bengali_phone",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-069",
+        "category": "bengali_phone",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-070",
+        "category": "bengali_phone",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-071",
+        "category": "bengali_nid",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-072",
+        "category": "bengali_nid",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-073",
+        "category": "bengali_nid",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-074",
+        "category": "bengali_nid",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-075",
+        "category": "bengali_nid",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-076",
+        "category": "bengali_nid",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-077",
+        "category": "bengali_nid",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-078",
+        "category": "bengali_nid",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-079",
+        "category": "bengali_nid",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-080",
+        "category": "bengali_nid",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-081",
+        "category": "over_redaction",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-082",
+        "category": "over_redaction",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-083",
+        "category": "over_redaction",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-084",
+        "category": "over_redaction",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-085",
+        "category": "over_redaction",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-086",
+        "category": "over_redaction",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-087",
+        "category": "over_redaction",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-088",
+        "category": "over_redaction",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-089",
+        "category": "over_redaction",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-090",
+        "category": "over_redaction",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-091",
+        "category": "over_redaction",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-092",
+        "category": "over_redaction",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-093",
+        "category": "over_redaction",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-094",
+        "category": "over_redaction",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-095",
+        "category": "over_redaction",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-096",
+        "category": "over_redaction",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-097",
+        "category": "over_redaction",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-098",
+        "category": "over_redaction",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-099",
+        "category": "over_redaction",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-100",
+        "category": "over_redaction",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-101",
+        "category": "prompt_injection",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-102",
+        "category": "prompt_injection",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-103",
+        "category": "prompt_injection",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-104",
+        "category": "prompt_injection",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-105",
+        "category": "prompt_injection",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-106",
+        "category": "prompt_injection",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-107",
+        "category": "prompt_injection",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-108",
+        "category": "prompt_injection",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-109",
+        "category": "prompt_injection",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-110",
+        "category": "prompt_injection",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-111",
+        "category": "consent_state",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-112",
+        "category": "consent_state",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-113",
+        "category": "consent_state",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-114",
+        "category": "consent_state",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-115",
+        "category": "consent_state",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-116",
+        "category": "consent_state",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-117",
+        "category": "consent_state",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-118",
+        "category": "consent_state",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-119",
+        "category": "consent_state",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-120",
+        "category": "consent_state",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": false
+      },
+      {
+        "id": "PII-121",
+        "category": "unknown_identifier_limitation",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": true
+      },
+      {
+        "id": "PII-122",
+        "category": "unknown_identifier_limitation",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": true
+      },
+      {
+        "id": "PII-123",
+        "category": "unknown_identifier_limitation",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": true
+      },
+      {
+        "id": "PII-124",
+        "category": "unknown_identifier_limitation",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": true
+      },
+      {
+        "id": "PII-125",
+        "category": "unknown_identifier_limitation",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": true
+      },
+      {
+        "id": "PII-126",
+        "category": "unknown_identifier_limitation",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": true
+      },
+      {
+        "id": "PII-127",
+        "category": "unknown_identifier_limitation",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": true
+      },
+      {
+        "id": "PII-128",
+        "category": "unknown_identifier_limitation",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": true
+      },
+      {
+        "id": "PII-129",
+        "category": "unknown_identifier_limitation",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": true
+      },
+      {
+        "id": "PII-130",
+        "category": "unknown_identifier_limitation",
+        "passed": true,
+        "leaked_known_identifiers": [],
+        "lost_benign_text": [],
+        "expected_residual_risk": true
+      }
+    ]
+  },
+  "navigation": {
+    "cases": 12,
+    "passed": 12,
+    "clinician_reviewed": 0,
+    "review_state": "required",
+    "failures": [],
+    "raw": [
+      {
+        "id": "NAV-001",
+        "locale": "en",
+        "expected": "emergency",
+        "actual": "emergency",
+        "passed": true,
+        "clinician_review_complete": false
+      },
+      {
+        "id": "NAV-002",
+        "locale": "bn",
+        "expected": "emergency",
+        "actual": "emergency",
+        "passed": true,
+        "clinician_review_complete": false
+      },
+      {
+        "id": "NAV-003",
+        "locale": "en",
+        "expected": "emergency",
+        "actual": "emergency",
+        "passed": true,
+        "clinician_review_complete": false
+      },
+      {
+        "id": "NAV-004",
+        "locale": "bn",
+        "expected": "emergency",
+        "actual": "emergency",
+        "passed": true,
+        "clinician_review_complete": false
+      },
+      {
+        "id": "NAV-005",
+        "locale": "en",
+        "expected": "emergency",
+        "actual": "emergency",
+        "passed": true,
+        "clinician_review_complete": false
+      },
+      {
+        "id": "NAV-006",
+        "locale": "en",
+        "expected": "specialty_candidates",
+        "actual": "navigation",
+        "passed": true,
+        "clinician_review_complete": false
+      },
+      {
+        "id": "NAV-007",
+        "locale": "bn",
+        "expected": "specialty_candidates",
+        "actual": "navigation",
+        "passed": true,
+        "clinician_review_complete": false
+      },
+      {
+        "id": "NAV-008",
+        "locale": "en",
+        "expected": "uncertain",
+        "actual": "navigation",
+        "passed": true,
+        "clinician_review_complete": false
+      },
+      {
+        "id": "NAV-009",
+        "locale": "en",
+        "expected": "manual_browse",
+        "actual": "navigation",
+        "passed": true,
+        "clinician_review_complete": false
+      },
+      {
+        "id": "NAV-010",
+        "locale": "bn",
+        "expected": "manual_browse",
+        "actual": "navigation",
+        "passed": true,
+        "clinician_review_complete": false
+      },
+      {
+        "id": "NAV-011",
+        "locale": "en",
+        "expected": "uncertain",
+        "actual": "navigation",
+        "passed": true,
+        "clinician_review_complete": false
+      },
+      {
+        "id": "NAV-012",
+        "locale": "en",
+        "expected": "specialty_candidates",
+        "actual": "navigation",
+        "passed": true,
+        "clinician_review_complete": false
+      }
+    ]
+  },
+  "summaries": {
+    "cases": 10,
+    "passed": 10,
+    "failures": [],
+    "raw": [
+      {
+        "id": "SUM-001",
+        "focus": "allergy",
+        "passed": true,
+        "source_records": 1
+      },
+      {
+        "id": "SUM-002",
+        "focus": "dose",
+        "passed": true,
+        "source_records": 1
+      },
+      {
+        "id": "SUM-003",
+        "focus": "negation",
+        "passed": true,
+        "source_records": 1
+      },
+      {
+        "id": "SUM-004",
+        "focus": "time",
+        "passed": true,
+        "source_records": 1
+      },
+      {
+        "id": "SUM-005",
+        "focus": "duplicate",
+        "passed": true,
+        "source_records": 2
+      },
+      {
+        "id": "SUM-006",
+        "focus": "conflict",
+        "passed": true,
+        "source_records": 2
+      },
+      {
+        "id": "SUM-007",
+        "focus": "missing_evidence",
+        "passed": true,
+        "source_records": 0
+      },
+      {
+        "id": "SUM-008",
+        "focus": "malformed_provider_output",
+        "passed": true,
+        "source_records": 0
+      },
+      {
+        "id": "SUM-009",
+        "focus": "provider_failure",
+        "passed": true,
+        "source_records": 0
+      },
+      {
+        "id": "SUM-010",
+        "focus": "source_link",
+        "passed": true,
+        "source_records": 1
+      }
+    ]
+  },
+  "deterministic_passed": true,
+  "passed": false,
+  "limitations": [
+    "Unknown and indirect identifiers are explicitly retained as residual-risk fixtures.",
+    "Deterministic mock/rule results are not pooled with live-provider results."
+  ]
+}

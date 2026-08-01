@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "c354199512c96675951d23f668f0e7a23ec754b5d1d0226294ae123a436e6a10",
+  "record_id": "RX-0052",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 8680.060799990315,
+  "failure": null,
+  "response_sha256": "a5bb57fcba9b6877a3f533ebc8a22a5f0c8a78dc31b682cbb2e7a085d6e98aab",
+  "response": {
+    "raw_text": "Plan\nHernioplasty V SAB (mesh repair)\n21.11.23\nJal Dassban (0.5mg)\n0+0+2- yarar 2(25\n21.11.23\n/90 mm Hg\nRefer to PAKM Fazlul Haque si\nfor control QHTN & DM & short\nactive insulin\n-13 5Telange\n87\nMid",
+    "lines": [
+      {
+        "text": "Plan",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.582
+      },
+      {
+        "text": "Hernioplasty V SAB (mesh repair)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.582
+      },
+      {
+        "text": "21.11.23",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.582
+      },
+      {
+        "text": "Jal Dassban (0.5mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.582
+      },
+      {
+        "text": "0+0+2- yarar 2(25",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.582
+      },
+      {
+        "text": "21.11.23",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.582
+      },
+      {
+        "text": "/90 mm Hg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.582
+      },
+      {
+        "text": "Refer to PAKM Fazlul Haque si",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.582
+      },
+      {
+        "text": "for control QHTN & DM & short",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.582
+      },
+      {
+        "text": "active insulin",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.582
+      },
+      {
+        "text": "-13 5Telange",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.582
+      },
+      {
+        "text": "87",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.582
+      },
+      {
+        "text": "Mid",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.582
+      }
+    ]
+  }
+}

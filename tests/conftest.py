@@ -11,7 +11,13 @@ import pytest
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-TARGET = (os.getenv("MEDORA_TEST_TARGET") or "backend").strip().lower()
+_CLI_TEXT = " ".join(sys.argv).replace("\\", "/").lower()
+_INFERRED_TARGET = (
+    "ai_service"
+    if "pytest.ai.ini" in _CLI_TEXT or "unit/ai_service" in _CLI_TEXT
+    else "backend"
+)
+TARGET = (os.getenv("MEDORA_TEST_TARGET") or _INFERRED_TARGET).strip().lower()
 
 
 def _ensure_path(path: Path) -> None:
@@ -40,7 +46,6 @@ def _configure_backend_env_defaults() -> None:
     os.environ.setdefault("PRELOAD_WHISPER_ON_STARTUP", "false")
     os.environ.setdefault("REMINDER_DISPATCH_ENABLED", "false")
     os.environ.setdefault("ALLOWED_ORIGINS", "http://localhost:3000")
-    os.environ.setdefault("ADMIN_PASSWORD", "test-admin-password-123")
 
 
 def _configure_ai_service_env_defaults() -> None:

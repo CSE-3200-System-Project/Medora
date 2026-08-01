@@ -1,0 +1,855 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0100",
+  "source_sha256": "15394e54b5cc90f8fe652fb5368e843c1db82b7d00a0810ccbf40a55ee9140f1",
+  "provider": "paddle",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T18:15:19.357683+00:00",
+  "runtime_ms": 25910.15700000571,
+  "output": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah/Madintah/Jeddah\nTREATMENT CARD\n223\nMedical Center\nPas\nE00456712\nMN\nPigm15414\nName_\nAKHRUNORSD\nThaPCHAGAy\nHEALTH PROFILE\n12030\nBccdGop N\n2.Pre\n8\nNO\n3Hos.C\nKDoN\n67\nR6\nNO\n7MD72\n0L3550\n11.Dng Hsory\nChiet-Complaints\nVeene\nag2\nOL\nIX\nPuse\nSthb\nNnpMore\nBP\n7\nTeng-\nt0\nAasemis\nDehyorator\nRespration-\nto+)\nOthers-\nCalcunD\nE0\nFBSRBS.\nECG\nProvisional Diagonosis",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": {
+          "x_min": 191.0,
+          "y_min": 61.0,
+          "x_max": 471.0,
+          "y_max": 92.0
+        },
+        "page": 1,
+        "confidence": 0.937
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": {
+          "x_min": 253.0,
+          "y_min": 79.0,
+          "x_max": 409.0,
+          "y_max": 98.0
+        },
+        "page": 1,
+        "confidence": 0.958
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": {
+          "x_min": 284.0,
+          "y_min": 91.0,
+          "x_max": 380.0,
+          "y_max": 108.0
+        },
+        "page": 1,
+        "confidence": 0.897
+      },
+      {
+        "text": "Makkah/Madintah/Jeddah",
+        "bbox": {
+          "x_min": 281.0,
+          "y_min": 102.0,
+          "x_max": 382.0,
+          "y_max": 118.0
+        },
+        "page": 1,
+        "confidence": 0.903
+      },
+      {
+        "text": "TREATMENT CARD",
+        "bbox": {
+          "x_min": 271.0,
+          "y_min": 121.0,
+          "x_max": 401.0,
+          "y_max": 140.0
+        },
+        "page": 1,
+        "confidence": 0.946
+      },
+      {
+        "text": "223",
+        "bbox": {
+          "x_min": 415.0,
+          "y_min": 121.0,
+          "x_max": 481.0,
+          "y_max": 142.0
+        },
+        "page": 1,
+        "confidence": 0.975
+      },
+      {
+        "text": "Medical Center",
+        "bbox": {
+          "x_min": 151.0,
+          "y_min": 135.0,
+          "x_max": 213.0,
+          "y_max": 152.0
+        },
+        "page": 1,
+        "confidence": 0.89
+      },
+      {
+        "text": "Pas",
+        "bbox": {
+          "x_min": 286.0,
+          "y_min": 147.0,
+          "x_max": 330.0,
+          "y_max": 163.0
+        },
+        "page": 1,
+        "confidence": 0.455
+      },
+      {
+        "text": "E00456712",
+        "bbox": {
+          "x_min": 344.0,
+          "y_min": 145.0,
+          "x_max": 382.0,
+          "y_max": 156.0
+        },
+        "page": 1,
+        "confidence": 0.959
+      },
+      {
+        "text": "MN",
+        "bbox": {
+          "x_min": 417.0,
+          "y_min": 138.0,
+          "x_max": 469.0,
+          "y_max": 156.0
+        },
+        "page": 1,
+        "confidence": 0.608
+      },
+      {
+        "text": "Pigm15414",
+        "bbox": {
+          "x_min": 151.0,
+          "y_min": 144.0,
+          "x_max": 214.0,
+          "y_max": 167.0
+        },
+        "page": 1,
+        "confidence": 0.634
+      },
+      {
+        "text": "Name_",
+        "bbox": {
+          "x_min": 152.0,
+          "y_min": 163.0,
+          "x_max": 183.0,
+          "y_max": 177.0
+        },
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "AKHRUNORSD",
+        "bbox": {
+          "x_min": 183.0,
+          "y_min": 157.0,
+          "x_max": 268.0,
+          "y_max": 170.0
+        },
+        "page": 1,
+        "confidence": 0.597
+      },
+      {
+        "text": "ThaPCHAGAy",
+        "bbox": {
+          "x_min": 398.0,
+          "y_min": 160.0,
+          "x_max": 458.0,
+          "y_max": 179.0
+        },
+        "page": 1,
+        "confidence": 0.567
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": {
+          "x_min": 303.0,
+          "y_min": 185.0,
+          "x_max": 375.0,
+          "y_max": 202.0
+        },
+        "page": 1,
+        "confidence": 0.969
+      },
+      {
+        "text": "12030",
+        "bbox": {
+          "x_min": 455.0,
+          "y_min": 186.0,
+          "x_max": 478.0,
+          "y_max": 201.0
+        },
+        "page": 1,
+        "confidence": 0.699
+      },
+      {
+        "text": "BccdGop N",
+        "bbox": {
+          "x_min": 234.0,
+          "y_min": 205.0,
+          "x_max": 302.0,
+          "y_max": 216.0
+        },
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "2.Pre",
+        "bbox": {
+          "x_min": 375.0,
+          "y_min": 198.0,
+          "x_max": 434.0,
+          "y_max": 211.0
+        },
+        "page": 1,
+        "confidence": 0.619
+      },
+      {
+        "text": "8",
+        "bbox": {
+          "x_min": 454.0,
+          "y_min": 204.0,
+          "x_max": 470.0,
+          "y_max": 225.0
+        },
+        "page": 1,
+        "confidence": 0.296
+      },
+      {
+        "text": "NO",
+        "bbox": {
+          "x_min": 455.0,
+          "y_min": 197.0,
+          "x_max": 470.0,
+          "y_max": 209.0
+        },
+        "page": 1,
+        "confidence": 0.967
+      },
+      {
+        "text": "3Hos.C",
+        "bbox": {
+          "x_min": 234.0,
+          "y_min": 213.0,
+          "x_max": 302.0,
+          "y_max": 223.0
+        },
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "KDoN",
+        "bbox": {
+          "x_min": 237.0,
+          "y_min": 222.0,
+          "x_max": 300.0,
+          "y_max": 229.0
+        },
+        "page": 1,
+        "confidence": 0.518
+      },
+      {
+        "text": "67",
+        "bbox": {
+          "x_min": 378.0,
+          "y_min": 218.0,
+          "x_max": 389.0,
+          "y_max": 225.0
+        },
+        "page": 1,
+        "confidence": 0.471
+      },
+      {
+        "text": "R6",
+        "bbox": {
+          "x_min": 383.0,
+          "y_min": 219.0,
+          "x_max": 453.0,
+          "y_max": 240.0
+        },
+        "page": 1,
+        "confidence": 0.613
+      },
+      {
+        "text": "NO",
+        "bbox": {
+          "x_min": 451.0,
+          "y_min": 218.0,
+          "x_max": 470.0,
+          "y_max": 235.0
+        },
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "7MD72",
+        "bbox": {
+          "x_min": 234.0,
+          "y_min": 229.0,
+          "x_max": 301.0,
+          "y_max": 240.0
+        },
+        "page": 1,
+        "confidence": 0.741
+      },
+      {
+        "text": "0L3550",
+        "bbox": {
+          "x_min": 378.0,
+          "y_min": 234.0,
+          "x_max": 425.0,
+          "y_max": 241.0
+        },
+        "page": 1,
+        "confidence": 0.319
+      },
+      {
+        "text": "11.Dng Hsory",
+        "bbox": {
+          "x_min": 232.0,
+          "y_min": 245.0,
+          "x_max": 284.0,
+          "y_max": 256.0
+        },
+        "page": 1,
+        "confidence": 0.756
+      },
+      {
+        "text": "Chiet-Complaints",
+        "bbox": {
+          "x_min": 156.0,
+          "y_min": 263.0,
+          "x_max": 234.0,
+          "y_max": 278.0
+        },
+        "page": 1,
+        "confidence": 0.905
+      },
+      {
+        "text": "Veene",
+        "bbox": {
+          "x_min": 262.0,
+          "y_min": 259.0,
+          "x_max": 300.0,
+          "y_max": 279.0
+        },
+        "page": 1,
+        "confidence": 0.592
+      },
+      {
+        "text": "ag2",
+        "bbox": {
+          "x_min": 400.0,
+          "y_min": 248.0,
+          "x_max": 450.0,
+          "y_max": 272.0
+        },
+        "page": 1,
+        "confidence": 0.172
+      },
+      {
+        "text": "OL",
+        "bbox": {
+          "x_min": 155.0,
+          "y_min": 307.0,
+          "x_max": 176.0,
+          "y_max": 319.0
+        },
+        "page": 1,
+        "confidence": 0.686
+      },
+      {
+        "text": "IX",
+        "bbox": {
+          "x_min": 281.0,
+          "y_min": 305.0,
+          "x_max": 304.0,
+          "y_max": 321.0
+        },
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "Puse",
+        "bbox": {
+          "x_min": 154.0,
+          "y_min": 318.0,
+          "x_max": 178.0,
+          "y_max": 332.0
+        },
+        "page": 1,
+        "confidence": 0.86
+      },
+      {
+        "text": "Sthb",
+        "bbox": {
+          "x_min": 301.0,
+          "y_min": 313.0,
+          "x_max": 357.0,
+          "y_max": 339.0
+        },
+        "page": 1,
+        "confidence": 0.285
+      },
+      {
+        "text": "NnpMore",
+        "bbox": {
+          "x_min": 360.0,
+          "y_min": 303.0,
+          "x_max": 476.0,
+          "y_max": 330.0
+        },
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "BP",
+        "bbox": {
+          "x_min": 155.0,
+          "y_min": 332.0,
+          "x_max": 170.0,
+          "y_max": 344.0
+        },
+        "page": 1,
+        "confidence": 0.859
+      },
+      {
+        "text": "7",
+        "bbox": {
+          "x_min": 464.0,
+          "y_min": 321.0,
+          "x_max": 525.0,
+          "y_max": 340.0
+        },
+        "page": 1,
+        "confidence": 0.528
+      },
+      {
+        "text": "Teng-",
+        "bbox": {
+          "x_min": 158.0,
+          "y_min": 346.0,
+          "x_max": 182.0,
+          "y_max": 357.0
+        },
+        "page": 1,
+        "confidence": 0.764
+      },
+      {
+        "text": "t0",
+        "bbox": {
+          "x_min": 354.0,
+          "y_min": 331.0,
+          "x_max": 421.0,
+          "y_max": 357.0
+        },
+        "page": 1,
+        "confidence": 0.367
+      },
+      {
+        "text": "Aasemis",
+        "bbox": {
+          "x_min": 156.0,
+          "y_min": 357.0,
+          "x_max": 191.0,
+          "y_max": 369.0
+        },
+        "page": 1,
+        "confidence": 0.673
+      },
+      {
+        "text": "Dehyorator",
+        "bbox": {
+          "x_min": 156.0,
+          "y_min": 369.0,
+          "x_max": 206.0,
+          "y_max": 383.0
+        },
+        "page": 1,
+        "confidence": 0.863
+      },
+      {
+        "text": "Respration-",
+        "bbox": {
+          "x_min": 157.0,
+          "y_min": 383.0,
+          "x_max": 204.0,
+          "y_max": 395.0
+        },
+        "page": 1,
+        "confidence": 0.921
+      },
+      {
+        "text": "to+)",
+        "bbox": {
+          "x_min": 356.0,
+          "y_min": 370.0,
+          "x_max": 423.0,
+          "y_max": 397.0
+        },
+        "page": 1,
+        "confidence": 0.497
+      },
+      {
+        "text": "Others-",
+        "bbox": {
+          "x_min": 158.0,
+          "y_min": 397.0,
+          "x_max": 186.0,
+          "y_max": 408.0
+        },
+        "page": 1,
+        "confidence": 0.912
+      },
+      {
+        "text": "CalcunD",
+        "bbox": {
+          "x_min": 322.0,
+          "y_min": 394.0,
+          "x_max": 451.0,
+          "y_max": 432.0
+        },
+        "page": 1,
+        "confidence": 0.619
+      },
+      {
+        "text": "E0",
+        "bbox": {
+          "x_min": 353.0,
+          "y_min": 424.0,
+          "x_max": 439.0,
+          "y_max": 450.0
+        },
+        "page": 1,
+        "confidence": 0.362
+      },
+      {
+        "text": "FBSRBS.",
+        "bbox": {
+          "x_min": 155.0,
+          "y_min": 495.0,
+          "x_max": 199.0,
+          "y_max": 511.0
+        },
+        "page": 1,
+        "confidence": 0.883
+      },
+      {
+        "text": "ECG",
+        "bbox": {
+          "x_min": 157.0,
+          "y_min": 513.0,
+          "x_max": 178.0,
+          "y_max": 527.0
+        },
+        "page": 1,
+        "confidence": 0.991
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": {
+          "x_min": 156.0,
+          "y_min": 536.0,
+          "x_max": 255.0,
+          "y_max": 557.0
+        },
+        "page": 1,
+        "confidence": 0.966
+      }
+    ],
+    "medications": [
+      {
+        "name": "Government Of The",
+        "matched_term": "Government Of The",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.422
+      },
+      {
+        "name": "Minista",
+        "matched_term": "Minista",
+        "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+        "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.811
+      },
+      {
+        "name": "Bangladesh Hajj Office",
+        "matched_term": "Bangladesh Hajj Office",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.404
+      },
+      {
+        "name": "Makkah Madintah Jeddah",
+        "matched_term": "Makkah Madintah Jeddah",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.406
+      },
+      {
+        "name": "Treatment Card",
+        "matched_term": "Treatment Card",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.432
+      },
+      {
+        "name": "Medical Air",
+        "matched_term": "Medical Air",
+        "drug_id": "f498ed97-bc40-410d-872a-e0fdeab4c569",
+        "brand_id": "8e3694b5-9a0b-483b-bc93-e01afc35f844",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.728
+      },
+      {
+        "name": "Pase",
+        "matched_term": "Pase",
+        "drug_id": "5de9dc9e-9eff-4c91-97dc-a6f29bd47c89",
+        "brand_id": "534c831e-2949-49de-87be-6194234d2269",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.585
+      },
+      {
+        "name": "Akhrunorsd",
+        "matched_term": "Akhrunorsd",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.269
+      },
+      {
+        "name": "Thapchagay Name",
+        "matched_term": "Thapchagay Name",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.281
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.775
+      },
+      {
+        "name": "Pre-V",
+        "matched_term": "Pre-V",
+        "drug_id": "81870563-c397-44a9-a2b9-efd4bca36617",
+        "brand_id": "60932fe0-d3aa-4402-a373-b11ffdc24f7d",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.586
+      },
+      {
+        "name": "Bccdgop Hos No",
+        "matched_term": "Bccdgop Hos No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.26
+      },
+      {
+        "name": "Kdon Md",
+        "matched_term": "Kdon Md",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.237
+      },
+      {
+        "name": "Dng Hsory Ag",
+        "matched_term": "Dng Hsory Ag",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.209
+      },
+      {
+        "name": "Veene",
+        "matched_term": "Veene",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.266
+      },
+      {
+        "name": "Chiet-Complaints",
+        "matched_term": "Chiet-Complaints",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.407
+      },
+      {
+        "name": "Nnpmore Imanix",
+        "matched_term": "Nnpmore Imanix",
+        "drug_id": "98d774c9-0b71-4b5c-b1a4-6791fce77dea",
+        "brand_id": "ccf064e2-30b8-4ef0-97f0-df080c88ea47",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.275
+      },
+      {
+        "name": "Sthb",
+        "matched_term": "Sthb",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.128
+      },
+      {
+        "name": "Puse Bp-Z",
+        "matched_term": "Puse Bp-Z",
+        "drug_id": "01034f29-48ab-41a5-ab2d-8e85dea95f0a",
+        "brand_id": "01b744bd-5cd7-41af-845e-0a63622c7b7b",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.294
+      },
+      {
+        "name": "Teng",
+        "matched_term": "Teng",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.344
+      },
+      {
+        "name": "Aasemis",
+        "matched_term": "Aasemis",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.303
+      },
+      {
+        "name": "Dehyorator To",
+        "matched_term": "Dehyorator To",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.306
+      },
+      {
+        "name": "Respration",
+        "matched_term": "Respration",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.414
+      },
+      {
+        "name": "Calcund",
+        "matched_term": "Calcund",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.279
+      },
+      {
+        "name": "Othera",
+        "matched_term": "Othera",
+        "drug_id": "25a9f52e-b192-462a-b9a3-bef96e0f684d",
+        "brand_id": "43ed2ac7-38ef-4fe3-a605-a6fb9b07264e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.667
+      },
+      {
+        "name": "Fbsrbs",
+        "matched_term": "Fbsrbs",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.397
+      },
+      {
+        "name": "Ecg",
+        "matched_term": "Ecg",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.446
+      },
+      {
+        "name": "Provisional Diagonosis",
+        "matched_term": "Provisional Diagonosis",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.435
+      }
+    ]
+  }
+}

@@ -1,0 +1,236 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "6317838e3506046fbfc2117c066d0f9a5c65c1e1633ad795d78ad17b0f8b4727",
+  "record_id": "RX-0009",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 17958.361400000285,
+  "failure": null,
+  "response_sha256": "2c4c3f35a41e80ff94d08a78854be0bbc6d794f710ae7e85255ca261bb1b233b",
+  "response": {
+    "raw_text": "राशन\nरविश\nस्वादभंवर नाथ\nM OP D (FEMALE)\nS. No ......\n74\nRoom No.\n0.4\nTime.\n24.10.17\n...\nDate\nC-73\nLe 19/4/12\nP. Hypothyroidism\nVertigo\nC/C-7\n4\n1. Tab\nCinaro 15mg.\n1+0+1- 20192.\n2\nCap\nHotel\n0+1+0\nKoeling\nDR. KANIZ FATIMA\nFCPS Part II T.Face\nDermatalogy & Venereology\nCMM Dhaka\n24.10-17\nIssued15 days fuld\nm 13 - 05.12.17\n1\nSIM\n16145648 419211",
+    "lines": [
+      {
+        "text": "राशन",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "रविश",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "स्वादभंवर नाथ",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "M OP D (FEMALE)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "S. No ......",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "74",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "Room No.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "0.4",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "Time.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "24.10.17",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "...",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "Date",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "C-73",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "Le 19/4/12",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "P. Hypothyroidism",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "Vertigo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "C/C-7",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "4",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "1. Tab",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "Cinaro 15mg.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "1+0+1- 20192.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "Cap",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "Hotel",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "0+1+0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "Koeling",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "DR. KANIZ FATIMA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "FCPS Part II T.Face",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "Dermatalogy & Venereology",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "CMM Dhaka",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "24.10-17",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "Issued15 days fuld",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "m 13 - 05.12.17",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "SIM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "16145648 419211",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.672
+      }
+    ]
+  }
+}

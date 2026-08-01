@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0020",
+  "source_sha256": "6e71488dc77c4d13580e11d1516ca3008a39d56cc1f2adcdbf4c5351df507208",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:25:29.876259+00:00",
+  "runtime_ms": 4376.808400003938,
+  "output": {
+    "medications": [
+      {
+        "name": "Magnagole",
+        "matched_term": "Magnagole",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "20mg",
+        "frequency": "2+1+9",
+        "quantity": null,
+        "confidence": 0.377
+      },
+      {
+        "name": "Reflexen",
+        "matched_term": "Reflexen",
+        "drug_id": "16770e99-f769-4db7-b7e2-c6f21b004e7d",
+        "brand_id": "8dbcf074-1ec4-43cf-bb87-0cc756b0e87b",
+        "dosage": "10mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.708
+      },
+      {
+        "name": "Undertor Satuml",
+        "matched_term": "Undertor Satuml",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.277
+      }
+    ],
+    "raw_text": "Rx\nCap. o magnagole (20mg)\n2+++1- 9Rx-\n· Tab. Reflex (10mg)\nIs\n( undertor SATuml )",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 4333,
+      "detected_regions": 1,
+      "ocr_line_count": 6,
+      "yolo_avg_confidence": 0.8884,
+      "yolo_min_confidence": 0.8884,
+      "yolo_max_confidence": 0.8884,
+      "ocr_avg_confidence": 0.615,
+      "ocr_min_confidence": 0.615,
+      "ocr_max_confidence": 0.615,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 229.90029907226562,
+            "y_min": 213.5978240966797,
+            "x_max": 552.3364868164062,
+            "y_max": 394.18536376953125
+          },
+          "score": 0.8884
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Rx",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.615
+        },
+        {
+          "text": "Cap. o magnagole (20mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.615
+        },
+        {
+          "text": "2+++1- 9Rx-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.615
+        },
+        {
+          "text": "· Tab. Reflex (10mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.615
+        },
+        {
+          "text": "Is",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.615
+        },
+        {
+          "text": "( undertor SATuml )",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.615
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

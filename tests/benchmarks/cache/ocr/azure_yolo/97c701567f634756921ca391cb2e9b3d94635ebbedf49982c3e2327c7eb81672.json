@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "97c701567f634756921ca391cb2e9b3d94635ebbedf49982c3e2327c7eb81672",
+  "record_id": "RX-0058",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 6825.240000005579,
+  "failure": null,
+  "response_sha256": "95a5bf84d7c960e3e0932ae93373cb5f53016757452933cbaef59c7a254275d0",
+  "response": {
+    "raw_text": "8 fixe\n(10\nCount (vien\nVasline\n24.524",
+    "lines": [
+      {
+        "text": "8 fixe",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.403
+      },
+      {
+        "text": "(10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.403
+      },
+      {
+        "text": "Count (vien",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.403
+      },
+      {
+        "text": "Vasline",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.403
+      },
+      {
+        "text": "24.524",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.403
+      }
+    ]
+  }
+}

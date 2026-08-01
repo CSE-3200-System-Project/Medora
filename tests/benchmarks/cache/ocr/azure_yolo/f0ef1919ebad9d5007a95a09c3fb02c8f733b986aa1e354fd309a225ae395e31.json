@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "f0ef1919ebad9d5007a95a09c3fb02c8f733b986aa1e354fd309a225ae395e31",
+  "record_id": "RX-0105",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 9175.046500007738,
+  "failure": null,
+  "response_sha256": "31668e22177315a54af12f2e875dd508ade8d9b2a58065d5c10f12cebd4fecb4",
+  "response": {
+    "raw_text": "Date\nRx\n- Db. Naproxen (500mg)-20\nร้องกิจ)\n- Cap. fratid (como)-",
+    "lines": [
+      {
+        "text": "Date",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.548
+      },
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.548
+      },
+      {
+        "text": "- Db. Naproxen (500mg)-20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.548
+      },
+      {
+        "text": "ร้องกิจ)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.548
+      },
+      {
+        "text": "- Cap. fratid (como)-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.548
+      }
+    ]
+  }
+}

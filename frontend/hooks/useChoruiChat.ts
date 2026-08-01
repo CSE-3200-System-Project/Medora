@@ -49,13 +49,6 @@ function getCookieValue(name: string): string | null {
   return match ? decodeURIComponent(match[2]) : null;
 }
 
-function clampSeverity(value: number): number {
-  if (Number.isNaN(value)) {
-    return 0;
-  }
-  return Math.max(0, Math.min(10, Math.round(value)));
-}
-
 function mergeStructuredData(
   previous: ChoruiStructuredData,
   incoming?: Partial<ChoruiStructuredData>
@@ -72,10 +65,6 @@ function mergeStructuredData(
       ? incoming.conditions.filter(Boolean).map((item) => item.trim())
       : previous.conditions,
     duration: typeof incoming.duration === "string" ? incoming.duration.trim() : previous.duration,
-    severity:
-      typeof incoming.severity === "number"
-        ? clampSeverity(incoming.severity)
-        : previous.severity,
   };
 }
 
@@ -655,7 +644,6 @@ export function useChoruiChat({ roleContext, defaultPatientId }: UseChoruiChatOp
       symptoms: next.symptoms,
       conditions: next.conditions,
       duration: next.duration,
-      severity: clampSeverity(next.severity),
     });
   }, []);
 

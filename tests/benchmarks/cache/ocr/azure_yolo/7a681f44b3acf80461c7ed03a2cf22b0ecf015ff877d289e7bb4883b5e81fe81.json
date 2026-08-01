@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "7a681f44b3acf80461c7ed03a2cf22b0ecf015ff877d289e7bb4883b5e81fe81",
+  "record_id": "RX-0039",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 20469.913100008853,
+  "failure": null,
+  "response_sha256": "d2cf0110af1e3b562b525aa9f430cd1d7e395830254b34aee582f66673e99212",
+  "response": {
+    "raw_text": "Rx\n(500 mg)\n, Mis. Treidonil\n0+0+2\n(200mg)\n. Mas. Doxcomma\n20072\n* Gives. Anokant (10mg)\n. Sup. Ambosist.\nC\n2 × Gar\n• สช. Pertant (Inemto)\n0,075\n, Flunaspray Nasal Spray.\n2. กด * 2 สฤษ- 2 บาท",
+    "lines": [
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.382
+      },
+      {
+        "text": "(500 mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.382
+      },
+      {
+        "text": ", Mis. Treidonil",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.382
+      },
+      {
+        "text": "0+0+2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.382
+      },
+      {
+        "text": "(200mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.382
+      },
+      {
+        "text": ". Mas. Doxcomma",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.382
+      },
+      {
+        "text": "20072",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.382
+      },
+      {
+        "text": "* Gives. Anokant (10mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.382
+      },
+      {
+        "text": ". Sup. Ambosist.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.382
+      },
+      {
+        "text": "C",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.382
+      },
+      {
+        "text": "2 × Gar",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.382
+      },
+      {
+        "text": "• สช. Pertant (Inemto)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.382
+      },
+      {
+        "text": "0,075",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.382
+      },
+      {
+        "text": ", Flunaspray Nasal Spray.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.382
+      },
+      {
+        "text": "2. กด * 2 สฤษ- 2 บาท",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.382
+      }
+    ]
+  }
+}

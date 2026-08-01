@@ -1,0 +1,1764 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0001",
+  "source_sha256": "a6236531d8bca5c01575b2ea2cb315c10a0e3d436c55c2b185ba0c4b37e3900a",
+  "raw_transcription": "· Nection Nasal Spray- EnTo\n-\ninor\nTab. cildip (5mg) 0+0+1-6-70\nTab. Maxineb (2.5mg) {+0+0-EnTe\n· Tab. Flexibac (5mg) {+0+2-5-]\n\" Tab. Sindola (2.5mg) 1/2+0+1/2 251:53- 5mTO\n\"Cap. sergel (20mg)\n\" Tab. Folison (5mg)\n1+0+020: 00-23735\n*\"Inj. Aristo D3 DE Octua large umar ate,\n0\nW\" Tab. Bone Guard (150mg) (+0+0 20;, andruner-of mine, wo of\nM. Inde-A Suppository (100mg) 0+0+1-Inin. com zopa composantes\n1\nAdv:\nVCBCE ESRe Hb% WS. creatinine WSGPT\n17.08.25\nw s. uric acid. Arthur 22. 3057 : (2)2020]\nit's.",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "F-Son Nasal Spray",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Inor",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Cildip",
+      "strength": "5mg",
+      "dose": "",
+      "frequency": "0+0+1+6",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Maxineb",
+      "strength": "2.5mg",
+      "dose": "",
+      "frequency": "2+5+0+0",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Flexibac",
+      "strength": "5mg",
+      "dose": "",
+      "frequency": "0+2+5",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Sindola Mto",
+      "strength": "2.5mg",
+      "dose": "",
+      "frequency": "2+0+1",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Sergel",
+      "strength": "20mg",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Folison",
+      "strength": "5mg",
+      "dose": "",
+      "frequency": "1+0+0",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Aristo D3",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Bone Guard",
+      "strength": "150mg",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Indo-A",
+      "strength": "100mg",
+      "dose": "",
+      "frequency": "0+0+1",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Adv",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Vcbce Esre Hb",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Uricid",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "c0d2651d25e40b3464ca80bbc9f92e386fa0b925399cf71debdedcce8dad659f"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "abe3f05aa9339746bb7b4113984b1752afac7799010b301f9c4f04e645a271ad"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "1597bfb0825ad21c40907482bbe4cb60e1788ff8126bda22251fc39e52eb922a"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "e-teeesenstleale\nycoc-B0+0\npooy\n90\n66680-6508\n-\nPaeaees\nceanessuseleyels\n1sUSm\n9-B1+0+\nnommo'sm\nr9-0+0+\ng-3+0+3\n40b\nr9-140+0\nRegy\n-\npoodunsn\npbs\n-\n-\n028\nB\noo\n8\nan\n-\n.\nRt\n0\n0\nA\nwndmiepadym\n0\nNHmgpoy\ne\nponeedhe\n30\nSAA\nMBBS,BCS (Health).CCD (Bardeam)\nFCPS (Medicine) Final Part\nDr.Pran Krishna Shadhu Kha",
+      "lines": [
+        {
+          "text": "e-teeesenstleale",
+          "bbox": {
+            "x_min": 2217.0,
+            "y_min": 255.0,
+            "x_max": 2300.0,
+            "y_max": 1011.0
+          },
+          "page": 1,
+          "confidence": 0.527
+        },
+        {
+          "text": "ycoc-B0+0",
+          "bbox": {
+            "x_min": 2122.0,
+            "y_min": 341.0,
+            "x_max": 2193.0,
+            "y_max": 1321.0
+          },
+          "page": 1,
+          "confidence": 0.508
+        },
+        {
+          "text": "pooy",
+          "bbox": {
+            "x_min": 2594.0,
+            "y_min": 402.0,
+            "x_max": 2661.0,
+            "y_max": 551.0
+          },
+          "page": 1,
+          "confidence": 0.354
+        },
+        {
+          "text": "90",
+          "bbox": {
+            "x_min": 2665.0,
+            "y_min": 406.0,
+            "x_max": 2728.0,
+            "y_max": 551.0
+          },
+          "page": 1,
+          "confidence": 0.918
+        },
+        {
+          "text": "66680-6508",
+          "bbox": {
+            "x_min": 3651.0,
+            "y_min": 412.0,
+            "x_max": 3731.0,
+            "y_max": 874.0
+          },
+          "page": 1,
+          "confidence": 0.593
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 2624.0,
+            "y_min": 429.0,
+            "x_max": 2629.0,
+            "y_max": 436.0
+          },
+          "page": 1,
+          "confidence": 0.687
+        },
+        {
+          "text": "Paeaees",
+          "bbox": {
+            "x_min": 855.0,
+            "y_min": 580.0,
+            "x_max": 923.0,
+            "y_max": 922.0
+          },
+          "page": 1,
+          "confidence": 0.571
+        },
+        {
+          "text": "ceanessuseleyels",
+          "bbox": {
+            "x_min": 2740.0,
+            "y_min": 573.0,
+            "x_max": 2820.0,
+            "y_max": 1384.0
+          },
+          "page": 1,
+          "confidence": 0.489
+        },
+        {
+          "text": "1sUSm",
+          "bbox": {
+            "x_min": 2630.0,
+            "y_min": 624.0,
+            "x_max": 2698.0,
+            "y_max": 826.0
+          },
+          "page": 1,
+          "confidence": 0.182
+        },
+        {
+          "text": "9-B1+0+",
+          "bbox": {
+            "x_min": 1685.0,
+            "y_min": 719.0,
+            "x_max": 1785.0,
+            "y_max": 1423.0
+          },
+          "page": 1,
+          "confidence": 0.624
+        },
+        {
+          "text": "nommo'sm",
+          "bbox": {
+            "x_min": 2626.0,
+            "y_min": 798.0,
+            "x_max": 2704.0,
+            "y_max": 1298.0
+          },
+          "page": 1,
+          "confidence": 0.622
+        },
+        {
+          "text": "r9-0+0+",
+          "bbox": {
+            "x_min": 1349.0,
+            "y_min": 1061.0,
+            "x_max": 1440.0,
+            "y_max": 1414.0
+          },
+          "page": 1,
+          "confidence": 0.703
+        },
+        {
+          "text": "g-3+0+3",
+          "bbox": {
+            "x_min": 1450.0,
+            "y_min": 1052.0,
+            "x_max": 1558.0,
+            "y_max": 1449.0
+          },
+          "page": 1,
+          "confidence": 0.677
+        },
+        {
+          "text": "40b",
+          "bbox": {
+            "x_min": 804.0,
+            "y_min": 1119.0,
+            "x_max": 904.0,
+            "y_max": 1399.0
+          },
+          "page": 1,
+          "confidence": 0.342
+        },
+        {
+          "text": "r9-140+0",
+          "bbox": {
+            "x_min": 1230.0,
+            "y_min": 1203.0,
+            "x_max": 1318.0,
+            "y_max": 1557.0
+          },
+          "page": 1,
+          "confidence": 0.674
+        },
+        {
+          "text": "Regy",
+          "bbox": {
+            "x_min": 897.0,
+            "y_min": 1227.0,
+            "x_max": 977.0,
+            "y_max": 1399.0
+          },
+          "page": 1,
+          "confidence": 0.555
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 2351.0,
+            "y_min": 1369.0,
+            "x_max": 2358.0,
+            "y_max": 1390.0
+          },
+          "page": 1,
+          "confidence": 0.596
+        },
+        {
+          "text": "poodunsn",
+          "bbox": {
+            "x_min": 2733.0,
+            "y_min": 1382.0,
+            "x_max": 2805.0,
+            "y_max": 1898.0
+          },
+          "page": 1,
+          "confidence": 0.503
+        },
+        {
+          "text": "pbs",
+          "bbox": {
+            "x_min": 1636.0,
+            "y_min": 1401.0,
+            "x_max": 1776.0,
+            "y_max": 2035.0
+          },
+          "page": 1,
+          "confidence": 0.492
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 2340.0,
+            "y_min": 1395.0,
+            "x_max": 2345.0,
+            "y_max": 1401.0
+          },
+          "page": 1,
+          "confidence": 0.747
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 2344.0,
+            "y_min": 1395.0,
+            "x_max": 2349.0,
+            "y_max": 1401.0
+          },
+          "page": 1,
+          "confidence": 0.538
+        },
+        {
+          "text": "028",
+          "bbox": {
+            "x_min": 3745.0,
+            "y_min": 1446.0,
+            "x_max": 3847.0,
+            "y_max": 2196.0
+          },
+          "page": 1,
+          "confidence": 0.609
+        },
+        {
+          "text": "B",
+          "bbox": {
+            "x_min": 1166.0,
+            "y_min": 1522.0,
+            "x_max": 1317.0,
+            "y_max": 2078.0
+          },
+          "page": 1,
+          "confidence": 0.519
+        },
+        {
+          "text": "oo",
+          "bbox": {
+            "x_min": 1760.0,
+            "y_min": 1617.0,
+            "x_max": 1864.0,
+            "y_max": 2076.0
+          },
+          "page": 1,
+          "confidence": 0.252
+        },
+        {
+          "text": "8",
+          "bbox": {
+            "x_min": 3706.0,
+            "y_min": 1792.0,
+            "x_max": 3782.0,
+            "y_max": 2186.0
+          },
+          "page": 1,
+          "confidence": 0.874
+        },
+        {
+          "text": "an",
+          "bbox": {
+            "x_min": 2564.0,
+            "y_min": 1941.0,
+            "x_max": 2646.0,
+            "y_max": 2091.0
+          },
+          "page": 1,
+          "confidence": 0.22
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 1444.0,
+            "y_min": 1982.0,
+            "x_max": 1450.0,
+            "y_max": 1991.0
+          },
+          "page": 1,
+          "confidence": 0.348
+        },
+        {
+          "text": ".",
+          "bbox": {
+            "x_min": 1674.0,
+            "y_min": 1985.0,
+            "x_max": 1684.0,
+            "y_max": 1995.0
+          },
+          "page": 1,
+          "confidence": 0.131
+        },
+        {
+          "text": "Rt",
+          "bbox": {
+            "x_min": 980.0,
+            "y_min": 1998.0,
+            "x_max": 1083.0,
+            "y_max": 2084.0
+          },
+          "page": 1,
+          "confidence": 0.193
+        },
+        {
+          "text": "0",
+          "bbox": {
+            "x_min": 1544.0,
+            "y_min": 2005.0,
+            "x_max": 1569.0,
+            "y_max": 2039.0
+          },
+          "page": 1,
+          "confidence": 0.562
+        },
+        {
+          "text": "0",
+          "bbox": {
+            "x_min": 1677.0,
+            "y_min": 2039.0,
+            "x_max": 1690.0,
+            "y_max": 2057.0
+          },
+          "page": 1,
+          "confidence": 0.075
+        },
+        {
+          "text": "A",
+          "bbox": {
+            "x_min": 2097.0,
+            "y_min": 2052.0,
+            "x_max": 2117.0,
+            "y_max": 2082.0
+          },
+          "page": 1,
+          "confidence": 0.13
+        },
+        {
+          "text": "wndmiepadym",
+          "bbox": {
+            "x_min": 1258.0,
+            "y_min": 2161.0,
+            "x_max": 1430.0,
+            "y_max": 2816.0
+          },
+          "page": 1,
+          "confidence": 0.415
+        },
+        {
+          "text": "0",
+          "bbox": {
+            "x_min": 3763.0,
+            "y_min": 2310.0,
+            "x_max": 3874.0,
+            "y_max": 2988.0
+          },
+          "page": 1,
+          "confidence": 0.193
+        },
+        {
+          "text": "NHmgpoy",
+          "bbox": {
+            "x_min": 3666.0,
+            "y_min": 2322.0,
+            "x_max": 3757.0,
+            "y_max": 2951.0
+          },
+          "page": 1,
+          "confidence": 0.345
+        },
+        {
+          "text": "e",
+          "bbox": {
+            "x_min": 918.0,
+            "y_min": 2488.0,
+            "x_max": 1013.0,
+            "y_max": 2605.0
+          },
+          "page": 1,
+          "confidence": 0.369
+        },
+        {
+          "text": "poneedhe",
+          "bbox": {
+            "x_min": 1389.0,
+            "y_min": 2516.0,
+            "x_max": 1475.0,
+            "y_max": 2751.0
+          },
+          "page": 1,
+          "confidence": 0.699
+        },
+        {
+          "text": "30",
+          "bbox": {
+            "x_min": 1638.0,
+            "y_min": 2530.0,
+            "x_max": 1726.0,
+            "y_max": 2668.0
+          },
+          "page": 1,
+          "confidence": 0.929
+        },
+        {
+          "text": "SAA",
+          "bbox": {
+            "x_min": 1032.0,
+            "y_min": 2642.0,
+            "x_max": 1104.0,
+            "y_max": 2768.0
+          },
+          "page": 1,
+          "confidence": 0.603
+        },
+        {
+          "text": "MBBS,BCS (Health).CCD (Bardeam)",
+          "bbox": {
+            "x_min": 388.0,
+            "y_min": 1988.0,
+            "x_max": 512.0,
+            "y_max": 2684.0
+          },
+          "page": 1,
+          "confidence": 0.917
+        },
+        {
+          "text": "FCPS (Medicine) Final Part",
+          "bbox": {
+            "x_min": 441.0,
+            "y_min": 2167.0,
+            "x_max": 539.0,
+            "y_max": 2687.0
+          },
+          "page": 1,
+          "confidence": 0.958
+        },
+        {
+          "text": "Dr.Pran Krishna Shadhu Kha",
+          "bbox": {
+            "x_min": 301.0,
+            "y_min": 1731.0,
+            "x_max": 492.0,
+            "y_max": 2701.0
+          },
+          "page": 1,
+          "confidence": 0.956
+        }
+      ],
+      "medications": [
+        {
+          "name": "E-Teeesenstleale",
+          "matched_term": "E-Teeesenstleale",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.237
+        },
+        {
+          "name": "Ycoc-B",
+          "matched_term": "Ycoc-B",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.229
+        },
+        {
+          "name": "Pooy",
+          "matched_term": "Pooy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.287
+        },
+        {
+          "name": "Ceanessuseleyels",
+          "matched_term": "Ceanessuseleyels",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.22
+        },
+        {
+          "name": "Paeaees Susm",
+          "matched_term": "Paeaees Susm",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": "9+1+0",
+          "quantity": null,
+          "confidence": 0.256
+        },
+        {
+          "name": "Nommo Sm",
+          "matched_term": "Nommo Sm",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": "3+0+3",
+          "quantity": null,
+          "confidence": 0.321
+        },
+        {
+          "name": "Regy",
+          "matched_term": "Regy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.259
+        },
+        {
+          "name": "Poodunsn",
+          "matched_term": "Poodunsn",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.268
+        },
+        {
+          "name": "Nextoo",
+          "matched_term": "Nextoo",
+          "drug_id": "b0337a75-c2fe-4158-9230-6d6145964292",
+          "brand_id": "a48dab65-96c7-4d6d-896b-a6e966603b37",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.451
+        },
+        {
+          "name": "Dr Pran Krishna An",
+          "matched_term": "Dr Pran Krishna An",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.228
+        },
+        {
+          "name": "Mbbs Bcs Health Rt",
+          "matched_term": "Mbbs Bcs Health Rt",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.169
+        },
+        {
+          "name": "Wndmiepadym",
+          "matched_term": "Wndmiepadym",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.187
+        },
+        {
+          "name": "Fcps Medicine Final",
+          "matched_term": "Fcps Medicine Final",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.259
+        },
+        {
+          "name": "Nhmgpoy",
+          "matched_term": "Nhmgpoy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.161
+        },
+        {
+          "name": "Poneedhe",
+          "matched_term": "Poneedhe",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.366
+        },
+        {
+          "name": "Saad",
+          "matched_term": "Saad",
+          "drug_id": "0bccf673-da1a-420f-8bd6-1be5829382ad",
+          "brand_id": "dcaa809a-7977-448e-8d7d-0447e7439961",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.651
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "Dr. Pran Krishna Shadhu Kha\nMBBS, BCS (Health), CCD (Bardeam)\nFCPS (Medicine) Final Part\nSpecialized Training in Neurology & Rheumatology\nRegistrar (RMO incharge) Chest Disease Hospital, Khulna.\nEx. Assistant Registrar (Cardiology Unit)\nShahid Sk. Abu Naser Specialized Hospital, Khulna\nजगनिविजाम, विनियम (वाड्या), मिमिफि (बावाउम)\nपयामिनियम (एपिडिजिन) लम न्द\nल्नानारेखा अनिर बन निकटजानखि 40 विकेमार्जिनखि\nस्वजिम्यान (छातवाढ वातजम) वकवाशि रामनाछान, चूमना।\nथाऊन मडकानी (विज्ञान (कार्डिएनजी हैंडनिए)\nनशेम लय आलू नाटमत विद्याग्रिक राजभाषान\nName: Mrs. Zahanara\nAge: 63 yrs\nDate: 17.08.25\nAddress: Khalishpur, Khulna\nRef. By:\nC/C\nR\nNection Nasal spray- E-\n· SPA\n6 Tab. cildip (5mg) +0+1-6ml\n(improved\n(+) ve F/H of Arthritis.\nThallaraemia B. Miner\nMultiple joint pain\nTab. maxineb (25mg)\n2+0+0-EnTO\n\" Tab. Flexibac (5mg) {+0+12-5m]\n\" Tab. Sindola (2.5mg) 1/2+0+12 2:23-5ml\nO/E:\n\" Cap. sergel (20mg)\nBP-140/80 mm Hg\n\"Tab. Folison (5mg)\n*\"Inj. Aristo D3 DE 25 Tha Laza uner . fr.\n1+0+02: 00-2335\n1+o+1 20: 2 222 2md-5.70\nPulse- 68/min\nW\" Tab. Bone Guard (150mg)\nII. Indo-A Suppository (100mg)\n1\n17.08.8\nAdv:\n0\nVCBCE ESRe Hb% VS. creatinine VSGPT\n* s. uric acid.\nThalassaemia E HTN\né SPA é Osteoporosis.\nबागी जवान जयद्र : थकि यदि 3 मगलवान\nविकाल 8:00 णे (शिटक बाब b:oo जे पर्यंत\nजिबियान: ०१४५-७४१११४",
+      "lines": [
+        {
+          "text": "Dr. Pran Krishna Shadhu Kha",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "MBBS, BCS (Health), CCD (Bardeam)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "FCPS (Medicine) Final Part",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "Specialized Training in Neurology & Rheumatology",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "Registrar (RMO incharge) Chest Disease Hospital, Khulna.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "Ex. Assistant Registrar (Cardiology Unit)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "Shahid Sk. Abu Naser Specialized Hospital, Khulna",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "जगनिविजाम, विनियम (वाड्या), मिमिफि (बावाउम)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "पयामिनियम (एपिडिजिन) लम न्द",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "ल्नानारेखा अनिर बन निकटजानखि 40 विकेमार्जिनखि",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "स्वजिम्यान (छातवाढ वातजम) वकवाशि रामनाछान, चूमना।",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "थाऊन मडकानी (विज्ञान (कार्डिएनजी हैंडनिए)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "नशेम लय आलू नाटमत विद्याग्रिक राजभाषान",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "Name: Mrs. Zahanara",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "Age: 63 yrs",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "Date: 17.08.25",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "Address: Khalishpur, Khulna",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "Ref. By:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "C/C",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "R",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "Nection Nasal spray- E-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "· SPA",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "6 Tab. cildip (5mg) +0+1-6ml",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "(improved",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "(+) ve F/H of Arthritis.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "Thallaraemia B. Miner",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "Multiple joint pain",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "Tab. maxineb (25mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "2+0+0-EnTO",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "\" Tab. Flexibac (5mg) {+0+12-5m]",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "\" Tab. Sindola (2.5mg) 1/2+0+12 2:23-5ml",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "O/E:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "\" Cap. sergel (20mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "BP-140/80 mm Hg",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "\"Tab. Folison (5mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "*\"Inj. Aristo D3 DE 25 Tha Laza uner . fr.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "1+0+02: 00-2335",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "1+o+1 20: 2 222 2md-5.70",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "Pulse- 68/min",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "W\" Tab. Bone Guard (150mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "II. Indo-A Suppository (100mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "17.08.8",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "Adv:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "0",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "VCBCE ESRe Hb% VS. creatinine VSGPT",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "* s. uric acid.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "Thalassaemia E HTN",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "é SPA é Osteoporosis.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "बागी जवान जयद्र : थकि यदि 3 मगलवान",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "विकाल 8:00 णे (शिटक बाब b:oo जे पर्यंत",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "जिबियान: ०१४५-७४१११४",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.629
+        }
+      ],
+      "medications": [
+        {
+          "name": "Dr Pran Krishna",
+          "matched_term": "Dr Pran Krishna",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.283
+        },
+        {
+          "name": "Mbbs Bcs Health",
+          "matched_term": "Mbbs Bcs Health",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.283
+        },
+        {
+          "name": "Fcps Medicine Final",
+          "matched_term": "Fcps Medicine Final",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.283
+        },
+        {
+          "name": "Specialized Training In",
+          "matched_term": "Specialized Training In",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.283
+        },
+        {
+          "name": "Registrar Rmo Incharge",
+          "matched_term": "Registrar Rmo Incharge",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.283
+        },
+        {
+          "name": "Ex-V",
+          "matched_term": "Ex-V",
+          "drug_id": "add33a29-693f-453c-8a9b-3e68372a8898",
+          "brand_id": "a910d664-68b0-4009-adb0-f68bd8f20e66",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.663
+        },
+        {
+          "name": "Shahid Sk Abu",
+          "matched_term": "Shahid Sk Abu",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.283
+        },
+        {
+          "name": "Name Mrs Zahanara",
+          "matched_term": "Name Mrs Zahanara",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.283
+        },
+        {
+          "name": "Age M",
+          "matched_term": "Age M",
+          "drug_id": "32593a88-50e8-4254-9d22-7d1a52c84504",
+          "brand_id": "86fe087a-92e9-4a39-8921-ab758e162e76",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.663
+        },
+        {
+          "name": "Date",
+          "matched_term": "Date",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.283
+        },
+        {
+          "name": "Address Khalishpur Khulna",
+          "matched_term": "Address Khalishpur Khulna",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.283
+        },
+        {
+          "name": "Ref By",
+          "matched_term": "Ref By",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.283
+        },
+        {
+          "name": "F-Son Nasal Spray",
+          "matched_term": "F-Son Nasal Spray",
+          "drug_id": "aa969304-04d6-4b4b-a9c1-cf6fab89d97b",
+          "brand_id": "b2a920b7-fde3-4938-a500-05fd3b1203fd",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.663
+        },
+        {
+          "name": "No Spa",
+          "matched_term": "No Spa",
+          "drug_id": "e8cee49b-d226-4252-9437-3fba4b2ef5ed",
+          "brand_id": "eac12a36-3cdb-4bb0-93b4-5bffaeab4de0",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.663
+        },
+        {
+          "name": "Cildip",
+          "matched_term": "Cildip",
+          "drug_id": "071aa341-8b90-45e4-a884-48ec05010243",
+          "brand_id": "18a95043-e60c-45fc-81b2-efad96ca5884",
+          "dosage": "5mg",
+          "frequency": "0+1+6",
+          "quantity": null,
+          "confidence": 0.764
+        },
+        {
+          "name": "Improved",
+          "matched_term": "Improved",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.283
+        },
+        {
+          "name": "Ve Of Arthritis",
+          "matched_term": "Ve Of Arthritis",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.283
+        },
+        {
+          "name": "Thallaraemia Miner",
+          "matched_term": "Thallaraemia Miner",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.283
+        },
+        {
+          "name": "Multiplex",
+          "matched_term": "Multiplex",
+          "drug_id": "c3174af3-ac58-490e-ac8a-f85d396db23f",
+          "brand_id": "c5055ed1-d914-4a9d-ba53-813977a78bbb",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.663
+        },
+        {
+          "name": "Maxineb",
+          "matched_term": "Maxineb",
+          "drug_id": "3335359e-5d5e-4901-a1ed-432bf6b9243c",
+          "brand_id": "78e984ef-bf1d-4573-a979-db537c099c60",
+          "dosage": "25mg",
+          "frequency": "2+0+0",
+          "quantity": null,
+          "confidence": 0.764
+        },
+        {
+          "name": "Flexibac",
+          "matched_term": "Flexibac",
+          "drug_id": "06442e9e-5e66-4bbb-9ed3-e1bd30ca2da7",
+          "brand_id": "2ac58244-fb92-4a3b-abc6-a74dcebe2315",
+          "dosage": "5mg",
+          "frequency": "5+0+5",
+          "quantity": null,
+          "confidence": 0.764
+        },
+        {
+          "name": "Sindola",
+          "matched_term": "Sindola",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "2.5mg",
+          "frequency": "2+0+1",
+          "quantity": null,
+          "confidence": 0.384
+        },
+        {
+          "name": "Sergel",
+          "matched_term": "Sergel",
+          "drug_id": "735b7ee8-e4ed-42c5-bef1-0dec551dbc08",
+          "brand_id": "45556317-c1e7-4d2d-9c58-73cd669721e9",
+          "dosage": "20mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.714
+        },
+        {
+          "name": "Folison",
+          "matched_term": "Folison",
+          "drug_id": "4f39b4dc-f7a2-4d8a-b4b9-7e376b953cf9",
+          "brand_id": "e3be5a0e-5acd-47d5-a5c3-f5c79032396e",
+          "dosage": "5mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.714
+        },
+        {
+          "name": "Aristo D3",
+          "matched_term": "Aristo D3",
+          "drug_id": "918f2004-cc83-41b0-bf1d-c7b02ea0839d",
+          "brand_id": "ed7b6887-6951-44e2-9dd9-db68e0e61837",
+          "dosage": null,
+          "frequency": "1+0+0",
+          "quantity": null,
+          "confidence": 0.713
+        },
+        {
+          "name": "Pulse- Min",
+          "matched_term": "Pulse- Min",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.283
+        },
+        {
+          "name": "Bone Guard",
+          "matched_term": "Bone Guard",
+          "drug_id": "c261a197-adb5-44a4-8800-3e8ef9bc10ac",
+          "brand_id": "49f91f86-6616-48af-9d32-34215bd54ba4",
+          "dosage": "150mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.714
+        },
+        {
+          "name": "Indo-A",
+          "matched_term": "Indo-A",
+          "drug_id": "4a5650ca-84d7-454d-99fe-d3940fc52d96",
+          "brand_id": "5f8a4daa-bc0f-4d4d-9297-df1512b1aa7f",
+          "dosage": "100mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.714
+        },
+        {
+          "name": "Adv",
+          "matched_term": "Adv",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.283
+        },
+        {
+          "name": "Vcbce Esre Hb",
+          "matched_term": "Vcbce Esre Hb",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.283
+        },
+        {
+          "name": "Uricid",
+          "matched_term": "Uricid",
+          "drug_id": "3f5a7b45-6e3b-44b7-9c7d-4297491c7543",
+          "brand_id": "085e2d74-3e51-4c32-9eaf-11b31d9f3a35",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.663
+        },
+        {
+          "name": "Thalassaemia Htn",
+          "matched_term": "Thalassaemia Htn",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.283
+        },
+        {
+          "name": "No Spa",
+          "matched_term": "No Spa",
+          "drug_id": "e8cee49b-d226-4252-9437-3fba4b2ef5ed",
+          "brand_id": "eac12a36-3cdb-4bb0-93b4-5bffaeab4de0",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.663
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "F-Son Nasal Spray",
+          "matched_term": "F-Son Nasal Spray",
+          "drug_id": "aa969304-04d6-4b4b-a9c1-cf6fab89d97b",
+          "brand_id": "b2a920b7-fde3-4938-a500-05fd3b1203fd",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.614
+        },
+        {
+          "name": "Inor",
+          "matched_term": "Inor",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.234
+        },
+        {
+          "name": "Cildip",
+          "matched_term": "Cildip",
+          "drug_id": "071aa341-8b90-45e4-a884-48ec05010243",
+          "brand_id": "18a95043-e60c-45fc-81b2-efad96ca5884",
+          "dosage": "5mg",
+          "frequency": "0+0+1+6",
+          "quantity": null,
+          "confidence": 0.715
+        },
+        {
+          "name": "Maxineb",
+          "matched_term": "Maxineb",
+          "drug_id": "3335359e-5d5e-4901-a1ed-432bf6b9243c",
+          "brand_id": "78e984ef-bf1d-4573-a979-db537c099c60",
+          "dosage": "2.5mg",
+          "frequency": "2+5+0+0",
+          "quantity": null,
+          "confidence": 0.715
+        },
+        {
+          "name": "Flexibac",
+          "matched_term": "Flexibac",
+          "drug_id": "06442e9e-5e66-4bbb-9ed3-e1bd30ca2da7",
+          "brand_id": "2ac58244-fb92-4a3b-abc6-a74dcebe2315",
+          "dosage": "5mg",
+          "frequency": "0+2+5",
+          "quantity": null,
+          "confidence": 0.715
+        },
+        {
+          "name": "Sindola Mto",
+          "matched_term": "Sindola Mto",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "2.5mg",
+          "frequency": "2+0+1",
+          "quantity": null,
+          "confidence": 0.335
+        },
+        {
+          "name": "Sergel",
+          "matched_term": "Sergel",
+          "drug_id": "735b7ee8-e4ed-42c5-bef1-0dec551dbc08",
+          "brand_id": "45556317-c1e7-4d2d-9c58-73cd669721e9",
+          "dosage": "20mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.665
+        },
+        {
+          "name": "Folison",
+          "matched_term": "Folison",
+          "drug_id": "4f39b4dc-f7a2-4d8a-b4b9-7e376b953cf9",
+          "brand_id": "e3be5a0e-5acd-47d5-a5c3-f5c79032396e",
+          "dosage": "5mg",
+          "frequency": "1+0+0",
+          "quantity": null,
+          "confidence": 0.715
+        },
+        {
+          "name": "Aristo D3",
+          "matched_term": "Aristo D3",
+          "drug_id": "918f2004-cc83-41b0-bf1d-c7b02ea0839d",
+          "brand_id": "ed7b6887-6951-44e2-9dd9-db68e0e61837",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.614
+        },
+        {
+          "name": "Bone Guard",
+          "matched_term": "Bone Guard",
+          "drug_id": "c261a197-adb5-44a4-8800-3e8ef9bc10ac",
+          "brand_id": "49f91f86-6616-48af-9d32-34215bd54ba4",
+          "dosage": "150mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.665
+        },
+        {
+          "name": "Indo-A",
+          "matched_term": "Indo-A",
+          "drug_id": "4a5650ca-84d7-454d-99fe-d3940fc52d96",
+          "brand_id": "5f8a4daa-bc0f-4d4d-9297-df1512b1aa7f",
+          "dosage": "100mg",
+          "frequency": "0+0+1",
+          "quantity": null,
+          "confidence": 0.715
+        },
+        {
+          "name": "Adv",
+          "matched_term": "Adv",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.234
+        },
+        {
+          "name": "Vcbce Esre Hb",
+          "matched_term": "Vcbce Esre Hb",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.234
+        },
+        {
+          "name": "Uricid",
+          "matched_term": "Uricid",
+          "drug_id": "3f5a7b45-6e3b-44b7-9c7d-4297491c7543",
+          "brand_id": "085e2d74-3e51-4c32-9eaf-11b31d9f3a35",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.614
+        }
+      ],
+      "raw_text": "· Nection Nasal Spray- EnTo\n-\ninor\nTab. cildip (5mg) 0+0+1-6-70\nTab. Maxineb (2.5mg) {+0+0-EnTe\n· Tab. Flexibac (5mg) {+0+2-5-]\n\" Tab. Sindola (2.5mg) 1/2+0+1/2 251:53- 5mTO\n\"Cap. sergel (20mg)\n\" Tab. Folison (5mg)\n1+0+020: 00-23735\n*\"Inj. Aristo D3 DE Octua large umar ate,\n0\nW\" Tab. Bone Guard (150mg) (+0+0 20;, andruner-of mine, wo of\nM. Inde-A Suppository (100mg) 0+0+1-Inin. com zopa composantes\n1\nAdv:\nVCBCE ESRe Hb% WS. creatinine WSGPT\n17.08.25\nw s. uric acid. Arthur 22. 3057 : (2)2020]\nit's.",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 14739,
+        "detected_regions": 1,
+        "ocr_line_count": 20,
+        "yolo_avg_confidence": 0.8427,
+        "yolo_min_confidence": 0.8427,
+        "yolo_max_confidence": 0.8427,
+        "ocr_avg_confidence": 0.52,
+        "ocr_min_confidence": 0.52,
+        "ocr_max_confidence": 0.52,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 794.0394401550293,
+              "y_min": 1007.6103210449219,
+              "x_max": 2754.627227783203,
+              "y_max": 2942.417526245117
+            },
+            "score": 0.8427
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "· Nection Nasal Spray- EnTo",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.52
+          },
+          {
+            "text": "-",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.52
+          },
+          {
+            "text": "inor",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.52
+          },
+          {
+            "text": "Tab. cildip (5mg) 0+0+1-6-70",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.52
+          },
+          {
+            "text": "Tab. Maxineb (2.5mg) {+0+0-EnTe",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.52
+          },
+          {
+            "text": "· Tab. Flexibac (5mg) {+0+2-5-]",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.52
+          },
+          {
+            "text": "\" Tab. Sindola (2.5mg) 1/2+0+1/2 251:53- 5mTO",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.52
+          },
+          {
+            "text": "\"Cap. sergel (20mg)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.52
+          },
+          {
+            "text": "\" Tab. Folison (5mg)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.52
+          },
+          {
+            "text": "1+0+020: 00-23735",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.52
+          },
+          {
+            "text": "*\"Inj. Aristo D3 DE Octua large umar ate,",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.52
+          },
+          {
+            "text": "0",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.52
+          },
+          {
+            "text": "W\" Tab. Bone Guard (150mg) (+0+0 20;, andruner-of mine, wo of",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.52
+          },
+          {
+            "text": "M. Inde-A Suppository (100mg) 0+0+1-Inin. com zopa composantes",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.52
+          },
+          {
+            "text": "1",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.52
+          },
+          {
+            "text": "Adv:",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.52
+          },
+          {
+            "text": "VCBCE ESRe Hb% WS. creatinine WSGPT",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.52
+          },
+          {
+            "text": "17.08.25",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.52
+          },
+          {
+            "text": "w s. uric acid. Arthur 22. 3057 : (2)2020]",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.52
+          },
+          {
+            "text": "it's.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.52
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

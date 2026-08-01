@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "6fe3c3b6cfb2a291ee9799e33be92ae0de0a9bcf6d2d5f1fb4fe11ab7fe975c2",
+  "record_id": "RX-0079",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 11901.262999992468,
+  "failure": null,
+  "response_sha256": "34ab4b7b6cff93d2f44f611b33987b6808d03d7338b450e79314d0a3ba33027c",
+  "response": {
+    "raw_text": "1 15. Lintabul 6515000 1+1 lo\n2 Th, Bristol 5mg 1+0+0 ml\n3) Tas. Abecas S/LOW Ottimo\n1\nजिन/जडाक/याम\nअन र्थ /कार्बन\n4Th. Rozavel 5V ottimo NuTowe\n2 Th BILG 1+0+1 MUCHO 2/20 03.6.2028-\n(6)TE, Disuper 05w Utt+1 m\n0 5 MAR 2024\nBp12018 Ptu\n5?\n5 जवान/ नजीर/याम",
+    "lines": [
+      {
+        "text": "1 15. Lintabul 6515000 1+1 lo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.415
+      },
+      {
+        "text": "2 Th, Bristol 5mg 1+0+0 ml",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.415
+      },
+      {
+        "text": "3) Tas. Abecas S/LOW Ottimo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.415
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.415
+      },
+      {
+        "text": "जिन/जडाक/याम",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.415
+      },
+      {
+        "text": "अन र्थ /कार्बन",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.415
+      },
+      {
+        "text": "4Th. Rozavel 5V ottimo NuTowe",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.415
+      },
+      {
+        "text": "2 Th BILG 1+0+1 MUCHO 2/20 03.6.2028-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.415
+      },
+      {
+        "text": "(6)TE, Disuper 05w Utt+1 m",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.415
+      },
+      {
+        "text": "0 5 MAR 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.415
+      },
+      {
+        "text": "Bp12018 Ptu",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.415
+      },
+      {
+        "text": "5?",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.415
+      },
+      {
+        "text": "5 जवान/ नजीर/याम",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.415
+      }
+    ]
+  }
+}

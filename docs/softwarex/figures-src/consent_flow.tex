@@ -1,0 +1,23 @@
+\begin{tikzpicture}[
+  node distance=8mm and 8mm,
+  flowbox/.style={draw, rounded corners=2pt, align=center, minimum height=9mm, text width=30mm, fill=white},
+  decision/.style={draw, diamond, aspect=2.1, align=center, inner sep=1.5pt, fill=yellow!8},
+  flow/.style={-{Latex[length=2mm]}, thick}
+]
+\node[flowbox] (request) {Processing request declares mode, provider, purpose, scopes};
+\node[decision, right=of request] (local) {local?};
+\node[flowbox, above right=5mm and 12mm of local] (localrun) {Run local engine; never escalate};
+\node[decision, below right=5mm and 12mm of local] (grant) {matching active grant?};
+\node[flowbox, right=of grant] (redact) {Crop/redact known identifiers; random request ID};
+\node[flowbox, right=of redact] (provider) {Call named provider; sanitize operational log};
+\node[flowbox, below=of grant] (deny) {Typed denial; explain consent and offer local path};
+\node[flowbox, right=of provider] (draft) {Return review-required draft; no writeback};
+\draw[flow] (request) -- (local);
+\draw[flow] (local) -- node[above, sloped, font=\scriptsize]{yes} (localrun);
+\draw[flow] (local) -- node[above, sloped, font=\scriptsize]{no} (grant);
+\draw[flow] (grant) -- node[above, font=\scriptsize]{yes} (redact);
+\draw[flow] (grant) -- node[right, font=\scriptsize]{no / expired / revoked} (deny);
+\draw[flow] (redact) -- (provider);
+\draw[flow] (provider) -- (draft);
+\draw[flow] (localrun) -| (draft);
+\end{tikzpicture}

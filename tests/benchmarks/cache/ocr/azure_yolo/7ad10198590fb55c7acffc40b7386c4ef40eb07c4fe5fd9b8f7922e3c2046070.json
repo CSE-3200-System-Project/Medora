@@ -1,0 +1,140 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "7ad10198590fb55c7acffc40b7386c4ef40eb07c4fe5fd9b8f7922e3c2046070",
+  "record_id": "RX-0046",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 10764.458599995123,
+  "failure": null,
+  "response_sha256": "e5d1fb9684ea547c21a9740c619d9d23c458d57637d0c094ffd3a5436efc56e0",
+  "response": {
+    "raw_text": "A ? RTI\nMoras (10 mg\n1.\nlab.\n(0-1)\n20\n2\nJab\nAminomal /350ml)\n1 -0-0\n10\n3. Tab Nucomist DT (600mg)\n11-0-1\n10\n4.\nTab. Kofen\n1 mg\nDiN/A\n0-0-11\n10%",
+    "lines": [
+      {
+        "text": "A ? RTI",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.671
+      },
+      {
+        "text": "Moras (10 mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.671
+      },
+      {
+        "text": "1.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.671
+      },
+      {
+        "text": "lab.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.671
+      },
+      {
+        "text": "(0-1)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.671
+      },
+      {
+        "text": "20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.671
+      },
+      {
+        "text": "2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.671
+      },
+      {
+        "text": "Jab",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.671
+      },
+      {
+        "text": "Aminomal /350ml)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.671
+      },
+      {
+        "text": "1 -0-0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.671
+      },
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.671
+      },
+      {
+        "text": "3. Tab Nucomist DT (600mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.671
+      },
+      {
+        "text": "11-0-1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.671
+      },
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.671
+      },
+      {
+        "text": "4.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.671
+      },
+      {
+        "text": "Tab. Kofen",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.671
+      },
+      {
+        "text": "1 mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.671
+      },
+      {
+        "text": "DiN/A",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.671
+      },
+      {
+        "text": "0-0-11",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.671
+      },
+      {
+        "text": "10%",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.671
+      }
+    ]
+  }
+}

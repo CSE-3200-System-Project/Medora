@@ -1,0 +1,302 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "ffdbc37cd85282c06ac294ec3219adbbe74e1023e61ac243bae4d2eadbfe4aa5",
+  "record_id": "RX-0010",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 43451.29440000164,
+  "failure": null,
+  "response_sha256": "0affb207fae18148e34d31bd89cb380e4d3596df53fcdcc0b143647197d5dd8f",
+  "response": {
+    "raw_text": "28\nडिकिश्मक कड़क बाभीव बारश शरद\nw/o\nब्बाभीव नाग\nजय (बर्मा)- ७७\n424\nMcDO MH Siddique RT\nडिकिस्मतकल नायश मना\n5/3/18. ज्वारगन नाग\n٢٠ص\nIhr. Paronychia\nHypothyroid\nchr- Tonsillitis\nFlugal (150mg)\nTab.\n1 tab. stat\nTamen (200)\nstata\n6\nTab\nTab.\nkilbac (500)\n? toto\n-\nवोड\nlab.\nDes (5mg)\n4\nstato - c/51\nRanitidiny\n·\nTab\nK\n*\n820\nMI ROOM\nविर 5\nTrong)\n?\nd (20)\n1000\nसामान जान\nफिशटनानिड\nकि\n( ऋषि) -७५\netc\nमना",
+    "lines": [
+      {
+        "text": "28",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "डिकिश्मक कड़क बाभीव बारश शरद",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "w/o",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "ब्बाभीव नाग",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "जय (बर्मा)- ७७",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "424",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "McDO MH Siddique RT",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "डिकिस्मतकल नायश मना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "5/3/18. ज्वारगन नाग",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "٢٠ص",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "Ihr. Paronychia",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "Hypothyroid",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "chr- Tonsillitis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "Flugal (150mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "Tab.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "1 tab. stat",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "Tamen (200)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "stata",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "6",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "Tab",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "Tab.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "kilbac (500)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "? toto",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "वोड",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "lab.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "Des (5mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "4",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "stato - c/51",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "Ranitidiny",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "·",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "Tab",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "K",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "*",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "820",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "MI ROOM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "विर 5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "Trong)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "?",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "d (20)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "1000",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "सामान जान",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "फिशटनानिड",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "कि",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "( ऋषि) -७५",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "etc",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "मना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      }
+    ]
+  }
+}

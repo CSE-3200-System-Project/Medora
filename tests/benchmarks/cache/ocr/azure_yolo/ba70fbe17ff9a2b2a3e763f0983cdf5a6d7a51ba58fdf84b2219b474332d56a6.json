@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "ba70fbe17ff9a2b2a3e763f0983cdf5a6d7a51ba58fdf84b2219b474332d56a6",
+  "record_id": "RX-0063",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 5329.558099998394,
+  "failure": null,
+  "response_sha256": "d00920c22bf3b69879e7370423389faed0d4e3edb48ba7c0aeb565e85076a02e",
+  "response": {
+    "raw_text": "RX\nGay Metronidazole (400mg)\n15\ncreta\nGRS\n3\nCap. Esotia\nTab Metformin (500) (10\n20000",
+    "lines": [
+      {
+        "text": "RX",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Gay Metronidazole (400mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "15",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "creta",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "GRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "3",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Cap. Esotia",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Tab Metformin (500) (10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "20000",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.664
+      }
+    ]
+  }
+}

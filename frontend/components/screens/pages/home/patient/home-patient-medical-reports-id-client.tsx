@@ -21,6 +21,7 @@ import {
   addReportResult,
   deleteReportResult,
   updateReportVisibility,
+  confirmMedicalReportOcr,
   type MedicalReport,
   type ReportResultCreatePayload,
   type ReportResultUpdatePayload,
@@ -111,6 +112,7 @@ export default function PatientMedicalReportDetailPage() {
 
   // Visibility toggle
   const [togglingVisibility, setTogglingVisibility] = React.useState(false);
+  const [confirmingReview, setConfirmingReview] = React.useState(false);
 
   React.useEffect(() => {
     if (reportId) loadReport();
@@ -166,6 +168,10 @@ export default function PatientMedicalReportDetailPage() {
 
       setReport({
         ...report,
+        parsed: false,
+        review_status: "pending_review",
+        reviewed_at: null,
+        reviewed_by_id: null,
         results: report.results.map((r) =>
           r.id === editingId ? updated : r
         ),
@@ -201,6 +207,10 @@ export default function PatientMedicalReportDetailPage() {
       const newResult = await addReportResult(reportId, payload);
       setReport({
         ...report,
+        parsed: false,
+        review_status: "pending_review",
+        reviewed_at: null,
+        reviewed_by_id: null,
         results: [...report.results, newResult],
       });
       setShowAddRow(false);
@@ -222,6 +232,10 @@ export default function PatientMedicalReportDetailPage() {
       await deleteReportResult(reportId, resultId);
       setReport({
         ...report,
+        parsed: false,
+        review_status: "pending_review",
+        reviewed_at: null,
+        reviewed_by_id: null,
         results: report.results.filter((r) => r.id !== resultId),
       });
     } catch (err: any) {
@@ -243,6 +257,18 @@ export default function PatientMedicalReportDetailPage() {
       alert(err.message || "Failed to update visibility");
     } finally {
       setTogglingVisibility(false);
+    }
+  };
+
+  const handleConfirmReview = async () => {
+    if (!report || editingId || showAddRow) return;
+    setConfirmingReview(true);
+    try {
+      setReport(await confirmMedicalReportOcr(reportId));
+    } catch (err: unknown) {
+      alert(err instanceof Error ? err.message : "Failed to confirm OCR review");
+    } finally {
+      setConfirmingReview(false);
     }
   };
 
@@ -480,6 +506,24 @@ export default function PatientMedicalReportDetailPage() {
             )}
           </div>
         </div>
+
+        <Card className={report.review_status === "human_verified" ? "mb-6 border-green-300 bg-green-50 dark:border-green-900 dark:bg-green-950/30" : "mb-6 border-amber-300 bg-amber-50 dark:border-amber-900 dark:bg-amber-950/30"}>
+          <CardContent className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-start gap-3">
+              {report.review_status === "human_verified" ? <CheckCircle2 className="mt-0.5 h-5 w-5 text-green-700" /> : <AlertTriangle className="mt-0.5 h-5 w-5 text-amber-700" />}
+              <div>
+                <p className="font-medium">{report.review_status === "human_verified" ? "OCR draft checked against source" : "Unconfirmed OCR draft"}</p>
+                <p className="text-sm text-muted-foreground">Processed in {report.processing_mode} mode. Verify every result against the original document; OCR output is not authoritative.</p>
+              </div>
+            </div>
+            {report.review_status !== "human_verified" ? (
+              <Button onClick={handleConfirmReview} disabled={confirmingReview || Boolean(editingId) || showAddRow}>
+                {confirmingReview ? <ButtonLoader className="h-4 w-4" /> : <UserCheck className="h-4 w-4" />}
+                I checked every result
+              </Button>
+            ) : null}
+          </CardContent>
+        </Card>
 
         {/* Visibility toggle card */}
         <Card className="rounded-xl mb-6">

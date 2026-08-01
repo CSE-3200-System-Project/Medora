@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "5f40323192ccb387104fdaa8c4047c23b40b1bd996143d75dceeea911de63289",
+  "record_id": "RX-0060",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 3732.843799996772,
+  "failure": null,
+  "response_sha256": "176aea48b193aa4d2f9a3ebe520ad10c01b812bdbf0e720c173c75b13b2d05fd",
+  "response": {
+    "raw_text": "\"2 - 1 9 7 สเสาร์ (20)\n24.05.24",
+    "lines": [
+      {
+        "text": "\"2 - 1 9 7 สเสาร์ (20)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.354
+      },
+      {
+        "text": "24.05.24",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.354
+      }
+    ]
+  }
+}

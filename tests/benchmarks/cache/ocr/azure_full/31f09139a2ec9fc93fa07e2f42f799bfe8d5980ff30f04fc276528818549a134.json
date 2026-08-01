@@ -1,0 +1,164 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "31f09139a2ec9fc93fa07e2f42f799bfe8d5980ff30f04fc276528818549a134",
+  "record_id": "RX-0021",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 19165.540000001783,
+  "failure": null,
+  "response_sha256": "c7713182410ed241ee96a93645d8e30622a86af55276dcfb2aa5f7fbf539a3d7",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nMokkalv/MadinaliJeddah\nTREATMENT CARD/ REME\n******: 8035\nMiktu Hn.PT\nGender\nHALF\nHEALTH PROFILE\n1 Mloce Group\nU. B nod Sugar (ABST:\n10 Live DENNNA:\nChief Complaints\nViệt Na,-CF)\nD. 24 Muy 2224\n. Cap Cefixime\nPulsa\nDahydration-\nStitake off ( Pt deaire)\nPeauiration-\nOffers\n26/02/28\nProvisional Diagonosis\nवेज (जस्टिन ट्रगणित बिदिता जना गणण्ट खने का रुझानर्जी अदिनित खवभाई उदय जानदार मान।",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "Mokkalv/MadinaliJeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "TREATMENT CARD/ REME",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "******: 8035",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "Miktu Hn.PT",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "Gender",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "HALF",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "1 Mloce Group",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "U. B nod Sugar (ABST:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "10 Live DENNNA:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "Chief Complaints",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "Việt Na,-CF)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "D. 24 Muy 2224",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": ". Cap Cefixime",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "Pulsa",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "Dahydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "Stitake off ( Pt deaire)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "Peauiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "Offers",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "26/02/28",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "वेज (जस्टिन ट्रगणित बिदिता जना गणण्ट खने का रुझानर्जी अदिनित खवभाई उदय जानदार मान।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      }
+    ]
+  }
+}

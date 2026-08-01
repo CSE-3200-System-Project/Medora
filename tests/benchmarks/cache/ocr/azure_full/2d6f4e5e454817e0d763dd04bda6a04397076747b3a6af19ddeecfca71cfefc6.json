@@ -1,0 +1,470 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "2d6f4e5e454817e0d763dd04bda6a04397076747b3a6af19ddeecfca71cfefc6",
+  "record_id": "RX-0087",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 37983.908399997745,
+  "failure": null,
+  "response_sha256": "6416b971917533778cfb6477706e734523934a96c871fe2680526ad9d99141c7",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD/ बाबउभय\nF004\nMedical Center.\nPigrim ID ..\n9000016\nPassport No\nE00122212\nMektab No\nNeme ....\nTANKIDA FIRDOUS\nGender\nFEMALE _ Dialocl\nDHAKA\nThans\nADABOR\nHEALTH PROFILE\n9+\n120120\n1. Blood Group\nNO\n2. Blood Pressure:\nNC\n3. Hoarl DISARse:\nKO\n4. Lung Disease:\nNC\n5. Kidney Disease:\n6. Diabeles:\n5.5\n7. Mantal Disease:\n21\n8. Blood Sugar (RBS):\nNO\n9. Weight:\n10. Liver Disease:\nNE\n11. Drug History:\n12. Any other abnormalities:\nChief Complaints:\nVisit No:\n3rd COPY\n25 May 2024\nDate:\nDIE:\nPulse-\nBP- 120/85ml\nTomp\nCap. Esolid. 20\nil\nDahydration-\nRespiration-\nOthers-\nFBS/RBS- 19.9 ml\nECG\nProvisional Dlagonosis\nTab. comment (500)\n700 ras 400\nAnaemia-\nOR-S.\n(0)\neye drop blomtrial.\nTab. Fixocand.@2or\n230v2\nBoch\nTab. Gliclazide\nTab. P/e-10Rs.200\nBelabis\n-(30)-3 var\nvestin. 2\n.\nएम स्टिकम :मंगल मिककितना एव मगुप्त घना व कपए नमी दफिदाव करनावे गए बमफ पाव।",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "TREATMENT CARD/ बाबउभय",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "F004",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Medical Center.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Pigrim ID ..",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "9000016",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Passport No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "E00122212",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Mektab No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Neme ....",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "TANKIDA FIRDOUS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Gender",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "FEMALE _ Dialocl",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "DHAKA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Thans",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "ADABOR",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "9+",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "120120",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "1. Blood Group",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "2. Blood Pressure:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "NC",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "3. Hoarl DISARse:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "KO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "4. Lung Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "NC",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "5. Kidney Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "6. Diabeles:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "5.5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "7. Mantal Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "21",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "8. Blood Sugar (RBS):",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "9. Weight:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "10. Liver Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "NE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "11. Drug History:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "12. Any other abnormalities:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Visit No:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "3rd COPY",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "25 May 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Date:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "DIE:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Pulse-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "BP- 120/85ml",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Tomp",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Cap. Esolid. 20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "il",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Dahydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "FBS/RBS- 19.9 ml",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Provisional Dlagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Tab. comment (500)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "700 ras 400",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Anaemia-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "OR-S.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "(0)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "eye drop blomtrial.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Tab. Fixocand.@2or",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "230v2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Boch",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Tab. Gliclazide",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Tab. P/e-10Rs.200",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Belabis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "-(30)-3 var",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "vestin. 2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": ".",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "एम स्टिकम :मंगल मिककितना एव मगुप्त घना व कपए नमी दफिदाव करनावे गए बमफ पाव।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      }
+    ]
+  }
+}

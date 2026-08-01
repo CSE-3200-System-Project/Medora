@@ -199,7 +199,9 @@ Built with **Serwist**. Disabled automatically in `NODE_ENV === 'development'` (
 | API responses | NetworkFirst | `API_CACHE_TTL` env var |
 | Install-critical assets | Precached on SW install | — |
 
-**Background sync:** Failed API writes are queued with a 24-hour retention window and replayed when the device reconnects.
+**Offline safety:** Failed health-data writes are not queued or replayed. The service
+worker caches only versioned static assets and explicitly public resources; logout
+clears Medora browser stores.
 
 ---
 

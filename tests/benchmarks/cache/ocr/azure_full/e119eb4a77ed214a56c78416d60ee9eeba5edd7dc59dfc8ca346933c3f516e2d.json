@@ -1,0 +1,344 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "e119eb4a77ed214a56c78416d60ee9eeba5edd7dc59dfc8ca346933c3f516e2d",
+  "record_id": "RX-0051",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 107636.47579999815,
+  "failure": null,
+  "response_sha256": "e7cdc0db62b6de23f31c56483b292c2054fc06aa4e038d3933b6daad0839edcc",
+  "response": {
+    "raw_text": "डिटगछियान (अनारजन\nस्थानिक छ: यूशम्पाण विकून घालय, परमनिधि\nप्रायविविधम (छाका), बम बम (वाणी) कि रेड़ें\nFellow In Arthroscopy & Arthroplasty (Turkey)\nSAARC Arthroplasty Course (India)\nAdvance Traning in Arthroscopy & Sports injury (France & Germany)\nFellowship Traning in Arthroscopy (Seoul, Korea)\nMember of AAOS & ISACOS\nव्याव् वादयदिकान काटम्भों पर उद्धाटनडिकम् बदर रैयाकम\nवैधानिक जट्वीटनजडिम्, वार्म (पार्सन मण्टिकन कानक\nविकानीय अधान छापाटनषिकम्\nठीक मार्जन कनारवन, निध्य जरूठ गया।\nChief Surgeon General, CMH Dhaka.\nरेनारेन: ०२०७००८२००१\n23/07/2023\nShaming Akuter\n7\nTM Joint Subluxation. (U)\n0\nVOLIGEL THE UNDMIT.\n/\nongles. OxICAM (20ml)\n1\nla. PANTONIX(20Mg)\n1\nClu. CARTILAGE MAX/2 TS\n14091\n2\nhome of care\nChamber :\nHitech Multicare Hospital Ltd.\n164, East Kafrul, Dhaka Cantonment, Dhaka-1206\nPhone : 9835550, 9833039,9833661, 8711010\nAppointment-01678129126, 01672241413\nReception-01611262712, E-mail : hmcarehospital@gmail.com\nHitech Knee Care Center-2nd Floor. Room No:309\nअजिनि अत्थाट भाषिकम् जयभाव अना\nCell : 01712-873235\nVisiting Hour : 6.30 pm - 9.30 pm\nAppointment : 01678129126\n01672241413\n888M\nsHolley\nBrig. General\nProf. Dr. Mohammad Shafiqul Alam, SPP\nMBBS (Dhaka), MS (Ortho), DU\nAO Trauma Course\n48 प्रया (कार्म\nघटना रैन वाटरथीमकनि यक वारथी प्राप्ति (कूट्रक)\nमार्क वार्थी भ्राडि (कार्म (डाइट)\nप्राष्ठान केनिर रेन वाटरथीमकनि 8 (स्मार्टम रेनूदि (आम 6 जायानी)\nघटनामीन सैनिक रेन वाटरथीमदर्शि (मिलेन, (काड़िया)\nProfessor of Orthopaedics, Armed Forces Medical College\nHead of Department Orthopaedics",
+    "lines": [
+      {
+        "text": "डिटगछियान (अनारजन",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "स्थानिक छ: यूशम्पाण विकून घालय, परमनिधि",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "प्रायविविधम (छाका), बम बम (वाणी) कि रेड़ें",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "Fellow In Arthroscopy & Arthroplasty (Turkey)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "SAARC Arthroplasty Course (India)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "Advance Traning in Arthroscopy & Sports injury (France & Germany)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "Fellowship Traning in Arthroscopy (Seoul, Korea)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "Member of AAOS & ISACOS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "व्याव् वादयदिकान काटम्भों पर उद्धाटनडिकम् बदर रैयाकम",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "वैधानिक जट्वीटनजडिम्, वार्म (पार्सन मण्टिकन कानक",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "विकानीय अधान छापाटनषिकम्",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "ठीक मार्जन कनारवन, निध्य जरूठ गया।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "Chief Surgeon General, CMH Dhaka.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "रेनारेन: ०२०७००८२००१",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "23/07/2023",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "Shaming Akuter",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "7",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "TM Joint Subluxation. (U)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "VOLIGEL THE UNDMIT.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "/",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "ongles. OxICAM (20ml)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "la. PANTONIX(20Mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "Clu. CARTILAGE MAX/2 TS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "14091",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "home of care",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "Chamber :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "Hitech Multicare Hospital Ltd.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "164, East Kafrul, Dhaka Cantonment, Dhaka-1206",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "Phone : 9835550, 9833039,9833661, 8711010",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "Appointment-01678129126, 01672241413",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "Reception-01611262712, E-mail : hmcarehospital@gmail.com",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "Hitech Knee Care Center-2nd Floor. Room No:309",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "अजिनि अत्थाट भाषिकम् जयभाव अना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "Cell : 01712-873235",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "Visiting Hour : 6.30 pm - 9.30 pm",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "Appointment : 01678129126",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "01672241413",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "888M",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "sHolley",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "Brig. General",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "Prof. Dr. Mohammad Shafiqul Alam, SPP",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "MBBS (Dhaka), MS (Ortho), DU",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "AO Trauma Course",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "48 प्रया (कार्म",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "घटना रैन वाटरथीमकनि यक वारथी प्राप्ति (कूट्रक)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "मार्क वार्थी भ्राडि (कार्म (डाइट)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "प्राष्ठान केनिर रेन वाटरथीमकनि 8 (स्मार्टम रेनूदि (आम 6 जायानी)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "घटनामीन सैनिक रेन वाटरथीमदर्शि (मिलेन, (काड़िया)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "Professor of Orthopaedics, Armed Forces Medical College",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "Head of Department Orthopaedics",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.665
+      }
+    ]
+  }
+}

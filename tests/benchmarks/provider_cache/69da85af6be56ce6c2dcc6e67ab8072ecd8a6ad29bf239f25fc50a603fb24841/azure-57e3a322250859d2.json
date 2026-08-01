@@ -1,0 +1,225 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0093",
+  "source_sha256": "69da85af6be56ce6c2dcc6e67ab8072ecd8a6ad29bf239f25fc50a603fb24841",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T18:08:06.936875+00:00",
+  "runtime_ms": 12912.393399994471,
+  "output": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANT. SPESSI\nMINISTRY OF RELIGIOUS AFFAIRES\nTREATMENT CARDS TESLIM\nMicina Confer\nHEALTH PROFILE\nCher Complaints:\nItching\nDehyura:on-\n0+0+2-4-1(1)\n. Inb. Totomi long)\n0+0+8 - 9/12\nFeSIRDS\nProvisional Diagonasia\nAllergy",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANT. SPESSI",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.473
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRES",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.473
+      },
+      {
+        "text": "TREATMENT CARDS TESLIM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.473
+      },
+      {
+        "text": "Micina Confer",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.473
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.473
+      },
+      {
+        "text": "Cher Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.473
+      },
+      {
+        "text": "Itching",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.473
+      },
+      {
+        "text": "Dehyura:on-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.473
+      },
+      {
+        "text": "0+0+2-4-1(1)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.473
+      },
+      {
+        "text": ". Inb. Totomi long)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.473
+      },
+      {
+        "text": "0+0+8 - 9/12",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.473
+      },
+      {
+        "text": "FeSIRDS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.473
+      },
+      {
+        "text": "Provisional Diagonasia",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.473
+      },
+      {
+        "text": "Allergy",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.473
+      }
+    ],
+    "medications": [
+      {
+        "name": "Government Of The",
+        "matched_term": "Government Of The",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.213
+      },
+      {
+        "name": "Minista",
+        "matched_term": "Minista",
+        "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+        "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.593
+      },
+      {
+        "name": "Treatment Cards Teslim",
+        "matched_term": "Treatment Cards Teslim",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.213
+      },
+      {
+        "name": "Micina Confer",
+        "matched_term": "Micina Confer",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.213
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.593
+      },
+      {
+        "name": "Cher Complaints",
+        "matched_term": "Cher Complaints",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.213
+      },
+      {
+        "name": "Itchin",
+        "matched_term": "Itchin",
+        "drug_id": "836df208-5e75-4b04-a52e-39018399c91a",
+        "brand_id": "b603caa2-60a9-42d3-bdc0-a97d46f5f931",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.593
+      },
+      {
+        "name": "Dehyura On",
+        "matched_term": "Dehyura On",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": "0+0+2+4",
+        "quantity": null,
+        "confidence": 0.262
+      },
+      {
+        "name": "Inb Totomi Long",
+        "matched_term": "Inb Totomi Long",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": "0+0+8+9",
+        "quantity": null,
+        "confidence": 0.262
+      },
+      {
+        "name": "Fesirds",
+        "matched_term": "Fesirds",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.213
+      },
+      {
+        "name": "Provisional Diagonasia",
+        "matched_term": "Provisional Diagonasia",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.213
+      },
+      {
+        "name": "Allergic",
+        "matched_term": "Allergic",
+        "drug_id": "9d30fed9-4b55-4d2d-a3df-a642ada52466",
+        "brand_id": "e0185298-5f81-4159-8aa3-2b63dee5d955",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.593
+      }
+    ]
+  }
+}

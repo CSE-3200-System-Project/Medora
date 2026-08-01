@@ -1,0 +1,278 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "c354199512c96675951d23f668f0e7a23ec754b5d1d0226294ae123a436e6a10",
+  "record_id": "RX-0052",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 33939.12199999613,
+  "failure": null,
+  "response_sha256": "13bf7f0d695433c128ed585742ff9bf0a6d181cf15b5a2bfffc61c40e1e072a5",
+  "response": {
+    "raw_text": "गाउन बारवियान\nवैधम, पयमिनियम (माजीबी)\n((श्नारणदिनियावि जाखड़ी)\nमेथम (आठमनिका)\nना, नानाव्रकनिक, निषाद, निखनानी ७ जगनविश्राम मार्जन\nही अशाएक, भाटणेविलियाचि ७ शानकियाम जाआणि विधान\nलाखदाउद्यानों (अष्टकम करना, जका।\nDr. Shaon Shahriar\nMBBS, FCPS (Surgery)\nMS (Hepatobiliary Surgery), FACS (USA)\nGeneral, Laparoscopic, Liver, Biliary and Pancreas Surgeon\nAssistant Professor, Department of Hepatobiliary & Pancreatic Surgery\nShaheed Suhrawardy Medical College, Dhaka\nWeb: www.shaonshahriar.com\n: Ms Samina Aktes\nAge : 56 yy Date :\n21 NOV 2020\nsional hernia\nHTN\nPlan\nHernioplasty + SAB (mesh repair)\n65/90 2/19\n21.11.23\nJal Diskfan (0.5mg)\n0+0+2- yarar 2(ar\n21.11.23\nBP-160/90mmHg\nRefer to PAKM Fazlul Haque si\nfor control QHTN & DM & short\nactive insulin\nnon Specific S Telange\n21.11.23\nDBC\nRB6, S. Creatinine\nCXR, ECG, Echo-2D\nTSH, &. Electrolyte\nHB-Ag\nFBS92HABF\n+\n7.04/11.51\n25% Discount\nHeA,C -7-1\n1514",
+    "lines": [
+      {
+        "text": "गाउन बारवियान",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "वैधम, पयमिनियम (माजीबी)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "((श्नारणदिनियावि जाखड़ी)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "मेथम (आठमनिका)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "ना, नानाव्रकनिक, निषाद, निखनानी ७ जगनविश्राम मार्जन",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "ही अशाएक, भाटणेविलियाचि ७ शानकियाम जाआणि विधान",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "लाखदाउद्यानों (अष्टकम करना, जका।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "Dr. Shaon Shahriar",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "MBBS, FCPS (Surgery)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "MS (Hepatobiliary Surgery), FACS (USA)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "General, Laparoscopic, Liver, Biliary and Pancreas Surgeon",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "Assistant Professor, Department of Hepatobiliary & Pancreatic Surgery",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "Shaheed Suhrawardy Medical College, Dhaka",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "Web: www.shaonshahriar.com",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": ": Ms Samina Aktes",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "Age : 56 yy Date :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "21 NOV 2020",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "sional hernia",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "HTN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "Plan",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "Hernioplasty + SAB (mesh repair)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "65/90 2/19",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "21.11.23",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "Jal Diskfan (0.5mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "0+0+2- yarar 2(ar",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "21.11.23",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "BP-160/90mmHg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "Refer to PAKM Fazlul Haque si",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "for control QHTN & DM & short",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "active insulin",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "non Specific S Telange",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "21.11.23",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "DBC",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "RB6, S. Creatinine",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "CXR, ECG, Echo-2D",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "TSH, &. Electrolyte",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "HB-Ag",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "FBS92HABF",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "+",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "7.04/11.51",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "25% Discount",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "HeA,C -7-1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "1514",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      }
+    ]
+  }
+}

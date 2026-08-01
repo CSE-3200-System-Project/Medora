@@ -1,0 +1,105 @@
+
+> frontend@0.1.0 build
+> next build --webpack
+
+▲ Next.js 16.2.12 (webpack)
+- Environments: .env.local, .env
+- Experiments (use with caution):
+  · optimizePackageImports
+
+  Creating an optimized production build ...
+✓ (serwist) Bundling the service worker script with the URL '/sw.js' and the scope '/'...
+✓ Compiled successfully in 15.0s
+  Running TypeScript ...
+  Finished TypeScript in 18.9s ...
+  Collecting page data using 11 workers ...
+  Generating static pages using 11 workers (0/27) ...
+  Generating static pages using 11 workers (6/27) 
+  Generating static pages using 11 workers (13/27) 
+  Generating static pages using 11 workers (20/27) 
+✓ Generating static pages using 11 workers (27/27) in 459ms
+  Finalizing page optimization ...
+  Collecting build traces ...
+
+Route (app)
+┌ ƒ /
+├ ƒ /_not-found
+├ ƒ /[locale]/account-blocked
+├ ƒ /account-blocked
+├ ƒ /admin
+├ ƒ /admin/appointments
+├ ƒ /admin/audit-log
+├ ƒ /admin/doctors
+├ ƒ /admin/patients
+├ ƒ /admin/requests
+├ ƒ /admin/reviews
+├ ƒ /admin/schedule-review
+├ ƒ /admin/users
+├ ƒ /api/admin/patients
+├ ƒ /api/admin/patients/[id]
+├ ƒ /api/admin/patients/[id]/ban
+├ ƒ /api/admin/patients/bulk-action
+├ ƒ /api/admin/patients/charts
+├ ƒ /api/admin/patients/insights
+├ ƒ /api/admin/patients/stats
+├ ƒ /api/auth/check-verification
+├ ƒ /api/auth/me
+├ ƒ /api/consultations/[consultation_id]/full
+├ ƒ /api/perf/vitals
+├ ƒ /api/prescriptions/[consultation_id]/full
+├ ƒ /auth/confirm
+├ ƒ /auth/reset-password
+├ ƒ /clear-admin
+├ ƒ /doctor/[doctorId]
+├ ƒ /doctor/analytics
+├ ƒ /doctor/appointments
+├ ƒ /doctor/chorui-ai
+├ ƒ /doctor/find-medicine
+├ ƒ /doctor/home
+├ ƒ /doctor/patient/[id]
+├ ƒ /doctor/patient/[id]/consultation
+├ ƒ /doctor/patient/[id]/consultation/ai
+├ ƒ /doctor/patient/[id]/reports
+├ ƒ /doctor/patient/[id]/reports/[reportId]
+├ ƒ /doctor/patients
+├ ƒ /doctor/profile
+├ ƒ /doctor/register
+├ ƒ /doctor/schedule
+├ ƒ /forgot-password
+├ ƒ /login
+├ ƒ /logout
+├ ƒ /notifications
+├ ƒ /onboarding/doctor
+├ ƒ /onboarding/patient
+├ ƒ /patient/analytics
+├ ƒ /patient/appointment-success
+├ ƒ /patient/appointments
+├ ƒ /patient/chorui-ai
+├ ƒ /patient/doctor/[id]
+├ ƒ /patient/find-doctor
+├ ƒ /patient/find-medicine
+├ ƒ /patient/home
+├ ƒ /patient/medical-history
+├ ƒ /patient/medical-reports
+├ ƒ /patient/medical-reports/[id]
+├ ƒ /patient/my-prescriptions
+├ ƒ /patient/prescriptions
+├ ƒ /patient/prescriptions/[id]
+├ ƒ /patient/privacy
+├ ƒ /patient/profile
+├ ƒ /patient/register
+├ ƒ /patient/reminders
+├ ƒ /prescription/preview/[consultation_id]
+├ ƒ /selection
+├ ƒ /session-cleanup
+├ ƒ /settings
+├ ƒ /verification-success
+├ ƒ /verify-email
+└ ƒ /verify-pending
+
+
+ƒ Proxy (Middleware)
+
+ƒ  (Dynamic)  server-rendered on demand
+
+MEDORA_GATE_PASSED exit_code=0

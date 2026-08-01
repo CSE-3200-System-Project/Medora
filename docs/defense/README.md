@@ -1,5 +1,9 @@
 # Medora Defense Pack
 
+> **Archived defense material.** The approximate OCR/latency figures and
+> production/anonymity language in this directory are not SoftwareX evidence and
+> must not be reused. See `docs/softwarex/response_to_revision.md`.
+
 Generated from `docs/reports/2107006_2107031.pdf` (79-page CSE-3200 report) and `docs/slide/Medora_Presentation.pptx_1.pptx` (23 slides).
 
 Read these in order to walk into a viva fully prepared:

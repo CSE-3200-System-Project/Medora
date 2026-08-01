@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "a40b88484c7c9fab89868034d4d20bf4209ec00ab42ba935508c1ac43ecd721f",
+  "record_id": "RX-0086",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 11914.168600007542,
+  "failure": null,
+  "response_sha256": "7adc5869b05b33cb528578b00c8a8d66bfa784f1b802f76e38a1ee8acadc8bb8",
+  "response": {
+    "raw_text": "R\nO Tob. Mehanidad (400m)\n0 Tas Metformin/Informaty 500)\n01000\n20\n· Corp. Omeprazol (2014)\n. Masil gelly\nK",
+    "lines": [
+      {
+        "text": "R",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.392
+      },
+      {
+        "text": "O Tob. Mehanidad (400m)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.392
+      },
+      {
+        "text": "0 Tas Metformin/Informaty 500)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.392
+      },
+      {
+        "text": "01000",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.392
+      },
+      {
+        "text": "20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.392
+      },
+      {
+        "text": "· Corp. Omeprazol (2014)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.392
+      },
+      {
+        "text": ". Masil gelly",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.392
+      },
+      {
+        "text": "K",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.392
+      }
+    ]
+  }
+}

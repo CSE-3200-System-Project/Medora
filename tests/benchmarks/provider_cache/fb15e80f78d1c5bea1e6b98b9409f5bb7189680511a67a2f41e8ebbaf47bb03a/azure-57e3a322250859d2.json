@@ -1,0 +1,781 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0029",
+  "source_sha256": "fb15e80f78d1c5bea1e6b98b9409f5bb7189680511a67a2f41e8ebbaf47bb03a",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:36:04.353559+00:00",
+  "runtime_ms": 35457.50869999756,
+  "output": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Har Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / 2790\nMedical Center\nS002\nPilgrim ID.101259\nPassport No\nA11457983\nNama MD IQBAL HOSSAIN\nMaktab No.\nGender MALE\nOLIOHUADANGA\nCHUADANGA SALTAR\nHEALTH PROFILE\n:00/100\n1 Blood Group NO\n3. Hean Dinasd: NO\n5. Kidney Diseaseig\n7 Mental Diseasegg\n5 Weight\n11. Drug History Antihyperfürerv-\n2. Blood Pressure:\nNC\n4 Lung Disease\n6. Diabetes:\nR. Blood Sugar (RBS): NO\n10. Liver Disease:\nNO\n12. Any other abnormaliies:\nChief Complaints:\nVisit NO.\nArd COPY\n26 May 2024\nDate\nOVE -\nBP\nTemp-\nAnaemia\nDehydration-\nRespiration-\nOthers-\nBS/RBS-\nCG\nvisional Diagonosis\nRx\n- Tab. Acectofence\n21012\n- This Myolax (50 mg)-\n20\nKb. DON-A\n(20\nCap oretid(20\n2+00)",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Bangladesh Har Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "TREATMENT CARD / 2790",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Medical Center",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "S002",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Pilgrim ID.101259",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Passport No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "A11457983",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Nama MD IQBAL HOSSAIN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Maktab No.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Gender MALE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "OLIOHUADANGA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "CHUADANGA SALTAR",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": ":00/100",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "1 Blood Group NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "3. Hean Dinasd: NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "5. Kidney Diseaseig",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "7 Mental Diseasegg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "5 Weight",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "11. Drug History Antihyperfürerv-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "2. Blood Pressure:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "NC",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "4 Lung Disease",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "6. Diabetes:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "R. Blood Sugar (RBS): NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "10. Liver Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "12. Any other abnormaliies:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Visit NO.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Ard COPY",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "26 May 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Date",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "OVE -",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "BP",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Temp-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Anaemia",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "BS/RBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "CG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "visional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "- Tab. Acectofence",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "21012",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "- This Myolax (50 mg)-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Kb. DON-A",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "(20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Cap oretid(20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "2+00)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      }
+    ],
+    "medications": [
+      {
+        "name": "Government Of The",
+        "matched_term": "Government Of The",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Minista",
+        "matched_term": "Minista",
+        "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+        "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "Bangladesh Har Office",
+        "matched_term": "Bangladesh Har Office",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Makkah Madinah Jeddah",
+        "matched_term": "Makkah Madinah Jeddah",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Treatment Card",
+        "matched_term": "Treatment Card",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Medical Air",
+        "matched_term": "Medical Air",
+        "drug_id": "f498ed97-bc40-410d-872a-e0fdeab4c569",
+        "brand_id": "8e3694b5-9a0b-483b-bc93-e01afc35f844",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "Pilgrim Id",
+        "matched_term": "Pilgrim Id",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Passport No",
+        "matched_term": "Passport No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Nama Md Iqbal",
+        "matched_term": "Nama Md Iqbal",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Maktab No",
+        "matched_term": "Maktab No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Gender Male",
+        "matched_term": "Gender Male",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Oliohuadanga",
+        "matched_term": "Oliohuadanga",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Chuadanga Saltar",
+        "matched_term": "Chuadanga Saltar",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "Blood Vita",
+        "matched_term": "Blood Vita",
+        "drug_id": "c4e19466-8a9c-40fb-abd3-e0ce767f4c70",
+        "brand_id": "957c897c-cea9-49c4-be64-81b7ca21a2fd",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "Hean Dinasd No",
+        "matched_term": "Hean Dinasd No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Kidney Diseaseig",
+        "matched_term": "Kidney Diseaseig",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Mental Diseasegg",
+        "matched_term": "Mental Diseasegg",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Weight",
+        "matched_term": "Weight",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Drug History Antihyperf",
+        "matched_term": "Drug History Antihyperf",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Pressure Cure",
+        "matched_term": "Pressure Cure",
+        "drug_id": "a764afa0-ecc2-4062-a881-1aca8ba26331",
+        "brand_id": "cd0ad7a9-5819-436f-b622-5ffd0b5002ac",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "Lung Disease",
+        "matched_term": "Lung Disease",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Diabetex",
+        "matched_term": "Diabetex",
+        "drug_id": "ac05c239-f317-474c-ab2c-6bf81c84a925",
+        "brand_id": "25a6e199-b4b5-498e-a853-b9cfc2410186",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "Blood Vita",
+        "matched_term": "Blood Vita",
+        "drug_id": "c4e19466-8a9c-40fb-abd3-e0ce767f4c70",
+        "brand_id": "957c897c-cea9-49c4-be64-81b7ca21a2fd",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "MU Liver",
+        "matched_term": "MU Liver",
+        "drug_id": "1bab76b3-f92c-4ccf-9294-319b19ac2a24",
+        "brand_id": "e3e656ee-5a99-4f75-af4d-71d32865d3e5",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "Any Other Abnormaliies",
+        "matched_term": "Any Other Abnormaliies",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Chief Complaints",
+        "matched_term": "Chief Complaints",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Visin",
+        "matched_term": "Visin",
+        "drug_id": "595eff53-845f-4baf-addd-686ace28143f",
+        "brand_id": "e5261a11-e0bb-452d-a2c4-1d1cdafa05d2",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "Ard Copy",
+        "matched_term": "Ard Copy",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "May",
+        "matched_term": "May",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Date",
+        "matched_term": "Date",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Ovel",
+        "matched_term": "Ovel",
+        "drug_id": "d16852e1-9447-4f20-978a-a00f4685fa30",
+        "brand_id": "dcda2b7c-df0a-4393-9a4c-9332890b8bf7",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "Tempac",
+        "matched_term": "Tempac",
+        "drug_id": "34d4169e-0795-45bb-b29d-4873102e5bdd",
+        "brand_id": "8bd39d38-7863-410d-9969-62dc02dbf31c",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "Re Anaemia",
+        "matched_term": "Re Anaemia",
+        "drug_id": "a8b0d7b1-117c-446b-8324-e3a864949b32",
+        "brand_id": "1a4f32e7-c456-444e-aa19-1f65834ba51b",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "G Rehydration",
+        "matched_term": "G Rehydration",
+        "drug_id": "01cdd5b1-8bd0-41d2-bf20-7c1361a294b0",
+        "brand_id": "9643bdd7-6f8b-4c2c-bfb6-514698a2c589",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "Respira",
+        "matched_term": "Respira",
+        "drug_id": "656b8f01-ab73-41c9-ac79-e2f8912cd7a5",
+        "brand_id": "e9aaae9c-065c-4fdb-a25f-c5f67053015e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "Othera",
+        "matched_term": "Othera",
+        "drug_id": "25a9f52e-b192-462a-b9a3-bef96e0f684d",
+        "brand_id": "43ed2ac7-38ef-4fe3-a605-a6fb9b07264e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "Bs",
+        "matched_term": "Bs",
+        "drug_id": "9bb2743d-bfe6-4532-af81-912abb378e06",
+        "brand_id": "88532ab0-3b6d-4174-8098-08900e322a5b",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "Visional Diagonosis Rx",
+        "matched_term": "Visional Diagonosis Rx",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Acectofence",
+        "matched_term": "Acectofence",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Myolax",
+        "matched_term": "Myolax",
+        "drug_id": "072b7067-7ef7-4285-ad3c-3b2095fb8777",
+        "brand_id": "8cf4b120-aabe-46ac-aeab-aafb108c6302",
+        "dosage": "50 mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.757
+      },
+      {
+        "name": "Don A",
+        "matched_term": "Don A",
+        "drug_id": "9be00680-287a-4d77-b894-f7e1af72ef33",
+        "brand_id": "67c7115c-aebb-4202-8744-cb579d701e73",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "Oretid",
+        "matched_term": "Oretid",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      }
+    ]
+  }
+}

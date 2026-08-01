@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "8a608a218b0750284efd06dae52d6a19054e05c7efa29fb1f021bb4660753a64",
+  "record_id": "RX-0002",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 12010.094299999764,
+  "failure": null,
+  "response_sha256": "08d1d97fb77e4081718bc5ebbf8d5217a3b0e4a1488577fcc50ca250686dbef7",
+  "response": {
+    "raw_text": "Ch. Phanynings\n1\nKilbar\n5n\n1\n1+0+1\n7 dias\nTab- Fexo\n20\n16\n010+1\nTab-moram 10mg\n0-+0+1",
+    "lines": [
+      {
+        "text": "Ch. Phanynings",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.673
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.673
+      },
+      {
+        "text": "Kilbar",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.673
+      },
+      {
+        "text": "5n",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.673
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.673
+      },
+      {
+        "text": "1+0+1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.673
+      },
+      {
+        "text": "7 dias",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.673
+      },
+      {
+        "text": "Tab- Fexo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.673
+      },
+      {
+        "text": "20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.673
+      },
+      {
+        "text": "16",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.673
+      },
+      {
+        "text": "010+1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.673
+      },
+      {
+        "text": "Tab-moram 10mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.673
+      },
+      {
+        "text": "0-+0+1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.673
+      }
+    ]
+  }
+}

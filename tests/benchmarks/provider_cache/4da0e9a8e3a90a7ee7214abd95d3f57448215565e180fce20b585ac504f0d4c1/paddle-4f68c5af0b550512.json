@@ -1,0 +1,1006 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0024",
+  "source_sha256": "4da0e9a8e3a90a7ee7214abd95d3f57448215565e180fce20b585ac504f0d4c1",
+  "provider": "paddle",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:33:40.664062+00:00",
+  "runtime_ms": 42786.87340000761,
+  "output": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladnsh Haj Office\nMakkahMadinahJeddah\nTREATMENTCARD/\nF209\nPaso1No\n412260\nWos\nJeme\nFOMIE\nD\nTHaSANMEGASL\nNEALTH PROFILE\n1GksGrux\n40\nNO\nlarpDsr\n7.4D\nNO\n3\n8\n-\n1.gry\n12ny her\nnmultes.\nChief Complante\n200\nCmlcrre\nau\nehint\nAE\nf\nOE.\nFuse\nFf\n1\nTeep\nAresia\nTele\nEsonep\nDehyertion\nRespirotion\nOners\n1t0+)\nW\nFex0120\n5\n0+0+1\nZe\nMontiuiat\nFOSRES\n0+of\nECG\nWeroflyr\nProvisional Diagorcel\nwa\n(f0+)\n17.8\nTas\n)+1e",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": {
+          "x_min": 181.0,
+          "y_min": 51.0,
+          "x_max": 443.0,
+          "y_max": 66.0
+        },
+        "page": 1,
+        "confidence": 0.943
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": {
+          "x_min": 240.0,
+          "y_min": 62.0,
+          "x_max": 389.0,
+          "y_max": 78.0
+        },
+        "page": 1,
+        "confidence": 0.964
+      },
+      {
+        "text": "Bangladnsh Haj Office",
+        "bbox": {
+          "x_min": 270.0,
+          "y_min": 75.0,
+          "x_max": 361.0,
+          "y_max": 88.0
+        },
+        "page": 1,
+        "confidence": 0.862
+      },
+      {
+        "text": "MakkahMadinahJeddah",
+        "bbox": {
+          "x_min": 265.0,
+          "y_min": 85.0,
+          "x_max": 363.0,
+          "y_max": 98.0
+        },
+        "page": 1,
+        "confidence": 0.936
+      },
+      {
+        "text": "TREATMENTCARD/",
+        "bbox": {
+          "x_min": 256.0,
+          "y_min": 105.0,
+          "x_max": 379.0,
+          "y_max": 118.0
+        },
+        "page": 1,
+        "confidence": 0.949
+      },
+      {
+        "text": "F209",
+        "bbox": {
+          "x_min": 391.0,
+          "y_min": 109.0,
+          "x_max": 458.0,
+          "y_max": 128.0
+        },
+        "page": 1,
+        "confidence": 0.888
+      },
+      {
+        "text": "Paso1No",
+        "bbox": {
+          "x_min": 268.0,
+          "y_min": 129.0,
+          "x_max": 320.0,
+          "y_max": 140.0
+        },
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": "412260",
+        "bbox": {
+          "x_min": 330.0,
+          "y_min": 127.0,
+          "x_max": 366.0,
+          "y_max": 137.0
+        },
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "Wos",
+        "bbox": {
+          "x_min": 393.0,
+          "y_min": 127.0,
+          "x_max": 448.0,
+          "y_max": 138.0
+        },
+        "page": 1,
+        "confidence": 0.566
+      },
+      {
+        "text": "Jeme",
+        "bbox": {
+          "x_min": 148.0,
+          "y_min": 142.0,
+          "x_max": 165.0,
+          "y_max": 150.0
+        },
+        "page": 1,
+        "confidence": 0.712
+      },
+      {
+        "text": "FOMIE",
+        "bbox": {
+          "x_min": 181.0,
+          "y_min": 147.0,
+          "x_max": 215.0,
+          "y_max": 157.0
+        },
+        "page": 1,
+        "confidence": 0.391
+      },
+      {
+        "text": "D",
+        "bbox": {
+          "x_min": 225.0,
+          "y_min": 145.0,
+          "x_max": 289.0,
+          "y_max": 163.0
+        },
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "THaSANMEGASL",
+        "bbox": {
+          "x_min": 374.0,
+          "y_min": 149.0,
+          "x_max": 434.0,
+          "y_max": 160.0
+        },
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "NEALTH PROFILE",
+        "bbox": {
+          "x_min": 275.0,
+          "y_min": 161.0,
+          "x_max": 352.0,
+          "y_max": 182.0
+        },
+        "page": 1,
+        "confidence": 0.9
+      },
+      {
+        "text": "1GksGrux",
+        "bbox": {
+          "x_min": 218.0,
+          "y_min": 181.0,
+          "x_max": 266.0,
+          "y_max": 191.0
+        },
+        "page": 1,
+        "confidence": 0.439
+      },
+      {
+        "text": "40",
+        "bbox": {
+          "x_min": 275.0,
+          "y_min": 177.0,
+          "x_max": 292.0,
+          "y_max": 194.0
+        },
+        "page": 1,
+        "confidence": 0.526
+      },
+      {
+        "text": "NO",
+        "bbox": {
+          "x_min": 276.0,
+          "y_min": 190.0,
+          "x_max": 288.0,
+          "y_max": 197.0
+        },
+        "page": 1,
+        "confidence": 0.428
+      },
+      {
+        "text": "larpDsr",
+        "bbox": {
+          "x_min": 360.0,
+          "y_min": 186.0,
+          "x_max": 404.0,
+          "y_max": 202.0
+        },
+        "page": 1,
+        "confidence": 0.47
+      },
+      {
+        "text": "7.4D",
+        "bbox": {
+          "x_min": 218.0,
+          "y_min": 204.0,
+          "x_max": 271.0,
+          "y_max": 214.0
+        },
+        "page": 1,
+        "confidence": 0.746
+      },
+      {
+        "text": "NO",
+        "bbox": {
+          "x_min": 274.0,
+          "y_min": 198.0,
+          "x_max": 288.0,
+          "y_max": 206.0
+        },
+        "page": 1,
+        "confidence": 0.692
+      },
+      {
+        "text": "3",
+        "bbox": {
+          "x_min": 274.0,
+          "y_min": 206.0,
+          "x_max": 287.0,
+          "y_max": 214.0
+        },
+        "page": 1,
+        "confidence": 0.085
+      },
+      {
+        "text": "8",
+        "bbox": {
+          "x_min": 350.0,
+          "y_min": 205.0,
+          "x_max": 366.0,
+          "y_max": 218.0
+        },
+        "page": 1,
+        "confidence": 0.28
+      },
+      {
+        "text": "-",
+        "bbox": {
+          "x_min": 354.0,
+          "y_min": 198.0,
+          "x_max": 363.0,
+          "y_max": 206.0
+        },
+        "page": 1,
+        "confidence": 0.182
+      },
+      {
+        "text": "1.gry",
+        "bbox": {
+          "x_min": 214.0,
+          "y_min": 210.0,
+          "x_max": 266.0,
+          "y_max": 232.0
+        },
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "12ny her",
+        "bbox": {
+          "x_min": 348.0,
+          "y_min": 218.0,
+          "x_max": 403.0,
+          "y_max": 229.0
+        },
+        "page": 1,
+        "confidence": 0.774
+      },
+      {
+        "text": "nmultes.",
+        "bbox": {
+          "x_min": 404.0,
+          "y_min": 217.0,
+          "x_max": 440.0,
+          "y_max": 227.0
+        },
+        "page": 1,
+        "confidence": 0.468
+      },
+      {
+        "text": "Chief Complante",
+        "bbox": {
+          "x_min": 150.0,
+          "y_min": 236.0,
+          "x_max": 219.0,
+          "y_max": 250.0
+        },
+        "page": 1,
+        "confidence": 0.853
+      },
+      {
+        "text": "200",
+        "bbox": {
+          "x_min": 370.0,
+          "y_min": 232.0,
+          "x_max": 425.0,
+          "y_max": 249.0
+        },
+        "page": 1,
+        "confidence": 0.548
+      },
+      {
+        "text": "Cmlcrre",
+        "bbox": {
+          "x_min": 160.0,
+          "y_min": 253.0,
+          "x_max": 211.0,
+          "y_max": 267.0
+        },
+        "page": 1,
+        "confidence": 0.554
+      },
+      {
+        "text": "au",
+        "bbox": {
+          "x_min": 211.0,
+          "y_min": 243.0,
+          "x_max": 245.0,
+          "y_max": 260.0
+        },
+        "page": 1,
+        "confidence": 0.384
+      },
+      {
+        "text": "ehint",
+        "bbox": {
+          "x_min": 181.0,
+          "y_min": 259.0,
+          "x_max": 234.0,
+          "y_max": 282.0
+        },
+        "page": 1,
+        "confidence": 0.431
+      },
+      {
+        "text": "AE",
+        "bbox": {
+          "x_min": 290.0,
+          "y_min": 273.0,
+          "x_max": 308.0,
+          "y_max": 284.0
+        },
+        "page": 1,
+        "confidence": 0.193
+      },
+      {
+        "text": "f",
+        "bbox": {
+          "x_min": 335.0,
+          "y_min": 260.0,
+          "x_max": 477.0,
+          "y_max": 281.0
+        },
+        "page": 1,
+        "confidence": 0.331
+      },
+      {
+        "text": "OE.",
+        "bbox": {
+          "x_min": 152.0,
+          "y_min": 276.0,
+          "x_max": 170.0,
+          "y_max": 287.0
+        },
+        "page": 1,
+        "confidence": 0.446
+      },
+      {
+        "text": "Fuse",
+        "bbox": {
+          "x_min": 153.0,
+          "y_min": 286.0,
+          "x_max": 172.0,
+          "y_max": 298.0
+        },
+        "page": 1,
+        "confidence": 0.899
+      },
+      {
+        "text": "Ff",
+        "bbox": {
+          "x_min": 150.0,
+          "y_min": 294.0,
+          "x_max": 169.0,
+          "y_max": 313.0
+        },
+        "page": 1,
+        "confidence": 0.218
+      },
+      {
+        "text": "1",
+        "bbox": {
+          "x_min": 343.0,
+          "y_min": 281.0,
+          "x_max": 447.0,
+          "y_max": 308.0
+        },
+        "page": 1,
+        "confidence": 0.44
+      },
+      {
+        "text": "Teep",
+        "bbox": {
+          "x_min": 153.0,
+          "y_min": 309.0,
+          "x_max": 174.0,
+          "y_max": 321.0
+        },
+        "page": 1,
+        "confidence": 0.662
+      },
+      {
+        "text": "Aresia",
+        "bbox": {
+          "x_min": 153.0,
+          "y_min": 321.0,
+          "x_max": 181.0,
+          "y_max": 331.0
+        },
+        "page": 1,
+        "confidence": 0.522
+      },
+      {
+        "text": "Tele",
+        "bbox": {
+          "x_min": 293.0,
+          "y_min": 325.0,
+          "x_max": 317.0,
+          "y_max": 341.0
+        },
+        "page": 1,
+        "confidence": 0.661
+      },
+      {
+        "text": "Esonep",
+        "bbox": {
+          "x_min": 333.0,
+          "y_min": 316.0,
+          "x_max": 389.0,
+          "y_max": 338.0
+        },
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "Dehyertion",
+        "bbox": {
+          "x_min": 150.0,
+          "y_min": 328.0,
+          "x_max": 192.0,
+          "y_max": 345.0
+        },
+        "page": 1,
+        "confidence": 0.7
+      },
+      {
+        "text": "Respirotion",
+        "bbox": {
+          "x_min": 152.0,
+          "y_min": 341.0,
+          "x_max": 189.0,
+          "y_max": 352.0
+        },
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "Oners",
+        "bbox": {
+          "x_min": 151.0,
+          "y_min": 353.0,
+          "x_max": 174.0,
+          "y_max": 364.0
+        },
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "1t0+)",
+        "bbox": {
+          "x_min": 346.0,
+          "y_min": 337.0,
+          "x_max": 392.0,
+          "y_max": 359.0
+        },
+        "page": 1,
+        "confidence": 0.583
+      },
+      {
+        "text": "W",
+        "bbox": {
+          "x_min": 306.0,
+          "y_min": 370.0,
+          "x_max": 329.0,
+          "y_max": 385.0
+        },
+        "page": 1,
+        "confidence": 0.207
+      },
+      {
+        "text": "Fex0120",
+        "bbox": {
+          "x_min": 339.0,
+          "y_min": 360.0,
+          "x_max": 412.0,
+          "y_max": 382.0
+        },
+        "page": 1,
+        "confidence": 0.648
+      },
+      {
+        "text": "5",
+        "bbox": {
+          "x_min": 438.0,
+          "y_min": 374.0,
+          "x_max": 449.0,
+          "y_max": 383.0
+        },
+        "page": 1,
+        "confidence": 0.244
+      },
+      {
+        "text": "0+0+1",
+        "bbox": {
+          "x_min": 349.0,
+          "y_min": 378.0,
+          "x_max": 401.0,
+          "y_max": 405.0
+        },
+        "page": 1,
+        "confidence": 0.648
+      },
+      {
+        "text": "Ze",
+        "bbox": {
+          "x_min": 306.0,
+          "y_min": 421.0,
+          "x_max": 334.0,
+          "y_max": 437.0
+        },
+        "page": 1,
+        "confidence": 0.389
+      },
+      {
+        "text": "Montiuiat",
+        "bbox": {
+          "x_min": 338.0,
+          "y_min": 409.0,
+          "x_max": 416.0,
+          "y_max": 434.0
+        },
+        "page": 1,
+        "confidence": 0.609
+      },
+      {
+        "text": "FOSRES",
+        "bbox": {
+          "x_min": 146.0,
+          "y_min": 436.0,
+          "x_max": 183.0,
+          "y_max": 450.0
+        },
+        "page": 1,
+        "confidence": 0.712
+      },
+      {
+        "text": "0+of",
+        "bbox": {
+          "x_min": 357.0,
+          "y_min": 425.0,
+          "x_max": 416.0,
+          "y_max": 450.0
+        },
+        "page": 1,
+        "confidence": 0.405
+      },
+      {
+        "text": "ECG",
+        "bbox": {
+          "x_min": 146.0,
+          "y_min": 449.0,
+          "x_max": 166.0,
+          "y_max": 461.0
+        },
+        "page": 1,
+        "confidence": 0.967
+      },
+      {
+        "text": "Weroflyr",
+        "bbox": {
+          "x_min": 350.0,
+          "y_min": 451.0,
+          "x_max": 416.0,
+          "y_max": 482.0
+        },
+        "page": 1,
+        "confidence": 0.509
+      },
+      {
+        "text": "Provisional Diagorcel",
+        "bbox": {
+          "x_min": 147.0,
+          "y_min": 474.0,
+          "x_max": 225.0,
+          "y_max": 484.0
+        },
+        "page": 1,
+        "confidence": 0.952
+      },
+      {
+        "text": "wa",
+        "bbox": {
+          "x_min": 312.0,
+          "y_min": 472.0,
+          "x_max": 335.0,
+          "y_max": 487.0
+        },
+        "page": 1,
+        "confidence": 0.322
+      },
+      {
+        "text": "(f0+)",
+        "bbox": {
+          "x_min": 367.0,
+          "y_min": 470.0,
+          "x_max": 420.0,
+          "y_max": 501.0
+        },
+        "page": 1,
+        "confidence": 0.517
+      },
+      {
+        "text": "17.8",
+        "bbox": {
+          "x_min": 204.0,
+          "y_min": 509.0,
+          "x_max": 291.0,
+          "y_max": 541.0
+        },
+        "page": 1,
+        "confidence": 0.539
+      },
+      {
+        "text": "Tas",
+        "bbox": {
+          "x_min": 320.0,
+          "y_min": 511.0,
+          "x_max": 348.0,
+          "y_max": 532.0
+        },
+        "page": 1,
+        "confidence": 0.601
+      },
+      {
+        "text": ")+1e",
+        "bbox": {
+          "x_min": 381.0,
+          "y_min": 518.0,
+          "x_max": 433.0,
+          "y_max": 543.0
+        },
+        "page": 1,
+        "confidence": 0.604
+      }
+    ],
+    "medications": [
+      {
+        "name": "Government Of The",
+        "matched_term": "Government Of The",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.424
+      },
+      {
+        "name": "Minista",
+        "matched_term": "Minista",
+        "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+        "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.814
+      },
+      {
+        "name": "Bangladnsh Haj Office",
+        "matched_term": "Bangladnsh Haj Office",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.388
+      },
+      {
+        "name": "Makkahmadinahjeddah",
+        "matched_term": "Makkahmadinahjeddah",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.421
+      },
+      {
+        "name": "Treatmentcard",
+        "matched_term": "Treatmentcard",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.362
+      },
+      {
+        "name": "Wos Paso No",
+        "matched_term": "Wos Paso No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.29
+      },
+      {
+        "name": "Jeme",
+        "matched_term": "Jeme",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.3
+      },
+      {
+        "name": "Fomie",
+        "matched_term": "Fomie",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.176
+      },
+      {
+        "name": "Thasanmegasl",
+        "matched_term": "Thasanmegasl",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.263
+      },
+      {
+        "name": "Nealth Profile Gksgrux",
+        "matched_term": "Nealth Profile Gksgrux",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.28
+      },
+      {
+        "name": "Larpdsr No No",
+        "matched_term": "Larpdsr No No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.185
+      },
+      {
+        "name": "Gry",
+        "matched_term": "Gry",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.179
+      },
+      {
+        "name": "Nmultes",
+        "matched_term": "Nmultes",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.211
+      },
+      {
+        "name": "Ny Her",
+        "matched_term": "Ny Her",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.297
+      },
+      {
+        "name": "Chief Complante Au",
+        "matched_term": "Chief Complante Au",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.278
+      },
+      {
+        "name": "Cmlcrre",
+        "matched_term": "Cmlcrre",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.249
+      },
+      {
+        "name": "Ehint Aegle",
+        "matched_term": "Ehint Aegle",
+        "drug_id": "1947b29e-24a3-4e1e-a76f-051325bfc642",
+        "brand_id": "0813f6ab-6bad-417c-a5c5-812e3d3d1506",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.166
+      },
+      {
+        "name": "Fuse Naff",
+        "matched_term": "Fuse Naff",
+        "drug_id": "5efc711c-0b6f-4d9c-91d5-26ebf115ccc5",
+        "brand_id": "aeff09f6-2264-468d-ae7d-b805e2200753",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.251
+      },
+      {
+        "name": "Teep",
+        "matched_term": "Teep",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.298
+      },
+      {
+        "name": "Esonep",
+        "matched_term": "Esonep",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.256
+      },
+      {
+        "name": "Aresia",
+        "matched_term": "Aresia",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.235
+      },
+      {
+        "name": "Teles",
+        "matched_term": "Teles",
+        "drug_id": "c1540954-cef7-49f8-8cde-89964fbd308e",
+        "brand_id": "5613eba5-aa50-442e-a5c9-80de065292fe",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.677
+      },
+      {
+        "name": "Dehyertion",
+        "matched_term": "Dehyertion",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.289
+      },
+      {
+        "name": "Respion",
+        "matched_term": "Respion",
+        "drug_id": "6d55a8b4-6fa1-419a-b108-e9ff554136b4",
+        "brand_id": "1cb21cd0-4fa2-4403-8b3c-f8e9719fb10f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.744
+      },
+      {
+        "name": "Fexole",
+        "matched_term": "Fexole",
+        "drug_id": "9273a76a-e410-4de4-9598-ed58aede0ead",
+        "brand_id": "693b2c97-65b0-45f0-9c32-56238f0956aa",
+        "dosage": null,
+        "frequency": "0+0+1",
+        "quantity": null,
+        "confidence": 0.47
+      },
+      {
+        "name": "Montiuiat Ze Of",
+        "matched_term": "Montiuiat Ze Of",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.21
+      },
+      {
+        "name": "Fosres",
+        "matched_term": "Fosres",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.32
+      },
+      {
+        "name": "Ecg",
+        "matched_term": "Ecg",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.435
+      },
+      {
+        "name": "Weroflyr Wayga",
+        "matched_term": "Weroflyr Wayga",
+        "drug_id": "c9ea0ee7-9b7c-4e6f-a471-852e02832812",
+        "brand_id": "60d60c8a-955a-4279-bfd8-ac5350b1127b",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.202
+      },
+      {
+        "name": "Provisional Diagorcel",
+        "matched_term": "Provisional Diagorcel",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.335
+      },
+      {
+        "name": "V-Tas",
+        "matched_term": "V-Tas",
+        "drug_id": "085c7194-9766-436a-b4ca-6b32da00cd11",
+        "brand_id": "2fe406ba-7cc6-40e8-b326-71dd5b0ba3b9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.651
+      }
+    ]
+  }
+}

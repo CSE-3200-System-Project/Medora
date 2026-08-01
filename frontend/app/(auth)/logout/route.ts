@@ -32,9 +32,9 @@ export async function GET(request: NextRequest) {
   const redirectTo = searchParams.get("redirect");
 
   if (redirectTo === "login") {
-    return NextResponse.redirect(new URL("/login", request.url));
+    return NextResponse.redirect(new URL("/session-cleanup", request.url));
   }
 
-  return NextResponse.redirect(new URL("/login", request.url));
+  return NextResponse.redirect(new URL("/session-cleanup", request.url));
 }
 

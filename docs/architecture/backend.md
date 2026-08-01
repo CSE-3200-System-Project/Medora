@@ -164,7 +164,7 @@ require_doctor(profile)
 | `config.py` | All settings via Pydantic BaseSettings: Supabase URLs, AI keys, SMTP, VAPID, Google OAuth, reminder intervals, OCR config |
 | `security.py` | JWT verification with JWKS cache + Supabase fallback |
 | `dependencies.py` | `get_db`, `get_current_user`, `require_doctor` FastAPI dependencies |
-| `ai_privacy.py` | PII anonymization: email/phone redaction, identifier hashing, name pattern removal |
+| `ai_privacy.py` | Bilingual known-identifier redaction; lowers exposure but does not guarantee anonymity |
 | `data_sharing_guard.py` | Reads patient consent records and filters data sent to AI based on sharing permissions |
 | `patient_reference.py` | Stable patient ID obfuscation for AI logs (no raw UUIDs in AI input) |
 | `http_cache.py` | HTTP cache-control header helpers |

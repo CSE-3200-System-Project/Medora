@@ -1,0 +1,1307 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0075",
+  "source_sha256": "caaa33779d0732bc7ad3b45bec2a144630f7929e70fec921c10307144b28f0e0",
+  "raw_transcription": "6\n& Angilock Su\nor\nDe 2\nTab Comet 500\n1 x oc 1 A\nTre\nApara la\nCep Sucho\n245/310/35/148 Hay\n5\n- JAMS",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "Angilock",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Comet",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Trec",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Apara La",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Cepa",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Hay",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Jam",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "583444aa0d3d4df17395b9a1de8cf3e29083a8910bfb914a8c2dec2d7173417a"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "dc28e16c10d5a207b8b1032d0afd724f01fdb18a6bc5c9af3d5054f7ce36501c"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "37481f7b292cee2d6dd3b1f912f416e64123886eb50f2491cdbf37e492282069"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "84\nB\nanbppig\n2\n2AE\n1\nV\nL\nG\nLPR\n2\n9uTe'sy\nC\no\n1\nSO\nR\n8\n19081\nO\n907\nShopo-pons\nEN\nO\nX\nb/-\nArnerneeengen\n19081\nhnrshes\n8008\nCMNOOOM\nO\n3\n-\n&\n2\nA\ndo\naoee\nJ\nP\n3E\n&99",
+      "lines": [
+        {
+          "text": "84",
+          "bbox": {
+            "x_min": 2378.0,
+            "y_min": 1221.0,
+            "x_max": 2557.0,
+            "y_max": 1545.0
+          },
+          "page": 1,
+          "confidence": 0.383
+        },
+        {
+          "text": "B",
+          "bbox": {
+            "x_min": 2848.0,
+            "y_min": 1228.0,
+            "x_max": 3033.0,
+            "y_max": 1538.0
+          },
+          "page": 1,
+          "confidence": 0.69
+        },
+        {
+          "text": "anbppig",
+          "bbox": {
+            "x_min": 834.0,
+            "y_min": 1394.0,
+            "x_max": 983.0,
+            "y_max": 1893.0
+          },
+          "page": 1,
+          "confidence": 0.583
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 1038.0,
+            "y_min": 1485.0,
+            "x_max": 1118.0,
+            "y_max": 1623.0
+          },
+          "page": 1,
+          "confidence": 0.535
+        },
+        {
+          "text": "2AE",
+          "bbox": {
+            "x_min": 4317.0,
+            "y_min": 1509.0,
+            "x_max": 4407.0,
+            "y_max": 1790.0
+          },
+          "page": 1,
+          "confidence": 0.453
+        },
+        {
+          "text": "1",
+          "bbox": {
+            "x_min": 1014.0,
+            "y_min": 1587.0,
+            "x_max": 1130.0,
+            "y_max": 1730.0
+          },
+          "page": 1,
+          "confidence": 0.136
+        },
+        {
+          "text": "V",
+          "bbox": {
+            "x_min": 984.0,
+            "y_min": 1618.0,
+            "x_max": 990.0,
+            "y_max": 1626.0
+          },
+          "page": 1,
+          "confidence": 0.407
+        },
+        {
+          "text": "L",
+          "bbox": {
+            "x_min": 1411.0,
+            "y_min": 1636.0,
+            "x_max": 1595.0,
+            "y_max": 1869.0
+          },
+          "page": 1,
+          "confidence": 0.128
+        },
+        {
+          "text": "G",
+          "bbox": {
+            "x_min": 3659.0,
+            "y_min": 1636.0,
+            "x_max": 3764.0,
+            "y_max": 1723.0
+          },
+          "page": 1,
+          "confidence": 0.319
+        },
+        {
+          "text": "LPR",
+          "bbox": {
+            "x_min": 334.0,
+            "y_min": 1639.0,
+            "x_max": 478.0,
+            "y_max": 1927.0
+          },
+          "page": 1,
+          "confidence": 0.843
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 2321.0,
+            "y_min": 1686.0,
+            "x_max": 2669.0,
+            "y_max": 1981.0
+          },
+          "page": 1,
+          "confidence": 0.127
+        },
+        {
+          "text": "9uTe'sy",
+          "bbox": {
+            "x_min": 3213.0,
+            "y_min": 1701.0,
+            "x_max": 3451.0,
+            "y_max": 2687.0
+          },
+          "page": 1,
+          "confidence": 0.512
+        },
+        {
+          "text": "C",
+          "bbox": {
+            "x_min": 981.0,
+            "y_min": 1716.0,
+            "x_max": 994.0,
+            "y_max": 1730.0
+          },
+          "page": 1,
+          "confidence": 0.195
+        },
+        {
+          "text": "o",
+          "bbox": {
+            "x_min": 984.0,
+            "y_min": 1733.0,
+            "x_max": 993.0,
+            "y_max": 1744.0
+          },
+          "page": 1,
+          "confidence": 0.116
+        },
+        {
+          "text": "1",
+          "bbox": {
+            "x_min": 986.0,
+            "y_min": 1748.0,
+            "x_max": 993.0,
+            "y_max": 1758.0
+          },
+          "page": 1,
+          "confidence": 0.103
+        },
+        {
+          "text": "SO",
+          "bbox": {
+            "x_min": 2500.0,
+            "y_min": 1885.0,
+            "x_max": 2518.0,
+            "y_max": 1893.0
+          },
+          "page": 1,
+          "confidence": 0.236
+        },
+        {
+          "text": "R",
+          "bbox": {
+            "x_min": 1912.0,
+            "y_min": 1923.0,
+            "x_max": 1922.0,
+            "y_max": 1936.0
+          },
+          "page": 1,
+          "confidence": 0.168
+        },
+        {
+          "text": "8",
+          "bbox": {
+            "x_min": 2540.0,
+            "y_min": 1879.0,
+            "x_max": 2728.0,
+            "y_max": 2081.0
+          },
+          "page": 1,
+          "confidence": 0.183
+        },
+        {
+          "text": "19081",
+          "bbox": {
+            "x_min": 2117.0,
+            "y_min": 1932.0,
+            "x_max": 2299.0,
+            "y_max": 2417.0
+          },
+          "page": 1,
+          "confidence": 0.491
+        },
+        {
+          "text": "O",
+          "bbox": {
+            "x_min": 1914.0,
+            "y_min": 1948.0,
+            "x_max": 1925.0,
+            "y_max": 1960.0
+          },
+          "page": 1,
+          "confidence": 0.073
+        },
+        {
+          "text": "907",
+          "bbox": {
+            "x_min": 1962.0,
+            "y_min": 1953.0,
+            "x_max": 2097.0,
+            "y_max": 2522.0
+          },
+          "page": 1,
+          "confidence": 0.498
+        },
+        {
+          "text": "Shopo-pons",
+          "bbox": {
+            "x_min": 2250.0,
+            "y_min": 1954.0,
+            "x_max": 2401.0,
+            "y_max": 2663.0
+          },
+          "page": 1,
+          "confidence": 0.329
+        },
+        {
+          "text": "EN",
+          "bbox": {
+            "x_min": 875.0,
+            "y_min": 1996.0,
+            "x_max": 1049.0,
+            "y_max": 2877.0
+          },
+          "page": 1,
+          "confidence": 0.33
+        },
+        {
+          "text": "O",
+          "bbox": {
+            "x_min": 3527.0,
+            "y_min": 2014.0,
+            "x_max": 3540.0,
+            "y_max": 2022.0
+          },
+          "page": 1,
+          "confidence": 0.201
+        },
+        {
+          "text": "X",
+          "bbox": {
+            "x_min": 2411.0,
+            "y_min": 2029.0,
+            "x_max": 2452.0,
+            "y_max": 2058.0
+          },
+          "page": 1,
+          "confidence": 0.117
+        },
+        {
+          "text": "b/-",
+          "bbox": {
+            "x_min": 2482.0,
+            "y_min": 2011.0,
+            "x_max": 2801.0,
+            "y_max": 2844.0
+          },
+          "page": 1,
+          "confidence": 0.667
+        },
+        {
+          "text": "Arnerneeengen",
+          "bbox": {
+            "x_min": 3116.0,
+            "y_min": 2034.0,
+            "x_max": 3230.0,
+            "y_max": 2780.0
+          },
+          "page": 1,
+          "confidence": 0.324
+        },
+        {
+          "text": "19081",
+          "bbox": {
+            "x_min": 2369.0,
+            "y_min": 2056.0,
+            "x_max": 2491.0,
+            "y_max": 2336.0
+          },
+          "page": 1,
+          "confidence": 0.732
+        },
+        {
+          "text": "hnrshes",
+          "bbox": {
+            "x_min": 1516.0,
+            "y_min": 2070.0,
+            "x_max": 1628.0,
+            "y_max": 2800.0
+          },
+          "page": 1,
+          "confidence": 0.476
+        },
+        {
+          "text": "8008",
+          "bbox": {
+            "x_min": 740.0,
+            "y_min": 2110.0,
+            "x_max": 908.0,
+            "y_max": 2906.0
+          },
+          "page": 1,
+          "confidence": 0.398
+        },
+        {
+          "text": "CMNOOOM",
+          "bbox": {
+            "x_min": 1082.0,
+            "y_min": 2122.0,
+            "x_max": 1190.0,
+            "y_max": 2870.0
+          },
+          "page": 1,
+          "confidence": 0.383
+        },
+        {
+          "text": "O",
+          "bbox": {
+            "x_min": 2953.0,
+            "y_min": 2246.0,
+            "x_max": 3067.0,
+            "y_max": 2386.0
+          },
+          "page": 1,
+          "confidence": 0.29
+        },
+        {
+          "text": "3",
+          "bbox": {
+            "x_min": 1818.0,
+            "y_min": 2294.0,
+            "x_max": 1970.0,
+            "y_max": 2419.0
+          },
+          "page": 1,
+          "confidence": 0.377
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 3022.0,
+            "y_min": 2325.0,
+            "x_max": 3031.0,
+            "y_max": 2337.0
+          },
+          "page": 1,
+          "confidence": 0.714
+        },
+        {
+          "text": "&",
+          "bbox": {
+            "x_min": 2985.0,
+            "y_min": 2346.0,
+            "x_max": 3135.0,
+            "y_max": 2519.0
+          },
+          "page": 1,
+          "confidence": 0.249
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 3913.0,
+            "y_min": 2372.0,
+            "x_max": 4122.0,
+            "y_max": 2596.0
+          },
+          "page": 1,
+          "confidence": 0.467
+        },
+        {
+          "text": "A",
+          "bbox": {
+            "x_min": 1940.0,
+            "y_min": 2414.0,
+            "x_max": 1946.0,
+            "y_max": 2420.0
+          },
+          "page": 1,
+          "confidence": 0.075
+        },
+        {
+          "text": "do",
+          "bbox": {
+            "x_min": 1712.0,
+            "y_min": 2470.0,
+            "x_max": 1815.0,
+            "y_max": 2681.0
+          },
+          "page": 1,
+          "confidence": 0.353
+        },
+        {
+          "text": "aoee",
+          "bbox": {
+            "x_min": 2028.0,
+            "y_min": 2497.0,
+            "x_max": 2122.0,
+            "y_max": 2753.0
+          },
+          "page": 1,
+          "confidence": 0.213
+        },
+        {
+          "text": "J",
+          "bbox": {
+            "x_min": 3515.0,
+            "y_min": 2510.0,
+            "x_max": 3660.0,
+            "y_max": 2657.0
+          },
+          "page": 1,
+          "confidence": 0.91
+        },
+        {
+          "text": "P",
+          "bbox": {
+            "x_min": 534.0,
+            "y_min": 2596.0,
+            "x_max": 782.0,
+            "y_max": 2782.0
+          },
+          "page": 1,
+          "confidence": 0.117
+        },
+        {
+          "text": "3E",
+          "bbox": {
+            "x_min": 2345.0,
+            "y_min": 2585.0,
+            "x_max": 2463.0,
+            "y_max": 2797.0
+          },
+          "page": 1,
+          "confidence": 0.344
+        },
+        {
+          "text": "&99",
+          "bbox": {
+            "x_min": 2268.0,
+            "y_min": 3165.0,
+            "x_max": 2751.0,
+            "y_max": 3468.0
+          },
+          "page": 1,
+          "confidence": 0.282
+        }
+      ],
+      "medications": [
+        {
+          "name": "Anbppig Ae",
+          "matched_term": "Anbppig Ae",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.165
+        },
+        {
+          "name": "Alpro",
+          "matched_term": "Alpro",
+          "drug_id": "10df6dcf-73db-4fb7-9c49-9fe23233983b",
+          "brand_id": "9d3e7930-ac2c-4a42-b576-025a4051300f",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.513
+        },
+        {
+          "name": "Shopo-Pons En",
+          "matched_term": "Shopo-Pons En",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.148
+        },
+        {
+          "name": "Arnerneeengen",
+          "matched_term": "Arnerneeengen",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.238
+        },
+        {
+          "name": "Hnrshes",
+          "matched_term": "Hnrshes",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.197
+        },
+        {
+          "name": "Cmnooom Do",
+          "matched_term": "Cmnooom Do",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.164
+        },
+        {
+          "name": "Aoee",
+          "matched_term": "Aoee",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.168
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "LPR\nडिकिश्माक कड़क थम ब्बाभीव बाबूभेज\n7- 820377\nMepo (2)\nबागीव नाम 14 2 H Siddique\n544\nCMH/CWC/MI ROOM\nH/M\nमिक विट्लार्डस काविश उ स्वाटशन वर्षना\nडिकिस्मटकन वारशुशंख, गडता ७ मार्फत\nChief Complaints :\n0\nS No ....\n13\nDate: 012.05.19\n13.05.19\nIssued - 30 days\nO/E :\n13.05.19\nPP-130/90\nCarl /\nTab Comit Jag\n1 e ol 1 A\nThe\nApara ley\n8.0\nAdv/ Investigation:\nFBS, 29 AnsA\nCep sich\nLipid (F) 245/310/35/148 Hay\nLUFT, G 1.5\nP/D ;\nHINIA\nR\nVAJE MOHSIN\nRX\nRende In\nTS Angilock Som\n0 days\n1.49\n7.19\n1 moo ??",
+      "lines": [
+        {
+          "text": "LPR",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "डिकिश्माक कड़क थम ब्बाभीव बाबूभेज",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "7- 820377",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "Mepo (2)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "बागीव नाम 14 2 H Siddique",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "544",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "CMH/CWC/MI ROOM",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "H/M",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "मिक विट्लार्डस काविश उ स्वाटशन वर्षना",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "डिकिस्मटकन वारशुशंख, गडता ७ मार्फत",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "Chief Complaints :",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "0",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "S No ....",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "13",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "Date: 012.05.19",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "13.05.19",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "Issued - 30 days",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "O/E :",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "13.05.19",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "PP-130/90",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "Carl /",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "Tab Comit Jag",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "1 e ol 1 A",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "The",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "Apara ley",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "8.0",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "Adv/ Investigation:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "FBS, 29 AnsA",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "Cep sich",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "Lipid (F) 245/310/35/148 Hay",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "LUFT, G 1.5",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "P/D ;",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "HINIA",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "R",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "VAJE MOHSIN",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "RX",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "Rende In",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "TS Angilock Som",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "0 days",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "1.49",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "7.19",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "1 moo ??",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.574
+        }
+      ],
+      "medications": [
+        {
+          "name": "Alpro",
+          "matched_term": "Alpro",
+          "drug_id": "10df6dcf-73db-4fb7-9c49-9fe23233983b",
+          "brand_id": "9d3e7930-ac2c-4a42-b576-025a4051300f",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.638
+        },
+        {
+          "name": "Mepol",
+          "matched_term": "Mepol",
+          "drug_id": "a0ba02de-af44-451d-94d0-daf6ea7740e8",
+          "brand_id": "6c76f1c5-d615-4d8c-9d28-d95efcd38642",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.638
+        },
+        {
+          "name": "Dpl40",
+          "matched_term": "Dpl40",
+          "drug_id": "6bcf2cd6-2eaf-4ac3-9a2b-e8403659312f",
+          "brand_id": "caf0c5fb-4177-44db-bbb4-abebf19a50dc",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.474
+        },
+        {
+          "name": "Cmh Cwc Mi",
+          "matched_term": "Cmh Cwc Mi",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.258
+        },
+        {
+          "name": "Chief Complaints No",
+          "matched_term": "Chief Complaints No",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.258
+        },
+        {
+          "name": "Date Pp",
+          "matched_term": "Date Pp",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": "30 days",
+          "confidence": 0.308
+        },
+        {
+          "name": "Carl",
+          "matched_term": "Carl",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.258
+        },
+        {
+          "name": "Comin",
+          "matched_term": "Comin",
+          "drug_id": "23d6efcc-6c77-4b09-9f8f-eac3518528c7",
+          "brand_id": "4c009a06-96d1-42ea-ab49-9ccb9cac0570",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.638
+        },
+        {
+          "name": "The",
+          "matched_term": "The",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.258
+        },
+        {
+          "name": "Apara Ley",
+          "matched_term": "Apara Ley",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.258
+        },
+        {
+          "name": "Adv Investigation",
+          "matched_term": "Adv Investigation",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.258
+        },
+        {
+          "name": "Fbs Ansa",
+          "matched_term": "Fbs Ansa",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.258
+        },
+        {
+          "name": "Cepa",
+          "matched_term": "Cepa",
+          "drug_id": "d49857e8-f04c-4948-854d-4855470c8b9d",
+          "brand_id": "17943008-a10a-47a7-b86d-36f3484a05b0",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.638
+        },
+        {
+          "name": "Lipidof",
+          "matched_term": "Lipidof",
+          "drug_id": "728e5d77-9ff0-465a-8475-1b5952aa3b89",
+          "brand_id": "86f219a8-1b97-47eb-ae9f-314cd8014b96",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.638
+        },
+        {
+          "name": "Luf",
+          "matched_term": "Luf",
+          "drug_id": "1701e537-9eb5-4e41-8286-db15e8ce82c2",
+          "brand_id": "bc760080-c894-4bf6-9971-510036b5728d",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.638
+        },
+        {
+          "name": "Hinia",
+          "matched_term": "Hinia",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.258
+        },
+        {
+          "name": "Ovajet 50",
+          "matched_term": "Ovajet 50",
+          "drug_id": "986149ca-4d27-4572-a5bc-3c85882155da",
+          "brand_id": "d3ddd7be-a4f4-4166-8a87-1cec4471c5cd",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.529
+        },
+        {
+          "name": "Rende In",
+          "matched_term": "Rende In",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.258
+        },
+        {
+          "name": "Angilock",
+          "matched_term": "Angilock",
+          "drug_id": "9dff0641-71c5-420c-96b2-1eb99b9f1c6c",
+          "brand_id": "7f029a4c-3c7f-4e52-a3e4-dc88434564c3",
+          "dosage": null,
+          "frequency": null,
+          "quantity": "0 days",
+          "confidence": 0.688
+        },
+        {
+          "name": "Moon",
+          "matched_term": "Moon",
+          "drug_id": "5e6ddb1c-1bb9-45ba-8971-def47453c11d",
+          "brand_id": "3ce27438-85e6-4e07-94e7-c1c3a94412f5",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.638
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "Angilock",
+          "matched_term": "Angilock",
+          "drug_id": "9dff0641-71c5-420c-96b2-1eb99b9f1c6c",
+          "brand_id": "7f029a4c-3c7f-4e52-a3e4-dc88434564c3",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.603
+        },
+        {
+          "name": "Comet",
+          "matched_term": "Comet",
+          "drug_id": "9b1187f0-7a83-469b-ba7e-9767f208c540",
+          "brand_id": "37de78cc-ac31-4284-9057-77743b7e844f",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.603
+        },
+        {
+          "name": "Trec",
+          "matched_term": "Trec",
+          "drug_id": "f9473c4a-4e01-4ea9-97ca-b52afacd33e8",
+          "brand_id": "3725a869-43d5-4f26-9572-d0028eff80d3",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.603
+        },
+        {
+          "name": "Apara La",
+          "matched_term": "Apara La",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.223
+        },
+        {
+          "name": "Cepa",
+          "matched_term": "Cepa",
+          "drug_id": "d49857e8-f04c-4948-854d-4855470c8b9d",
+          "brand_id": "17943008-a10a-47a7-b86d-36f3484a05b0",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.603
+        },
+        {
+          "name": "Hay",
+          "matched_term": "Hay",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.223
+        },
+        {
+          "name": "Jam",
+          "matched_term": "Jam",
+          "drug_id": "5005c5fd-7a94-4a45-98fc-805fdc2020c1",
+          "brand_id": "6b07510e-de05-4271-953c-478919921a74",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.603
+        }
+      ],
+      "raw_text": "6\n& Angilock Su\nor\nDe 2\nTab Comet 500\n1 x oc 1 A\nTre\nApara la\nCep Sucho\n245/310/35/148 Hay\n5\n- JAMS",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 8645,
+        "detected_regions": 1,
+        "ocr_line_count": 12,
+        "yolo_avg_confidence": 0.8632,
+        "yolo_min_confidence": 0.8632,
+        "yolo_max_confidence": 0.8632,
+        "ocr_avg_confidence": 0.495,
+        "ocr_min_confidence": 0.495,
+        "ocr_max_confidence": 0.495,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 1671.9591049194335,
+              "y_min": 1405.3832180023192,
+              "x_max": 3154.4952377319332,
+              "y_max": 3977.0824783325193
+            },
+            "score": 0.8632
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "6",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "& Angilock Su",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "or",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "De 2",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "Tab Comet 500",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "1 x oc 1 A",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "Tre",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "Apara la",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "Cep Sucho",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "245/310/35/148 Hay",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "5",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "- JAMS",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

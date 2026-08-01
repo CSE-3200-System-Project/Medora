@@ -1,0 +1,415 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0074",
+  "source_sha256": "87be56cc72f1bd39d6459457548f865cabba182af33143a2c5d0154e1b55c692",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T18:00:35.101116+00:00",
+  "runtime_ms": 20642.905999993673,
+  "output": {
+    "raw_text": "हिकिश्माक कड़क थमड ब्बाभीव बारशशंख\n820377\nhaMCPO (X)\n(बाभीव नाग M ZHSIDD1007\nसक्षम 54 yks\nCMH/CWC/MI ROOM HAJI MOHSIN 0/12 / 7/9/2018\nमिक सिप्लाटर्ड्स राविश उ स्वाटशन वर्णना\nडिकिस्मतकन बारशुभख, पछता 3 मात्रन\nChief Complaints :\nCOPD\n09\nSerialtio: ..... 200000000\nDate :: 1 7 SEP 2018\nessae 300ad on\nO/E : 7/9/18\n30 days 18.10.18\npar\nGieron (15-\nBP- 140/8\n1001\nComer (som\nAdv/ Investigation :\n15 days. 15.11.18\n02.12.18\n17.12.18\n21.01. 19-30 day\n07/10.\nTampo mx (20\nP/D :\n01 mins 18.02.19\nAm 19/ 3- 1/8\n21. S.K\n-25/s\nमौखिक\n€\nRx\nA HTw\nna\nAngelook (52",
+    "lines": [
+      {
+        "text": "हिकिश्माक कड़क थमड ब्बाभीव बारशशंख",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "820377",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "haMCPO (X)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "(बाभीव नाग M ZHSIDD1007",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "सक्षम 54 yks",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "CMH/CWC/MI ROOM HAJI MOHSIN 0/12 / 7/9/2018",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "मिक सिप्लाटर्ड्स राविश उ स्वाटशन वर्णना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "डिकिस्मतकन बारशुभख, पछता 3 मात्रन",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "Chief Complaints :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "COPD",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "09",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "Serialtio: ..... 200000000",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "Date :: 1 7 SEP 2018",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "essae 300ad on",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "O/E : 7/9/18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "30 days 18.10.18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "par",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "Gieron (15-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "BP- 140/8",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "1001",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "Comer (som",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "Adv/ Investigation :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "15 days. 15.11.18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "02.12.18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "17.12.18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "21.01. 19-30 day",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "07/10.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "Tampo mx (20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "P/D :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "01 mins 18.02.19",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "Am 19/ 3- 1/8",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "21. S.K",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "-25/s",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "मौखिक",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "€",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "A HTw",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "na",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "Angelook (52",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.564
+      }
+    ],
+    "medications": [
+      {
+        "name": "Hamcpo Zhsidd",
+        "matched_term": "Hamcpo Zhsidd",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.254
+      },
+      {
+        "name": "Urokit",
+        "matched_term": "Urokit",
+        "drug_id": "92e63f3b-5799-4552-a992-8a17028c651f",
+        "brand_id": "08f1c12c-3063-4f5e-ae2c-a27925de3b02",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.634
+      },
+      {
+        "name": "Cmh Cwc Mi",
+        "matched_term": "Cmh Cwc Mi",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.254
+      },
+      {
+        "name": "Chief Complaints",
+        "matched_term": "Chief Complaints",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.254
+      },
+      {
+        "name": "Copd",
+        "matched_term": "Copd",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.254
+      },
+      {
+        "name": "Serialtio",
+        "matched_term": "Serialtio",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.254
+      },
+      {
+        "name": "Date Sep",
+        "matched_term": "Date Sep",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.254
+      },
+      {
+        "name": "Essae Ad On",
+        "matched_term": "Essae Ad On",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": "30 days",
+        "confidence": 0.303
+      },
+      {
+        "name": "Nt-Par",
+        "matched_term": "Nt-Par",
+        "drug_id": "6979192a-1724-4e68-9010-2d77d663681e",
+        "brand_id": "449391d8-ca7f-4d98-ac9a-c7b2a23f8917",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.634
+      },
+      {
+        "name": "Gieron Bp-Z",
+        "matched_term": "Gieron Bp-Z",
+        "drug_id": "01034f29-48ab-41a5-ab2d-8e85dea95f0a",
+        "brand_id": "01b744bd-5cd7-41af-845e-0a63622c7b7b",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.254
+      },
+      {
+        "name": "Comet",
+        "matched_term": "Comet",
+        "drug_id": "9b1187f0-7a83-469b-ba7e-9767f208c540",
+        "brand_id": "37de78cc-ac31-4284-9057-77743b7e844f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.634
+      },
+      {
+        "name": "Adv Investigation",
+        "matched_term": "Adv Investigation",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": "15 days",
+        "confidence": 0.303
+      },
+      {
+        "name": "Tampo Mx",
+        "matched_term": "Tampo Mx",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.254
+      },
+      {
+        "name": "Minso",
+        "matched_term": "Minso",
+        "drug_id": "691b0f3a-02fb-4035-8183-d91b2fe5ccb4",
+        "brand_id": "7f9eb1fb-3e53-4c69-bc32-3276f56a7726",
+        "dosage": null,
+        "frequency": "3+1+8",
+        "quantity": null,
+        "confidence": 0.532
+      },
+      {
+        "name": "Htw Na",
+        "matched_term": "Htw Na",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.254
+      },
+      {
+        "name": "Angelook",
+        "matched_term": "Angelook",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.254
+      }
+    ]
+  }
+}

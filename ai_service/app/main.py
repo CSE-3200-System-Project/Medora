@@ -45,28 +45,24 @@ async def process_prescription(
     file: Annotated[UploadFile | None, File()] = None,
     image_url: Annotated[str | None, Form()] = None,
     debug: Annotated[bool, Query(description="Return detector + OCR internals for debugging.")] = False,
-    subject_token_header: Annotated[str | None, Header(alias="X-Medora-Subject-Token")] = None,
+    processing_mode: Annotated[str, Form()] = "cloud",
+    request_id_header: Annotated[str | None, Header(alias="X-Request-ID")] = None,
 ) -> OCRResponse:
-    request_id = uuid.uuid4().hex[:10]
+    request_id = (request_id_header or uuid.uuid4().hex)[:40]
     started = time.perf_counter()
     logger.debug("ocr_request_start request_id=%s debug=%s", request_id, debug)
 
     payload = await _extract_json_payload(request, schema_cls=OCRRequest)
-    subject_token = (
-        (subject_token_header or "").strip()
-        or str(getattr(payload, "subject_token", "") or "").strip()
-        or "anonymous_subject"
-    )[:80]
     image_bytes = await _resolve_image_bytes(file=file, image_url=image_url, payload=payload)
     logger.debug(
-        "ocr_request_input request_id=%s bytes=%d subject_token=%s",
+        "ocr_request_input request_id=%s bytes=%d processing_mode=%s",
         request_id,
         len(image_bytes),
-        subject_token,
+        processing_mode,
     )
 
     try:
-        response = await asyncio.to_thread(pipeline.run, image_bytes, debug, subject_token)
+        response = await asyncio.to_thread(pipeline.run, image_bytes, debug, request_id, processing_mode)
     except Exception:
         logger.exception("ocr_request_error request_id=%s", request_id)
         raise
@@ -87,49 +83,59 @@ async def process_medical_report(
     request: Request,
     file: Annotated[UploadFile | None, File()] = None,
     image_url: Annotated[str | None, Form()] = None,
-    subject_token_header: Annotated[str | None, Header(alias="X-Medora-Subject-Token")] = None,
+    processing_mode: Annotated[str, Form()] = "cloud",
+    request_id_header: Annotated[str | None, Header(alias="X-Request-ID")] = None,
 ) -> ReportOCRResponse:
     """Extract structured lab test results from a medical report image/PDF."""
-    request_id = uuid.uuid4().hex[:10]
+    request_id = (request_id_header or uuid.uuid4().hex)[:40]
     started = time.perf_counter()
     logger.info("report_ocr_start request_id=%s", request_id)
 
     payload = await _extract_json_payload(request, schema_cls=ReportOCRRequest)
-    subject_token = (
-        (subject_token_header or "").strip()
-        or str(getattr(payload, "subject_token", "") or "").strip()
-        or "anonymous_subject"
-    )[:80]
+    processing_mode = processing_mode.lower().strip()
+    if processing_mode not in {"local", "cloud"}:
+        raise HTTPException(status_code=422, detail="processing_mode must be 'local' or 'cloud'")
     image_bytes = await _resolve_image_bytes(file=file, image_url=image_url, payload=payload)
 
     ocr_engine = "azure"
     ocr_lines: list[OCRLine] = []
     azure_tables: list[list[list[str]]] = []
 
-    # Primary: Azure Document Intelligence (with table extraction)
-    try:
-        from app.azure_ocr import AzureReadClient
-        azure_client = AzureReadClient()
-        def _azure_report_ocr():
-            return azure_client.read_lines_and_tables(image_bytes, subject_token=subject_token)
-        ocr_lines, azure_tables = await asyncio.to_thread(_azure_report_ocr)
-        logger.info(
-            "report_ocr azure_lines=%d azure_tables=%d request_id=%s",
-            len(ocr_lines), len(azure_tables), request_id,
-        )
-    except Exception as exc:
-        logger.warning("report_ocr azure_failed request_id=%s error=%s", request_id, exc)
-        # Fallback: PaddleOCR
+    # Local mode is a strict boundary: it never falls forward to Azure.
+    if processing_mode == "local":
         try:
-            ocr_lines = await asyncio.to_thread(_paddleocr_extract_lines, image_bytes)
+            from app.local_ocr import paddleocr_extract_lines
+            ocr_lines = await asyncio.to_thread(paddleocr_extract_lines, image_bytes)
             ocr_engine = "paddleocr"
-            logger.info("report_ocr paddleocr_lines=%d request_id=%s", len(ocr_lines), request_id)
-        except Exception as paddle_exc:
-            logger.exception("report_ocr paddleocr_also_failed request_id=%s", request_id)
-            raise HTTPException(
-                status_code=502,
-                detail=f"OCR extraction failed: Azure={exc}, PaddleOCR={paddle_exc}",
-            ) from paddle_exc
+        except Exception as exc:
+            raise HTTPException(status_code=502, detail=f"Local OCR extraction failed: {exc}") from exc
+    else:
+        try:
+            from app.azure_ocr import AzureReadClient
+            azure_client = AzureReadClient()
+
+            def _azure_report_ocr():
+                return azure_client.read_lines_and_tables(image_bytes, subject_token=request_id)
+
+            ocr_lines, azure_tables = await asyncio.to_thread(_azure_report_ocr)
+            logger.info(
+                "report_ocr azure_lines=%d azure_tables=%d request_id=%s",
+                len(ocr_lines), len(azure_tables), request_id,
+            )
+        except Exception as exc:
+            logger.warning("report_ocr azure_failed request_id=%s error=%s", request_id, exc)
+            # Cloud mode may fall back to the strictly local engine.
+            try:
+                from app.local_ocr import paddleocr_extract_lines
+                ocr_lines = await asyncio.to_thread(paddleocr_extract_lines, image_bytes)
+                ocr_engine = "paddleocr"
+                logger.info("report_ocr paddleocr_lines=%d request_id=%s", len(ocr_lines), request_id)
+            except Exception as paddle_exc:
+                logger.exception("report_ocr paddleocr_also_failed request_id=%s", request_id)
+                raise HTTPException(
+                    status_code=502,
+                    detail=f"OCR extraction failed: Azure={exc}, PaddleOCR={paddle_exc}",
+                ) from paddle_exc
 
     # Parse structured results from OCR lines + table data
     tests = parse_medical_report(ocr_lines, tables=azure_tables or None)
@@ -150,45 +156,12 @@ async def process_medical_report(
             ocr_engine=ocr_engine,
             line_count=len(ocr_lines),
             tests_extracted=len(tests),
+            processing_mode=processing_mode,
+            provider="paddleocr_local" if ocr_engine == "paddleocr" else "azure_document_intelligence",
+            review_required=True,
+            authoritative_writeback=False,
         ),
     )
-
-
-def _paddleocr_extract_lines(image_bytes: bytes) -> list[OCRLine]:
-    """Fallback OCR using PaddleOCR PP-OCRv4-mobile."""
-    try:
-        from paddleocr import PaddleOCR
-    except ImportError:
-        raise RuntimeError("PaddleOCR is not installed. Install with: pip install paddleocr")
-
-    import numpy as np
-    from PIL import Image
-    from io import BytesIO
-
-    ocr = PaddleOCR(use_angle_cls=True, lang="en", show_log=False)
-    image = Image.open(BytesIO(image_bytes)).convert("RGB")
-    img_array = np.array(image)
-
-    result = ocr.ocr(img_array, cls=True)
-    lines: list[OCRLine] = []
-
-    if result and result[0]:
-        for item in result[0]:
-            box, (text, conf) = item[0], item[1]
-            if text and text.strip():
-                from app.schemas import BBox
-                xs = [p[0] for p in box]
-                ys = [p[1] for p in box]
-                lines.append(
-                    OCRLine(
-                        text=text.strip(),
-                        bbox=BBox(x_min=min(xs), y_min=min(ys), x_max=max(xs), y_max=max(ys)),
-                        page=1,
-                        confidence=round(float(conf), 3),
-                    )
-                )
-
-    return lines
 
 
 async def _extract_json_payload(request: Request, *, schema_cls=None) -> OCRRequest | None:

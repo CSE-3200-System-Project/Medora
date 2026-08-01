@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "6e71488dc77c4d13580e11d1516ca3008a39d56cc1f2adcdbf4c5351df507208",
+  "record_id": "RX-0020",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 4376.808400003938,
+  "failure": null,
+  "response_sha256": "abf4d57ef8123d4a86db1dc8c6948635bbd6be8b9088469fdc531f00b0a736aa",
+  "response": {
+    "raw_text": "Rx\nCap. o magnagole (20mg)\n2+++1- 9Rx-\n· Tab. Reflex (10mg)\nIs\n( undertor SATuml )",
+    "lines": [
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.615
+      },
+      {
+        "text": "Cap. o magnagole (20mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.615
+      },
+      {
+        "text": "2+++1- 9Rx-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.615
+      },
+      {
+        "text": "· Tab. Reflex (10mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.615
+      },
+      {
+        "text": "Is",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.615
+      },
+      {
+        "text": "( undertor SATuml )",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.615
+      }
+    ]
+  }
+}

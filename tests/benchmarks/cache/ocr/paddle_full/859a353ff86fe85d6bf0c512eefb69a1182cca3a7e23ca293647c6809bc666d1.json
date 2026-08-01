@@ -1,0 +1,552 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "paddle_full",
+  "source_sha256": "859a353ff86fe85d6bf0c512eefb69a1182cca3a7e23ca293647c6809bc666d1",
+  "record_id": "RX-0055",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "runtime_ms": 26551.54390000098,
+  "failure": null,
+  "response_sha256": "664940eb136b74b89aa6dd92ff923e71715b1259ee0486987d482743bc7b6968",
+  "response": {
+    "raw_text": "8\nDR.NOFISA KHATUN (NOFSI)\nMEBS.B.C.S.FCPS(Gyne 5 Obs)\nta  n oe  o\nConsultant(Obs&Gyne)\n6\nRNo.42741\nyc\nmoh.\nName:\nDate02SEP\np9fn-mm\nRyo\n-\nwnmhpn\nmmi\n1\nFENTIGALVAGN CREAMIV\nHe\nnen\n2/0\nm1\npw+1+0\n1ON\nAwm\n074h\noFnp-1oon\ntt\nwp-by\nAeni\nmengyeston\nCu0'\n5\n-8m\nPlA\n5H1-34\nFm\npH-\nM\n0gwy\nTunmom\n040+\nCRD\ntah Duvadiln Jom\ntot\nM\n-89\nF8RC",
+    "lines": [
+      {
+        "text": "8",
+        "bbox": {
+          "x_min": 101.0,
+          "y_min": 37.0,
+          "x_max": 231.0,
+          "y_max": 63.0
+        },
+        "page": 1,
+        "confidence": 0.658
+      },
+      {
+        "text": "DR.NOFISA KHATUN (NOFSI)",
+        "bbox": {
+          "x_min": 361.0,
+          "y_min": 42.0,
+          "x_max": 505.0,
+          "y_max": 68.0
+        },
+        "page": 1,
+        "confidence": 0.943
+      },
+      {
+        "text": "MEBS.B.C.S.FCPS(Gyne 5 Obs)",
+        "bbox": {
+          "x_min": 362.0,
+          "y_min": 62.0,
+          "x_max": 463.0,
+          "y_max": 77.0
+        },
+        "page": 1,
+        "confidence": 0.787
+      },
+      {
+        "text": "ta  n oe  o",
+        "bbox": {
+          "x_min": 362.0,
+          "y_min": 84.0,
+          "x_max": 503.0,
+          "y_max": 101.0
+        },
+        "page": 1,
+        "confidence": 0.571
+      },
+      {
+        "text": "Consultant(Obs&Gyne)",
+        "bbox": {
+          "x_min": 363.0,
+          "y_min": 75.0,
+          "x_max": 437.0,
+          "y_max": 89.0
+        },
+        "page": 1,
+        "confidence": 0.85
+      },
+      {
+        "text": "6",
+        "bbox": {
+          "x_min": 95.0,
+          "y_min": 86.0,
+          "x_max": 144.0,
+          "y_max": 108.0
+        },
+        "page": 1,
+        "confidence": 0.363
+      },
+      {
+        "text": "RNo.42741",
+        "bbox": {
+          "x_min": 362.0,
+          "y_min": 98.0,
+          "x_max": 407.0,
+          "y_max": 112.0
+        },
+        "page": 1,
+        "confidence": 0.895
+      },
+      {
+        "text": "yc",
+        "bbox": {
+          "x_min": 109.0,
+          "y_min": 116.0,
+          "x_max": 131.0,
+          "y_max": 132.0
+        },
+        "page": 1,
+        "confidence": 0.706
+      },
+      {
+        "text": "moh.",
+        "bbox": {
+          "x_min": 254.0,
+          "y_min": 113.0,
+          "x_max": 337.0,
+          "y_max": 143.0
+        },
+        "page": 1,
+        "confidence": 0.738
+      },
+      {
+        "text": "Name:",
+        "bbox": {
+          "x_min": 215.0,
+          "y_min": 127.0,
+          "x_max": 242.0,
+          "y_max": 138.0
+        },
+        "page": 1,
+        "confidence": 0.933
+      },
+      {
+        "text": "Date02SEP",
+        "bbox": {
+          "x_min": 424.0,
+          "y_min": 126.0,
+          "x_max": 499.0,
+          "y_max": 147.0
+        },
+        "page": 1,
+        "confidence": 0.878
+      },
+      {
+        "text": "p9fn-mm",
+        "bbox": {
+          "x_min": 111.0,
+          "y_min": 136.0,
+          "x_max": 201.0,
+          "y_max": 165.0
+        },
+        "page": 1,
+        "confidence": 0.599
+      },
+      {
+        "text": "Ryo",
+        "bbox": {
+          "x_min": 227.0,
+          "y_min": 152.0,
+          "x_max": 261.0,
+          "y_max": 179.0
+        },
+        "page": 1,
+        "confidence": 0.775
+      },
+      {
+        "text": "-",
+        "bbox": {
+          "x_min": 110.0,
+          "y_min": 171.0,
+          "x_max": 116.0,
+          "y_max": 176.0
+        },
+        "page": 1,
+        "confidence": 0.691
+      },
+      {
+        "text": "wnmhpn",
+        "bbox": {
+          "x_min": 116.0,
+          "y_min": 165.0,
+          "x_max": 209.0,
+          "y_max": 196.0
+        },
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "mmi",
+        "bbox": {
+          "x_min": 151.0,
+          "y_min": 212.0,
+          "x_max": 199.0,
+          "y_max": 236.0
+        },
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "1",
+        "bbox": {
+          "x_min": 243.0,
+          "y_min": 212.0,
+          "x_max": 248.0,
+          "y_max": 217.0
+        },
+        "page": 1,
+        "confidence": 0.105
+      },
+      {
+        "text": "FENTIGALVAGN CREAMIV",
+        "bbox": {
+          "x_min": 253.0,
+          "y_min": 199.0,
+          "x_max": 353.0,
+          "y_max": 225.0
+        },
+        "page": 1,
+        "confidence": 0.766
+      },
+      {
+        "text": "He",
+        "bbox": {
+          "x_min": 260.0,
+          "y_min": 216.0,
+          "x_max": 303.0,
+          "y_max": 232.0
+        },
+        "page": 1,
+        "confidence": 0.298
+      },
+      {
+        "text": "nen",
+        "bbox": {
+          "x_min": 319.0,
+          "y_min": 215.0,
+          "x_max": 349.0,
+          "y_max": 225.0
+        },
+        "page": 1,
+        "confidence": 0.247
+      },
+      {
+        "text": "2/0",
+        "bbox": {
+          "x_min": 265.0,
+          "y_min": 230.0,
+          "x_max": 288.0,
+          "y_max": 238.0
+        },
+        "page": 1,
+        "confidence": 0.191
+      },
+      {
+        "text": "m1",
+        "bbox": {
+          "x_min": 126.0,
+          "y_min": 246.0,
+          "x_max": 215.0,
+          "y_max": 270.0
+        },
+        "page": 1,
+        "confidence": 0.39
+      },
+      {
+        "text": "pw+1+0",
+        "bbox": {
+          "x_min": 141.0,
+          "y_min": 267.0,
+          "x_max": 210.0,
+          "y_max": 294.0
+        },
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "1ON",
+        "bbox": {
+          "x_min": 333.0,
+          "y_min": 283.0,
+          "x_max": 353.0,
+          "y_max": 293.0
+        },
+        "page": 1,
+        "confidence": 0.489
+      },
+      {
+        "text": "Awm",
+        "bbox": {
+          "x_min": 367.0,
+          "y_min": 278.0,
+          "x_max": 401.0,
+          "y_max": 289.0
+        },
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "074h",
+        "bbox": {
+          "x_min": 264.0,
+          "y_min": 285.0,
+          "x_max": 322.0,
+          "y_max": 302.0
+        },
+        "page": 1,
+        "confidence": 0.552
+      },
+      {
+        "text": "oFnp-1oon",
+        "bbox": {
+          "x_min": 129.0,
+          "y_min": 288.0,
+          "x_max": 227.0,
+          "y_max": 322.0
+        },
+        "page": 1,
+        "confidence": 0.559
+      },
+      {
+        "text": "tt",
+        "bbox": {
+          "x_min": 331.0,
+          "y_min": 310.0,
+          "x_max": 371.0,
+          "y_max": 327.0
+        },
+        "page": 1,
+        "confidence": 0.329
+      },
+      {
+        "text": "wp-by",
+        "bbox": {
+          "x_min": 140.0,
+          "y_min": 316.0,
+          "x_max": 205.0,
+          "y_max": 345.0
+        },
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Aeni",
+        "bbox": {
+          "x_min": 133.0,
+          "y_min": 334.0,
+          "x_max": 185.0,
+          "y_max": 369.0
+        },
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "mengyeston",
+        "bbox": {
+          "x_min": 372.0,
+          "y_min": 324.0,
+          "x_max": 478.0,
+          "y_max": 360.0
+        },
+        "page": 1,
+        "confidence": 0.575
+      },
+      {
+        "text": "Cu0'",
+        "bbox": {
+          "x_min": 339.0,
+          "y_min": 350.0,
+          "x_max": 367.0,
+          "y_max": 367.0
+        },
+        "page": 1,
+        "confidence": 0.439
+      },
+      {
+        "text": "5",
+        "bbox": {
+          "x_min": 407.0,
+          "y_min": 359.0,
+          "x_max": 412.0,
+          "y_max": 364.0
+        },
+        "page": 1,
+        "confidence": 0.174
+      },
+      {
+        "text": "-8m",
+        "bbox": {
+          "x_min": 456.0,
+          "y_min": 353.0,
+          "x_max": 482.0,
+          "y_max": 364.0
+        },
+        "page": 1,
+        "confidence": 0.296
+      },
+      {
+        "text": "PlA",
+        "bbox": {
+          "x_min": 121.0,
+          "y_min": 373.0,
+          "x_max": 155.0,
+          "y_max": 399.0
+        },
+        "page": 1,
+        "confidence": 0.519
+      },
+      {
+        "text": "5H1-34",
+        "bbox": {
+          "x_min": 145.0,
+          "y_min": 387.0,
+          "x_max": 205.0,
+          "y_max": 414.0
+        },
+        "page": 1,
+        "confidence": 0.741
+      },
+      {
+        "text": "Fm",
+        "bbox": {
+          "x_min": 153.0,
+          "y_min": 407.0,
+          "x_max": 196.0,
+          "y_max": 438.0
+        },
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "pH-",
+        "bbox": {
+          "x_min": 171.0,
+          "y_min": 422.0,
+          "x_max": 227.0,
+          "y_max": 449.0
+        },
+        "page": 1,
+        "confidence": 0.488
+      },
+      {
+        "text": "M",
+        "bbox": {
+          "x_min": 423.0,
+          "y_min": 468.0,
+          "x_max": 450.0,
+          "y_max": 484.0
+        },
+        "page": 1,
+        "confidence": 0.777
+      },
+      {
+        "text": "0gwy",
+        "bbox": {
+          "x_min": 437.0,
+          "y_min": 475.0,
+          "x_max": 490.0,
+          "y_max": 498.0
+        },
+        "page": 1,
+        "confidence": 0.408
+      },
+      {
+        "text": "Tunmom",
+        "bbox": {
+          "x_min": 202.0,
+          "y_min": 456.0,
+          "x_max": 310.0,
+          "y_max": 514.0
+        },
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "040+",
+        "bbox": {
+          "x_min": 367.0,
+          "y_min": 504.0,
+          "x_max": 406.0,
+          "y_max": 518.0
+        },
+        "page": 1,
+        "confidence": 0.496
+      },
+      {
+        "text": "CRD",
+        "bbox": {
+          "x_min": 84.0,
+          "y_min": 529.0,
+          "x_max": 123.0,
+          "y_max": 546.0
+        },
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "tah Duvadiln Jom",
+        "bbox": {
+          "x_min": 262.0,
+          "y_min": 510.0,
+          "x_max": 429.0,
+          "y_max": 546.0
+        },
+        "page": 1,
+        "confidence": 0.709
+      },
+      {
+        "text": "tot",
+        "bbox": {
+          "x_min": 336.0,
+          "y_min": 542.0,
+          "x_max": 388.0,
+          "y_max": 564.0
+        },
+        "page": 1,
+        "confidence": 0.483
+      },
+      {
+        "text": "M",
+        "bbox": {
+          "x_min": 394.0,
+          "y_min": 563.0,
+          "x_max": 412.0,
+          "y_max": 575.0
+        },
+        "page": 1,
+        "confidence": 0.526
+      },
+      {
+        "text": "-89",
+        "bbox": {
+          "x_min": 82.0,
+          "y_min": 580.0,
+          "x_max": 187.0,
+          "y_max": 593.0
+        },
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "F8RC",
+        "bbox": {
+          "x_min": 85.0,
+          "y_min": 596.0,
+          "x_max": 275.0,
+          "y_max": 609.0
+        },
+        "page": 1,
+        "confidence": 0.2
+      }
+    ]
+  }
+}

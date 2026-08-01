@@ -28,13 +28,14 @@ function getAuthHeaders(): Record<string, string> {
 
 export async function uploadMedicalReport(
   file: File,
-  options?: { reportDate?: string }
+  options?: { reportDate?: string; processingMode?: "local" | "cloud" }
 ): Promise<MedicalReportUploadResponse> {
   const formData = new FormData();
   formData.append("file", file);
   if (options?.reportDate) {
     formData.append("report_date", options.reportDate);
   }
+  formData.append("processing_mode", options?.processingMode || "local");
 
   const response = await fetch(`${BACKEND_URL}/medical-reports/upload`, {
     method: "POST",

@@ -1,0 +1,440 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "5319a1b2916f695850b5682bfb0cd7ea1ae27ee9bf8417c3278c083984abd89e",
+  "record_id": "RX-0019",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 40866.92729999777,
+  "failure": null,
+  "response_sha256": "92b452f6150d091d9f7b2c2c9f808ccea11f8c6e9e7c9f736993dd79f0921146",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / 7149194\nF037\nMedical Center:\nPilgrim IO\n1200075\nPassport No\nMaklab No ___\nGender\nFEMALE\nDistrict\nDOGURA\nThana\nHEALTH PROFILE\n120.30\n1. Blood Group:\nNO\n2. Blood Pressure:\nNO\n3. Heart Disease;\n5. Kidney Disease:\nNO\n4. Lung Disonso:\n14.5\nNO\n6. Diabetes:\nNO\n7. Mental Disease:\n8. Blood Sugar (RBS):\nNO\n9. Weight:\n11. Drug History:\n12. Any other abnormalles:\n37 May 2024\nChief Complaints:\nVisit No:\nDate:\nLeg pain\nTab. A-calm (50 mg)\n( 20 )\nKnown case of DM\n2+0 +2 (154 102)\n- cha\nPuse- 90 blain\nBP- 001-60 mm AF-\nTomp- N\nAnaemia-)\nTab. Napa (500mg)\n(20)\nDehydration-)\nRespiration- Regular\nOthers-\nMj. Genówlin M 30/70 (?) = syringe-(2)\n16 +0 +12 ( +) - bolle 1\n27/5 /24\nFOSIRES- 15. 4 mm/de\nECG\nProvisional Diagonosis\nA08367439\nकाटकल नए:\n45\nNamn\nMST FUWARA AKTER\n\"BOGERSADAR-\n10. Liver Disease:\nNO\nएल टबास्टियन रगमोरव विक्टिम मना अष्टगत्र करना मे रायशा खी यविवाद जनमारे मटन वमटर खूब।",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "TREATMENT CARD / 7149194",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "F037",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "Medical Center:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "Pilgrim IO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "1200075",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "Passport No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "Maklab No ___",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "Gender",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "FEMALE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "District",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "DOGURA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "Thana",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "120.30",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "1. Blood Group:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "2. Blood Pressure:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "3. Heart Disease;",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "5. Kidney Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "4. Lung Disonso:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "14.5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "6. Diabetes:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "7. Mental Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "8. Blood Sugar (RBS):",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "9. Weight:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "11. Drug History:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "12. Any other abnormalles:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "37 May 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "Visit No:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "Date:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "Leg pain",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "Tab. A-calm (50 mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "( 20 )",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "Known case of DM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "2+0 +2 (154 102)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "- cha",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "Puse- 90 blain",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "BP- 001-60 mm AF-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "Tomp- N",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "Anaemia-)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "Tab. Napa (500mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "(20)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "Dehydration-)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "Respiration- Regular",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "Mj. Genówlin M 30/70 (?) = syringe-(2)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "16 +0 +12 ( +) - bolle 1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "27/5 /24",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "FOSIRES- 15. 4 mm/de",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "A08367439",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "काटकल नए:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "45",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "Namn",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "MST FUWARA AKTER",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "\"BOGERSADAR-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "10. Liver Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      },
+      {
+        "text": "एल टबास्टियन रगमोरव विक्टिम मना अष्टगत्र करना मे रायशा खी यविवाद जनमारे मटन वमटर खूब।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.74
+      }
+    ]
+  }
+}

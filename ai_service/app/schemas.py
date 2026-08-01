@@ -6,7 +6,6 @@ from pydantic import BaseModel, Field
 class OCRRequest(BaseModel):
     image_url: str | None = None
     image_file: str | None = None
-    subject_token: str | None = None
 
 
 class BBox(BaseModel):
@@ -52,6 +51,10 @@ class OCRMeta(BaseModel):
     ocr_avg_confidence: float | None = None
     ocr_min_confidence: float | None = None
     ocr_max_confidence: float | None = None
+    processing_mode: str = "cloud"
+    provider: str = "azure_document_intelligence"
+    review_required: bool = True
+    authoritative_writeback: bool = False
 
 
 class OCRDebug(BaseModel):
@@ -66,3 +69,4 @@ class OCRResponse(BaseModel):
     raw_text: str
     meta: OCRMeta
     debug: OCRDebug | None = None
+    warning: str = "Unconfirmed OCR draft. Verify every field against the source image before use."

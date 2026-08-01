@@ -1,0 +1,193 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0079",
+  "source_sha256": "6fe3c3b6cfb2a291ee9799e33be92ae0de0a9bcf6d2d5f1fb4fe11ab7fe975c2",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:36:17.682029+00:00",
+  "runtime_ms": 11901.262999992468,
+  "output": {
+    "medications": [
+      {
+        "name": "Bristol Tufin",
+        "matched_term": "Bristol Tufin",
+        "drug_id": "69220993-14a8-412f-bba1-b2375f10b342",
+        "brand_id": "312f5f29-557e-446f-87f7-94356b386d99",
+        "dosage": "5mg",
+        "frequency": "1+0+0",
+        "quantity": null,
+        "confidence": 0.667
+      },
+      {
+        "name": "V-Tas",
+        "matched_term": "V-Tas",
+        "drug_id": "085c7194-9766-436a-b4ca-6b32da00cd11",
+        "brand_id": "2fe406ba-7cc6-40e8-b326-71dd5b0ba3b9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.567
+      },
+      {
+        "name": "Rozavel",
+        "matched_term": "Rozavel",
+        "drug_id": "853d7984-f924-4f93-9691-25537eae946f",
+        "brand_id": "879f210a-4abd-4251-9038-e89b12817f49",
+        "dosage": null,
+        "frequency": "1+0+1",
+        "quantity": null,
+        "confidence": 0.616
+      },
+      {
+        "name": "Te Disuper Utt",
+        "matched_term": "Te Disuper Utt",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.187
+      },
+      {
+        "name": "Mar",
+        "matched_term": "Mar",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.187
+      },
+      {
+        "name": "Bp-Z",
+        "matched_term": "Bp-Z",
+        "drug_id": "01034f29-48ab-41a5-ab2d-8e85dea95f0a",
+        "brand_id": "01b744bd-5cd7-41af-845e-0a63622c7b7b",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.41
+      }
+    ],
+    "raw_text": "1 15. Lintabul 6515000 1+1 lo\n2 Th, Bristol 5mg 1+0+0 ml\n3) Tas. Abecas S/LOW Ottimo\n1\nजिन/जडाक/याम\nअन र्थ /कार्बन\n4Th. Rozavel 5V ottimo NuTowe\n2 Th BILG 1+0+1 MUCHO 2/20 03.6.2028-\n(6)TE, Disuper 05w Utt+1 m\n0 5 MAR 2024\nBp12018 Ptu\n5?\n5 जवान/ नजीर/याम",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 11839,
+      "detected_regions": 1,
+      "ocr_line_count": 13,
+      "yolo_avg_confidence": 0.8423,
+      "yolo_min_confidence": 0.8423,
+      "yolo_max_confidence": 0.8423,
+      "ocr_avg_confidence": 0.415,
+      "ocr_min_confidence": 0.415,
+      "ocr_max_confidence": 0.415,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 101.41592407226562,
+            "y_min": 458.16412353515625,
+            "x_max": 855.3590087890625,
+            "y_max": 1022.2471923828125
+          },
+          "score": 0.8423
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "1 15. Lintabul 6515000 1+1 lo",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.415
+        },
+        {
+          "text": "2 Th, Bristol 5mg 1+0+0 ml",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.415
+        },
+        {
+          "text": "3) Tas. Abecas S/LOW Ottimo",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.415
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.415
+        },
+        {
+          "text": "जिन/जडाक/याम",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.415
+        },
+        {
+          "text": "अन र्थ /कार्बन",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.415
+        },
+        {
+          "text": "4Th. Rozavel 5V ottimo NuTowe",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.415
+        },
+        {
+          "text": "2 Th BILG 1+0+1 MUCHO 2/20 03.6.2028-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.415
+        },
+        {
+          "text": "(6)TE, Disuper 05w Utt+1 m",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.415
+        },
+        {
+          "text": "0 5 MAR 2024",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.415
+        },
+        {
+          "text": "Bp12018 Ptu",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.415
+        },
+        {
+          "text": "5?",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.415
+        },
+        {
+          "text": "5 जवान/ नजीर/याम",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.415
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

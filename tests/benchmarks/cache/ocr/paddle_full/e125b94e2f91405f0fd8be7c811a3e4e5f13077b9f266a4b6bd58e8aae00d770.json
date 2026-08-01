@@ -1,0 +1,640 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "paddle_full",
+  "source_sha256": "e125b94e2f91405f0fd8be7c811a3e4e5f13077b9f266a4b6bd58e8aae00d770",
+  "record_id": "RX-0056",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "runtime_ms": 60354.1172999976,
+  "failure": null,
+  "response_sha256": "eeccce49ff90e2d2aa85b23ad3bbb8d4c2bb74b37307ab2f87bcf5a445931ed2",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUSLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangiadesh Halj Office\nMaxkah/Madinah/Jeddah\nTREATMENT CARD/\nMedical Center\nG163\nPignim\nene\nPasortNo\nE00154202\nMaksbNo_7.\nName.\nATADUDON MAHNUD\nAge\nSendo\nMALE\nDGAZIFUR\nThHrBAJAKGEK\nHEALTH PROFILE\n1. Blooc Group\n2Bicd Press\n99\n12580\nNO\n.\nNO\n.Dabetes\n1Drg Mstary\nNO\nChief Complaints:\nVaENacopy\nD42024\nRy\nOE-\n1b\njoracitamo\nPase\nBP\ntf\nTema-\n10)\nwun\nArasma\nDehydrstion-\nbex\nRespiraton-\nto+)\nOners\nR\nW\nFBS/RBS\n205.228\nECG\nProvisional Diagonosis\nOw",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUSLIC OF BANGLADESH",
+        "bbox": {
+          "x_min": 180.0,
+          "y_min": 23.0,
+          "x_max": 464.0,
+          "y_max": 44.0
+        },
+        "page": 1,
+        "confidence": 0.941
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": {
+          "x_min": 243.0,
+          "y_min": 37.0,
+          "x_max": 403.0,
+          "y_max": 53.0
+        },
+        "page": 1,
+        "confidence": 0.961
+      },
+      {
+        "text": "Bangiadesh Halj Office",
+        "bbox": {
+          "x_min": 272.0,
+          "y_min": 50.0,
+          "x_max": 375.0,
+          "y_max": 63.0
+        },
+        "page": 1,
+        "confidence": 0.827
+      },
+      {
+        "text": "Maxkah/Madinah/Jeddah",
+        "bbox": {
+          "x_min": 271.0,
+          "y_min": 60.0,
+          "x_max": 375.0,
+          "y_max": 73.0
+        },
+        "page": 1,
+        "confidence": 0.972
+      },
+      {
+        "text": "TREATMENT CARD/",
+        "bbox": {
+          "x_min": 258.0,
+          "y_min": 79.0,
+          "x_max": 393.0,
+          "y_max": 92.0
+        },
+        "page": 1,
+        "confidence": 0.946
+      },
+      {
+        "text": "Medical Center",
+        "bbox": {
+          "x_min": 140.0,
+          "y_min": 92.0,
+          "x_max": 201.0,
+          "y_max": 106.0
+        },
+        "page": 1,
+        "confidence": 0.938
+      },
+      {
+        "text": "G163",
+        "bbox": {
+          "x_min": 409.0,
+          "y_min": 88.0,
+          "x_max": 478.0,
+          "y_max": 102.0
+        },
+        "page": 1,
+        "confidence": 0.969
+      },
+      {
+        "text": "Pignim",
+        "bbox": {
+          "x_min": 138.0,
+          "y_min": 106.0,
+          "x_max": 175.0,
+          "y_max": 120.0
+        },
+        "page": 1,
+        "confidence": 0.712
+      },
+      {
+        "text": "ene",
+        "bbox": {
+          "x_min": 171.0,
+          "y_min": 98.0,
+          "x_max": 203.0,
+          "y_max": 114.0
+        },
+        "page": 1,
+        "confidence": 0.455
+      },
+      {
+        "text": "PasortNo",
+        "bbox": {
+          "x_min": 273.0,
+          "y_min": 104.0,
+          "x_max": 318.0,
+          "y_max": 114.0
+        },
+        "page": 1,
+        "confidence": 0.657
+      },
+      {
+        "text": "E00154202",
+        "bbox": {
+          "x_min": 337.0,
+          "y_min": 102.0,
+          "x_max": 374.0,
+          "y_max": 113.0
+        },
+        "page": 1,
+        "confidence": 0.768
+      },
+      {
+        "text": "MaksbNo_7.",
+        "bbox": {
+          "x_min": 411.0,
+          "y_min": 103.0,
+          "x_max": 463.0,
+          "y_max": 113.0
+        },
+        "page": 1,
+        "confidence": 0.677
+      },
+      {
+        "text": "Name.",
+        "bbox": {
+          "x_min": 138.0,
+          "y_min": 117.0,
+          "x_max": 162.0,
+          "y_max": 128.0
+        },
+        "page": 1,
+        "confidence": 0.879
+      },
+      {
+        "text": "ATADUDON MAHNUD",
+        "bbox": {
+          "x_min": 174.0,
+          "y_min": 113.0,
+          "x_max": 251.0,
+          "y_max": 125.0
+        },
+        "page": 1,
+        "confidence": 0.682
+      },
+      {
+        "text": "Age",
+        "bbox": {
+          "x_min": 427.0,
+          "y_min": 113.0,
+          "x_max": 463.0,
+          "y_max": 127.0
+        },
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "Sendo",
+        "bbox": {
+          "x_min": 140.0,
+          "y_min": 130.0,
+          "x_max": 161.0,
+          "y_max": 138.0
+        },
+        "page": 1,
+        "confidence": 0.796
+      },
+      {
+        "text": "MALE",
+        "bbox": {
+          "x_min": 176.0,
+          "y_min": 126.0,
+          "x_max": 193.0,
+          "y_max": 134.0
+        },
+        "page": 1,
+        "confidence": 0.876
+      },
+      {
+        "text": "DGAZIFUR",
+        "bbox": {
+          "x_min": 227.0,
+          "y_min": 123.0,
+          "x_max": 283.0,
+          "y_max": 138.0
+        },
+        "page": 1,
+        "confidence": 0.834
+      },
+      {
+        "text": "ThHrBAJAKGEK",
+        "bbox": {
+          "x_min": 389.0,
+          "y_min": 126.0,
+          "x_max": 442.0,
+          "y_max": 137.0
+        },
+        "page": 1,
+        "confidence": 0.688
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": {
+          "x_min": 290.0,
+          "y_min": 143.0,
+          "x_max": 362.0,
+          "y_max": 154.0
+        },
+        "page": 1,
+        "confidence": 0.962
+      },
+      {
+        "text": "1. Blooc Group",
+        "bbox": {
+          "x_min": 215.0,
+          "y_min": 158.0,
+          "x_max": 272.0,
+          "y_max": 169.0
+        },
+        "page": 1,
+        "confidence": 0.891
+      },
+      {
+        "text": "2Bicd Press",
+        "bbox": {
+          "x_min": 364.0,
+          "y_min": 157.0,
+          "x_max": 420.0,
+          "y_max": 167.0
+        },
+        "page": 1,
+        "confidence": 0.774
+      },
+      {
+        "text": "99",
+        "bbox": {
+          "x_min": 449.0,
+          "y_min": 160.0,
+          "x_max": 465.0,
+          "y_max": 189.0
+        },
+        "page": 1,
+        "confidence": 0.814
+      },
+      {
+        "text": "12580",
+        "bbox": {
+          "x_min": 451.0,
+          "y_min": 151.0,
+          "x_max": 472.0,
+          "y_max": 163.0
+        },
+        "page": 1,
+        "confidence": 0.882
+      },
+      {
+        "text": "NO",
+        "bbox": {
+          "x_min": 272.0,
+          "y_min": 160.0,
+          "x_max": 288.0,
+          "y_max": 172.0
+        },
+        "page": 1,
+        "confidence": 0.639
+      },
+      {
+        "text": ".",
+        "bbox": {
+          "x_min": 211.0,
+          "y_min": 175.0,
+          "x_max": 289.0,
+          "y_max": 197.0
+        },
+        "page": 1,
+        "confidence": 0.447
+      },
+      {
+        "text": "NO",
+        "bbox": {
+          "x_min": 273.0,
+          "y_min": 170.0,
+          "x_max": 287.0,
+          "y_max": 177.0
+        },
+        "page": 1,
+        "confidence": 0.944
+      },
+      {
+        "text": ".Dabetes",
+        "bbox": {
+          "x_min": 365.0,
+          "y_min": 173.0,
+          "x_max": 410.0,
+          "y_max": 183.0
+        },
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "1Drg Mstary",
+        "bbox": {
+          "x_min": 210.0,
+          "y_min": 195.0,
+          "x_max": 264.0,
+          "y_max": 210.0
+        },
+        "page": 1,
+        "confidence": 0.707
+      },
+      {
+        "text": "NO",
+        "bbox": {
+          "x_min": 450.0,
+          "y_min": 186.0,
+          "x_max": 462.0,
+          "y_max": 195.0
+        },
+        "page": 1,
+        "confidence": 0.688
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": {
+          "x_min": 135.0,
+          "y_min": 217.0,
+          "x_max": 210.0,
+          "y_max": 228.0
+        },
+        "page": 1,
+        "confidence": 0.944
+      },
+      {
+        "text": "VaENacopy",
+        "bbox": {
+          "x_min": 246.0,
+          "y_min": 212.0,
+          "x_max": 309.0,
+          "y_max": 230.0
+        },
+        "page": 1,
+        "confidence": 0.43
+      },
+      {
+        "text": "D42024",
+        "bbox": {
+          "x_min": 387.0,
+          "y_min": 212.0,
+          "x_max": 442.0,
+          "y_max": 229.0
+        },
+        "page": 1,
+        "confidence": 0.624
+      },
+      {
+        "text": "Ry",
+        "bbox": {
+          "x_min": 247.0,
+          "y_min": 242.0,
+          "x_max": 270.0,
+          "y_max": 265.0
+        },
+        "page": 1,
+        "confidence": 0.302
+      },
+      {
+        "text": "OE-",
+        "bbox": {
+          "x_min": 129.0,
+          "y_min": 257.0,
+          "x_max": 150.0,
+          "y_max": 271.0
+        },
+        "page": 1,
+        "confidence": 0.82
+      },
+      {
+        "text": "1b",
+        "bbox": {
+          "x_min": 292.0,
+          "y_min": 263.0,
+          "x_max": 331.0,
+          "y_max": 280.0
+        },
+        "page": 1,
+        "confidence": 0.442
+      },
+      {
+        "text": "joracitamo",
+        "bbox": {
+          "x_min": 323.0,
+          "y_min": 253.0,
+          "x_max": 412.0,
+          "y_max": 277.0
+        },
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": "Pase",
+        "bbox": {
+          "x_min": 128.0,
+          "y_min": 269.0,
+          "x_max": 150.0,
+          "y_max": 281.0
+        },
+        "page": 1,
+        "confidence": 0.68
+      },
+      {
+        "text": "BP",
+        "bbox": {
+          "x_min": 127.0,
+          "y_min": 282.0,
+          "x_max": 142.0,
+          "y_max": 294.0
+        },
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "tf",
+        "bbox": {
+          "x_min": 333.0,
+          "y_min": 282.0,
+          "x_max": 387.0,
+          "y_max": 299.0
+        },
+        "page": 1,
+        "confidence": 0.4
+      },
+      {
+        "text": "Tema-",
+        "bbox": {
+          "x_min": 127.0,
+          "y_min": 295.0,
+          "x_max": 149.0,
+          "y_max": 306.0
+        },
+        "page": 1,
+        "confidence": 0.656
+      },
+      {
+        "text": "10)",
+        "bbox": {
+          "x_min": 434.0,
+          "y_min": 298.0,
+          "x_max": 468.0,
+          "y_max": 316.0
+        },
+        "page": 1,
+        "confidence": 0.746
+      },
+      {
+        "text": "wun",
+        "bbox": {
+          "x_min": 455.0,
+          "y_min": 292.0,
+          "x_max": 502.0,
+          "y_max": 306.0
+        },
+        "page": 1,
+        "confidence": 0.286
+      },
+      {
+        "text": "Arasma",
+        "bbox": {
+          "x_min": 124.0,
+          "y_min": 307.0,
+          "x_max": 158.0,
+          "y_max": 320.0
+        },
+        "page": 1,
+        "confidence": 0.796
+      },
+      {
+        "text": "Dehydrstion-",
+        "bbox": {
+          "x_min": 122.0,
+          "y_min": 321.0,
+          "x_max": 173.0,
+          "y_max": 332.0
+        },
+        "page": 1,
+        "confidence": 0.894
+      },
+      {
+        "text": "bex",
+        "bbox": {
+          "x_min": 282.0,
+          "y_min": 306.0,
+          "x_max": 389.0,
+          "y_max": 334.0
+        },
+        "page": 1,
+        "confidence": 0.399
+      },
+      {
+        "text": "Respiraton-",
+        "bbox": {
+          "x_min": 121.0,
+          "y_min": 332.0,
+          "x_max": 170.0,
+          "y_max": 345.0
+        },
+        "page": 1,
+        "confidence": 0.892
+      },
+      {
+        "text": "to+)",
+        "bbox": {
+          "x_min": 310.0,
+          "y_min": 331.0,
+          "x_max": 372.0,
+          "y_max": 352.0
+        },
+        "page": 1,
+        "confidence": 0.513
+      },
+      {
+        "text": "Oners",
+        "bbox": {
+          "x_min": 120.0,
+          "y_min": 345.0,
+          "x_max": 149.0,
+          "y_max": 359.0
+        },
+        "page": 1,
+        "confidence": 0.856
+      },
+      {
+        "text": "R",
+        "bbox": {
+          "x_min": 306.0,
+          "y_min": 361.0,
+          "x_max": 316.0,
+          "y_max": 372.0
+        },
+        "page": 1,
+        "confidence": 0.111
+      },
+      {
+        "text": "W",
+        "bbox": {
+          "x_min": 385.0,
+          "y_min": 424.0,
+          "x_max": 410.0,
+          "y_max": 440.0
+        },
+        "page": 1,
+        "confidence": 0.168
+      },
+      {
+        "text": "FBS/RBS",
+        "bbox": {
+          "x_min": 107.0,
+          "y_min": 447.0,
+          "x_max": 151.0,
+          "y_max": 464.0
+        },
+        "page": 1,
+        "confidence": 0.916
+      },
+      {
+        "text": "205.228",
+        "bbox": {
+          "x_min": 379.0,
+          "y_min": 434.0,
+          "x_max": 514.0,
+          "y_max": 481.0
+        },
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "ECG",
+        "bbox": {
+          "x_min": 107.0,
+          "y_min": 466.0,
+          "x_max": 129.0,
+          "y_max": 478.0
+        },
+        "page": 1,
+        "confidence": 0.99
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": {
+          "x_min": 104.0,
+          "y_min": 497.0,
+          "x_max": 208.0,
+          "y_max": 511.0
+        },
+        "page": 1,
+        "confidence": 0.977
+      },
+      {
+        "text": "Ow",
+        "bbox": {
+          "x_min": 160.0,
+          "y_min": 628.0,
+          "x_max": 190.0,
+          "y_max": 637.0
+        },
+        "page": 1,
+        "confidence": 0.348
+      }
+    ]
+  }
+}

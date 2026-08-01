@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "5409ae1d78793bfa03e7b2c832c3b06ac3b4423d9d3ad57f6d59a138a30b9988",
+  "record_id": "RX-0101",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 8444.522800011327,
+  "failure": null,
+  "response_sha256": "0537beb4a7e9db502f60970d45b768064c16476bb65116cbfbb8b8779df04308",
+  "response": {
+    "raw_text": "Two. Altre\n25Kg.\nTu. Pero 120\n1000\nTor. Nap (10)\nTag: Vastin",
+    "lines": [
+      {
+        "text": "Two. Altre",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.446
+      },
+      {
+        "text": "25Kg.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.446
+      },
+      {
+        "text": "Tu. Pero 120",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.446
+      },
+      {
+        "text": "1000",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.446
+      },
+      {
+        "text": "Tor. Nap (10)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.446
+      },
+      {
+        "text": "Tag: Vastin",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.446
+      }
+    ]
+  }
+}

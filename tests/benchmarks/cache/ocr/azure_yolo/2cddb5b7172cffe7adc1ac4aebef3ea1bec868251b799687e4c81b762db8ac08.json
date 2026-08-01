@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "2cddb5b7172cffe7adc1ac4aebef3ea1bec868251b799687e4c81b762db8ac08",
+  "record_id": "RX-0070",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 5674.522499990417,
+  "failure": null,
+  "response_sha256": "333d1fccdb04a6cf3d575efabbeaf46234557dcd2d47defa31d4eb5ba269a0df",
+  "response": {
+    "raw_text": "Tb- Fixeet plus-(250) (4)\nTab - Etorix-(30) (7 270/m)\nGp- Maxpro- (20) (14)",
+    "lines": [
+      {
+        "text": "Tb- Fixeet plus-(250) (4)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.413
+      },
+      {
+        "text": "Tab - Etorix-(30) (7 270/m)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.413
+      },
+      {
+        "text": "Gp- Maxpro- (20) (14)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.413
+      }
+    ]
+  }
+}

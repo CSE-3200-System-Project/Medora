@@ -1,0 +1,1180 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0093",
+  "source_sha256": "69da85af6be56ce6c2dcc6e67ab8072ecd8a6ad29bf239f25fc50a603fb24841",
+  "raw_transcription": "-19)\n0+++21103-1)\n. Inb. Tofor long)\n0+0+8 - gina\n. Tab. Drie (home)",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "Inb Tofor Long",
+      "strength": "",
+      "dose": "",
+      "frequency": "0+0+8",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Drie Home",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "1de14c5b6dc142db280bbfc12faecb25b3f21eba0a4b195b0884d9fef73d89f3"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "359379e9615c2d2c0241ce092bc0be97e84057359879d1bcba7d9b40f93edc10"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "5daa5827aa129449cf1cb2586683bb441c51e46f82bbcdcd9d5de105fcf2076e"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "GOVERNMENT OF THE PEOPLE'SRFPUBUC OFRANLADESH\nMINTSTRY OF RELIOIOUS-ATFAIRS\nMattornManrshoedaen\nSanelecesnieg Onfce\nTREATMENE CARDRSTS\nG4\nARAR\nPaecath\nMenog\nVHE\nOM\nPN.E\n.\nH\nHEALIN-PROFALE\n1\nPa\n1\n20\nFDAruEy\nArllspeteeee\nCher Complaints\nVaN\nOve\nMang\ntchirg\n.Ecnweek creom\nOF\nL40(300\nRON\nFAP\nTotg\nTeno\n0+0+-\nDenyoraler\nAreema\nb.jf\nRaptace\nAFEG\nCt-q\nTb.x\nFESARBS-\nECG\nO\nProvisional Dingonosig\nAllergy",
+      "lines": [
+        {
+          "text": "GOVERNMENT OF THE PEOPLE'SRFPUBUC OFRANLADESH",
+          "bbox": {
+            "x_min": 201.0,
+            "y_min": 65.0,
+            "x_max": 441.0,
+            "y_max": 80.0
+          },
+          "page": 1,
+          "confidence": 0.838
+        },
+        {
+          "text": "MINTSTRY OF RELIOIOUS-ATFAIRS",
+          "bbox": {
+            "x_min": 255.0,
+            "y_min": 75.0,
+            "x_max": 390.0,
+            "y_max": 90.0
+          },
+          "page": 1,
+          "confidence": 0.799
+        },
+        {
+          "text": "MattornManrshoedaen",
+          "bbox": {
+            "x_min": 276.0,
+            "y_min": 94.0,
+            "x_max": 367.0,
+            "y_max": 107.0
+          },
+          "page": 1,
+          "confidence": 0.464
+        },
+        {
+          "text": "Sanelecesnieg Onfce",
+          "bbox": {
+            "x_min": 284.0,
+            "y_min": 86.0,
+            "x_max": 362.0,
+            "y_max": 96.0
+          },
+          "page": 1,
+          "confidence": 0.542
+        },
+        {
+          "text": "TREATMENE CARDRSTS",
+          "bbox": {
+            "x_min": 267.0,
+            "y_min": 110.0,
+            "x_max": 383.0,
+            "y_max": 123.0
+          },
+          "page": 1,
+          "confidence": 0.772
+        },
+        {
+          "text": "G4",
+          "bbox": {
+            "x_min": 395.0,
+            "y_min": 114.0,
+            "x_max": 460.0,
+            "y_max": 130.0
+          },
+          "page": 1,
+          "confidence": 0.365
+        },
+        {
+          "text": "ARAR",
+          "bbox": {
+            "x_min": 191.0,
+            "y_min": 133.0,
+            "x_max": 251.0,
+            "y_max": 147.0
+          },
+          "page": 1,
+          "confidence": 0.41
+        },
+        {
+          "text": "Paecath",
+          "bbox": {
+            "x_min": 282.0,
+            "y_min": 129.0,
+            "x_max": 318.0,
+            "y_max": 140.0
+          },
+          "page": 1,
+          "confidence": 0.565
+        },
+        {
+          "text": "Menog",
+          "bbox": {
+            "x_min": 341.0,
+            "y_min": 127.0,
+            "x_max": 375.0,
+            "y_max": 138.0
+          },
+          "page": 1,
+          "confidence": 0.322
+        },
+        {
+          "text": "VHE",
+          "bbox": {
+            "x_min": 397.0,
+            "y_min": 129.0,
+            "x_max": 430.0,
+            "y_max": 140.0
+          },
+          "page": 1,
+          "confidence": 0.448
+        },
+        {
+          "text": "OM",
+          "bbox": {
+            "x_min": 434.0,
+            "y_min": 130.0,
+            "x_max": 448.0,
+            "y_max": 138.0
+          },
+          "page": 1,
+          "confidence": 0.493
+        },
+        {
+          "text": "PN.E",
+          "bbox": {
+            "x_min": 202.0,
+            "y_min": 146.0,
+            "x_max": 221.0,
+            "y_max": 154.0
+          },
+          "page": 1,
+          "confidence": 0.817
+        },
+        {
+          "text": ".",
+          "bbox": {
+            "x_min": 435.0,
+            "y_min": 138.0,
+            "x_max": 448.0,
+            "y_max": 145.0
+          },
+          "page": 1,
+          "confidence": 0.123
+        },
+        {
+          "text": "H",
+          "bbox": {
+            "x_min": 228.0,
+            "y_min": 169.0,
+            "x_max": 281.0,
+            "y_max": 195.0
+          },
+          "page": 1,
+          "confidence": 0.134
+        },
+        {
+          "text": "HEALIN-PROFALE",
+          "bbox": {
+            "x_min": 292.0,
+            "y_min": 160.0,
+            "x_max": 359.0,
+            "y_max": 174.0
+          },
+          "page": 1,
+          "confidence": 0.779
+        },
+        {
+          "text": "1",
+          "bbox": {
+            "x_min": 288.0,
+            "y_min": 172.0,
+            "x_max": 305.0,
+            "y_max": 192.0
+          },
+          "page": 1,
+          "confidence": 0.438
+        },
+        {
+          "text": "Pa",
+          "bbox": {
+            "x_min": 228.0,
+            "y_min": 189.0,
+            "x_max": 283.0,
+            "y_max": 203.0
+          },
+          "page": 1,
+          "confidence": 0.305
+        },
+        {
+          "text": "1",
+          "bbox": {
+            "x_min": 289.0,
+            "y_min": 189.0,
+            "x_max": 302.0,
+            "y_max": 203.0
+          },
+          "page": 1,
+          "confidence": 0.287
+        },
+        {
+          "text": "20",
+          "bbox": {
+            "x_min": 359.0,
+            "y_min": 180.0,
+            "x_max": 391.0,
+            "y_max": 194.0
+          },
+          "page": 1,
+          "confidence": 0.285
+        },
+        {
+          "text": "FDAruEy",
+          "bbox": {
+            "x_min": 227.0,
+            "y_min": 205.0,
+            "x_max": 275.0,
+            "y_max": 219.0
+          },
+          "page": 1,
+          "confidence": 0.385
+        },
+        {
+          "text": "Arllspeteeee",
+          "bbox": {
+            "x_min": 290.0,
+            "y_min": 207.0,
+            "x_max": 334.0,
+            "y_max": 217.0
+          },
+          "page": 1,
+          "confidence": 0.301
+        },
+        {
+          "text": "Cher Complaints",
+          "bbox": {
+            "x_min": 161.0,
+            "y_min": 225.0,
+            "x_max": 226.0,
+            "y_max": 236.0
+          },
+          "page": 1,
+          "confidence": 0.828
+        },
+        {
+          "text": "VaN",
+          "bbox": {
+            "x_min": 259.0,
+            "y_min": 223.0,
+            "x_max": 290.0,
+            "y_max": 234.0
+          },
+          "page": 1,
+          "confidence": 0.465
+        },
+        {
+          "text": "Ove",
+          "bbox": {
+            "x_min": 384.0,
+            "y_min": 221.0,
+            "x_max": 402.0,
+            "y_max": 233.0
+          },
+          "page": 1,
+          "confidence": 0.583
+        },
+        {
+          "text": "Mang",
+          "bbox": {
+            "x_min": 401.0,
+            "y_min": 217.0,
+            "x_max": 436.0,
+            "y_max": 228.0
+          },
+          "page": 1,
+          "confidence": 0.352
+        },
+        {
+          "text": "tchirg",
+          "bbox": {
+            "x_min": 157.0,
+            "y_min": 232.0,
+            "x_max": 211.0,
+            "y_max": 254.0
+          },
+          "page": 1,
+          "confidence": 0.705
+        },
+        {
+          "text": ".Ecnweek creom",
+          "bbox": {
+            "x_min": 272.0,
+            "y_min": 242.0,
+            "x_max": 386.0,
+            "y_max": 256.0
+          },
+          "page": 1,
+          "confidence": 0.554
+        },
+        {
+          "text": "OF",
+          "bbox": {
+            "x_min": 155.0,
+            "y_min": 261.0,
+            "x_max": 174.0,
+            "y_max": 273.0
+          },
+          "page": 1,
+          "confidence": 0.442
+        },
+        {
+          "text": "L40(300",
+          "bbox": {
+            "x_min": 192.0,
+            "y_min": 258.0,
+            "x_max": 241.0,
+            "y_max": 276.0
+          },
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "RON",
+          "bbox": {
+            "x_min": 295.0,
+            "y_min": 257.0,
+            "x_max": 359.0,
+            "y_max": 274.0
+          },
+          "page": 1,
+          "confidence": 0.304
+        },
+        {
+          "text": "FAP",
+          "bbox": {
+            "x_min": 158.0,
+            "y_min": 274.0,
+            "x_max": 176.0,
+            "y_max": 281.0
+          },
+          "page": 1,
+          "confidence": 0.376
+        },
+        {
+          "text": "Totg",
+          "bbox": {
+            "x_min": 274.0,
+            "y_min": 277.0,
+            "x_max": 412.0,
+            "y_max": 298.0
+          },
+          "page": 1,
+          "confidence": 0.491
+        },
+        {
+          "text": "Teno",
+          "bbox": {
+            "x_min": 153.0,
+            "y_min": 294.0,
+            "x_max": 180.0,
+            "y_max": 305.0
+          },
+          "page": 1,
+          "confidence": 0.748
+        },
+        {
+          "text": "0+0+-",
+          "bbox": {
+            "x_min": 294.0,
+            "y_min": 295.0,
+            "x_max": 420.0,
+            "y_max": 314.0
+          },
+          "page": 1,
+          "confidence": 0.443
+        },
+        {
+          "text": "Denyoraler",
+          "bbox": {
+            "x_min": 151.0,
+            "y_min": 313.0,
+            "x_max": 197.0,
+            "y_max": 328.0
+          },
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "Areema",
+          "bbox": {
+            "x_min": 153.0,
+            "y_min": 305.0,
+            "x_max": 186.0,
+            "y_max": 315.0
+          },
+          "page": 1,
+          "confidence": 0.792
+        },
+        {
+          "text": "b.jf",
+          "bbox": {
+            "x_min": 286.0,
+            "y_min": 315.0,
+            "x_max": 413.0,
+            "y_max": 342.0
+          },
+          "page": 1,
+          "confidence": 0.546
+        },
+        {
+          "text": "Raptace",
+          "bbox": {
+            "x_min": 150.0,
+            "y_min": 325.0,
+            "x_max": 193.0,
+            "y_max": 339.0
+          },
+          "page": 1,
+          "confidence": 0.632
+        },
+        {
+          "text": "AFEG",
+          "bbox": {
+            "x_min": 152.0,
+            "y_min": 340.0,
+            "x_max": 173.0,
+            "y_max": 348.0
+          },
+          "page": 1,
+          "confidence": 0.516
+        },
+        {
+          "text": "Ct-q",
+          "bbox": {
+            "x_min": 304.0,
+            "y_min": 343.0,
+            "x_max": 423.0,
+            "y_max": 360.0
+          },
+          "page": 1,
+          "confidence": 0.448
+        },
+        {
+          "text": "Tb.x",
+          "bbox": {
+            "x_min": 283.0,
+            "y_min": 370.0,
+            "x_max": 444.0,
+            "y_max": 395.0
+          },
+          "page": 1,
+          "confidence": 0.711
+        },
+        {
+          "text": "FESARBS-",
+          "bbox": {
+            "x_min": 141.0,
+            "y_min": 428.0,
+            "x_max": 180.0,
+            "y_max": 442.0
+          },
+          "page": 1,
+          "confidence": 0.715
+        },
+        {
+          "text": "ECG",
+          "bbox": {
+            "x_min": 139.0,
+            "y_min": 443.0,
+            "x_max": 160.0,
+            "y_max": 455.0
+          },
+          "page": 1,
+          "confidence": 0.763
+        },
+        {
+          "text": "O",
+          "bbox": {
+            "x_min": 425.0,
+            "y_min": 445.0,
+            "x_max": 462.0,
+            "y_max": 463.0
+          },
+          "page": 1,
+          "confidence": 0.239
+        },
+        {
+          "text": "Provisional Dingonosig",
+          "bbox": {
+            "x_min": 135.0,
+            "y_min": 468.0,
+            "x_max": 228.0,
+            "y_max": 483.0
+          },
+          "page": 1,
+          "confidence": 0.892
+        },
+        {
+          "text": "Allergy",
+          "bbox": {
+            "x_min": 147.0,
+            "y_min": 493.0,
+            "x_max": 214.0,
+            "y_max": 518.0
+          },
+          "page": 1,
+          "confidence": 0.744
+        }
+      ],
+      "medications": [
+        {
+          "name": "Government Of The",
+          "matched_term": "Government Of The",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.377
+        },
+        {
+          "name": "Mintstry Of Relioious-Atfairs",
+          "matched_term": "Mintstry Of Relioious-Atfairs",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.36
+        },
+        {
+          "name": "Sanelecesnieg Onfce",
+          "matched_term": "Sanelecesnieg Onfce",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.244
+        },
+        {
+          "name": "Mattornmanrshoedaen",
+          "matched_term": "Mattornmanrshoedaen",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.209
+        },
+        {
+          "name": "Treatmene Cardrsts",
+          "matched_term": "Treatmene Cardrsts",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.256
+        },
+        {
+          "name": "Menogia",
+          "matched_term": "Menogia",
+          "drug_id": "9dbe2bf7-e8f8-425b-bb93-6349ec5735c6",
+          "brand_id": "6ff259c5-a927-4494-ac40-d4ffa95288d7",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.525
+        },
+        {
+          "name": "Paecath",
+          "matched_term": "Paecath",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.254
+        },
+        {
+          "name": "Vhe Om",
+          "matched_term": "Vhe Om",
+          "drug_id": "7b1fa286-3a42-4d88-b689-49b453895844",
+          "brand_id": "700cdeb2-764e-47af-b487-2fa6ef4ee00b",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.212
+        },
+        {
+          "name": "Arar Pn",
+          "matched_term": "Arar Pn",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.202
+        },
+        {
+          "name": "Healin-Profale Pa",
+          "matched_term": "Healin-Profale Pa",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.167
+        },
+        {
+          "name": "Fdaruey",
+          "matched_term": "Fdaruey",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.173
+        },
+        {
+          "name": "Arllspeteeee",
+          "matched_term": "Arllspeteeee",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.135
+        },
+        {
+          "name": "Mang",
+          "matched_term": "Mang",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.158
+        },
+        {
+          "name": "Ovel",
+          "matched_term": "Ovel",
+          "drug_id": "d16852e1-9447-4f20-978a-a00f4685fa30",
+          "brand_id": "dcda2b7c-df0a-4393-9a4c-9332890b8bf7",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.642
+        },
+        {
+          "name": "Van",
+          "matched_term": "Van",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.209
+        },
+        {
+          "name": "Cher Complaints",
+          "matched_term": "Cher Complaints",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.373
+        },
+        {
+          "name": "Tchirg",
+          "matched_term": "Tchirg",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.317
+        },
+        {
+          "name": "Ecnweek Creom",
+          "matched_term": "Ecnweek Creom",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.249
+        },
+        {
+          "name": "N-Ron",
+          "matched_term": "N-Ron",
+          "drug_id": "3430380d-2f63-4229-8e2b-3aa8acf3b2bb",
+          "brand_id": "033cc817-1037-46fe-ac85-def558da10cf",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.579
+        },
+        {
+          "name": "Fap",
+          "matched_term": "Fap",
+          "drug_id": "d11c3aa2-fdd7-4316-a7ce-d6f530adaa4c",
+          "brand_id": "37b694d8-0e9e-4286-8afa-019e97eaba19",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.549
+        },
+        {
+          "name": "Totg",
+          "matched_term": "Totg",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.221
+        },
+        {
+          "name": "Teno",
+          "matched_term": "Teno",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.268
+        },
+        {
+          "name": "Areema",
+          "matched_term": "Areema",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.356
+        },
+        {
+          "name": "Denyoraler Jf",
+          "matched_term": "Denyoraler Jf",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.274
+        },
+        {
+          "name": "Raptace",
+          "matched_term": "Raptace",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.284
+        },
+        {
+          "name": "Afeg Ct-Q Tb",
+          "matched_term": "Afeg Ct-Q Tb",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.251
+        },
+        {
+          "name": "Fesarbs",
+          "matched_term": "Fesarbs",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.322
+        },
+        {
+          "name": "Ecg",
+          "matched_term": "Ecg",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.225
+        },
+        {
+          "name": "Provisional Dingonosig",
+          "matched_term": "Provisional Dingonosig",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.401
+        },
+        {
+          "name": "Allergic",
+          "matched_term": "Allergic",
+          "drug_id": "9d30fed9-4b55-4d2d-a3df-a642ada52466",
+          "brand_id": "e0185298-5f81-4159-8aa3-2b63dee5d955",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.715
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANT. SPESSI\nMINISTRY OF RELIGIOUS AFFAIRES\nTREATMENT CARDS TESLIM\nMicina Confer\nHEALTH PROFILE\nCher Complaints:\nItching\nDehyura:on-\n0+0+2-4-1(1)\n. Inb. Totomi long)\n0+0+8 - 9/12\nFeSIRDS\nProvisional Diagonasia\nAllergy",
+      "lines": [
+        {
+          "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANT. SPESSI",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.473
+        },
+        {
+          "text": "MINISTRY OF RELIGIOUS AFFAIRES",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.473
+        },
+        {
+          "text": "TREATMENT CARDS TESLIM",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.473
+        },
+        {
+          "text": "Micina Confer",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.473
+        },
+        {
+          "text": "HEALTH PROFILE",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.473
+        },
+        {
+          "text": "Cher Complaints:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.473
+        },
+        {
+          "text": "Itching",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.473
+        },
+        {
+          "text": "Dehyura:on-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.473
+        },
+        {
+          "text": "0+0+2-4-1(1)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.473
+        },
+        {
+          "text": ". Inb. Totomi long)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.473
+        },
+        {
+          "text": "0+0+8 - 9/12",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.473
+        },
+        {
+          "text": "FeSIRDS",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.473
+        },
+        {
+          "text": "Provisional Diagonasia",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.473
+        },
+        {
+          "text": "Allergy",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.473
+        }
+      ],
+      "medications": [
+        {
+          "name": "Government Of The",
+          "matched_term": "Government Of The",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.213
+        },
+        {
+          "name": "Minista",
+          "matched_term": "Minista",
+          "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+          "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.593
+        },
+        {
+          "name": "Treatment Cards Teslim",
+          "matched_term": "Treatment Cards Teslim",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.213
+        },
+        {
+          "name": "Micina Confer",
+          "matched_term": "Micina Confer",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.213
+        },
+        {
+          "name": "4-Health",
+          "matched_term": "4-Health",
+          "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+          "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.593
+        },
+        {
+          "name": "Cher Complaints",
+          "matched_term": "Cher Complaints",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.213
+        },
+        {
+          "name": "Itchin",
+          "matched_term": "Itchin",
+          "drug_id": "836df208-5e75-4b04-a52e-39018399c91a",
+          "brand_id": "b603caa2-60a9-42d3-bdc0-a97d46f5f931",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.593
+        },
+        {
+          "name": "Dehyura On",
+          "matched_term": "Dehyura On",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": "0+0+2+4",
+          "quantity": null,
+          "confidence": 0.262
+        },
+        {
+          "name": "Inb Totomi Long",
+          "matched_term": "Inb Totomi Long",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": "0+0+8+9",
+          "quantity": null,
+          "confidence": 0.262
+        },
+        {
+          "name": "Fesirds",
+          "matched_term": "Fesirds",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.213
+        },
+        {
+          "name": "Provisional Diagonasia",
+          "matched_term": "Provisional Diagonasia",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.213
+        },
+        {
+          "name": "Allergic",
+          "matched_term": "Allergic",
+          "drug_id": "9d30fed9-4b55-4d2d-a3df-a642ada52466",
+          "brand_id": "e0185298-5f81-4159-8aa3-2b63dee5d955",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.593
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "Inb Tofor Long",
+          "matched_term": "Inb Tofor Long",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": "0+0+8",
+          "quantity": null,
+          "confidence": 0.176
+        },
+        {
+          "name": "Drie Home",
+          "matched_term": "Drie Home",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.127
+        }
+      ],
+      "raw_text": "-19)\n0+++21103-1)\n. Inb. Tofor long)\n0+0+8 - gina\n. Tab. Drie (home)",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 5587,
+        "detected_regions": 1,
+        "ocr_line_count": 5,
+        "yolo_avg_confidence": 0.8957,
+        "yolo_min_confidence": 0.8957,
+        "yolo_max_confidence": 0.8957,
+        "ocr_avg_confidence": 0.282,
+        "ocr_min_confidence": 0.282,
+        "ocr_max_confidence": 0.282,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 262.1158142089844,
+              "y_min": 236.60635375976562,
+              "x_max": 510.5552978515625,
+              "y_max": 470.7674255371094
+            },
+            "score": 0.8957
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "-19)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.282
+          },
+          {
+            "text": "0+++21103-1)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.282
+          },
+          {
+            "text": ". Inb. Tofor long)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.282
+          },
+          {
+            "text": "0+0+8 - gina",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.282
+          },
+          {
+            "text": ". Tab. Drie (home)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.282
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

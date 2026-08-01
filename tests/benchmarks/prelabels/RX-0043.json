@@ -1,0 +1,1131 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0043",
+  "source_sha256": "cba2c10d7dfe3b8bd790296d0ba71d6e0688eb3d8aa530e4dc13f0721ae97a5c",
+  "raw_transcription": "Weakness\nGen\nW Anorexia\nB/2\nTub.\nAM.\n17/\nHat\n1\nTub. Xantia (1500\nHat1\nTab. Alben-\n20)\n2)",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "Weakness",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Gen",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Anorex",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Tuba",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Hat",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Alben",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "961b68ae28d9b7fda260d7f307c156c76d4d47c86a0d58b8b968cdeb6ecae121"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "e3e5df65c601400ef074e4dbfafaeb1baebf58a175d6552a88c3285100831a8b"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "c665444354f99c9f8da562aeed8490fc95478df49c7f5892d0ed540afbddfe5e"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "VAST\n2\n2\nee\nD\n9\nT\nSSutnos\nLOan\nO\nu\n17071\nbHA\n279\n91\npemy\n1otl\n2\nm\nm\nwn\nJA4\n4\nucdags\nC\n4\n4\n411-61\nA\n110-6\nB1-ONB\nAG\nS\nHaslo\nIoglo\nGSE\n50\nA\niLc\no\n-",
+      "lines": [
+        {
+          "text": "VAST",
+          "bbox": {
+            "x_min": 577.0,
+            "y_min": 78.0,
+            "x_max": 754.0,
+            "y_max": 322.0
+          },
+          "page": 1,
+          "confidence": 0.709
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 3055.0,
+            "y_min": 371.0,
+            "x_max": 3255.0,
+            "y_max": 584.0
+          },
+          "page": 1,
+          "confidence": 0.371
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 310.0,
+            "y_min": 442.0,
+            "x_max": 503.0,
+            "y_max": 1977.0
+          },
+          "page": 1,
+          "confidence": 0.433
+        },
+        {
+          "text": "ee",
+          "bbox": {
+            "x_min": 2794.0,
+            "y_min": 584.0,
+            "x_max": 3020.0,
+            "y_max": 935.0
+          },
+          "page": 1,
+          "confidence": 0.789
+        },
+        {
+          "text": "D",
+          "bbox": {
+            "x_min": 2625.0,
+            "y_min": 662.0,
+            "x_max": 2690.0,
+            "y_max": 772.0
+          },
+          "page": 1,
+          "confidence": 0.171
+        },
+        {
+          "text": "9",
+          "bbox": {
+            "x_min": 2589.0,
+            "y_min": 756.0,
+            "x_max": 2787.0,
+            "y_max": 1359.0
+          },
+          "page": 1,
+          "confidence": 0.356
+        },
+        {
+          "text": "T",
+          "bbox": {
+            "x_min": 2310.0,
+            "y_min": 829.0,
+            "x_max": 2389.0,
+            "y_max": 900.0
+          },
+          "page": 1,
+          "confidence": 0.616
+        },
+        {
+          "text": "SSutnos",
+          "bbox": {
+            "x_min": 1367.0,
+            "y_min": 876.0,
+            "x_max": 1615.0,
+            "y_max": 1675.0
+          },
+          "page": 1,
+          "confidence": 0.362
+        },
+        {
+          "text": "LOan",
+          "bbox": {
+            "x_min": 4081.0,
+            "y_min": 941.0,
+            "x_max": 4152.0,
+            "y_max": 1316.0
+          },
+          "page": 1,
+          "confidence": 0.221
+        },
+        {
+          "text": "O",
+          "bbox": {
+            "x_min": 4251.0,
+            "y_min": 1071.0,
+            "x_max": 4259.0,
+            "y_max": 1086.0
+          },
+          "page": 1,
+          "confidence": 0.102
+        },
+        {
+          "text": "u",
+          "bbox": {
+            "x_min": 3227.0,
+            "y_min": 1112.0,
+            "x_max": 3331.0,
+            "y_max": 1302.0
+          },
+          "page": 1,
+          "confidence": 0.173
+        },
+        {
+          "text": "17071",
+          "bbox": {
+            "x_min": 2937.0,
+            "y_min": 1211.0,
+            "x_max": 3119.0,
+            "y_max": 1818.0
+          },
+          "page": 1,
+          "confidence": 0.736
+        },
+        {
+          "text": "bHA",
+          "bbox": {
+            "x_min": 1647.0,
+            "y_min": 1311.0,
+            "x_max": 1815.0,
+            "y_max": 1625.0
+          },
+          "page": 1,
+          "confidence": 0.382
+        },
+        {
+          "text": "279",
+          "bbox": {
+            "x_min": 2141.0,
+            "y_min": 1308.0,
+            "x_max": 2343.0,
+            "y_max": 1624.0
+          },
+          "page": 1,
+          "confidence": 0.421
+        },
+        {
+          "text": "91",
+          "bbox": {
+            "x_min": 3177.0,
+            "y_min": 1306.0,
+            "x_max": 3355.0,
+            "y_max": 1610.0
+          },
+          "page": 1,
+          "confidence": 0.56
+        },
+        {
+          "text": "pemy",
+          "bbox": {
+            "x_min": 2630.0,
+            "y_min": 1326.0,
+            "x_max": 2837.0,
+            "y_max": 1702.0
+          },
+          "page": 1,
+          "confidence": 0.352
+        },
+        {
+          "text": "1otl",
+          "bbox": {
+            "x_min": 2393.0,
+            "y_min": 1338.0,
+            "x_max": 2591.0,
+            "y_max": 1731.0
+          },
+          "page": 1,
+          "confidence": 0.284
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 763.0,
+            "y_min": 1728.0,
+            "x_max": 863.0,
+            "y_max": 2111.0
+          },
+          "page": 1,
+          "confidence": 0.678
+        },
+        {
+          "text": "m",
+          "bbox": {
+            "x_min": 3191.0,
+            "y_min": 1822.0,
+            "x_max": 3350.0,
+            "y_max": 2065.0
+          },
+          "page": 1,
+          "confidence": 0.352
+        },
+        {
+          "text": "m",
+          "bbox": {
+            "x_min": 2681.0,
+            "y_min": 1849.0,
+            "x_max": 2808.0,
+            "y_max": 2089.0
+          },
+          "page": 1,
+          "confidence": 0.28
+        },
+        {
+          "text": "wn",
+          "bbox": {
+            "x_min": 2232.0,
+            "y_min": 1876.0,
+            "x_max": 2383.0,
+            "y_max": 2138.0
+          },
+          "page": 1,
+          "confidence": 0.373
+        },
+        {
+          "text": "JA4",
+          "bbox": {
+            "x_min": 1980.0,
+            "y_min": 2073.0,
+            "x_max": 2186.0,
+            "y_max": 2366.0
+          },
+          "page": 1,
+          "confidence": 0.449
+        },
+        {
+          "text": "4",
+          "bbox": {
+            "x_min": 1453.0,
+            "y_min": 2155.0,
+            "x_max": 1463.0,
+            "y_max": 2170.0
+          },
+          "page": 1,
+          "confidence": 0.085
+        },
+        {
+          "text": "ucdags",
+          "bbox": {
+            "x_min": 3851.0,
+            "y_min": 2183.0,
+            "x_max": 3984.0,
+            "y_max": 2770.0
+          },
+          "page": 1,
+          "confidence": 0.328
+        },
+        {
+          "text": "C",
+          "bbox": {
+            "x_min": 3810.0,
+            "y_min": 2195.0,
+            "x_max": 3904.0,
+            "y_max": 2552.0
+          },
+          "page": 1,
+          "confidence": 0.594
+        },
+        {
+          "text": "4",
+          "bbox": {
+            "x_min": 297.0,
+            "y_min": 2340.0,
+            "x_max": 535.0,
+            "y_max": 2613.0
+          },
+          "page": 1,
+          "confidence": 0.097
+        },
+        {
+          "text": "4",
+          "bbox": {
+            "x_min": 3855.0,
+            "y_min": 2482.0,
+            "x_max": 3863.0,
+            "y_max": 2506.0
+          },
+          "page": 1,
+          "confidence": 0.086
+        },
+        {
+          "text": "411-61",
+          "bbox": {
+            "x_min": 2510.0,
+            "y_min": 2508.0,
+            "x_max": 2719.0,
+            "y_max": 2950.0
+          },
+          "page": 1,
+          "confidence": 0.655
+        },
+        {
+          "text": "A",
+          "bbox": {
+            "x_min": 3728.0,
+            "y_min": 2546.0,
+            "x_max": 3740.0,
+            "y_max": 2558.0
+          },
+          "page": 1,
+          "confidence": 0.124
+        },
+        {
+          "text": "110-6",
+          "bbox": {
+            "x_min": 1163.0,
+            "y_min": 2564.0,
+            "x_max": 1346.0,
+            "y_max": 3153.0
+          },
+          "page": 1,
+          "confidence": 0.743
+        },
+        {
+          "text": "B1-ONB",
+          "bbox": {
+            "x_min": 944.0,
+            "y_min": 2593.0,
+            "x_max": 1167.0,
+            "y_max": 3164.0
+          },
+          "page": 1,
+          "confidence": 0.668
+        },
+        {
+          "text": "AG",
+          "bbox": {
+            "x_min": 779.0,
+            "y_min": 2679.0,
+            "x_max": 873.0,
+            "y_max": 2894.0
+          },
+          "page": 1,
+          "confidence": 0.281
+        },
+        {
+          "text": "S",
+          "bbox": {
+            "x_min": 3046.0,
+            "y_min": 2796.0,
+            "x_max": 3054.0,
+            "y_max": 2814.0
+          },
+          "page": 1,
+          "confidence": 0.09
+        },
+        {
+          "text": "Haslo",
+          "bbox": {
+            "x_min": 4054.0,
+            "y_min": 3139.0,
+            "x_max": 4138.0,
+            "y_max": 3340.0
+          },
+          "page": 1,
+          "confidence": 0.373
+        },
+        {
+          "text": "Ioglo",
+          "bbox": {
+            "x_min": 2953.0,
+            "y_min": 3225.0,
+            "x_max": 3027.0,
+            "y_max": 3440.0
+          },
+          "page": 1,
+          "confidence": 0.422
+        },
+        {
+          "text": "GSE",
+          "bbox": {
+            "x_min": 2612.0,
+            "y_min": 3231.0,
+            "x_max": 2708.0,
+            "y_max": 3441.0
+          },
+          "page": 1,
+          "confidence": 0.664
+        },
+        {
+          "text": "50",
+          "bbox": {
+            "x_min": 2209.0,
+            "y_min": 3275.0,
+            "x_max": 2247.0,
+            "y_max": 3295.0
+          },
+          "page": 1,
+          "confidence": 0.262
+        },
+        {
+          "text": "A",
+          "bbox": {
+            "x_min": 2231.0,
+            "y_min": 3227.0,
+            "x_max": 2616.0,
+            "y_max": 3468.0
+          },
+          "page": 1,
+          "confidence": 0.191
+        },
+        {
+          "text": "iLc",
+          "bbox": {
+            "x_min": 895.0,
+            "y_min": 3352.0,
+            "x_max": 954.0,
+            "y_max": 3445.0
+          },
+          "page": 1,
+          "confidence": 0.294
+        },
+        {
+          "text": "o",
+          "bbox": {
+            "x_min": 2341.0,
+            "y_min": 3387.0,
+            "x_max": 2356.0,
+            "y_max": 3397.0
+          },
+          "page": 1,
+          "confidence": 0.117
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 2346.0,
+            "y_min": 3385.0,
+            "x_max": 2352.0,
+            "y_max": 3391.0
+          },
+          "page": 1,
+          "confidence": 0.101
+        }
+      ],
+      "medications": [
+        {
+          "name": "Vast Cee",
+          "matched_term": "Vast Cee",
+          "drug_id": "1a78fde7-c95a-47cb-9e2a-c81e76d638c2",
+          "brand_id": "6758da5b-9d2d-48e1-8424-1d9748c356e4",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.221
+        },
+        {
+          "name": "Ssutnos",
+          "matched_term": "Ssutnos",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.163
+        },
+        {
+          "name": "Loan",
+          "matched_term": "Loan",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.166
+        },
+        {
+          "name": "Bha",
+          "matched_term": "Bha",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.172
+        },
+        {
+          "name": "Pemy Otl Wn Ja",
+          "matched_term": "Pemy Otl Wn Ja",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.16
+        },
+        {
+          "name": "Ucdags",
+          "matched_term": "Ucdags",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.169
+        },
+        {
+          "name": "-Onb Ag",
+          "matched_term": "-Onb Ag",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.156
+        },
+        {
+          "name": "Haslo",
+          "matched_term": "Haslo",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.168
+        },
+        {
+          "name": "Bioglow-HC",
+          "matched_term": "Bioglow-HC",
+          "drug_id": "373e20cd-7ca3-466b-bbdf-a822f49af528",
+          "brand_id": "57a6da8f-4a20-4819-b177-f53a859ae106",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.518
+        },
+        {
+          "name": "Gse",
+          "matched_term": "Gse",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.208
+        },
+        {
+          "name": "Ilc",
+          "matched_term": "Ilc",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.077
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "S10\nणिकिश्मक कड़क ब्बाभीव वादशं भरज\nजांगीन नाम 820377M24 Seddiand uckइन\n15 Pm\nवोटगव नाग\nडिकिस्मतकर बातशुभ\nनिर\nS.NO-12\n19.01.17\nc/c\nThen weakness\n@ Anorexia\nB/c\nTub .\nund i AM.\n19.1.17.\nTub. Kuntid (150)\nAdv\nTab. Alben-DS\n2\nग्राह काशिन (शुक्र\nगगलवान वाकमान\nको ढना जा रही गर्मीन\nनाग :\n00\nयाशाम\nसम्भव\nब्राड\nचाइना\nम\nजातिया",
+      "lines": [
+        {
+          "text": "S10",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "णिकिश्मक कड़क ब्बाभीव वादशं भरज",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "जांगीन नाम 820377M24 Seddiand uckइन",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "15 Pm",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "वोटगव नाग",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "डिकिस्मतकर बातशुभ",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "निर",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "S.NO-12",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "19.01.17",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "c/c",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "Then weakness",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "@ Anorexia",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "B/c",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "Tub .",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "und i AM.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "19.1.17.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "Tub. Kuntid (150)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "Adv",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "Tab. Alben-DS",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "2",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "ग्राह काशिन (शुक्र",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "गगलवान वाकमान",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "को ढना जा रही गर्मीन",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "नाग :",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "00",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "याशाम",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "सम्भव",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "ब्राड",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "चाइना",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "म",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "जातिया",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        }
+      ],
+      "medications": [
+        {
+          "name": "Seddiand Uck Pm No",
+          "matched_term": "Seddiand Uck Pm No",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.2
+        },
+        {
+          "name": "Then Weakness",
+          "matched_term": "Then Weakness",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.2
+        },
+        {
+          "name": "Anorex",
+          "matched_term": "Anorex",
+          "drug_id": "a9db1a7e-8d62-4155-927d-09e8cb39976c",
+          "brand_id": "47853f7f-6e68-4788-831a-4cb12cc62059",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.58
+        },
+        {
+          "name": "Tuba",
+          "matched_term": "Tuba",
+          "drug_id": "0e496455-ba8e-4826-9407-63177d457b44",
+          "brand_id": "a3a6a5be-cbf4-4cdc-a45c-812b86a2f484",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.58
+        },
+        {
+          "name": "Undo",
+          "matched_term": "Undo",
+          "drug_id": "b1a57ff2-c018-4e8e-8094-8a3bc31986f9",
+          "brand_id": "c0b41b98-8ee5-4ecb-9916-426276099b53",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.58
+        },
+        {
+          "name": "Tuba",
+          "matched_term": "Tuba",
+          "drug_id": "0e496455-ba8e-4826-9407-63177d457b44",
+          "brand_id": "a3a6a5be-cbf4-4cdc-a45c-812b86a2f484",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.58
+        },
+        {
+          "name": "Adv",
+          "matched_term": "Adv",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.2
+        },
+        {
+          "name": "Alben-Ds",
+          "matched_term": "Alben-Ds",
+          "drug_id": "58d629f6-1d4c-4a6a-932c-f27ad32e400b",
+          "brand_id": "25c8a1da-4995-48fc-aedf-cb032343f9fb",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.58
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "Weakness",
+          "matched_term": "Weakness",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.255
+        },
+        {
+          "name": "Gen",
+          "matched_term": "Gen",
+          "drug_id": "49b07d6d-c94f-4461-abd7-e3d1352682ea",
+          "brand_id": "3f36e600-7ec6-4d28-a473-1a14d6e90658",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.635
+        },
+        {
+          "name": "Anorex",
+          "matched_term": "Anorex",
+          "drug_id": "a9db1a7e-8d62-4155-927d-09e8cb39976c",
+          "brand_id": "47853f7f-6e68-4788-831a-4cb12cc62059",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.635
+        },
+        {
+          "name": "Tuba",
+          "matched_term": "Tuba",
+          "drug_id": "0e496455-ba8e-4826-9407-63177d457b44",
+          "brand_id": "a3a6a5be-cbf4-4cdc-a45c-812b86a2f484",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.635
+        },
+        {
+          "name": "Hat",
+          "matched_term": "Hat",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.255
+        },
+        {
+          "name": "Alben",
+          "matched_term": "Alben",
+          "drug_id": "22b649ff-5d11-46b7-a65e-c8cec4321194",
+          "brand_id": "7ef2dcbb-2ad7-4c14-aad1-9e1bff4febd7",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.635
+        }
+      ],
+      "raw_text": "Weakness\nGen\nW Anorexia\nB/2\nTub.\nAM.\n17/\nHat\n1\nTub. Xantia (1500\nHat1\nTab. Alben-\n20)\n2)",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 10018,
+        "detected_regions": 1,
+        "ocr_line_count": 14,
+        "yolo_avg_confidence": 0.8543,
+        "yolo_min_confidence": 0.8543,
+        "yolo_max_confidence": 0.8543,
+        "ocr_avg_confidence": 0.567,
+        "ocr_min_confidence": 0.567,
+        "ocr_max_confidence": 0.567,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 826.5251831054687,
+              "y_min": 1127.7515464782714,
+              "x_max": 3267.6808776855464,
+              "y_max": 3567.045427703857
+            },
+            "score": 0.8543
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "Weakness",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.567
+          },
+          {
+            "text": "Gen",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.567
+          },
+          {
+            "text": "W Anorexia",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.567
+          },
+          {
+            "text": "B/2",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.567
+          },
+          {
+            "text": "Tub.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.567
+          },
+          {
+            "text": "AM.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.567
+          },
+          {
+            "text": "17/",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.567
+          },
+          {
+            "text": "Hat",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.567
+          },
+          {
+            "text": "1",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.567
+          },
+          {
+            "text": "Tub. Xantia (1500",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.567
+          },
+          {
+            "text": "Hat1",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.567
+          },
+          {
+            "text": "Tab. Alben-",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.567
+          },
+          {
+            "text": "20)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.567
+          },
+          {
+            "text": "2)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.567
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

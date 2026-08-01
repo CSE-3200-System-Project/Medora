@@ -1,0 +1,308 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "4b2982e1b833cd14eeb167a4a5b0024302aa9d9bf93032d13c405f76885fd2dc",
+  "record_id": "RX-0084",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 29322.876199992606,
+  "failure": null,
+  "response_sha256": "93979922082610e2495271862e73af9bdaa25deb8df86d4b412472e708a62673",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / बादशन'\n0m= $026\nMedical Center:\n0244193\nAge\nNURUL IS_VA\nThanEATKHIL\nDistrict NOAKHAL\nHEALTH PROFILE\n12390\n2. Bince Freesure\nNO\n1. Bland Group:\n4. Lung Disease.\nNO\n3. Hep T DGUD\nNO\n7 Mortal Discage: 70\n10. Liver Disease;\n12. Amycomer sonormalilies:\nChief Complaints\nVien Na:\nItching\nw/3\nMP rath.\n. TAB Taten ( mg)\nClobetasome aint __\nTAB, Napa Extend (665mg)-10\nCap Omeprazole (Dem)\nFBS RBS-\nECG\nProvisional Diagonosis\nMarian No 34\nA:3580185\nPassport No\nNgmo\n5. Kidney Decase. NO\n8. Blood Sugar IRHS)\nBP\nTomp:\nDenyo:Allo-\nRespiration-\nOthers\n24/05/24",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "TREATMENT CARD / बादशन'",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "0m= $026",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Medical Center:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "0244193",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Age",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "NURUL IS_VA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "ThanEATKHIL",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "District NOAKHAL",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "12390",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "2. Bince Freesure",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "1. Bland Group:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "4. Lung Disease.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "3. Hep T DGUD",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "7 Mortal Discage: 70",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "10. Liver Disease;",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "12. Amycomer sonormalilies:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Chief Complaints",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Vien Na:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Itching",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "w/3",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "MP rath.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": ". TAB Taten ( mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Clobetasome aint __",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "TAB, Napa Extend (665mg)-10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Cap Omeprazole (Dem)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "FBS RBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Marian No 34",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "A:3580185",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Passport No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Ngmo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "5. Kidney Decase. NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "8. Blood Sugar IRHS)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "BP",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Tomp:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Denyo:Allo-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Others",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "24/05/24",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.637
+      }
+    ]
+  }
+}

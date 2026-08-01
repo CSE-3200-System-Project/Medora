@@ -1,55 +1,30 @@
 "use server";
 
 import { cookies } from "next/headers";
-import {
-  ADMIN_COOKIE_NAME,
-  createAdminAccessToken,
-  getAdminSecret,
-  verifyAdminAccessToken,
-  verifyAdminPassword,
-} from "@/lib/admin-auth";
 
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8000";
 
-// Admin Authentication
-export async function setAdminAccess(password: string) {
-  const adminSecret = getAdminSecret();
-  if (adminSecret && await verifyAdminPassword(password, adminSecret)) {
-    const cookieStore = await cookies();
-    cookieStore.set(ADMIN_COOKIE_NAME, await createAdminAccessToken(adminSecret), {
-      path: "/",
-      maxAge: 86400, // 24 hours
-      sameSite: "lax",
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-    });
-    cookieStore.set("user_role", "admin", {
-      path: "/",
-      maxAge: 86400,
-      sameSite: "lax",
-    });
-    return { success: true };
-  }
-  return { success: false, error: "Incorrect admin password" };
-}
-
 export async function clearAdminAccess() {
   const cookieStore = await cookies();
-  cookieStore.delete(ADMIN_COOKIE_NAME);
+  cookieStore.delete("session_token");
   cookieStore.delete("user_role");
+  cookieStore.delete("onboarding_completed");
+  cookieStore.delete("verification_status");
+  cookieStore.delete("remember_me");
+  cookieStore.delete("admin_access");
 }
 
 async function getAdminHeaders() {
-  const adminSecret = getAdminSecret();
   const cookieStore = await cookies();
-  const token = cookieStore.get(ADMIN_COOKIE_NAME)?.value;
-  if (!adminSecret || !(await verifyAdminAccessToken(token, adminSecret))) {
+  const token = cookieStore.get("session_token")?.value;
+  const role = cookieStore.get("user_role")?.value?.toLowerCase();
+  if (!token || role !== "admin") {
     throw new Error("Admin session is missing or expired");
   }
 
   return {
     "Content-Type": "application/json",
-    "X-Admin-Password": adminSecret,
+    Authorization: `Bearer ${token}`,
   };
 }
 
@@ -674,4 +649,42 @@ export async function unbanUser(userId: string) {
     console.error("Failed to unban user:", error);
     throw error;
   }
+}
+
+export type ScheduleReviewDoctor = {
+  profile_id: string;
+  name: string;
+  email: string;
+  time_slots?: string;
+  normalized_time_slots?: string;
+};
+
+export async function getAdminScheduleReview(): Promise<ScheduleReviewDoctor[]> {
+  const headers = await getAdminHeaders();
+  const response = await fetch(`${BACKEND_URL}/admin/schedule-review`, {
+    headers,
+    cache: "no-store",
+  });
+  if (!response.ok) {
+    throw new Error(`Failed to fetch schedule review: ${response.status}`);
+  }
+  const data = (await response.json()) as { doctors?: ScheduleReviewDoctor[] };
+  return data.doctors ?? [];
+}
+
+export async function applyAdminScheduleFix(
+  doctor: Pick<ScheduleReviewDoctor, "profile_id" | "normalized_time_slots">,
+) {
+  const headers = await getAdminHeaders();
+  const response = await fetch(`${BACKEND_URL}/admin/schedule-review/fix`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(doctor),
+    cache: "no-store",
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.detail || `Failed to apply schedule fix: ${response.status}`);
+  }
+  return response.json();
 }

@@ -1,0 +1,381 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0072",
+  "source_sha256": "33248ae9118d0667c4ca5704c7e818757106cf6aebfd420f123c5f181540de38",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:34:52.922192+00:00",
+  "runtime_ms": 17167.122400001972,
+  "output": {
+    "medications": [
+      {
+        "name": "Duet",
+        "matched_term": "Duet",
+        "drug_id": "a5c0f110-387e-409e-8e2b-9019bc64a9a1",
+        "brand_id": "2fe081e4-6d8e-47f4-bc14-17ab9ba4f1d2",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.705
+      },
+      {
+        "name": "Comet Xr",
+        "matched_term": "Comet Xr",
+        "drug_id": "11674d97-f845-4c56-826b-8282e4cda811",
+        "brand_id": "05a1fed1-0507-4c7a-9b72-9b4980a3794f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.705
+      },
+      {
+        "name": "A Th",
+        "matched_term": "A Th",
+        "drug_id": "0496fb01-5fc6-44d6-942d-297b36fff49b",
+        "brand_id": "f882c379-3d91-43a2-86c2-06a66c2e3ab5",
+        "dosage": "330 mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.756
+      },
+      {
+        "name": "Frs",
+        "matched_term": "Frs",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.325
+      },
+      {
+        "name": "Abac",
+        "matched_term": "Abac",
+        "drug_id": "50c37556-84d5-4730-96aa-656feecf8342",
+        "brand_id": "846e536f-c77a-4b1b-a049-02534bf0beab",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.528
+      },
+      {
+        "name": "Fenocap",
+        "matched_term": "Fenocap",
+        "drug_id": "728e5d77-9ff0-465a-8475-1b5952aa3b89",
+        "brand_id": "415e914d-01cd-4b6a-aecd-39afa8439d01",
+        "dosage": null,
+        "frequency": null,
+        "quantity": "3 months",
+        "confidence": 0.754
+      },
+      {
+        "name": "For",
+        "matched_term": "For",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.325
+      },
+      {
+        "name": "V-Col",
+        "matched_term": "V-Col",
+        "drug_id": "a82a5011-c6d7-4524-a5bc-dbdbbd0e4435",
+        "brand_id": "6be0dc37-3580-49f2-920d-368e8ec72ad7",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.705
+      },
+      {
+        "name": "Aan",
+        "matched_term": "Aan",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.325
+      },
+      {
+        "name": "Lolipid",
+        "matched_term": "Lolipid",
+        "drug_id": "728e5d77-9ff0-465a-8475-1b5952aa3b89",
+        "brand_id": "8b1f2e3b-72c3-45bf-b13c-d84096edcd0f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": "01 months",
+        "confidence": 0.754
+      },
+      {
+        "name": "Med Cal",
+        "matched_term": "Med Cal",
+        "drug_id": "0ce59c9f-0d4d-4bfd-9705-64272510ddd2",
+        "brand_id": "599d5d26-7b25-45d1-9f3e-1afb30dc292d",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.705
+      },
+      {
+        "name": "Cmh Dhaka",
+        "matched_term": "Cmh Dhaka",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.325
+      },
+      {
+        "name": "Ty Ar",
+        "matched_term": "Ty Ar",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "500 mg",
+        "frequency": "0+0+0",
+        "quantity": null,
+        "confidence": 0.425
+      },
+      {
+        "name": "Ecg",
+        "matched_term": "Ecg",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.325
+      }
+    ],
+    "raw_text": "Bp:\n130/80\n62mm\nrx\nDue:\n5.754, F14,\nTy, Comer XR\nTh: 330 mg\nFRS : 6.8\n2m ABA 8.2\nFenocap 2000\n- 3 month\n(0) for\nCol (Dr) Muhammad Ariful Islam M\nR\nAAN\nLipid (F)\nasser 01 month.\nCI Med Spl\nCMH Dhaka\n500 mg\n0+0+ 01/2\nTy.\nar: 1.\n2\nN\n1\n.\nECG\n.\nF13",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 17113,
+      "detected_regions": 1,
+      "ocr_line_count": 31,
+      "yolo_avg_confidence": 0.8403,
+      "yolo_min_confidence": 0.8403,
+      "yolo_max_confidence": 0.8403,
+      "ocr_avg_confidence": 0.722,
+      "ocr_min_confidence": 0.722,
+      "ocr_max_confidence": 0.722,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 389.373876953125,
+            "y_min": 1072.9934196472168,
+            "x_max": 3322.473400878906,
+            "y_max": 4482.963890075684
+          },
+          "score": 0.8403
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Bp:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.722
+        },
+        {
+          "text": "130/80",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.722
+        },
+        {
+          "text": "62mm",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.722
+        },
+        {
+          "text": "rx",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.722
+        },
+        {
+          "text": "Due:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.722
+        },
+        {
+          "text": "5.754, F14,",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.722
+        },
+        {
+          "text": "Ty, Comer XR",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.722
+        },
+        {
+          "text": "Th: 330 mg",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.722
+        },
+        {
+          "text": "FRS : 6.8",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.722
+        },
+        {
+          "text": "2m ABA 8.2",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.722
+        },
+        {
+          "text": "Fenocap 2000",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.722
+        },
+        {
+          "text": "- 3 month",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.722
+        },
+        {
+          "text": "(0) for",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.722
+        },
+        {
+          "text": "Col (Dr) Muhammad Ariful Islam M",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.722
+        },
+        {
+          "text": "R",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.722
+        },
+        {
+          "text": "AAN",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.722
+        },
+        {
+          "text": "Lipid (F)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.722
+        },
+        {
+          "text": "asser 01 month.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.722
+        },
+        {
+          "text": "CI Med Spl",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.722
+        },
+        {
+          "text": "CMH Dhaka",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.722
+        },
+        {
+          "text": "500 mg",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.722
+        },
+        {
+          "text": "0+0+ 01/2",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.722
+        },
+        {
+          "text": "Ty.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.722
+        },
+        {
+          "text": "ar: 1.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.722
+        },
+        {
+          "text": "2",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.722
+        },
+        {
+          "text": "N",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.722
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.722
+        },
+        {
+          "text": ".",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.722
+        },
+        {
+          "text": "ECG",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.722
+        },
+        {
+          "text": ".",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.722
+        },
+        {
+          "text": "F13",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.722
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

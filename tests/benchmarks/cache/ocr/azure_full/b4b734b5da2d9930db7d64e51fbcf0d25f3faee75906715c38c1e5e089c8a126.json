@@ -1,0 +1,350 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "b4b734b5da2d9930db7d64e51fbcf0d25f3faee75906715c38c1e5e089c8a126",
+  "record_id": "RX-0061",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 31012.50219999929,
+  "failure": null,
+  "response_sha256": "77dd237b2718ac09a6939bacae3a637b55946b23765372b983935995f2d9d276",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD/ यावशुभम\nसिस्कन नं:8043\nMedical Center:\nMaktab No 09\nPilgrim ID\n0898248\nAge 78\nName\nMD MOKSED ALI\nTHEPINAJPUR SADAR\nGender\nMALE\nDistri NAJPUR\nHEALTH PROFILE\n120/80\nD+\n2. Blood Pressure:\nNO\n1. Blood Group: NO\n4. Lung Disease:\nNO\n3. Heart Disease: NO\n6. Diabetes:\n5. Kidney DiseaseNO\n8. Blood Sugar (RBS);\nNO\n7. Mental Disease87\n10. Liver Disease:\n9. Weight:\n12. Any other abnormalities.\n11. Drug History:\nVisit No:\n1\n17 May 2024\nData:\nChief Complaints:\nPulse-\nBP\nTemp-/03/55 mmof6g\nAnaemia-\nDehydration-\nRespiration-\nOthers-\n3 21 max /500\n07073\nAcuplus\n>7,12\nAlatro?\n28.5.24\nPassport No\nA13287124",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "TREATMENT CARD/ यावशुभम",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "सिस्कन नं:8043",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "Medical Center:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "Maktab No 09",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "Pilgrim ID",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "0898248",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "Age 78",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "Name",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "MD MOKSED ALI",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "THEPINAJPUR SADAR",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "Gender",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "MALE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "Distri NAJPUR",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "120/80",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "D+",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "2. Blood Pressure:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "1. Blood Group: NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "4. Lung Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "3. Heart Disease: NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "6. Diabetes:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "5. Kidney DiseaseNO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "8. Blood Sugar (RBS);",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "7. Mental Disease87",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "10. Liver Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "9. Weight:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "12. Any other abnormalities.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "11. Drug History:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "Visit No:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "17 May 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "Data:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "Pulse-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "BP",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "Temp-/03/55 mmof6g",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "Anaemia-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "3 21 max /500",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "07073",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "Acuplus",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": ">7,12",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "Alatro?",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "28.5.24",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "Passport No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "A13287124",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.815
+      }
+    ]
+  }
+}

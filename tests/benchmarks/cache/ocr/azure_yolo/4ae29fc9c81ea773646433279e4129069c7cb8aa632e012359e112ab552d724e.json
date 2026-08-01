@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "4ae29fc9c81ea773646433279e4129069c7cb8aa632e012359e112ab552d724e",
+  "record_id": "RX-0077",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 16409.62330000184,
+  "failure": null,
+  "response_sha256": "1d13baa5b148cfaf9ed68fafbdec56393a12efed2b74ac579c2920fc37b0f999",
+  "response": {
+    "raw_text": "Rt. knee a che\nFollowing sporting Injury\nADT =1\nVarw/valsus.for\n€)\nTas Naproxen 250ml\n1+0+0\n10\nXmy Rt Km\nNAD\nTap One (20mg)\n1foto\n10",
+    "lines": [
+      {
+        "text": "Rt. knee a che",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.596
+      },
+      {
+        "text": "Following sporting Injury",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.596
+      },
+      {
+        "text": "ADT =1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.596
+      },
+      {
+        "text": "Varw/valsus.for",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.596
+      },
+      {
+        "text": "€)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.596
+      },
+      {
+        "text": "Tas Naproxen 250ml",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.596
+      },
+      {
+        "text": "1+0+0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.596
+      },
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.596
+      },
+      {
+        "text": "Xmy Rt Km",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.596
+      },
+      {
+        "text": "NAD",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.596
+      },
+      {
+        "text": "Tap One (20mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.596
+      },
+      {
+        "text": "1foto",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.596
+      },
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.596
+      }
+    ]
+  }
+}

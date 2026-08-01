@@ -1,0 +1,194 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "762fc38d4c1f699cf341aabbd997d914d9fa1ce30089b563e5275082da63a306",
+  "record_id": "RX-0040",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 16674.2002999963,
+  "failure": null,
+  "response_sha256": "5873a3a857086f3b9804246cafc92d8d231c52e0244e89398ad2840cab864aa2",
+  "response": {
+    "raw_text": "◌ॅनरऊना चाडा कमाभऊ मिश्रारेत मानिकत्र\nऊकरती विछात्र डिकिट\nName :\nAge\nबिछिया\n18 00.\nGenden Male/ Female\nMobile No:\nPatient ID: BDH\nDate: 6/2/2024\nAddress :\nsingair.Manikganj\nRoom No : Room No: 19 ( Emergency )\nPatient Type : Genera\nC/C\nRx\n26. Zoli vox (400mg)\nAbsen\nTwo. Fixeet plus 250\nO/E\nno. Flexi 100\n20. Vonopa 20\nINV\nno\nKalconst-D\n2013 93y\nभूतवको आकार\n.........\nमिन/मशाल/याम भाव",
+    "lines": [
+      {
+        "text": "◌ॅनरऊना चाडा कमाभऊ मिश्रारेत मानिकत्र",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "ऊकरती विछात्र डिकिट",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Name :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Age",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "बिछिया",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "18 00.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Genden Male/ Female",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Mobile No:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Patient ID: BDH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Date: 6/2/2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Address :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "singair.Manikganj",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Room No : Room No: 19 ( Emergency )",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Patient Type : Genera",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "C/C",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "26. Zoli vox (400mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Absen",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Two. Fixeet plus 250",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "O/E",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "no. Flexi 100",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "20. Vonopa 20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "INV",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "no",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Kalconst-D",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "2013 93y",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "भूतवको आकार",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": ".........",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "मिन/मशाल/याम भाव",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      }
+    ]
+  }
+}

@@ -1,0 +1,314 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "bb2c919981a6e715aec411e62efdd10b3808a96ebfa0f3bf71becf9583ed2efe",
+  "record_id": "RX-0005",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 20785.36899999017,
+  "failure": null,
+  "response_sha256": "c5774b6ba4b421881418d7cb6e6a7c73261165dffe3807c9c0472d3964ee2656",
+  "response": {
+    "raw_text": "54\nजर (वर्माड) - ७५\nब्बाभीव नाम\nHM\nहिकिश्मक कड़क ब्बाभीव बारशनख\n820377 W/0\nMCPO M ZH Siddique\nवराम\n40 yrs\nडिकिस्मतकब बारशबना\nबादशव नाथ,\nBO=>130/90mm of\nHg\n06.09.16\nye -\nVertigo é\nNausea.\nRx\nJ-8.81\n·\nTab.\ncinnaron\n2 tota\n20)\n. Tab Vergon\n-20\nLab\nDomin (10)\n>tots\neszuso\n(20)\nTab\nRanitid 150y\nRef to SPL of\n20\nMedicine of\nCMH, DHK of\nfor needful\nadvice please.\nTab\nPase (0.5g)\n120+010)\nR\n*\ncheck BP 2 times\nfor 2 days.\nदश\nप्रति\nशनिर",
+    "lines": [
+      {
+        "text": "54",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "जर (वर्माड) - ७५",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "ब्बाभीव नाम",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "HM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "हिकिश्मक कड़क ब्बाभीव बारशनख",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "820377 W/0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "MCPO M ZH Siddique",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "वराम",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "40 yrs",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "डिकिस्मतकब बारशबना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "बादशव नाथ,",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "BO=>130/90mm of",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "Hg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "06.09.16",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "ye -",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "Vertigo é",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "Nausea.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "J-8.81",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "·",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "Tab.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "cinnaron",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "2 tota",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "20)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": ". Tab Vergon",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "-20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "Lab",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "Domin (10)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": ">tots",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "eszuso",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "(20)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "Tab",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "Ranitid 150y",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "Ref to SPL of",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "Medicine of",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "CMH, DHK of",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "for needful",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "advice please.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "Tab",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "Pase (0.5g)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "120+010)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "R",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "*",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "check BP 2 times",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "for 2 days.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "दश",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "प्रति",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "शनिर",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      }
+    ]
+  }
+}

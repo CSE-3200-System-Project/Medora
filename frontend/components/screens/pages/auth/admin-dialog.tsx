@@ -1,11 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
@@ -14,8 +11,6 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { setAdminAccess } from "@/lib/admin-actions";
-import { toast } from "@/lib/notify";
 
 interface AdminDialogProps {
   open: boolean;
@@ -24,26 +19,10 @@ interface AdminDialogProps {
 
 export default function AdminDialog({ open, onOpenChange }: AdminDialogProps) {
   const router = useRouter();
-  const [adminPassword, setAdminPassword] = useState("");
-  const [adminError, setAdminError] = useState("");
 
-  const handleAdminAccess = async () => {
-    setAdminError("");
-    try {
-      const result = await setAdminAccess(adminPassword);
-      if (result.success) {
-        onOpenChange(false);
-        setAdminPassword("");
-        router.replace("/admin");
-      } else {
-        const message = result.error || "Incorrect admin password";
-        setAdminError(message);
-        toast.error(message);
-      }
-    } catch {
-      setAdminError("Failed to authenticate");
-      toast.error("Failed to authenticate");
-    }
+  const handleAdminAccess = () => {
+    onOpenChange(false);
+    router.push("/login?role=admin");
   };
 
   return (
@@ -57,49 +36,20 @@ export default function AdminDialog({ open, onOpenChange }: AdminDialogProps) {
             Access Verification
           </DialogTitle>
           <DialogDescription className="text-muted-foreground">
-            To access the admin panel, please enter the passkey.
+            Administrators use an individually provisioned account so every
+            privileged action has an accountable identity.
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-4 py-4">
-          <div className="space-y-2">
-            <Label htmlFor="admin-password" className="text-muted-foreground">
-              Admin Passkey
-            </Label>
-            <Input
-              id="admin-password"
-              type="password"
-              value={adminPassword}
-              onChange={(e) => {
-                setAdminPassword(e.target.value);
-                setAdminError("");
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleAdminAccess();
-                }
-              }}
-              placeholder="Enter admin passkey"
-              className="bg-background/50 border-border text-foreground placeholder:text-muted-foreground focus:border-primary"
-              autoFocus
-            />
-            {adminError && (
-              <p className="text-sm text-red-400 flex items-center gap-1">
-                <span className="inline-block w-1 h-1 bg-red-400 rounded-full"></span>
-                {adminError}
-              </p>
-            )}
-          </div>
+        <div className="py-4 text-sm text-muted-foreground">
+          Sign in with your administrator email and password. Shared admin
+          passkeys are not accepted by the API.
         </div>
 
         <DialogFooter className="gap-2">
           <Button
             variant="outline"
-            onClick={() => {
-              onOpenChange(false);
-              setAdminPassword("");
-              setAdminError("");
-            }}
+            onClick={() => onOpenChange(false)}
             className="border-border text-muted-foreground hover:bg-card hover:text-foreground"
           >
             Cancel
@@ -108,7 +58,7 @@ export default function AdminDialog({ open, onOpenChange }: AdminDialogProps) {
             onClick={handleAdminAccess}
             className="bg-linear-to-r from-primary to-primary-muted hover:from-primary-muted hover:to-primary shadow-lg shadow-primary/20"
           >
-            Enter admin panel
+            Continue to sign in
           </Button>
         </DialogFooter>
       </DialogContent>

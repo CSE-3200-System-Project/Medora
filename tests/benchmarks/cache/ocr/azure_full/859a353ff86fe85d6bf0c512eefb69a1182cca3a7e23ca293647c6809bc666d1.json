@@ -1,0 +1,260 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "859a353ff86fe85d6bf0c512eefb69a1182cca3a7e23ca293647c6809bc666d1",
+  "record_id": "RX-0055",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 18287.990999990143,
+  "failure": null,
+  "response_sha256": "c4d1e79e9d38d150e8e3f56815fa7de3225b45c9f3925d80424cd124570ad397",
+  "response": {
+    "raw_text": "18 नफिश वाजून (नयदि)\nपरविनिधान, वि.वि.इम (मश) उर्फभूमिद्य (गहिंदी वह वान),\nरुकि वे हैंरण शिंगणा स कारणउसे\n।-ग्रीन कियादेव सामान (पिटल्स कानशा, रामलाइज, वास़)\nविधि नं . ९२९82\nDR.NOFISA KHATUN (NOFSI)\nMEBS. B.C.S, FCPS(Gyne 5 066)\nConsultant (Obs &Gyne]\nX-Shahid Zieor Rahman Medical Colege Hospital, Bogura:\nRoy No 42741\nName:\nmon. Jene\nAge:\n23/2\nDate: 02 SEP 2005\nRxo\ntituly with\nFENTIGAL VAGINAL CREAM IVY\npone +1+0\ncap. microgest (worm)\nPIA\n5TH - 340\npm=+\nPHI-+\n-Tan, millicom)\n0 to\" Tab Nili pines [200ml\n-30pm\nकमान :\nगाउननि क्लिनिक\nव्याशाध्यम जाने शुभमकाल नरगा.\nमोक (कांग्रजिन :ग्राफ उन्पेनिया, पक्का।\nगिविवादनव बनाई ०३१३३-३२००४१\n4/09/204\nTab Duvadilan (iom)\n010-20/m\nवाशी मचान समग्र :\nमिनगाम भव इसका समापन।\nविकान को दरढक\nझाड़ जगा वशंख।\nदिए ज :- भावकी भाष्पादकता समग्र हेमिल्टन ' बदमाशनीय कानिकलजा छटाई महम ध्यानद्युत।",
+    "lines": [
+      {
+        "text": "18 नफिश वाजून (नयदि)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "परविनिधान, वि.वि.इम (मश) उर्फभूमिद्य (गहिंदी वह वान),",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "रुकि वे हैंरण शिंगणा स कारणउसे",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "।-ग्रीन कियादेव सामान (पिटल्स कानशा, रामलाइज, वास़)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "विधि नं . ९२९82",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "DR.NOFISA KHATUN (NOFSI)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "MEBS. B.C.S, FCPS(Gyne 5 066)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "Consultant (Obs &Gyne]",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "X-Shahid Zieor Rahman Medical Colege Hospital, Bogura:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "Roy No 42741",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "Name:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "mon. Jene",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "Age:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "23/2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "Date: 02 SEP 2005",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "Rxo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "tituly with",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "FENTIGAL VAGINAL CREAM IVY",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "pone +1+0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "cap. microgest (worm)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "PIA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "5TH - 340",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "pm=+",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "PHI-+",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "-Tan, millicom)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "0 to\" Tab Nili pines [200ml",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "-30pm",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "कमान :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "गाउननि क्लिनिक",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "व्याशाध्यम जाने शुभमकाल नरगा.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "मोक (कांग्रजिन :ग्राफ उन्पेनिया, पक्का।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "गिविवादनव बनाई ०३१३३-३२००४१",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "4/09/204",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "Tab Duvadilan (iom)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "010-20/m",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "वाशी मचान समग्र :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "मिनगाम भव इसका समापन।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "विकान को दरढक",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "झाड़ जगा वशंख।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "दिए ज :- भावकी भाष्पादकता समग्र हेमिल्टन ' बदमाशनीय कानिकलजा छटाई महम ध्यानद्युत।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.397
+      }
+    ]
+  }
+}

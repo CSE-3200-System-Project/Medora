@@ -1,0 +1,140 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "a6236531d8bca5c01575b2ea2cb315c10a0e3d436c55c2b185ba0c4b37e3900a",
+  "record_id": "RX-0001",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 14857.263600002625,
+  "failure": null,
+  "response_sha256": "4027cfe8a65a0cb78ea8e2a7187022d6331249a32c45cc8cfaf24e8d52a33566",
+  "response": {
+    "raw_text": "· Nection Nasal Spray- EnTo\n-\ninor\nTab. cildip (5mg) 0+0+1-6-70\nTab. Maxineb (2.5mg) {+0+0-EnTe\n· Tab. Flexibac (5mg) {+0+2-5-]\n\" Tab. Sindola (2.5mg) 1/2+0+1/2 251:53- 5mTO\n\"Cap. sergel (20mg)\n\" Tab. Folison (5mg)\n1+0+020: 00-23735\n*\"Inj. Aristo D3 DE Octua large umar ate,\n0\nW\" Tab. Bone Guard (150mg) (+0+0 20;, andruner-of mine, wo of\nM. Inde-A Suppository (100mg) 0+0+1-Inin. com zopa composantes\n1\nAdv:\nVCBCE ESRe Hb% WS. creatinine WSGPT\n17.08.25\nw s. uric acid. Arthur 22. 3057 : (2)2020]\nit's.",
+    "lines": [
+      {
+        "text": "· Nection Nasal Spray- EnTo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.52
+      },
+      {
+        "text": "-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.52
+      },
+      {
+        "text": "inor",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.52
+      },
+      {
+        "text": "Tab. cildip (5mg) 0+0+1-6-70",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.52
+      },
+      {
+        "text": "Tab. Maxineb (2.5mg) {+0+0-EnTe",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.52
+      },
+      {
+        "text": "· Tab. Flexibac (5mg) {+0+2-5-]",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.52
+      },
+      {
+        "text": "\" Tab. Sindola (2.5mg) 1/2+0+1/2 251:53- 5mTO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.52
+      },
+      {
+        "text": "\"Cap. sergel (20mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.52
+      },
+      {
+        "text": "\" Tab. Folison (5mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.52
+      },
+      {
+        "text": "1+0+020: 00-23735",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.52
+      },
+      {
+        "text": "*\"Inj. Aristo D3 DE Octua large umar ate,",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.52
+      },
+      {
+        "text": "0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.52
+      },
+      {
+        "text": "W\" Tab. Bone Guard (150mg) (+0+0 20;, andruner-of mine, wo of",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.52
+      },
+      {
+        "text": "M. Inde-A Suppository (100mg) 0+0+1-Inin. com zopa composantes",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.52
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.52
+      },
+      {
+        "text": "Adv:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.52
+      },
+      {
+        "text": "VCBCE ESRe Hb% WS. creatinine WSGPT",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.52
+      },
+      {
+        "text": "17.08.25",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.52
+      },
+      {
+        "text": "w s. uric acid. Arthur 22. 3057 : (2)2020]",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.52
+      },
+      {
+        "text": "it's.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.52
+      }
+    ]
+  }
+}

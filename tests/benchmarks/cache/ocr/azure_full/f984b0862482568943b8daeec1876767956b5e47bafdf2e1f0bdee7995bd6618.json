@@ -1,0 +1,362 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "f984b0862482568943b8daeec1876767956b5e47bafdf2e1f0bdee7995bd6618",
+  "record_id": "RX-0076",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 26824.534200000926,
+  "failure": null,
+  "response_sha256": "210ab3f8a46d5a73ba38690a0e2b86a2eaf5d94e137759575bfa42a32021dcc6",
+  "response": {
+    "raw_text": "या टनो खा रखी पश्मीन\nBNS HAJI MOTOWN\nSICK BAY\nDhaka Cantonment, Dhaka - 1206\nEmergency Contact: MI Room- 01769-702685, W/M- 01769-702679\nReferred Form For Admission/Examination\nP/O No :\n820377\nAge/Sex\n:\n54 yrs Male.\nRank :\nMCPO (X)\nBlood Group :\nA +\nName: M Z H SIDDIQUI\nVisit Date\n:\n03-09-2018\nUnit\n: H/M (PR)\nTime\n:\n15 days × 03.09.18\nA HIN\nDM\nAngelock (som\n0+0+1\nBP. 170196\nF- 7.5\n2-1 -11.4\n1\nTax.\nComnet ( 5-\n0+11c\nPantano (m)\n11011\n1\nडा: त्या नाडामूल एक\nप्य. वि. वि., वन (गया), वय, मि. मि घम (एमलिमिन) कि, कार्ड (दालिएनि.)\nयाफिरमिन 3 रूमसबाग निर्ण बढ़\nकि वन जम शाखी यश्जीन\nFACILITIES\nPathology\nDental Wing\nHaemodialysis\nCardiology\nMinor OT\nPhysiotherapy\nEye Specialist\nUltrasonography\nEmergency & Casualty\nX-ray\nChild Specialist\nCinamon C13-\n1+011\n-",
+    "lines": [
+      {
+        "text": "या टनो खा रखी पश्मीन",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "BNS HAJI MOTOWN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "SICK BAY",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Dhaka Cantonment, Dhaka - 1206",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Emergency Contact: MI Room- 01769-702685, W/M- 01769-702679",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Referred Form For Admission/Examination",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "P/O No :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "820377",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Age/Sex",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": ":",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "54 yrs Male.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Rank :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "MCPO (X)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Blood Group :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "A +",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Name: M Z H SIDDIQUI",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Visit Date",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": ":",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "03-09-2018",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Unit",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": ": H/M (PR)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Time",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": ":",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "15 days × 03.09.18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "A HIN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "DM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Angelock (som",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "0+0+1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "BP. 170196",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "F- 7.5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "2-1 -11.4",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Tax.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Comnet ( 5-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "0+11c",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Pantano (m)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "11011",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "डा: त्या नाडामूल एक",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "प्य. वि. वि., वन (गया), वय, मि. मि घम (एमलिमिन) कि, कार्ड (दालिएनि.)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "याफिरमिन 3 रूमसबाग निर्ण बढ़",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "कि वन जम शाखी यश्जीन",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "FACILITIES",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Pathology",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Dental Wing",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Haemodialysis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Cardiology",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Minor OT",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Physiotherapy",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Eye Specialist",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Ultrasonography",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Emergency & Casualty",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "X-ray",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Child Specialist",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Cinamon C13-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "1+011",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      }
+    ]
+  }
+}

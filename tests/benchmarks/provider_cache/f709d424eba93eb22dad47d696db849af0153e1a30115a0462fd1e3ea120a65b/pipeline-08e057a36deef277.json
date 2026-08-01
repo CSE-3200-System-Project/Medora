@@ -1,0 +1,159 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0049",
+  "source_sha256": "f709d424eba93eb22dad47d696db849af0153e1a30115a0462fd1e3ea120a65b",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:30:33.308351+00:00",
+  "runtime_ms": 8668.996400010656,
+  "output": {
+    "medications": [
+      {
+        "name": "El Malevaro",
+        "matched_term": "El Malevaro",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.244
+      },
+      {
+        "name": "Il Fenolhi",
+        "matched_term": "Il Fenolhi",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.244
+      },
+      {
+        "name": "Roel- Pm",
+        "matched_term": "Roel- Pm",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.244
+      },
+      {
+        "name": "Het",
+        "matched_term": "Het",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.244
+      },
+      {
+        "name": "El Montaino",
+        "matched_term": "El Montaino",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.244
+      }
+    ],
+    "raw_text": "2\n2\nel malevaro\n3. Il Fenolhi\nroel-8pm\nHET\n4.4\nel Montaino\n1",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 8635,
+      "detected_regions": 1,
+      "ocr_line_count": 9,
+      "yolo_avg_confidence": 0.794,
+      "yolo_min_confidence": 0.794,
+      "yolo_max_confidence": 0.794,
+      "ocr_avg_confidence": 0.542,
+      "ocr_min_confidence": 0.542,
+      "ocr_max_confidence": 0.542,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 1781.2504592895507,
+            "y_min": 1505.68775100708,
+            "x_max": 3236.5543746948238,
+            "y_max": 3430.560662078857
+          },
+          "score": 0.794
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "2",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.542
+        },
+        {
+          "text": "2",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.542
+        },
+        {
+          "text": "el malevaro",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.542
+        },
+        {
+          "text": "3. Il Fenolhi",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.542
+        },
+        {
+          "text": "roel-8pm",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.542
+        },
+        {
+          "text": "HET",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.542
+        },
+        {
+          "text": "4.4",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.542
+        },
+        {
+          "text": "el Montaino",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.542
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.542
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

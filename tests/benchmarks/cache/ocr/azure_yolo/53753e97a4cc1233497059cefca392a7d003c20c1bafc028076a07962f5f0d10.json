@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "53753e97a4cc1233497059cefca392a7d003c20c1bafc028076a07962f5f0d10",
+  "record_id": "RX-0088",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 6469.304300000658,
+  "failure": null,
+  "response_sha256": "7ef3eeac3fb788387b096e1bf4e075bad8b61f951013739c50ff72a87f20b67d",
+  "response": {
+    "raw_text": "R.\nTab Tolen ( 1mg )\nTab. MOND I KONST\nLachclase sachet\n. Tab. E somcornou | 20 mg",
+    "lines": [
+      {
+        "text": "R.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.489
+      },
+      {
+        "text": "Tab Tolen ( 1mg )",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.489
+      },
+      {
+        "text": "Tab. MOND I KONST",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.489
+      },
+      {
+        "text": "Lachclase sachet",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.489
+      },
+      {
+        "text": ". Tab. E somcornou | 20 mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.489
+      }
+    ]
+  }
+}

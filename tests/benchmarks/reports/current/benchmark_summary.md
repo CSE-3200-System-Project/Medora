@@ -1,6 +1,6 @@
 # Medora Benchmark Summary
 
-Generated at: 2026-04-03T22:56:00.162307+00:00
+Generated at: 2026-08-01T16:01:42.833471+00:00
 
 ## Regression Guard
 - Violations: 0

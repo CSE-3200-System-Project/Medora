@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "7864061a13856420108e03fd1218774404f4f1e48c501376920b28feb2d84440",
+  "record_id": "RX-0036",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 10810.881299999892,
+  "failure": null,
+  "response_sha256": "448eab663316fa01f88490825ac8cc57983a9ab47c0c4e5064588a839c174004",
+  "response": {
+    "raw_text": "Treatment on Discharge\nTab Cefaclaw (500mg) 2-0-12-913-\nCap, flex (500mg) 2+3+2+2-7914-5\n, Tab Rokel (10mg) 24072 , 6luni of\nTab. Pomimo (20mg) 2010-201\nTab PhoLm 210 sisto + year\n, Tab Pearlcal 24te2 - 2005\n, Tak Laxy 1 (3mg) 01013-2014\nvoltalin suppository\n1 stick P/R. 585 (D) er tourt 2025)",
+    "lines": [
+      {
+        "text": "Treatment on Discharge",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.472
+      },
+      {
+        "text": "Tab Cefaclaw (500mg) 2-0-12-913-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.472
+      },
+      {
+        "text": "Cap, flex (500mg) 2+3+2+2-7914-5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.472
+      },
+      {
+        "text": ", Tab Rokel (10mg) 24072 , 6luni of",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.472
+      },
+      {
+        "text": "Tab. Pomimo (20mg) 2010-201",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.472
+      },
+      {
+        "text": "Tab PhoLm 210 sisto + year",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.472
+      },
+      {
+        "text": ", Tab Pearlcal 24te2 - 2005",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.472
+      },
+      {
+        "text": ", Tak Laxy 1 (3mg) 01013-2014",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.472
+      },
+      {
+        "text": "voltalin suppository",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.472
+      },
+      {
+        "text": "1 stick P/R. 585 (D) er tourt 2025)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.472
+      }
+    ]
+  }
+}

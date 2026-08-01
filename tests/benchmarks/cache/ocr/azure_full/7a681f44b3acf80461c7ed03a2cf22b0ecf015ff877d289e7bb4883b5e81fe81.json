@@ -1,0 +1,194 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "7a681f44b3acf80461c7ed03a2cf22b0ecf015ff877d289e7bb4883b5e81fe81",
+  "record_id": "RX-0039",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 15990.864899998996,
+  "failure": null,
+  "response_sha256": "7e0997128430e844a1652361509664b91e609d1d1c987973a28d3324da34b7e6",
+  "response": {
+    "raw_text": "ग्राऊ (शरमन (सजीव)\nDr. Md. Sakhawat Hossain (Sajib)\nM.B.B.S.(D.U), C.C.D (Birdem)\nM.D (Pediatric)- 1CMH\nरहा इनिशि क, मांडूस्विंग, प्रायः।\nनवशाइक, मि०, विश्वास निर्णयज, एलकिजिन के कामाइकलरोस (वाटण विका\nDate : 4.2.2024.\nAge 28, 4%:\nSalib.\nR\n. Tis. Tridenil\n(500 mg)\n0+0+2\n(200mg)\n# Ris. Doncomma\n2+012\n* Gis. Anokast (10mg)\n. Sap. Ambosist.\n960\n2 × Car\n. Tins. Perofast (120mo)\n02075\n. Flunispray Nasal Spray.\n2. กด * 2. สท 25 - 2 บาท\nGait\nD.\ndr.\n1\nDeslor",
+    "lines": [
+      {
+        "text": "ग्राऊ (शरमन (सजीव)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "Dr. Md. Sakhawat Hossain (Sajib)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "M.B.B.S.(D.U), C.C.D (Birdem)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "M.D (Pediatric)- 1CMH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "रहा इनिशि क, मांडूस्विंग, प्रायः।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "नवशाइक, मि०, विश्वास निर्णयज, एलकिजिन के कामाइकलरोस (वाटण विका",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "Date : 4.2.2024.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "Age 28, 4%:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "Salib.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "R",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": ". Tis. Tridenil",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "(500 mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "0+0+2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "(200mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "# Ris. Doncomma",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "2+012",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "* Gis. Anokast (10mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": ". Sap. Ambosist.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "960",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "2 × Car",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": ". Tins. Perofast (120mo)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "02075",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": ". Flunispray Nasal Spray.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "2. กด * 2. สท 25 - 2 บาท",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "Gait",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "D.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "dr.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "Deslor",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      }
+    ]
+  }
+}

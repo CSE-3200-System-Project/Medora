@@ -1,0 +1,272 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "caaa33779d0732bc7ad3b45bec2a144630f7929e70fec921c10307144b28f0e0",
+  "record_id": "RX-0075",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 20244.858900012332,
+  "failure": null,
+  "response_sha256": "ec829dc867fcf0642f2e5ac699df25791ebed3e400baa08699eea340400654ea",
+  "response": {
+    "raw_text": "LPR\nडिकिश्माक कड़क थम ब्बाभीव बाबूभेज\n7- 820377\nMepo (2)\nबागीव नाम 14 2 H Siddique\n544\nCMH/CWC/MI ROOM\nH/M\nमिक विट्लार्डस काविश उ स्वाटशन वर्षना\nडिकिस्मटकन वारशुशंख, गडता ७ मार्फत\nChief Complaints :\n0\nS No ....\n13\nDate: 012.05.19\n13.05.19\nIssued - 30 days\nO/E :\n13.05.19\nPP-130/90\nCarl /\nTab Comit Jag\n1 e ol 1 A\nThe\nApara ley\n8.0\nAdv/ Investigation:\nFBS, 29 AnsA\nCep sich\nLipid (F) 245/310/35/148 Hay\nLUFT, G 1.5\nP/D ;\nHINIA\nR\nVAJE MOHSIN\nRX\nRende In\nTS Angilock Som\n0 days\n1.49\n7.19\n1 moo ??",
+    "lines": [
+      {
+        "text": "LPR",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "डिकिश्माक कड़क थम ब्बाभीव बाबूभेज",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "7- 820377",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Mepo (2)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "बागीव नाम 14 2 H Siddique",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "544",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "CMH/CWC/MI ROOM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "H/M",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "मिक विट्लार्डस काविश उ स्वाटशन वर्षना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "डिकिस्मटकन वारशुशंख, गडता ७ मार्फत",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Chief Complaints :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "S No ....",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "13",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Date: 012.05.19",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "13.05.19",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Issued - 30 days",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "O/E :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "13.05.19",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "PP-130/90",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Carl /",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Tab Comit Jag",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "1 e ol 1 A",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "The",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Apara ley",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "8.0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Adv/ Investigation:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "FBS, 29 AnsA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Cep sich",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Lipid (F) 245/310/35/148 Hay",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "LUFT, G 1.5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "P/D ;",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "HINIA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "R",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "VAJE MOHSIN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "RX",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Rende In",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "TS Angilock Som",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "0 days",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "1.49",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "7.19",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "1 moo ??",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      }
+    ]
+  }
+}

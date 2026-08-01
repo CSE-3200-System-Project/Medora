@@ -115,6 +115,7 @@ export function peakBookingHour() {
   const response = http.post(`${BASE_URL}/appointment/`, payload, {
     headers: {
       "Content-Type": "application/json",
+      "Idempotency-Key": `k6-${__VU}-${__ITER}-${Date.now()}`,
       ...patientHeaders(),
     },
     tags: { scenario: "peak_booking_hour", endpoint: "appointment_create" },

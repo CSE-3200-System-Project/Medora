@@ -5,6 +5,7 @@ import type Vapi from "@vapi-ai/web";
 import { Loader2, Mic, MicOff, Volume2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { authorizeExternalLiveAudio } from "@/lib/processing-consent-actions";
 import {
   createVapiAudioResources,
   disableDailyKrispProcessor,
@@ -216,6 +217,7 @@ export function DoctorPatientVapiVoiceSummary({ patientId }: DoctorPatientVapiVo
     const sessionToken = getCookieValue("session_token");
 
     try {
+      await authorizeExternalLiveAudio();
       const vapiClient = await createVapiClient();
       const startResult = await vapiClient.start(
         assistantId,

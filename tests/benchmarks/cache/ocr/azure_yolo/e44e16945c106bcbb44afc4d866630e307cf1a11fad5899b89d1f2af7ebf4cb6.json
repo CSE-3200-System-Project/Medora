@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "e44e16945c106bcbb44afc4d866630e307cf1a11fad5899b89d1f2af7ebf4cb6",
+  "record_id": "RX-0003",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 12656.792199995834,
+  "failure": null,
+  "response_sha256": "e35fc743aa5eda5adf53d1abb7824e8e1b92f15013c59064cc59471ba0fff94c",
+  "response": {
+    "raw_text": ". Cap.\nsecto (20g)\n2tot?\n20\n. Tab.\nDomingoy\nessyro\n2+2+3.\n20\n· Cap. Ferfol\n>toto\nRend to SPL of\nGynae & obs.\nof DCMH for needful\naction.",
+    "lines": [
+      {
+        "text": ". Cap.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.706
+      },
+      {
+        "text": "secto (20g)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.706
+      },
+      {
+        "text": "2tot?",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.706
+      },
+      {
+        "text": "20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.706
+      },
+      {
+        "text": ". Tab.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.706
+      },
+      {
+        "text": "Domingoy",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.706
+      },
+      {
+        "text": "essyro",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.706
+      },
+      {
+        "text": "2+2+3.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.706
+      },
+      {
+        "text": "20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.706
+      },
+      {
+        "text": "· Cap. Ferfol",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.706
+      },
+      {
+        "text": ">toto",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.706
+      },
+      {
+        "text": "Rend to SPL of",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.706
+      },
+      {
+        "text": "Gynae & obs.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.706
+      },
+      {
+        "text": "of DCMH for needful",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.706
+      },
+      {
+        "text": "action.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.706
+      }
+    ]
+  }
+}

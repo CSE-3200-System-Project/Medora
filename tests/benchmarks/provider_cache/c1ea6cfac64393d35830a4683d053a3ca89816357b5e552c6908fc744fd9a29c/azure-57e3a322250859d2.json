@@ -1,0 +1,511 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0095",
+  "source_sha256": "c1ea6cfac64393d35830a4683d053a3ca89816357b5e552c6908fc744fd9a29c",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T18:08:45.595074+00:00",
+  "runtime_ms": 24677.314500004286,
+  "output": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / 14 911\nIcal Copia\nफैशन नया G597\n40510214G\nAge __ M.\nDHAKA\nThơm BỊ//THONCI\nHEALTH PROFILE\n1. Dkxsi! Group:\n2 Bind Pressure:\nNO\nS. KISTAY DECORA\nA. Disboks\nB. Blood Sugar IRBS)\n10. Lhvor brechen:\n11. Diog Hebory:\n12. Ary clher phonevattes NO\nif Complaints:\nCap Fuberlin\n2038\ndration-\niration\nNeomicina sint (2)\n-The clonazepam's\nam\n0-1440-50\npenses sintrad & cotture\nleonel Diagonvers\nएवं :पस्रिन और रिकिए। अब अक्षका बता से राशनंती अत्यंत उनकारे ग्राम प्रभाष गुन।\nNO\nCamp Amoxyelite Velmi Marco",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "TREATMENT CARD / 14 911",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "Ical Copia",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "फैशन नया G597",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "40510214G",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "Age __ M.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "DHAKA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "Thơm BỊ//THONCI",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "1. Dkxsi! Group:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "2 Bind Pressure:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "S. KISTAY DECORA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "A. Disboks",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "B. Blood Sugar IRBS)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "10. Lhvor brechen:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "11. Diog Hebory:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "12. Ary clher phonevattes NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "if Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "Cap Fuberlin",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "2038",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "dration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "iration",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "Neomicina sint (2)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "-The clonazepam's",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "am",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "0-1440-50",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "penses sintrad & cotture",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "leonel Diagonvers",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "एवं :पस्रिन और रिकिए। अब अक्षका बता से राशनंती अत्यंत उनकारे ग्राम प्रभाष गुन।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "Camp Amoxyelite Velmi Marco",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.502
+      }
+    ],
+    "medications": [
+      {
+        "name": "Government Of The",
+        "matched_term": "Government Of The",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.226
+      },
+      {
+        "name": "Minista",
+        "matched_term": "Minista",
+        "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+        "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.606
+      },
+      {
+        "name": "Bangladesh Hajj Office",
+        "matched_term": "Bangladesh Hajj Office",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.226
+      },
+      {
+        "name": "Makkah Madinah Jeddah",
+        "matched_term": "Makkah Madinah Jeddah",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.226
+      },
+      {
+        "name": "Treatment Card",
+        "matched_term": "Treatment Card",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.226
+      },
+      {
+        "name": "Ical Copia",
+        "matched_term": "Ical Copia",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.226
+      },
+      {
+        "name": null,
+        "matched_term": null,
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "40510214G",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.277
+      },
+      {
+        "name": "Age M",
+        "matched_term": "Age M",
+        "drug_id": "32593a88-50e8-4254-9d22-7d1a52c84504",
+        "brand_id": "86fe087a-92e9-4a39-8921-ab758e162e76",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.606
+      },
+      {
+        "name": "Gandhakadi Malahar / Gandhak Malam",
+        "matched_term": "Gandhakadi Malahar / Gandhak Malam",
+        "drug_id": "f88f1aca-87b5-469d-9fd7-3c338892b21b",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.606
+      },
+      {
+        "name": "A Th",
+        "matched_term": "A Th",
+        "drug_id": "0496fb01-5fc6-44d6-942d-297b36fff49b",
+        "brand_id": "f882c379-3d91-43a2-86c2-06a66c2e3ab5",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.606
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.606
+      },
+      {
+        "name": "Dkxsi Group",
+        "matched_term": "Dkxsi Group",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.226
+      },
+      {
+        "name": "Pressure Cure",
+        "matched_term": "Pressure Cure",
+        "drug_id": "a764afa0-ecc2-4062-a881-1aca8ba26331",
+        "brand_id": "cd0ad7a9-5819-436f-b622-5ffd0b5002ac",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.606
+      },
+      {
+        "name": "Kistay Decora",
+        "matched_term": "Kistay Decora",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.226
+      },
+      {
+        "name": "Disboks",
+        "matched_term": "Disboks",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.226
+      },
+      {
+        "name": "Blood Vita",
+        "matched_term": "Blood Vita",
+        "drug_id": "c4e19466-8a9c-40fb-abd3-e0ce767f4c70",
+        "brand_id": "957c897c-cea9-49c4-be64-81b7ca21a2fd",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.606
+      },
+      {
+        "name": "A-Lo",
+        "matched_term": "A-Lo",
+        "drug_id": "761f0302-2354-4bea-887b-4ca42d349b39",
+        "brand_id": "ffe9280b-546a-4986-ac10-ea446fbbd51d",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.606
+      },
+      {
+        "name": "Diog Hebory",
+        "matched_term": "Diog Hebory",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.226
+      },
+      {
+        "name": "Dpl20",
+        "matched_term": "Dpl20",
+        "drug_id": "6bcf2cd6-2eaf-4ac3-9a2b-e8403659312f",
+        "brand_id": "5fdbcd45-a936-4532-b31b-0191ed789c78",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.442
+      },
+      {
+        "name": "If Complaints",
+        "matched_term": "If Complaints",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.226
+      },
+      {
+        "name": "Fuberlin",
+        "matched_term": "Fuberlin",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.226
+      },
+      {
+        "name": "Dration",
+        "matched_term": "Dration",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.226
+      },
+      {
+        "name": "Iration",
+        "matched_term": "Iration",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.226
+      },
+      {
+        "name": "Neomicina Sint",
+        "matched_term": "Neomicina Sint",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.226
+      },
+      {
+        "name": "clonazepam",
+        "matched_term": "clonazepam",
+        "drug_id": "5675d7e0-bfd0-41b2-993f-ab7767861dbe",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.606
+      },
+      {
+        "name": "Penses Sintrad Cotture",
+        "matched_term": "Penses Sintrad Cotture",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.226
+      },
+      {
+        "name": "Leonel Diagonvers No",
+        "matched_term": "Leonel Diagonvers No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.226
+      },
+      {
+        "name": "Campl",
+        "matched_term": "Campl",
+        "drug_id": "fd68488a-0dcb-4331-8136-371a78d44a02",
+        "brand_id": "11ad11ca-89be-4120-adfd-0b7ee5374b8d",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.606
+      }
+    ]
+  }
+}

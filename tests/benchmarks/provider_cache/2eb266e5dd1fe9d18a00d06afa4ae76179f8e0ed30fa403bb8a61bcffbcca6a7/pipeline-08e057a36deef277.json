@@ -1,0 +1,203 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0008",
+  "source_sha256": "2eb266e5dd1fe9d18a00d06afa4ae76179f8e0ed30fa403bb8a61bcffbcca6a7",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:22:40.383044+00:00",
+  "runtime_ms": 9182.480299990857,
+  "output": {
+    "medications": [
+      {
+        "name": "Des",
+        "matched_term": "Des",
+        "drug_id": "ad345b67-70cd-4269-a187-86f0bd6b6d7e",
+        "brand_id": "619f6d0c-e29b-4b7f-9ac5-c11d18401173",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.676
+      },
+      {
+        "name": "C-Tab",
+        "matched_term": "C-Tab",
+        "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+        "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.676
+      },
+      {
+        "name": "Sufoof Tabkheer",
+        "matched_term": "Sufoof Tabkheer",
+        "drug_id": "9cb371ec-cf0c-412b-b1df-33b5b961235a",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.571
+      },
+      {
+        "name": "Otto",
+        "matched_term": "Otto",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.296
+      },
+      {
+        "name": "Ranitid",
+        "matched_term": "Ranitid",
+        "drug_id": "e848c92a-5ecd-419b-a727-7806cbba7b52",
+        "brand_id": "5e6ec9c7-596b-4789-b5e6-e7ae96a439f5",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.676
+      },
+      {
+        "name": "Pevitin",
+        "matched_term": "Pevitin",
+        "drug_id": "83abce71-cbde-4c33-9d77-8c9325f6f06b",
+        "brand_id": "31f6cccc-2953-421d-a1c0-8b09f11d1cb3",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.676
+      },
+      {
+        "name": "Oph",
+        "matched_term": "Oph",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.296
+      }
+    ],
+    "raw_text": "Des (5)\nTab.\notota\nBK\nTab.\notto\n20\nRanitid 1 5oy\n. Tab.\nP\nPervitin Cream)\n9/05\noph.",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 9142,
+      "detected_regions": 1,
+      "ocr_line_count": 13,
+      "yolo_avg_confidence": 0.8855,
+      "yolo_min_confidence": 0.8855,
+      "yolo_max_confidence": 0.8855,
+      "ocr_avg_confidence": 0.657,
+      "ocr_min_confidence": 0.657,
+      "ocr_max_confidence": 0.657,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 1876.9667160034178,
+            "y_min": 1650.3846481323242,
+            "x_max": 3340.140342712402,
+            "y_max": 3821.0989440917965
+          },
+          "score": 0.8855
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Des (5)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.657
+        },
+        {
+          "text": "Tab.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.657
+        },
+        {
+          "text": "otota",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.657
+        },
+        {
+          "text": "BK",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.657
+        },
+        {
+          "text": "Tab.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.657
+        },
+        {
+          "text": "otto",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.657
+        },
+        {
+          "text": "20",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.657
+        },
+        {
+          "text": "Ranitid 1 5oy",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.657
+        },
+        {
+          "text": ". Tab.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.657
+        },
+        {
+          "text": "P",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.657
+        },
+        {
+          "text": "Pervitin Cream)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.657
+        },
+        {
+          "text": "9/05",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.657
+        },
+        {
+          "text": "oph.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.657
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "f389eb40d7ec3401921a831ef07b87b7f83efc4e4c2a6e288767913b77bc41e3",
+  "record_id": "RX-0015",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 19495.2925999969,
+  "failure": null,
+  "response_sha256": "9b9a9fc5529e963fdf42dd51873720bff08922cc7ce6dfe823b5481153a2d2e4",
+  "response": {
+    "raw_text": "Rx\n. Tab.\nNorethisterone (5mg)\n-\n1\n2",
+    "lines": [
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.846
+      },
+      {
+        "text": ". Tab.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.846
+      },
+      {
+        "text": "Norethisterone (5mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.846
+      },
+      {
+        "text": "-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.846
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.846
+      },
+      {
+        "text": "2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.846
+      }
+    ]
+  }
+}

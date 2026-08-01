@@ -15,7 +15,7 @@ from fastapi.middleware.gzip import GZipMiddleware
 from sqlalchemy import text
 from app.core.config import settings
 from app.core.performance_metrics import begin_request_metrics, end_request_metrics
-from app.routes import health, auth, profile, upload, admin, doctor, speciality, appointment, ai_doctor, ai_consultation, medicine, medical_test, notification, patient_access, reminder, consultation, consultation_ai, availability, reschedule, oauth, health_metrics, doctor_actions, patient_dashboard, health_data_consent, medical_report, patient_data_sharing, review
+from app.routes import health, auth, profile, upload, admin, doctor, speciality, appointment, ai_doctor, ai_consultation, medicine, medical_test, notification, patient_access, reminder, consultation, consultation_ai, availability, reschedule, oauth, health_metrics, doctor_actions, patient_dashboard, health_data_consent, medical_report, patient_data_sharing, processing_consent, review
 from app.services.reminder_dispatcher import start_reminder_dispatcher, stop_reminder_dispatcher
 from app.db.session import AsyncSessionLocal
 from app.services import appointment_service
@@ -207,6 +207,23 @@ async def _run_auto_complete_loop(stop_event: asyncio.Event) -> None:
             continue
 
 
+async def _run_appointment_outbox_loop(stop_event: asyncio.Event) -> None:
+    """Deliver committed booking events without publishing pre-commit state."""
+    while not stop_event.is_set():
+        try:
+            async with AsyncSessionLocal() as db:
+                processed = await appointment_service.dispatch_appointment_outbox(db)
+                await db.commit()
+                if processed:
+                    logger.info("Delivered %s appointment outbox event(s)", processed)
+        except Exception as exc:
+            logger.warning("Appointment outbox dispatch failed: %s", exc)
+        try:
+            await asyncio.wait_for(stop_event.wait(), timeout=2)
+        except asyncio.TimeoutError:
+            continue
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """
@@ -256,13 +273,18 @@ async def lifespan(app: FastAPI):
     auto_complete_stop_event = asyncio.Event()
     auto_complete_task = asyncio.create_task(_run_auto_complete_loop(auto_complete_stop_event))
 
+    outbox_stop_event = asyncio.Event()
+    outbox_task = asyncio.create_task(_run_appointment_outbox_loop(outbox_stop_event))
+
     yield  # Application runs
 
     # Shutdown: Cleanup (if needed)
     hold_expiry_stop_event.set()
     auto_complete_stop_event.set()
+    outbox_stop_event.set()
     await hold_expiry_task
     await auto_complete_task
+    await outbox_task
     await stop_reminder_dispatcher()
     logger.info("Shutting down...")
 
@@ -344,4 +366,5 @@ app.include_router(patient_dashboard.router, prefix="/patient", tags=["Patient D
 app.include_router(health_data_consent.router, prefix="/health-data", tags=["Health Data Consent"])
 app.include_router(medical_report.router, prefix="/medical-reports", tags=["Medical Reports"])
 app.include_router(patient_data_sharing.router, prefix="/patient-data-sharing", tags=["Patient Data Sharing"])
+app.include_router(processing_consent.router, prefix="/privacy", tags=["Processing Consent"])
 app.include_router(review.router, prefix="/reviews", tags=["Doctor Reviews"])

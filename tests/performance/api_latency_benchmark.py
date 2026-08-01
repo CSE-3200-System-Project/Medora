@@ -49,22 +49,23 @@ async def _run_endpoint(
         nonlocal failures
         async with semaphore:
             request_payload = payload_builder()
+            request_headers = {**(headers or {}), **request_payload.get("headers", {})}
             started = time.perf_counter()
             try:
                 if method == "GET":
-                    response = await client.get(endpoint, headers=headers)
+                    response = await client.get(endpoint, headers=request_headers)
                 else:
                     if request_payload.get("files"):
                         response = await client.post(
                             endpoint,
-                            headers=headers,
+                            headers=request_headers,
                             data=request_payload.get("data"),
                             files=request_payload.get("files"),
                         )
                     else:
                         response = await client.post(
                             endpoint,
-                            headers=headers,
+                            headers=request_headers,
                             json=request_payload.get("json"),
                         )
                 elapsed_ms = (time.perf_counter() - started) * 1000
@@ -120,6 +121,7 @@ async def main() -> int:
                 method="POST",
                 headers={"Authorization": f"Bearer {patient_token}"},
                 payload_builder=lambda: {
+                    "headers": {"Idempotency-Key": f"api-benchmark-{time.time_ns()}"},
                     "json": {
                         "doctor_id": doctor_id,
                         "appointment_date": _future_iso(),

@@ -44,6 +44,12 @@ class MedicalReport(Base):
     raw_ocr_text: Mapped[str | None] = mapped_column(Text, nullable=True)
     ocr_engine: Mapped[str | None] = mapped_column(String(50), nullable=True)
     processing_time_ms: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    processing_mode: Mapped[str] = mapped_column(String(20), nullable=False, default="local", server_default="local")
+    review_status: Mapped[str] = mapped_column(
+        String(30), nullable=False, default="pending_review", server_default="pending_review"
+    )
+    reviewed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    reviewed_by_id: Mapped[str | None] = mapped_column(String, ForeignKey("profiles.id"), nullable=True)
     # Visibility: false = private (only patient), true = shared with all doctors
     shared_with_doctors: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False, server_default="false")
 
@@ -54,6 +60,7 @@ class MedicalReport(Base):
     comments = relationship("DoctorReportComment", back_populates="report", cascade="all, delete-orphan", lazy="selectin")
     doctor_access = relationship("MedicalReportDoctorAccess", back_populates="report", cascade="all, delete-orphan", lazy="selectin")
     patient = relationship("Profile", foreign_keys=[patient_id], backref="medical_reports")
+    reviewer = relationship("Profile", foreign_keys=[reviewed_by_id])
 
 
 class MedicalReportResult(Base):

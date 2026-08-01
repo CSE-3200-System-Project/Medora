@@ -1,0 +1,1854 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0051",
+  "source_sha256": "e119eb4a77ed214a56c78416d60ee9eeba5edd7dc59dfc8ca346933c3f516e2d",
+  "raw_transcription": "7\nTM Joint Subluxation. (U)\n1\nVOLIGEL THE ANTIMON.\n/\nButler. OxICAM (20Ml)\n1\nlas. PANTONIX (20Mg)\npoll wow 2/2 close\n1\nClu. CARTILAGE MAX10VS\n14091\nChamber :\nHitech Multicare Hospital Ltd.\n164. East K.",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "Joint-ES",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Voligel",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Butler Oxicam",
+      "strength": "20Ml",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Pantonix",
+      "strength": "20Mg",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Pol",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Cartilage Max",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Chamber",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Hitech Multicare Hospital",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "East",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "850f3520d46ed9f8e007093c0d01af73e18f9c429667fe29f792296fc4677a07"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "a04522405d605ae137fa6c8bc3ff321b9ef394c7dc9af36c62e0cc3b69a97339"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "6fb195b4e8060df4875bc63b95470a588d235c0184ae4c1401c04756723c819f"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "CBEN\nOC\nBrig.General\nProf.Dr.Mohammad Shafiqul Alam SPP\nMBBS Dhaka)MSOrthoDU\nAO Trauma Course\n.\nSHouen\nFellow In Arthroscopy &Arthroplosty Turkey)\n9-1ena\nSAARC Arthroplasty Course (India)\nAdvance Traning in Arhroscopy&Sports injury France &Germany)\nFellowship Traning in Arthroscopy (Seoul, Korea\nMember ofAAOS&ISACOS\nProfessor of OrhopaedicArmed Forces Medicl College\nHead of Department Orthopaedics\nRBOsdGdod9\nChief Surgeon General, CMH Dhaka\n2304202\n.\ncAKhder\ns4p\nHhognblcoctor\nFMJoInf\n-\n40-\ntnuro\n196\nReo\nKep01cAQ0f\nW\n1p0n\nOO\np\nPANtOHXOS\nfeollin\ncm\nChamber:\n-\nHitech Multicare Hospital Ltd\npoes\nC\nPhone:9835550,9833039,9833661,8711010\nCell:01712-873235\nAppointment-01678129126,01672241413\nReception-01611262712,E-mailhmcarehospital@gmoil.com\nVisiting Hour6.30 pm-9.30pm\nHitech Knee Care Center-2nd Floor.Room No309\nAppointment:01678129126\n01672241413",
+      "lines": [
+        {
+          "text": "CBEN",
+          "bbox": {
+            "x_min": 4.0,
+            "y_min": 87.0,
+            "x_max": 47.0,
+            "y_max": 111.0
+          },
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "OC",
+          "bbox": {
+            "x_min": 3.0,
+            "y_min": 107.0,
+            "x_max": 46.0,
+            "y_max": 130.0
+          },
+          "page": 1,
+          "confidence": 0.276
+        },
+        {
+          "text": "Brig.General",
+          "bbox": {
+            "x_min": 92.0,
+            "y_min": 100.0,
+            "x_max": 178.0,
+            "y_max": 120.0
+          },
+          "page": 1,
+          "confidence": 0.975
+        },
+        {
+          "text": "Prof.Dr.Mohammad Shafiqul Alam SPP",
+          "bbox": {
+            "x_min": 88.0,
+            "y_min": 119.0,
+            "x_max": 409.0,
+            "y_max": 148.0
+          },
+          "page": 1,
+          "confidence": 0.956
+        },
+        {
+          "text": "MBBS Dhaka)MSOrthoDU",
+          "bbox": {
+            "x_min": 88.0,
+            "y_min": 143.0,
+            "x_max": 257.0,
+            "y_max": 168.0
+          },
+          "page": 1,
+          "confidence": 0.894
+        },
+        {
+          "text": "AO Trauma Course",
+          "bbox": {
+            "x_min": 88.0,
+            "y_min": 162.0,
+            "x_max": 194.0,
+            "y_max": 183.0
+          },
+          "page": 1,
+          "confidence": 0.932
+        },
+        {
+          "text": ".",
+          "bbox": {
+            "x_min": 680.0,
+            "y_min": 150.0,
+            "x_max": 851.0,
+            "y_max": 170.0
+          },
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "SHouen",
+          "bbox": {
+            "x_min": 0.0,
+            "y_min": 163.0,
+            "x_max": 53.0,
+            "y_max": 187.0
+          },
+          "page": 1,
+          "confidence": 0.352
+        },
+        {
+          "text": "Fellow In Arthroscopy &Arthroplosty Turkey)",
+          "bbox": {
+            "x_min": 86.0,
+            "y_min": 178.0,
+            "x_max": 313.0,
+            "y_max": 203.0
+          },
+          "page": 1,
+          "confidence": 0.917
+        },
+        {
+          "text": "9-1ena",
+          "bbox": {
+            "x_min": 5.0,
+            "y_min": 186.0,
+            "x_max": 53.0,
+            "y_max": 204.0
+          },
+          "page": 1,
+          "confidence": 0.427
+        },
+        {
+          "text": "SAARC Arthroplasty Course (India)",
+          "bbox": {
+            "x_min": 86.0,
+            "y_min": 197.0,
+            "x_max": 263.0,
+            "y_max": 218.0
+          },
+          "page": 1,
+          "confidence": 0.929
+        },
+        {
+          "text": "Advance Traning in Arhroscopy&Sports injury France &Germany)",
+          "bbox": {
+            "x_min": 85.0,
+            "y_min": 213.0,
+            "x_max": 411.0,
+            "y_max": 239.0
+          },
+          "page": 1,
+          "confidence": 0.894
+        },
+        {
+          "text": "Fellowship Traning in Arthroscopy (Seoul, Korea",
+          "bbox": {
+            "x_min": 86.0,
+            "y_min": 232.0,
+            "x_max": 333.0,
+            "y_max": 255.0
+          },
+          "page": 1,
+          "confidence": 0.938
+        },
+        {
+          "text": "Member ofAAOS&ISACOS",
+          "bbox": {
+            "x_min": 85.0,
+            "y_min": 250.0,
+            "x_max": 235.0,
+            "y_max": 266.0
+          },
+          "page": 1,
+          "confidence": 0.965
+        },
+        {
+          "text": "Professor of OrhopaedicArmed Forces Medicl College",
+          "bbox": {
+            "x_min": 81.0,
+            "y_min": 264.0,
+            "x_max": 382.0,
+            "y_max": 291.0
+          },
+          "page": 1,
+          "confidence": 0.863
+        },
+        {
+          "text": "Head of Department Orthopaedics",
+          "bbox": {
+            "x_min": 83.0,
+            "y_min": 283.0,
+            "x_max": 287.0,
+            "y_max": 305.0
+          },
+          "page": 1,
+          "confidence": 0.958
+        },
+        {
+          "text": "RBOsdGdod9",
+          "bbox": {
+            "x_min": 404.0,
+            "y_min": 283.0,
+            "x_max": 568.0,
+            "y_max": 325.0
+          },
+          "page": 1,
+          "confidence": 0.417
+        },
+        {
+          "text": "Chief Surgeon General, CMH Dhaka",
+          "bbox": {
+            "x_min": 83.0,
+            "y_min": 301.0,
+            "x_max": 301.0,
+            "y_max": 322.0
+          },
+          "page": 1,
+          "confidence": 0.936
+        },
+        {
+          "text": "2304202",
+          "bbox": {
+            "x_min": 706.0,
+            "y_min": 314.0,
+            "x_max": 905.0,
+            "y_max": 361.0
+          },
+          "page": 1,
+          "confidence": 0.714
+        },
+        {
+          "text": ".",
+          "bbox": {
+            "x_min": 185.0,
+            "y_min": 346.0,
+            "x_max": 194.0,
+            "y_max": 354.0
+          },
+          "page": 1,
+          "confidence": 0.114
+        },
+        {
+          "text": "cAKhder",
+          "bbox": {
+            "x_min": 262.0,
+            "y_min": 348.0,
+            "x_max": 378.0,
+            "y_max": 376.0
+          },
+          "page": 1,
+          "confidence": 0.629
+        },
+        {
+          "text": "s4p",
+          "bbox": {
+            "x_min": 475.0,
+            "y_min": 340.0,
+            "x_max": 581.0,
+            "y_max": 387.0
+          },
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "Hhognblcoctor",
+          "bbox": {
+            "x_min": 507.0,
+            "y_min": 470.0,
+            "x_max": 791.0,
+            "y_max": 529.0
+          },
+          "page": 1,
+          "confidence": 0.531
+        },
+        {
+          "text": "FMJoInf",
+          "bbox": {
+            "x_min": 314.0,
+            "y_min": 485.0,
+            "x_max": 498.0,
+            "y_max": 542.0
+          },
+          "page": 1,
+          "confidence": 0.643
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 483.0,
+            "y_min": 496.0,
+            "x_max": 518.0,
+            "y_max": 515.0
+          },
+          "page": 1,
+          "confidence": 0.155
+        },
+        {
+          "text": "40-",
+          "bbox": {
+            "x_min": 561.0,
+            "y_min": 566.0,
+            "x_max": 791.0,
+            "y_max": 615.0
+          },
+          "page": 1,
+          "confidence": 0.509
+        },
+        {
+          "text": "tnuro",
+          "bbox": {
+            "x_min": 189.0,
+            "y_min": 635.0,
+            "x_max": 375.0,
+            "y_max": 703.0
+          },
+          "page": 1,
+          "confidence": 0.356
+        },
+        {
+          "text": "196",
+          "bbox": {
+            "x_min": 608.0,
+            "y_min": 607.0,
+            "x_max": 839.0,
+            "y_max": 668.0
+          },
+          "page": 1,
+          "confidence": 0.458
+        },
+        {
+          "text": "Reo",
+          "bbox": {
+            "x_min": 346.0,
+            "y_min": 631.0,
+            "x_max": 590.0,
+            "y_max": 685.0
+          },
+          "page": 1,
+          "confidence": 0.521
+        },
+        {
+          "text": "Kep01cAQ0f",
+          "bbox": {
+            "x_min": 204.0,
+            "y_min": 811.0,
+            "x_max": 617.0,
+            "y_max": 876.0
+          },
+          "page": 1,
+          "confidence": 0.486
+        },
+        {
+          "text": "W",
+          "bbox": {
+            "x_min": 168.0,
+            "y_min": 854.0,
+            "x_max": 212.0,
+            "y_max": 880.0
+          },
+          "page": 1,
+          "confidence": 0.56
+        },
+        {
+          "text": "1p0n",
+          "bbox": {
+            "x_min": 356.0,
+            "y_min": 875.0,
+            "x_max": 627.0,
+            "y_max": 921.0
+          },
+          "page": 1,
+          "confidence": 0.417
+        },
+        {
+          "text": "OO",
+          "bbox": {
+            "x_min": 657.0,
+            "y_min": 879.0,
+            "x_max": 713.0,
+            "y_max": 900.0
+          },
+          "page": 1,
+          "confidence": 0.415
+        },
+        {
+          "text": "p",
+          "bbox": {
+            "x_min": 264.0,
+            "y_min": 944.0,
+            "x_max": 359.0,
+            "y_max": 975.0
+          },
+          "page": 1,
+          "confidence": 0.386
+        },
+        {
+          "text": "PANtOHXOS",
+          "bbox": {
+            "x_min": 340.0,
+            "y_min": 933.0,
+            "x_max": 706.0,
+            "y_max": 979.0
+          },
+          "page": 1,
+          "confidence": 0.646
+        },
+        {
+          "text": "feollin",
+          "bbox": {
+            "x_min": 444.0,
+            "y_min": 987.0,
+            "x_max": 689.0,
+            "y_max": 1028.0
+          },
+          "page": 1,
+          "confidence": 0.553
+        },
+        {
+          "text": "cm",
+          "bbox": {
+            "x_min": 776.0,
+            "y_min": 985.0,
+            "x_max": 907.0,
+            "y_max": 1020.0
+          },
+          "page": 1,
+          "confidence": 0.348
+        },
+        {
+          "text": "Chamber:",
+          "bbox": {
+            "x_min": 175.0,
+            "y_min": 1083.0,
+            "x_max": 245.0,
+            "y_max": 1108.0
+          },
+          "page": 1,
+          "confidence": 0.991
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 802.0,
+            "y_min": 1078.0,
+            "x_max": 813.0,
+            "y_max": 1088.0
+          },
+          "page": 1,
+          "confidence": 0.155
+        },
+        {
+          "text": "Hitech Multicare Hospital Ltd",
+          "bbox": {
+            "x_min": 175.0,
+            "y_min": 1104.0,
+            "x_max": 453.0,
+            "y_max": 1155.0
+          },
+          "page": 1,
+          "confidence": 0.958
+        },
+        {
+          "text": "poes",
+          "bbox": {
+            "x_min": 582.0,
+            "y_min": 1097.0,
+            "x_max": 684.0,
+            "y_max": 1132.0
+          },
+          "page": 1,
+          "confidence": 0.657
+        },
+        {
+          "text": "C",
+          "bbox": {
+            "x_min": 779.0,
+            "y_min": 1133.0,
+            "x_max": 784.0,
+            "y_max": 1138.0
+          },
+          "page": 1,
+          "confidence": 0.29
+        },
+        {
+          "text": "Phone:9835550,9833039,9833661,8711010",
+          "bbox": {
+            "x_min": 175.0,
+            "y_min": 1149.0,
+            "x_max": 457.0,
+            "y_max": 1190.0
+          },
+          "page": 1,
+          "confidence": 0.94
+        },
+        {
+          "text": "Cell:01712-873235",
+          "bbox": {
+            "x_min": 583.0,
+            "y_min": 1154.0,
+            "x_max": 749.0,
+            "y_max": 1183.0
+          },
+          "page": 1,
+          "confidence": 0.957
+        },
+        {
+          "text": "Appointment-01678129126,01672241413",
+          "bbox": {
+            "x_min": 175.0,
+            "y_min": 1164.0,
+            "x_max": 457.0,
+            "y_max": 1204.0
+          },
+          "page": 1,
+          "confidence": 0.982
+        },
+        {
+          "text": "Reception-01611262712,E-mailhmcarehospital@gmoil.com",
+          "bbox": {
+            "x_min": 176.0,
+            "y_min": 1177.0,
+            "x_max": 457.0,
+            "y_max": 1218.0
+          },
+          "page": 1,
+          "confidence": 0.908
+        },
+        {
+          "text": "Visiting Hour6.30 pm-9.30pm",
+          "bbox": {
+            "x_min": 581.0,
+            "y_min": 1173.0,
+            "x_max": 842.0,
+            "y_max": 1213.0
+          },
+          "page": 1,
+          "confidence": 0.948
+        },
+        {
+          "text": "Hitech Knee Care Center-2nd Floor.Room No309",
+          "bbox": {
+            "x_min": 173.0,
+            "y_min": 1189.0,
+            "x_max": 475.0,
+            "y_max": 1238.0
+          },
+          "page": 1,
+          "confidence": 0.886
+        },
+        {
+          "text": "Appointment:01678129126",
+          "bbox": {
+            "x_min": 582.0,
+            "y_min": 1201.0,
+            "x_max": 821.0,
+            "y_max": 1236.0
+          },
+          "page": 1,
+          "confidence": 0.976
+        },
+        {
+          "text": "01672241413",
+          "bbox": {
+            "x_min": 697.0,
+            "y_min": 1229.0,
+            "x_max": 822.0,
+            "y_max": 1258.0
+          },
+          "page": 1,
+          "confidence": 0.993
+        }
+      ],
+      "medications": [
+        {
+          "name": "Cben",
+          "matched_term": "Cben",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.256
+        },
+        {
+          "name": "Brig General Oc",
+          "matched_term": "Brig General Oc",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.281
+        },
+        {
+          "name": "Prof Dr Mohammad",
+          "matched_term": "Prof Dr Mohammad",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.43
+        },
+        {
+          "name": "Mbbs Dhaka Msorthodu",
+          "matched_term": "Mbbs Dhaka Msorthodu",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.313
+        },
+        {
+          "name": "Arq Gaozaban",
+          "matched_term": "Arq Gaozaban",
+          "drug_id": "6291eb3f-545f-4a6e-9b0e-8ae47b3de7e5",
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.799
+        },
+        {
+          "name": "Shouen",
+          "matched_term": "Shouen",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.158
+        },
+        {
+          "name": "Fellow In Arthroscopy Ena",
+          "matched_term": "Fellow In Arthroscopy Ena",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.302
+        },
+        {
+          "name": "Saarc Arthroplasty Course",
+          "matched_term": "Saarc Arthroplasty Course",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.418
+        },
+        {
+          "name": "Onesol Advance",
+          "matched_term": "Onesol Advance",
+          "drug_id": "1f2df3ca-7dd4-4249-8676-70043e2c8b99",
+          "brand_id": "d068e25e-aa0e-4af4-84e1-05163efbd182",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.782
+        },
+        {
+          "name": "Fellowship Traning In",
+          "matched_term": "Fellowship Traning In",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.422
+        },
+        {
+          "name": "Member Ofaaos Isacos",
+          "matched_term": "Member Ofaaos Isacos",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.434
+        },
+        {
+          "name": "Profest",
+          "matched_term": "Profest",
+          "drug_id": "32ca4b91-552e-4714-89ba-dc7359ddcd89",
+          "brand_id": "75b2dd59-cc97-4d18-bd81-7eff03b0ca37",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.768
+        },
+        {
+          "name": "Head Of Department Rbosdgdod",
+          "matched_term": "Head Of Department Rbosdgdod",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.309
+        },
+        {
+          "name": "Chief Surgeon General",
+          "matched_term": "Chief Surgeon General",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.263
+        },
+        {
+          "name": "Cakhder",
+          "matched_term": "Cakhder",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.283
+        },
+        {
+          "name": "Hhognblcoctor",
+          "matched_term": "Hhognblcoctor",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.239
+        },
+        {
+          "name": "Fmjoinf",
+          "matched_term": "Fmjoinf",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.199
+        },
+        {
+          "name": "Reo",
+          "matched_term": "Reo",
+          "drug_id": "df7e297a-58ba-422f-8f87-45d21e7eb094",
+          "brand_id": "bc18e014-6246-4a68-b5fa-45488a3c39ef",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.614
+        },
+        {
+          "name": "Tnuro Kep Caq Nextoo",
+          "matched_term": "Tnuro Kep Caq Nextoo",
+          "drug_id": "b0337a75-c2fe-4158-9230-6d6145964292",
+          "brand_id": "a48dab65-96c7-4d6d-896b-a6e966603b37",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.201
+        },
+        {
+          "name": "Pantohxos Acmegra",
+          "matched_term": "Pantohxos Acmegra",
+          "drug_id": "9f7a966e-af4a-47e2-a591-567e367edaaa",
+          "brand_id": "bd492f3d-50a2-4bb7-a50a-7596d9a595ab",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.207
+        },
+        {
+          "name": "Feollin",
+          "matched_term": "Feollin",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.159
+        },
+        {
+          "name": "Chamber",
+          "matched_term": "Chamber",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.446
+        },
+        {
+          "name": "Poes",
+          "matched_term": "Poes",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.296
+        },
+        {
+          "name": "Hitech Multicare Hospital",
+          "matched_term": "Hitech Multicare Hospital",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.281
+        },
+        {
+          "name": "Phone",
+          "matched_term": "Phone",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.423
+        },
+        {
+          "name": "Cell",
+          "matched_term": "Cell",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.431
+        },
+        {
+          "name": "Appointment",
+          "matched_term": "Appointment",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.442
+        },
+        {
+          "name": "Visiting Hour Pm-",
+          "matched_term": "Visiting Hour Pm-",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.427
+        },
+        {
+          "name": "Receptin A",
+          "matched_term": "Receptin A",
+          "drug_id": "98f511b8-8158-4599-bc63-d71023f64842",
+          "brand_id": "c76d6e45-3c8b-4aa2-af63-ddd5ebb27eb3",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.625
+        },
+        {
+          "name": "Hitech Knee Care",
+          "matched_term": "Hitech Knee Care",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.399
+        },
+        {
+          "name": "Appointment",
+          "matched_term": "Appointment",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.443
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "डिटगछियान (अनारजन\nस्थानिक छ: यूशम्पाण विकून घालय, परमनिधि\nप्रायविविधम (छाका), बम बम (वाणी) कि रेड़ें\nFellow In Arthroscopy & Arthroplasty (Turkey)\nSAARC Arthroplasty Course (India)\nAdvance Traning in Arthroscopy & Sports injury (France & Germany)\nFellowship Traning in Arthroscopy (Seoul, Korea)\nMember of AAOS & ISACOS\nव्याव् वादयदिकान काटम्भों पर उद्धाटनडिकम् बदर रैयाकम\nवैधानिक जट्वीटनजडिम्, वार्म (पार्सन मण्टिकन कानक\nविकानीय अधान छापाटनषिकम्\nठीक मार्जन कनारवन, निध्य जरूठ गया।\nChief Surgeon General, CMH Dhaka.\nरेनारेन: ०२०७००८२००१\n23/07/2023\nShaming Akuter\n7\nTM Joint Subluxation. (U)\n0\nVOLIGEL THE UNDMIT.\n/\nongles. OxICAM (20ml)\n1\nla. PANTONIX(20Mg)\n1\nClu. CARTILAGE MAX/2 TS\n14091\n2\nhome of care\nChamber :\nHitech Multicare Hospital Ltd.\n164, East Kafrul, Dhaka Cantonment, Dhaka-1206\nPhone : 9835550, 9833039,9833661, 8711010\nAppointment-01678129126, 01672241413\nReception-01611262712, E-mail : hmcarehospital@gmail.com\nHitech Knee Care Center-2nd Floor. Room No:309\nअजिनि अत्थाट भाषिकम् जयभाव अना\nCell : 01712-873235\nVisiting Hour : 6.30 pm - 9.30 pm\nAppointment : 01678129126\n01672241413\n888M\nsHolley\nBrig. General\nProf. Dr. Mohammad Shafiqul Alam, SPP\nMBBS (Dhaka), MS (Ortho), DU\nAO Trauma Course\n48 प्रया (कार्म\nघटना रैन वाटरथीमकनि यक वारथी प्राप्ति (कूट्रक)\nमार्क वार्थी भ्राडि (कार्म (डाइट)\nप्राष्ठान केनिर रेन वाटरथीमकनि 8 (स्मार्टम रेनूदि (आम 6 जायानी)\nघटनामीन सैनिक रेन वाटरथीमदर्शि (मिलेन, (काड़िया)\nProfessor of Orthopaedics, Armed Forces Medical College\nHead of Department Orthopaedics",
+      "lines": [
+        {
+          "text": "डिटगछियान (अनारजन",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "स्थानिक छ: यूशम्पाण विकून घालय, परमनिधि",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "प्रायविविधम (छाका), बम बम (वाणी) कि रेड़ें",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "Fellow In Arthroscopy & Arthroplasty (Turkey)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "SAARC Arthroplasty Course (India)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "Advance Traning in Arthroscopy & Sports injury (France & Germany)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "Fellowship Traning in Arthroscopy (Seoul, Korea)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "Member of AAOS & ISACOS",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "व्याव् वादयदिकान काटम्भों पर उद्धाटनडिकम् बदर रैयाकम",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "वैधानिक जट्वीटनजडिम्, वार्म (पार्सन मण्टिकन कानक",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "विकानीय अधान छापाटनषिकम्",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "ठीक मार्जन कनारवन, निध्य जरूठ गया।",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "Chief Surgeon General, CMH Dhaka.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "रेनारेन: ०२०७००८२००१",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "23/07/2023",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "Shaming Akuter",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "7",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "TM Joint Subluxation. (U)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "0",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "VOLIGEL THE UNDMIT.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "/",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "ongles. OxICAM (20ml)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "la. PANTONIX(20Mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "Clu. CARTILAGE MAX/2 TS",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "14091",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "2",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "home of care",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "Chamber :",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "Hitech Multicare Hospital Ltd.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "164, East Kafrul, Dhaka Cantonment, Dhaka-1206",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "Phone : 9835550, 9833039,9833661, 8711010",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "Appointment-01678129126, 01672241413",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "Reception-01611262712, E-mail : hmcarehospital@gmail.com",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "Hitech Knee Care Center-2nd Floor. Room No:309",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "अजिनि अत्थाट भाषिकम् जयभाव अना",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "Cell : 01712-873235",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "Visiting Hour : 6.30 pm - 9.30 pm",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "Appointment : 01678129126",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "01672241413",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "888M",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "sHolley",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "Brig. General",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "Prof. Dr. Mohammad Shafiqul Alam, SPP",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "MBBS (Dhaka), MS (Ortho), DU",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "AO Trauma Course",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "48 प्रया (कार्म",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "घटना रैन वाटरथीमकनि यक वारथी प्राप्ति (कूट्रक)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "मार्क वार्थी भ्राडि (कार्म (डाइट)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "प्राष्ठान केनिर रेन वाटरथीमकनि 8 (स्मार्टम रेनूदि (आम 6 जायानी)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "घटनामीन सैनिक रेन वाटरथीमदर्शि (मिलेन, (काड़िया)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "Professor of Orthopaedics, Armed Forces Medical College",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "Head of Department Orthopaedics",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.665
+        }
+      ],
+      "medications": [
+        {
+          "name": "Fellow In Arthroscopy",
+          "matched_term": "Fellow In Arthroscopy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.299
+        },
+        {
+          "name": "Saarc Arthroplasty Course",
+          "matched_term": "Saarc Arthroplasty Course",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.299
+        },
+        {
+          "name": "Onesol Advance",
+          "matched_term": "Onesol Advance",
+          "drug_id": "1f2df3ca-7dd4-4249-8676-70043e2c8b99",
+          "brand_id": "d068e25e-aa0e-4af4-84e1-05163efbd182",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.679
+        },
+        {
+          "name": "Fellowship Traning In",
+          "matched_term": "Fellowship Traning In",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.299
+        },
+        {
+          "name": "Member Of Aaos",
+          "matched_term": "Member Of Aaos",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.299
+        },
+        {
+          "name": "Chief Surgeon General",
+          "matched_term": "Chief Surgeon General",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.299
+        },
+        {
+          "name": "Shaming Akuter",
+          "matched_term": "Shaming Akuter",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.299
+        },
+        {
+          "name": "Joint-ES",
+          "matched_term": "Joint-ES",
+          "drug_id": "e02673e5-3d63-4701-ba79-ba3614b136e3",
+          "brand_id": "d448250d-c696-427f-8cd9-896a8ddf1a2d",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.679
+        },
+        {
+          "name": "Voligel",
+          "matched_term": "Voligel",
+          "drug_id": "88f32769-6d11-4ce5-8cb5-68011f5596b5",
+          "brand_id": "ed730da6-6201-4aec-aa7d-3f6c0b50b1ad",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.679
+        },
+        {
+          "name": "Oxicam",
+          "matched_term": "Oxicam",
+          "drug_id": "7af19da8-1fe5-4c62-9899-6beccacc65e8",
+          "brand_id": "c8094fdc-d15b-4625-b7ed-8f6bee4b4a20",
+          "dosage": "20ml",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.73
+        },
+        {
+          "name": "Pantonix",
+          "matched_term": "Pantonix",
+          "drug_id": "02feb704-d572-47fb-86ce-915bb49ae3bf",
+          "brand_id": "774f8bc5-f9e8-4909-9eab-790aff5b6631",
+          "dosage": "20Mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.73
+        },
+        {
+          "name": "Cartilage Max",
+          "matched_term": "Cartilage Max",
+          "drug_id": "c78e91d9-51f4-47f8-8f6a-3e31b6c592ee",
+          "brand_id": "71a91292-c38b-4018-a2fb-8412cf3e0bd5",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.679
+        },
+        {
+          "name": "Home Of Care",
+          "matched_term": "Home Of Care",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.299
+        },
+        {
+          "name": "Chamber",
+          "matched_term": "Chamber",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.299
+        },
+        {
+          "name": "Hitech Multicare Hospital",
+          "matched_term": "Hitech Multicare Hospital",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.299
+        },
+        {
+          "name": "East Kafrul Dhaka",
+          "matched_term": "East Kafrul Dhaka",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.299
+        },
+        {
+          "name": "Phone",
+          "matched_term": "Phone",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.299
+        },
+        {
+          "name": "Appointment",
+          "matched_term": "Appointment",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.299
+        },
+        {
+          "name": "Receptin A",
+          "matched_term": "Receptin A",
+          "drug_id": "98f511b8-8158-4599-bc63-d71023f64842",
+          "brand_id": "c76d6e45-3c8b-4aa2-af63-ddd5ebb27eb3",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.515
+        },
+        {
+          "name": "Hitech Knee Care",
+          "matched_term": "Hitech Knee Care",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.299
+        },
+        {
+          "name": "Cell",
+          "matched_term": "Cell",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.299
+        },
+        {
+          "name": "Visiting Hour Pm",
+          "matched_term": "Visiting Hour Pm",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.299
+        },
+        {
+          "name": "Appointment",
+          "matched_term": "Appointment",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.299
+        },
+        {
+          "name": "Sholley",
+          "matched_term": "Sholley",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.299
+        },
+        {
+          "name": "Brig General",
+          "matched_term": "Brig General",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.299
+        },
+        {
+          "name": "Prof Dr Mohammad",
+          "matched_term": "Prof Dr Mohammad",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.299
+        },
+        {
+          "name": "Mbbs Dhaka Ms",
+          "matched_term": "Mbbs Dhaka Ms",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.299
+        },
+        {
+          "name": "Arq Gaozaban",
+          "matched_term": "Arq Gaozaban",
+          "drug_id": "6291eb3f-545f-4a6e-9b0e-8ae47b3de7e5",
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.679
+        },
+        {
+          "name": "Profest",
+          "matched_term": "Profest",
+          "drug_id": "32ca4b91-552e-4714-89ba-dc7359ddcd89",
+          "brand_id": "75b2dd59-cc97-4d18-bd81-7eff03b0ca37",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.679
+        },
+        {
+          "name": "Head Of Department",
+          "matched_term": "Head Of Department",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.299
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "Joint-ES",
+          "matched_term": "Joint-ES",
+          "drug_id": "e02673e5-3d63-4701-ba79-ba3614b136e3",
+          "brand_id": "d448250d-c696-427f-8cd9-896a8ddf1a2d",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.615
+        },
+        {
+          "name": "Voligel",
+          "matched_term": "Voligel",
+          "drug_id": "88f32769-6d11-4ce5-8cb5-68011f5596b5",
+          "brand_id": "ed730da6-6201-4aec-aa7d-3f6c0b50b1ad",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.615
+        },
+        {
+          "name": "Butler Oxicam",
+          "matched_term": "Butler Oxicam",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "20Ml",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.286
+        },
+        {
+          "name": "Pantonix",
+          "matched_term": "Pantonix",
+          "drug_id": "02feb704-d572-47fb-86ce-915bb49ae3bf",
+          "brand_id": "774f8bc5-f9e8-4909-9eab-790aff5b6631",
+          "dosage": "20Mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.666
+        },
+        {
+          "name": "Pol",
+          "matched_term": "Pol",
+          "drug_id": "34d4169e-0795-45bb-b29d-4873102e5bdd",
+          "brand_id": "89fa9a12-716b-4564-9051-612558767396",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.615
+        },
+        {
+          "name": "Cartilage Max",
+          "matched_term": "Cartilage Max",
+          "drug_id": "c78e91d9-51f4-47f8-8f6a-3e31b6c592ee",
+          "brand_id": "71a91292-c38b-4018-a2fb-8412cf3e0bd5",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.615
+        },
+        {
+          "name": "Chamber",
+          "matched_term": "Chamber",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.235
+        },
+        {
+          "name": "Hitech Multicare Hospital",
+          "matched_term": "Hitech Multicare Hospital",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.235
+        },
+        {
+          "name": "East",
+          "matched_term": "East",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.235
+        }
+      ],
+      "raw_text": "7\nTM Joint Subluxation. (U)\n1\nVOLIGEL THE ANTIMON.\n/\nButler. OxICAM (20Ml)\n1\nlas. PANTONIX (20Mg)\npoll wow 2/2 close\n1\nClu. CARTILAGE MAX10VS\n14091\nChamber :\nHitech Multicare Hospital Ltd.\n164. East K.",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 9077,
+        "detected_regions": 1,
+        "ocr_line_count": 15,
+        "yolo_avg_confidence": 0.8675,
+        "yolo_min_confidence": 0.8675,
+        "yolo_max_confidence": 0.8675,
+        "ocr_avg_confidence": 0.523,
+        "ocr_min_confidence": 0.523,
+        "ocr_max_confidence": 0.523,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 74.420166015625,
+              "y_min": 431.1778259277344,
+              "x_max": 948.609619140625,
+              "y_max": 1144.556640625
+            },
+            "score": 0.8675
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "7",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.523
+          },
+          {
+            "text": "TM Joint Subluxation. (U)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.523
+          },
+          {
+            "text": "1",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.523
+          },
+          {
+            "text": "VOLIGEL THE ANTIMON.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.523
+          },
+          {
+            "text": "/",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.523
+          },
+          {
+            "text": "Butler. OxICAM (20Ml)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.523
+          },
+          {
+            "text": "1",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.523
+          },
+          {
+            "text": "las. PANTONIX (20Mg)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.523
+          },
+          {
+            "text": "poll wow 2/2 close",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.523
+          },
+          {
+            "text": "1",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.523
+          },
+          {
+            "text": "Clu. CARTILAGE MAX10VS",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.523
+          },
+          {
+            "text": "14091",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.523
+          },
+          {
+            "text": "Chamber :",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.523
+          },
+          {
+            "text": "Hitech Multicare Hospital Ltd.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.523
+          },
+          {
+            "text": "164. East K.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.523
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

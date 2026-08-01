@@ -1,0 +1,182 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "f709d424eba93eb22dad47d696db849af0153e1a30115a0462fd1e3ea120a65b",
+  "record_id": "RX-0049",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 50429.66089998663,
+  "failure": null,
+  "response_sha256": "c58996833a4b01d52ce2d71895f2d4cee58f0b7a1c078ffaf86527544374cec9",
+  "response": {
+    "raw_text": "O.N0820377\nहिकिश्मक कड़ वाभीव वादशंभरज\n2 W/O1 M ZH SIDDIQUI MCPODEM 47Yr\nडिकिस्मतकन वालशक\nwolks\nME-Treams\nLeves\nTo\n2. El Indevario\nloves\n3. Il Fenolhi\n0-001-8pm\n4. El montaino\nSW\nNosticine and\nHudfurmologist\nAA\n/11\nFuTa TSH\nath 03m.\n18day 20/9/18\n104.10118\n10 dayof\n18.00-18\n02.12:18\n04-11-18\n77.12.18",
+    "lines": [
+      {
+        "text": "O.N0820377",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "हिकिश्मक कड़ वाभीव वादशंभरज",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "2 W/O1 M ZH SIDDIQUI MCPODEM 47Yr",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "डिकिस्मतकन वालशक",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "wolks",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "ME-Treams",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "Leves",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "To",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "2. El Indevario",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "loves",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "3. Il Fenolhi",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "0-001-8pm",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "4. El montaino",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "SW",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "Nosticine and",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "Hudfurmologist",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "AA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "/11",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "FuTa TSH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "ath 03m.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "18day 20/9/18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "104.10118",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "10 dayof",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "18.00-18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "02.12:18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "04-11-18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "77.12.18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      }
+    ]
+  }
+}

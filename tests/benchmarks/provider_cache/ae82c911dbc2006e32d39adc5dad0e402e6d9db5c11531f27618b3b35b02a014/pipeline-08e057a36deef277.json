@@ -1,0 +1,299 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0045",
+  "source_sha256": "ae82c911dbc2006e32d39adc5dad0e402e6d9db5c11531f27618b3b35b02a014",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:29:52.262317+00:00",
+  "runtime_ms": 15778.561099999934,
+  "output": {
+    "medications": [
+      {
+        "name": "Date",
+        "matched_term": "Date",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.281
+      },
+      {
+        "name": "Find -Ya",
+        "matched_term": "Find -Ya",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.281
+      },
+      {
+        "name": "Sera",
+        "matched_term": "Sera",
+        "drug_id": "0c80f251-c670-4600-a21a-9636e2597190",
+        "brand_id": "b0a44631-faed-4ab1-b3a2-a450bdf611ce",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.661
+      },
+      {
+        "name": "Room No",
+        "matched_term": "Room No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.281
+      },
+      {
+        "name": "Sub- Acute Lyrsidiler",
+        "matched_term": "Sub- Acute Lyrsidiler",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.281
+      },
+      {
+        "name": "Hypoten",
+        "matched_term": "Hypoten",
+        "drug_id": "83b1372d-43ef-4277-afee-9fcbaabc9f34",
+        "brand_id": "b4957d1b-abf1-4283-94fe-7da27a92ee9c",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.661
+      },
+      {
+        "name": "Batshulary",
+        "matched_term": "Batshulary",
+        "drug_id": "51551439-a8c9-4f23-a901-512010f618d5",
+        "brand_id": "7a2470f0-f45f-4e00-8403-411755b26ccb",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.661
+      },
+      {
+        "name": "Pt Duath",
+        "matched_term": "Pt Duath",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": "15 days",
+        "confidence": 0.331
+      },
+      {
+        "name": "Til",
+        "matched_term": "Til",
+        "drug_id": "654b7cd1-5571-4387-a406-40c7ded996d9",
+        "brand_id": "6c230c98-5f37-4310-95d5-6c44f42ead40",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.661
+      },
+      {
+        "name": "Ft Tsh",
+        "matched_term": "Ft Tsh",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.281
+      },
+      {
+        "name": "Thyrox",
+        "matched_term": "Thyrox",
+        "drug_id": "6e4675e6-9d07-42e7-b506-3d6b423f1c93",
+        "brand_id": "ca3e085f-ae52-4682-aed0-8d8454c17c95",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.661
+      },
+      {
+        "name": "To-Al",
+        "matched_term": "To-Al",
+        "drug_id": "778ec774-428c-4ec9-a180-1dbfb7821a1c",
+        "brand_id": "27bf5a0b-0b3d-42df-b980-25bf68e38cc2",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.661
+      },
+      {
+        "name": "Md Abdullah-Al-Mamu",
+        "matched_term": "Md Abdullah-Al-Mamu",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.281
+      }
+    ],
+    "raw_text": "Date :-\n11 Find: 0 -YA\nSer No :-\nRoom No :-\nC-67\nSub- Acute lyrsidiler\n(Hypoth grand chose)\nFF25.\nTSH = 89.85 uschd.\nPT =5-1 Duath.\nIssoal 15 day\n11/10/17\nTil-\n1\nFT, TSH .\nThyrox (50 equ)\n2 -to-to (GwTO)\nST.\nMD ABDULLAH-AL-MAMU",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 15741,
+      "detected_regions": 1,
+      "ocr_line_count": 19,
+      "yolo_avg_confidence": 0.7043,
+      "yolo_min_confidence": 0.7043,
+      "yolo_max_confidence": 0.7043,
+      "ocr_avg_confidence": 0.625,
+      "ocr_min_confidence": 0.625,
+      "ocr_max_confidence": 0.625,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 197.44790802001953,
+            "y_min": 1031.8603313446044,
+            "x_max": 3133.393951416015,
+            "y_max": 4001.299281311035
+          },
+          "score": 0.7043
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Date :-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.625
+        },
+        {
+          "text": "11 Find: 0 -YA",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.625
+        },
+        {
+          "text": "Ser No :-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.625
+        },
+        {
+          "text": "Room No :-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.625
+        },
+        {
+          "text": "C-67",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.625
+        },
+        {
+          "text": "Sub- Acute lyrsidiler",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.625
+        },
+        {
+          "text": "(Hypoth grand chose)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.625
+        },
+        {
+          "text": "FF25.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.625
+        },
+        {
+          "text": "TSH = 89.85 uschd.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.625
+        },
+        {
+          "text": "PT =5-1 Duath.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.625
+        },
+        {
+          "text": "Issoal 15 day",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.625
+        },
+        {
+          "text": "11/10/17",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.625
+        },
+        {
+          "text": "Til-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.625
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.625
+        },
+        {
+          "text": "FT, TSH .",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.625
+        },
+        {
+          "text": "Thyrox (50 equ)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.625
+        },
+        {
+          "text": "2 -to-to (GwTO)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.625
+        },
+        {
+          "text": "ST.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.625
+        },
+        {
+          "text": "MD ABDULLAH-AL-MAMU",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.625
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "dd5c997f98ee0ddc9693363126ca75d12e79ce13674f5582db5aa22ba8dbceca",
+  "record_id": "RX-0030",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 7482.556199989631,
+  "failure": null,
+  "response_sha256": "8802398f302504762cc95dfa77ba3c2f08e8c408b450c1488ffda47d55030081",
+  "response": {
+    "raw_text": "Tais\nOmsider\nCap Losectil. v\nTab\nRecipro (spo-)\n· Cap\nI trace (uma)\nain\nTab Direvos tro mg",
+    "lines": [
+      {
+        "text": "Tais",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "Omsider",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "Cap Losectil. v",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "Tab",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "Recipro (spo-)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "· Cap",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "I trace (uma)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "ain",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "Tab Direvos tro mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      }
+    ]
+  }
+}

@@ -1,0 +1,1184 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0039",
+  "source_sha256": "7a681f44b3acf80461c7ed03a2cf22b0ecf015ff877d289e7bb4883b5e81fe81",
+  "raw_transcription": "Rx\n(500 mg)\n, Mis. Treidonil\n0+0+2\n(200mg)\n. Mas. Doxcomma\n20072\n* Gives. Anokant (10mg)\n. Sup. Ambosist.\nC\n2 × Gar\n• สช. Pertant (Inemto)\n0,075\n, Flunaspray Nasal Spray.\n2. กด * 2 สฤษ- 2 บาท",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "",
+      "strength": "500 mg",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Mis Treidonil",
+      "strength": "",
+      "dose": "",
+      "frequency": "0+0+2",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "",
+      "strength": "200mg",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Maso",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Gives Anokant",
+      "strength": "10mg",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Sup Ambosist",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Gar",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Pertant Inemto",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Fluair Nasal Spray",
+      "strength": "",
+      "dose": "",
+      "frequency": "2+2+2",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "b25e3fb89fe6c4e3fa4b824e104576688b6364bf36bce68d4063549116c47e94"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "7ccd3ecb3a8b1f1e434aac3a4f8de0e7d2fb31586d5104dad5d7e7a4a20f714f"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "36f1a3b6e3c29b4c6af02a4039064c4446be8cbe8928f78948aec199ca7e61d3"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "CIOT\nR\nDr.Md.Sakhawat Hossain (Sajib\nM.B.B.S (D.U).C.C.O (Birem\nM.D (Peatric-ICMH\n..\nDe220\nsalib\nAge28\nR\nGir.Ginidonil\nSrommy\na\n0+01)\n.Dororm\nE0rEr\nTaDT\nC+0+3\nAntkart\n10m\n0\nGs.\ngHrr\nDr0ts\nAmlooho\n.Fenn+(ront\n01070\n21u\nm5A\nLor",
+      "lines": [
+        {
+          "text": "CIOT",
+          "bbox": {
+            "x_min": 154.0,
+            "y_min": 14.0,
+            "x_max": 219.0,
+            "y_max": 57.0
+          },
+          "page": 1,
+          "confidence": 0.401
+        },
+        {
+          "text": "R",
+          "bbox": {
+            "x_min": 79.0,
+            "y_min": 131.0,
+            "x_max": 187.0,
+            "y_max": 152.0
+          },
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "Dr.Md.Sakhawat Hossain (Sajib",
+          "bbox": {
+            "x_min": 273.0,
+            "y_min": 120.0,
+            "x_max": 450.0,
+            "y_max": 146.0
+          },
+          "page": 1,
+          "confidence": 0.94
+        },
+        {
+          "text": "M.B.B.S (D.U).C.C.O (Birem",
+          "bbox": {
+            "x_min": 309.0,
+            "y_min": 135.0,
+            "x_max": 451.0,
+            "y_max": 158.0
+          },
+          "page": 1,
+          "confidence": 0.792
+        },
+        {
+          "text": "M.D (Peatric-ICMH",
+          "bbox": {
+            "x_min": 349.0,
+            "y_min": 148.0,
+            "x_max": 453.0,
+            "y_max": 169.0
+          },
+          "page": 1,
+          "confidence": 0.748
+        },
+        {
+          "text": "..",
+          "bbox": {
+            "x_min": 80.0,
+            "y_min": 163.0,
+            "x_max": 185.0,
+            "y_max": 180.0
+          },
+          "page": 1,
+          "confidence": 0.659
+        },
+        {
+          "text": "De220",
+          "bbox": {
+            "x_min": 371.0,
+            "y_min": 190.0,
+            "x_max": 469.0,
+            "y_max": 214.0
+          },
+          "page": 1,
+          "confidence": 0.63
+        },
+        {
+          "text": "salib",
+          "bbox": {
+            "x_min": 100.0,
+            "y_min": 210.0,
+            "x_max": 141.0,
+            "y_max": 225.0
+          },
+          "page": 1,
+          "confidence": 0.608
+        },
+        {
+          "text": "Age28",
+          "bbox": {
+            "x_min": 265.0,
+            "y_min": 202.0,
+            "x_max": 331.0,
+            "y_max": 222.0
+          },
+          "page": 1,
+          "confidence": 0.895
+        },
+        {
+          "text": "R",
+          "bbox": {
+            "x_min": 130.0,
+            "y_min": 240.0,
+            "x_max": 151.0,
+            "y_max": 257.0
+          },
+          "page": 1,
+          "confidence": 0.982
+        },
+        {
+          "text": "Gir.Ginidonil",
+          "bbox": {
+            "x_min": 162.0,
+            "y_min": 252.0,
+            "x_max": 275.0,
+            "y_max": 280.0
+          },
+          "page": 1,
+          "confidence": 0.839
+        },
+        {
+          "text": "Srommy",
+          "bbox": {
+            "x_min": 283.0,
+            "y_min": 253.0,
+            "x_max": 330.0,
+            "y_max": 269.0
+          },
+          "page": 1,
+          "confidence": 0.512
+        },
+        {
+          "text": "a",
+          "bbox": {
+            "x_min": 370.0,
+            "y_min": 268.0,
+            "x_max": 429.0,
+            "y_max": 287.0
+          },
+          "page": 1,
+          "confidence": 0.233
+        },
+        {
+          "text": "0+01)",
+          "bbox": {
+            "x_min": 220.0,
+            "y_min": 281.0,
+            "x_max": 271.0,
+            "y_max": 301.0
+          },
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": ".Dororm",
+          "bbox": {
+            "x_min": 155.0,
+            "y_min": 301.0,
+            "x_max": 282.0,
+            "y_max": 335.0
+          },
+          "page": 1,
+          "confidence": 0.692
+        },
+        {
+          "text": "E0rEr",
+          "bbox": {
+            "x_min": 302.0,
+            "y_min": 305.0,
+            "x_max": 330.0,
+            "y_max": 315.0
+          },
+          "page": 1,
+          "confidence": 0.414
+        },
+        {
+          "text": "TaDT",
+          "bbox": {
+            "x_min": 388.0,
+            "y_min": 310.0,
+            "x_max": 439.0,
+            "y_max": 327.0
+          },
+          "page": 1,
+          "confidence": 0.362
+        },
+        {
+          "text": "C+0+3",
+          "bbox": {
+            "x_min": 232.0,
+            "y_min": 327.0,
+            "x_max": 284.0,
+            "y_max": 348.0
+          },
+          "page": 1,
+          "confidence": 0.557
+        },
+        {
+          "text": "Antkart",
+          "bbox": {
+            "x_min": 228.0,
+            "y_min": 343.0,
+            "x_max": 308.0,
+            "y_max": 375.0
+          },
+          "page": 1,
+          "confidence": 0.733
+        },
+        {
+          "text": "10m",
+          "bbox": {
+            "x_min": 316.0,
+            "y_min": 347.0,
+            "x_max": 353.0,
+            "y_max": 364.0
+          },
+          "page": 1,
+          "confidence": 0.409
+        },
+        {
+          "text": "0",
+          "bbox": {
+            "x_min": 317.0,
+            "y_min": 341.0,
+            "x_max": 329.0,
+            "y_max": 352.0
+          },
+          "page": 1,
+          "confidence": 0.132
+        },
+        {
+          "text": "Gs.",
+          "bbox": {
+            "x_min": 178.0,
+            "y_min": 357.0,
+            "x_max": 223.0,
+            "y_max": 379.0
+          },
+          "page": 1,
+          "confidence": 0.47
+        },
+        {
+          "text": "gHrr",
+          "bbox": {
+            "x_min": 388.0,
+            "y_min": 358.0,
+            "x_max": 436.0,
+            "y_max": 380.0
+          },
+          "page": 1,
+          "confidence": 0.334
+        },
+        {
+          "text": "Dr0ts",
+          "bbox": {
+            "x_min": 243.0,
+            "y_min": 373.0,
+            "x_max": 297.0,
+            "y_max": 395.0
+          },
+          "page": 1,
+          "confidence": 0.282
+        },
+        {
+          "text": "Amlooho",
+          "bbox": {
+            "x_min": 238.0,
+            "y_min": 394.0,
+            "x_max": 340.0,
+            "y_max": 420.0
+          },
+          "page": 1,
+          "confidence": 0.643
+        },
+        {
+          "text": ".Fenn+(ront",
+          "bbox": {
+            "x_min": 185.0,
+            "y_min": 439.0,
+            "x_max": 377.0,
+            "y_max": 484.0
+          },
+          "page": 1,
+          "confidence": 0.587
+        },
+        {
+          "text": "01070",
+          "bbox": {
+            "x_min": 264.0,
+            "y_min": 477.0,
+            "x_max": 320.0,
+            "y_max": 499.0
+          },
+          "page": 1,
+          "confidence": 0.6
+        },
+        {
+          "text": "21u",
+          "bbox": {
+            "x_min": 224.0,
+            "y_min": 541.0,
+            "x_max": 307.0,
+            "y_max": 559.0
+          },
+          "page": 1,
+          "confidence": 0.458
+        },
+        {
+          "text": "m5A",
+          "bbox": {
+            "x_min": 380.0,
+            "y_min": 559.0,
+            "x_max": 421.0,
+            "y_max": 573.0
+          },
+          "page": 1,
+          "confidence": 0.282
+        },
+        {
+          "text": "Lor",
+          "bbox": {
+            "x_min": 437.0,
+            "y_min": 557.0,
+            "x_max": 467.0,
+            "y_max": 575.0
+          },
+          "page": 1,
+          "confidence": 0.503
+        }
+      ],
+      "medications": [
+        {
+          "name": "Ciot",
+          "matched_term": "Ciot",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.18
+        },
+        {
+          "name": "Dr Md Sakhawat",
+          "matched_term": "Dr Md Sakhawat",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.342
+        },
+        {
+          "name": "Birem",
+          "matched_term": "Birem",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.356
+        },
+        {
+          "name": "Peatric-Icmh De Age",
+          "matched_term": "Peatric-Icmh De Age",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.33
+        },
+        {
+          "name": "Saliben",
+          "matched_term": "Saliben",
+          "drug_id": "cd25e33a-7964-430b-9df3-e3e0adec026e",
+          "brand_id": "377ff0c3-2d24-4fbb-a27f-f308a3366e74",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.738
+        },
+        {
+          "name": "Gir Ginidonil",
+          "matched_term": "Gir Ginidonil",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.378
+        },
+        {
+          "name": "Srommy",
+          "matched_term": "Srommy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.225
+        },
+        {
+          "name": "Dororm Rer",
+          "matched_term": "Dororm Rer",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.249
+        },
+        {
+          "name": "Tadt",
+          "matched_term": "Tadt",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.158
+        },
+        {
+          "name": "Antkart Gs",
+          "matched_term": "Antkart Gs",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.242
+        },
+        {
+          "name": "Drota",
+          "matched_term": "Drota",
+          "drug_id": "c115c340-f9a8-4fd4-a758-6de6e2d7532c",
+          "brand_id": "ae626fc2-ac73-47f0-93b8-e6228e511a33",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.343
+        },
+        {
+          "name": "Amlooho",
+          "matched_term": "Amlooho",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.289
+        },
+        {
+          "name": "Fennel",
+          "matched_term": "Fennel",
+          "drug_id": "5953ddc0-20eb-4d42-b167-af7464630b78",
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.627
+        },
+        {
+          "name": "Lora",
+          "matched_term": "Lora",
+          "drug_id": "08bd14ab-f0e3-4c63-9411-0864aa1a0e10",
+          "brand_id": "820f2c2f-9ba4-49a1-b5e8-c9866ee54721",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.557
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "ग्राऊ (शरमन (सजीव)\nDr. Md. Sakhawat Hossain (Sajib)\nM.B.B.S.(D.U), C.C.D (Birdem)\nM.D (Pediatric)- 1CMH\nरहा इनिशि क, मांडूस्विंग, प्रायः।\nनवशाइक, मि०, विश्वास निर्णयज, एलकिजिन के कामाइकलरोस (वाटण विका\nDate : 4.2.2024.\nAge 28, 4%:\nSalib.\nR\n. Tis. Tridenil\n(500 mg)\n0+0+2\n(200mg)\n# Ris. Doncomma\n2+012\n* Gis. Anokast (10mg)\n. Sap. Ambosist.\n960\n2 × Car\n. Tins. Perofast (120mo)\n02075\n. Flunispray Nasal Spray.\n2. กด * 2. สท 25 - 2 บาท\nGait\nD.\ndr.\n1\nDeslor",
+      "lines": [
+        {
+          "text": "ग्राऊ (शरमन (सजीव)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "Dr. Md. Sakhawat Hossain (Sajib)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "M.B.B.S.(D.U), C.C.D (Birdem)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "M.D (Pediatric)- 1CMH",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "रहा इनिशि क, मांडूस्विंग, प्रायः।",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "नवशाइक, मि०, विश्वास निर्णयज, एलकिजिन के कामाइकलरोस (वाटण विका",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "Date : 4.2.2024.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "Age 28, 4%:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "Salib.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "R",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": ". Tis. Tridenil",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "(500 mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "0+0+2",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "(200mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "# Ris. Doncomma",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "2+012",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "* Gis. Anokast (10mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": ". Sap. Ambosist.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "960",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "2 × Car",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": ". Tins. Perofast (120mo)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "02075",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": ". Flunispray Nasal Spray.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "2. กด * 2. สท 25 - 2 บาท",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "Gait",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "D.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "dr.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "Deslor",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        }
+      ],
+      "medications": [
+        {
+          "name": "Dr Md Sakhawat",
+          "matched_term": "Dr Md Sakhawat",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.236
+        },
+        {
+          "name": "Birdem",
+          "matched_term": "Birdem",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.236
+        },
+        {
+          "name": "Pediatric Cmh",
+          "matched_term": "Pediatric Cmh",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.236
+        },
+        {
+          "name": "Date",
+          "matched_term": "Date",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.236
+        },
+        {
+          "name": "Age M",
+          "matched_term": "Age M",
+          "drug_id": "32593a88-50e8-4254-9d22-7d1a52c84504",
+          "brand_id": "86fe087a-92e9-4a39-8921-ab758e162e76",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.616
+        },
+        {
+          "name": "Saliben",
+          "matched_term": "Saliben",
+          "drug_id": "cd25e33a-7964-430b-9df3-e3e0adec026e",
+          "brand_id": "377ff0c3-2d24-4fbb-a27f-f308a3366e74",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.616
+        },
+        {
+          "name": "Tis Tridenil",
+          "matched_term": "Tis Tridenil",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.236
+        },
+        {
+          "name": null,
+          "matched_term": null,
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "500 mg",
+          "frequency": "0+0+2",
+          "quantity": null,
+          "confidence": 0.336
+        },
+        {
+          "name": null,
+          "matched_term": null,
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "200mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.287
+        },
+        {
+          "name": "Rise",
+          "matched_term": "Rise",
+          "drug_id": "be9ee231-41e9-4016-8f3b-1c6b50d72218",
+          "brand_id": "fa0ff396-8264-4bf6-8a26-e1e3d59bf294",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.616
+        },
+        {
+          "name": "Gist",
+          "matched_term": "Gist",
+          "drug_id": "2292a75c-161a-4c0d-acea-15fffb739b73",
+          "brand_id": "62dd549a-fcb2-4d56-be91-56d4261ab053",
+          "dosage": "10mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.667
+        },
+        {
+          "name": "Sap Ambosist",
+          "matched_term": "Sap Ambosist",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.236
+        },
+        {
+          "name": "AP-Car",
+          "matched_term": "AP-Car",
+          "drug_id": "1c2decca-1a58-4d7c-8158-83ebae930ca0",
+          "brand_id": "3af72850-670e-4285-a050-45928c5d6272",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.616
+        },
+        {
+          "name": "Tins Perofast Mo",
+          "matched_term": "Tins Perofast Mo",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.236
+        },
+        {
+          "name": "Fluair Nasal Spray",
+          "matched_term": "Fluair Nasal Spray",
+          "drug_id": "08773e14-f1be-4594-9774-cd684d0b1a48",
+          "brand_id": "1d1462f9-c4d4-42f5-82d6-57c4a7586e7a",
+          "dosage": null,
+          "frequency": "2+2+2",
+          "quantity": null,
+          "confidence": 0.665
+        },
+        {
+          "name": "Gait Dr",
+          "matched_term": "Gait Dr",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.236
+        },
+        {
+          "name": "Deslor",
+          "matched_term": "Deslor",
+          "drug_id": "ad345b67-70cd-4269-a187-86f0bd6b6d7e",
+          "brand_id": "721cd5b1-5ba3-4bae-a767-66c9f7bb548b",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.616
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": null,
+          "matched_term": null,
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "500 mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.223
+        },
+        {
+          "name": "Mis Treidonil",
+          "matched_term": "Mis Treidonil",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": "0+0+2",
+          "quantity": null,
+          "confidence": 0.221
+        },
+        {
+          "name": null,
+          "matched_term": null,
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "200mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.223
+        },
+        {
+          "name": "Maso",
+          "matched_term": "Maso",
+          "drug_id": "84509399-069f-4c88-b2da-7c5110aa38f7",
+          "brand_id": "7508df1f-85a8-4c90-b265-042eb241c2ba",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.552
+        },
+        {
+          "name": "Gives Anokant",
+          "matched_term": "Gives Anokant",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "10mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.223
+        },
+        {
+          "name": "Sup Ambosist",
+          "matched_term": "Sup Ambosist",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.172
+        },
+        {
+          "name": "Gar",
+          "matched_term": "Gar",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.172
+        },
+        {
+          "name": "Pertant Inemto",
+          "matched_term": "Pertant Inemto",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.172
+        },
+        {
+          "name": "Fluair Nasal Spray",
+          "matched_term": "Fluair Nasal Spray",
+          "drug_id": "08773e14-f1be-4594-9774-cd684d0b1a48",
+          "brand_id": "1d1462f9-c4d4-42f5-82d6-57c4a7586e7a",
+          "dosage": null,
+          "frequency": "2+2+2",
+          "quantity": null,
+          "confidence": 0.601
+        }
+      ],
+      "raw_text": "Rx\n(500 mg)\n, Mis. Treidonil\n0+0+2\n(200mg)\n. Mas. Doxcomma\n20072\n* Gives. Anokant (10mg)\n. Sup. Ambosist.\nC\n2 × Gar\n• สช. Pertant (Inemto)\n0,075\n, Flunaspray Nasal Spray.\n2. กด * 2 สฤษ- 2 บาท",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 20431,
+        "detected_regions": 1,
+        "ocr_line_count": 15,
+        "yolo_avg_confidence": 0.8981,
+        "yolo_min_confidence": 0.8981,
+        "yolo_max_confidence": 0.8981,
+        "ocr_avg_confidence": 0.382,
+        "ocr_min_confidence": 0.382,
+        "ocr_max_confidence": 0.382,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 117.12263488769531,
+              "y_min": 221.3025665283203,
+              "x_max": 511.55718994140625,
+              "y_max": 593.2769775390625
+            },
+            "score": 0.8981
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "Rx",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.382
+          },
+          {
+            "text": "(500 mg)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.382
+          },
+          {
+            "text": ", Mis. Treidonil",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.382
+          },
+          {
+            "text": "0+0+2",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.382
+          },
+          {
+            "text": "(200mg)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.382
+          },
+          {
+            "text": ". Mas. Doxcomma",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.382
+          },
+          {
+            "text": "20072",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.382
+          },
+          {
+            "text": "* Gives. Anokant (10mg)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.382
+          },
+          {
+            "text": ". Sup. Ambosist.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.382
+          },
+          {
+            "text": "C",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.382
+          },
+          {
+            "text": "2 × Gar",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.382
+          },
+          {
+            "text": "• สช. Pertant (Inemto)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.382
+          },
+          {
+            "text": "0,075",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.382
+          },
+          {
+            "text": ", Flunaspray Nasal Spray.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.382
+          },
+          {
+            "text": "2. กด * 2 สฤษ- 2 บาท",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.382
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

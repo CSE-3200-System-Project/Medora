@@ -1,0 +1,235 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0039",
+  "source_sha256": "7a681f44b3acf80461c7ed03a2cf22b0ecf015ff877d289e7bb4883b5e81fe81",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:28:30.595863+00:00",
+  "runtime_ms": 20469.913100008853,
+  "output": {
+    "medications": [
+      {
+        "name": null,
+        "matched_term": null,
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "500 mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.223
+      },
+      {
+        "name": "Mis Treidonil",
+        "matched_term": "Mis Treidonil",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": "0+0+2",
+        "quantity": null,
+        "confidence": 0.221
+      },
+      {
+        "name": null,
+        "matched_term": null,
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "200mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.223
+      },
+      {
+        "name": "Maso",
+        "matched_term": "Maso",
+        "drug_id": "84509399-069f-4c88-b2da-7c5110aa38f7",
+        "brand_id": "7508df1f-85a8-4c90-b265-042eb241c2ba",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.552
+      },
+      {
+        "name": "Gives Anokant",
+        "matched_term": "Gives Anokant",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "10mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.223
+      },
+      {
+        "name": "Sup Ambosist",
+        "matched_term": "Sup Ambosist",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.172
+      },
+      {
+        "name": "Gar",
+        "matched_term": "Gar",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.172
+      },
+      {
+        "name": "Pertant Inemto",
+        "matched_term": "Pertant Inemto",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.172
+      },
+      {
+        "name": "Fluair Nasal Spray",
+        "matched_term": "Fluair Nasal Spray",
+        "drug_id": "08773e14-f1be-4594-9774-cd684d0b1a48",
+        "brand_id": "1d1462f9-c4d4-42f5-82d6-57c4a7586e7a",
+        "dosage": null,
+        "frequency": "2+2+2",
+        "quantity": null,
+        "confidence": 0.601
+      }
+    ],
+    "raw_text": "Rx\n(500 mg)\n, Mis. Treidonil\n0+0+2\n(200mg)\n. Mas. Doxcomma\n20072\n* Gives. Anokant (10mg)\n. Sup. Ambosist.\nC\n2 × Gar\n• สช. Pertant (Inemto)\n0,075\n, Flunaspray Nasal Spray.\n2. กด * 2 สฤษ- 2 บาท",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 20431,
+      "detected_regions": 1,
+      "ocr_line_count": 15,
+      "yolo_avg_confidence": 0.8981,
+      "yolo_min_confidence": 0.8981,
+      "yolo_max_confidence": 0.8981,
+      "ocr_avg_confidence": 0.382,
+      "ocr_min_confidence": 0.382,
+      "ocr_max_confidence": 0.382,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 117.12263488769531,
+            "y_min": 221.3025665283203,
+            "x_max": 511.55718994140625,
+            "y_max": 593.2769775390625
+          },
+          "score": 0.8981
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Rx",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.382
+        },
+        {
+          "text": "(500 mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.382
+        },
+        {
+          "text": ", Mis. Treidonil",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.382
+        },
+        {
+          "text": "0+0+2",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.382
+        },
+        {
+          "text": "(200mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.382
+        },
+        {
+          "text": ". Mas. Doxcomma",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.382
+        },
+        {
+          "text": "20072",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.382
+        },
+        {
+          "text": "* Gives. Anokant (10mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.382
+        },
+        {
+          "text": ". Sup. Ambosist.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.382
+        },
+        {
+          "text": "C",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.382
+        },
+        {
+          "text": "2 × Gar",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.382
+        },
+        {
+          "text": "• สช. Pertant (Inemto)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.382
+        },
+        {
+          "text": "0,075",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.382
+        },
+        {
+          "text": ", Flunaspray Nasal Spray.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.382
+        },
+        {
+          "text": "2. กด * 2 สฤษ- 2 บาท",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.382
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

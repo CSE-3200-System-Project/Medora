@@ -1,0 +1,617 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0070",
+  "source_sha256": "2cddb5b7172cffe7adc1ac4aebef3ea1bec868251b799687e4c81b762db8ac08",
+  "raw_transcription": "Tb- Fixeet plus-(250) (4)\nTab - Etorix-(30) (7 270/m)\nGp- Maxpro- (20) (14)",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "Tb- Fixeet Plus",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Etorix",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Maxpro",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "c58d8ae051e886ecf3def24adeb58f0471e520949724f38f343330fd6ab1c42d"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "ee4cdd08ef6f1bdb791d162d9dcf23c26f5cc61989075965790302b7ef775cad"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "680a188bbc3a3020ae8f1adaf547e64c626fa5148093fc950391b099eb2cb08a"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "8\nHE2082\nff\n(OVIS\n.\n01717-879034\n4\nPOET\n4918\n3.224\nR\nC/C\nb-Fixcet\nbErix\n5s\np-Moo-2\nOYE\n5\nGalaxy A04s",
+      "lines": [
+        {
+          "text": "8",
+          "bbox": {
+            "x_min": 99.0,
+            "y_min": 78.0,
+            "x_max": 207.0,
+            "y_max": 102.0
+          },
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "HE2082",
+          "bbox": {
+            "x_min": 326.0,
+            "y_min": 81.0,
+            "x_max": 362.0,
+            "y_max": 88.0
+          },
+          "page": 1,
+          "confidence": 0.304
+        },
+        {
+          "text": "ff",
+          "bbox": {
+            "x_min": 98.0,
+            "y_min": 95.0,
+            "x_max": 238.0,
+            "y_max": 119.0
+          },
+          "page": 1,
+          "confidence": 0.631
+        },
+        {
+          "text": "(OVIS",
+          "bbox": {
+            "x_min": 302.0,
+            "y_min": 96.0,
+            "x_max": 328.0,
+            "y_max": 108.0
+          },
+          "page": 1,
+          "confidence": 0.399
+        },
+        {
+          "text": ".",
+          "bbox": {
+            "x_min": 400.0,
+            "y_min": 111.0,
+            "x_max": 533.0,
+            "y_max": 128.0
+          },
+          "page": 1,
+          "confidence": 0.727
+        },
+        {
+          "text": "01717-879034",
+          "bbox": {
+            "x_min": 101.0,
+            "y_min": 123.0,
+            "x_max": 212.0,
+            "y_max": 142.0
+          },
+          "page": 1,
+          "confidence": 0.972
+        },
+        {
+          "text": "4",
+          "bbox": {
+            "x_min": 467.0,
+            "y_min": 126.0,
+            "x_max": 531.0,
+            "y_max": 142.0
+          },
+          "page": 1,
+          "confidence": 0.385
+        },
+        {
+          "text": "POET",
+          "bbox": {
+            "x_min": 299.0,
+            "y_min": 139.0,
+            "x_max": 327.0,
+            "y_max": 150.0
+          },
+          "page": 1,
+          "confidence": 0.18
+        },
+        {
+          "text": "4918",
+          "bbox": {
+            "x_min": 311.0,
+            "y_min": 158.0,
+            "x_max": 336.0,
+            "y_max": 170.0
+          },
+          "page": 1,
+          "confidence": 0.384
+        },
+        {
+          "text": "3.224",
+          "bbox": {
+            "x_min": 400.0,
+            "y_min": 159.0,
+            "x_max": 490.0,
+            "y_max": 173.0
+          },
+          "page": 1,
+          "confidence": 0.837
+        },
+        {
+          "text": "R",
+          "bbox": {
+            "x_min": 248.0,
+            "y_min": 174.0,
+            "x_max": 272.0,
+            "y_max": 200.0
+          },
+          "page": 1,
+          "confidence": 0.929
+        },
+        {
+          "text": "C/C",
+          "bbox": {
+            "x_min": 96.0,
+            "y_min": 193.0,
+            "x_max": 119.0,
+            "y_max": 210.0
+          },
+          "page": 1,
+          "confidence": 0.891
+        },
+        {
+          "text": "b-Fixcet",
+          "bbox": {
+            "x_min": 265.0,
+            "y_min": 211.0,
+            "x_max": 366.0,
+            "y_max": 235.0
+          },
+          "page": 1,
+          "confidence": 0.901
+        },
+        {
+          "text": "bErix",
+          "bbox": {
+            "x_min": 274.0,
+            "y_min": 262.0,
+            "x_max": 479.0,
+            "y_max": 289.0
+          },
+          "page": 1,
+          "confidence": 0.682
+        },
+        {
+          "text": "5s",
+          "bbox": {
+            "x_min": 324.0,
+            "y_min": 288.0,
+            "x_max": 430.0,
+            "y_max": 310.0
+          },
+          "page": 1,
+          "confidence": 0.401
+        },
+        {
+          "text": "p-Moo-2",
+          "bbox": {
+            "x_min": 273.0,
+            "y_min": 317.0,
+            "x_max": 426.0,
+            "y_max": 343.0
+          },
+          "page": 1,
+          "confidence": 0.613
+        },
+        {
+          "text": "OYE",
+          "bbox": {
+            "x_min": 106.0,
+            "y_min": 329.0,
+            "x_max": 125.0,
+            "y_max": 337.0
+          },
+          "page": 1,
+          "confidence": 0.583
+        },
+        {
+          "text": "5",
+          "bbox": {
+            "x_min": 340.0,
+            "y_min": 449.0,
+            "x_max": 378.0,
+            "y_max": 458.0
+          },
+          "page": 1,
+          "confidence": 0.335
+        },
+        {
+          "text": "Galaxy A04s",
+          "bbox": {
+            "x_min": 108.0,
+            "y_min": 591.0,
+            "x_max": 190.0,
+            "y_max": 608.0
+          },
+          "page": 1,
+          "confidence": 0.94
+        }
+      ],
+      "medications": [
+        {
+          "name": "Ovis",
+          "matched_term": "Ovis",
+          "drug_id": "cd767619-78d4-40a7-a858-79304b8a78eb",
+          "brand_id": "0ea4172f-12a7-4f87-b2cf-ba2cc15fbc8b",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.659
+        },
+        {
+          "name": "Poet",
+          "matched_term": "Poet",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.29
+        },
+        {
+          "name": "B-Fixcet",
+          "matched_term": "B-Fixcet",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.405
+        },
+        {
+          "name": "Berin",
+          "matched_term": "Berin",
+          "drug_id": "18a55195-63f9-498a-ae1a-9b96d6cf1a7d",
+          "brand_id": "04a05085-676d-4978-b9fd-8ee601c245a4",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.624
+        },
+        {
+          "name": "P-Mol",
+          "matched_term": "P-Mol",
+          "drug_id": "4a7cd0b3-0092-47de-9160-8010dc2b00cc",
+          "brand_id": "9b33c68c-0fe2-48e2-a5bb-3b64b3de9426",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.492
+        },
+        {
+          "name": "Joyex",
+          "matched_term": "Joyex",
+          "drug_id": "49b07d6d-c94f-4461-abd7-e3d1352682ea",
+          "brand_id": "b98ee611-e8ec-4659-8200-1fc6bc43368b",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.587
+        },
+        {
+          "name": "Galaxy",
+          "matched_term": "Galaxy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.423
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "साकारकर समग्र :\nअंकिनिन मकान से, on) की क्यूटफ\nकुमार :\nया फनान , कयान\nमावाल्मंड रखाव:्यासगार, पालनव शंज्ञा\nभाई शमिबूल समान\nकि.डि.मि. बाद. समाधि ( ग्रहऋणरिंगनाम)\n(सून 5 नाटकन ऊ नन दनिधन झाड)\nमायारेन 1 01717-879034\nनाम है\nकाविन: 3.2.24\nC/C\nTb-Fixoet plus (250)(14)\n2-62 अवाय नम -\nTab - Eforcix- (2) (कामा वरफाल\nONE\n@p Moxpri0-(20) (14)\n2नजर धाचान फोर्ड\n3.2.27\nGalaxy A04s",
+      "lines": [
+        {
+          "text": "साकारकर समग्र :",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.362
+        },
+        {
+          "text": "अंकिनिन मकान से, on) की क्यूटफ",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.362
+        },
+        {
+          "text": "कुमार :",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.362
+        },
+        {
+          "text": "या फनान , कयान",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.362
+        },
+        {
+          "text": "मावाल्मंड रखाव:्यासगार, पालनव शंज्ञा",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.362
+        },
+        {
+          "text": "भाई शमिबूल समान",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.362
+        },
+        {
+          "text": "कि.डि.मि. बाद. समाधि ( ग्रहऋणरिंगनाम)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.362
+        },
+        {
+          "text": "(सून 5 नाटकन ऊ नन दनिधन झाड)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.362
+        },
+        {
+          "text": "मायारेन 1 01717-879034",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.362
+        },
+        {
+          "text": "नाम है",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.362
+        },
+        {
+          "text": "काविन: 3.2.24",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.362
+        },
+        {
+          "text": "C/C",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.362
+        },
+        {
+          "text": "Tb-Fixoet plus (250)(14)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.362
+        },
+        {
+          "text": "2-62 अवाय नम -",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.362
+        },
+        {
+          "text": "Tab - Eforcix- (2) (कामा वरफाल",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.362
+        },
+        {
+          "text": "ONE",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.362
+        },
+        {
+          "text": "@p Moxpri0-(20) (14)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.362
+        },
+        {
+          "text": "2नजर धाचान फोर्ड",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.362
+        },
+        {
+          "text": "3.2.27",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.362
+        },
+        {
+          "text": "Galaxy A04s",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.362
+        }
+      ],
+      "medications": [
+        {
+          "name": "Tb-Fixoet Plus",
+          "matched_term": "Tb-Fixoet Plus",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.163
+        },
+        {
+          "name": "Eforcix",
+          "matched_term": "Eforcix",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.163
+        },
+        {
+          "name": "One",
+          "matched_term": "One",
+          "drug_id": "7a0d5861-e33d-4c57-bcc0-0db12e2d3495",
+          "brand_id": "d5d56cde-21e6-448a-9d62-ae293b8b6642",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.543
+        },
+        {
+          "name": "Galaxy",
+          "matched_term": "Galaxy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.163
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "Tb- Fixeet Plus",
+          "matched_term": "Tb- Fixeet Plus",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.186
+        },
+        {
+          "name": "Etorix",
+          "matched_term": "Etorix",
+          "drug_id": "389c3ff0-0eff-48ee-95b6-cf8853145229",
+          "brand_id": "7c9e1efb-1703-4b48-a88b-17068617057a",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.566
+        },
+        {
+          "name": "Maxpro",
+          "matched_term": "Maxpro",
+          "drug_id": "7c43c194-2c56-4b11-8f86-5d97549a387d",
+          "brand_id": "2d432cb7-9868-42bb-b2ea-331172c4d4b9",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.566
+        }
+      ],
+      "raw_text": "Tb- Fixeet plus-(250) (4)\nTab - Etorix-(30) (7 270/m)\nGp- Maxpro- (20) (14)",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 5615,
+        "detected_regions": 1,
+        "ocr_line_count": 3,
+        "yolo_avg_confidence": 0.9097,
+        "yolo_min_confidence": 0.9097,
+        "yolo_max_confidence": 0.9097,
+        "ocr_avg_confidence": 0.413,
+        "ocr_min_confidence": 0.413,
+        "ocr_max_confidence": 0.413,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 244.85592651367188,
+              "y_min": 188.8843994140625,
+              "x_max": 517.23876953125,
+              "y_max": 380.34765625
+            },
+            "score": 0.9097
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "Tb- Fixeet plus-(250) (4)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.413
+          },
+          {
+            "text": "Tab - Etorix-(30) (7 270/m)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.413
+          },
+          {
+            "text": "Gp- Maxpro- (20) (14)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.413
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

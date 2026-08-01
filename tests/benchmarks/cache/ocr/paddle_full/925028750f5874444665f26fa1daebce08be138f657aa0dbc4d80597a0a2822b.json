@@ -1,0 +1,761 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "paddle_full",
+  "source_sha256": "925028750f5874444665f26fa1daebce08be138f657aa0dbc4d80597a0a2822b",
+  "record_id": "RX-0091",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "runtime_ms": 30128.90180000977,
+  "failure": null,
+  "response_sha256": "9814d0da3b527e589de00f5ed9e92d7723c0ad0319ddceadf665c0f4ae8ac693",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBUC OF BANGLADESH\nMakahy/Madinah/Jeddah\ndesh Hatolfe\nModcalCo\nTREATMENTCAR\ngon\nPUcOtNG\nS038\none\nEPFAGOOWAS\nNATOE\nMLE\nSerbeno\nDa\n07\nThoTeN\nHEALTH PROFILE\nBood Grne\n8\nCHASL\n2\n10\n1\n3\n2\nHg Hxery\nChiel Cornglains\nVadNo\ntohnproxntg\nDE\n+0+\nPubn\nTemp\n3\nnpc inm\nAwemia\nDuytason\n-5\nRaeqiraton\nMs pm\nO\n102\n-\n0mp2m\n+0+\n-\n3\nt3\nECG\nne adm2y.0s\nProvslonai Diagonosis\n0\n20\npockiu\n(100\n9\n4\n+0+\nUSHT\nX\n5\nHOS\n0\nTub loSatan\nO\n00+D\nK",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBUC OF BANGLADESH",
+        "bbox": {
+          "x_min": 203.0,
+          "y_min": 59.0,
+          "x_max": 451.0,
+          "y_max": 78.0
+        },
+        "page": 1,
+        "confidence": 0.911
+      },
+      {
+        "text": "Makahy/Madinah/Jeddah",
+        "bbox": {
+          "x_min": 280.0,
+          "y_min": 88.0,
+          "x_max": 372.0,
+          "y_max": 102.0
+        },
+        "page": 1,
+        "confidence": 0.824
+      },
+      {
+        "text": "desh Hatolfe",
+        "bbox": {
+          "x_min": 311.0,
+          "y_min": 82.0,
+          "x_max": 363.0,
+          "y_max": 89.0
+        },
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "ModcalCo",
+        "bbox": {
+          "x_min": 158.0,
+          "y_min": 103.0,
+          "x_max": 222.0,
+          "y_max": 129.0
+        },
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "TREATMENTCAR",
+        "bbox": {
+          "x_min": 268.0,
+          "y_min": 99.0,
+          "x_max": 390.0,
+          "y_max": 122.0
+        },
+        "page": 1,
+        "confidence": 0.811
+      },
+      {
+        "text": "gon",
+        "bbox": {
+          "x_min": 161.0,
+          "y_min": 120.0,
+          "x_max": 191.0,
+          "y_max": 131.0
+        },
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "PUcOtNG",
+        "bbox": {
+          "x_min": 280.0,
+          "y_min": 118.0,
+          "x_max": 323.0,
+          "y_max": 134.0
+        },
+        "page": 1,
+        "confidence": 0.533
+      },
+      {
+        "text": "S038",
+        "bbox": {
+          "x_min": 401.0,
+          "y_min": 112.0,
+          "x_max": 465.0,
+          "y_max": 129.0
+        },
+        "page": 1,
+        "confidence": 0.823
+      },
+      {
+        "text": "one",
+        "bbox": {
+          "x_min": 160.0,
+          "y_min": 131.0,
+          "x_max": 178.0,
+          "y_max": 142.0
+        },
+        "page": 1,
+        "confidence": 0.516
+      },
+      {
+        "text": "EPFAGOOWAS",
+        "bbox": {
+          "x_min": 191.0,
+          "y_min": 124.0,
+          "x_max": 255.0,
+          "y_max": 138.0
+        },
+        "page": 1,
+        "confidence": 0.375
+      },
+      {
+        "text": "NATOE",
+        "bbox": {
+          "x_min": 338.0,
+          "y_min": 122.0,
+          "x_max": 376.0,
+          "y_max": 137.0
+        },
+        "page": 1,
+        "confidence": 0.334
+      },
+      {
+        "text": "MLE",
+        "bbox": {
+          "x_min": 190.0,
+          "y_min": 135.0,
+          "x_max": 210.0,
+          "y_max": 146.0
+        },
+        "page": 1,
+        "confidence": 0.808
+      },
+      {
+        "text": "Serbeno",
+        "bbox": {
+          "x_min": 403.0,
+          "y_min": 126.0,
+          "x_max": 438.0,
+          "y_max": 140.0
+        },
+        "page": 1,
+        "confidence": 0.414
+      },
+      {
+        "text": "Da",
+        "bbox": {
+          "x_min": 236.0,
+          "y_min": 134.0,
+          "x_max": 295.0,
+          "y_max": 150.0
+        },
+        "page": 1,
+        "confidence": 0.531
+      },
+      {
+        "text": "07",
+        "bbox": {
+          "x_min": 437.0,
+          "y_min": 128.0,
+          "x_max": 454.0,
+          "y_max": 136.0
+        },
+        "page": 1,
+        "confidence": 0.382
+      },
+      {
+        "text": "ThoTeN",
+        "bbox": {
+          "x_min": 385.0,
+          "y_min": 142.0,
+          "x_max": 429.0,
+          "y_max": 156.0
+        },
+        "page": 1,
+        "confidence": 0.417
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": {
+          "x_min": 286.0,
+          "y_min": 152.0,
+          "x_max": 362.0,
+          "y_max": 169.0
+        },
+        "page": 1,
+        "confidence": 0.938
+      },
+      {
+        "text": "Bood Grne",
+        "bbox": {
+          "x_min": 228.0,
+          "y_min": 167.0,
+          "x_max": 274.0,
+          "y_max": 177.0
+        },
+        "page": 1,
+        "confidence": 0.502
+      },
+      {
+        "text": "8",
+        "bbox": {
+          "x_min": 281.0,
+          "y_min": 164.0,
+          "x_max": 298.0,
+          "y_max": 184.0
+        },
+        "page": 1,
+        "confidence": 0.11
+      },
+      {
+        "text": "CHASL",
+        "bbox": {
+          "x_min": 228.0,
+          "y_min": 174.0,
+          "x_max": 250.0,
+          "y_max": 181.0
+        },
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "2",
+        "bbox": {
+          "x_min": 363.0,
+          "y_min": 168.0,
+          "x_max": 415.0,
+          "y_max": 182.0
+        },
+        "page": 1,
+        "confidence": 0.576
+      },
+      {
+        "text": "10",
+        "bbox": {
+          "x_min": 441.0,
+          "y_min": 167.0,
+          "x_max": 462.0,
+          "y_max": 184.0
+        },
+        "page": 1,
+        "confidence": 0.298
+      },
+      {
+        "text": "1",
+        "bbox": {
+          "x_min": 220.0,
+          "y_min": 175.0,
+          "x_max": 282.0,
+          "y_max": 201.0
+        },
+        "page": 1,
+        "confidence": 0.174
+      },
+      {
+        "text": "3",
+        "bbox": {
+          "x_min": 279.0,
+          "y_min": 180.0,
+          "x_max": 297.0,
+          "y_max": 199.0
+        },
+        "page": 1,
+        "confidence": 0.062
+      },
+      {
+        "text": "2",
+        "bbox": {
+          "x_min": 368.0,
+          "y_min": 182.0,
+          "x_max": 374.0,
+          "y_max": 187.0
+        },
+        "page": 1,
+        "confidence": 0.111
+      },
+      {
+        "text": "Hg Hxery",
+        "bbox": {
+          "x_min": 221.0,
+          "y_min": 201.0,
+          "x_max": 270.0,
+          "y_max": 211.0
+        },
+        "page": 1,
+        "confidence": 0.601
+      },
+      {
+        "text": "Chiel Cornglains",
+        "bbox": {
+          "x_min": 150.0,
+          "y_min": 216.0,
+          "x_max": 221.0,
+          "y_max": 233.0
+        },
+        "page": 1,
+        "confidence": 0.695
+      },
+      {
+        "text": "VadNo",
+        "bbox": {
+          "x_min": 254.0,
+          "y_min": 219.0,
+          "x_max": 281.0,
+          "y_max": 232.0
+        },
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "tohnproxntg",
+        "bbox": {
+          "x_min": 260.0,
+          "y_min": 240.0,
+          "x_max": 424.0,
+          "y_max": 265.0
+        },
+        "page": 1,
+        "confidence": 0.597
+      },
+      {
+        "text": "DE",
+        "bbox": {
+          "x_min": 145.0,
+          "y_min": 257.0,
+          "x_max": 164.0,
+          "y_max": 269.0
+        },
+        "page": 1,
+        "confidence": 0.647
+      },
+      {
+        "text": "+0+",
+        "bbox": {
+          "x_min": 287.0,
+          "y_min": 255.0,
+          "x_max": 451.0,
+          "y_max": 283.0
+        },
+        "page": 1,
+        "confidence": 0.702
+      },
+      {
+        "text": "Pubn",
+        "bbox": {
+          "x_min": 145.0,
+          "y_min": 269.0,
+          "x_max": 166.0,
+          "y_max": 281.0
+        },
+        "page": 1,
+        "confidence": 0.653
+      },
+      {
+        "text": "Temp",
+        "bbox": {
+          "x_min": 145.0,
+          "y_min": 294.0,
+          "x_max": 162.0,
+          "y_max": 302.0
+        },
+        "page": 1,
+        "confidence": 0.875
+      },
+      {
+        "text": "3",
+        "bbox": {
+          "x_min": 230.0,
+          "y_min": 290.0,
+          "x_max": 241.0,
+          "y_max": 298.0
+        },
+        "page": 1,
+        "confidence": 0.11
+      },
+      {
+        "text": "npc inm",
+        "bbox": {
+          "x_min": 283.0,
+          "y_min": 285.0,
+          "x_max": 424.0,
+          "y_max": 305.0
+        },
+        "page": 1,
+        "confidence": 0.631
+      },
+      {
+        "text": "Awemia",
+        "bbox": {
+          "x_min": 143.0,
+          "y_min": 303.0,
+          "x_max": 171.0,
+          "y_max": 313.0
+        },
+        "page": 1,
+        "confidence": 0.786
+      },
+      {
+        "text": "Duytason",
+        "bbox": {
+          "x_min": 137.0,
+          "y_min": 313.0,
+          "x_max": 186.0,
+          "y_max": 330.0
+        },
+        "page": 1,
+        "confidence": 0.673
+      },
+      {
+        "text": "-5",
+        "bbox": {
+          "x_min": 437.0,
+          "y_min": 305.0,
+          "x_max": 467.0,
+          "y_max": 319.0
+        },
+        "page": 1,
+        "confidence": 0.699
+      },
+      {
+        "text": "Raeqiraton",
+        "bbox": {
+          "x_min": 139.0,
+          "y_min": 327.0,
+          "x_max": 179.0,
+          "y_max": 338.0
+        },
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "Ms pm",
+        "bbox": {
+          "x_min": 277.0,
+          "y_min": 323.0,
+          "x_max": 441.0,
+          "y_max": 350.0
+        },
+        "page": 1,
+        "confidence": 0.713
+      },
+      {
+        "text": "O",
+        "bbox": {
+          "x_min": 137.0,
+          "y_min": 338.0,
+          "x_max": 162.0,
+          "y_max": 351.0
+        },
+        "page": 1,
+        "confidence": 0.501
+      },
+      {
+        "text": "102",
+        "bbox": {
+          "x_min": 329.0,
+          "y_min": 351.0,
+          "x_max": 401.0,
+          "y_max": 365.0
+        },
+        "page": 1,
+        "confidence": 0.412
+      },
+      {
+        "text": "-",
+        "bbox": {
+          "x_min": 418.0,
+          "y_min": 352.0,
+          "x_max": 454.0,
+          "y_max": 370.0
+        },
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "0mp2m",
+        "bbox": {
+          "x_min": 279.0,
+          "y_min": 375.0,
+          "x_max": 438.0,
+          "y_max": 401.0
+        },
+        "page": 1,
+        "confidence": 0.777
+      },
+      {
+        "text": "+0+",
+        "bbox": {
+          "x_min": 306.0,
+          "y_min": 398.0,
+          "x_max": 371.0,
+          "y_max": 418.0
+        },
+        "page": 1,
+        "confidence": 0.833
+      },
+      {
+        "text": "-",
+        "bbox": {
+          "x_min": 374.0,
+          "y_min": 401.0,
+          "x_max": 519.0,
+          "y_max": 421.0
+        },
+        "page": 1,
+        "confidence": 0.782
+      },
+      {
+        "text": "3",
+        "bbox": {
+          "x_min": 117.0,
+          "y_min": 427.0,
+          "x_max": 236.0,
+          "y_max": 451.0
+        },
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "t3",
+        "bbox": {
+          "x_min": 466.0,
+          "y_min": 421.0,
+          "x_max": 498.0,
+          "y_max": 445.0
+        },
+        "page": 1,
+        "confidence": 0.322
+      },
+      {
+        "text": "ECG",
+        "bbox": {
+          "x_min": 129.0,
+          "y_min": 447.0,
+          "x_max": 148.0,
+          "y_max": 458.0
+        },
+        "page": 1,
+        "confidence": 0.911
+      },
+      {
+        "text": "ne adm2y.0s",
+        "bbox": {
+          "x_min": 310.0,
+          "y_min": 442.0,
+          "x_max": 497.0,
+          "y_max": 469.0
+        },
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "Provslonai Diagonosis",
+        "bbox": {
+          "x_min": 127.0,
+          "y_min": 472.0,
+          "x_max": 218.0,
+          "y_max": 490.0
+        },
+        "page": 1,
+        "confidence": 0.799
+      },
+      {
+        "text": "0",
+        "bbox": {
+          "x_min": 272.0,
+          "y_min": 471.0,
+          "x_max": 300.0,
+          "y_max": 491.0
+        },
+        "page": 1,
+        "confidence": 0.308
+      },
+      {
+        "text": "20",
+        "bbox": {
+          "x_min": 468.0,
+          "y_min": 465.0,
+          "x_max": 498.0,
+          "y_max": 486.0
+        },
+        "page": 1,
+        "confidence": 0.885
+      },
+      {
+        "text": "pockiu",
+        "bbox": {
+          "x_min": 349.0,
+          "y_min": 470.0,
+          "x_max": 462.0,
+          "y_max": 503.0
+        },
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "(100",
+        "bbox": {
+          "x_min": 239.0,
+          "y_min": 486.0,
+          "x_max": 280.0,
+          "y_max": 514.0
+        },
+        "page": 1,
+        "confidence": 0.893
+      },
+      {
+        "text": "9",
+        "bbox": {
+          "x_min": 312.0,
+          "y_min": 485.0,
+          "x_max": 356.0,
+          "y_max": 507.0
+        },
+        "page": 1,
+        "confidence": 0.195
+      },
+      {
+        "text": "4",
+        "bbox": {
+          "x_min": 223.0,
+          "y_min": 512.0,
+          "x_max": 243.0,
+          "y_max": 528.0
+        },
+        "page": 1,
+        "confidence": 0.243
+      },
+      {
+        "text": "+0+",
+        "bbox": {
+          "x_min": 353.0,
+          "y_min": 501.0,
+          "x_max": 410.0,
+          "y_max": 519.0
+        },
+        "page": 1,
+        "confidence": 0.728
+      },
+      {
+        "text": "USHT",
+        "bbox": {
+          "x_min": 208.0,
+          "y_min": 525.0,
+          "x_max": 229.0,
+          "y_max": 539.0
+        },
+        "page": 1,
+        "confidence": 0.289
+      },
+      {
+        "text": "X",
+        "bbox": {
+          "x_min": 242.0,
+          "y_min": 530.0,
+          "x_max": 253.0,
+          "y_max": 538.0
+        },
+        "page": 1,
+        "confidence": 0.134
+      },
+      {
+        "text": "5",
+        "bbox": {
+          "x_min": 439.0,
+          "y_min": 518.0,
+          "x_max": 494.0,
+          "y_max": 540.0
+        },
+        "page": 1,
+        "confidence": 0.438
+      },
+      {
+        "text": "HOS",
+        "bbox": {
+          "x_min": 178.0,
+          "y_min": 533.0,
+          "x_max": 204.0,
+          "y_max": 554.0
+        },
+        "page": 1,
+        "confidence": 0.312
+      },
+      {
+        "text": "0",
+        "bbox": {
+          "x_min": 225.0,
+          "y_min": 534.0,
+          "x_max": 247.0,
+          "y_max": 550.0
+        },
+        "page": 1,
+        "confidence": 0.727
+      },
+      {
+        "text": "Tub loSatan",
+        "bbox": {
+          "x_min": 320.0,
+          "y_min": 521.0,
+          "x_max": 433.0,
+          "y_max": 553.0
+        },
+        "page": 1,
+        "confidence": 0.604
+      },
+      {
+        "text": "O",
+        "bbox": {
+          "x_min": 209.0,
+          "y_min": 553.0,
+          "x_max": 219.0,
+          "y_max": 561.0
+        },
+        "page": 1,
+        "confidence": 0.313
+      },
+      {
+        "text": "00+D",
+        "bbox": {
+          "x_min": 352.0,
+          "y_min": 544.0,
+          "x_max": 425.0,
+          "y_max": 566.0
+        },
+        "page": 1,
+        "confidence": 0.554
+      },
+      {
+        "text": "K",
+        "bbox": {
+          "x_min": 483.0,
+          "y_min": 566.0,
+          "x_max": 500.0,
+          "y_max": 578.0
+        },
+        "page": 1,
+        "confidence": 0.217
+      }
+    ]
+  }
+}

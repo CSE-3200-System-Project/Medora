@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0058",
+  "source_sha256": "97c701567f634756921ca391cb2e9b3d94635ebbedf49982c3e2327c7eb81672",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:32:23.215947+00:00",
+  "runtime_ms": 6825.240000005579,
+  "output": {
+    "medications": [
+      {
+        "name": "Fixen",
+        "matched_term": "Fixen",
+        "drug_id": "d613ceb8-7d4d-4a4e-8a96-0b455b6f7ac7",
+        "brand_id": "6f57f1c4-31e1-45d5-bb51-5015c6b1ca86",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.561
+      },
+      {
+        "name": "Count Vien",
+        "matched_term": "Count Vien",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.181
+      },
+      {
+        "name": "vasline",
+        "matched_term": "vasline",
+        "drug_id": "9e0985d8-ead5-4ff3-bf80-f68f9374a94b",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.561
+      }
+    ],
+    "raw_text": "8 fixe\n(10\nCount (vien\nVasline\n24.524",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 6791,
+      "detected_regions": 1,
+      "ocr_line_count": 5,
+      "yolo_avg_confidence": 0.8116,
+      "yolo_min_confidence": 0.8116,
+      "yolo_max_confidence": 0.8116,
+      "ocr_avg_confidence": 0.403,
+      "ocr_min_confidence": 0.403,
+      "ocr_max_confidence": 0.403,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 229.0841827392578,
+            "y_min": 239.8619842529297,
+            "x_max": 451.72607421875,
+            "y_max": 418.7798767089844
+          },
+          "score": 0.8116
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "8 fixe",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.403
+        },
+        {
+          "text": "(10",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.403
+        },
+        {
+          "text": "Count (vien",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.403
+        },
+        {
+          "text": "Vasline",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.403
+        },
+        {
+          "text": "24.524",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.403
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

@@ -1,0 +1,266 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "67679b02ad347fe6d7c8babc8db2f93308f70e34636b933cda4f195dcfb07818",
+  "record_id": "RX-0006",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 17122.62520000513,
+  "failure": null,
+  "response_sha256": "507997df3aaa7ac77f707847b9ad41d50bfdaf24d3e69936deae0d6d245ee656",
+  "response": {
+    "raw_text": "(जयणि\nIm\nबसु (बर्यदि)-45\nडिकिश्मक कड़क ब्बाभीव बारश्रज\n1\nब्बाभीव नाग\nw) O Mepo mZit sigelser\n45YRS\nBNS NNM\nस्वाटभव नाग\nडिकिस्मतकब बारशनना\na\ntroenterolo\n11\nDate\n26/2/\nCMH Dnak\n601\nD-22\nUL :\nPain in\nupper abd.\nSIP\nCholecystectomy\nRx,\nTal Pantones\n20mg)\n1+0+1\n20\n. Tab Algin ( sang)\n1+0+1\n10\n.\n102\nMani-\nMONIRA HAQUE RATHE\nTHESOHNGangin\nTrainde in Medicine\nAPDONCMII Dhaka\nबिना\nशनि",
+    "lines": [
+      {
+        "text": "(जयणि",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "Im",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "बसु (बर्यदि)-45",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "डिकिश्मक कड़क ब्बाभीव बारश्रज",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "ब्बाभीव नाग",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "w) O Mepo mZit sigelser",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "45YRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "BNS NNM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "स्वाटभव नाग",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "डिकिस्मतकब बारशनना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "a",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "troenterolo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "11",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "Date",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "26/2/",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "CMH Dnak",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "601",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "D-22",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "UL :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "Pain in",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "upper abd.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "SIP",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "Cholecystectomy",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "Rx,",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "Tal Pantones",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "20mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "1+0+1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": ". Tab Algin ( sang)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "1+0+1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": ".",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "102",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "Mani-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "MONIRA HAQUE RATHE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "THESOHNGangin",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "Trainde in Medicine",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "APDONCMII Dhaka",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "बिना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "शनि",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.58
+      }
+    ]
+  }
+}

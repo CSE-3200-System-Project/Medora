@@ -6,6 +6,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.dependencies import get_db
+from app.core.config import settings
 from app.db.models.ai_interaction import AIFeedback, AIInteraction
 from app.db.models.consultation import Consultation
 from app.db.models.doctor import DoctorProfile
@@ -25,11 +26,13 @@ from app.schemas.ai_orchestrator import (
     AISOAPNotesRequest,
     AIStructureIntakeRequest,
 )
+from app.schemas.processing_consent import ProcessingPurpose
 from app.services.ai_orchestrator import (
     AIExecutionResult,
     AIOrchestratorError,
     ai_orchestrator,
 )
+from app.services.processing_consent import require_processing_consent
 
 router = APIRouter()
 
@@ -71,22 +74,13 @@ async def _require_consultation_ai_permissions(db: AsyncSession, consultation: C
             detail="Doctor has disabled Chorui AI assistance.",
         )
 
-    patient_ai_result = await db.execute(
-        select(
-            PatientProfile.consent_ai,
-            PatientProfile.ai_personal_context_enabled,
-        ).where(PatientProfile.profile_id == consultation.patient_id)
+    await require_processing_consent(
+        db,
+        subject_id=consultation.patient_id,
+        purpose=ProcessingPurpose.EXTERNAL_TEXT_AI,
+        provider=ai_orchestrator.provider,
+        required_scopes={ProcessingPurpose.EXTERNAL_TEXT_AI.value},
     )
-    patient_ai_row = patient_ai_result.first()
-    if patient_ai_row is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Patient medical profile not found")
-    legacy_consent = bool(patient_ai_row[0]) if patient_ai_row[0] is not None else False
-    personal_context_enabled = legacy_consent if patient_ai_row[1] is None else bool(patient_ai_row[1])
-    if not personal_context_enabled:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Patient has disabled Chorui AI personal-context sharing.",
-        )
 
     sharing_result = await db.execute(
         select(PatientDataSharingPreference).where(
@@ -106,11 +100,11 @@ async def _require_consultation_ai_permissions(db: AsyncSession, consultation: C
         )
 
 
-def _build_interaction_response(interaction: AIInteraction) -> AIInteractionResponse:
+def _build_interaction_response(interaction: AIInteraction, output: dict[str, Any]) -> AIInteractionResponse:
     return AIInteractionResponse(
         interaction_id=interaction.id,
         feature=interaction.feature,
-        output=interaction.validated_output or {},
+        output=output,
         validation_status=interaction.validation_status,
         provider=interaction.provider,
         latency_ms=interaction.latency_ms,
@@ -128,9 +122,9 @@ async def _persist_interaction(
         id=str(uuid.uuid4()),
         feature=result.feature,
         prompt_version=result.prompt_version,
-        sanitized_input=result.sanitized_input,
-        raw_output=result.raw_output,
-        validated_output=result.validated_output,
+        sanitized_input=result.sanitized_input if settings.AI_AUDIT_CONTENT_ENABLED else {},
+        raw_output=result.raw_output if settings.AI_AUDIT_CONTENT_ENABLED else None,
+        validated_output=result.validated_output if settings.AI_AUDIT_CONTENT_ENABLED else None,
         validation_status=result.validation_status,
         doctor_action=doctor_action,
         doctor_id=consultation.doctor_id,
@@ -156,7 +150,7 @@ async def _persist_failed_interaction(
         id=str(uuid.uuid4()),
         feature=feature,
         prompt_version=prompt_version,
-        sanitized_input=sanitized_input,
+        sanitized_input=sanitized_input if settings.AI_AUDIT_CONTENT_ENABLED else {},
         raw_output=None,
         validated_output=None,
         validation_status="failed",
@@ -213,7 +207,7 @@ async def ai_patient_summary(
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(exc)) from exc
 
     interaction = await _persist_interaction(db=db, consultation=consultation, result=result)
-    return _build_interaction_response(interaction)
+    return _build_interaction_response(interaction, result.validated_output)
 
 
 @router.post("/{consultation_id}/ai/intake-structure", response_model=AIInteractionResponse)
@@ -244,7 +238,7 @@ async def ai_structure_intake(
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(exc)) from exc
 
     interaction = await _persist_interaction(db=db, consultation=consultation, result=result)
-    return _build_interaction_response(interaction)
+    return _build_interaction_response(interaction, result.validated_output)
 
 
 @router.post("/{consultation_id}/ai/soap-notes", response_model=AIInteractionResponse)
@@ -275,7 +269,7 @@ async def ai_generate_soap_notes(
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(exc)) from exc
 
     interaction = await _persist_interaction(db=db, consultation=consultation, result=result)
-    return _build_interaction_response(interaction)
+    return _build_interaction_response(interaction, result.validated_output)
 
 
 @router.post("/{consultation_id}/ai/clinical-query", response_model=AIInteractionResponse)
@@ -306,7 +300,7 @@ async def ai_clinical_query(
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(exc)) from exc
 
     interaction = await _persist_interaction(db=db, consultation=consultation, result=result)
-    return _build_interaction_response(interaction)
+    return _build_interaction_response(interaction, result.validated_output)
 
 
 @router.post("/{consultation_id}/ai/prescription-suggestions", response_model=AIInteractionResponse)
@@ -337,7 +331,7 @@ async def ai_prescription_suggestions(
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(exc)) from exc
 
     interaction = await _persist_interaction(db=db, consultation=consultation, result=result)
-    return _build_interaction_response(interaction)
+    return _build_interaction_response(interaction, result.validated_output)
 
 
 @router.post("/{consultation_id}/ai/feedback")

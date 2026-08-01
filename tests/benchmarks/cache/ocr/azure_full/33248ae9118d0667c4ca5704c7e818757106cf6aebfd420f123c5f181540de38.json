@@ -1,0 +1,248 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "33248ae9118d0667c4ca5704c7e818757106cf6aebfd420f123c5f181540de38",
+  "record_id": "RX-0072",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 15364.242900002864,
+  "failure": null,
+  "response_sha256": "a849828e2e04618ec993806a23e39c88f689aee4fe1d809b29860ea1896ecf5f",
+  "response": {
+    "raw_text": "नाम :\n-\nभजसी :\nडिकरिश्मा पछेना :\nबादशव वर्णना, भीखगन\nजाखल, बाग निर्णय\nबादश शव\n2 18.04.21-\nmp :\nPur: 62/mm\n130/80 mm 4\nRx\npl\nComer XR\nTS.\nF13\n500 mg\n0+0+ 1/2\nS.754, F14,\nS\nTh : 330 mg\nFRS : 6.8\n2m ABF 8.2\nTy.\nFenocap 2000\n0+0+/\n- 3 month.\nS-ar: 1/2\nN\n(0) Ao\nECG :\nCol (Dr) Muhammad Ariful Islam M\nCI Med Spl\nCMH Dhaka\nAPN\nLipid (F)\naster 01 month.\nकृषी - ०२",
+    "lines": [
+      {
+        "text": "नाम :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "भजसी :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "डिकरिश्मा पछेना :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "बादशव वर्णना, भीखगन",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "जाखल, बाग निर्णय",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "बादश शव",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "2 18.04.21-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "mp :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "Pur: 62/mm",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "130/80 mm 4",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "pl",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "Comer XR",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "TS.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "F13",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "500 mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "0+0+ 1/2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "S.754, F14,",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "S",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "Th : 330 mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "FRS : 6.8",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "2m ABF 8.2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "Ty.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "Fenocap 2000",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "0+0+/",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "- 3 month.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "S-ar: 1/2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "N",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "(0) Ao",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "ECG :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "Col (Dr) Muhammad Ariful Islam M",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "CI Med Spl",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "CMH Dhaka",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "APN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "Lipid (F)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "aster 01 month.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "कृषी - ०२",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.67
+      }
+    ]
+  }
+}

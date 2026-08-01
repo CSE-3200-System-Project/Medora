@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0093",
+  "source_sha256": "69da85af6be56ce6c2dcc6e67ab8072ecd8a6ad29bf239f25fc50a603fb24841",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:38:32.727278+00:00",
+  "runtime_ms": 5629.662699997425,
+  "output": {
+    "medications": [
+      {
+        "name": "Inb Tofor Long",
+        "matched_term": "Inb Tofor Long",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": "0+0+8",
+        "quantity": null,
+        "confidence": 0.176
+      },
+      {
+        "name": "Drie Home",
+        "matched_term": "Drie Home",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.127
+      }
+    ],
+    "raw_text": "-19)\n0+++21103-1)\n. Inb. Tofor long)\n0+0+8 - gina\n. Tab. Drie (home)",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 5587,
+      "detected_regions": 1,
+      "ocr_line_count": 5,
+      "yolo_avg_confidence": 0.8957,
+      "yolo_min_confidence": 0.8957,
+      "yolo_max_confidence": 0.8957,
+      "ocr_avg_confidence": 0.282,
+      "ocr_min_confidence": 0.282,
+      "ocr_max_confidence": 0.282,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 262.1158142089844,
+            "y_min": 236.60635375976562,
+            "x_max": 510.5552978515625,
+            "y_max": 470.7674255371094
+          },
+          "score": 0.8957
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "-19)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.282
+        },
+        {
+          "text": "0+++21103-1)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.282
+        },
+        {
+          "text": ". Inb. Tofor long)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.282
+        },
+        {
+          "text": "0+0+8 - gina",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.282
+        },
+        {
+          "text": ". Tab. Drie (home)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.282
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

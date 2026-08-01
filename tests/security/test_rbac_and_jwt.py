@@ -30,15 +30,85 @@ async def test_invalid_jwt_token_is_rejected(backend_client) -> None:
 
 
 @pytest.mark.asyncio
-async def test_admin_boundary_blocks_non_admin_password_access(backend_client) -> None:
-    denied = await backend_client.get("/admin/test")
-    assert denied.status_code == 403
+async def test_admin_boundary_requires_account_role(
+    backend_client,
+    db_session,
+    auth_token_map,
+) -> None:
+    patient = ProfileFactory(role=UserRole.PATIENT)
+    doctor = ProfileFactory(role=UserRole.DOCTOR)
+    admin = ProfileFactory(role=UserRole.ADMIN)
+    db_session.add_all([patient, doctor, admin])
+    await db_session.commit()
+    auth_token_map.update(
+        {
+            "patient-token": {"sub": patient.id, "email": patient.email},
+            "doctor-token": {"sub": doctor.id, "email": doctor.email},
+            "admin-token": {"sub": admin.id, "email": admin.email},
+        }
+    )
 
-    allowed = await backend_client.get(
+    for token in ("patient-token", "doctor-token"):
+        denied = await backend_client.get(
+            "/admin/test",
+            headers={"Authorization": f"Bearer {token}"},
+        )
+        assert denied.status_code == 403
+
+    password_only = await backend_client.get(
         "/admin/test",
         headers={"x-admin-password": "test-admin-password-123"},
     )
+    assert password_only.status_code in {401, 422}
+
+    allowed = await backend_client.get(
+        "/admin/test",
+        headers={"Authorization": "Bearer admin-token"},
+    )
     assert allowed.status_code == 200
+
+
+@pytest.mark.asyncio
+async def test_role_resource_matrix_denies_every_cross_role_combination(
+    backend_client,
+    db_session,
+    auth_token_map,
+) -> None:
+    """Exercise the 3x3 patient/doctor/admin resource boundary through the API."""
+    patient = ProfileFactory(role=UserRole.PATIENT)
+    doctor = ProfileFactory(role=UserRole.DOCTOR)
+    admin = ProfileFactory(role=UserRole.ADMIN)
+    db_session.add_all(
+        [
+            patient,
+            doctor,
+            admin,
+            PatientProfileFactory(profile_id=patient.id),
+            DoctorProfileFactory(profile_id=doctor.id),
+        ]
+    )
+    await db_session.commit()
+
+    profiles = {"patient": patient, "doctor": doctor, "admin": admin}
+    for role, profile in profiles.items():
+        auth_token_map[f"{role}-matrix-token"] = {
+            "sub": profile.id,
+            "email": profile.email,
+        }
+
+    resources = {
+        "patient": "/consultation/patient/prescriptions",
+        "doctor": "/appointment/doctor/patients",
+        "admin": "/admin/test",
+    }
+    for caller_role in profiles:
+        headers = {"Authorization": f"Bearer {caller_role}-matrix-token"}
+        for resource_role, path in resources.items():
+            response = await backend_client.get(path, headers=headers)
+            if caller_role == resource_role:
+                assert response.status_code == 200, (caller_role, resource_role, response.text)
+            else:
+                assert response.status_code == 403, (caller_role, resource_role, response.text)
 
 
 @pytest.mark.asyncio
@@ -68,7 +138,7 @@ async def test_cross_user_prescription_access_is_blocked(
         doctor_id=doctor.id,
         patient_id=patient_a.id,
         type=PrescriptionType.MEDICATION,
-        status=PrescriptionStatus.PENDING,
+        status=PrescriptionStatus.PENDING_ACKNOWLEDGMENT,
     )
 
     db_session.add_all(

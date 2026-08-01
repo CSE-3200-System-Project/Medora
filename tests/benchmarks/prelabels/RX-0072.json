@@ -1,0 +1,1659 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0072",
+  "source_sha256": "33248ae9118d0667c4ca5704c7e818757106cf6aebfd420f123c5f181540de38",
+  "raw_transcription": "Bp:\n130/80\n62mm\nrx\nDue:\n5.754, F14,\nTy, Comer XR\nTh: 330 mg\nFRS : 6.8\n2m ABA 8.2\nFenocap 2000\n- 3 month\n(0) for\nCol (Dr) Muhammad Ariful Islam M\nR\nAAN\nLipid (F)\nasser 01 month.\nCI Med Spl\nCMH Dhaka\n500 mg\n0+0+ 01/2\nTy.\nar: 1.\n2\nN\n1\n.\nECG\n.\nF13",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "Duet",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Comet Xr",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "A Th",
+      "strength": "330 mg",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Frs",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Abac",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Fenocap",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "3 months",
+      "instructions": ""
+    },
+    {
+      "medicine": "For",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "V-Col",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Aan",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Lolipid",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "01 months",
+      "instructions": ""
+    },
+    {
+      "medicine": "Med Cal",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Cmh Dhaka",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Ty Ar",
+      "strength": "500 mg",
+      "dose": "",
+      "frequency": "0+0+0",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Ecg",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "80a67de8cc51d5560232c269e5fa1f590b2d93e91d63d7ad56dc030e56462f6d"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "582c5b1fcfafff25c242bece7cc6f26cac12dea583a1875e62c23e5a11158ffd"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "be34173f8f2130b60b079ac2e3537f34c8ef811d6112d83048f6687c3a269fa8"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "Cepe\nCanaahannn\ne\nHhoms\ntAb\n(0)\nVXrme\nReS\nd0-1R\nnoouot\n1020\nARO\nennhnka\nCrmepdl\nMorep\n1241\n5\n1\ny\no\nK\nDE\nM\nMRO\nM\n2\nM\nSL\n00\n23\n-\nD\nP\n-\nk/\nOE\n15rs\n2\nwt\nM\na\nho\n2\n8\nO\n33\n3\nm\nb\ncen\n8\nS\nd\n1L\nF",
+      "lines": [
+        {
+          "text": "Cepe",
+          "bbox": {
+            "x_min": 2227.0,
+            "y_min": 171.0,
+            "x_max": 2452.0,
+            "y_max": 563.0
+          },
+          "page": 1,
+          "confidence": 0.577
+        },
+        {
+          "text": "Canaahannn",
+          "bbox": {
+            "x_min": 3442.0,
+            "y_min": 187.0,
+            "x_max": 3587.0,
+            "y_max": 1021.0
+          },
+          "page": 1,
+          "confidence": 0.231
+        },
+        {
+          "text": "e",
+          "bbox": {
+            "x_min": 1620.0,
+            "y_min": 203.0,
+            "x_max": 1764.0,
+            "y_max": 428.0
+          },
+          "page": 1,
+          "confidence": 0.872
+        },
+        {
+          "text": "Hhoms",
+          "bbox": {
+            "x_min": 2684.0,
+            "y_min": 223.0,
+            "x_max": 2855.0,
+            "y_max": 771.0
+          },
+          "page": 1,
+          "confidence": 0.445
+        },
+        {
+          "text": "tAb",
+          "bbox": {
+            "x_min": 2959.0,
+            "y_min": 271.0,
+            "x_max": 3271.0,
+            "y_max": 718.0
+          },
+          "page": 1,
+          "confidence": 0.264
+        },
+        {
+          "text": "(0)",
+          "bbox": {
+            "x_min": 3223.0,
+            "y_min": 352.0,
+            "x_max": 3356.0,
+            "y_max": 727.0
+          },
+          "page": 1,
+          "confidence": 0.496
+        },
+        {
+          "text": "VXrme",
+          "bbox": {
+            "x_min": 1408.0,
+            "y_min": 371.0,
+            "x_max": 1630.0,
+            "y_max": 1215.0
+          },
+          "page": 1,
+          "confidence": 0.419
+        },
+        {
+          "text": "ReS",
+          "bbox": {
+            "x_min": 1604.0,
+            "y_min": 415.0,
+            "x_max": 1785.0,
+            "y_max": 704.0
+          },
+          "page": 1,
+          "confidence": 0.442
+        },
+        {
+          "text": "d0-1R",
+          "bbox": {
+            "x_min": 4445.0,
+            "y_min": 561.0,
+            "x_max": 4572.0,
+            "y_max": 888.0
+          },
+          "page": 1,
+          "confidence": 0.566
+        },
+        {
+          "text": "noouot",
+          "bbox": {
+            "x_min": 2279.0,
+            "y_min": 584.0,
+            "x_max": 2462.0,
+            "y_max": 1202.0
+          },
+          "page": 1,
+          "confidence": 0.473
+        },
+        {
+          "text": "1020",
+          "bbox": {
+            "x_min": 2511.0,
+            "y_min": 645.0,
+            "x_max": 2662.0,
+            "y_max": 1194.0
+          },
+          "page": 1,
+          "confidence": 0.449
+        },
+        {
+          "text": "ARO",
+          "bbox": {
+            "x_min": 622.0,
+            "y_min": 723.0,
+            "x_max": 753.0,
+            "y_max": 920.0
+          },
+          "page": 1,
+          "confidence": 0.774
+        },
+        {
+          "text": "ennhnka",
+          "bbox": {
+            "x_min": 3644.0,
+            "y_min": 715.0,
+            "x_max": 3742.0,
+            "y_max": 1005.0
+          },
+          "page": 1,
+          "confidence": 0.356
+        },
+        {
+          "text": "Crmepdl",
+          "bbox": {
+            "x_min": 3567.0,
+            "y_min": 733.0,
+            "x_max": 3660.0,
+            "y_max": 1007.0
+          },
+          "page": 1,
+          "confidence": 0.32
+        },
+        {
+          "text": "Morep",
+          "bbox": {
+            "x_min": 2954.0,
+            "y_min": 794.0,
+            "x_max": 3077.0,
+            "y_max": 1153.0
+          },
+          "page": 1,
+          "confidence": 0.539
+        },
+        {
+          "text": "1241",
+          "bbox": {
+            "x_min": 338.0,
+            "y_min": 1176.0,
+            "x_max": 457.0,
+            "y_max": 1390.0
+          },
+          "page": 1,
+          "confidence": 0.385
+        },
+        {
+          "text": "5",
+          "bbox": {
+            "x_min": 2988.0,
+            "y_min": 1262.0,
+            "x_max": 3126.0,
+            "y_max": 1427.0
+          },
+          "page": 1,
+          "confidence": 0.618
+        },
+        {
+          "text": "1",
+          "bbox": {
+            "x_min": 2348.0,
+            "y_min": 1342.0,
+            "x_max": 2555.0,
+            "y_max": 1579.0
+          },
+          "page": 1,
+          "confidence": 0.109
+        },
+        {
+          "text": "y",
+          "bbox": {
+            "x_min": 1543.0,
+            "y_min": 1381.0,
+            "x_max": 1697.0,
+            "y_max": 1586.0
+          },
+          "page": 1,
+          "confidence": 0.313
+        },
+        {
+          "text": "o",
+          "bbox": {
+            "x_min": 1290.0,
+            "y_min": 1395.0,
+            "x_max": 1432.0,
+            "y_max": 1515.0
+          },
+          "page": 1,
+          "confidence": 0.179
+        },
+        {
+          "text": "K",
+          "bbox": {
+            "x_min": 1008.0,
+            "y_min": 1409.0,
+            "x_max": 1150.0,
+            "y_max": 1556.0
+          },
+          "page": 1,
+          "confidence": 0.309
+        },
+        {
+          "text": "DE",
+          "bbox": {
+            "x_min": 670.0,
+            "y_min": 1640.0,
+            "x_max": 786.0,
+            "y_max": 2008.0
+          },
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "M",
+          "bbox": {
+            "x_min": 890.0,
+            "y_min": 1779.0,
+            "x_max": 999.0,
+            "y_max": 1886.0
+          },
+          "page": 1,
+          "confidence": 0.173
+        },
+        {
+          "text": "MRO",
+          "bbox": {
+            "x_min": 4047.0,
+            "y_min": 1828.0,
+            "x_max": 4242.0,
+            "y_max": 2134.0
+          },
+          "page": 1,
+          "confidence": 0.329
+        },
+        {
+          "text": "M",
+          "bbox": {
+            "x_min": 958.0,
+            "y_min": 1893.0,
+            "x_max": 1052.0,
+            "y_max": 2033.0
+          },
+          "page": 1,
+          "confidence": 0.658
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 2451.0,
+            "y_min": 1911.0,
+            "x_max": 2597.0,
+            "y_max": 2095.0
+          },
+          "page": 1,
+          "confidence": 0.521
+        },
+        {
+          "text": "M",
+          "bbox": {
+            "x_min": 1230.0,
+            "y_min": 2003.0,
+            "x_max": 1317.0,
+            "y_max": 2110.0
+          },
+          "page": 1,
+          "confidence": 0.75
+        },
+        {
+          "text": "SL",
+          "bbox": {
+            "x_min": 1751.0,
+            "y_min": 2038.0,
+            "x_max": 1902.0,
+            "y_max": 2270.0
+          },
+          "page": 1,
+          "confidence": 0.134
+        },
+        {
+          "text": "00",
+          "bbox": {
+            "x_min": 2473.0,
+            "y_min": 2011.0,
+            "x_max": 2637.0,
+            "y_max": 2204.0
+          },
+          "page": 1,
+          "confidence": 0.356
+        },
+        {
+          "text": "23",
+          "bbox": {
+            "x_min": 2881.0,
+            "y_min": 2068.0,
+            "x_max": 3256.0,
+            "y_max": 2264.0
+          },
+          "page": 1,
+          "confidence": 0.613
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 4058.0,
+            "y_min": 2071.0,
+            "x_max": 4069.0,
+            "y_max": 2082.0
+          },
+          "page": 1,
+          "confidence": 0.12
+        },
+        {
+          "text": "D",
+          "bbox": {
+            "x_min": 4064.0,
+            "y_min": 2065.0,
+            "x_max": 4076.0,
+            "y_max": 2076.0
+          },
+          "page": 1,
+          "confidence": 0.311
+        },
+        {
+          "text": "P",
+          "bbox": {
+            "x_min": 1011.0,
+            "y_min": 2059.0,
+            "x_max": 1199.0,
+            "y_max": 2280.0
+          },
+          "page": 1,
+          "confidence": 0.267
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 3095.0,
+            "y_min": 2136.0,
+            "x_max": 3114.0,
+            "y_max": 2146.0
+          },
+          "page": 1,
+          "confidence": 0.104
+        },
+        {
+          "text": "k/",
+          "bbox": {
+            "x_min": 370.0,
+            "y_min": 2323.0,
+            "x_max": 490.0,
+            "y_max": 2983.0
+          },
+          "page": 1,
+          "confidence": 0.446
+        },
+        {
+          "text": "OE",
+          "bbox": {
+            "x_min": 1329.0,
+            "y_min": 2314.0,
+            "x_max": 1339.0,
+            "y_max": 2335.0
+          },
+          "page": 1,
+          "confidence": 0.218
+        },
+        {
+          "text": "15rs",
+          "bbox": {
+            "x_min": 1827.0,
+            "y_min": 2285.0,
+            "x_max": 2056.0,
+            "y_max": 2603.0
+          },
+          "page": 1,
+          "confidence": 0.231
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 681.0,
+            "y_min": 2341.0,
+            "x_max": 783.0,
+            "y_max": 3017.0
+          },
+          "page": 1,
+          "confidence": 0.466
+        },
+        {
+          "text": "wt",
+          "bbox": {
+            "x_min": 2649.0,
+            "y_min": 2307.0,
+            "x_max": 2837.0,
+            "y_max": 2557.0
+          },
+          "page": 1,
+          "confidence": 0.35
+        },
+        {
+          "text": "M",
+          "bbox": {
+            "x_min": 1187.0,
+            "y_min": 2336.0,
+            "x_max": 1335.0,
+            "y_max": 2459.0
+          },
+          "page": 1,
+          "confidence": 0.615
+        },
+        {
+          "text": "a",
+          "bbox": {
+            "x_min": 2038.0,
+            "y_min": 2357.0,
+            "x_max": 2241.0,
+            "y_max": 2572.0
+          },
+          "page": 1,
+          "confidence": 0.078
+        },
+        {
+          "text": "ho",
+          "bbox": {
+            "x_min": 894.0,
+            "y_min": 2363.0,
+            "x_max": 1040.0,
+            "y_max": 2647.0
+          },
+          "page": 1,
+          "confidence": 0.718
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 3267.0,
+            "y_min": 2350.0,
+            "x_max": 3404.0,
+            "y_max": 2518.0
+          },
+          "page": 1,
+          "confidence": 0.091
+        },
+        {
+          "text": "8",
+          "bbox": {
+            "x_min": 568.0,
+            "y_min": 2423.0,
+            "x_max": 666.0,
+            "y_max": 2967.0
+          },
+          "page": 1,
+          "confidence": 0.514
+        },
+        {
+          "text": "O",
+          "bbox": {
+            "x_min": 2555.0,
+            "y_min": 2421.0,
+            "x_max": 2592.0,
+            "y_max": 2449.0
+          },
+          "page": 1,
+          "confidence": 0.276
+        },
+        {
+          "text": "33",
+          "bbox": {
+            "x_min": 2276.0,
+            "y_min": 2402.0,
+            "x_max": 2450.0,
+            "y_max": 2624.0
+          },
+          "page": 1,
+          "confidence": 0.551
+        },
+        {
+          "text": "3",
+          "bbox": {
+            "x_min": 3095.0,
+            "y_min": 2455.0,
+            "x_max": 3206.0,
+            "y_max": 2589.0
+          },
+          "page": 1,
+          "confidence": 0.103
+        },
+        {
+          "text": "m",
+          "bbox": {
+            "x_min": 2793.0,
+            "y_min": 2545.0,
+            "x_max": 2979.0,
+            "y_max": 2800.0
+          },
+          "page": 1,
+          "confidence": 0.301
+        },
+        {
+          "text": "b",
+          "bbox": {
+            "x_min": 2624.0,
+            "y_min": 2589.0,
+            "x_max": 2831.0,
+            "y_max": 2860.0
+          },
+          "page": 1,
+          "confidence": 0.213
+        },
+        {
+          "text": "cen",
+          "bbox": {
+            "x_min": 3392.0,
+            "y_min": 2578.0,
+            "x_max": 3564.0,
+            "y_max": 2805.0
+          },
+          "page": 1,
+          "confidence": 0.77
+        },
+        {
+          "text": "8",
+          "bbox": {
+            "x_min": 949.0,
+            "y_min": 2589.0,
+            "x_max": 1156.0,
+            "y_max": 3005.0
+          },
+          "page": 1,
+          "confidence": 0.929
+        },
+        {
+          "text": "S",
+          "bbox": {
+            "x_min": 3168.0,
+            "y_min": 2624.0,
+            "x_max": 3281.0,
+            "y_max": 2729.0
+          },
+          "page": 1,
+          "confidence": 0.777
+        },
+        {
+          "text": "d",
+          "bbox": {
+            "x_min": 1357.0,
+            "y_min": 2635.0,
+            "x_max": 1548.0,
+            "y_max": 2881.0
+          },
+          "page": 1,
+          "confidence": 0.503
+        },
+        {
+          "text": "1L",
+          "bbox": {
+            "x_min": 2458.0,
+            "y_min": 2731.0,
+            "x_max": 2567.0,
+            "y_max": 2933.0
+          },
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "F",
+          "bbox": {
+            "x_min": 200.0,
+            "y_min": 2843.0,
+            "x_max": 307.0,
+            "y_max": 2998.0
+          },
+          "page": 1,
+          "confidence": 0.144
+        }
+      ],
+      "medications": [
+        {
+          "name": "Cepe",
+          "matched_term": "Cepe",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.26
+        },
+        {
+          "name": "Canaahannn",
+          "matched_term": "Canaahannn",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.248
+        },
+        {
+          "name": "Hhoms",
+          "matched_term": "Hhoms",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.2
+        },
+        {
+          "name": "C-Tab",
+          "matched_term": "C-Tab",
+          "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+          "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.551
+        },
+        {
+          "name": "Vxrme",
+          "matched_term": "Vxrme",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.189
+        },
+        {
+          "name": "Res",
+          "matched_term": "Res",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.227
+        },
+        {
+          "name": "Noouot",
+          "matched_term": "Noouot",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.207
+        },
+        {
+          "name": "Ennhnka",
+          "matched_term": "Ennhnka",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.16
+        },
+        {
+          "name": "Aro-D",
+          "matched_term": "Aro-D",
+          "drug_id": "d9e502f4-3f8c-4e98-b927-d0b2dbd8e547",
+          "brand_id": "3a2a6d82-3578-4da3-a0ca-8eb35f49f058",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.728
+        },
+        {
+          "name": "Crmepdl",
+          "matched_term": "Crmepdl",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.144
+        },
+        {
+          "name": "Morex",
+          "matched_term": "Morex",
+          "drug_id": "7d9f59c6-a7cf-4f55-ad51-f4b2a110e951",
+          "brand_id": "855a9bb8-c700-4ccf-a987-be23093e6628",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.538
+        },
+        {
+          "name": "Pemro",
+          "matched_term": "Pemro",
+          "drug_id": "359b09a3-4e38-45c7-88fd-2a1405e95389",
+          "brand_id": "3e9c5b32-8dc9-41e1-8e1f-3651e07a81ab",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.544
+        },
+        {
+          "name": "Cen",
+          "matched_term": "Cen",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.255
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "नाम :\n-\nभजसी :\nडिकरिश्मा पछेना :\nबादशव वर्णना, भीखगन\nजाखल, बाग निर्णय\nबादश शव\n2 18.04.21-\nmp :\nPur: 62/mm\n130/80 mm 4\nRx\npl\nComer XR\nTS.\nF13\n500 mg\n0+0+ 1/2\nS.754, F14,\nS\nTh : 330 mg\nFRS : 6.8\n2m ABF 8.2\nTy.\nFenocap 2000\n0+0+/\n- 3 month.\nS-ar: 1/2\nN\n(0) Ao\nECG :\nCol (Dr) Muhammad Ariful Islam M\nCI Med Spl\nCMH Dhaka\nAPN\nLipid (F)\naster 01 month.\nकृषी - ०२",
+      "lines": [
+        {
+          "text": "नाम :",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "भजसी :",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "डिकरिश्मा पछेना :",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "बादशव वर्णना, भीखगन",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "जाखल, बाग निर्णय",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "बादश शव",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "2 18.04.21-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "mp :",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "Pur: 62/mm",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "130/80 mm 4",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "Rx",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "pl",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "Comer XR",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "TS.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "F13",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "500 mg",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "0+0+ 1/2",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "S.754, F14,",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "S",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "Th : 330 mg",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "FRS : 6.8",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "2m ABF 8.2",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "Ty.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "Fenocap 2000",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "0+0+/",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "- 3 month.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "S-ar: 1/2",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "N",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "(0) Ao",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "ECG :",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "Col (Dr) Muhammad Ariful Islam M",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "CI Med Spl",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "CMH Dhaka",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "APN",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "Lipid (F)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "aster 01 month.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "कृषी - ०२",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.67
+        }
+      ],
+      "medications": [
+        {
+          "name": "Pur Mm Mm Rx Pl",
+          "matched_term": "Pur Mm Mm Rx Pl",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.302
+        },
+        {
+          "name": "Comet Xr",
+          "matched_term": "Comet Xr",
+          "drug_id": "11674d97-f845-4c56-826b-8282e4cda811",
+          "brand_id": "05a1fed1-0507-4c7a-9b72-9b4980a3794f",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.681
+        },
+        {
+          "name": null,
+          "matched_term": null,
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "500 mg",
+          "frequency": "0+0+1",
+          "quantity": null,
+          "confidence": 0.402
+        },
+        {
+          "name": "A Th",
+          "matched_term": "A Th",
+          "drug_id": "0496fb01-5fc6-44d6-942d-297b36fff49b",
+          "brand_id": "f882c379-3d91-43a2-86c2-06a66c2e3ab5",
+          "dosage": "330 mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.733
+        },
+        {
+          "name": "Frs",
+          "matched_term": "Frs",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.302
+        },
+        {
+          "name": "Abf Ty",
+          "matched_term": "Abf Ty",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.302
+        },
+        {
+          "name": "Fenocap",
+          "matched_term": "Fenocap",
+          "drug_id": "728e5d77-9ff0-465a-8475-1b5952aa3b89",
+          "brand_id": "415e914d-01cd-4b6a-aecd-39afa8439d01",
+          "dosage": null,
+          "frequency": null,
+          "quantity": "3 months",
+          "confidence": 0.731
+        },
+        {
+          "name": "Ecg",
+          "matched_term": "Ecg",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.302
+        },
+        {
+          "name": "V-Col",
+          "matched_term": "V-Col",
+          "drug_id": "a82a5011-c6d7-4524-a5bc-dbdbbd0e4435",
+          "brand_id": "6be0dc37-3580-49f2-920d-368e8ec72ad7",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.681
+        },
+        {
+          "name": "Med Cal",
+          "matched_term": "Med Cal",
+          "drug_id": "0ce59c9f-0d4d-4bfd-9705-64272510ddd2",
+          "brand_id": "599d5d26-7b25-45d1-9f3e-1afb30dc292d",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.681
+        },
+        {
+          "name": "Cmh Dhaka",
+          "matched_term": "Cmh Dhaka",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.302
+        },
+        {
+          "name": "Apn",
+          "matched_term": "Apn",
+          "drug_id": "105f4c71-5df5-4657-8a39-e502ad03f46a",
+          "brand_id": "216ebba1-fef5-4df8-8e31-6998f460a8c4",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.681
+        },
+        {
+          "name": "Lolipid",
+          "matched_term": "Lolipid",
+          "drug_id": "728e5d77-9ff0-465a-8475-1b5952aa3b89",
+          "brand_id": "8b1f2e3b-72c3-45bf-b13c-d84096edcd0f",
+          "dosage": null,
+          "frequency": null,
+          "quantity": "01 months",
+          "confidence": 0.731
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "Duet",
+          "matched_term": "Duet",
+          "drug_id": "a5c0f110-387e-409e-8e2b-9019bc64a9a1",
+          "brand_id": "2fe081e4-6d8e-47f4-bc14-17ab9ba4f1d2",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.705
+        },
+        {
+          "name": "Comet Xr",
+          "matched_term": "Comet Xr",
+          "drug_id": "11674d97-f845-4c56-826b-8282e4cda811",
+          "brand_id": "05a1fed1-0507-4c7a-9b72-9b4980a3794f",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.705
+        },
+        {
+          "name": "A Th",
+          "matched_term": "A Th",
+          "drug_id": "0496fb01-5fc6-44d6-942d-297b36fff49b",
+          "brand_id": "f882c379-3d91-43a2-86c2-06a66c2e3ab5",
+          "dosage": "330 mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.756
+        },
+        {
+          "name": "Frs",
+          "matched_term": "Frs",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.325
+        },
+        {
+          "name": "Abac",
+          "matched_term": "Abac",
+          "drug_id": "50c37556-84d5-4730-96aa-656feecf8342",
+          "brand_id": "846e536f-c77a-4b1b-a049-02534bf0beab",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.528
+        },
+        {
+          "name": "Fenocap",
+          "matched_term": "Fenocap",
+          "drug_id": "728e5d77-9ff0-465a-8475-1b5952aa3b89",
+          "brand_id": "415e914d-01cd-4b6a-aecd-39afa8439d01",
+          "dosage": null,
+          "frequency": null,
+          "quantity": "3 months",
+          "confidence": 0.754
+        },
+        {
+          "name": "For",
+          "matched_term": "For",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.325
+        },
+        {
+          "name": "V-Col",
+          "matched_term": "V-Col",
+          "drug_id": "a82a5011-c6d7-4524-a5bc-dbdbbd0e4435",
+          "brand_id": "6be0dc37-3580-49f2-920d-368e8ec72ad7",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.705
+        },
+        {
+          "name": "Aan",
+          "matched_term": "Aan",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.325
+        },
+        {
+          "name": "Lolipid",
+          "matched_term": "Lolipid",
+          "drug_id": "728e5d77-9ff0-465a-8475-1b5952aa3b89",
+          "brand_id": "8b1f2e3b-72c3-45bf-b13c-d84096edcd0f",
+          "dosage": null,
+          "frequency": null,
+          "quantity": "01 months",
+          "confidence": 0.754
+        },
+        {
+          "name": "Med Cal",
+          "matched_term": "Med Cal",
+          "drug_id": "0ce59c9f-0d4d-4bfd-9705-64272510ddd2",
+          "brand_id": "599d5d26-7b25-45d1-9f3e-1afb30dc292d",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.705
+        },
+        {
+          "name": "Cmh Dhaka",
+          "matched_term": "Cmh Dhaka",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.325
+        },
+        {
+          "name": "Ty Ar",
+          "matched_term": "Ty Ar",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "500 mg",
+          "frequency": "0+0+0",
+          "quantity": null,
+          "confidence": 0.425
+        },
+        {
+          "name": "Ecg",
+          "matched_term": "Ecg",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.325
+        }
+      ],
+      "raw_text": "Bp:\n130/80\n62mm\nrx\nDue:\n5.754, F14,\nTy, Comer XR\nTh: 330 mg\nFRS : 6.8\n2m ABA 8.2\nFenocap 2000\n- 3 month\n(0) for\nCol (Dr) Muhammad Ariful Islam M\nR\nAAN\nLipid (F)\nasser 01 month.\nCI Med Spl\nCMH Dhaka\n500 mg\n0+0+ 01/2\nTy.\nar: 1.\n2\nN\n1\n.\nECG\n.\nF13",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 17113,
+        "detected_regions": 1,
+        "ocr_line_count": 31,
+        "yolo_avg_confidence": 0.8403,
+        "yolo_min_confidence": 0.8403,
+        "yolo_max_confidence": 0.8403,
+        "ocr_avg_confidence": 0.722,
+        "ocr_min_confidence": 0.722,
+        "ocr_max_confidence": 0.722,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 389.373876953125,
+              "y_min": 1072.9934196472168,
+              "x_max": 3322.473400878906,
+              "y_max": 4482.963890075684
+            },
+            "score": 0.8403
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "Bp:",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.722
+          },
+          {
+            "text": "130/80",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.722
+          },
+          {
+            "text": "62mm",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.722
+          },
+          {
+            "text": "rx",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.722
+          },
+          {
+            "text": "Due:",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.722
+          },
+          {
+            "text": "5.754, F14,",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.722
+          },
+          {
+            "text": "Ty, Comer XR",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.722
+          },
+          {
+            "text": "Th: 330 mg",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.722
+          },
+          {
+            "text": "FRS : 6.8",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.722
+          },
+          {
+            "text": "2m ABA 8.2",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.722
+          },
+          {
+            "text": "Fenocap 2000",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.722
+          },
+          {
+            "text": "- 3 month",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.722
+          },
+          {
+            "text": "(0) for",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.722
+          },
+          {
+            "text": "Col (Dr) Muhammad Ariful Islam M",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.722
+          },
+          {
+            "text": "R",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.722
+          },
+          {
+            "text": "AAN",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.722
+          },
+          {
+            "text": "Lipid (F)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.722
+          },
+          {
+            "text": "asser 01 month.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.722
+          },
+          {
+            "text": "CI Med Spl",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.722
+          },
+          {
+            "text": "CMH Dhaka",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.722
+          },
+          {
+            "text": "500 mg",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.722
+          },
+          {
+            "text": "0+0+ 01/2",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.722
+          },
+          {
+            "text": "Ty.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.722
+          },
+          {
+            "text": "ar: 1.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.722
+          },
+          {
+            "text": "2",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.722
+          },
+          {
+            "text": "N",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.722
+          },
+          {
+            "text": "1",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.722
+          },
+          {
+            "text": ".",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.722
+          },
+          {
+            "text": "ECG",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.722
+          },
+          {
+            "text": ".",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.722
+          },
+          {
+            "text": "F13",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.722
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

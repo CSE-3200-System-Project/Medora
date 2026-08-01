@@ -1,0 +1,290 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "e49c9dc6ec176376b8ef61850a843b303b85e6095fa6b41d4d03ee192e9766f2",
+  "record_id": "RX-0050",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 98332.58370000112,
+  "failure": null,
+  "response_sha256": "02b3d12c9d41db030c70ba533695c92b24b5f30e66016131b713b40b1919439c",
+  "response": {
+    "raw_text": "10/0\nHMY\nउस (बर्माड)-५७\n25\nविकिश्मक कड़क स्वांगीव बारश शद\nsport+ Mepo M2 siddique\nबड़ाम\n45%\n11/3/95\nछिकिस्मतकर सातभूलना\nRx· Cap. Fluelex 500mg\nCle-\n1\naromy chia\nH/o Hyperthyroidism.\n0/20\n1-0m\nTub. Tantonik 20mg\n2 to 40 ->10\nminio\n1-0/h\nAp\n· OGTT\nw. Mona 10 mg\n070 to -20\n1\nhab. Cevit-\n0+0+225\nWere Skuncal Cream\nRf to SPL of\nSlunevs Deplacer on\ny ent DAK for\nOY. A\n$203.\nAha Siddique\nLady\nMedical Oflove\nINIS Hall' Morein\nROOM -\npleur\nts\n7 yrs\nब्बाभीन नांग\n2211-18 बादगद नाग\n· hab. Ale",
+    "lines": [
+      {
+        "text": "10/0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "HMY",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "उस (बर्माड)-५७",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "25",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "विकिश्मक कड़क स्वांगीव बारश शद",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "sport+ Mepo M2 siddique",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "बड़ाम",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "45%",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "11/3/95",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "छिकिस्मतकर सातभूलना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "Rx· Cap. Fluelex 500mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "Cle-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "aromy chia",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "H/o Hyperthyroidism.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "0/20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "1-0m",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "Tub. Tantonik 20mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "2 to 40 ->10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "minio",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "1-0/h",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "Ap",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "· OGTT",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "w. Mona 10 mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "070 to -20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "hab. Cevit-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "0+0+225",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "Were Skuncal Cream",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "Rf to SPL of",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "Slunevs Deplacer on",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "y ent DAK for",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "OY. A",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "$203.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "Aha Siddique",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "Lady",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "Medical Oflove",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "INIS Hall' Morein",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "ROOM -",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "pleur",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "ts",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "7 yrs",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "ब्बाभीन नांग",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "2211-18 बादगद नाग",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "· hab. Ale",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      }
+    ]
+  }
+}

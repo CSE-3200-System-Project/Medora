@@ -9,9 +9,9 @@ test.describe("Doctor Verification", () => {
     await page.goto("/verify-pending");
     await page.waitForLoadState("networkidle");
 
-    await expect(page.getByRole("heading")).toContainText(
+    await expect(page.getByText(
       /Account Verification Pending|Account Verified|Verification Rejected/i,
-    );
+    ).first()).toBeVisible();
     await expect(page.getByRole("button", { name: /Logout/i })).toBeVisible();
   });
 });

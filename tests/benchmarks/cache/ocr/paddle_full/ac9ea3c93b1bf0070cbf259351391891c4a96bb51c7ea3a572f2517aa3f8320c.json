@@ -1,0 +1,189 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "paddle_full",
+  "source_sha256": "ac9ea3c93b1bf0070cbf259351391891c4a96bb51c7ea3a572f2517aa3f8320c",
+  "record_id": "RX-0016",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "runtime_ms": 8059.349500006647,
+  "failure": null,
+  "response_sha256": "d07be9040c15c16bb2509b51f2a42123a3dc26f3cfb24cd3c3c781583e182a4c",
+  "response": {
+    "raw_text": "GOVENMENT OF THE PEOPLES REPUSLC OF BANGLADES\nMENESTRY OFRELIGZOUSARFAIRS\nSO\nUaslohMaorocieddo\nTREATMENT CARDTNPETXR\nX0erKG705\nuN\nHEALTH PROFILE\nTab.\nFRtO\n1E0\nCb..\nPI\n0+)\nE00",
+    "lines": [
+      {
+        "text": "GOVENMENT OF THE PEOPLES REPUSLC OF BANGLADES",
+        "bbox": {
+          "x_min": 203.0,
+          "y_min": 93.0,
+          "x_max": 435.0,
+          "y_max": 110.0
+        },
+        "page": 1,
+        "confidence": 0.836
+      },
+      {
+        "text": "MENESTRY OFRELIGZOUSARFAIRS",
+        "bbox": {
+          "x_min": 256.0,
+          "y_min": 103.0,
+          "x_max": 387.0,
+          "y_max": 120.0
+        },
+        "page": 1,
+        "confidence": 0.848
+      },
+      {
+        "text": "SO",
+        "bbox": {
+          "x_min": 310.0,
+          "y_min": 114.0,
+          "x_max": 363.0,
+          "y_max": 128.0
+        },
+        "page": 1,
+        "confidence": 0.228
+      },
+      {
+        "text": "UaslohMaorocieddo",
+        "bbox": {
+          "x_min": 281.0,
+          "y_min": 126.0,
+          "x_max": 361.0,
+          "y_max": 136.0
+        },
+        "page": 1,
+        "confidence": 0.494
+      },
+      {
+        "text": "TREATMENT CARDTNPETXR",
+        "bbox": {
+          "x_min": 272.0,
+          "y_min": 144.0,
+          "x_max": 379.0,
+          "y_max": 154.0
+        },
+        "page": 1,
+        "confidence": 0.75
+      },
+      {
+        "text": "X0erKG705",
+        "bbox": {
+          "x_min": 395.0,
+          "y_min": 148.0,
+          "x_max": 445.0,
+          "y_max": 159.0
+        },
+        "page": 1,
+        "confidence": 0.46
+      },
+      {
+        "text": "uN",
+        "bbox": {
+          "x_min": 331.0,
+          "y_min": 158.0,
+          "x_max": 363.0,
+          "y_max": 171.0
+        },
+        "page": 1,
+        "confidence": 0.191
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": {
+          "x_min": 298.0,
+          "y_min": 197.0,
+          "x_max": 356.0,
+          "y_max": 207.0
+        },
+        "page": 1,
+        "confidence": 0.951
+      },
+      {
+        "text": "Tab.",
+        "bbox": {
+          "x_min": 297.0,
+          "y_min": 273.0,
+          "x_max": 349.0,
+          "y_max": 294.0
+        },
+        "page": 1,
+        "confidence": 0.874
+      },
+      {
+        "text": "FRtO",
+        "bbox": {
+          "x_min": 344.0,
+          "y_min": 272.0,
+          "x_max": 389.0,
+          "y_max": 288.0
+        },
+        "page": 1,
+        "confidence": 0.585
+      },
+      {
+        "text": "1E0",
+        "bbox": {
+          "x_min": 406.0,
+          "y_min": 272.0,
+          "x_max": 431.0,
+          "y_max": 284.0
+        },
+        "page": 1,
+        "confidence": 0.356
+      },
+      {
+        "text": "Cb..",
+        "bbox": {
+          "x_min": 311.0,
+          "y_min": 307.0,
+          "x_max": 362.0,
+          "y_max": 330.0
+        },
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "PI",
+        "bbox": {
+          "x_min": 361.0,
+          "y_min": 306.0,
+          "x_max": 399.0,
+          "y_max": 321.0
+        },
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "0+)",
+        "bbox": {
+          "x_min": 351.0,
+          "y_min": 323.0,
+          "x_max": 420.0,
+          "y_max": 348.0
+        },
+        "page": 1,
+        "confidence": 0.768
+      },
+      {
+        "text": "E00",
+        "bbox": {
+          "x_min": 168.0,
+          "y_min": 464.0,
+          "x_max": 183.0,
+          "y_max": 474.0
+        },
+        "page": 1,
+        "confidence": 0.523
+      }
+    ]
+  }
+}

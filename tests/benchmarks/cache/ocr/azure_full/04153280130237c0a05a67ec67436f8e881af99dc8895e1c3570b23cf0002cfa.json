@@ -1,0 +1,254 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "04153280130237c0a05a67ec67436f8e881af99dc8895e1c3570b23cf0002cfa",
+  "record_id": "RX-0022",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 46153.45359999628,
+  "failure": null,
+  "response_sha256": "54042d163fa05f903d67c7682f99e98af9795fbaf7d484b15773fdd59bf07b6a",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hall Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / TREM\nTime: G160\nMedical Center:\nN-mo\nFener\nHEALTH PROFILE\n12025\n1. Bioce Group\n1 Limą Chicasel\nI! Bucc Sugar (REST\nF. Monta Dlicaso 79\n10. Liver Disease:\n11; Dnig History\n21 M.9 2024\nChiel Complaints:\nVil: No:\nTen Penanatural\nCup Monthkucin 400 mg\nAnsemis-\nDehydration-\nRespiracun-\nOtriers\nConspira Some\nMeni Petroleum 24-1\nEconozile Cream\nLABSIRBS- 16.3 mm/2\nECG\nProvisional Diagonosis\n1\nบ้านยาย หอม ชง165 1\nएम यदिहम दमनारत फिनिश्मा (त्वचा आदतपड बना 4 कुटुआणि आफियान जमुई भटक खानाक बाड़।\nBRUINE NAOGAON\n19998\nL-AR- 120/ 80 mm- HA\nPoviser Oralment",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Bangladesh Hall Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "TREATMENT CARD / TREM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Time: G160",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Medical Center:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "N-mo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Fener",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "12025",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "1. Bioce Group",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "1 Limą Chicasel",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "I! Bucc Sugar (REST",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "F. Monta Dlicaso 79",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "10. Liver Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "11; Dnig History",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "21 M.9 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Chiel Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Vil: No:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Ten Penanatural",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Cup Monthkucin 400 mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Ansemis-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Respiracun-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Otriers",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Conspira Some",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Meni Petroleum 24-1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Econozile Cream",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "LABSIRBS- 16.3 mm/2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "บ้านยาย หอม ชง165 1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "एम यदिहम दमनारत फिनिश्मा (त्वचा आदतपड बना 4 कुटुआणि आफियान जमुई भटक खानाक बाड़।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "BRUINE NAOGAON",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "19998",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "L-AR- 120/ 80 mm- HA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Poviser Oralment",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      }
+    ]
+  }
+}

@@ -1,0 +1,146 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "dd5c997f98ee0ddc9693363126ca75d12e79ce13674f5582db5aa22ba8dbceca",
+  "record_id": "RX-0030",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 17990.765299997292,
+  "failure": null,
+  "response_sha256": "93324e3ab5b4af4b828e93e4b4e10e79946eafefe5515f933198c0fbd2482fb8",
+  "response": {
+    "raw_text": "Dr. Monowara Begumi\nTak\nOmideas\n2-12 12 ted\nLosectil . v\nCap\nRecipro (spo -)\nWt- 65 kg .\ntárca-2.\n· Cap\nI treacen ( we)\nLower abdominal pain\n( Lett - side )\nTab\nDinew Ground\nDM .\n* THICOTCH वियकृत कर\nनमूनाड़ छाड़ाशननिक (मणाव नि:\nक्रमात = केमनाया गयाएक शामनालान डाजमाथे।\nफ्री फूड (माड, कि.मी. ०-२०२०, हाजमाई\nTOMAT SPI 03949-884008. 03909-329635",
+    "lines": [
+      {
+        "text": "Dr. Monowara Begumi",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Tak",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Omideas",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "2-12 12 ted",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Losectil . v",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Cap",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Recipro (spo -)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Wt- 65 kg .",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "tárca-2.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "· Cap",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "I treacen ( we)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Lower abdominal pain",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "( Lett - side )",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Tab",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Dinew Ground",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "DM .",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "* THICOTCH वियकृत कर",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "नमूनाड़ छाड़ाशननिक (मणाव नि:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "क्रमात = केमनाया गयाएक शामनालान डाजमाथे।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "फ्री फूड (माड, कि.मी. ०-२०२०, हाजमाई",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "TOMAT SPI 03949-884008. 03909-329635",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      }
+    ]
+  }
+}

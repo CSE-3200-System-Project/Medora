@@ -1,7 +1,8 @@
 import { defineConfig, devices } from "@playwright/test";
 
-const baseURL = process.env.E2E_BASE_URL ?? "http://127.0.0.1:3000";
+const baseURL = process.env.E2E_BASE_URL ?? "http://localhost:3000";
 const shouldStartServer = process.env.E2E_START_SERVER === "1";
+const useProductionServer = process.env.E2E_PRODUCTION_SERVER === "1";
 
 export default defineConfig({
   testDir: "./specs",
@@ -34,7 +35,7 @@ export default defineConfig({
   ],
   webServer: shouldStartServer
     ? {
-        command: "npm run dev",
+        command: useProductionServer ? "npm run start" : "npm run dev",
         cwd: "../../frontend",
         url: baseURL,
         reuseExistingServer: true,

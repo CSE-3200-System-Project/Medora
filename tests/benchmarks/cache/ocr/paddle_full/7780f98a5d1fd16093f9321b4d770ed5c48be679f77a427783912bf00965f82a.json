@@ -1,0 +1,640 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "paddle_full",
+  "source_sha256": "7780f98a5d1fd16093f9321b4d770ed5c48be679f77a427783912bf00965f82a",
+  "record_id": "RX-0067",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "runtime_ms": 31614.829099999042,
+  "failure": null,
+  "response_sha256": "6f0ebc6cfca04cbb6731df23fdbba6c5fb733ea543940a807027ee232354860f",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF SANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nMakkan/Madneaiceddan\nPargacean Hsj Cro\nMaaisal Cenn\nTREATMENT GARD\n023\nE F199\n1a30\nSALEABEOM\nFaprtl\ncaas\nM\nHaLe\nCur_D\nT\n229\nS\n92329\nato\na.\n11.DHitey\nChief Conplaints:\n2\n3\nOE\nTlrny\n3500\n8\n280\nHoieu\n3\nTemp-\nSay\nAs\n(+OF\n-\naydration\nKeapretion-\nTun\nVertinImy\nOuers\n)0\nFy\noxyhy y\n++\n/Men Penm ely\nCay.\nPanactame somy\nLRBSC8m\n++9\nECG\nA\nHe\nProv/sional Diagonosis\n24.0T24",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF SANGLADESH",
+        "bbox": {
+          "x_min": 205.0,
+          "y_min": 79.0,
+          "x_max": 451.0,
+          "y_max": 97.0
+        },
+        "page": 1,
+        "confidence": 0.916
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": {
+          "x_min": 259.0,
+          "y_min": 91.0,
+          "x_max": 399.0,
+          "y_max": 104.0
+        },
+        "page": 1,
+        "confidence": 0.924
+      },
+      {
+        "text": "Makkan/Madneaiceddan",
+        "bbox": {
+          "x_min": 282.0,
+          "y_min": 108.0,
+          "x_max": 375.0,
+          "y_max": 122.0
+        },
+        "page": 1,
+        "confidence": 0.747
+      },
+      {
+        "text": "Pargacean Hsj Cro",
+        "bbox": {
+          "x_min": 288.0,
+          "y_min": 101.0,
+          "x_max": 372.0,
+          "y_max": 111.0
+        },
+        "page": 1,
+        "confidence": 0.66
+      },
+      {
+        "text": "Maaisal Cenn",
+        "bbox": {
+          "x_min": 164.0,
+          "y_min": 130.0,
+          "x_max": 209.0,
+          "y_max": 141.0
+        },
+        "page": 1,
+        "confidence": 0.625
+      },
+      {
+        "text": "TREATMENT GARD",
+        "bbox": {
+          "x_min": 271.0,
+          "y_min": 124.0,
+          "x_max": 391.0,
+          "y_max": 138.0
+        },
+        "page": 1,
+        "confidence": 0.79
+      },
+      {
+        "text": "023",
+        "bbox": {
+          "x_min": 199.0,
+          "y_min": 135.0,
+          "x_max": 229.0,
+          "y_max": 149.0
+        },
+        "page": 1,
+        "confidence": 0.36
+      },
+      {
+        "text": "E F199",
+        "bbox": {
+          "x_min": 405.0,
+          "y_min": 132.0,
+          "x_max": 473.0,
+          "y_max": 146.0
+        },
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "1a30",
+        "bbox": {
+          "x_min": 164.0,
+          "y_min": 144.0,
+          "x_max": 180.0,
+          "y_max": 151.0
+        },
+        "page": 1,
+        "confidence": 0.292
+      },
+      {
+        "text": "SALEABEOM",
+        "bbox": {
+          "x_min": 200.0,
+          "y_min": 143.0,
+          "x_max": 251.0,
+          "y_max": 159.0
+        },
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "Faprtl",
+        "bbox": {
+          "x_min": 280.0,
+          "y_min": 144.0,
+          "x_max": 322.0,
+          "y_max": 154.0
+        },
+        "page": 1,
+        "confidence": 0.433
+      },
+      {
+        "text": "caas",
+        "bbox": {
+          "x_min": 349.0,
+          "y_min": 143.0,
+          "x_max": 384.0,
+          "y_max": 153.0
+        },
+        "page": 1,
+        "confidence": 0.428
+      },
+      {
+        "text": "M",
+        "bbox": {
+          "x_min": 408.0,
+          "y_min": 142.0,
+          "x_max": 447.0,
+          "y_max": 156.0
+        },
+        "page": 1,
+        "confidence": 0.346
+      },
+      {
+        "text": "HaLe",
+        "bbox": {
+          "x_min": 202.0,
+          "y_min": 157.0,
+          "x_max": 226.0,
+          "y_max": 169.0
+        },
+        "page": 1,
+        "confidence": 0.555
+      },
+      {
+        "text": "Cur_D",
+        "bbox": {
+          "x_min": 238.0,
+          "y_min": 158.0,
+          "x_max": 294.0,
+          "y_max": 170.0
+        },
+        "page": 1,
+        "confidence": 0.49
+      },
+      {
+        "text": "T",
+        "bbox": {
+          "x_min": 388.0,
+          "y_min": 159.0,
+          "x_max": 466.0,
+          "y_max": 174.0
+        },
+        "page": 1,
+        "confidence": 0.803
+      },
+      {
+        "text": "229",
+        "bbox": {
+          "x_min": 290.0,
+          "y_min": 188.0,
+          "x_max": 305.0,
+          "y_max": 212.0
+        },
+        "page": 1,
+        "confidence": 0.679
+      },
+      {
+        "text": "S",
+        "bbox": {
+          "x_min": 369.0,
+          "y_min": 189.0,
+          "x_max": 419.0,
+          "y_max": 199.0
+        },
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "92329",
+        "bbox": {
+          "x_min": 449.0,
+          "y_min": 190.0,
+          "x_max": 471.0,
+          "y_max": 234.0
+        },
+        "page": 1,
+        "confidence": 0.697
+      },
+      {
+        "text": "ato",
+        "bbox": {
+          "x_min": 451.0,
+          "y_min": 183.0,
+          "x_max": 474.0,
+          "y_max": 198.0
+        },
+        "page": 1,
+        "confidence": 0.424
+      },
+      {
+        "text": "a.",
+        "bbox": {
+          "x_min": 290.0,
+          "y_min": 210.0,
+          "x_max": 303.0,
+          "y_max": 219.0
+        },
+        "page": 1,
+        "confidence": 0.612
+      },
+      {
+        "text": "11.DHitey",
+        "bbox": {
+          "x_min": 222.0,
+          "y_min": 221.0,
+          "x_max": 272.0,
+          "y_max": 232.0
+        },
+        "page": 1,
+        "confidence": 0.601
+      },
+      {
+        "text": "Chief Conplaints:",
+        "bbox": {
+          "x_min": 150.0,
+          "y_min": 236.0,
+          "x_max": 222.0,
+          "y_max": 250.0
+        },
+        "page": 1,
+        "confidence": 0.713
+      },
+      {
+        "text": "2",
+        "bbox": {
+          "x_min": 385.0,
+          "y_min": 236.0,
+          "x_max": 447.0,
+          "y_max": 254.0
+        },
+        "page": 1,
+        "confidence": 0.522
+      },
+      {
+        "text": "3",
+        "bbox": {
+          "x_min": 269.0,
+          "y_min": 251.0,
+          "x_max": 292.0,
+          "y_max": 273.0
+        },
+        "page": 1,
+        "confidence": 0.16
+      },
+      {
+        "text": "OE",
+        "bbox": {
+          "x_min": 145.0,
+          "y_min": 277.0,
+          "x_max": 162.0,
+          "y_max": 288.0
+        },
+        "page": 1,
+        "confidence": 0.378
+      },
+      {
+        "text": "Tlrny",
+        "bbox": {
+          "x_min": 293.0,
+          "y_min": 269.0,
+          "x_max": 451.0,
+          "y_max": 289.0
+        },
+        "page": 1,
+        "confidence": 0.652
+      },
+      {
+        "text": "3500",
+        "bbox": {
+          "x_min": 349.0,
+          "y_min": 288.0,
+          "x_max": 394.0,
+          "y_max": 301.0
+        },
+        "page": 1,
+        "confidence": 0.548
+      },
+      {
+        "text": "8",
+        "bbox": {
+          "x_min": 458.0,
+          "y_min": 281.0,
+          "x_max": 474.0,
+          "y_max": 294.0
+        },
+        "page": 1,
+        "confidence": 0.181
+      },
+      {
+        "text": "280",
+        "bbox": {
+          "x_min": 130.0,
+          "y_min": 297.0,
+          "x_max": 202.0,
+          "y_max": 311.0
+        },
+        "page": 1,
+        "confidence": 0.699
+      },
+      {
+        "text": "Hoieu",
+        "bbox": {
+          "x_min": 339.0,
+          "y_min": 302.0,
+          "x_max": 421.0,
+          "y_max": 321.0
+        },
+        "page": 1,
+        "confidence": 0.452
+      },
+      {
+        "text": "3",
+        "bbox": {
+          "x_min": 441.0,
+          "y_min": 301.0,
+          "x_max": 463.0,
+          "y_max": 322.0
+        },
+        "page": 1,
+        "confidence": 0.159
+      },
+      {
+        "text": "Temp-",
+        "bbox": {
+          "x_min": 141.0,
+          "y_min": 313.0,
+          "x_max": 165.0,
+          "y_max": 324.0
+        },
+        "page": 1,
+        "confidence": 0.882
+      },
+      {
+        "text": "Say",
+        "bbox": {
+          "x_min": 315.0,
+          "y_min": 311.0,
+          "x_max": 342.0,
+          "y_max": 321.0
+        },
+        "page": 1,
+        "confidence": 0.334
+      },
+      {
+        "text": "As",
+        "bbox": {
+          "x_min": 138.0,
+          "y_min": 325.0,
+          "x_max": 172.0,
+          "y_max": 335.0
+        },
+        "page": 1,
+        "confidence": 0.562
+      },
+      {
+        "text": "(+OF",
+        "bbox": {
+          "x_min": 353.0,
+          "y_min": 323.0,
+          "x_max": 394.0,
+          "y_max": 336.0
+        },
+        "page": 1,
+        "confidence": 0.638
+      },
+      {
+        "text": "-",
+        "bbox": {
+          "x_min": 413.0,
+          "y_min": 319.0,
+          "x_max": 444.0,
+          "y_max": 331.0
+        },
+        "page": 1,
+        "confidence": 0.606
+      },
+      {
+        "text": "aydration",
+        "bbox": {
+          "x_min": 135.0,
+          "y_min": 333.0,
+          "x_max": 184.0,
+          "y_max": 349.0
+        },
+        "page": 1,
+        "confidence": 0.712
+      },
+      {
+        "text": "Keapretion-",
+        "bbox": {
+          "x_min": 136.0,
+          "y_min": 348.0,
+          "x_max": 183.0,
+          "y_max": 362.0
+        },
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "Tun",
+        "bbox": {
+          "x_min": 330.0,
+          "y_min": 345.0,
+          "x_max": 348.0,
+          "y_max": 353.0
+        },
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "VertinImy",
+        "bbox": {
+          "x_min": 365.0,
+          "y_min": 334.0,
+          "x_max": 449.0,
+          "y_max": 354.0
+        },
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Ouers",
+        "bbox": {
+          "x_min": 134.0,
+          "y_min": 360.0,
+          "x_max": 160.0,
+          "y_max": 373.0
+        },
+        "page": 1,
+        "confidence": 0.678
+      },
+      {
+        "text": ")0",
+        "bbox": {
+          "x_min": 371.0,
+          "y_min": 357.0,
+          "x_max": 402.0,
+          "y_max": 368.0
+        },
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "Fy",
+        "bbox": {
+          "x_min": 341.0,
+          "y_min": 378.0,
+          "x_max": 363.0,
+          "y_max": 389.0
+        },
+        "page": 1,
+        "confidence": 0.368
+      },
+      {
+        "text": "oxyhy y",
+        "bbox": {
+          "x_min": 380.0,
+          "y_min": 368.0,
+          "x_max": 497.0,
+          "y_max": 391.0
+        },
+        "page": 1,
+        "confidence": 0.526
+      },
+      {
+        "text": "++",
+        "bbox": {
+          "x_min": 379.0,
+          "y_min": 388.0,
+          "x_max": 486.0,
+          "y_max": 409.0
+        },
+        "page": 1,
+        "confidence": 0.819
+      },
+      {
+        "text": "/Men Penm ely",
+        "bbox": {
+          "x_min": 319.0,
+          "y_min": 403.0,
+          "x_max": 471.0,
+          "y_max": 431.0
+        },
+        "page": 1,
+        "confidence": 0.694
+      },
+      {
+        "text": "Cay.",
+        "bbox": {
+          "x_min": 358.0,
+          "y_min": 438.0,
+          "x_max": 388.0,
+          "y_max": 452.0
+        },
+        "page": 1,
+        "confidence": 0.681
+      },
+      {
+        "text": "Panactame somy",
+        "bbox": {
+          "x_min": 399.0,
+          "y_min": 425.0,
+          "x_max": 522.0,
+          "y_max": 450.0
+        },
+        "page": 1,
+        "confidence": 0.696
+      },
+      {
+        "text": "LRBSC8m",
+        "bbox": {
+          "x_min": 117.0,
+          "y_min": 458.0,
+          "x_max": 227.0,
+          "y_max": 475.0
+        },
+        "page": 1,
+        "confidence": 0.706
+      },
+      {
+        "text": "++9",
+        "bbox": {
+          "x_min": 389.0,
+          "y_min": 445.0,
+          "x_max": 533.0,
+          "y_max": 474.0
+        },
+        "page": 1,
+        "confidence": 0.709
+      },
+      {
+        "text": "ECG",
+        "bbox": {
+          "x_min": 122.0,
+          "y_min": 476.0,
+          "x_max": 143.0,
+          "y_max": 488.0
+        },
+        "page": 1,
+        "confidence": 0.98
+      },
+      {
+        "text": "A",
+        "bbox": {
+          "x_min": 494.0,
+          "y_min": 470.0,
+          "x_max": 503.0,
+          "y_max": 478.0
+        },
+        "page": 1,
+        "confidence": 0.087
+      },
+      {
+        "text": "He",
+        "bbox": {
+          "x_min": 482.0,
+          "y_min": 486.0,
+          "x_max": 517.0,
+          "y_max": 500.0
+        },
+        "page": 1,
+        "confidence": 0.235
+      },
+      {
+        "text": "Prov/sional Diagonosis",
+        "bbox": {
+          "x_min": 118.0,
+          "y_min": 503.0,
+          "x_max": 218.0,
+          "y_max": 522.0
+        },
+        "page": 1,
+        "confidence": 0.854
+      },
+      {
+        "text": "24.0T24",
+        "bbox": {
+          "x_min": 480.0,
+          "y_min": 499.0,
+          "x_max": 540.0,
+          "y_max": 516.0
+        },
+        "page": 1,
+        "confidence": 0.782
+      }
+    ]
+  }
+}

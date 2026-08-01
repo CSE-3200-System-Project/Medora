@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "9d794c95dc6989f53bf5efde998607ce9b4234f483fe11172aeaf90000d5c139",
+  "record_id": "RX-0026",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 21088.629799996852,
+  "failure": null,
+  "response_sha256": "dc9db46d3a5707160591d0eb565778645a1b948b65734d39558af427c3b2af1e",
+  "response": {
+    "raw_text": "Tob. Glichizite 80",
+    "lines": [
+      {
+        "text": "Tob. Glichizite 80",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.748
+      }
+    ]
+  }
+}

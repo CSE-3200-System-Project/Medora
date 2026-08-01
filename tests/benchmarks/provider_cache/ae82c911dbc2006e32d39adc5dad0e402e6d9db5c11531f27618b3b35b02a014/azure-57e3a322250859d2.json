@@ -1,0 +1,391 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0045",
+  "source_sha256": "ae82c911dbc2006e32d39adc5dad0e402e6d9db5c11531f27618b3b35b02a014",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:44:23.631459+00:00",
+  "runtime_ms": 120409.9375000078,
+  "output": {
+    "raw_text": "820377\nछिकिश्मक कड़क स्वाभीव वारश श्व\nअभीव नाय oMPH Sio q सक्षम ५७५\nशनि\nबादशव नाग\nEndrocrinology-OPD\nDate :-\n11 +1:0 -2\nSer No :-\nRoom No :-\nC-67\n· A Sub- Acute thyroidiler\n(Hypoth grand phase)\nFF\nTSH= 89.85 uschal.\nPT=5-1 Duralh.\nIssoal 15 day\n11/10/17\n2\nFTA, TSY\nThyrox (50 equ)\n2-to-to (5wTO)\nMD ABDULLAH-AL-MAMI\nMajor\nClassified Spl in Medicine\n(Endocrinologist)\n24 H Dhaka\nR\n55\nरेना\nगतियह\nS/m\nडिकिश्मद्ब बादशाम\nजबानीड\n23-8-",
+    "lines": [
+      {
+        "text": "820377",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "छिकिश्मक कड़क स्वाभीव वारश श्व",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "अभीव नाय oMPH Sio q सक्षम ५७५",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "शनि",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "बादशव नाग",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "Endrocrinology-OPD",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "Date :-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "11 +1:0 -2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "Ser No :-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "Room No :-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "C-67",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "· A Sub- Acute thyroidiler",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "(Hypoth grand phase)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "FF",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "TSH= 89.85 uschal.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "PT=5-1 Duralh.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "Issoal 15 day",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "11/10/17",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "FTA, TSY",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "Thyrox (50 equ)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "2-to-to (5wTO)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "MD ABDULLAH-AL-MAMI",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "Major",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "Classified Spl in Medicine",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "(Endocrinologist)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "24 H Dhaka",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "R",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "55",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "रेना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "गतियह",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "S/m",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "डिकिश्मद्ब बादशाम",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "जबानीड",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "23-8-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      }
+    ],
+    "medications": [
+      {
+        "name": "Omph Sio",
+        "matched_term": "Omph Sio",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.242
+      },
+      {
+        "name": "Endrocrinology-Opd",
+        "matched_term": "Endrocrinology-Opd",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.242
+      },
+      {
+        "name": "Date",
+        "matched_term": "Date",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": "1+0+2",
+        "quantity": null,
+        "confidence": 0.291
+      },
+      {
+        "name": "Sera",
+        "matched_term": "Sera",
+        "drug_id": "0c80f251-c670-4600-a21a-9636e2597190",
+        "brand_id": "b0a44631-faed-4ab1-b3a2-a450bdf611ce",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.622
+      },
+      {
+        "name": "Room No",
+        "matched_term": "Room No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.242
+      },
+      {
+        "name": "Sub- Acute Thyroidiler",
+        "matched_term": "Sub- Acute Thyroidiler",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.242
+      },
+      {
+        "name": "Hypoten",
+        "matched_term": "Hypoten",
+        "drug_id": "83b1372d-43ef-4277-afee-9fcbaabc9f34",
+        "brand_id": "b4957d1b-abf1-4283-94fe-7da27a92ee9c",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.622
+      },
+      {
+        "name": "Batshulary",
+        "matched_term": "Batshulary",
+        "drug_id": "51551439-a8c9-4f23-a901-512010f618d5",
+        "brand_id": "7a2470f0-f45f-4e00-8403-411755b26ccb",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.622
+      },
+      {
+        "name": "Pt Duralh",
+        "matched_term": "Pt Duralh",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": "15 days",
+        "confidence": 0.291
+      },
+      {
+        "name": "Ceftax",
+        "matched_term": "Ceftax",
+        "drug_id": "e951211e-7a43-403f-8caf-3c0038f8e961",
+        "brand_id": "41597df5-b0f6-49af-804f-ecd810cbd362",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.622
+      },
+      {
+        "name": "Thyrox",
+        "matched_term": "Thyrox",
+        "drug_id": "6e4675e6-9d07-42e7-b506-3d6b423f1c93",
+        "brand_id": "ca3e085f-ae52-4682-aed0-8d8454c17c95",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.622
+      },
+      {
+        "name": "Md Abdullah-Al-Mami",
+        "matched_term": "Md Abdullah-Al-Mami",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.242
+      },
+      {
+        "name": "Major",
+        "matched_term": "Major",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.242
+      },
+      {
+        "name": "Classified Spl In",
+        "matched_term": "Classified Spl In",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.242
+      },
+      {
+        "name": "Endocrinologist",
+        "matched_term": "Endocrinologist",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.242
+      },
+      {
+        "name": "Gandhakadi Malahar / Gandhak Malam",
+        "matched_term": "Gandhakadi Malahar / Gandhak Malam",
+        "drug_id": "f88f1aca-87b5-469d-9fd7-3c338892b21b",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.545
+      }
+    ]
+  }
+}

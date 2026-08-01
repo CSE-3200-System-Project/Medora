@@ -1,0 +1,385 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0003",
+  "source_sha256": "e44e16945c106bcbb44afc4d866630e307cf1a11fad5899b89d1f2af7ebf4cb6",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:21:44.705962+00:00",
+  "runtime_ms": 17388.518699997803,
+  "output": {
+    "raw_text": "W/O\n42\nकिकिश्मक कड़क ब्बानीव बादइन4\n40 ye\nजांगीड नाय MEt Siddidee Mego (x) सक्षम\n420377\nहिकिश्माकब बारशमना\nस्वादगव नाग\nशिर\nSIM\n09-06-16\nce -\nDPVY\nAdv\n0\n0\nपति:\n-5, 15Ft.\nQUAVIRRA BO 3MUY\n· Cap,\nsecto\n204\n?tot?\n20\n· Tab. Domin (Joy]\neszyro\n20\n· Cap. Feofol\ntoto\nRend to SPL of\nhe Gynae & obs.\nof DCMH for needful\naction.\nविथ",
+    "lines": [
+      {
+        "text": "W/O",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "42",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "किकिश्मक कड़क ब्बानीव बादइन4",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "40 ye",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "जांगीड नाय MEt Siddidee Mego (x) सक्षम",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "420377",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "हिकिश्माकब बारशमना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "स्वादगव नाग",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "शिर",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "SIM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "09-06-16",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "ce -",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "DPVY",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "Adv",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "पति:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "-5, 15Ft.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "QUAVIRRA BO 3MUY",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "· Cap,",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "secto",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "204",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "?tot?",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "· Tab. Domin (Joy]",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "eszyro",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "· Cap. Feofol",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "toto",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "Rend to SPL of",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "he Gynae & obs.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "of DCMH for needful",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "action.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "विथ",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.534
+      }
+    ],
+    "medications": [
+      {
+        "name": "Met",
+        "matched_term": "Met",
+        "drug_id": "9b1187f0-7a83-469b-ba7e-9767f208c540",
+        "brand_id": "674e7136-7a18-466e-a2cb-ba704f96a6ff",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.62
+      },
+      {
+        "name": "Sim 10",
+        "matched_term": "Sim 10",
+        "drug_id": "7f207bd8-b9f9-454b-b2b9-1e82a32c96fb",
+        "brand_id": "2aa74c48-2b81-4119-8c4c-2b6cbca3b16f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.454
+      },
+      {
+        "name": "Dpvy",
+        "matched_term": "Dpvy",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.24
+      },
+      {
+        "name": "Adv Ft",
+        "matched_term": "Adv Ft",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.24
+      },
+      {
+        "name": "Quavirra Bo Muy",
+        "matched_term": "Quavirra Bo Muy",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.24
+      },
+      {
+        "name": "D-Cap",
+        "matched_term": "D-Cap",
+        "drug_id": "e19d17d9-3fac-4185-8757-32f0d322ee98",
+        "brand_id": "30128340-f4e9-487f-8f85-f67d3b82460f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.62
+      },
+      {
+        "name": "Secto",
+        "matched_term": "Secto",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.24
+      },
+      {
+        "name": "Toti",
+        "matched_term": "Toti",
+        "drug_id": "ce9bb01f-7c41-4462-a295-b236bf931543",
+        "brand_id": "8fca6ded-cf77-4ecc-8993-c7b75090dfed",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.62
+      },
+      {
+        "name": "Domin",
+        "matched_term": "Domin",
+        "drug_id": "a93ef9f9-0a7e-4298-b5a9-d2db5160887b",
+        "brand_id": "a1d867fd-bc4e-4b26-856b-eee54917bd35",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.62
+      },
+      {
+        "name": "Eszyro",
+        "matched_term": "Eszyro",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.24
+      },
+      {
+        "name": "Feofol",
+        "matched_term": "Feofol",
+        "drug_id": "55191a5c-94e5-4798-af83-d1e3d88626fd",
+        "brand_id": "631f4972-8b86-4bf9-a1bb-c7433b7fe969",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.62
+      },
+      {
+        "name": "Toto",
+        "matched_term": "Toto",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.24
+      },
+      {
+        "name": "Rend To Spl",
+        "matched_term": "Rend To Spl",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.24
+      },
+      {
+        "name": "He Gynae Obs",
+        "matched_term": "He Gynae Obs",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.24
+      },
+      {
+        "name": "Of Dcmh For",
+        "matched_term": "Of Dcmh For",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.24
+      },
+      {
+        "name": "Actinion",
+        "matched_term": "Actinion",
+        "drug_id": "ace63150-2259-4658-88ea-7f61efbd9b37",
+        "brand_id": "5bedc0af-07cb-41e8-9bcd-1bb8c9f769ef",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.62
+      }
+    ]
+  }
+}

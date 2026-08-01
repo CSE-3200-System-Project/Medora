@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "2eb266e5dd1fe9d18a00d06afa4ae76179f8e0ed30fa403bb8a61bcffbcca6a7",
+  "record_id": "RX-0008",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 9182.480299990857,
+  "failure": null,
+  "response_sha256": "a384fe5fbbbaca999b2f49924d3b8a39f672a1c3df4c8b25d1bae3bcc0f930db",
+  "response": {
+    "raw_text": "Des (5)\nTab.\notota\nBK\nTab.\notto\n20\nRanitid 1 5oy\n. Tab.\nP\nPervitin Cream)\n9/05\noph.",
+    "lines": [
+      {
+        "text": "Des (5)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.657
+      },
+      {
+        "text": "Tab.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.657
+      },
+      {
+        "text": "otota",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.657
+      },
+      {
+        "text": "BK",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.657
+      },
+      {
+        "text": "Tab.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.657
+      },
+      {
+        "text": "otto",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.657
+      },
+      {
+        "text": "20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.657
+      },
+      {
+        "text": "Ranitid 1 5oy",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.657
+      },
+      {
+        "text": ". Tab.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.657
+      },
+      {
+        "text": "P",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.657
+      },
+      {
+        "text": "Pervitin Cream)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.657
+      },
+      {
+        "text": "9/05",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.657
+      },
+      {
+        "text": "oph.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.657
+      }
+    ]
+  }
+}

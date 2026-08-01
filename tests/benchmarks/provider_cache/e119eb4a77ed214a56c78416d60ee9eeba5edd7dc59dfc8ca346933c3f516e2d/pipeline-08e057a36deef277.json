@@ -1,0 +1,235 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0051",
+  "source_sha256": "e119eb4a77ed214a56c78416d60ee9eeba5edd7dc59dfc8ca346933c3f516e2d",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:31:13.836724+00:00",
+  "runtime_ms": 9111.358900001505,
+  "output": {
+    "medications": [
+      {
+        "name": "Joint-ES",
+        "matched_term": "Joint-ES",
+        "drug_id": "e02673e5-3d63-4701-ba79-ba3614b136e3",
+        "brand_id": "d448250d-c696-427f-8cd9-896a8ddf1a2d",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.615
+      },
+      {
+        "name": "Voligel",
+        "matched_term": "Voligel",
+        "drug_id": "88f32769-6d11-4ce5-8cb5-68011f5596b5",
+        "brand_id": "ed730da6-6201-4aec-aa7d-3f6c0b50b1ad",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.615
+      },
+      {
+        "name": "Butler Oxicam",
+        "matched_term": "Butler Oxicam",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "20Ml",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.286
+      },
+      {
+        "name": "Pantonix",
+        "matched_term": "Pantonix",
+        "drug_id": "02feb704-d572-47fb-86ce-915bb49ae3bf",
+        "brand_id": "774f8bc5-f9e8-4909-9eab-790aff5b6631",
+        "dosage": "20Mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.666
+      },
+      {
+        "name": "Pol",
+        "matched_term": "Pol",
+        "drug_id": "34d4169e-0795-45bb-b29d-4873102e5bdd",
+        "brand_id": "89fa9a12-716b-4564-9051-612558767396",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.615
+      },
+      {
+        "name": "Cartilage Max",
+        "matched_term": "Cartilage Max",
+        "drug_id": "c78e91d9-51f4-47f8-8f6a-3e31b6c592ee",
+        "brand_id": "71a91292-c38b-4018-a2fb-8412cf3e0bd5",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.615
+      },
+      {
+        "name": "Chamber",
+        "matched_term": "Chamber",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.235
+      },
+      {
+        "name": "Hitech Multicare Hospital",
+        "matched_term": "Hitech Multicare Hospital",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.235
+      },
+      {
+        "name": "East",
+        "matched_term": "East",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.235
+      }
+    ],
+    "raw_text": "7\nTM Joint Subluxation. (U)\n1\nVOLIGEL THE ANTIMON.\n/\nButler. OxICAM (20Ml)\n1\nlas. PANTONIX (20Mg)\npoll wow 2/2 close\n1\nClu. CARTILAGE MAX10VS\n14091\nChamber :\nHitech Multicare Hospital Ltd.\n164. East K.",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 9077,
+      "detected_regions": 1,
+      "ocr_line_count": 15,
+      "yolo_avg_confidence": 0.8675,
+      "yolo_min_confidence": 0.8675,
+      "yolo_max_confidence": 0.8675,
+      "ocr_avg_confidence": 0.523,
+      "ocr_min_confidence": 0.523,
+      "ocr_max_confidence": 0.523,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 74.420166015625,
+            "y_min": 431.1778259277344,
+            "x_max": 948.609619140625,
+            "y_max": 1144.556640625
+          },
+          "score": 0.8675
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "7",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.523
+        },
+        {
+          "text": "TM Joint Subluxation. (U)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.523
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.523
+        },
+        {
+          "text": "VOLIGEL THE ANTIMON.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.523
+        },
+        {
+          "text": "/",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.523
+        },
+        {
+          "text": "Butler. OxICAM (20Ml)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.523
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.523
+        },
+        {
+          "text": "las. PANTONIX (20Mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.523
+        },
+        {
+          "text": "poll wow 2/2 close",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.523
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.523
+        },
+        {
+          "text": "Clu. CARTILAGE MAX10VS",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.523
+        },
+        {
+          "text": "14091",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.523
+        },
+        {
+          "text": "Chamber :",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.523
+        },
+        {
+          "text": "Hitech Multicare Hospital Ltd.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.523
+        },
+        {
+          "text": "164. East K.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.523
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

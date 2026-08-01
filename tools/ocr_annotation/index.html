@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Medora Rx Review</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="identity">
+        <span class="mark" aria-hidden="true">M</span>
+        <div><strong>Rx evidence desk</strong><small>Medora SoftwareX corpus</small></div>
+      </div>
+      <div class="session-fields">
+        <label>Reviewer <input id="reviewerId" autocomplete="off" placeholder="reviewer identifier" /></label>
+        <label>Role
+          <select id="reviewerRole">
+            <option value="primary">Trained author</option>
+            <option value="independent">Independent clinician/pharmacist</option>
+            <option value="adjudication">Adjudicator</option>
+          </select>
+        </label>
+        <label>Credential
+          <select id="credentialRole">
+            <option value="trained_author">Trained author</option>
+            <option value="licensed_clinician">Licensed clinician</option>
+            <option value="licensed_pharmacist">Licensed pharmacist</option>
+            <option value="adjudicator">Adjudicator</option>
+          </select>
+        </label>
+        <span id="saveState" class="save-state" role="status">Not saved</span>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <aside class="queue-pane">
+        <div class="pane-title"><div><span class="eyebrow">Corpus</span><h1>Review queue</h1></div><button id="shortcuts" class="icon-button" title="Keyboard shortcuts">?</button></div>
+        <div class="filters">
+          <label>Split<select id="splitFilter"><option value="all">All</option><option value="development">Development</option><option value="test">Held-out test</option></select></label>
+          <label>Difficulty<select id="difficultyFilter"><option value="all">All</option><option value="easy">Easy</option><option value="medium">Medium</option><option value="hard">Hard</option></select></label>
+          <label class="check"><input id="metricsOnly" type="checkbox" checked /> Unique metric set</label>
+        </div>
+        <div id="queueSummary" class="queue-summary"></div>
+        <ol id="recordQueue" class="record-queue"></ol>
+      </aside>
+
+      <section class="evidence-pane">
+        <div class="record-header">
+          <div><span id="recordDifficulty" class="chip">—</span><h2 id="recordTitle">Select a record</h2><code id="recordHash"></code></div>
+          <div class="record-nav"><button id="previousRecord" aria-label="Previous record">K ↑</button><button id="nextRecord" aria-label="Next record">J ↓</button></div>
+        </div>
+        <div class="tool-row" role="toolbar" aria-label="Bounding box tools">
+          <button data-box-tool="rx" class="active">Rx region <kbd>R</kbd></button>
+          <button data-box-tool="line">Text line <kbd>L</kbd></button>
+          <button id="undoBox">Undo box</button>
+          <span>Drag over the source image</span>
+        </div>
+        <div class="canvas-shell"><canvas id="sourceCanvas" aria-label="Prescription image annotation canvas"></canvas></div>
+        <div class="crop-block"><div class="section-label"><span>Rx crop preview</span><small>Derived locally from the first Rx box</small></div><canvas id="cropCanvas"></canvas></div>
+        <div id="boxList" class="box-list"></div>
+      </section>
+
+      <section class="labels-pane">
+        <div class="pane-title"><div><span class="eyebrow">Structured label</span><h2>Transcription & fields</h2></div><button id="saveNow" class="primary-button">Save <kbd>S</kbd></button></div>
+        <div id="blindNotice" class="notice hidden">Independent review is blinded. Model and primary-author labels are unavailable in this role.</div>
+        <button id="loadPrelabel" class="assist-button">Load assisted draft</button>
+        <label class="field full">Raw Rx transcription<textarea id="rawTranscription" rows="7" spellcheck="false" placeholder="Transcribe exactly as written…"></textarea></label>
+        <div class="field-grid">
+          <label class="field">Language<select id="language"><option value="unreviewed">Unreviewed</option><option value="bn">Bangla</option><option value="en">English</option><option value="mixed">Mixed</option><option value="other">Other</option></select></label>
+          <label class="field">Script<select id="script"><option value="unreviewed">Unreviewed</option><option value="bengali">Bengali</option><option value="latin">Latin</option><option value="mixed">Mixed</option></select></label>
+          <label class="field full">Opaque writer/template group<input id="writerTemplateGroup" autocomplete="off" placeholder="for example group-017 (do not enter a person's name)" /></label>
+          <label class="check field"><input id="uncertain" type="checkbox" /> Contains uncertain text</label>
+          <label class="check field"><input id="illegible" type="checkbox" /> Contains illegible text</label>
+        </div>
+        <div class="section-label rows-heading"><span>Medication rows</span><button id="addRow">+ Add row <kbd>N</kbd></button></div>
+        <div id="medicationRows" class="medication-rows"></div>
+        <div class="field-grid quality-grid">
+          <label class="field">Blur<select data-quality="blur"><option>unreviewed</option><option>none</option><option>mild</option><option>severe</option></select></label>
+          <label class="field">Rotation<select data-quality="rotation"><option>unreviewed</option><option>none</option><option>mild</option><option>severe</option></select></label>
+          <label class="field">Contrast<select data-quality="contrast"><option>unreviewed</option><option>good</option><option>low</option><option>uneven</option></select></label>
+          <label class="field">Occlusion<select data-quality="occlusion"><option>unreviewed</option><option>none</option><option>partial</option><option>severe</option></select></label>
+        </div>
+        <label class="field full">Omissions <textarea id="omissions" rows="2" placeholder="Written information that is absent—not guessed"></textarea></label>
+        <label class="field full">Reviewer notes <textarea id="reviewerNotes" rows="3"></textarea></label>
+        <div id="adjudicationFields" class="adjudication hidden">
+          <div class="section-label"><span>Adjudication</span><small>Resolve every disagreement</small></div>
+          <label class="field">State<select id="adjudicationState"><option value="not_started">Not started</option><option value="in_progress">In progress</option><option value="adjudicated">Adjudicated</option></select></label>
+          <label class="field full">Disagreement and resolution<textarea id="disagreement" rows="4"></textarea></label>
+          <div id="comparison" class="comparison"></div>
+        </div>
+      </section>
+    </main>
+
+    <dialog id="shortcutDialog"><h2>Keyboard shortcuts</h2><dl><dt>J / K</dt><dd>Next / previous record</dd><dt>R / L</dt><dd>Rx / line box tool</dd><dt>N</dt><dd>Add medication row</dd><dt>S or Ctrl+S</dt><dd>Save</dd><dt>Esc</dt><dd>Close this reference</dd></dl><button id="closeShortcuts">Close</button></dialog>
+    <template id="rowTemplate"><article class="med-row"><div class="row-number"></div><button class="remove-row" aria-label="Remove medication row">×</button><div class="row-fields"></div><label class="check row-flag"><input data-row-key="uncertain" type="checkbox" /> Uncertain row</label></article></template>
+    <script src="/app.js"></script>
+  </body>
+</html>

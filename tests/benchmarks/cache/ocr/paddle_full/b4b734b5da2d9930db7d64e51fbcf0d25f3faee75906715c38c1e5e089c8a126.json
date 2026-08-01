@@ -1,0 +1,596 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "paddle_full",
+  "source_sha256": "b4b734b5da2d9930db7d64e51fbcf0d25f3faee75906715c38c1e5e089c8a126",
+  "record_id": "RX-0061",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "runtime_ms": 32103.05960000551,
+  "failure": null,
+  "response_sha256": "b5057ce355070694f3831ea30c4ac317c7600b3c21571167ac27881a340a8f93",
+  "response": {
+    "raw_text": "MINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Haj Office\nMakkah/Madinah/Jeddah\nMedical Center\nTREATMENT CARD/\nS043\nPassport No\nA13287124\nMaktab No 09\nMD MOKSEDALI\nAge78\nName_\nGender\nMALE\nDistridNAJPUR\nThaPNA PUR SADAR\nHEALTH PROFILE\n1.Blood Group NC\nO+\n2.Blood Pressure\n3.Heart Disease NO\n4.\nLung Disease\n5.Kidney Diseaseno\n6.\nDiabetes:\n7.Mental Diseaseg7\n18.\n11.Drug History\n9.Weignt.\nChief Complaints:\nVsit No:\nma\nO/E-\nb.\nPulse-\nBP.\nAcpiy\nTemp-/\nC0TE\nAnaem\nL\nDehydration-\nEWW\nRespiration-\n113\nOthers\n2A1a)\n(0\n0t\n4\n18-52y",
+    "lines": [
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": {
+          "x_min": 219.0,
+          "y_min": 102.0,
+          "x_max": 405.0,
+          "y_max": 120.0
+        },
+        "page": 1,
+        "confidence": 0.964
+      },
+      {
+        "text": "Bangladesh Haj Office",
+        "bbox": {
+          "x_min": 256.0,
+          "y_min": 117.0,
+          "x_max": 370.0,
+          "y_max": 133.0
+        },
+        "page": 1,
+        "confidence": 0.946
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": {
+          "x_min": 251.0,
+          "y_min": 130.0,
+          "x_max": 374.0,
+          "y_max": 146.0
+        },
+        "page": 1,
+        "confidence": 0.993
+      },
+      {
+        "text": "Medical Center",
+        "bbox": {
+          "x_min": 92.0,
+          "y_min": 165.0,
+          "x_max": 169.0,
+          "y_max": 184.0
+        },
+        "page": 1,
+        "confidence": 0.983
+      },
+      {
+        "text": "TREATMENT CARD/",
+        "bbox": {
+          "x_min": 238.0,
+          "y_min": 150.0,
+          "x_max": 396.0,
+          "y_max": 173.0
+        },
+        "page": 1,
+        "confidence": 0.945
+      },
+      {
+        "text": "S043",
+        "bbox": {
+          "x_min": 413.0,
+          "y_min": 157.0,
+          "x_max": 488.0,
+          "y_max": 175.0
+        },
+        "page": 1,
+        "confidence": 0.801
+      },
+      {
+        "text": "Passport No",
+        "bbox": {
+          "x_min": 256.0,
+          "y_min": 184.0,
+          "x_max": 315.0,
+          "y_max": 198.0
+        },
+        "page": 1,
+        "confidence": 0.863
+      },
+      {
+        "text": "A13287124",
+        "bbox": {
+          "x_min": 326.0,
+          "y_min": 180.0,
+          "x_max": 370.0,
+          "y_max": 194.0
+        },
+        "page": 1,
+        "confidence": 0.948
+      },
+      {
+        "text": "Maktab No 09",
+        "bbox": {
+          "x_min": 415.0,
+          "y_min": 175.0,
+          "x_max": 474.0,
+          "y_max": 191.0
+        },
+        "page": 1,
+        "confidence": 0.907
+      },
+      {
+        "text": "MD MOKSEDALI",
+        "bbox": {
+          "x_min": 133.0,
+          "y_min": 194.0,
+          "x_max": 198.0,
+          "y_max": 205.0
+        },
+        "page": 1,
+        "confidence": 0.956
+      },
+      {
+        "text": "Age78",
+        "bbox": {
+          "x_min": 439.0,
+          "y_min": 187.0,
+          "x_max": 475.0,
+          "y_max": 205.0
+        },
+        "page": 1,
+        "confidence": 0.929
+      },
+      {
+        "text": "Name_",
+        "bbox": {
+          "x_min": 93.0,
+          "y_min": 201.0,
+          "x_max": 124.0,
+          "y_max": 212.0
+        },
+        "page": 1,
+        "confidence": 0.953
+      },
+      {
+        "text": "Gender",
+        "bbox": {
+          "x_min": 94.0,
+          "y_min": 215.0,
+          "x_max": 123.0,
+          "y_max": 225.0
+        },
+        "page": 1,
+        "confidence": 0.996
+      },
+      {
+        "text": "MALE",
+        "bbox": {
+          "x_min": 130.0,
+          "y_min": 207.0,
+          "x_max": 159.0,
+          "y_max": 221.0
+        },
+        "page": 1,
+        "confidence": 0.995
+      },
+      {
+        "text": "DistridNAJPUR",
+        "bbox": {
+          "x_min": 205.0,
+          "y_min": 207.0,
+          "x_max": 269.0,
+          "y_max": 225.0
+        },
+        "page": 1,
+        "confidence": 0.867
+      },
+      {
+        "text": "ThaPNA PUR SADAR",
+        "bbox": {
+          "x_min": 391.0,
+          "y_min": 201.0,
+          "x_max": 476.0,
+          "y_max": 220.0
+        },
+        "page": 1,
+        "confidence": 0.855
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": {
+          "x_min": 278.0,
+          "y_min": 227.0,
+          "x_max": 362.0,
+          "y_max": 245.0
+        },
+        "page": 1,
+        "confidence": 0.96
+      },
+      {
+        "text": "1.Blood Group NC",
+        "bbox": {
+          "x_min": 191.0,
+          "y_min": 250.0,
+          "x_max": 273.0,
+          "y_max": 263.0
+        },
+        "page": 1,
+        "confidence": 0.88
+      },
+      {
+        "text": "O+",
+        "bbox": {
+          "x_min": 259.0,
+          "y_min": 242.0,
+          "x_max": 271.0,
+          "y_max": 251.0
+        },
+        "page": 1,
+        "confidence": 0.778
+      },
+      {
+        "text": "2.Blood Pressure",
+        "bbox": {
+          "x_min": 363.0,
+          "y_min": 241.0,
+          "x_max": 436.0,
+          "y_max": 258.0
+        },
+        "page": 1,
+        "confidence": 0.875
+      },
+      {
+        "text": "3.Heart Disease NO",
+        "bbox": {
+          "x_min": 192.0,
+          "y_min": 260.0,
+          "x_max": 273.0,
+          "y_max": 273.0
+        },
+        "page": 1,
+        "confidence": 0.87
+      },
+      {
+        "text": "4.",
+        "bbox": {
+          "x_min": 368.0,
+          "y_min": 258.0,
+          "x_max": 381.0,
+          "y_max": 266.0
+        },
+        "page": 1,
+        "confidence": 0.897
+      },
+      {
+        "text": "Lung Disease",
+        "bbox": {
+          "x_min": 376.0,
+          "y_min": 252.0,
+          "x_max": 431.0,
+          "y_max": 269.0
+        },
+        "page": 1,
+        "confidence": 0.89
+      },
+      {
+        "text": "5.Kidney Diseaseno",
+        "bbox": {
+          "x_min": 192.0,
+          "y_min": 269.0,
+          "x_max": 272.0,
+          "y_max": 283.0
+        },
+        "page": 1,
+        "confidence": 0.769
+      },
+      {
+        "text": "6.",
+        "bbox": {
+          "x_min": 368.0,
+          "y_min": 266.0,
+          "x_max": 381.0,
+          "y_max": 275.0
+        },
+        "page": 1,
+        "confidence": 0.863
+      },
+      {
+        "text": "Diabetes:",
+        "bbox": {
+          "x_min": 379.0,
+          "y_min": 265.0,
+          "x_max": 417.0,
+          "y_max": 276.0
+        },
+        "page": 1,
+        "confidence": 0.953
+      },
+      {
+        "text": "7.Mental Diseaseg7",
+        "bbox": {
+          "x_min": 191.0,
+          "y_min": 278.0,
+          "x_max": 271.0,
+          "y_max": 293.0
+        },
+        "page": 1,
+        "confidence": 0.921
+      },
+      {
+        "text": "18.",
+        "bbox": {
+          "x_min": 363.0,
+          "y_min": 275.0,
+          "x_max": 384.0,
+          "y_max": 296.0
+        },
+        "page": 1,
+        "confidence": 0.674
+      },
+      {
+        "text": "11.Drug History",
+        "bbox": {
+          "x_min": 190.0,
+          "y_min": 300.0,
+          "x_max": 252.0,
+          "y_max": 311.0
+        },
+        "page": 1,
+        "confidence": 0.968
+      },
+      {
+        "text": "9.Weignt.",
+        "bbox": {
+          "x_min": 191.0,
+          "y_min": 291.0,
+          "x_max": 234.0,
+          "y_max": 302.0
+        },
+        "page": 1,
+        "confidence": 0.901
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": {
+          "x_min": 97.0,
+          "y_min": 324.0,
+          "x_max": 190.0,
+          "y_max": 340.0
+        },
+        "page": 1,
+        "confidence": 0.96
+      },
+      {
+        "text": "Vsit No:",
+        "bbox": {
+          "x_min": 233.0,
+          "y_min": 320.0,
+          "x_max": 270.0,
+          "y_max": 337.0
+        },
+        "page": 1,
+        "confidence": 0.827
+      },
+      {
+        "text": "ma",
+        "bbox": {
+          "x_min": 299.0,
+          "y_min": 364.0,
+          "x_max": 385.0,
+          "y_max": 387.0
+        },
+        "page": 1,
+        "confidence": 0.69
+      },
+      {
+        "text": "O/E-",
+        "bbox": {
+          "x_min": 97.0,
+          "y_min": 379.0,
+          "x_max": 122.0,
+          "y_max": 391.0
+        },
+        "page": 1,
+        "confidence": 0.86
+      },
+      {
+        "text": "b.",
+        "bbox": {
+          "x_min": 285.0,
+          "y_min": 377.0,
+          "x_max": 297.0,
+          "y_max": 384.0
+        },
+        "page": 1,
+        "confidence": 0.601
+      },
+      {
+        "text": "Pulse-",
+        "bbox": {
+          "x_min": 96.0,
+          "y_min": 394.0,
+          "x_max": 127.0,
+          "y_max": 408.0
+        },
+        "page": 1,
+        "confidence": 0.983
+      },
+      {
+        "text": "BP.",
+        "bbox": {
+          "x_min": 98.0,
+          "y_min": 410.0,
+          "x_max": 115.0,
+          "y_max": 424.0
+        },
+        "page": 1,
+        "confidence": 0.88
+      },
+      {
+        "text": "Acpiy",
+        "bbox": {
+          "x_min": 304.0,
+          "y_min": 402.0,
+          "x_max": 374.0,
+          "y_max": 429.0
+        },
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "Temp-/",
+        "bbox": {
+          "x_min": 99.0,
+          "y_min": 423.0,
+          "x_max": 155.0,
+          "y_max": 439.0
+        },
+        "page": 1,
+        "confidence": 0.947
+      },
+      {
+        "text": "C0TE",
+        "bbox": {
+          "x_min": 325.0,
+          "y_min": 419.0,
+          "x_max": 387.0,
+          "y_max": 443.0
+        },
+        "page": 1,
+        "confidence": 0.27
+      },
+      {
+        "text": "Anaem",
+        "bbox": {
+          "x_min": 101.0,
+          "y_min": 444.0,
+          "x_max": 132.0,
+          "y_max": 451.0
+        },
+        "page": 1,
+        "confidence": 0.932
+      },
+      {
+        "text": "L",
+        "bbox": {
+          "x_min": 413.0,
+          "y_min": 439.0,
+          "x_max": 441.0,
+          "y_max": 459.0
+        },
+        "page": 1,
+        "confidence": 0.128
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": {
+          "x_min": 97.0,
+          "y_min": 453.0,
+          "x_max": 159.0,
+          "y_max": 470.0
+        },
+        "page": 1,
+        "confidence": 0.991
+      },
+      {
+        "text": "EWW",
+        "bbox": {
+          "x_min": 293.0,
+          "y_min": 437.0,
+          "x_max": 381.0,
+          "y_max": 468.0
+        },
+        "page": 1,
+        "confidence": 0.336
+      },
+      {
+        "text": "Respiration-",
+        "bbox": {
+          "x_min": 96.0,
+          "y_min": 469.0,
+          "x_max": 155.0,
+          "y_max": 485.0
+        },
+        "page": 1,
+        "confidence": 0.985
+      },
+      {
+        "text": "113",
+        "bbox": {
+          "x_min": 322.0,
+          "y_min": 458.0,
+          "x_max": 389.0,
+          "y_max": 488.0
+        },
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Others",
+        "bbox": {
+          "x_min": 99.0,
+          "y_min": 489.0,
+          "x_max": 133.0,
+          "y_max": 500.0
+        },
+        "page": 1,
+        "confidence": 0.995
+      },
+      {
+        "text": "2A1a)",
+        "bbox": {
+          "x_min": 296.0,
+          "y_min": 483.0,
+          "x_max": 376.0,
+          "y_max": 515.0
+        },
+        "page": 1,
+        "confidence": 0.438
+      },
+      {
+        "text": "(0",
+        "bbox": {
+          "x_min": 412.0,
+          "y_min": 486.0,
+          "x_max": 444.0,
+          "y_max": 506.0
+        },
+        "page": 1,
+        "confidence": 0.248
+      },
+      {
+        "text": "0t",
+        "bbox": {
+          "x_min": 329.0,
+          "y_min": 504.0,
+          "x_max": 398.0,
+          "y_max": 530.0
+        },
+        "page": 1,
+        "confidence": 0.352
+      },
+      {
+        "text": "4",
+        "bbox": {
+          "x_min": 407.0,
+          "y_min": 533.0,
+          "x_max": 420.0,
+          "y_max": 547.0
+        },
+        "page": 1,
+        "confidence": 0.379
+      },
+      {
+        "text": "18-52y",
+        "bbox": {
+          "x_min": 404.0,
+          "y_min": 540.0,
+          "x_max": 457.0,
+          "y_max": 567.0
+        },
+        "page": 1,
+        "confidence": 0.658
+      }
+    ]
+  }
+}

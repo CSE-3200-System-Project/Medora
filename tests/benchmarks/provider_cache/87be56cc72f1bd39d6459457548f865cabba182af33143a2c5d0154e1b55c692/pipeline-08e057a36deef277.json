@@ -1,0 +1,213 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0074",
+  "source_sha256": "87be56cc72f1bd39d6459457548f865cabba182af33143a2c5d0154e1b55c692",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:35:21.786114+00:00",
+  "runtime_ms": 11023.196199996164,
+  "output": {
+    "medications": [
+      {
+        "name": "Angulark",
+        "matched_term": "Angulark",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.23
+      },
+      {
+        "name": "Nt-Par",
+        "matched_term": "Nt-Par",
+        "drug_id": "6979192a-1724-4e68-9010-2d77d663681e",
+        "brand_id": "449391d8-ca7f-4d98-ac9a-c7b2a23f8917",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.61
+      },
+      {
+        "name": "Guerin",
+        "matched_term": "Guerin",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.23
+      },
+      {
+        "name": "Comet",
+        "matched_term": "Comet",
+        "drug_id": "9b1187f0-7a83-469b-ba7e-9767f208c540",
+        "brand_id": "37de78cc-ac31-4284-9057-77743b7e844f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": "30 days",
+        "confidence": 0.496
+      },
+      {
+        "name": "Cinto-B",
+        "matched_term": "Cinto-B",
+        "drug_id": "10f62e2c-64f0-4a95-b1ff-2654453ea3ed",
+        "brand_id": "f7b391d2-7b7c-46f9-a4c7-bc8fa5680a7d",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.61
+      }
+    ],
+    "raw_text": ". 12.\nAngulark 152\npar\nGuerin (15-\n1000\n2012\n12. Comer (som\n0-30day\n07 /1\n12.19\ncinto was\n(20\n3- 1/\n21.4.168\n201\n1\n-\n25/s",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 10984,
+      "detected_regions": 1,
+      "ocr_line_count": 18,
+      "yolo_avg_confidence": 0.8434,
+      "yolo_min_confidence": 0.8434,
+      "yolo_max_confidence": 0.8434,
+      "ocr_avg_confidence": 0.512,
+      "ocr_min_confidence": 0.512,
+      "ocr_max_confidence": 0.512,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 1694.1518142700195,
+            "y_min": 1743.6973487854002,
+            "x_max": 2987.5467605590816,
+            "y_max": 4206.501805114745
+          },
+          "score": 0.8434
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": ". 12.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.512
+        },
+        {
+          "text": "Angulark 152",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.512
+        },
+        {
+          "text": "par",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.512
+        },
+        {
+          "text": "Guerin (15-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.512
+        },
+        {
+          "text": "1000",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.512
+        },
+        {
+          "text": "2012",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.512
+        },
+        {
+          "text": "12. Comer (som",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.512
+        },
+        {
+          "text": "0-30day",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.512
+        },
+        {
+          "text": "07 /1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.512
+        },
+        {
+          "text": "12.19",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.512
+        },
+        {
+          "text": "cinto was",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.512
+        },
+        {
+          "text": "(20",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.512
+        },
+        {
+          "text": "3- 1/",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.512
+        },
+        {
+          "text": "21.4.168",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.512
+        },
+        {
+          "text": "201",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.512
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.512
+        },
+        {
+          "text": "-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.512
+        },
+        {
+          "text": "25/s",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.512
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

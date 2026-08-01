@@ -1,0 +1,535 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0005",
+  "source_sha256": "bb2c919981a6e715aec411e62efdd10b3808a96ebfa0f3bf71becf9583ed2efe",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:22:39.831048+00:00",
+  "runtime_ms": 20785.36899999017,
+  "output": {
+    "raw_text": "54\nजर (वर्माड) - ७५\nब्बाभीव नाम\nHM\nहिकिश्मक कड़क ब्बाभीव बारशनख\n820377 W/0\nMCPO M ZH Siddique\nवराम\n40 yrs\nडिकिस्मतकब बारशबना\nबादशव नाथ,\nBO=>130/90mm of\nHg\n06.09.16\nye -\nVertigo é\nNausea.\nRx\nJ-8.81\n·\nTab.\ncinnaron\n2 tota\n20)\n. Tab Vergon\n-20\nLab\nDomin (10)\n>tots\neszuso\n(20)\nTab\nRanitid 150y\nRef to SPL of\n20\nMedicine of\nCMH, DHK of\nfor needful\nadvice please.\nTab\nPase (0.5g)\n120+010)\nR\n*\ncheck BP 2 times\nfor 2 days.\nदश\nप्रति\nशनिर",
+    "lines": [
+      {
+        "text": "54",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "जर (वर्माड) - ७५",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "ब्बाभीव नाम",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "HM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "हिकिश्मक कड़क ब्बाभीव बारशनख",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "820377 W/0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "MCPO M ZH Siddique",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "वराम",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "40 yrs",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "डिकिस्मतकब बारशबना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "बादशव नाथ,",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "BO=>130/90mm of",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "Hg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "06.09.16",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "ye -",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "Vertigo é",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "Nausea.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "J-8.81",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "·",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "Tab.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "cinnaron",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "2 tota",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "20)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": ". Tab Vergon",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "-20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "Lab",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "Domin (10)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": ">tots",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "eszuso",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "(20)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "Tab",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "Ranitid 150y",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "Ref to SPL of",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "Medicine of",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "CMH, DHK of",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "for needful",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "advice please.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "Tab",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "Pase (0.5g)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "120+010)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "R",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "*",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "check BP 2 times",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "for 2 days.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "दश",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "प्रति",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      },
+      {
+        "text": "शनिर",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.622
+      }
+    ],
+    "medications": [
+      {
+        "name": "Mcpo Zh Siddique",
+        "matched_term": "Mcpo Zh Siddique",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.28
+      },
+      {
+        "name": "Yrs Bo Mm Of Rashguard",
+        "matched_term": "Yrs Bo Mm Of Rashguard",
+        "drug_id": "f01f6313-20c3-4038-a2d6-0eeee98aaa57",
+        "brand_id": "00694560-e0c8-423c-add0-3bffc4f6381c",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.28
+      },
+      {
+        "name": "Vertig",
+        "matched_term": "Vertig",
+        "drug_id": "0ad98a21-9c36-4a4b-a7b5-ff4f0af3b527",
+        "brand_id": "0aa5d3f1-299a-494f-9e34-e3bb9d0022f9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.66
+      },
+      {
+        "name": "Nauset",
+        "matched_term": "Nauset",
+        "drug_id": "c6675a9c-fca4-484a-9502-8a20f726dceb",
+        "brand_id": "3969c1da-746a-4503-a61f-c087c7aace6a",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.66
+      },
+      {
+        "name": "C-Tab",
+        "matched_term": "C-Tab",
+        "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+        "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.66
+      },
+      {
+        "name": "Cinaron",
+        "matched_term": "Cinaron",
+        "drug_id": "028fb296-073b-4960-ac4c-6b97483580d8",
+        "brand_id": "de96d605-4c4e-44f9-8534-a6ffdbc8f9f0",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.66
+      },
+      {
+        "name": "Tota",
+        "matched_term": "Tota",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.28
+      },
+      {
+        "name": "Vergon",
+        "matched_term": "Vergon",
+        "drug_id": "f78d51a0-442f-462d-9ea0-7e347f94f22c",
+        "brand_id": "4a7e37c7-1d9e-47c1-ade1-fe699195f15e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.66
+      },
+      {
+        "name": "Lab",
+        "matched_term": "Lab",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.28
+      },
+      {
+        "name": "Domin",
+        "matched_term": "Domin",
+        "drug_id": "a93ef9f9-0a7e-4298-b5a9-d2db5160887b",
+        "brand_id": "a1d867fd-bc4e-4b26-856b-eee54917bd35",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.66
+      },
+      {
+        "name": "Tots",
+        "matched_term": "Tots",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.28
+      },
+      {
+        "name": "Eszuso",
+        "matched_term": "Eszuso",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.28
+      },
+      {
+        "name": "C-Tab",
+        "matched_term": "C-Tab",
+        "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+        "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.66
+      },
+      {
+        "name": "Ranitid",
+        "matched_term": "Ranitid",
+        "drug_id": "e848c92a-5ecd-419b-a727-7806cbba7b52",
+        "brand_id": "5e6ec9c7-596b-4789-b5e6-e7ae96a439f5",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.66
+      },
+      {
+        "name": "Ref To Spl",
+        "matched_term": "Ref To Spl",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.28
+      },
+      {
+        "name": "Medicid",
+        "matched_term": "Medicid",
+        "drug_id": "7b953eeb-d68e-4cd8-962f-408132ea606a",
+        "brand_id": "42712950-3a7b-46f5-a307-7d12f109ed2f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.66
+      },
+      {
+        "name": "Cmh Dhk Of",
+        "matched_term": "Cmh Dhk Of",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.28
+      },
+      {
+        "name": "For Needful",
+        "matched_term": "For Needful",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.28
+      },
+      {
+        "name": "Advice Please",
+        "matched_term": "Advice Please",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.28
+      },
+      {
+        "name": "C-Tab",
+        "matched_term": "C-Tab",
+        "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+        "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.66
+      },
+      {
+        "name": "Pase",
+        "matched_term": "Pase",
+        "drug_id": "5de9dc9e-9eff-4c91-97dc-a6f29bd47c89",
+        "brand_id": "534c831e-2949-49de-87be-6194234d2269",
+        "dosage": "0.5g",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.711
+      },
+      {
+        "name": "Check Bp Times",
+        "matched_term": "Check Bp Times",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": "2 days",
+        "confidence": 0.329
+      }
+    ]
+  }
+}

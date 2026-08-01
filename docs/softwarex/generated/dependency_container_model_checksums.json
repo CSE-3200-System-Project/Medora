@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0.0",
+  "files": {
+    "backend/requirements-release.txt": {
+      "sha256": "5f59a7c68ffaca2f7b8ff71ecba98fa4e30681c45ec1a7f0635f4ca235cd53e0",
+      "bytes": 679
+    },
+    "ai_service/requirements-release.txt": {
+      "sha256": "63952d86e395a9cef1a244db3943dc157b2676842596c02cf5b3ffc03dc63f4c",
+      "bytes": 609
+    },
+    "tests/requirements-release.txt": {
+      "sha256": "7bf94e013dc4fc61e9768aec079d4ddc1a1b9429db0a6bcaff46022e159f5ba9",
+      "bytes": 200
+    },
+    "frontend/package-lock.json": {
+      "sha256": "aad37ffdb3b9801865afadbea8b68440fd71cf07eaf5738341e86451a5e3aa9a",
+      "bytes": 518182
+    },
+    "tests/e2e/package-lock.json": {
+      "sha256": "0b3ac6cea6b67e91419310f7fed8e15b5f3a9ec2d98b130b97f2a8b96738848f",
+      "bytes": 2228
+    },
+    "backend/Dockerfile": {
+      "sha256": "db4feb9f16d1955eedcc1a80dd31e6d712f038bd5186f1304c9e660647640e0b",
+      "bytes": 1003
+    },
+    "ai_service/Dockerfile": {
+      "sha256": "f36640c41de5c52f6bd901381fbf99583db6c54822def8de281f67525dca2df6",
+      "bytes": 2183
+    },
+    "tests/benchmarks/provider_manifest.json": {
+      "sha256": "81627e396b4c387383949395cf089935a4f9ff58e5e0b07bbf4762dafdb8a3b1",
+      "bytes": 3979
+    },
+    "tests/benchmarks/datasets/ocr_corpus_manifest.json": {
+      "sha256": "704363c7521e03fba78c5997f5aedef566b183e07fe102073f8242c0cb2d0bff",
+      "bytes": 90916
+    },
+    "ai_service/models/Yolo26s/Yolo26s-prescription-5.onnx": {
+      "sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8",
+      "bytes": 38176529
+    }
+  },
+  "external_model_artifacts": {
+    "paddlex-cache/PP-OCRv4_mobile_det/inference.json": {
+      "sha256": "05feef1acb00aa4cd7362b15f7f501fc4f99d7b1fa73c1c871e0c7b1504b0f5c",
+      "bytes": 229777,
+      "archive_inclusion": "downloaded model artifact; package separately or reproduce from the named Paddle model"
+    },
+    "paddlex-cache/PP-OCRv4_mobile_det/inference.pdiparams": {
+      "sha256": "54a85087b4d31fa3ea4e4aba100169a1ec3e3274cd3352b9068b3cfccbca7829",
+      "bytes": 4692937,
+      "archive_inclusion": "downloaded model artifact; package separately or reproduce from the named Paddle model"
+    },
+    "paddlex-cache/PP-OCRv4_mobile_det/inference.yml": {
+      "sha256": "4f5bd0def48e20194d87d4c184a3ae3007a1299de7fed0ef763d3e7e873e77f6",
+      "bytes": 903,
+      "archive_inclusion": "downloaded model artifact; package separately or reproduce from the named Paddle model"
+    },
+    "paddlex-cache/en_PP-OCRv4_mobile_rec/inference.json": {
+      "sha256": "7a2302e09f0d501458db082cbcf21cdcb3a8d6dc9a143f73b17e297505f922f9",
+      "bytes": 217706,
+      "archive_inclusion": "downloaded model artifact; package separately or reproduce from the named Paddle model"
+    },
+    "paddlex-cache/en_PP-OCRv4_mobile_rec/inference.pdiparams": {
+      "sha256": "75f64a1ffb70c56b7a25655963ca16f5bf3286202e3f52ac972bee05cdee2f56",
+      "bytes": 7607269,
+      "archive_inclusion": "downloaded model artifact; package separately or reproduce from the named Paddle model"
+    },
+    "paddlex-cache/en_PP-OCRv4_mobile_rec/inference.yml": {
+      "sha256": "5f6b19b6b09b6b6f7924de6c25076d0b3528b6f641e64d4f12e6e6207ec33200",
+      "bytes": 1376,
+      "archive_inclusion": "downloaded model artifact; package separately or reproduce from the named Paddle model"
+    }
+  },
+  "container_images": {
+    "medora-backend:softwarex-rc": {
+      "image_id": "sha256:e286789ba49b134abbc0304a0d5d676ecf44daa5c21e4df92f58b7ca9d0f53af",
+      "repo_digests": [
+        "medora-backend@sha256:e286789ba49b134abbc0304a0d5d676ecf44daa5c21e4df92f58b7ca9d0f53af"
+      ],
+      "os": "linux",
+      "architecture": "amd64",
+      "size_bytes": 352239612
+    },
+    "medora-ai:softwarex-rc": {
+      "image_id": "sha256:02e353a4707b5d3c89a1dd12941b1f85e9bae55dfcebdb61816ecdcc2783fd00",
+      "repo_digests": [
+        "medora-ai@sha256:02e353a4707b5d3c89a1dd12941b1f85e9bae55dfcebdb61816ecdcc2783fd00"
+      ],
+      "os": "linux",
+      "architecture": "amd64",
+      "size_bytes": 688068110
+    }
+  }
+}

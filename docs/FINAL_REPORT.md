@@ -1,5 +1,10 @@
 # MEDORA: An AI-Native Healthcare Platform for Bangladesh
 
+> **Archived pre-SoftwareX report.** Approximate performance, anonymity,
+> production-readiness, and offline-write statements in this file are historical and
+> are not release evidence. Use `docs/softwarex/medora_softwarex.tex` and generated
+> v1.0.0 benchmark artifacts instead.
+
 ---
 
 **Course**: CSE-3200 (System Project)  
@@ -25,7 +30,13 @@
 
 ## Abstract
 
-Medora is a production-grade, AI-native healthcare platform designed to address the fragmentation of digital healthcare services in Bangladesh. The platform unifies patient records, verified doctor operations, and safety-first clinical assistance into one end-to-end digital care system serving three stakeholder roles: patients, doctors, and administrators.
+Medora is an open-source bilingual research platform designed to study integrated
+health-record, appointment, and review-gated AI workflows in Bangladesh. It serves
+patients, doctors, and administrators, but is not clinically validated and does
+not claim production deployment maturity. SoftwareX release claims and measured
+values are governed by `docs/softwarex/medora_softwarex.tex` and its generated
+evidence files; older figures elsewhere in this report are historical and must
+not be cited as release results.
 
 Built using modern technology stacks including Next.js 16, FastAPI, PostgreSQL, and multiple AI/ML services (Groq, Gemini, Azure Document Intelligence, YOLO), Medora demonstrates engineering rigor through its service-oriented architecture, real-time synchronization, consent-aware data access, and comprehensive testing framework. The system is deployed on Microsoft Azure using Container Apps with automated CI/CD pipelines, observability dashboards, and performance monitoring.
 
@@ -1167,7 +1178,10 @@ Medora was built by **two developers** working collaboratively over a **3-month 
 
 ## 14. Conclusion
 
-Medora demonstrates that a small team can build a production-grade healthcare platform with modern engineering practices. Over three months, we delivered 198 implemented features across 185+ commits, creating a system that serves patients, doctors, and administrators with AI-assisted capabilities, real-time synchronization, and consent-aware data access.
+Medora demonstrates an integrated research-software implementation for patient,
+doctor, and administrator workflows with AI assistance, realtime propagation,
+and consent-aware data access. Deployment and clinical validation remain future
+work; only generated release artifacts support SoftwareX numerical claims.
 
 **Key Achievements**:
 - Unified healthcare platform replacing fragmented workflows

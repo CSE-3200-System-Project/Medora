@@ -35,6 +35,13 @@ import {
   type PatientAIAccessResponse,
 } from "@/lib/patient-ai-access-actions"
 import {
+  grantProcessingConsent,
+  listProcessingConsents,
+  revokeProcessingConsent,
+  type ProcessingConsentGrant,
+  type ProcessingPurpose,
+} from "@/lib/processing-consent-management-actions"
+import {
   type PatientDoctorListItem,
   type DoctorSharingSummary,
   type SharingCategories,
@@ -98,6 +105,9 @@ export default function PatientPrivacyPage() {
   const [aiAccess, setAiAccess] = useState<PatientAIAccessResponse | null>(null)
   const [aiAccessLoading, setAiAccessLoading] = useState(true)
   const [aiAccessSaving, setAiAccessSaving] = useState<Record<string, boolean>>({})
+  const [processingConsents, setProcessingConsents] = useState<ProcessingConsentGrant[]>([])
+  const [processingConsentLoading, setProcessingConsentLoading] = useState(true)
+  const [processingConsentSaving, setProcessingConsentSaving] = useState<Record<string, boolean>>({})
 
   // Confirmation dialog state
   const [confirmDialog, setConfirmDialog] = useState<{
@@ -167,11 +177,40 @@ export default function PatientPrivacyPage() {
     }
   }
 
+  const fetchProcessingConsents = async () => {
+    setProcessingConsentLoading(true)
+    try {
+      setProcessingConsents(await listProcessingConsents())
+    } catch (err) {
+      console.error("Failed to load processing consent grants:", err)
+    } finally {
+      setProcessingConsentLoading(false)
+    }
+  }
+
   useEffect(() => {
     fetchData()
     fetchSharingData()
     fetchAIAccess()
+    fetchProcessingConsents()
   }, [])
+
+  const handleProcessingConsent = async (purpose: ProcessingPurpose, enabled: boolean) => {
+    setProcessingConsentSaving(prev => ({ ...prev, [purpose]: true }))
+    try {
+      const active = processingConsents.find(item => item.purpose === purpose && item.active)
+      if (enabled) {
+        await grantProcessingConsent(purpose)
+      } else if (active) {
+        await revokeProcessingConsent(active.id)
+      }
+      await fetchProcessingConsents()
+    } catch (err) {
+      alert(getErrorMessage(err))
+    } finally {
+      setProcessingConsentSaving(prev => ({ ...prev, [purpose]: false }))
+    }
+  }
 
   const handleToggleAIAccess = async (
     key: "ai_personal_context_enabled" | "ai_general_chat_enabled",
@@ -375,7 +414,7 @@ export default function PatientPrivacyPage() {
           </Button>
         </div>
 
-        {/* â”€â”€â”€ DATA SHARING TAB â”€â”€â”€ */}
+        {/* Data sharing tab */}
         {activeTab === 'sharing' && (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
@@ -385,6 +424,43 @@ export default function PatientPrivacyPage() {
                 {tCommon("privacy.actions.refresh")}
               </Button>
             </div>
+
+            <Card className="rounded-xl border-primary/25 bg-primary/5">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base">External processing consent</CardTitle>
+                <p className="text-sm text-muted-foreground">
+                  These versioned grants are off by default. Revoking a grant stops future processing but cannot retract data already sent.
+                </p>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {([
+                  ["external_text_ai", "Hosted text assistant", "Sends redacted text to the configured language-model provider."],
+                  ["cloud_document_ocr", "Azure document OCR", "Sends a locally cropped document image to Azure when cloud mode is selected."],
+                  ["external_live_audio", "Vapi live audio", "Streams microphone audio to Vapi. Local speech-to-text remains available without this grant."],
+                  ["research_export", "Research export", "Allows an explicit research export; it does not publish data automatically."],
+                ] as Array<[ProcessingPurpose, string, string]>).map(([purpose, title, description]) => {
+                  const active = processingConsents.find(item => item.purpose === purpose && item.active)
+                  return (
+                    <div key={purpose} className="rounded-lg border bg-background/70 p-3">
+                      <div className="flex items-start justify-between gap-4">
+                        <div>
+                          <p className="text-sm font-semibold text-foreground">{title}</p>
+                          <p className="mt-1 text-xs text-muted-foreground">{description}</p>
+                          {active ? <p className="mt-1 text-[11px] text-primary">Provider: {active.provider} · policy {active.policy_version} · version {active.version}</p> : null}
+                        </div>
+                        <Switch
+                          checked={Boolean(active)}
+                          onCheckedChange={(value) => handleProcessingConsent(purpose, value)}
+                          disabled={processingConsentLoading || Boolean(processingConsentSaving[purpose])}
+                          aria-label={`${title} consent`}
+                        />
+                      </div>
+                    </div>
+                  )
+                })}
+                <p className="text-xs text-muted-foreground">Clinical sharing is granted to specific doctors through the per-doctor controls below; it is never a global switch.</p>
+              </CardContent>
+            </Card>
 
             <Card className="rounded-xl border-primary/25 bg-primary/5">
               <CardHeader className="pb-3">
@@ -609,7 +685,7 @@ export default function PatientPrivacyPage() {
           </div>
         )}
 
-        {/* â”€â”€â”€ DOCTOR ACCESS TAB â”€â”€â”€ */}
+        {/* Doctor access tab */}
         {activeTab === 'doctors' && (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
@@ -713,7 +789,7 @@ export default function PatientPrivacyPage() {
           </div>
         )}
 
-        {/* â”€â”€â”€ HISTORY TAB â”€â”€â”€ */}
+        {/* History tab */}
         {activeTab === 'history' && (
           <div className="space-y-4">
             <div className="flex items-center justify-between">

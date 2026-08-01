@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0081",
+  "source_sha256": "d8597a0782afb94fad92cdf5ebdfb4b7f526c82f24aefa826dfbcf7c751aae49",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:36:36.013108+00:00",
+  "runtime_ms": 6871.252500000992,
+  "output": {
+    "medications": [
+      {
+        "name": "Rosu",
+        "matched_term": "Rosu",
+        "drug_id": "853d7984-f924-4f93-9691-25537eae946f",
+        "brand_id": "3dc9e193-1c4d-44e2-85d4-7a37fd402fc7",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.588
+      },
+      {
+        "name": "Alben",
+        "matched_term": "Alben",
+        "drug_id": "22b649ff-5d11-46b7-a65e-c8cec4321194",
+        "brand_id": "7ef2dcbb-2ad7-4c14-aad1-9e1bff4febd7",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.588
+      }
+    ],
+    "raw_text": "15. ROSU5V Other no\nTab. Albenos BrownW",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 6836,
+      "detected_regions": 1,
+      "ocr_line_count": 2,
+      "yolo_avg_confidence": 0.6511,
+      "yolo_min_confidence": 0.6511,
+      "yolo_max_confidence": 0.6511,
+      "ocr_avg_confidence": 0.463,
+      "ocr_min_confidence": 0.463,
+      "ocr_max_confidence": 0.463,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 113.49432373046875,
+            "y_min": 767.1734619140625,
+            "x_max": 436.923828125,
+            "y_max": 890.6226196289062
+          },
+          "score": 0.6511
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "15. ROSU5V Other no",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.463
+        },
+        {
+          "text": "Tab. Albenos BrownW",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.463
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

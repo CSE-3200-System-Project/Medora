@@ -1,0 +1,255 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0003",
+  "source_sha256": "e44e16945c106bcbb44afc4d866630e307cf1a11fad5899b89d1f2af7ebf4cb6",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:21:32.766941+00:00",
+  "runtime_ms": 12656.792199995834,
+  "output": {
+    "medications": [
+      {
+        "name": "D-Cap",
+        "matched_term": "D-Cap",
+        "drug_id": "e19d17d9-3fac-4185-8757-32f0d322ee98",
+        "brand_id": "30128340-f4e9-487f-8f85-f67d3b82460f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.698
+      },
+      {
+        "name": "Secto Tot",
+        "matched_term": "Secto Tot",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "20g",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.369
+      },
+      {
+        "name": "C-Tab",
+        "matched_term": "C-Tab",
+        "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+        "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.698
+      },
+      {
+        "name": "Domingoy",
+        "matched_term": "Domingoy",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.318
+      },
+      {
+        "name": "Essyro",
+        "matched_term": "Essyro",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": "2+2+3",
+        "quantity": null,
+        "confidence": 0.367
+      },
+      {
+        "name": "Ferofol",
+        "matched_term": "Ferofol",
+        "drug_id": "ceb7a0f2-e215-41d0-83b3-2d0ce4d681cb",
+        "brand_id": "41327e8e-8b54-4c35-9cde-cd565e531de1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.698
+      },
+      {
+        "name": "Toto",
+        "matched_term": "Toto",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.318
+      },
+      {
+        "name": "Rend To Spl",
+        "matched_term": "Rend To Spl",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.318
+      },
+      {
+        "name": "Gynae Obs",
+        "matched_term": "Gynae Obs",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.318
+      },
+      {
+        "name": "Of Dcmh For",
+        "matched_term": "Of Dcmh For",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.318
+      },
+      {
+        "name": "Actinion",
+        "matched_term": "Actinion",
+        "drug_id": "ace63150-2259-4658-88ea-7f61efbd9b37",
+        "brand_id": "5bedc0af-07cb-41e8-9bcd-1bb8c9f769ef",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.698
+      }
+    ],
+    "raw_text": ". Cap.\nsecto (20g)\n2tot?\n20\n. Tab.\nDomingoy\nessyro\n2+2+3.\n20\n· Cap. Ferfol\n>toto\nRend to SPL of\nGynae & obs.\nof DCMH for needful\naction.",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 12623,
+      "detected_regions": 1,
+      "ocr_line_count": 15,
+      "yolo_avg_confidence": 0.8621,
+      "yolo_min_confidence": 0.8621,
+      "yolo_max_confidence": 0.8621,
+      "ocr_avg_confidence": 0.706,
+      "ocr_min_confidence": 0.706,
+      "ocr_max_confidence": 0.706,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 1719.0395668029785,
+            "y_min": 1015.6696769714355,
+            "x_max": 3342.6587738037106,
+            "y_max": 4406.763600158691
+          },
+          "score": 0.8621
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": ". Cap.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "secto (20g)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "2tot?",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "20",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": ". Tab.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "Domingoy",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "essyro",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "2+2+3.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "20",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "· Cap. Ferfol",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": ">toto",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "Rend to SPL of",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "Gynae & obs.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "of DCMH for needful",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "action.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

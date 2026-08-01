@@ -1,0 +1,559 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0046",
+  "source_sha256": "7ad10198590fb55c7acffc40b7386c4ef40eb07c4fe5fd9b8f7922e3c2046070",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:45:49.173343+00:00",
+  "runtime_ms": 85514.84189998882,
+  "output": {
+    "raw_text": "820377\nSePO\nESSO\nबसु (बर्याडि)-७८\nडिकिस्मक कड़क बाभीन बारशुश्रज\nत्यांभीव नाग\nW/o MEH siddique\nवराम\n96 y\nबादभंवर नाथ\nM OF D (FEMALE)\nS. No. ..\n...\n66\n..........\nRoom No ...... ()\nTime.\n1819-17\nDate.\nC-62\nCCC\nCough- per\n20 days\nAny in nature\nIssued All\nL 18/9/17\nS/m\nडिकिस्मतकब बारशबना\nD ? RTI\n1. Tab.\nMoras (10 mg)\n(0-0-1)\n20\n2.\nTab. Aminomal &(350mg)\n12 - 0 - 0)\n3. Tab Nucomist DT (600m)\n1-0-1\n10\n4\nTab. Kofen\n1 me\n(0-1) (10)\nSOLEM\nMAXGADSIM\nMajer\nTrainee in Medicine\n-\nCh1\nगड-७५\n50 mg\n1\n1Ph",
+    "lines": [
+      {
+        "text": "820377",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "SePO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "ESSO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "बसु (बर्याडि)-७८",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "डिकिस्मक कड़क बाभीन बारशुश्रज",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "त्यांभीव नाग",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "W/o MEH siddique",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "वराम",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "96 y",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "बादभंवर नाथ",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "M OF D (FEMALE)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "S. No. ..",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "...",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "66",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "..........",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "Room No ...... ()",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "Time.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "1819-17",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "Date.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "C-62",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "CCC",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "Cough- per",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "20 days",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "Any in nature",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "Issued All",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "L 18/9/17",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "S/m",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "डिकिस्मतकब बारशबना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "D ? RTI",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "1. Tab.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "Moras (10 mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "(0-0-1)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "2.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "Tab. Aminomal &(350mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "12 - 0 - 0)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "3. Tab Nucomist DT (600m)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "1-0-1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "4",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "Tab. Kofen",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "1 me",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "(0-1) (10)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "SOLEM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "MAXGADSIM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "Majer",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "Trainee in Medicine",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "Ch1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "गड-७५",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "50 mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "1Ph",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      }
+    ],
+    "medications": [
+      {
+        "name": "Sepo",
+        "matched_term": "Sepo",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      },
+      {
+        "name": "Eso",
+        "matched_term": "Eso",
+        "drug_id": "7c43c194-2c56-4b11-8f86-5d97549a387d",
+        "brand_id": "0208dc3b-db80-4450-9a3b-b9bc7ac7f064",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.673
+      },
+      {
+        "name": "Meh Siddique",
+        "matched_term": "Meh Siddique",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      },
+      {
+        "name": "Of Female No",
+        "matched_term": "Of Female No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      },
+      {
+        "name": "Room No",
+        "matched_term": "Room No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      },
+      {
+        "name": "Timem",
+        "matched_term": "Timem",
+        "drug_id": "291ab7c7-25e1-4a8a-9a2b-4a359507bea9",
+        "brand_id": "b37a44a5-b18d-463d-9a38-2c9536d02c14",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.673
+      },
+      {
+        "name": "Date",
+        "matched_term": "Date",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      },
+      {
+        "name": "Ccc",
+        "matched_term": "Ccc",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      },
+      {
+        "name": "D Cough",
+        "matched_term": "D Cough",
+        "drug_id": "41fb5024-8d5a-4f7a-b0bd-6f520a4e1f59",
+        "brand_id": "46178509-e561-46e1-8094-7e169202500f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": "20 days",
+        "confidence": 0.722
+      },
+      {
+        "name": "Any In Nature",
+        "matched_term": "Any In Nature",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      },
+      {
+        "name": "Issued All",
+        "matched_term": "Issued All",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      },
+      {
+        "name": "Rti",
+        "matched_term": "Rti",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      },
+      {
+        "name": "C-Tab",
+        "matched_term": "C-Tab",
+        "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+        "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.673
+      },
+      {
+        "name": "Moras",
+        "matched_term": "Moras",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "10 mg",
+        "frequency": "0+0+1",
+        "quantity": null,
+        "confidence": 0.393
+      },
+      {
+        "name": "Aminomax",
+        "matched_term": "Aminomax",
+        "drug_id": "b2fc7d60-a10c-4e1e-9362-b67f43160b08",
+        "brand_id": "2de12ab4-a497-4161-acdc-0146534129c8",
+        "dosage": "350mg",
+        "frequency": "2+0+0",
+        "quantity": null,
+        "confidence": 0.773
+      },
+      {
+        "name": "Mucomist Dt",
+        "matched_term": "Mucomist Dt",
+        "drug_id": "d074c4e0-0c7a-45dd-86a4-179169888417",
+        "brand_id": "ef862175-f614-42b0-95ea-ce64eed405b0",
+        "dosage": null,
+        "frequency": "1+0+1",
+        "quantity": null,
+        "confidence": 0.722
+      },
+      {
+        "name": "Kofen",
+        "matched_term": "Kofen",
+        "drug_id": "ce9bb01f-7c41-4462-a295-b236bf931543",
+        "brand_id": "8595506b-65a2-4f11-ab02-a50d6efb5606",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.673
+      },
+      {
+        "name": "Solem",
+        "matched_term": "Solem",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      },
+      {
+        "name": "Maxgadsim",
+        "matched_term": "Maxgadsim",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      },
+      {
+        "name": "Majer",
+        "matched_term": "Majer",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      },
+      {
+        "name": "Trainee In Medicine Ch",
+        "matched_term": "Trainee In Medicine Ch",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      },
+      {
+        "name": "Adsulph",
+        "matched_term": "Adsulph",
+        "drug_id": "76990da0-716a-41b9-bd0c-b14b9c9c99c0",
+        "brand_id": "059385f2-8fb4-45dc-af92-efdb3306a6c0",
+        "dosage": "50 mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.724
+      }
+    ]
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0086",
+  "source_sha256": "a40b88484c7c9fab89868034d4d20bf4209ec00ab42ba935508c1ac43ecd721f",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:37:27.265655+00:00",
+  "runtime_ms": 11914.168600007542,
+  "output": {
+    "medications": [
+      {
+        "name": "Tobi",
+        "matched_term": "Tobi",
+        "drug_id": "8a86cdee-2fcf-4e7c-9ff1-7b9f5cbe963c",
+        "brand_id": "f12d01f6-fb0a-4262-aeb9-35cacd831746",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.556
+      },
+      {
+        "name": "V-Tas",
+        "matched_term": "V-Tas",
+        "drug_id": "085c7194-9766-436a-b4ca-6b32da00cd11",
+        "brand_id": "2fe406ba-7cc6-40e8-b326-71dd5b0ba3b9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.556
+      },
+      {
+        "name": "omeprazole",
+        "matched_term": "omeprazole",
+        "drug_id": "a6163acf-c078-4714-b3a6-cdfaae9f75c0",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.556
+      },
+      {
+        "name": "Masil 200",
+        "matched_term": "Masil 200",
+        "drug_id": "2e8966c8-8afc-45f3-9bb0-0943afa21a80",
+        "brand_id": "0a094ec3-c2c1-48d7-b204-e7474b060ca5",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.405
+      }
+    ],
+    "raw_text": "R\nO Tob. Mehanidad (400m)\n0 Tas Metformin/Informaty 500)\n01000\n20\n· Corp. Omeprazol (2014)\n. Masil gelly\nK",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 11879,
+      "detected_regions": 1,
+      "ocr_line_count": 8,
+      "yolo_avg_confidence": 0.9094,
+      "yolo_min_confidence": 0.9094,
+      "yolo_max_confidence": 0.9094,
+      "ocr_avg_confidence": 0.392,
+      "ocr_min_confidence": 0.392,
+      "ocr_max_confidence": 0.392,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 273.1726379394531,
+            "y_min": 274.38134765625,
+            "x_max": 544.8820190429688,
+            "y_max": 554.286376953125
+          },
+          "score": 0.9094
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "R",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.392
+        },
+        {
+          "text": "O Tob. Mehanidad (400m)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.392
+        },
+        {
+          "text": "0 Tas Metformin/Informaty 500)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.392
+        },
+        {
+          "text": "01000",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.392
+        },
+        {
+          "text": "20",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.392
+        },
+        {
+          "text": "· Corp. Omeprazol (2014)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.392
+        },
+        {
+          "text": ". Masil gelly",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.392
+        },
+        {
+          "text": "K",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.392
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

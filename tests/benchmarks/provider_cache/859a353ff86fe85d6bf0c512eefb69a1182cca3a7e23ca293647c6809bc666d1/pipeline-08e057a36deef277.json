@@ -1,0 +1,203 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0055",
+  "source_sha256": "859a353ff86fe85d6bf0c512eefb69a1182cca3a7e23ca293647c6809bc666d1",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:32:01.226322+00:00",
+  "runtime_ms": 16678.892399999313,
+  "output": {
+    "medications": [
+      {
+        "name": "Fentigal",
+        "matched_term": "Fentigal",
+        "drug_id": "831f023e-3f29-4ded-af44-1ab6364896f1",
+        "brand_id": "69eff9bc-1ad5-4295-a99f-530921774469",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.57
+      },
+      {
+        "name": "Bom Tun Vous",
+        "matched_term": "Bom Tun Vous",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.19
+      },
+      {
+        "name": "Stato",
+        "matched_term": "Stato",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.19
+      },
+      {
+        "name": "Microgest",
+        "matched_term": "Microgest",
+        "drug_id": "66e73bba-c22e-4548-8f18-8b2b3575d7ea",
+        "brand_id": "e58f9a4e-32c4-47d8-ac70-f35856d76175",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.57
+      },
+      {
+        "name": "Exp",
+        "matched_term": "Exp",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.19
+      },
+      {
+        "name": "Pain Oil",
+        "matched_term": "Pain Oil",
+        "drug_id": "c594262a-cf2c-4b25-a6dd-a3d730891ac5",
+        "brand_id": "7c832b0e-2ada-4b96-9c86-6cb29d77a504",
+        "dosage": "200ml",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.621
+      },
+      {
+        "name": "Cu-tab",
+        "matched_term": "Cu-tab",
+        "drug_id": "3973b7fc-afc7-4263-8fce-cc93e630d5c1",
+        "brand_id": "ca35f4be-de34-4476-803b-bb9dd37949b2",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.57
+      }
+    ],
+    "raw_text": "FENTIGAL VAGINAL CREAM I VÝ\n+0\nbom + Tun vous (nom)\nstato\nmicrogest (com)\nexp.\n1\n1-+\no +o2 Pain Will pines [200ml 2/09/204\n0-40+12\nTab Duvadilan Tom) tom\nदवाजी लगाव समग्र :\nविकान 50 6शतक",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 16644,
+      "detected_regions": 1,
+      "ocr_line_count": 13,
+      "yolo_avg_confidence": 0.8951,
+      "yolo_min_confidence": 0.8951,
+      "yolo_max_confidence": 0.8951,
+      "ocr_avg_confidence": 0.422,
+      "ocr_min_confidence": 0.422,
+      "ocr_max_confidence": 0.422,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 200.2854461669922,
+            "y_min": 170.85263061523438,
+            "x_max": 513.1130981445312,
+            "y_max": 577.8076171875
+          },
+          "score": 0.8951
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "FENTIGAL VAGINAL CREAM I VÝ",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.422
+        },
+        {
+          "text": "+0",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.422
+        },
+        {
+          "text": "bom + Tun vous (nom)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.422
+        },
+        {
+          "text": "stato",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.422
+        },
+        {
+          "text": "microgest (com)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.422
+        },
+        {
+          "text": "exp.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.422
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.422
+        },
+        {
+          "text": "1-+",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.422
+        },
+        {
+          "text": "o +o2 Pain Will pines [200ml 2/09/204",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.422
+        },
+        {
+          "text": "0-40+12",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.422
+        },
+        {
+          "text": "Tab Duvadilan Tom) tom",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.422
+        },
+        {
+          "text": "दवाजी लगाव समग्र :",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.422
+        },
+        {
+          "text": "विकान 50 6शतक",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.422
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

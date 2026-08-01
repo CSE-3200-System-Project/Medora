@@ -1,0 +1,134 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "ffdbc37cd85282c06ac294ec3219adbbe74e1023e61ac243bae4d2eadbfe4aa5",
+  "record_id": "RX-0010",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 28246.689299994614,
+  "failure": null,
+  "response_sha256": "4689f8339b1970e3acbeb42a841594830c78f6b74c4bdeab8b4d0d217265f257",
+  "response": {
+    "raw_text": ".\nTab.\nFlugal (150mg)\n1 tab. stat\nTab\nTamen\nstata\n6\nhab.\nKilbac (500g\n? toto\n. Tab.\nDes (5g)\nototo\n0.51\nRanitidiny\n8\nTab.\nK",
+    "lines": [
+      {
+        "text": ".",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.655
+      },
+      {
+        "text": "Tab.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.655
+      },
+      {
+        "text": "Flugal (150mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.655
+      },
+      {
+        "text": "1 tab. stat",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.655
+      },
+      {
+        "text": "Tab",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.655
+      },
+      {
+        "text": "Tamen",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.655
+      },
+      {
+        "text": "stata",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.655
+      },
+      {
+        "text": "6",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.655
+      },
+      {
+        "text": "hab.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.655
+      },
+      {
+        "text": "Kilbac (500g",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.655
+      },
+      {
+        "text": "? toto",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.655
+      },
+      {
+        "text": ". Tab.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.655
+      },
+      {
+        "text": "Des (5g)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.655
+      },
+      {
+        "text": "ototo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.655
+      },
+      {
+        "text": "0.51",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.655
+      },
+      {
+        "text": "Ranitidiny",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.655
+      },
+      {
+        "text": "8",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.655
+      },
+      {
+        "text": "Tab.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.655
+      },
+      {
+        "text": "K",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.655
+      }
+    ]
+  }
+}

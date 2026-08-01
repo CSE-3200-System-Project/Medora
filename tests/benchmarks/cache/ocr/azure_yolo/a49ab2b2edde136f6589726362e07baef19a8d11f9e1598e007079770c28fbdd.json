@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "a49ab2b2edde136f6589726362e07baef19a8d11f9e1598e007079770c28fbdd",
+  "record_id": "RX-0018",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 7396.200000002864,
+  "failure": null,
+  "response_sha256": "a397fabfe5dfe828644f41d9a82a0f44bde005f19fbda8e443eb068fde4a16e0",
+  "response": {
+    "raw_text": "Date:\n1 Td A .- Calm 50\n2-+3+7\n20\n2 Vereine Meril\n3 Te Esotit (20mg)\n290+3 am, Gmis\n20\n4Te. Accclofenac 100\nH00\nAfEs 25/05/2\n8 ORS\nTo\nHg",
+    "lines": [
+      {
+        "text": "Date:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.618
+      },
+      {
+        "text": "1 Td A .- Calm 50",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.618
+      },
+      {
+        "text": "2-+3+7",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.618
+      },
+      {
+        "text": "20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.618
+      },
+      {
+        "text": "2 Vereine Meril",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.618
+      },
+      {
+        "text": "3 Te Esotit (20mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.618
+      },
+      {
+        "text": "290+3 am, Gmis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.618
+      },
+      {
+        "text": "20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.618
+      },
+      {
+        "text": "4Te. Accclofenac 100",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.618
+      },
+      {
+        "text": "H00",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.618
+      },
+      {
+        "text": "AfEs 25/05/2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.618
+      },
+      {
+        "text": "8 ORS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.618
+      },
+      {
+        "text": "To",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.618
+      },
+      {
+        "text": "Hg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.618
+      }
+    ]
+  }
+}

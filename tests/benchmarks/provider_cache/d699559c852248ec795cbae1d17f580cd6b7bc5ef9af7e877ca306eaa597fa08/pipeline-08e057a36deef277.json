@@ -1,0 +1,175 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0099",
+  "source_sha256": "d699559c852248ec795cbae1d17f580cd6b7bc5ef9af7e877ca306eaa597fa08",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:39:19.598406+00:00",
+  "runtime_ms": 5052.323500000057,
+  "output": {
+    "medications": [
+      {
+        "name": "levofloxacin",
+        "matched_term": "levofloxacin",
+        "drug_id": "c9c174fc-688b-4fe7-aced-800db53994f2",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.543
+      },
+      {
+        "name": "Mona-Care",
+        "matched_term": "Mona-Care",
+        "drug_id": "01660439-d96a-45b1-8c92-9faa1980964b",
+        "brand_id": "1e617c0f-2446-4ee5-b24c-fac9e64e2cfa",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.543
+      },
+      {
+        "name": "Atomf",
+        "matched_term": "Atomf",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.163
+      },
+      {
+        "name": "ALA",
+        "matched_term": "ALA",
+        "drug_id": "314554e5-c818-4f96-841c-7421502aa9a4",
+        "brand_id": "ee100fc5-9256-4f0e-a1c2-7d5a2946bd5f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.543
+      },
+      {
+        "name": "doxophylline",
+        "matched_term": "doxophylline",
+        "drug_id": "65360386-9c25-4232-a749-dbd8059c95ed",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.543
+      },
+      {
+        "name": null,
+        "matched_term": null,
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "24.0 mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.214
+      }
+    ],
+    "raw_text": ", Tais Levofloxacina (or)\ncar monas\natomf.\n(10)\nalab - Napa\n1-10-11\n+ Pas- Doxophyllin 200\n1 ło +]\n10\n24.0 mg m",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 5014,
+      "detected_regions": 1,
+      "ocr_line_count": 10,
+      "yolo_avg_confidence": 0.8905,
+      "yolo_min_confidence": 0.8905,
+      "yolo_max_confidence": 0.8905,
+      "ocr_avg_confidence": 0.363,
+      "ocr_min_confidence": 0.363,
+      "ocr_max_confidence": 0.363,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 258.4161376953125,
+            "y_min": 251.03219604492188,
+            "x_max": 527.0650024414062,
+            "y_max": 491.6245422363281
+          },
+          "score": 0.8905
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": ", Tais Levofloxacina (or)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.363
+        },
+        {
+          "text": "car monas",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.363
+        },
+        {
+          "text": "atomf.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.363
+        },
+        {
+          "text": "(10)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.363
+        },
+        {
+          "text": "alab - Napa",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.363
+        },
+        {
+          "text": "1-10-11",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.363
+        },
+        {
+          "text": "+ Pas- Doxophyllin 200",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.363
+        },
+        {
+          "text": "1 ło +]",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.363
+        },
+        {
+          "text": "10",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.363
+        },
+        {
+          "text": "24.0 mg m",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.363
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

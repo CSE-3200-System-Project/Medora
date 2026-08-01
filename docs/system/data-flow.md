@@ -138,7 +138,7 @@ Example: Patient uploads a lab report.
    │
    ├─ Calls ai_service:
    │   POST http://ai_service/ocr/medical-report
-   │   Headers: X-Medora-Subject-Token: <anonymized_token>
+   │   Headers: X-Request-ID: <random correlation ID>
    │   Body: { image_url }
    │   │
    │   └─ ai_service pipeline:
@@ -230,5 +230,5 @@ RLS enforcement:
 | Consent filtering | AI data per patient consent | `data_sharing_guard.py` |
 | PII sanitization | Before every LLM call | `ai_orchestrator._sanitize_*` |
 | Access logging | Every doctor→patient data read | `patient_access` table |
-| Anonymized AI logs | Sanitized input only | `ai_interactions` table |
+| Sanitized AI audit | Event metadata and validated status; raw text logging disabled by default | `ai_interactions` table |
 | OCR subject token | Pseudonymous, 80 char max | `ai_service` X-Medora-Subject-Token |

@@ -1,0 +1,127 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0034",
+  "source_sha256": "9f3e6a815e612e2569c7259fab2cd6473002497679d50357a874e69b9d34828d",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:27:33.457868+00:00",
+  "runtime_ms": 6977.015500000562,
+  "output": {
+    "medications": [
+      {
+        "name": "Kakar",
+        "matched_term": "Kakar",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.161
+      },
+      {
+        "name": "Trilock",
+        "matched_term": "Trilock",
+        "drug_id": "807a6dae-2bc9-408f-ab46-85ee4b7712c1",
+        "brand_id": "3aee645a-b6b6-47d9-bef5-ac28e17ff2d8",
+        "dosage": "10g",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.592
+      },
+      {
+        "name": "Horas",
+        "matched_term": "Horas",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.161
+      }
+    ],
+    "raw_text": "Rx\nบทบาธาวิน kakar\nสตรอ นาฬิการน 1\n- 26. Trilock (10g) (10\n04042.\n)\n1 horas",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 6942,
+      "detected_regions": 1,
+      "ocr_line_count": 7,
+      "yolo_avg_confidence": 0.8795,
+      "yolo_min_confidence": 0.8795,
+      "yolo_max_confidence": 0.8795,
+      "ocr_avg_confidence": 0.357,
+      "ocr_min_confidence": 0.357,
+      "ocr_max_confidence": 0.357,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 277.7586975097656,
+            "y_min": 255.35916137695312,
+            "x_max": 536.9503784179688,
+            "y_max": 427.9904479980469
+          },
+          "score": 0.8795
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Rx",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.357
+        },
+        {
+          "text": "บทบาธาวิน kakar",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.357
+        },
+        {
+          "text": "สตรอ นาฬิการน 1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.357
+        },
+        {
+          "text": "- 26. Trilock (10g) (10",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.357
+        },
+        {
+          "text": "04042.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.357
+        },
+        {
+          "text": ")",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.357
+        },
+        {
+          "text": "1 horas",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.357
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

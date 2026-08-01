@@ -1,0 +1,236 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "a40b88484c7c9fab89868034d4d20bf4209ec00ab42ba935508c1ac43ecd721f",
+  "record_id": "RX-0086",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 26500.92279999808,
+  "failure": null,
+  "response_sha256": "0860f7f9d5bd3d6a641b9cfc7de1859faa695e719e2b40a513a58584bbe5fd51",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Haj Office\nMakkah MadınalvJeddah\nTREATMENT CARD/ aFTE194\nMedical Center\n*****= > G255\nFignım D\nNome _..\n873HATA\nHEALTH PROFILE\n2. Pled Presa_ro\n120/20\n4 Lung Disease\n7 Men'si Dixocon\n8. Wagh!\n11 Ding History\n8. Rundt Sugar (RBS))\n10 Low Danasc:\nVES\n12 Any uthe obromaitny:\nChief Complaints\n71 May 2021\nO Tob. Mehanidad (400mg)\nTemp-\nAraemi-\nDehydration-\nRespiration\nOthers\n0 Tas Metformin/Informaty $100\n(20)\no Coro. Omeprazol (2001)\n* Mesil gelles\nDÉSIRES |0-3 mmol/L\nECG\nProvisional Diagonosis",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "Bangladesh Haj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "Makkah MadınalvJeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "TREATMENT CARD/ aFTE194",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "Medical Center",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "*****= > G255",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "Fignım D",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "Nome _..",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "873HATA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "2. Pled Presa_ro",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "120/20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "4 Lung Disease",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "7 Men'si Dixocon",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "8. Wagh!",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "11 Ding History",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "8. Rundt Sugar (RBS))",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "10 Low Danasc:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "VES",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "12 Any uthe obromaitny:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "Chief Complaints",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "71 May 2021",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "O Tob. Mehanidad (400mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "Temp-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "Araemi-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "Respiration",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "Others",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "0 Tas Metformin/Informaty $100",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "(20)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "o Coro. Omeprazol (2001)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "* Mesil gelles",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "DÉSIRES |0-3 mmol/L",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      }
+    ]
+  }
+}

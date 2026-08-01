@@ -1,0 +1,554 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0078",
+  "source_sha256": "64e0e3a8f147bac5f1b4a2ad334ff996b23a401c0542e6e487a062c71146ff63",
+  "provider": "paddle",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T18:05:20.202625+00:00",
+  "runtime_ms": 25868.16359999648,
+  "output": {
+    "raw_text": "JG\ne\nytn)\n(hes).p0qin\nNoypnPsa\nyt\n596\nC86\nndN\n4\n-\nC\n1\nMOUA\nD\n0\n0\n9e\nD\n5\n0\nF\nF2\nf\nR\nD\n3\ntt\n1\nWSR\nf1fn\n881\nGOO\nNi\n4\nBos\nOIM\nD\nAla",
+    "lines": [
+      {
+        "text": "JG",
+        "bbox": {
+          "x_min": 946.0,
+          "y_min": 23.0,
+          "x_max": 1018.0,
+          "y_max": 143.0
+        },
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "e",
+        "bbox": {
+          "x_min": 962.0,
+          "y_min": 23.0,
+          "x_max": 994.0,
+          "y_max": 40.0
+        },
+        "page": 1,
+        "confidence": 0.109
+      },
+      {
+        "text": "ytn)",
+        "bbox": {
+          "x_min": 180.0,
+          "y_min": 261.0,
+          "x_max": 344.0,
+          "y_max": 541.0
+        },
+        "page": 1,
+        "confidence": 0.396
+      },
+      {
+        "text": "(hes).p0qin",
+        "bbox": {
+          "x_min": 1793.0,
+          "y_min": 304.0,
+          "x_max": 1995.0,
+          "y_max": 947.0
+        },
+        "page": 1,
+        "confidence": 0.489
+      },
+      {
+        "text": "NoypnPsa",
+        "bbox": {
+          "x_min": 2881.0,
+          "y_min": 309.0,
+          "x_max": 3103.0,
+          "y_max": 982.0
+        },
+        "page": 1,
+        "confidence": 0.369
+      },
+      {
+        "text": "yt",
+        "bbox": {
+          "x_min": 3156.0,
+          "y_min": 393.0,
+          "x_max": 3448.0,
+          "y_max": 834.0
+        },
+        "page": 1,
+        "confidence": 0.772
+      },
+      {
+        "text": "596",
+        "bbox": {
+          "x_min": 2149.0,
+          "y_min": 418.0,
+          "x_max": 2363.0,
+          "y_max": 727.0
+        },
+        "page": 1,
+        "confidence": 0.619
+      },
+      {
+        "text": "C86",
+        "bbox": {
+          "x_min": 2713.0,
+          "y_min": 440.0,
+          "x_max": 2833.0,
+          "y_max": 709.0
+        },
+        "page": 1,
+        "confidence": 0.236
+      },
+      {
+        "text": "ndN",
+        "bbox": {
+          "x_min": 2418.0,
+          "y_min": 523.0,
+          "x_max": 2600.0,
+          "y_max": 879.0
+        },
+        "page": 1,
+        "confidence": 0.41
+      },
+      {
+        "text": "4",
+        "bbox": {
+          "x_min": 3998.0,
+          "y_min": 571.0,
+          "x_max": 4091.0,
+          "y_max": 1067.0
+        },
+        "page": 1,
+        "confidence": 0.742
+      },
+      {
+        "text": "-",
+        "bbox": {
+          "x_min": 3277.0,
+          "y_min": 640.0,
+          "x_max": 3290.0,
+          "y_max": 648.0
+        },
+        "page": 1,
+        "confidence": 0.1
+      },
+      {
+        "text": "C",
+        "bbox": {
+          "x_min": 3280.0,
+          "y_min": 648.0,
+          "x_max": 3290.0,
+          "y_max": 658.0
+        },
+        "page": 1,
+        "confidence": 0.105
+      },
+      {
+        "text": "1",
+        "bbox": {
+          "x_min": 2239.0,
+          "y_min": 689.0,
+          "x_max": 2327.0,
+          "y_max": 801.0
+        },
+        "page": 1,
+        "confidence": 0.326
+      },
+      {
+        "text": "MOUA",
+        "bbox": {
+          "x_min": 3864.0,
+          "y_min": 776.0,
+          "x_max": 3927.0,
+          "y_max": 951.0
+        },
+        "page": 1,
+        "confidence": 0.228
+      },
+      {
+        "text": "D",
+        "bbox": {
+          "x_min": 3200.0,
+          "y_min": 808.0,
+          "x_max": 3230.0,
+          "y_max": 853.0
+        },
+        "page": 1,
+        "confidence": 0.32
+      },
+      {
+        "text": "0",
+        "bbox": {
+          "x_min": 1670.0,
+          "y_min": 852.0,
+          "x_max": 1800.0,
+          "y_max": 1020.0
+        },
+        "page": 1,
+        "confidence": 0.319
+      },
+      {
+        "text": "0",
+        "bbox": {
+          "x_min": 3199.0,
+          "y_min": 879.0,
+          "x_max": 3236.0,
+          "y_max": 934.0
+        },
+        "page": 1,
+        "confidence": 0.443
+      },
+      {
+        "text": "9e",
+        "bbox": {
+          "x_min": 2642.0,
+          "y_min": 891.0,
+          "x_max": 2716.0,
+          "y_max": 1106.0
+        },
+        "page": 1,
+        "confidence": 0.409
+      },
+      {
+        "text": "D",
+        "bbox": {
+          "x_min": 2098.0,
+          "y_min": 935.0,
+          "x_max": 2134.0,
+          "y_max": 974.0
+        },
+        "page": 1,
+        "confidence": 0.311
+      },
+      {
+        "text": "5",
+        "bbox": {
+          "x_min": 3995.0,
+          "y_min": 1033.0,
+          "x_max": 4069.0,
+          "y_max": 1108.0
+        },
+        "page": 1,
+        "confidence": 0.299
+      },
+      {
+        "text": "0",
+        "bbox": {
+          "x_min": 3869.0,
+          "y_min": 1045.0,
+          "x_max": 3922.0,
+          "y_max": 1109.0
+        },
+        "page": 1,
+        "confidence": 0.237
+      },
+      {
+        "text": "F",
+        "bbox": {
+          "x_min": 3935.0,
+          "y_min": 1043.0,
+          "x_max": 4019.0,
+          "y_max": 1111.0
+        },
+        "page": 1,
+        "confidence": 0.118
+      },
+      {
+        "text": "F2",
+        "bbox": {
+          "x_min": 2451.0,
+          "y_min": 1078.0,
+          "x_max": 2539.0,
+          "y_max": 1244.0
+        },
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "f",
+        "bbox": {
+          "x_min": 1487.0,
+          "y_min": 1230.0,
+          "x_max": 1734.0,
+          "y_max": 1494.0
+        },
+        "page": 1,
+        "confidence": 0.115
+      },
+      {
+        "text": "R",
+        "bbox": {
+          "x_min": 1845.0,
+          "y_min": 1360.0,
+          "x_max": 1931.0,
+          "y_max": 1448.0
+        },
+        "page": 1,
+        "confidence": 0.145
+      },
+      {
+        "text": "D",
+        "bbox": {
+          "x_min": 2424.0,
+          "y_min": 1352.0,
+          "x_max": 2527.0,
+          "y_max": 1452.0
+        },
+        "page": 1,
+        "confidence": 0.232
+      },
+      {
+        "text": "3",
+        "bbox": {
+          "x_min": 2882.0,
+          "y_min": 1366.0,
+          "x_max": 3038.0,
+          "y_max": 1588.0
+        },
+        "page": 1,
+        "confidence": 0.469
+      },
+      {
+        "text": "tt",
+        "bbox": {
+          "x_min": 1363.0,
+          "y_min": 1454.0,
+          "x_max": 1517.0,
+          "y_max": 1806.0
+        },
+        "page": 1,
+        "confidence": 0.348
+      },
+      {
+        "text": "1",
+        "bbox": {
+          "x_min": 2889.0,
+          "y_min": 1544.0,
+          "x_max": 3033.0,
+          "y_max": 1740.0
+        },
+        "page": 1,
+        "confidence": 0.234
+      },
+      {
+        "text": "WSR",
+        "bbox": {
+          "x_min": 565.0,
+          "y_min": 1663.0,
+          "x_max": 722.0,
+          "y_max": 2453.0
+        },
+        "page": 1,
+        "confidence": 0.555
+      },
+      {
+        "text": "f1fn",
+        "bbox": {
+          "x_min": 1880.0,
+          "y_min": 2019.0,
+          "x_max": 2242.0,
+          "y_max": 2808.0
+        },
+        "page": 1,
+        "confidence": 0.31
+      },
+      {
+        "text": "881",
+        "bbox": {
+          "x_min": 1784.0,
+          "y_min": 2253.0,
+          "x_max": 1975.0,
+          "y_max": 2754.0
+        },
+        "page": 1,
+        "confidence": 0.674
+      },
+      {
+        "text": "GOO",
+        "bbox": {
+          "x_min": 1149.0,
+          "y_min": 2303.0,
+          "x_max": 1282.0,
+          "y_max": 2727.0
+        },
+        "page": 1,
+        "confidence": 0.422
+      },
+      {
+        "text": "Ni",
+        "bbox": {
+          "x_min": 934.0,
+          "y_min": 2445.0,
+          "x_max": 1073.0,
+          "y_max": 2648.0
+        },
+        "page": 1,
+        "confidence": 0.662
+      },
+      {
+        "text": "4",
+        "bbox": {
+          "x_min": 1301.0,
+          "y_min": 2568.0,
+          "x_max": 1455.0,
+          "y_max": 2706.0
+        },
+        "page": 1,
+        "confidence": 0.147
+      },
+      {
+        "text": "Bos",
+        "bbox": {
+          "x_min": 941.0,
+          "y_min": 2587.0,
+          "x_max": 1216.0,
+          "y_max": 2737.0
+        },
+        "page": 1,
+        "confidence": 0.363
+      },
+      {
+        "text": "OIM",
+        "bbox": {
+          "x_min": 87.0,
+          "y_min": 2785.0,
+          "x_max": 318.0,
+          "y_max": 3154.0
+        },
+        "page": 1,
+        "confidence": 0.314
+      },
+      {
+        "text": "D",
+        "bbox": {
+          "x_min": 202.0,
+          "y_min": 2845.0,
+          "x_max": 209.0,
+          "y_max": 2851.0
+        },
+        "page": 1,
+        "confidence": 0.077
+      },
+      {
+        "text": "Ala",
+        "bbox": {
+          "x_min": 632.0,
+          "y_min": 2941.0,
+          "x_max": 746.0,
+          "y_max": 3138.0
+        },
+        "page": 1,
+        "confidence": 0.474
+      }
+    ],
+    "medications": [
+      {
+        "name": "Ytn",
+        "matched_term": "Ytn",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.178
+      },
+      {
+        "name": "Diohes",
+        "matched_term": "Diohes",
+        "drug_id": "e9a3fa2e-1c44-4546-b11c-4ec7b9571aa6",
+        "brand_id": "7b3637fb-7204-4f27-9bd6-608c4ca421ac",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.6
+      },
+      {
+        "name": "Noypnpsa Yt",
+        "matched_term": "Noypnpsa Yt",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.225
+      },
+      {
+        "name": "Ndn",
+        "matched_term": "Ndn",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.151
+      },
+      {
+        "name": "Mou",
+        "matched_term": "Mou",
+        "drug_id": "bb6408d9-c56b-4bd2-aa4b-106aa9c367eb",
+        "brand_id": "1c74761c-a37a-46fb-a56a-91e65ae9243a",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.517
+      },
+      {
+        "name": "Wsr Fn",
+        "matched_term": "Wsr Fn",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.231
+      },
+      {
+        "name": "Goo Ni",
+        "matched_term": "Goo Ni",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.185
+      },
+      {
+        "name": "Bost",
+        "matched_term": "Bost",
+        "drug_id": "9a588110-bb63-4b9c-9e87-c29eaae94e7a",
+        "brand_id": "96825b7d-548d-485b-a03a-3e82a8f9c96a",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.543
+      },
+      {
+        "name": "Oim",
+        "matched_term": "Oim",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.088
+      },
+      {
+        "name": "ALA",
+        "matched_term": "ALA",
+        "drug_id": "314554e5-c818-4f96-841c-7421502aa9a4",
+        "brand_id": "ee100fc5-9256-4f0e-a1c2-7d5a2946bd5f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.593
+      }
+    ]
+  }
+}

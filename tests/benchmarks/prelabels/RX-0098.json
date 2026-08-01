@@ -1,0 +1,952 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0098",
+  "source_sha256": "e011f6869b0ed89e9d227bde49ef1a81ed1e31d5e2613ade8f07b429a20b7434",
+  "raw_transcription": "Rx\n=> Tex. Plc (sin)",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "G-Tex",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "79a5d399938e95825f24c8c2b21b13d65f386a39146980de483efe04f10c8228"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "9fe10cfecffa80fccf404f70975551777099499e926ade4754d27114676eeacd"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "423f7b894877ea6f6663ba36e8958b038013905e67609df0725e37fb4a639801"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "MINISTRY OF RELIGIOUS AFFAIRS\nBangladash Haj Offioe\nTREATMENT CARD\nG048\nPasstonNG\nA01842824\nMso\nOme\nNALE\nThacaERANGAN\nAe\nGersker\nHEALTH PROFLE\n1.d Ga\n2\n89959\n1P1ED\n3\nN0\n1.ograerr\nSNeaDsax\nA\nChief Cempiairts\nMaINe.\nDn\nTP\n510\nH-\nO\nWA\nOhe\n/BSR35\nECO\nProvisoraoago",
+      "lines": [
+        {
+          "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+          "bbox": {
+            "x_min": 266.0,
+            "y_min": 81.0,
+            "x_max": 399.0,
+            "y_max": 102.0
+          },
+          "page": 1,
+          "confidence": 0.94
+        },
+        {
+          "text": "Bangladash Haj Offioe",
+          "bbox": {
+            "x_min": 293.0,
+            "y_min": 94.0,
+            "x_max": 372.0,
+            "y_max": 111.0
+          },
+          "page": 1,
+          "confidence": 0.875
+        },
+        {
+          "text": "TREATMENT CARD",
+          "bbox": {
+            "x_min": 280.0,
+            "y_min": 122.0,
+            "x_max": 390.0,
+            "y_max": 139.0
+          },
+          "page": 1,
+          "confidence": 0.895
+        },
+        {
+          "text": "G048",
+          "bbox": {
+            "x_min": 401.0,
+            "y_min": 129.0,
+            "x_max": 463.0,
+            "y_max": 143.0
+          },
+          "page": 1,
+          "confidence": 0.88
+        },
+        {
+          "text": "PasstonNG",
+          "bbox": {
+            "x_min": 295.0,
+            "y_min": 148.0,
+            "x_max": 329.0,
+            "y_max": 155.0
+          },
+          "page": 1,
+          "confidence": 0.547
+        },
+        {
+          "text": "A01842824",
+          "bbox": {
+            "x_min": 346.0,
+            "y_min": 143.0,
+            "x_max": 375.0,
+            "y_max": 153.0
+          },
+          "page": 1,
+          "confidence": 0.756
+        },
+        {
+          "text": "Mso",
+          "bbox": {
+            "x_min": 402.0,
+            "y_min": 143.0,
+            "x_max": 450.0,
+            "y_max": 154.0
+          },
+          "page": 1,
+          "confidence": 0.556
+        },
+        {
+          "text": "Ome",
+          "bbox": {
+            "x_min": 185.0,
+            "y_min": 158.0,
+            "x_max": 203.0,
+            "y_max": 165.0
+          },
+          "page": 1,
+          "confidence": 0.527
+        },
+        {
+          "text": "NALE",
+          "bbox": {
+            "x_min": 214.0,
+            "y_min": 162.0,
+            "x_max": 234.0,
+            "y_max": 170.0
+          },
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "ThacaERANGAN",
+          "bbox": {
+            "x_min": 385.0,
+            "y_min": 162.0,
+            "x_max": 435.0,
+            "y_max": 174.0
+          },
+          "page": 1,
+          "confidence": 0.642
+        },
+        {
+          "text": "Ae",
+          "bbox": {
+            "x_min": 420.0,
+            "y_min": 155.0,
+            "x_max": 448.0,
+            "y_max": 162.0
+          },
+          "page": 1,
+          "confidence": 0.438
+        },
+        {
+          "text": "Gersker",
+          "bbox": {
+            "x_min": 185.0,
+            "y_min": 165.0,
+            "x_max": 205.0,
+            "y_max": 176.0
+          },
+          "page": 1,
+          "confidence": 0.649
+        },
+        {
+          "text": "HEALTH PROFLE",
+          "bbox": {
+            "x_min": 299.0,
+            "y_min": 177.0,
+            "x_max": 364.0,
+            "y_max": 192.0
+          },
+          "page": 1,
+          "confidence": 0.933
+        },
+        {
+          "text": "1.d Ga",
+          "bbox": {
+            "x_min": 248.0,
+            "y_min": 192.0,
+            "x_max": 290.0,
+            "y_max": 202.0
+          },
+          "page": 1,
+          "confidence": 0.519
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 364.0,
+            "y_min": 191.0,
+            "x_max": 412.0,
+            "y_max": 202.0
+          },
+          "page": 1,
+          "confidence": 0.88
+        },
+        {
+          "text": "89959",
+          "bbox": {
+            "x_min": 426.0,
+            "y_min": 188.0,
+            "x_max": 451.0,
+            "y_max": 226.0
+          },
+          "page": 1,
+          "confidence": 0.665
+        },
+        {
+          "text": "1P1ED",
+          "bbox": {
+            "x_min": 434.0,
+            "y_min": 185.0,
+            "x_max": 453.0,
+            "y_max": 196.0
+          },
+          "page": 1,
+          "confidence": 0.418
+        },
+        {
+          "text": "3",
+          "bbox": {
+            "x_min": 296.0,
+            "y_min": 191.0,
+            "x_max": 311.0,
+            "y_max": 205.0
+          },
+          "page": 1,
+          "confidence": 0.06
+        },
+        {
+          "text": "N0",
+          "bbox": {
+            "x_min": 298.0,
+            "y_min": 202.0,
+            "x_max": 307.0,
+            "y_max": 210.0
+          },
+          "page": 1,
+          "confidence": 0.434
+        },
+        {
+          "text": "1.ograerr",
+          "bbox": {
+            "x_min": 245.0,
+            "y_min": 220.0,
+            "x_max": 289.0,
+            "y_max": 236.0
+          },
+          "page": 1,
+          "confidence": 0.447
+        },
+        {
+          "text": "SNeaDsax",
+          "bbox": {
+            "x_min": 250.0,
+            "y_min": 214.0,
+            "x_max": 297.0,
+            "y_max": 221.0
+          },
+          "page": 1,
+          "confidence": 0.386
+        },
+        {
+          "text": "A",
+          "bbox": {
+            "x_min": 296.0,
+            "y_min": 214.0,
+            "x_max": 308.0,
+            "y_max": 222.0
+          },
+          "page": 1,
+          "confidence": 0.189
+        },
+        {
+          "text": "Chief Cempiairts",
+          "bbox": {
+            "x_min": 192.0,
+            "y_min": 241.0,
+            "x_max": 245.0,
+            "y_max": 251.0
+          },
+          "page": 1,
+          "confidence": 0.848
+        },
+        {
+          "text": "MaINe.",
+          "bbox": {
+            "x_min": 275.0,
+            "y_min": 241.0,
+            "x_max": 300.0,
+            "y_max": 252.0
+          },
+          "page": 1,
+          "confidence": 0.674
+        },
+        {
+          "text": "Dn",
+          "bbox": {
+            "x_min": 380.0,
+            "y_min": 235.0,
+            "x_max": 424.0,
+            "y_max": 253.0
+          },
+          "page": 1,
+          "confidence": 0.394
+        },
+        {
+          "text": "TP",
+          "bbox": {
+            "x_min": 278.0,
+            "y_min": 274.0,
+            "x_max": 371.0,
+            "y_max": 292.0
+          },
+          "page": 1,
+          "confidence": 0.819
+        },
+        {
+          "text": "510",
+          "bbox": {
+            "x_min": 365.0,
+            "y_min": 273.0,
+            "x_max": 407.0,
+            "y_max": 287.0
+          },
+          "page": 1,
+          "confidence": 0.646
+        },
+        {
+          "text": "H-",
+          "bbox": {
+            "x_min": 319.0,
+            "y_min": 290.0,
+            "x_max": 367.0,
+            "y_max": 304.0
+          },
+          "page": 1,
+          "confidence": 0.448
+        },
+        {
+          "text": "O",
+          "bbox": {
+            "x_min": 367.0,
+            "y_min": 289.0,
+            "x_max": 385.0,
+            "y_max": 302.0
+          },
+          "page": 1,
+          "confidence": 0.297
+        },
+        {
+          "text": "WA",
+          "bbox": {
+            "x_min": 410.0,
+            "y_min": 313.0,
+            "x_max": 448.0,
+            "y_max": 329.0
+          },
+          "page": 1,
+          "confidence": 0.396
+        },
+        {
+          "text": "Ohe",
+          "bbox": {
+            "x_min": 189.0,
+            "y_min": 338.0,
+            "x_max": 203.0,
+            "y_max": 345.0
+          },
+          "page": 1,
+          "confidence": 0.69
+        },
+        {
+          "text": "/BSR35",
+          "bbox": {
+            "x_min": 179.0,
+            "y_min": 407.0,
+            "x_max": 211.0,
+            "y_max": 418.0
+          },
+          "page": 1,
+          "confidence": 0.607
+        },
+        {
+          "text": "ECO",
+          "bbox": {
+            "x_min": 177.0,
+            "y_min": 417.0,
+            "x_max": 196.0,
+            "y_max": 431.0
+          },
+          "page": 1,
+          "confidence": 0.826
+        },
+        {
+          "text": "Provisoraoago",
+          "bbox": {
+            "x_min": 177.0,
+            "y_min": 440.0,
+            "x_max": 237.0,
+            "y_max": 449.0
+          },
+          "page": 1,
+          "confidence": 0.787
+        }
+      ],
+      "medications": [
+        {
+          "name": "Minista",
+          "matched_term": "Minista",
+          "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+          "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.803
+        },
+        {
+          "name": "Bangladash Haj Offioe",
+          "matched_term": "Bangladash Haj Offioe",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.394
+        },
+        {
+          "name": "Treatment Card",
+          "matched_term": "Treatment Card",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.38
+        },
+        {
+          "name": "Mso",
+          "matched_term": "Mso",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.25
+        },
+        {
+          "name": "Passtonng Aegle",
+          "matched_term": "Passtonng Aegle",
+          "drug_id": "1947b29e-24a3-4e1e-a76f-051325bfc642",
+          "brand_id": "0813f6ab-6bad-417c-a5c5-812e3d3d1506",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.222
+        },
+        {
+          "name": "Ome",
+          "matched_term": "Ome",
+          "drug_id": "7b1fa286-3a42-4d88-b689-49b453895844",
+          "brand_id": "8257b2ec-8dd7-4c06-adcd-f3036520fbd3",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.617
+        },
+        {
+          "name": "Nale",
+          "matched_term": "Nale",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.341
+        },
+        {
+          "name": "Thacaerangan",
+          "matched_term": "Thacaerangan",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.289
+        },
+        {
+          "name": "Gersker",
+          "matched_term": "Gersker",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.292
+        },
+        {
+          "name": "4-Health",
+          "matched_term": "4-Health",
+          "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+          "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.631
+        },
+        {
+          "name": "Sneadsax",
+          "matched_term": "Sneadsax",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.129
+        },
+        {
+          "name": "Ograerr Dn",
+          "matched_term": "Ograerr Dn",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.189
+        },
+        {
+          "name": "Chief Cempiairts",
+          "matched_term": "Chief Cempiairts",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.382
+        },
+        {
+          "name": "Maine Tp Wayga",
+          "matched_term": "Maine Tp Wayga",
+          "drug_id": "c9ea0ee7-9b7c-4e6f-a471-852e02832812",
+          "brand_id": "60d60c8a-955a-4279-bfd8-ac5350b1127b",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.246
+        },
+        {
+          "name": "Diohes",
+          "matched_term": "Diohes",
+          "drug_id": "e9a3fa2e-1c44-4546-b11c-4ec7b9571aa6",
+          "brand_id": "7b3637fb-7204-4f27-9bd6-608c4ca421ac",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.672
+        },
+        {
+          "name": "Eco",
+          "matched_term": "Eco",
+          "drug_id": "d11c3aa2-fdd7-4316-a7ce-d6f530adaa4c",
+          "brand_id": "fad4a6fe-6d23-4259-8983-c11034ad620f",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.752
+        },
+        {
+          "name": "Provisoraoago",
+          "matched_term": "Provisoraoago",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.354
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Haj Office\nMakkahiMadnah(Jeddah\nTREATMENT CARD/ FTYITE\nMedica. Center:\nकश्चन नं. G048\nParim D\nPassport No\nA01842524\nMrktab Nu\nName_\nHEALTH PROFILE\nNO\nChef Compraista:\nRx\n* Tex. Plc (51%)\nCxham\nECH\nProviGonal Diagnosis\nइल टमिष्ठान (लकरा हिलिसिस (गय वंशमें) कन् क बाबहा ण्डी वडिवच उन्हें कम अन्दर शर।",
+      "lines": [
+        {
+          "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "Bangladesh Haj Office",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "MakkahiMadnah(Jeddah",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "TREATMENT CARD/ FTYITE",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "Medica. Center:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "कश्चन नं. G048",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "Parim D",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "Passport No",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "A01842524",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "Mrktab Nu",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "Name_",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "HEALTH PROFILE",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "NO",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "Chef Compraista:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "Rx",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "* Tex. Plc (51%)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "Cxham",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "ECH",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "ProviGonal Diagnosis",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "इल टमिष्ठान (लकरा हिलिसिस (गय वंशमें) कन् क बाबहा ण्डी वडिवच उन्हें कम अन्दर शर।",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.524
+        }
+      ],
+      "medications": [
+        {
+          "name": "Government Of The",
+          "matched_term": "Government Of The",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.236
+        },
+        {
+          "name": "Minista",
+          "matched_term": "Minista",
+          "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+          "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.616
+        },
+        {
+          "name": "Bangladesh Haj Office",
+          "matched_term": "Bangladesh Haj Office",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.236
+        },
+        {
+          "name": "Makkahimadnah Jeddah",
+          "matched_term": "Makkahimadnah Jeddah",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.236
+        },
+        {
+          "name": "Treatment Card Ftyite",
+          "matched_term": "Treatment Card Ftyite",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.236
+        },
+        {
+          "name": "MediCare",
+          "matched_term": "MediCare",
+          "drug_id": "90028d82-e533-446c-b68c-889622fd6e09",
+          "brand_id": "2435f0a4-79fb-46fa-af39-38a44848fd7e",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.616
+        },
+        {
+          "name": "Parib",
+          "matched_term": "Parib",
+          "drug_id": "70d8e549-ab77-4256-bc2a-d415d053432e",
+          "brand_id": "483fa59e-f55f-4eaf-9e51-e3c71e04f967",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.616
+        },
+        {
+          "name": "Passport No",
+          "matched_term": "Passport No",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.236
+        },
+        {
+          "name": "Mrktab Nu Name",
+          "matched_term": "Mrktab Nu Name",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.236
+        },
+        {
+          "name": "4-Health",
+          "matched_term": "4-Health",
+          "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+          "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.616
+        },
+        {
+          "name": "Chef Compraista Rx",
+          "matched_term": "Chef Compraista Rx",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.236
+        },
+        {
+          "name": "G-Tex",
+          "matched_term": "G-Tex",
+          "drug_id": "25d597c2-f62b-4be5-9b7a-dd3e94213ad4",
+          "brand_id": "73e086f7-bf33-43c8-81f2-a7d9a9d50b73",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.616
+        },
+        {
+          "name": "Cxham",
+          "matched_term": "Cxham",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.236
+        },
+        {
+          "name": "Ech",
+          "matched_term": "Ech",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.236
+        },
+        {
+          "name": "Provigonal Diagnosis",
+          "matched_term": "Provigonal Diagnosis",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.236
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "G-Tex",
+          "matched_term": "G-Tex",
+          "drug_id": "25d597c2-f62b-4be5-9b7a-dd3e94213ad4",
+          "brand_id": "73e086f7-bf33-43c8-81f2-a7d9a9d50b73",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.566
+        }
+      ],
+      "raw_text": "Rx\n=> Tex. Plc (sin)",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 6812,
+        "detected_regions": 1,
+        "ocr_line_count": 2,
+        "yolo_avg_confidence": 0.7371,
+        "yolo_min_confidence": 0.7371,
+        "yolo_max_confidence": 0.7371,
+        "ocr_avg_confidence": 0.414,
+        "ocr_min_confidence": 0.414,
+        "ocr_max_confidence": 0.414,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 273.1240234375,
+              "y_min": 256.12542724609375,
+              "x_max": 464.1768798828125,
+              "y_max": 343.9831237792969
+            },
+            "score": 0.7371
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "Rx",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.414
+          },
+          {
+            "text": "=> Tex. Plc (sin)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.414
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

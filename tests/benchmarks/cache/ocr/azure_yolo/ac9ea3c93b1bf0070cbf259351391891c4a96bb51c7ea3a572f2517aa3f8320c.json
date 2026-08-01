@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "ac9ea3c93b1bf0070cbf259351391891c4a96bb51c7ea3a572f2517aa3f8320c",
+  "record_id": "RX-0016",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 8944.58539999323,
+  "failure": null,
+  "response_sha256": "39f236393911c581c5cd519e1c0f98d9ecf002902d13aa55eac1cbc9d7bba867",
+  "response": {
+    "raw_text": "Se\nTab. Faxo 1800\n01012\ntb. PIC\n54000",
+    "lines": [
+      {
+        "text": "Se",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.636
+      },
+      {
+        "text": "Tab. Faxo 1800",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.636
+      },
+      {
+        "text": "01012",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.636
+      },
+      {
+        "text": "tb. PIC",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.636
+      },
+      {
+        "text": "54000",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.636
+      }
+    ]
+  }
+}

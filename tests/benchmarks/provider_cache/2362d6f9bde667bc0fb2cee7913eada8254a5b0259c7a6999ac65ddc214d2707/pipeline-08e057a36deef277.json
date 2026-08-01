@@ -1,0 +1,311 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0073",
+  "source_sha256": "2362d6f9bde667bc0fb2cee7913eada8254a5b0259c7a6999ac65ddc214d2707",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:35:10.695807+00:00",
+  "runtime_ms": 17710.454700005357,
+  "output": {
+    "medications": [
+      {
+        "name": "Aid-Dental",
+        "matched_term": "Aid-Dental",
+        "drug_id": "7380ce0e-e43f-426d-a383-a059ff2f1b31",
+        "brand_id": "0e6e3fa8-8305-4495-a766-d95dbd5a7194",
+        "dosage": null,
+        "frequency": "2+8+2",
+        "quantity": null,
+        "confidence": 0.711
+      },
+      {
+        "name": "Pf Arrival",
+        "matched_term": "Pf Arrival",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.282
+      },
+      {
+        "name": "Cup Caf",
+        "matched_term": "Cup Caf",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.282
+      },
+      {
+        "name": null,
+        "matched_term": null,
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "400mg",
+        "frequency": "1+0+1",
+        "quantity": null,
+        "confidence": 0.382
+      },
+      {
+        "name": "Invi",
+        "matched_term": "Invi",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.282
+      },
+      {
+        "name": "X-Nay",
+        "matched_term": "X-Nay",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.282
+      },
+      {
+        "name": "Opg",
+        "matched_term": "Opg",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.282
+      },
+      {
+        "name": "Seeto",
+        "matched_term": "Seeto",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": "1+0+1",
+        "quantity": null,
+        "confidence": 0.331
+      },
+      {
+        "name": "Viodove",
+        "matched_term": "Viodove",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.282
+      },
+      {
+        "name": "Kaman",
+        "matched_term": "Kaman",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.282
+      },
+      {
+        "name": "Ou Oms",
+        "matched_term": "Ou Oms",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.282
+      },
+      {
+        "name": "Aid-Dental",
+        "matched_term": "Aid-Dental",
+        "drug_id": "7380ce0e-e43f-426d-a383-a059ff2f1b31",
+        "brand_id": "0e6e3fa8-8305-4495-a766-d95dbd5a7194",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.662
+      },
+      {
+        "name": "Bns Haji Mohlin",
+        "matched_term": "Bns Haji Mohlin",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.282
+      }
+    ],
+    "raw_text": "DENTAL WING\nSE MI,\n9\n22-8-21\nPF ARRIVAL ___!!!!!!!!\n1cup. Caf 3\n400mg\n1+0+1\nInvi-\nX-Nay -\nOPG\nCap. Seeto\n(20m\n)\n1+0+1\n3\nViodove M/W.\nKAMAN\nB.D.S. (OU G (OMS)\nDENTAL SURGEON\nBNS HAJI MOHLIN",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 17667,
+      "detected_regions": 1,
+      "ocr_line_count": 21,
+      "yolo_avg_confidence": 0.85,
+      "yolo_min_confidence": 0.85,
+      "yolo_max_confidence": 0.85,
+      "ocr_avg_confidence": 0.626,
+      "ocr_min_confidence": 0.626,
+      "ocr_max_confidence": 0.626,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 485.8221588134765,
+            "y_min": 1341.2745723724365,
+            "x_max": 3140.9086746215817,
+            "y_max": 3858.204681396484
+          },
+          "score": 0.85
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "DENTAL WING",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "SE MI,",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "9",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "22-8-21",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "PF ARRIVAL ___!!!!!!!!",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "1cup. Caf 3",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "400mg",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "1+0+1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "Invi-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "X-Nay -",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "OPG",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "Cap. Seeto",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "(20m",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": ")",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "1+0+1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "3",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "Viodove M/W.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "KAMAN",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "B.D.S. (OU G (OMS)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "DENTAL SURGEON",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "BNS HAJI MOHLIN",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

@@ -1,0 +1,171 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0037",
+  "source_sha256": "646b85c32d947e5f16fd56778f53d36eb93ac38029dee270c913c449e60ed44f",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:27:57.878324+00:00",
+  "runtime_ms": 6293.608099993435,
+  "output": {
+    "medications": [
+      {
+        "name": "Jiman Alt",
+        "matched_term": "Jiman Alt",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.237
+      },
+      {
+        "name": "Age M",
+        "matched_term": "Age M",
+        "drug_id": "32593a88-50e8-4254-9d22-7d1a52c84504",
+        "brand_id": "86fe087a-92e9-4a39-8921-ab758e162e76",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.617
+      },
+      {
+        "name": "Gus Fenolen",
+        "matched_term": "Gus Fenolen",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "60 mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.288
+      },
+      {
+        "name": "Rise",
+        "matched_term": "Rise",
+        "drug_id": "be9ee231-41e9-4016-8f3b-1c6b50d72218",
+        "brand_id": "fa0ff396-8264-4bf6-8a26-e1e3d59bf294",
+        "dosage": "5mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.668
+      },
+      {
+        "name": "Prozen",
+        "matched_term": "Prozen",
+        "drug_id": "e7099295-51c8-4667-be2d-d3dabae28917",
+        "brand_id": "103ed7d0-329d-4abe-818e-b5b1d02dc4a6",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.617
+      }
+    ],
+    "raw_text": "मजीद)\nJiman Alt\nAge De, WC Rol, Date\nR\n. Gus. Fenolen (60 mg)\n01022\n· Ris. Ancakant (5mg).\n0.012\nProzent Cream.\n.\nศาล 2 การ",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 6253,
+      "detected_regions": 1,
+      "ocr_line_count": 11,
+      "yolo_avg_confidence": 0.9039,
+      "yolo_min_confidence": 0.9039,
+      "yolo_max_confidence": 0.9039,
+      "ocr_avg_confidence": 0.527,
+      "ocr_min_confidence": 0.527,
+      "ocr_max_confidence": 0.527,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 114.90788269042969,
+            "y_min": 189.38333129882812,
+            "x_max": 530.1666870117188,
+            "y_max": 485.0003662109375
+          },
+          "score": 0.9039
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "मजीद)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.527
+        },
+        {
+          "text": "Jiman Alt",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.527
+        },
+        {
+          "text": "Age De, WC Rol, Date",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.527
+        },
+        {
+          "text": "R",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.527
+        },
+        {
+          "text": ". Gus. Fenolen (60 mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.527
+        },
+        {
+          "text": "01022",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.527
+        },
+        {
+          "text": "· Ris. Ancakant (5mg).",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.527
+        },
+        {
+          "text": "0.012",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.527
+        },
+        {
+          "text": "Prozent Cream.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.527
+        },
+        {
+          "text": ".",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.527
+        },
+        {
+          "text": "ศาล 2 การ",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.527
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

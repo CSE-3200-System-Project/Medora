@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0061",
+  "source_sha256": "b4b734b5da2d9930db7d64e51fbcf0d25f3faee75906715c38c1e5e089c8a126",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:32:50.159897+00:00",
+  "runtime_ms": 9497.448900001473,
+  "output": {
+    "medications": [
+      {
+        "name": "Max-D",
+        "matched_term": "Max-D",
+        "drug_id": "c4ca7816-ecd6-4a27-9f17-8de23bf87679",
+        "brand_id": "db9aaad5-737b-41b8-8297-80656e21e925",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.432
+      },
+      {
+        "name": "Acuplus",
+        "matched_term": "Acuplus",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.182
+      },
+      {
+        "name": "Alatrol",
+        "matched_term": "Alatrol",
+        "drug_id": "362c03e6-8499-4a2d-aa2d-8da0b3e01939",
+        "brand_id": "393faff2-75ae-4cfe-a895-a7fcde21ff27",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.562
+      }
+    ],
+    "raw_text": "3 21 max /500 (5)\n01043\n3 Acuplus\n2 Alatrol\n18.5.24",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 9461,
+      "detected_regions": 1,
+      "ocr_line_count": 5,
+      "yolo_avg_confidence": 0.8765,
+      "yolo_min_confidence": 0.8765,
+      "yolo_max_confidence": 0.8765,
+      "ocr_avg_confidence": 0.404,
+      "ocr_min_confidence": 0.404,
+      "ocr_max_confidence": 0.404,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 264.61859130859375,
+            "y_min": 347.3258361816406,
+            "x_max": 493.0262756347656,
+            "y_max": 580.6327514648438
+          },
+          "score": 0.8765
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "3 21 max /500 (5)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.404
+        },
+        {
+          "text": "01043",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.404
+        },
+        {
+          "text": "3 Acuplus",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.404
+        },
+        {
+          "text": "2 Alatrol",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.404
+        },
+        {
+          "text": "18.5.24",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.404
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

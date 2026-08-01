@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "fb4cf4fe118bcb6783a724bcb9dc2d74e085b7482fabc83cb6ffa2375a0e9e21",
+  "record_id": "RX-0023",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 4724.219600000652,
+  "failure": null,
+  "response_sha256": "3d72dffb9852fe43ae1142184c35bcb6b7c31daf6c5d7a00fd0c7958178d13fc",
+  "response": {
+    "raw_text": "- Tab Compridas\n10\njob faxa\n01041\nIS)\n- Cap omeprazole(200)\n10\n1-1 0+ 1.\nTab. Mones (om)\n-",
+    "lines": [
+      {
+        "text": "- Tab Compridas",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.423
+      },
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.423
+      },
+      {
+        "text": "job faxa",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.423
+      },
+      {
+        "text": "01041",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.423
+      },
+      {
+        "text": "IS)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.423
+      },
+      {
+        "text": "- Cap omeprazole(200)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.423
+      },
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.423
+      },
+      {
+        "text": "1-1 0+ 1.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.423
+      },
+      {
+        "text": "Tab. Mones (om)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.423
+      },
+      {
+        "text": "-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.423
+      }
+    ]
+  }
+}
