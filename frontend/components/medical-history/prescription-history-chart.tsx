@@ -15,22 +15,15 @@ interface PrescriptionHistoryChartProps {
   doctorPrescriptions?: unknown[];
 }
 
-export const PrescriptionHistoryChart = React.memo(function PrescriptionHistoryChart({
-  medications,
-  doctorPrescriptions,
-}: PrescriptionHistoryChartProps) {
-  const chartData = useMemo(() => {
-    return [
-      { month: "Oct", count: 3 },
-      { month: "Nov", count: 4 },
-      { month: "Dec", count: 2 },
-      { month: "Jan", count: 6 },
-      { month: "Feb", count: 7 },
-      { month: "Mar", count: 3 },
-    ];
-  }, [medications, doctorPrescriptions]);
+export const PrescriptionHistoryChart = React.memo(function PrescriptionHistoryChart(
+  { medications = [], doctorPrescriptions = [] }: PrescriptionHistoryChartProps,
+) {
+  const chartData = useMemo(
+    () => buildMonthlyPrescriptionCounts([...medications, ...doctorPrescriptions]),
+    [doctorPrescriptions, medications],
+  );
 
-  const activeMonth = "Feb";
+  const activeMonth = new Date().toLocaleString("en-US", { month: "short" });
 
   const option = useMemo<EChartsOption>(
     () => ({
@@ -132,4 +125,35 @@ export const PrescriptionHistoryChart = React.memo(function PrescriptionHistoryC
 });
 
 PrescriptionHistoryChart.displayName = "PrescriptionHistoryChart";
+
+function buildMonthlyPrescriptionCounts(records: unknown[]) {
+  const now = new Date();
+  const months = Array.from({ length: 6 }, (_, offset) => {
+    const date = new Date(now.getFullYear(), now.getMonth() - (5 - offset), 1);
+    return {
+      key: `${date.getFullYear()}-${date.getMonth()}`,
+      month: date.toLocaleString("en-US", { month: "short" }),
+      count: 0,
+    };
+  });
+  const byMonth = new Map(months.map((month) => [month.key, month]));
+
+  records.forEach((record) => {
+    const date = getPrescriptionDate(record);
+    if (!date) return;
+    const month = byMonth.get(`${date.getFullYear()}-${date.getMonth()}`);
+    if (month) month.count += 1;
+  });
+
+  return months.map(({ month, count }) => ({ month, count }));
+}
+
+function getPrescriptionDate(record: unknown): Date | null {
+  if (!record || typeof record !== "object") return null;
+  const candidate = record as Record<string, unknown>;
+  const rawDate = candidate.created_at ?? candidate.prescribed_date ?? candidate.started_date ?? candidate.date;
+  if (typeof rawDate !== "string") return null;
+  const date = new Date(rawDate);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
 

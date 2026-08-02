@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0025",
   "source_sha256": "cd24a261776b388d77b6f7ce7d6a68819049a19c211d94897009cb86f710abcb",
-  "raw_transcription": "Econan ake(i)\nTab Fexo 10\nA",
+  "raw_transcription": "Tab. Fexo [illegible]\n0+0+1",
   "boxes": [],
   "medications": [
     {
@@ -37,14 +37,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "0f819856bc459d4125d18ce9a3f15f7ef2efa51f26434962a1bd90db9dfe0a75"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "61afab9b0bc6bc8bf0428a23edaf4cafc605516036a75f015ab86d874c8a0e22"
     },
     {
       "provider": "paddle",
@@ -1055,6 +1059,16 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Tab. Fexo [illegible]\n0+0+1",
+      "uncertain_spans": [
+        "Fexo strength"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

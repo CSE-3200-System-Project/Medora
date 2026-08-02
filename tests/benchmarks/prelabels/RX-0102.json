@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0102",
   "source_sha256": "e6269be695acbc13c707dae27ab0e497bfce267e892763e0840e2af49de0dbfb",
-  "raw_transcription": "Vist No:\nDate:\nTab. calcio\n\" Cap. esotid-20\nseats groves goods\n0\n12\n26/5/24",
+  "raw_transcription": "Rx\nTab. [illegible]\n1+0+1 - 20 days - 40\nCap. Esotid 20\n1+0+1 - 20 days - 40\nORS - 10",
   "boxes": [],
   "medications": [
     {
@@ -67,14 +67,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "c2f1b961ee3b5afc5a9176b4ab1945813643dc5ad8e539a5856a7d882f12c38c"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "733888e2d805747732ed17b0d22f8b8a9de7caf0906b237d4c22874c1b420160"
     },
     {
       "provider": "paddle",
@@ -2039,6 +2043,18 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. [illegible]\n1+0+1 - 20 days - 40\nCap. Esotid 20\n1+0+1 - 20 days - 40\nORS - 10",
+      "uncertain_spans": [
+        "first tablet name",
+        "dose schedules and interpretation of quantities",
+        "Esotid spelling"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

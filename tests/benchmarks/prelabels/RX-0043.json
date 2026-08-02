@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0043",
   "source_sha256": "cba2c10d7dfe3b8bd790296d0ba71d6e0688eb3d8aa530e4dc13f0721ae97a5c",
-  "raw_transcription": "Weakness\nGen\nW Anorexia\nB/2\nTub.\nAM.\n17/\nHat\n1\nTub. Xantia (1500\nHat1\nTab. Alben-\n20)\n2)",
+  "raw_transcription": "Rx\nTab. B/C [illegible]\n1+0+1 - 20\nTab. Xyratid [illegible]\n1+0+1 - 20\nTab. Alben-DS - 2",
   "boxes": [],
   "medications": [
     {
@@ -77,14 +77,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "961b68ae28d9b7fda260d7f307c156c76d4d47c86a0d58b8b968cdeb6ecae121"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "2002cd44d4dd3c6129bd883259e0d60e7825eab56775937715a894e14422f2a6"
     },
     {
       "provider": "paddle",
@@ -1121,6 +1125,17 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. B/C [illegible]\n1+0+1 - 20\nTab. Xyratid [illegible]\n1+0+1 - 20\nTab. Alben-DS - 2",
+      "uncertain_spans": [
+        "first medicine name",
+        "Xyratid spelling and strength"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

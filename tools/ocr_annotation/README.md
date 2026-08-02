@@ -14,6 +14,22 @@ Generate or verify the corpus inventory first:
 python tests/benchmarks/generate_ocr_manifest.py --check
 ```
 
+Optional GPT vision transcriptions are stored separately as explicitly unreviewed
+Rx-only drafts. Validate and import them into the primary-review prelabels with:
+
+```powershell
+python tools/ocr_annotation/import_gpt_vision_drafts.py --check
+python tools/ocr_annotation/import_gpt_vision_drafts.py
+python tools/ocr_annotation/import_gpt_vision_drafts.py --drafts tests/benchmarks/datasets/gpt_vision_drafts_hard.jsonl --check
+python tools/ocr_annotation/import_gpt_vision_drafts.py --drafts tests/benchmarks/datasets/gpt_vision_drafts_hard.jsonl
+python tools/ocr_annotation/import_gpt_vision_drafts.py --drafts tests/benchmarks/datasets/gpt_vision_drafts_medium.jsonl --check
+python tools/ocr_annotation/import_gpt_vision_drafts.py --drafts tests/benchmarks/datasets/gpt_vision_drafts_medium.jsonl
+```
+
+The importer checks the source-image hash and provenance. These drafts never enter
+the gold standard directly and the server does not expose them to the blinded
+independent reviewer.
+
 Keyboard shortcuts: `J`/`K` move between records, `S` saves, `R` selects an Rx box, `L` selects a line box, `N` adds a medication row, and `?` opens the shortcut reference. Draw a box by dragging on the full-image canvas. The first Rx box drives the crop preview.
 
 Release rules and reviewer responsibilities are defined in [annotation_protocol.md](../../docs/softwarex/annotation_protocol.md).

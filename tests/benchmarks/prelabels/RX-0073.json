@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0073",
   "source_sha256": "2362d6f9bde667bc0fb2cee7913eada8254a5b0259c7a6999ac65ddc214d2707",
-  "raw_transcription": "DENTAL WING\nSE MI,\n9\n22-8-21\nPF ARRIVAL ___!!!!!!!!\n1cup. Caf 3\n400mg\n1+0+1\nInvi-\nX-Nay -\nOPG\nCap. Seeto\n(20m\n)\n1+0+1\n3\nViodove M/W.\nKAMAN\nB.D.S. (OU G (OMS)\nDENTAL SURGEON\nBNS HAJI MOHLIN",
+  "raw_transcription": "Rx\n1. Cap. Cef-3 400 mg\n1+0+1 - 7 days\n2. Cap. Seclo 20 mg\n1+0+1\n3. Viodine mouthwash",
   "boxes": [],
   "medications": [
     {
@@ -147,14 +147,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "a9c6760d9efb07921ceb386d081c49f37f459a498be3b6a4323e2cbe7ec153ca"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "cc7b6aefa0ba759f330e2db6ccab9cbe79ae32b4567fc976575e4db58bdebf68"
     },
     {
       "provider": "paddle",
@@ -1202,6 +1206,17 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\n1. Cap. Cef-3 400 mg\n1+0+1 - 7 days\n2. Cap. Seclo 20 mg\n1+0+1\n3. Viodine mouthwash",
+      "uncertain_spans": [
+        "Cef-3 spelling and duration",
+        "Viodine spelling and mouthwash instruction"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

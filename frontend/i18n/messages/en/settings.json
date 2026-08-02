@@ -111,8 +111,8 @@
         "description": "Share profile data only with verified doctors."
       },
       "anonymousResearch": {
-        "title": "Anonymous Research Contribution",
-        "description": "Allow anonymized data for healthcare improvement studies."
+        "title": "Research Data Contribution",
+        "description": "Allow separately consented, de-identified data to be used for approved research. De-identification does not guarantee anonymity."
       },
       "autoLockTimeout": "Auto-Lock Timeout",
       "autoLockOptions": {

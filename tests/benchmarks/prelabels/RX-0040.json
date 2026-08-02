@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0040",
   "source_sha256": "762fc38d4c1f699cf341aabbd997d914d9fa1ce30089b563e5275082da63a306",
-  "raw_transcription": "Om NO. 19 ( Emergency )\nPatient Type : Gener\nRx\n36. Zoli vox (400mg)\nTo. Fixeet plus 250\n30. Flexi 100\n20 ty for)\n20. Vonopa 20\nKalconst-D\nno\n2\n0",
+  "raw_transcription": "Tab. Zolivox (400mg)\n১+০+১ - ৭দিন\nTab. Fixcef Plus 250\n১+০+১ - ৭দিন\nTab. Flexi 100\n১+০+১ - ৭দিন\nTab. Vonopa 20\n১+০+১ - [illegible]\nTab. Kalcoral-D\n১+০+১ - [illegible]",
   "boxes": [],
   "medications": [
     {
@@ -97,14 +97,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "5c28d396ef3ab3566df683b69583edd505fe7d466dd9249c7b996c72d6e93514"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "e1dbe69eeaac62f458a257adaac30a757d0b0283e405a64c640e67b6edbccd39"
     },
     {
       "provider": "paddle",
@@ -1179,6 +1183,16 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Tab. Zolivox (400mg)\n১+০+১ - ৭দিন\nTab. Fixcef Plus 250\n১+০+১ - ৭দিন\nTab. Flexi 100\n১+০+১ - ৭দিন\nTab. Vonopa 20\n১+০+১ - [illegible]\nTab. Kalcoral-D\n১+০+১ - [illegible]",
+      "uncertain_spans": [
+        "durations on final two lines"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

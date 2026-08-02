@@ -210,11 +210,11 @@ def _is_invalid_content_length(exc: HttpResponseError) -> bool:
 def _safe_request_id(subject_token: str | None) -> str:
     token = str(subject_token or "").strip().lower()
     if not token:
-        return "medora-anonymous"
+        return "medora-ocr-request"
     token = "".join(ch for ch in token if ch.isalnum() or ch in {"-", "_"})
     token = token[:52]
     if not token:
-        return "medora-anonymous"
+        return "medora-ocr-request"
     return f"medora-{token}"
 
 

@@ -1609,7 +1609,8 @@ def _build_service_information_reply(*, role: UserRole, message: str) -> str:
     if _message_has_any(normalized, ("privacy", "security", "data")):
         return (
             "Medora enforces role-based access checks and patient scoping. "
-            "Sensitive references are anonymized in assistant processing paths."
+            "Known sensitive references are redacted in assistant processing paths, "
+            "but redaction cannot guarantee anonymity."
         )
 
     return (

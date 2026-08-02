@@ -112,7 +112,7 @@ function Heading({
   
   return (
     <Text
-      as={`h${level}` as any}
+      as={`h${level}` as TextProps["as"]}
       size={headingSize}
       weight="bold"
       className={cn("tracking-tight", className)}

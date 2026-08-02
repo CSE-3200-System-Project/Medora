@@ -12,7 +12,6 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Switch } from "@/components/ui/switch";
 import { ButtonLoader, MedoraLoader } from "@/components/ui/medora-loader";
 import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 import {
@@ -63,6 +62,19 @@ interface OverrideData {
   slot_duration_minutes: number;
 }
 
+interface AvailabilityDayData {
+  day_of_week: number;
+  is_active: boolean;
+  time_blocks: Array<Partial<TimeBlock> & Pick<TimeBlock, "start_time" | "end_time">>;
+}
+
+interface AvailabilityResponse {
+  days?: AvailabilityDayData[];
+  exceptions?: ExceptionData[];
+  overrides?: OverrideData[];
+  appointment_duration?: number;
+}
+
 interface AvailabilityManagerProps {
   doctorId: string;
 }
@@ -76,19 +88,14 @@ const DAYS = [
   "Saturday",
   "Sunday",
 ];
-const HOURS = Array.from({ length: 12 }, (_, i) => i + 1);
-const MINUTES = [0, 15, 30, 45];
 const DURATION_OPTIONS = [15, 20, 30, 45, 60];
+
+function getErrorMessage(error: unknown, fallback: string): string {
+  return error instanceof Error && error.message ? error.message : fallback;
+}
 
 function generateId() {
   return Math.random().toString(36).substring(2, 11);
-}
-
-function to24h(hour: number, minute: number, period: "AM" | "PM"): string {
-  let h = hour;
-  if (period === "PM" && hour !== 12) h += 12;
-  if (period === "AM" && hour === 12) h = 0;
-  return `${h.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
 }
 
 function from24h(time24: string): {
@@ -105,28 +112,6 @@ function from24h(time24: string): {
 function formatTime12(time24: string): string {
   const { hour, minute, period } = from24h(time24);
   return `${hour}:${minute.toString().padStart(2, "0")} ${period}`;
-}
-
-// Parse legacy "9:00 AM - 5:00 PM" ranges to 24h time blocks
-function parseLegacyRange(rangeStr: string): TimeBlock | null {
-  const match = rangeStr.match(
-    /(\d{1,2})(?::(\d{2}))?\s*(AM|PM)\s*-\s*(\d{1,2})(?::(\d{2}))?\s*(AM|PM)/i
-  );
-  if (!match) return null;
-
-  const startH = parseInt(match[1]);
-  const startM = match[2] ? parseInt(match[2]) : 0;
-  const startP = match[3].toUpperCase() as "AM" | "PM";
-  const endH = parseInt(match[4]);
-  const endM = match[5] ? parseInt(match[5]) : 0;
-  const endP = match[6].toUpperCase() as "AM" | "PM";
-
-  return {
-    id: generateId(),
-    start_time: to24h(startH, startM, startP),
-    end_time: to24h(endH, endM, endP),
-    slot_duration_minutes: 30,
-  };
 }
 
 export function AvailabilityManager({ doctorId }: AvailabilityManagerProps) {
@@ -150,7 +135,7 @@ export function AvailabilityManager({ doctorId }: AvailabilityManagerProps) {
   const loadAvailability = useCallback(async () => {
     setLoading(true);
     try {
-      const data = await getWeeklyAvailability(doctorId);
+      const data = (await getWeeklyAvailability(doctorId)) as AvailabilityResponse | null;
       if (!data) {
         // Initialize empty schedule
         const empty: Record<string, DaySchedule> = {};
@@ -168,12 +153,12 @@ export function AvailabilityManager({ doctorId }: AvailabilityManagerProps) {
       const newSchedule: Record<string, DaySchedule> = {};
       DAYS.forEach((day, idx) => {
         const dayData = data.days?.find(
-          (d: any) => d.day_of_week === idx
+          (d) => d.day_of_week === idx
         );
         if (dayData) {
           newSchedule[day] = {
             is_active: dayData.is_active,
-            time_blocks: dayData.time_blocks.map((b: any) => ({
+            time_blocks: dayData.time_blocks.map((b) => ({
               id: b.id || generateId(),
               start_time: b.start_time,
               end_time: b.end_time,
@@ -294,8 +279,8 @@ export function AvailabilityManager({ doctorId }: AvailabilityManagerProps) {
 
       setSaveSuccess(true);
       setTimeout(() => setSaveSuccess(false), 3000);
-    } catch (error: any) {
-      alert(error.message || "Failed to save schedule");
+    } catch (error: unknown) {
+      alert(getErrorMessage(error, "Failed to save schedule"));
     } finally {
       setSaving(false);
     }
@@ -314,8 +299,8 @@ export function AvailabilityManager({ doctorId }: AvailabilityManagerProps) {
         reason: reason || undefined,
       });
       await loadAvailability();
-    } catch (error: any) {
-      alert(error.message || "Failed to add exception");
+    } catch (error: unknown) {
+      alert(getErrorMessage(error, "Failed to add exception"));
     }
   };
 
@@ -323,8 +308,8 @@ export function AvailabilityManager({ doctorId }: AvailabilityManagerProps) {
     try {
       await removeException(exceptionId);
       setExceptions((prev) => prev.filter((e) => e.id !== exceptionId));
-    } catch (error: any) {
-      alert(error.message || "Failed to remove exception");
+    } catch (error: unknown) {
+      alert(getErrorMessage(error, "Failed to remove exception"));
     }
   };
 
@@ -344,8 +329,8 @@ export function AvailabilityManager({ doctorId }: AvailabilityManagerProps) {
       });
       setOverrideDate("");
       await loadAvailability();
-    } catch (error: any) {
-      alert(error.message || "Failed to add override");
+    } catch (error: unknown) {
+      alert(getErrorMessage(error, "Failed to add override"));
     }
   };
 
@@ -353,8 +338,8 @@ export function AvailabilityManager({ doctorId }: AvailabilityManagerProps) {
     try {
       await removeScheduleOverride(overrideId);
       setOverrides((prev) => prev.filter((o) => o.id !== overrideId));
-    } catch (error: any) {
-      alert(error.message || "Failed to remove override");
+    } catch (error: unknown) {
+      alert(getErrorMessage(error, "Failed to remove override"));
     }
   };
 

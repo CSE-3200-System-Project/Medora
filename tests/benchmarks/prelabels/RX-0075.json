@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0075",
   "source_sha256": "caaa33779d0732bc7ad3b45bec2a144630f7929e70fec921c10307144b28f0e0",
-  "raw_transcription": "6\n& Angilock Su\nor\nDe 2\nTab Comet 500\n1 x oc 1 A\nTre\nApara la\nCep Sucho\n245/310/35/148 Hay\n5\n- JAMS",
+  "raw_transcription": "Rx\nTab. Angilock 50\n0+0+1\nTab. Comet 500\n1+0+1 after food\nTab. Atova 10\n0+0+1\nCap. Seclo 20\n1+0+1 - 1 month",
   "boxes": [],
   "medications": [
     {
@@ -87,14 +87,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "583444aa0d3d4df17395b9a1de8cf3e29083a8910bfb914a8c2dec2d7173417a"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "1d0ab0c934e0e9e68eb2f65c0690ec23c221e4c5a3d624e891046c6dd9a62867"
     },
     {
       "provider": "paddle",
@@ -1297,6 +1301,16 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. Angilock 50\n0+0+1\nTab. Comet 500\n1+0+1 after food\nTab. Atova 10\n0+0+1\nCap. Seclo 20\n1+0+1 - 1 month",
+      "uncertain_spans": [
+        "Angilock, Atova, and Seclo spellings"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

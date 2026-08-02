@@ -12,3 +12,28 @@ Source-grounded summaries & 10 & 10 & fixtures \\
 \caption{Safety fixture results. Clinician review state is reported explicitly.}
 \label{tab:safety-results}
 \end{table}
+\begin{table*}[!ht]
+\centering\scriptsize
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Privacy category & Cases & Precision & Recall & False redaction & Residual known ID \\
+\midrule
+account\_id & 10 & 100.0\% & 100.0\% & -- & 0.0\% \\
+bengali\_nid & 10 & 100.0\% & 100.0\% & -- & 0.0\% \\
+bengali\_phone & 10 & 100.0\% & 100.0\% & -- & 0.0\% \\
+consent\_state & 10 & -- & -- & -- & -- \\
+email & 10 & 100.0\% & 100.0\% & -- & 0.0\% \\
+known\_name & 10 & 100.0\% & 100.0\% & -- & 0.0\% \\
+national\_id & 10 & 100.0\% & 100.0\% & -- & 0.0\% \\
+over\_redaction & 20 & -- & -- & 0.0\% & -- \\
+passport & 10 & 100.0\% & 100.0\% & -- & 0.0\% \\
+phone & 10 & 100.0\% & 100.0\% & -- & 0.0\% \\
+prompt\_injection & 10 & 100.0\% & 100.0\% & -- & 0.0\% \\
+unknown\_identifier\_limitation & 10 & -- & -- & 0.0\% & -- \\
+\midrule
+All span-annotated cases & 130 & 100.0\% & 100.0\% & 0.0\% & 0.0\% \\
+\bottomrule
+\end{tabular}
+\caption{Span-level privacy metrics. A dash means the category has no annotated positive or benign span for that denominator. Unknown and indirect identifiers remain an explicit limitation.}
+\label{tab:privacy-span-results}
+\end{table*}

@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0048",
   "source_sha256": "df4a53feffd701249545ddc49d02bfaf97cba5aa159fe8c841d9787f6102c010",
-  "raw_transcription": "4 Hypervismidisom\nVB,. Tab. Carbizol 5r\n2×242\n2. Tcl Indevan 10\nlevel\n1\nRu .\nNO. ANWARÜL KABIR\nBrig lien\n· Ady Spl in Medicine unut\nEndocrinologist\nCMH Dhaka\n621\n13.7.2018\nw1 600\nTil Cambizol 52\n2004/\nMI.\nc .\n2.\nEl Indevar 10\n18\n3. Tale Prosmajor\noconel afines\nनाम M\n10",
+  "raw_transcription": "Rx\nTab. Carbimazole 5 mg\n2+2+2\nTab. Indever 10\n1+0+1\n\nRx (later entry)\n1. Tab. Carbimazole 5 mg\n2+0+1\n2. Tab. Indever 10\n1+0+1\n3. Tab. [illegible]\n0+0+1 after [illegible]",
   "boxes": [],
   "medications": [
     {
@@ -147,14 +147,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "a8d8f477a3bf84d8c86e11af1f854270d4b12011b274313ec729466cb681ad48"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "3d12213112432fe3a52d36f7ea6f52958319d916d52f4d8de2a86dca5c53a943"
     },
     {
       "provider": "paddle",
@@ -1655,6 +1659,17 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. Carbimazole 5 mg\n2+2+2\nTab. Indever 10\n1+0+1\n\nRx (later entry)\n1. Tab. Carbimazole 5 mg\n2+0+1\n2. Tab. Indever 10\n1+0+1\n3. Tab. [illegible]\n0+0+1 after [illegible]",
+      "uncertain_spans": [
+        "Carbimazole strength",
+        "later-entry third tablet name and instruction"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

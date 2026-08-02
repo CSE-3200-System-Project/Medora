@@ -65,6 +65,17 @@ export function useVoiceRecorder(options: UseVoiceRecorderOptions = {}): UseVoic
     };
   }, []);
 
+  const stopRecording = useCallback(() => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
+      mediaRecorderRef.current.stop();
+    }
+  }, []);
+
   const startRecording = useCallback(async () => {
     if (!isSupported) {
       setError("Voice recording is not supported in this browser");
@@ -137,29 +148,19 @@ export function useVoiceRecorder(options: UseVoiceRecorderOptions = {}): UseVoic
         }
       }, 100);
 
-    } catch (err: any) {
+    } catch (err: unknown) {
       // Handle permission denied or other errors
-      if (err.name === "NotAllowedError" || err.name === "PermissionDeniedError") {
+      const errorName = err instanceof DOMException ? err.name : "";
+      if (errorName === "NotAllowedError" || errorName === "PermissionDeniedError") {
         setError("Microphone access denied. Please allow microphone access and try again.");
-      } else if (err.name === "NotFoundError") {
+      } else if (errorName === "NotFoundError") {
         setError("No microphone found. Please connect a microphone and try again.");
       } else {
         setError("Failed to start recording. Please try again.");
       }
       setState("error");
     }
-  }, [isSupported, maxDuration, onRecordingComplete]);
-
-  const stopRecording = useCallback(() => {
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-      timerRef.current = null;
-    }
-
-    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
-      mediaRecorderRef.current.stop();
-    }
-  }, []);
+  }, [isSupported, maxDuration, onRecordingComplete, stopRecording]);
 
   const resetRecorder = useCallback(() => {
     // Stop any ongoing recording

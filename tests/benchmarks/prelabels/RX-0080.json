@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0080",
   "source_sha256": "a7885cf63e2c0cbab3d95bb7e1f98ff5e827f1771fb15a94e9e4ead4fa3ce87d",
-  "raw_transcription": "Rx\nMallofer'S\n1. Tab. Gemer 1/50g\n2. Ta5. Tems 40mg ottimo\n3. Th. Bristol 5mg +0 0g 0\n2. Ta. ROSU 5W STHLMO\n. 5. To. Pantowy LOV I+vel ho\nNUTOON\n6. Tw. Folison 5% OfHis MUSCOLO\n7. 15. Nitoxin Sur 1+41 6/w",
+  "raw_transcription": "Rx\n1. Tab. Gemer 1/500\n1+0+0 [illegible]\n2. Tab. [illegible] 20 mg\n0+0+1 [illegible]\n3. Tab. Bisol 5 mg\n1+0+0 [illegible]\n4. Tab. Rosu 5 mg\n0+0+1 [illegible]\n5. Tab. Pantonic 20\n1+0+1 [illegible]\n6. Tab. [illegible] 5 mg\n0+0+1 [illegible]\n7. Tab. [illegible] 5 mg\n1+0+1 [illegible]",
   "boxes": [],
   "medications": [
     {
@@ -97,14 +97,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "1f38022f4163d8d84f198bb464580270a775c8336521ac9b5300f712a29a0f08"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "eaa2ceb4268282b393a6411394a6a91043d63f5f55727044e25f810962a7afcd"
     },
     {
       "provider": "paddle",
@@ -1526,6 +1530,18 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\n1. Tab. Gemer 1/500\n1+0+0 [illegible]\n2. Tab. [illegible] 20 mg\n0+0+1 [illegible]\n3. Tab. Bisol 5 mg\n1+0+0 [illegible]\n4. Tab. Rosu 5 mg\n0+0+1 [illegible]\n5. Tab. Pantonic 20\n1+0+1 [illegible]\n6. Tab. [illegible] 5 mg\n0+0+1 [illegible]\n7. Tab. [illegible] 5 mg\n1+0+1 [illegible]",
+      "uncertain_spans": [
+        "second, sixth, and seventh product names",
+        "timing instructions",
+        "Gemer, Bisol, and Pantonic spellings"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

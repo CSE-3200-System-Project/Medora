@@ -290,7 +290,7 @@ Example:
 
 Log:
 
-* Raw user text (anonymized)
+* Raw user text after best-effort identifier redaction; it is not guaranteed anonymous
 * LLM output
 * Validation result
 * Selected doctor

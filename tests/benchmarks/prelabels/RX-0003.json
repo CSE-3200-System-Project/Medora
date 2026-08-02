@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0003",
   "source_sha256": "e44e16945c106bcbb44afc4d866630e307cf1a11fad5899b89d1f2af7ebf4cb6",
-  "raw_transcription": ". Cap.\nsecto (20g)\n2tot?\n20\n. Tab.\nDomingoy\nessyro\n2+2+3.\n20\n· Cap. Ferfol\n>toto\nRend to SPL of\nGynae & obs.\nof DCMH for needful\naction.",
+  "raw_transcription": "Cap. Seclo (20mg)\n১+০+১ খাবার আগে (30)\nTab. Domlin (10mg)\n১+১+১ খাবার আগে (30)\nCap. Feofol\n১+০+০ (30)",
   "boxes": [],
   "medications": [
     {
@@ -130,11 +130,15 @@
     "illegible": false
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "6370f2c24a7d363fb99e19b98d3a03a02dbee57c21e6b7b02e8010a38ef1af87"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "0644a4d1e7d5168b3a157630bdf9eb428c1bf58cd8cb9900c145b37bc0e80f93"
     },
     {
       "provider": "paddle",
@@ -1311,6 +1315,14 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Cap. Seclo (20mg)\n১+০+১ খাবার আগে (30)\nTab. Domlin (10mg)\n১+১+১ খাবার আগে (30)\nCap. Feofol\n১+০+০ (30)",
+      "uncertain_spans": [],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

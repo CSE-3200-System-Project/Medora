@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0082",
   "source_sha256": "6a0ed023147fba6b6f155fa1e8086090dd6c7f2e3deced52ab2cfad3da93b24d",
-  "raw_transcription": "· 1 Taj Gomes 2/ 50mg +To meglio\nEs 展开开展工业区 Tems A 2015\n3 Tas. 201 52 1+00 00\n(4) Ta. Hewolx 15L\nITOPIMAÇON 220\n8) Ts, ROSU 5W other we Mag\nItdel wo\nla.\nPantomx 29\nChamber :\nHitech Multicare Hospital Ltd.\nNome of care\n164, East Kafrul, Dhaka Cantonment DLI.",
+  "raw_transcription": "Rx\n1. Tab. Gemer 2/500\n1+0+0 [illegible]\n2. Tab. Tems A 40/5\n0+0+1 [illegible]\n3. Tab. Bisol 5\n1+0+0 [illegible]\n4. Tab. Hemofix [illegible]\n1+0+1 [illegible]\n5. Tab. Rosu 5\n0+0+1 [illegible]\n6. Tab. Pantonic 20\n1+0+1 [illegible]",
   "boxes": [],
   "medications": [
     {
@@ -127,14 +127,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "ebd557169e845e236d3071270e643d244dc50aa14632a003295e0c62ee6438dc"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "9637d2b683565857f2994e752aeebaba51c4342269a2caf561f6be4c543a7f58"
     },
     {
       "provider": "paddle",
@@ -1535,6 +1539,18 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\n1. Tab. Gemer 2/500\n1+0+0 [illegible]\n2. Tab. Tems A 40/5\n0+0+1 [illegible]\n3. Tab. Bisol 5\n1+0+0 [illegible]\n4. Tab. Hemofix [illegible]\n1+0+1 [illegible]\n5. Tab. Rosu 5\n0+0+1 [illegible]\n6. Tab. Pantonic 20\n1+0+1 [illegible]",
+      "uncertain_spans": [
+        "product spellings",
+        "Hemofix strength",
+        "timing instructions"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

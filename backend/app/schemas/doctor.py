@@ -1,8 +1,10 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict, Field
 from typing import List, Optional, Any
 from datetime import date, datetime
 
 class DoctorCardSchema(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     profile_id: str
     first_name: Optional[str] = None
     last_name: Optional[str] = None
@@ -27,9 +29,6 @@ class DoctorCardSchema(BaseModel):
     consultation_mode: Optional[str] = None
     rating_avg: float = 0.0
     rating_count: int = 0
-
-    class Config:
-        from_attributes = True
 
 class DoctorSearchResponse(BaseModel):
     doctors: List[DoctorCardSchema]
@@ -68,6 +67,8 @@ class LocationInfo(BaseModel):
     day_time_slots: Optional[dict] = None  # Optional per-day schedule for this location
 
 class DoctorProfileResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     # Basic info
     profile_id: str
     first_name: str
@@ -92,7 +93,7 @@ class DoctorProfileResponse(BaseModel):
     sub_specializations: Optional[List[str]] = None
     
     # Locations (hospital and chamber)
-    locations: List[LocationInfo] = []
+    locations: List[LocationInfo] = Field(default_factory=list)
     
     # Consultation details
     consultation_fee: Optional[float] = None
@@ -116,9 +117,6 @@ class DoctorProfileResponse(BaseModel):
     # Review aggregates (populated from denormalized fields on DoctorProfile)
     rating_avg: float = 0.0
     rating_count: int = 0
-
-    class Config:
-        from_attributes = True
 
 # Appointment slots schema
 class TimeSlot(BaseModel):

@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0034",
   "source_sha256": "9f3e6a815e612e2569c7259fab2cd6473002497679d50357a874e69b9d34828d",
-  "raw_transcription": "Rx\nบทบาธาวิน kakar\nสตรอ นาฬิการน 1\n- 26. Trilock (10g) (10\n04042.\n)\n1 horas",
+  "raw_transcription": "[illegible Bangla instructions]\nTab. Trilock (10mg) (10)\n0+0+1\n[illegible]",
   "boxes": [],
   "medications": [
     {
@@ -47,14 +47,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "afc1cb5e8164dcc34d8eec11edd7176ae49b53dd21b05a0da6b7c1160c5dc2c2"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "23fbb908d2e8feb71ddb2a8a43daf6662a6a75b677375fb18e111714ed5446e7"
     },
     {
       "provider": "paddle",
@@ -2018,6 +2022,16 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "[illegible Bangla instructions]\nTab. Trilock (10mg) (10)\n0+0+1\n[illegible]",
+      "uncertain_spans": [
+        "Bangla instructions above and below medication"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

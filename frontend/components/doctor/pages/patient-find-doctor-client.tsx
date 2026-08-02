@@ -11,7 +11,7 @@ import { SearchFilters } from "@/components/doctor/search-filters";
 import { PatientContextDisplay } from "@/components/doctor/patient-context-display";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Sparkles, AlertCircle, Activity, Stethoscope, Clock, Map, History, User, ChevronRight } from "lucide-react";
+import { Sparkles, AlertCircle, Activity, Stethoscope, Map, History, User, ChevronRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { getPreviouslyVisitedDoctors } from "@/lib/appointment-actions";
 import { MedoraLoader } from "@/components/ui/medora-loader";

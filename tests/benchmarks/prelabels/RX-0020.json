@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0020",
   "source_sha256": "6e71488dc77c4d13580e11d1516ca3008a39d56cc1f2adcdbf4c5351df507208",
-  "raw_transcription": "Rx\nCap. o magnagole (20mg)\n2+++1- 9Rx-\n· Tab. Reflex (10mg)\nIs\n( undertor SATuml )",
+  "raw_transcription": "Cap. Omeprazole (20mg)\n১+০+১ - ৭ দিন (14)\nTab. [illegible] (10mg)\n২+০+১ - ৫ দিন (15)",
   "boxes": [],
   "medications": [
     {
@@ -47,14 +47,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "c9ceb585707fc262389b2f75617c540669fb1883c72616fc10a77958711248b4"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "43517dfaca510a72c69f40b8f37b98a24fd29e539cc08d87d5df382c2c8271b8"
     },
     {
       "provider": "paddle",
@@ -1906,6 +1910,16 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Cap. Omeprazole (20mg)\n১+০+১ - ৭ দিন (14)\nTab. [illegible] (10mg)\n২+০+১ - ৫ দিন (15)",
+      "uncertain_spans": [
+        "second medicine name"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

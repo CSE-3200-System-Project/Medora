@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0042",
   "source_sha256": "1a3318b98f6a1456b7c1ce6fa24c98ed7acd783c791a2670d5cdcde60a302228",
-  "raw_transcription": "14 lub. Alatrol\nYet. Allergy\nPUD\n(+0+)-\nCap. Suelo 20 mg\n2 +0 +>-\n16\nmoura 2/2 31 cmpor",
+  "raw_transcription": "Rx\nTab. Alatrol\n0+0+1 - 10\nCap. [illegible] 20 mg\n1+0+1 - 10\n[Bangla instruction: illegible]",
   "boxes": [],
   "medications": [
     {
@@ -67,14 +67,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "799fe3893a108365d3e4e8fd5df1d86bed59b57e9520223a4bbacfffd1a10716"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "dbd6fcb6c195413063fd281ff81086b4ac72a2e8f17a87b07d35d740279f2b64"
     },
     {
       "provider": "paddle",
@@ -697,6 +701,17 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. Alatrol\n0+0+1 - 10\nCap. [illegible] 20 mg\n1+0+1 - 10\n[Bangla instruction: illegible]",
+      "uncertain_spans": [
+        "second medicine name",
+        "Bangla timing instruction"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0090",
   "source_sha256": "ed166aee660273228c302c9ec3e3d53375b1e356d3e448d17f50bc9ed7603b29",
-  "raw_transcription": "Rx\nTab_\nNaproxen ( 5mmg)\namopragile crant many\n2.to12- cr2\nFexofenadin (120m)\nTab.\nparacetamol (sr)\n0-+++3-674-",
+  "raw_transcription": "Rx\nTab. Naproxen 500 mg\n1+0+1 (after meal) - 10\nCap. Omeprazole 20 mg\n1+0+1 (before meal) - 10\nTab. Fexofenadine 120 mg\n0+0+1 - 10\nTab. Paracetamol 500 mg\n1+1+1 - 10",
   "boxes": [],
   "medications": [
     {
@@ -67,14 +67,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "b0a8bb5b8c0c9d08ae2c3ef93285d9435156d6e44c478e87f4ba0e09ac244f12"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "0a7decc2a49596e60efb551f1717937d7ebc24c7b716e6e54c985072e695b203"
     },
     {
       "provider": "paddle",
@@ -1484,6 +1488,16 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. Naproxen 500 mg\n1+0+1 (after meal) - 10\nCap. Omeprazole 20 mg\n1+0+1 (before meal) - 10\nTab. Fexofenadine 120 mg\n0+0+1 - 10\nTab. Paracetamol 500 mg\n1+1+1 - 10",
+      "uncertain_spans": [
+        "product spellings"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

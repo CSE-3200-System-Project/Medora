@@ -89,28 +89,7 @@ export default function DoctorAppointmentsPage() {
   const [showAllAppointments, setShowAllAppointments] = React.useState(false);
   const [appointmentsHasMore, setAppointmentsHasMore] = React.useState(false);
 
-  React.useEffect(() => {
-    const init = async () => {
-      // Run the auto-complete sweep in parallel with the initial reads so the
-      // dashboard renders without waiting on a write round-trip.
-      const syncPromise = syncAppointmentStatus().catch((error) => {
-        console.warn("Background appointment status sync failed", error);
-        return null;
-      });
-
-      await Promise.all([loadDoctorProfile(), loadAppointments(), loadRevenueSummary()]);
-
-      // Refresh once if the sync changed any rows (typically zero per visit).
-      const syncResult = await syncPromise;
-      if (syncResult && typeof syncResult === "object" && "updated_count" in syncResult && (syncResult as { updated_count?: number }).updated_count) {
-        await loadAppointments();
-      }
-    };
-
-    init();
-  }, []);
-
-  const loadDoctorProfile = async () => {
+  const loadDoctorProfile = React.useCallback(async () => {
     try {
       const response = await fetchWithAuth("/api/auth/me");
       if (!response?.ok) {
@@ -128,7 +107,7 @@ export default function DoctorAppointmentsPage() {
     } catch {
       // Keep fallback display name.
     }
-  };
+  }, []);
 
   const loadAppointments = React.useCallback(async (overrideShowAll?: boolean) => {
     try {
@@ -148,7 +127,7 @@ export default function DoctorAppointmentsPage() {
     }
   }, [showAllAppointments]);
 
-  const loadRevenueSummary = async () => {
+  const loadRevenueSummary = React.useCallback(async () => {
     try {
       const summary = await getDoctorRevenueSummary();
       setRevenueSummary({
@@ -164,7 +143,24 @@ export default function DoctorAppointmentsPage() {
         consultation_fee: null,
       });
     }
-  };
+  }, []);
+
+  React.useEffect(() => {
+    const init = async () => {
+      const syncPromise = syncAppointmentStatus().catch((error) => {
+        console.warn("Background appointment status sync failed", error);
+        return null;
+      });
+
+      await Promise.all([loadDoctorProfile(), loadAppointments(), loadRevenueSummary()]);
+      const syncResult = await syncPromise;
+      if (syncResult && typeof syncResult === "object" && "updated_count" in syncResult && (syncResult as { updated_count?: number }).updated_count) {
+        await loadAppointments();
+      }
+    };
+
+    void init();
+  }, [loadAppointments, loadDoctorProfile, loadRevenueSummary]);
 
   const panelAppointments = React.useMemo(() => {
     if (selectedDate) {

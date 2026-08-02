@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0004",
   "source_sha256": "eb24a733d4e19d92cd08fced82df304f4a7d22ac2f91adad6d40023052aac000",
-  "raw_transcription": "Tamen (ro)\n. Tab\n2tata-\nSec/10/20)\nBeniticken\nCap\n2+0+)-\nDeslor(30mg)\nlab\n@\n.\nORS -\n2",
+  "raw_transcription": "Tab. Tamen (500)\n১+১+১ ([illegible])\nCap. Seclo (20mg)\n১+০+১ ([illegible])\nTab. Deslor ([illegible]mg)\n0+0+1 ([illegible])\nORS - 2",
   "boxes": [],
   "medications": [
     {
@@ -97,14 +97,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "786f123f5c2038dd8b9c4b953d846f9c1b9ae1f786505cf393c78f579bb6da11"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "14c198c0206d6856c41b711a8b8c8b222e25f88c1bc1f49a8dcf3fd80510936c"
     },
     {
       "provider": "paddle",
@@ -1158,6 +1162,17 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Tab. Tamen (500)\n১+১+১ ([illegible])\nCap. Seclo (20mg)\n১+০+১ ([illegible])\nTab. Deslor ([illegible]mg)\n0+0+1 ([illegible])\nORS - 2",
+      "uncertain_spans": [
+        "quantities on first three lines",
+        "Deslor strength"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0088",
   "source_sha256": "53753e97a4cc1233497059cefca392a7d003c20c1bafc028076a07962f5f0d10",
-  "raw_transcription": "R.\nTab Tolen ( 1mg )\nTab. MOND I KONST\nLachclase sachet\n. Tab. E somcornou | 20 mg",
+  "raw_transcription": "Rx\nTab. Tofen 1 mg\n0+0+1 - 20\nTab. Fexo 120 mg\n[illegible] - 20\nTab. Monas 10 mg\n0+0+1 - 20\n[illegible] sachet\n[illegible] - 30\nTab. Esomeprazole 20 mg\n1+0+1 (before meal) - 20",
   "boxes": [],
   "medications": [
     {
@@ -57,14 +57,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "a8ea0d5e12f80c783194d13ba90375c54d868b5d803ed7fbe2fd40c0af77f0ce"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "47c026131ab2cc109b8f758869c698630abc7c04e0470475e76994ee5f0166b2"
     },
     {
       "provider": "paddle",
@@ -1446,6 +1450,18 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. Tofen 1 mg\n0+0+1 - 20\nTab. Fexo 120 mg\n[illegible] - 20\nTab. Monas 10 mg\n0+0+1 - 20\n[illegible] sachet\n[illegible] - 30\nTab. Esomeprazole 20 mg\n1+0+1 (before meal) - 20",
+      "uncertain_spans": [
+        "Fexo schedule",
+        "sachet product and directions",
+        "product spellings"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

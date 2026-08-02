@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0046",
   "source_sha256": "7ad10198590fb55c7acffc40b7386c4ef40eb07c4fe5fd9b8f7922e3c2046070",
-  "raw_transcription": "A ? RTI\nMoras (10 mg\n1.\nlab.\n(0-1)\n20\n2\nJab\nAminomal /350ml)\n1 -0-0\n10\n3. Tab Nucomist DT (600mg)\n11-0-1\n10\n4.\nTab. Kofen\n1 mg\nDiN/A\n0-0-11\n10%",
+  "raw_transcription": "Rx\n1. Tab. [illegible] 10 mg\n0+0+1 - 30\n2. Tab. [illegible] 350 mg\n1/2+0+0 - 10\n3. Tab. Neuromist-DT 600 mg\n1+0+1 - 10\n4. Tab. Kofen 1 mg\n0+0+1 - 10",
   "boxes": [],
   "medications": [
     {
@@ -107,14 +107,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "be2994ae4f8a492fa7aa7ef9472bb7fa6ccb8a2a27436a365f3d67ab6b8973c3"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "63ee26b399e1e044494f3ba57828a7f1e0f1fef1470dcbe882dc74ab0b73c94e"
     },
     {
       "provider": "paddle",
@@ -1658,6 +1662,19 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\n1. Tab. [illegible] 10 mg\n0+0+1 - 30\n2. Tab. [illegible] 350 mg\n1/2+0+0 - 10\n3. Tab. Neuromist-DT 600 mg\n1+0+1 - 10\n4. Tab. Kofen 1 mg\n0+0+1 - 10",
+      "uncertain_spans": [
+        "first tablet name",
+        "second tablet name",
+        "Neuromist-DT spelling",
+        "Kofen spelling"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0053",
   "source_sha256": "1c5d10e253145679b97fd28ee7e710dc442e7fc60b69e3f6b655a54c6d5bbcdf",
-  "raw_transcription": "sty\n. Jab Cafaclaw (500 mg)\n· Tab U-tremal Retard (100mg)\n0+ 0+2 8935\n· of Surgel (200g)\n2+0+2 (a1323 cam-)-993-\n. Tab Ancos A\n0+0+2 -6475\n-\nJal Regos (20 mg)\n2+0+0-04/25\n· Cp Lubilan (24Mg)\n6+0+2 - Apesar 220 22\n85.12.23\nY. Si Novo Rapid\nGlysup (2.3gm)\n$3.2.23\nSi novo-Rafia\n22+20+2012\nCof Polycel (500mg)\n0+2+2-6955",
+  "raw_transcription": "Rx\nTab. [illegible] 500 mg\n1+0+1 - 7 days\nTab. U-tramal Retard 100 mg\n0+0+1 - 7 days\nCap. Sergel 20 mg\n1+0+1 (before meal) - 7 days\nTab. Ancor A\n0+0+1 - continue\nTab. [illegible] 20 mg\n1+0+0 - continue\nCap. Lubilax 24 mcg\n0+0+1 - [illegible]\nInj. NovoRapid\n2+6+6 [illegible]\n[illegible] 2-3 gm\n[illegible]\n\nLater entry:\nInj. NovoRapid\n22+20+20 +/- 2\nCap. [illegible] 500 mg\n1+1+1 - 7 days",
   "boxes": [],
   "medications": [
     {
@@ -127,14 +127,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "88ee04a96385044b6a9655c62882f8becbec63588a34794502f11af4eee69bbe"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "e6cc8e957d21fd6c3cb06bff3b8398054c234af79677a6da18688180636bb993"
     },
     {
       "provider": "paddle",
@@ -1935,6 +1939,21 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. [illegible] 500 mg\n1+0+1 - 7 days\nTab. U-tramal Retard 100 mg\n0+0+1 - 7 days\nCap. Sergel 20 mg\n1+0+1 (before meal) - 7 days\nTab. Ancor A\n0+0+1 - continue\nTab. [illegible] 20 mg\n1+0+0 - continue\nCap. Lubilax 24 mcg\n0+0+1 - [illegible]\nInj. NovoRapid\n2+6+6 [illegible]\n[illegible] 2-3 gm\n[illegible]\n\nLater entry:\nInj. NovoRapid\n22+20+20 +/- 2\nCap. [illegible] 500 mg\n1+1+1 - 7 days",
+      "uncertain_spans": [
+        "first and fifth tablet names",
+        "U-tramal spelling",
+        "Lubilax trailing instruction",
+        "first NovoRapid instruction",
+        "powder/product line",
+        "later capsule name"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

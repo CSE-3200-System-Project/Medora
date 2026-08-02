@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0036",
   "source_sha256": "7864061a13856420108e03fd1218774404f4f1e48c501376920b28feb2d84440",
-  "raw_transcription": "Treatment on Discharge\nTab Cefaclaw (500mg) 2-0-12-913-\nCap, flex (500mg) 2+3+2+2-7914-5\n, Tab Rokel (10mg) 24072 , 6luni of\nTab. Pomimo (20mg) 2010-201\nTab PhoLm 210 sisto + year\n, Tab Pearlcal 24te2 - 2005\n, Tak Laxy 1 (3mg) 01013-2014\nvoltalin suppository\n1 stick P/R. 585 (D) er tourt 2025)",
+  "raw_transcription": "Treatment on discharge\nTab. Cefaclav (500mg) [illegible]\nCap. Flux (500mg) [illegible]\nTab. Rokel (10mg) [illegible]\nTab. [illegible] (20mg) [illegible]\nTab. [illegible] 210 [illegible]\nTab. Pearlcal [illegible]\nTab. [illegible] (3mg) [illegible]\nVoltalin suppository\n1 stick P/R [illegible]",
   "boxes": [],
   "medications": [
     {
@@ -117,14 +117,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "c24e03bf318fae5c619602c8704f0810144ee487f7c3b412eb549ea5d13a216d"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "84114df9a08163c9a0d9917ae0b32193abda7199ae785996efa664a74c5dd3ef"
     },
     {
       "provider": "paddle",
@@ -1617,6 +1621,16 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Treatment on discharge\nTab. Cefaclav (500mg) [illegible]\nCap. Flux (500mg) [illegible]\nTab. Rokel (10mg) [illegible]\nTab. [illegible] (20mg) [illegible]\nTab. [illegible] 210 [illegible]\nTab. Pearlcal [illegible]\nTab. [illegible] (3mg) [illegible]\nVoltalin suppository\n1 stick P/R [illegible]",
+      "uncertain_spans": [
+        "most dosing instructions and three medicine names"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

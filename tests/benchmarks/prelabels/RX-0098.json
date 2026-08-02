@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0098",
   "source_sha256": "e011f6869b0ed89e9d227bde49ef1a81ed1e31d5e2613ade8f07b429a20b7434",
-  "raw_transcription": "Rx\n=> Tex. Plc (sin)",
+  "raw_transcription": "Rx\nTab. [illegible] 500 mg\n[illegible] - 5",
   "boxes": [],
   "medications": [
     {
@@ -27,14 +27,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "79a5d399938e95825f24c8c2b21b13d65f386a39146980de483efe04f10c8228"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "b9529002f3becc7c4c916273b37f7de7d59b289f63f59a824e7b64086733b4c8"
     },
     {
       "provider": "paddle",
@@ -942,6 +946,16 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. [illegible] 500 mg\n[illegible] - 5",
+      "uncertain_spans": [
+        "low-resolution image; product name and schedule are unclear"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

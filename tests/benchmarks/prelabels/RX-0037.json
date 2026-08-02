@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0037",
   "source_sha256": "646b85c32d947e5f16fd56778f53d36eb93ac38029dee270c913c449e60ed44f",
-  "raw_transcription": "मजीद)\nJiman Alt\nAge De, WC Rol, Date\nR\n. Gus. Fenolen (60 mg)\n01022\n· Ris. Ancakant (5mg).\n0.012\nProzent Cream.\n.\nศาล 2 การ",
+  "raw_transcription": "Cap. [illegible] (60mg)\n0+0+1 [illegible]\nTab. Anokast (5mg)\n0+0+1 [illegible]\nProzent cream - 1",
   "boxes": [],
   "medications": [
     {
@@ -67,14 +67,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "94989e53559d9f4629067ea411587f856e330122225a2e3407bad21f2b663754"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "e0afc11b3591cc918215b26da34f705a9367dbc7515ccd201afb56f0a11b129d"
     },
     {
       "provider": "paddle",
@@ -859,6 +863,17 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Cap. [illegible] (60mg)\n0+0+1 [illegible]\nTab. Anokast (5mg)\n0+0+1 [illegible]\nProzent cream - 1",
+      "uncertain_spans": [
+        "first medicine name",
+        "durations"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

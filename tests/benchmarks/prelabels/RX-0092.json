@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0092",
   "source_sha256": "465c8733aafd29b7c8fc248605a172dba66a583dd6c8a263715cef96186eca01",
-  "raw_transcription": "Rx\nTab. Levofloxacin ( 5mm)\nTak paracetamol ( 500g)\n0 toto -loind 10\n· Cap- meprazole (20mg)",
+  "raw_transcription": "Rx\nTab. [illegible] 5 mg\n0+0+1 - 5\nTab. Paracetamol 500 mg\n1+0+1 - 10\nCap. Omeprazole 20 mg\n1+0+1 - 10",
   "boxes": [],
   "medications": [
     {
@@ -57,14 +57,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "86a9d32ceae2f13d53159a2a7e4f67109d78e1d28fe5c27b65c613aacde80291"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "da5aa62110d9b414c29953101c91ad5690e4f29550e24621b424a32dc50c9e38"
     },
     {
       "provider": "paddle",
@@ -1412,6 +1416,17 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. [illegible] 5 mg\n0+0+1 - 5\nTab. Paracetamol 500 mg\n1+0+1 - 10\nCap. Omeprazole 20 mg\n1+0+1 - 10",
+      "uncertain_spans": [
+        "first tablet name",
+        "product spellings"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

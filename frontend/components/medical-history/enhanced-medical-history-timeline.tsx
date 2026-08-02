@@ -9,6 +9,7 @@ import { Clock } from "lucide-react";
 import {
   aggregateTimelineEvents,
   groupTimelineEventsByYear,
+  type TimelineAppointment,
 } from "./timeline-utils";
 import { TimelineYearGroup } from "./timeline-year-group";
 import { TimelineFilters } from "./timeline-filters";
@@ -23,7 +24,7 @@ interface EnhancedMedicalHistoryTimelineProps {
   hospitalizations: Hospitalization[];
   vaccinations: Vaccination[];
   medications: Medication[];
-  appointments: any[];
+  appointments: TimelineAppointment[];
   medicalTests?: Array<{
     test_name: string;
     test_date: string;

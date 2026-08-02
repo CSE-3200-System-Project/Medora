@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0022",
   "source_sha256": "04153280130237c0a05a67ec67436f8e881af99dc8895e1c3570b23cf0002cfa",
-  "raw_transcription": "* carabao คุม ทัพมายภาค เล10 1\nParcnatural\n/\n1\nMeni Petroleum Jelly\n, Economie Cream\n1\n24:00-24.\n•หมางศ์ชัน ชหลาง ตยาเฮ !",
+  "raw_transcription": "Tab. Paracetamol [illegible] (30)\nCap. Multivitamin 400mg\n১+০+১ - ৫ দিন\n[illegible] ointment\n[illegible] petroleum jelly - 1\nEconazole cream\n[illegible]",
   "boxes": [],
   "medications": [
     {
@@ -57,14 +57,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "3263b91da0b60bd2a5f6d9246f457046748d09917b215bcebce2f1317b21f039"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "74054e2f66bc330e3ee894039f6f95c11fd00ff47bf509d7aa2b396bd4080f1a"
     },
     {
       "provider": "paddle",
@@ -1832,6 +1836,19 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Tab. Paracetamol [illegible] (30)\nCap. Multivitamin 400mg\n১+০+১ - ৫ দিন\n[illegible] ointment\n[illegible] petroleum jelly - 1\nEconazole cream\n[illegible]",
+      "uncertain_spans": [
+        "Paracetamol instruction",
+        "ointment name",
+        "petroleum jelly brand",
+        "Econazole instruction"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

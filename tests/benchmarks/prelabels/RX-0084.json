@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0084",
   "source_sha256": "4b2982e1b833cd14eeb167a4a5b0024302aa9d9bf93032d13c405f76885fd2dc",
-  "raw_transcription": "TAB. Taten (1 mg)\n- Clobetasome aint --- D\nDO Napa Extend (185mg)-@\nstats (west end) -Brev\nCap Onceprazole (20m)\n> + ats (euro camp)",
+  "raw_transcription": "Rx\nTab. Tofen 1 mg\n0+0+1 - 10\nCalbo-D - 1 daily\nTab. Napa Extend 665 mg\n1+0+1 (after meal) - 10\nCap. Omeprazole 20 mg\n1+0+1 (before meal) [illegible]",
   "boxes": [],
   "medications": [
     {
@@ -77,14 +77,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "2e8fa046a70dd0e38fda646cc711d4220083d2181d2f9a176864f3532f7eba9a"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "a0b9737b19b11448728abb0de37812309b79005570fc8ddbce6d93cd2892c5df"
     },
     {
       "provider": "paddle",
@@ -1871,6 +1875,18 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. Tofen 1 mg\n0+0+1 - 10\nCalbo-D - 1 daily\nTab. Napa Extend 665 mg\n1+0+1 (after meal) - 10\nCap. Omeprazole 20 mg\n1+0+1 (before meal) [illegible]",
+      "uncertain_spans": [
+        "product spellings",
+        "Napa Extend duration",
+        "omeprazole quantity"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

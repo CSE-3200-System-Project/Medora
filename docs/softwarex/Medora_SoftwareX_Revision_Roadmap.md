@@ -1,14 +1,20 @@
 # Medora → SoftwareX: Gap Analysis & Execution Roadmap
 *Cross-reading of the manuscript against the supervisor checklist, with my own priority calls.*
 
-> **Implementation status (2026-08-01):** The repository now contains the revised
+> **Implementation status (2026-08-02):** The repository now contains the revised
 > consent/trust-boundary implementation, review-gated OCR semantics, appointment
 > idempotency/outbox flow, assisted annotation tool, frozen-protocol benchmark
 > harnesses, rewritten manuscript source, and a fail-closed release checker. See
 > `docs/softwarex/response_to_revision.md` for item-level evidence. Independent
 > licensed review, actual approval authority/date/reference, provider-account facts,
-> final authenticated browser evidence, and the Zenodo DOI remain release gates; no result or
+> final authenticated browser evidence, verified funding text, and the Zenodo DOI remain release gates; no result or
 > metadata has been fabricated to make those gates look complete.
+> The frontend now passes ESLint with zero warnings and completes a Next.js production
+> build. OCR provider candidates and separate GPT-assisted Rx-only drafts now cover
+> all 103 eligible unique images, while all human correction, blinded licensed review,
+> adjudication, and corpus freeze stages remain intentionally open. The analysis below
+> is retained as the historical planning rationale; current status is authoritative in
+> `docs/softwarex/response_to_revision.md`.
 
 ---
 

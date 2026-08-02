@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0069",
   "source_sha256": "39e7c5fda64db4b12951fb6ca8820b0d8863378bf9882839ad907feed09aa2a2",
-  "raw_transcription": "PUD\n(20\n4. ompregole Lo\nTo. Binacodyl 5\n5\n01071\n1016.\n2. Nye Extral\n2015.\ny",
+  "raw_transcription": "Rx\nCap. Omeprazole 20\n1+0+1 - 20 (10 days)\nTab. Bisacodyl 5\n0+0+1 - 5 (10 days)\nTab. Napa Extra\n1+0+1 - 20 (10 days)",
   "boxes": [],
   "medications": [
     {
@@ -57,14 +57,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "5761b7b325b6934d8b201ef1b83c93f16a9f4ca74a15d05d3fcb72aabe4f775b"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "fd905e61a4bf5c6217181a72cb94a167061731cc2afdf827814978e4cf283006"
     },
     {
       "provider": "paddle",
@@ -1685,6 +1689,17 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nCap. Omeprazole 20\n1+0+1 - 20 (10 days)\nTab. Bisacodyl 5\n0+0+1 - 5 (10 days)\nTab. Napa Extra\n1+0+1 - 20 (10 days)",
+      "uncertain_spans": [
+        "dosage-form and product spellings",
+        "interpretation of circled quantities versus durations"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

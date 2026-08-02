@@ -12,7 +12,7 @@
 
 ## EXECUTIVE SUMMARY
 
-Medora backend is a **production-ready healthcare data platform** built with FastAPI, PostgreSQL (Supabase), and Groq AI. It implements:
+Medora backend is a **research-software health-data platform** built with FastAPI, PostgreSQL (Supabase), and optional hosted AI providers. It implements:
 
 * **Patient & Doctor Onboarding** (8-step wizards with comprehensive medical data collection)
 * **Doctor Verification System** (BMDC credentials validation by admins)

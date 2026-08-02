@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect, Suspense } from "react";
 import dynamic from "next/dynamic";
-import { useRouter, useSearchParams } from "next/navigation";
+import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import { Navbar } from "@/components/ui/navbar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -16,8 +17,6 @@ import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 import type { Medication } from "@/components/medicine";
 import { AddMedicationDialog } from "@/components/medicine/add-medication-dialog";
 import type { Surgery } from "@/components/medical-history/surgery-manager";
-import type { Hospitalization } from "@/components/medical-history/hospitalization-manager";
-import type { Vaccination } from "@/components/medical-history/vaccination-manager";
 import {
   Calendar,
   Download,
@@ -50,7 +49,7 @@ import { Input } from "@/components/ui/input";
 import { PaginationControls } from "@/components/ui/pagination-controls";
 import { usePagination } from "@/lib/use-pagination";
 import { fetchWithAuth } from "@/lib/auth-utils";
-import { updatePatientOnboarding, getPatientOnboardingData } from "@/lib/auth-actions";
+import { updatePatientOnboarding } from "@/lib/auth-actions";
 import {
   buildFrequencyFromDoseSchedule,
   formatDoseScheduleSummary,
@@ -65,6 +64,7 @@ import {
 
 import { formatMeridiemTime, humanizeConsultationType, humanizeAppointmentType, parseCompositeReason } from "@/lib/utils";
 import { MEDICAL_MODULE_TAB_ACCENTS } from "@/components/medical-history/module-tab-accents";
+import type { TimelineAppointment } from "@/components/medical-history/timeline-utils";
 
 import { type Prescription, type MedicationPrescription, type TestPrescription, type SurgeryRecommendation } from "@/lib/prescription-actions";
 import { getPatientMedicalHistoryBundle } from "@/lib/medical-history-actions";
@@ -153,10 +153,6 @@ type TestFilter = "pending" | "completed" | "skipped" | "all";
 type TestSourceFilter = "doctor" | "self" | "all";
 type UnifiedTestSource = "doctor" | "self";
 type UnifiedTestStatus = "pending" | "completed" | "overdue" | "skipped";
-type SurgeryFilter = "pending" | "completed" | "skipped" | "all";
-type SurgerySourceFilter = "doctor" | "self" | "all";
-type UnifiedSurgerySource = "doctor" | "self";
-type UnifiedSurgeryStatus = "pending" | "completed" | "overdue" | "skipped";
 
 interface UnifiedTestEntry {
   id: string;
@@ -175,28 +171,6 @@ interface UnifiedTestEntry {
   created_at: string;
 }
 
-interface UnifiedSurgeryEntry {
-  id: string;
-  source: UnifiedSurgerySource;
-  sourceLabel: string;
-  kind: "doctor-prescribed-template" | "patient-record";
-  index?: number;
-  procedure_name: string;
-  procedure_type?: string;
-  reason?: string;
-  preferred_facility?: string;
-  recommended_date?: string;
-  estimated_cost_min?: number;
-  estimated_cost_max?: number;
-  pre_op_instructions?: string;
-  notes?: string;
-  urgency?: string;
-  status?: string;
-  created_at: string;
-  recommendationId?: string;
-  prescriptionId?: string;
-}
-
 /**
  * Comprehensive Medical History Page
  * Manages medications, tests, surgeries, hospitalizations, vaccinations
@@ -213,6 +187,14 @@ function calculateAge(dob?: string) {
     age -= 1;
   }
   return age;
+}
+
+function isTimelineAppointment(value: unknown): value is TimelineAppointment {
+  return Boolean(
+    value
+      && typeof value === "object"
+      && typeof (value as { appointment_date?: unknown }).appointment_date === "string",
+  );
 }
 
 function formatPatientId(rawId?: string) {
@@ -341,17 +323,15 @@ function MedicationEntryCard({
 
 function PatientMedicalHistoryPage() {
   const tCommon = useT("common");
-  const router = useRouter();
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
   const [activeTab, setActiveTab] = useState(searchParams.get("tab") || "timeline");
   
   // Data states
   const [medications, setMedications] = useState<Medication[]>([]);
   const [patientData, setPatientData] = useState<Record<string, unknown> | null>(null);
 
-  const [appointments, setAppointments] = useState<Record<string, unknown>[]>([]);
+  const [appointments, setAppointments] = useState<TimelineAppointment[]>([]);
 
 
   const [medicalTests, setMedicalTests] = useState<MedicalTest[]>([]);
@@ -365,19 +345,6 @@ function PatientMedicalHistoryPage() {
   const [testActionError, setTestActionError] = useState<string | null>(null);
   const [surgeryActionMessage, setSurgeryActionMessage] = useState<string | null>(null);
   const [surgeryActionError, setSurgeryActionError] = useState<string | null>(null);
-  const [surgeryFilter, setSurgeryFilter] = useState<SurgeryFilter>("pending");
-  const [surgerySourceFilter, setSurgerySourceFilter] = useState<SurgerySourceFilter>("all");
-  const [addSurgeryDialogOpen, setAddSurgeryDialogOpen] = useState(false);
-  const [addSurgeryForm, setAddSurgeryForm] = useState<Surgery>({
-    name: "",
-    year: new Date().getFullYear().toString(),
-    hospital: "",
-    notes: "",
-    status: "pending",
-    recommended_date: new Date().toISOString().slice(0, 10),
-    prescribing_doctor: "",
-    urgency: "",
-  });
   const [highlightedTestId, setHighlightedTestId] = useState<string | null>(null);
   const [highlightedSurgeryId, setHighlightedSurgeryId] = useState<string | null>(null);
   const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
@@ -709,75 +676,6 @@ function PatientMedicalHistoryPage() {
     }
   };
 
-  const deleteSurgeryByIndex = async (index: number) => {
-    const current = surgeries[index];
-    if (!current) return;
-
-    const next = surgeries.filter((_, surgeryIndex) => surgeryIndex !== index);
-    setSurgeries(next);
-
-    try {
-      await persistSurgeries(next);
-      setSurgeryActionError(null);
-      setSurgeryActionMessage(tCommon("medicalHistory.surgeries.messages.deleted"));
-    } catch (error) {
-      console.error("Failed to delete surgery", error);
-      setSurgeryActionMessage(null);
-      setSurgeryActionError(tCommon("medicalHistory.surgeries.messages.deleteFailed"));
-      setSurgeries(surgeries);
-    }
-  };
-
-  const saveNewSurgery = async () => {
-    if (!addSurgeryForm.name.trim()) return;
-
-    const recommendedDate = addSurgeryForm.recommended_date || "";
-    const nextYear = recommendedDate
-      ? new Date(recommendedDate).getFullYear().toString()
-      : (addSurgeryForm.year || new Date().getFullYear().toString());
-
-    const nextEntry: Surgery = {
-      name: addSurgeryForm.name.trim(),
-      year: nextYear,
-      hospital: addSurgeryForm.hospital?.trim() || "",
-      notes: addSurgeryForm.notes?.trim() || "",
-      status: "pending",
-      prescribing_doctor: addSurgeryForm.prescribing_doctor?.trim() || "",
-      recommended_date: recommendedDate,
-      urgency: addSurgeryForm.urgency?.trim() || "",
-    };
-
-    const next = [nextEntry, ...surgeries];
-    setSurgeries(next);
-
-    try {
-      await persistSurgeries(next);
-      setSurgeryActionError(null);
-      setSurgeryActionMessage(tCommon("medicalHistory.surgeries.messages.added"));
-      setSurgeryFilter("pending");
-      setSurgerySourceFilter("all");
-      setHighlightedSurgeryId(
-        `patient-surgery-0-${normalizeSurgeryValue(nextEntry.name)}-${normalizeSurgeryValue(nextEntry.recommended_date || nextEntry.year)}`,
-      );
-      setAddSurgeryDialogOpen(false);
-      setAddSurgeryForm({
-        name: "",
-        year: new Date().getFullYear().toString(),
-        hospital: "",
-        notes: "",
-        status: "pending",
-        recommended_date: new Date().toISOString().slice(0, 10),
-        prescribing_doctor: "",
-        urgency: "",
-      });
-    } catch (error) {
-      console.error("Failed to add surgery", error);
-      setSurgeryActionMessage(null);
-      setSurgeryActionError(tCommon("medicalHistory.surgeries.messages.addFailed"));
-      setSurgeries(surgeries);
-    }
-  };
-
   const buildUnifiedTests = (): UnifiedTestEntry[] => {
     const doctorDerivedTests: UnifiedTestEntry[] = doctorPrescriptions
       .filter((prescription) => prescription.tests.length > 0)
@@ -856,100 +754,6 @@ function PatientMedicalHistoryPage() {
     return [...mergedDoctorTests, ...unmatchedPatientTests];
   };
 
-  const deriveSurgerySource = (surgery: { prescribing_doctor?: string }): UnifiedSurgerySource =>
-    normalizeSurgeryValue(surgery.prescribing_doctor) ? "doctor" : "self";
-
-  const isOverdueSurgeryEntry = (entry: { recommended_date?: string; status?: string }) => {
-    if (normalizeSurgeryValue(entry.status) !== "pending") return false;
-    if (!entry.recommended_date) return false;
-    const date = new Date(entry.recommended_date);
-    if (Number.isNaN(date.getTime())) return false;
-    return date.getTime() < Date.now();
-  };
-
-  const getUnifiedSurgeryStatus = (entry: UnifiedSurgeryEntry): UnifiedSurgeryStatus => {
-    const status = normalizeSurgeryValue(entry.status);
-    if (status === "completed") return "completed";
-    if (status === "skipped") return "skipped";
-    if (isOverdueSurgeryEntry(entry)) return "overdue";
-    return "pending";
-  };
-
-  const buildUnifiedSurgeries = (): UnifiedSurgeryEntry[] => {
-    const doctorDerivedSurgeries: UnifiedSurgeryEntry[] = doctorPrescriptions
-      .filter((prescription) => prescription.surgeries.length > 0)
-      .flatMap((prescription) =>
-        prescription.surgeries.map((surgery: SurgeryRecommendation) => ({
-          id: `doctor-surgery-${prescription.id}-${surgery.id}`,
-          source: normalizeSurgeryValue(prescription.doctor_name) ? "doctor" : "self",
-          sourceLabel: normalizeSurgeryValue(prescription.doctor_name)
-            ? tCommon("medicalHistory.common.doctorPrescribed")
-            : tCommon("medicalHistory.common.selfAdded"),
-          kind: "doctor-prescribed-template",
-          procedure_name: surgery.procedure_name,
-          procedure_type: surgery.procedure_type,
-          reason: surgery.reason,
-          preferred_facility: surgery.preferred_facility,
-          recommended_date: surgery.recommended_date,
-          estimated_cost_min: surgery.estimated_cost_min,
-          estimated_cost_max: surgery.estimated_cost_max,
-          pre_op_instructions: surgery.pre_op_instructions,
-          notes: surgery.notes,
-          urgency: surgery.urgency,
-          status: "pending",
-          created_at: prescription.created_at,
-          recommendationId: surgery.id,
-          prescriptionId: prescription.id,
-        })),
-      );
-
-    const patientDerivedSurgeries: UnifiedSurgeryEntry[] = surgeries.map((surgery, index) => {
-      const source = deriveSurgerySource(surgery);
-      return {
-        id: `patient-surgery-${index}-${normalizeSurgeryValue(surgery.name)}-${normalizeSurgeryValue(surgery.recommended_date || surgery.year)}`,
-        source,
-        sourceLabel: source === "doctor"
-          ? tCommon("medicalHistory.common.doctorPrescribed")
-          : tCommon("medicalHistory.common.selfAdded"),
-        kind: "patient-record",
-        index,
-        procedure_name: surgery.name,
-        preferred_facility: surgery.hospital,
-        recommended_date: surgery.recommended_date,
-        notes: surgery.notes,
-        urgency: surgery.urgency,
-        status: getSurgeryStatus(surgery),
-        created_at: "",
-      };
-    });
-
-    const mergedDoctorSurgeries: UnifiedSurgeryEntry[] = doctorDerivedSurgeries.map((doctorSurgery) => {
-      const linkedPatientIndex = findSurgeryIndex(doctorSurgery.procedure_name, doctorSurgery.recommended_date);
-      if (linkedPatientIndex < 0) return doctorSurgery;
-
-      const linkedPatientRecord = patientDerivedSurgeries.find((patientSurgery) => patientSurgery.index === linkedPatientIndex);
-      if (!linkedPatientRecord) return doctorSurgery;
-
-      return {
-        ...doctorSurgery,
-        preferred_facility: linkedPatientRecord.preferred_facility || doctorSurgery.preferred_facility,
-        notes: linkedPatientRecord.notes || doctorSurgery.notes,
-        urgency: linkedPatientRecord.urgency || doctorSurgery.urgency,
-        status: linkedPatientRecord.status,
-        index: linkedPatientRecord.index,
-      };
-    });
-
-    const unmatchedPatientSurgeries = patientDerivedSurgeries.filter((patientSurgery) => {
-      if (patientSurgery.source !== "doctor") return true;
-      return !doctorDerivedSurgeries.some(
-        (doctorSurgery) => findSurgeryIndex(doctorSurgery.procedure_name, doctorSurgery.recommended_date) === patientSurgery.index,
-      );
-    });
-
-    return [...mergedDoctorSurgeries, ...unmatchedPatientSurgeries];
-  };
-
   // Load all medical history data — fire all three requests in parallel.
   useEffect(() => {
     async function loadMedicalHistory() {
@@ -983,7 +787,7 @@ function PatientMedicalHistoryPage() {
           ? appointmentsResult
           : appointmentsResult?.appointments;
         if (Array.isArray(appointmentItems)) {
-          setAppointments(appointmentItems);
+          setAppointments(appointmentItems.filter(isTimelineAppointment));
         }
         if (prescriptionResult?.prescriptions) {
           setDoctorPrescriptions(prescriptionResult.prescriptions);
@@ -1000,48 +804,6 @@ function PatientMedicalHistoryPage() {
 
     loadMedicalHistory();
   }, []);
-
-  // Save medical history
-  const handleSave = async () => {
-    try {
-      setSaving(true);
-      
-      // Convert medications to backend format
-      const backendMedications = medications.map((medication) =>
-        toBackendPatientMedication(medication),
-      );
-      
-      await updatePatientOnboarding({
-        taking_meds: medications.length > 0 ? "yes" : "no",
-        medications: backendMedications,
-        surgeries,
-        hospitalizations,
-        vaccinations,
-        has_medical_tests: medicalTests.length > 0 ? "yes" : "no",
-        medical_tests: medicalTests,
-      });
-      
-      // Reload data to reflect changes
-      const updatedData = await getPatientOnboardingData();
-      if (updatedData) {
-        const meds = updatedData.medications || [];
-        const convertedMeds = meds.map((med: BackendPatientMedication) => toPatientMedication(med));
-        setMedications(convertedMeds);
-        setSurgeries(updatedData.surgeries || []);
-        setHospitalizations(updatedData.hospitalizations || []);
-        setVaccinations(updatedData.vaccinations || []);
-        setMedicalTests(updatedData.medical_tests || []);
-      }
-      
-      setSuccessDialogOpen(true);
-    } catch (error) {
-      console.error("Error saving:", error);
-      setErrorMessage("Failed to save. Please try again.");
-      setErrorDialogOpen(true);
-    } finally {
-      setSaving(false);
-    }
-  };
 
   const persistMedications = async (nextMedications: Medication[]) => {
     const backendMedications = nextMedications.map((medication) => toBackendPatientMedication(medication));
@@ -1257,7 +1019,7 @@ function PatientMedicalHistoryPage() {
       setReportsLoading(false);
       setReportsLoaded(true);
     }
-  }, []);
+  }, [tCommon]);
 
   const loadReportDetail = React.useCallback(async (id: string) => {
     try {
@@ -1271,7 +1033,7 @@ function PatientMedicalHistoryPage() {
     } finally {
       setReportDetailLoading(false);
     }
-  }, []);
+  }, [tCommon]);
 
   useEffect(() => {
     if (activeTab === "reports" && !reportsLoaded && !reportsLoading) {
@@ -1408,43 +1170,6 @@ function PatientMedicalHistoryPage() {
     }
 
     if (isOverdueTest(test.test_date, test.result)) {
-      return (
-        <Badge variant="outline" className="bg-amber-50 text-amber-800 border-amber-300 dark:bg-amber-900/30 dark:text-amber-300 dark:border-amber-700">
-          <AlertTriangle className="mr-1 h-3 w-3" />
-          {tCommon("medicalHistory.status.overdue")}
-        </Badge>
-      );
-    }
-
-    return (
-      <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800">
-        <Clock className="mr-1 h-3 w-3" />
-        {tCommon("medicalHistory.status.pending")}
-      </Badge>
-    );
-  };
-
-  const getComputedSurgeryStatusBadge = (entry: UnifiedSurgeryEntry) => {
-    const status = getUnifiedSurgeryStatus(entry);
-
-    if (status === "skipped") {
-      return (
-        <Badge variant="outline" className="bg-slate-100 text-slate-700 border-slate-300 dark:bg-slate-900/30 dark:text-slate-300 dark:border-slate-700">
-          {tCommon("medicalHistory.status.skipped")}
-        </Badge>
-      );
-    }
-
-    if (status === "completed") {
-      return (
-        <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 dark:bg-green-900/30 dark:text-green-400 dark:border-green-800">
-          <CheckCircle2 className="mr-1 h-3 w-3" />
-          {tCommon("medicalHistory.status.completed")}
-        </Badge>
-      );
-    }
-
-    if (status === "overdue") {
       return (
         <Badge variant="outline" className="bg-amber-50 text-amber-800 border-amber-300 dark:bg-amber-900/30 dark:text-amber-300 dark:border-amber-700">
           <AlertTriangle className="mr-1 h-3 w-3" />
@@ -2874,29 +2599,38 @@ function PatientMedicalHistoryPage() {
                         <div
                           onDragOver={(e) => e.preventDefault()}
                           onDrop={handleDrop}
-                          className="border-2 border-dashed border-muted-foreground/30 rounded-xl p-8 text-center hover:border-primary/50 transition-colors cursor-pointer"
-                          onClick={() => fileInputRef.current?.click()}
+                          className="rounded-xl border-2 border-dashed border-muted-foreground/30 p-8 text-center transition-colors hover:border-primary/50"
                         >
                           {selectedFile ? (
                             <div className="space-y-3">
                               {previewUrl ? (
-                                <img src={previewUrl} alt="Preview" className="max-h-48 mx-auto rounded-lg object-contain" />
+                                <Image
+                                  src={previewUrl}
+                                  alt="Selected medical report preview"
+                                  width={768}
+                                  height={768}
+                                  unoptimized
+                                  className="mx-auto h-auto max-h-48 w-auto rounded-lg object-contain"
+                                />
                               ) : (
                                 <FileText className="h-12 w-12 mx-auto text-primary opacity-70" />
                               )}
                               <div className="flex items-center justify-center gap-2">
                                 <p className="text-sm font-medium">{selectedFile.name}</p>
-                                <Button type="button" variant="ghost" size="sm" onClick={(e) => { e.stopPropagation(); clearFile(); }} className="h-6 w-6 p-0">
+                                <Button type="button" variant="ghost" size="icon-sm" onClick={clearFile} aria-label={tCommon("medicalHistory.reports.removeSelectedFile")}>
                                   <X className="h-4 w-4" />
                                 </Button>
                               </div>
                               <p className="text-xs text-muted-foreground">{(selectedFile.size / 1024 / 1024).toFixed(2)} MB</p>
                             </div>
                           ) : (
-                            <div className="space-y-2">
+                            <div className="space-y-3">
                               <ImageIcon className="h-12 w-12 mx-auto opacity-40" />
                               <p className="text-muted-foreground">{tCommon("medicalHistory.reports.dropzoneHint")}</p>
                               <p className="text-xs text-muted-foreground">{tCommon("medicalHistory.reports.dropzoneFormats")}</p>
+                              <Button type="button" variant="outline" onClick={() => fileInputRef.current?.click()}>
+                                {tCommon("medicalHistory.reports.chooseFile")}
+                              </Button>
                             </div>
                           )}
                         </div>

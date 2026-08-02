@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0057",
   "source_sha256": "9dc46aaba21d031b1a50a4b4011ad0b74b5be2cc1027621ba2510880a2f3416b",
-  "raw_transcription": "2 Inflam - 4w ( 14)\n12 Esstid\nZimax for\n0",
+  "raw_transcription": "Rx\n1. Tab. [illegible]\n[illegible] - 10\n2. [illegible]\n[illegible] - 10\n3. [illegible]\n[illegible] - 10\n4. [illegible]\n[illegible] - 30",
   "boxes": [],
   "medications": [
     {
@@ -47,14 +47,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "ecb3121981e159b4f08d90d64e8add0811419505c267b0feee33fe9914a9416b"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "822a69262257a843b5ed9b8b4355900d10360e7f8fac36d4c1a598f896471223"
     },
     {
       "provider": "paddle",
@@ -1766,6 +1770,16 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\n1. Tab. [illegible]\n[illegible] - 10\n2. [illegible]\n[illegible] - 10\n3. [illegible]\n[illegible] - 10\n4. [illegible]\n[illegible] - 30",
+      "uncertain_spans": [
+        "low-resolution image; medication names and schedules are illegible"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

@@ -31,17 +31,6 @@ import { useT } from "@/i18n/client"
 import { getOnboardingStrings } from "./onboarding-i18n"
 import { cn } from "@/lib/utils"
 
-const translatedSteps = [
-  { id: 1, title: "Personal Identity", shortName: "Identity" },
-  { id: 2, title: "Physical & Address", shortName: "Profile" },
-  { id: 3, title: "Chronic Conditions", shortName: "Conditions" },
-  { id: 4, title: "Medications & Allergies", shortName: "Meds" },
-  { id: 5, title: "Medical History", shortName: "History" },
-  { id: 6, title: "Family History", shortName: "Family" },
-  { id: 7, title: "Lifestyle & Mental Health", shortName: "Lifestyle" },
-  { id: 8, title: "Preferences & Consent", shortName: "Consent" },
-]
-
 type ChronicConditionKey =
   | "hasDiabetes"
   | "hasHypertension"
@@ -72,52 +61,12 @@ type FamilyHistoryConditionKey =
 type HistoryAccordionSection = "surgeries" | "hospitalizations" | "vaccinations" | "medicalTests"
 type LifestyleAccordionSection = "substance" | "activitySleep" | "diet" | "mentalHealth"
 
-const translatedChronicConditions: Array<{ key: ChronicConditionKey; label: string }> = [
-  { key: "hasDiabetes", label: "Diabetes" },
-  { key: "hasHypertension", label: "Hypertension (High BP)" },
-  { key: "hasHeartDisease", label: "Heart Disease" },
-  { key: "hasAsthma", label: "Asthma" },
-  { key: "hasCancer", label: "Cancer" },
-  { key: "hasThyroid", label: "Thyroid Disorder" },
-  { key: "hasKidneyDisease", label: "Kidney Disease" },
-  { key: "hasLiverDisease", label: "Liver Disease" },
-  { key: "hasArthritis", label: "Arthritis" },
-  { key: "hasStroke", label: "Stroke History" },
-  { key: "hasEpilepsy", label: "Epilepsy" },
-  { key: "hasMentalHealth", label: "Mental Health Condition" },
-]
-
-const translatedFamilyHistory: Array<{ key: FamilyHistoryConditionKey; label: string }> = [
-  { key: "familyHasDiabetes", label: "Diabetes" },
-  { key: "familyHasHeartDisease", label: "Heart Disease" },
-  { key: "familyHasCancer", label: "Cancer" },
-  { key: "familyHasHypertension", label: "Hypertension" },
-  { key: "familyHasStroke", label: "Stroke" },
-  { key: "familyHasAsthma", label: "Asthma" },
-  { key: "familyHasThalassemia", label: "Thalassemia" },
-  { key: "familyHasBloodDisorders", label: "Blood Disorders" },
-  { key: "familyHasMentalHealth", label: "Mental Health Conditions" },
-  { key: "familyHasKidneyDisease", label: "Kidney Disease" },
-  { key: "familyHasThyroid", label: "Thyroid Disorders" },
-]
-
 const VISIBLE_CHRONIC_CONDITION_COUNT = 6
 const VISIBLE_FAMILY_HISTORY_COUNT = 6
 const PATIENT_ONBOARDING_TIME_ESTIMATE = "8-10 minutes"
 const PATIENT_ONBOARDING_AHA = "Complete this once and doctors can review your history faster in every future consultation."
 const PHONE_REGEX = /^\+?[0-9\s\-()]{7,20}$/
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
-const translatedStepGuidance: Record<number, string> = {
-  1: "Basic identity details so your records stay accurate.",
-  2: "Physical profile and address details for better care context.",
-  3: "Common chronic conditions first, advanced history only if needed.",
-  4: "Current medicines and allergies that affect treatment safety.",
-  5: "Key medical history with optional deeper records.",
-  6: "Important family conditions linked to long-term risk.",
-  7: "Lifestyle signals that help care feel more personalized.",
-  8: "Preferences, emergency contacts, and consent choices.",
-}
 
 const ONBOARDING_ACCORDION_TRIGGER_CLASS =
   "rounded-md px-2 py-3 text-left transition-colors duration-200 hover:bg-muted/40 hover:no-underline motion-reduce:transition-none"
@@ -605,11 +554,11 @@ export function PatientOnboarding() {
     return null
   }
 
-  const handleInputChange = (field: string, value: any) => {
+  const handleInputChange = (field: keyof typeof formData, value: unknown) => {
     const normalizedValue = value === "indeterminate" ? false : value
 
     setFormData((prev) => {
-      const next = { ...prev, [field]: normalizedValue }
+      const next = { ...prev, [field]: normalizedValue } as typeof prev
 
       setFieldErrors((current) => {
         const nextErrors = { ...current }
@@ -635,11 +584,14 @@ export function PatientOnboarding() {
     setStepError(null)
   }
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
+  const handleFileUpload = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+    field: "profile_photo_url" | "medical_summary_url",
+  ) => {
     const file = e.target.files?.[0]
     if (file) {
       try {
-        const fieldToCategory: Record<string, MediaCategory> = {
+        const fieldToCategory: Record<typeof field, MediaCategory> = {
           profile_photo_url: "profile_photo",
           medical_summary_url: "medical_document",
         }
@@ -879,11 +831,13 @@ export function PatientOnboarding() {
     }))
   }
 
-  const updateDrugAllergy = (index: number, field: string, value: any) => {
-    const newAllergies = [...formData.drugAllergies]
-    // @ts-ignore
-    newAllergies[index][field] = value
-    setFormData(prev => ({ ...prev, drugAllergies: newAllergies }))
+  const updateDrugAllergy = (index: number, field: keyof DrugAllergy, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      drugAllergies: prev.drugAllergies.map((allergy, itemIndex) =>
+        itemIndex === index ? { ...allergy, [field]: value } : allergy,
+      ),
+    }))
   }
 
   const removeDrugAllergy = (index: number) => {
@@ -905,11 +859,13 @@ export function PatientOnboarding() {
     }))
   }
 
-  const updateSurgery = (index: number, field: string, value: any) => {
-    const newSurgeries = [...formData.surgeries]
-    // @ts-ignore
-    newSurgeries[index][field] = value
-    setFormData(prev => ({ ...prev, surgeries: newSurgeries }))
+  const updateSurgery = (index: number, field: keyof Surgery, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      surgeries: prev.surgeries.map((surgery, itemIndex) =>
+        itemIndex === index ? { ...surgery, [field]: value } : surgery,
+      ),
+    }))
   }
 
   const removeSurgery = (index: number) => {
@@ -927,11 +883,13 @@ export function PatientOnboarding() {
     }))
   }
 
-  const updateHospitalization = (index: number, field: string, value: any) => {
-    const newHosp = [...formData.hospitalizations]
-    // @ts-ignore
-    newHosp[index][field] = value
-    setFormData(prev => ({ ...prev, hospitalizations: newHosp }))
+  const updateHospitalization = (index: number, field: keyof Hospitalization, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      hospitalizations: prev.hospitalizations.map((hospitalization, itemIndex) =>
+        itemIndex === index ? { ...hospitalization, [field]: value } : hospitalization,
+      ),
+    }))
   }
 
   const removeHospitalization = (index: number) => {
@@ -949,11 +907,13 @@ export function PatientOnboarding() {
     }))
   }
 
-  const updateVaccination = (index: number, field: string, value: any) => {
-    const newVacc = [...formData.vaccinations]
-    // @ts-ignore
-    newVacc[index][field] = value
-    setFormData(prev => ({ ...prev, vaccinations: newVacc }))
+  const updateVaccination = (index: number, field: keyof Vaccination, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      vaccinations: prev.vaccinations.map((vaccination, itemIndex) =>
+        itemIndex === index ? { ...vaccination, [field]: value } : vaccination,
+      ),
+    }))
   }
 
   const removeVaccination = (index: number) => {
@@ -983,11 +943,13 @@ export function PatientOnboarding() {
     }))
   }
 
-  const updateMedicalTest = (index: number, field: string, value: any) => {
-    const newTests = [...formData.medicalTests]
-    // @ts-ignore
-    newTests[index][field] = value
-    setFormData(prev => ({ ...prev, medicalTests: newTests }))
+  const updateMedicalTest = <K extends keyof MedicalTest>(index: number, field: K, value: MedicalTest[K]) => {
+    setFormData(prev => ({
+      ...prev,
+      medicalTests: prev.medicalTests.map((test, itemIndex) =>
+        itemIndex === index ? { ...test, [field]: value } : test,
+      ),
+    }))
   }
 
   const removeMedicalTest = (index: number) => {
@@ -1923,7 +1885,7 @@ export function PatientOnboarding() {
               <div className="flex items-start space-x-2">
                 <Checkbox id="consentResearch" checked={formData.consentResearch} onCheckedChange={(checked) => handleInputChange("consentResearch", checked)} />
                 <Label htmlFor="consentResearch" className="text-sm leading-none">
-                  I consent to anonymized data use for medical research (optional).
+                  I consent to separately governed, de-identified data use for approved medical research (optional). De-identification does not guarantee anonymity.
                 </Label>
               </div>
             </div>

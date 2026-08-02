@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0074",
   "source_sha256": "87be56cc72f1bd39d6459457548f865cabba182af33143a2c5d0154e1b55c692",
-  "raw_transcription": ". 12.\nAngulark 152\npar\nGuerin (15-\n1000\n2012\n12. Comer (som\n0-30day\n07 /1\n12.19\ncinto was\n(20\n3- 1/\n21.4.168\n201\n1\n-\n25/s",
+  "raw_transcription": "Rx\nTab. Angilock 50\n0+0+1 - continue\nTab. Cinaron 15\n1+0+1 - 30 days\nTab. Comet 500\n0+1+0 - continue\nTab. Fenocap 200\n1+0+1 - 30 days",
   "boxes": [],
   "medications": [
     {
@@ -67,14 +67,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "30c9bfdf2e91d716ac0f22443172bc1af302de28a982ee83b5188d05f1ca682e"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "4634fc037f4f61e92a8ea3c088b1c8eeb47d9cd2b94beb2984ff6875d8f05788"
     },
     {
       "provider": "paddle",
@@ -1419,6 +1423,17 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. Angilock 50\n0+0+1 - continue\nTab. Cinaron 15\n1+0+1 - 30 days\nTab. Comet 500\n0+1+0 - continue\nTab. Fenocap 200\n1+0+1 - 30 days",
+      "uncertain_spans": [
+        "product spellings",
+        "Angilock and Comet trailing instructions"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

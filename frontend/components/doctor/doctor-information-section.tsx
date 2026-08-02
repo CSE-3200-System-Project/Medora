@@ -16,15 +16,39 @@ import {
   CheckCircle2,
   AlertCircle
 } from "lucide-react";
+import type { BackendDoctorLocation, BackendDoctorProfile } from "@/components/doctor/doctor-profile/types";
+
+interface DoctorExperience {
+  position?: string;
+  hospital?: string;
+  current?: boolean;
+  from_year?: string | number;
+  to_year?: string | number;
+}
+
+interface DoctorEducation {
+  degree?: string;
+  institution?: string;
+  year?: string | number;
+  country?: string;
+}
+
+export interface DoctorInformation extends BackendDoctorProfile {
+  bmdc_number?: string;
+  education?: DoctorEducation[];
+  languages_spoken?: string[];
+  telemedicine_available?: boolean;
+  work_experience?: DoctorExperience[];
+}
 
 interface DoctorInformationSectionProps {
-  doctor: any;
+  doctor: DoctorInformation;
 }
 
 export function DoctorInformationSection({ doctor }: DoctorInformationSectionProps) {
   const [showAllServices, setShowAllServices] = React.useState(false);
 
-  const buildDirectionsUrl = (location: any) => {
+  const buildDirectionsUrl = (location: BackendDoctorLocation) => {
     if (typeof location?.latitude === "number" && typeof location?.longitude === "number") {
       return `https://www.openstreetmap.org/?mlat=${location.latitude}&mlon=${location.longitude}#map=16/${location.latitude}/${location.longitude}`;
     }
@@ -145,7 +169,7 @@ export function DoctorInformationSection({ doctor }: DoctorInformationSectionPro
             </h2>
           </CardHeader>
           <CardContent className="space-y-4 pt-6">
-            {doctor.locations.map((location: any, index: number) => (
+            {doctor.locations.map((location, index) => (
               <div key={index} className="pb-4 last:pb-0 bg-background/80 rounded-lg p-4 border border-border/40">
                 <div className="flex items-start gap-2 mb-2">
                   <MapPin className="h-5 w-5 text-primary mt-0.5 shrink-0" />
@@ -250,7 +274,7 @@ export function DoctorInformationSection({ doctor }: DoctorInformationSectionPro
           </CardHeader>
           <CardContent className="pt-6">
             <div className="space-y-3">
-              {doctor.work_experience.map((exp: any, index: number) => (
+              {doctor.work_experience.map((exp, index) => (
                 <div key={index} className="flex items-start gap-3 pb-3 border-b border-border last:border-0">
                   <div className="h-2 w-2 bg-primary rounded-full mt-2 shrink-0"></div>
                   <div>
@@ -279,7 +303,7 @@ export function DoctorInformationSection({ doctor }: DoctorInformationSectionPro
           </CardHeader>
           <CardContent className="pt-6">
             <div className="space-y-3">
-              {doctor.education.map((edu: any, index: number) => (
+              {doctor.education.map((edu, index) => (
                 <div key={index} className="flex items-start gap-3 pb-3 border-b border-border last:border-0">
                   <GraduationCap className="h-5 w-5 text-primary mt-0.5 shrink-0" />
                   <div>

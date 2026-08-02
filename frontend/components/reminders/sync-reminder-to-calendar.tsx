@@ -33,7 +33,7 @@ export function SyncReminderToCalendar({
   const handleSync = async () => {
     setSyncing(true);
     try {
-      const result = await syncMedicationReminderToCalendar(reminderId, {
+      await syncMedicationReminderToCalendar(reminderId, {
         item_name: itemName,
         reminder_times: reminderTimes,
         days_of_week: daysOfWeek,

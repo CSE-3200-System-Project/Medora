@@ -7,7 +7,7 @@ import { AppBackground } from "@/components/ui/app-background";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Dialog,
   DialogContent,
@@ -62,11 +62,7 @@ export default function MyPrescriptionsPage() {
   const [selectedPrescriptionId, setSelectedPrescriptionId] = React.useState<string | null>(null);
   const [rejectionReason, setRejectionReason] = React.useState("");
 
-  React.useEffect(() => {
-    loadPrescriptions();
-  }, [activeFilter]);
-
-  const loadPrescriptions = async () => {
+  const loadPrescriptions = React.useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -74,13 +70,17 @@ export default function MyPrescriptionsPage() {
       const filter = activeFilter === "all" ? undefined : activeFilter;
       const data = await getPatientPrescriptions(filter, 100, 0);
       setPrescriptions(data.prescriptions);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Failed to load prescriptions:", err);
-      setError(err.message || tCommon("prescriptions.errors.loadFailed"));
+      setError(err instanceof Error ? err.message : tCommon("prescriptions.errors.loadFailed"));
     } finally {
       setLoading(false);
     }
-  };
+  }, [activeFilter, tCommon]);
+
+  React.useEffect(() => {
+    void loadPrescriptions();
+  }, [loadPrescriptions]);
 
   const handleAccept = async (prescriptionId: string) => {
     try {
@@ -95,8 +95,8 @@ export default function MyPrescriptionsPage() {
         loadPrescriptions();
         setSuccess(null);
       }, 2000);
-    } catch (err: any) {
-      setError(err.message || tCommon("prescriptions.errors.acceptFailed"));
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : tCommon("prescriptions.errors.acceptFailed"));
     } finally {
       setSubmitting(false);
     }
@@ -124,8 +124,8 @@ export default function MyPrescriptionsPage() {
         loadPrescriptions();
         setSuccess(null);
       }, 2000);
-    } catch (err: any) {
-      setError(err.message || tCommon("prescriptions.errors.rejectFailed"));
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : tCommon("prescriptions.errors.rejectFailed"));
     } finally {
       setSubmitting(false);
     }
@@ -217,7 +217,13 @@ export default function MyPrescriptionsPage() {
         )}
 
         {/* Filter Tabs */}
-        <Tabs value={activeFilter} onValueChange={(v) => setActiveFilter(v as any)} className="mb-6">
+        <Tabs
+          value={activeFilter}
+          onValueChange={(value) => {
+            if (isPrescriptionFilter(value)) setActiveFilter(value);
+          }}
+          className="mb-6"
+        >
           <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="all">{tCommon("prescriptions.filters.all")}</TabsTrigger>
             <TabsTrigger value="pending_acknowledgment">Awaiting</TabsTrigger>
@@ -333,7 +339,7 @@ export default function MyPrescriptionsPage() {
 
                             {med.special_instructions && (
                               <p className="text-sm text-muted-foreground mt-2 italic">
-                                "{med.special_instructions}"
+                                &ldquo;{med.special_instructions}&rdquo;
                               </p>
                             )}
                           </div>
@@ -381,7 +387,7 @@ export default function MyPrescriptionsPage() {
 
                             {test.instructions && (
                               <p className="text-sm text-muted-foreground mt-2 italic">
-                                "{test.instructions}"
+                                &ldquo;{test.instructions}&rdquo;
                               </p>
                             )}
                           </div>
@@ -547,5 +553,9 @@ export default function MyPrescriptionsPage() {
       </Dialog>
     </AppBackground>
   );
+}
+
+function isPrescriptionFilter(value: string): value is "all" | PrescriptionStatus {
+  return ["all", "pending_acknowledgment", "receipt_acknowledged", "discrepancy_reported"].includes(value);
 }
 

@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0091",
   "source_sha256": "925028750f5874444665f26fa1daebce08be138f657aa0dbc4d80597a0a2822b",
-  "raw_transcription": ". Tab. Naproxen ( hwmg)\nsemprecin sistment\n\" Mensi petrolium jelly\n- Ega 200 -(5)\n\"Tab. Omep ( 20 mg)\n€20\nplease add ~ 24.05.211\n20\n7th pochiwell (36)\n2+0-10 -\n(100)(1)\n(50mg) (10\n- Tab Le Sustan\n2,0-0",
+  "raw_transcription": "Rx\nTab. Naproxen 500 mg\n1+0+1 (after meal) - 5\nMupirocin ointment\napply 3 times daily - 5\nPetroleum jelly\napply twice daily - 5\nTab. Omep 20 mg\n1+0+1 (before meal) - 20\n\nLater addition:\nTab. [illegible] 500 mg\n[illegible] - 20\nTab. [illegible] 500 mg\n1+0+1 - 10",
   "boxes": [],
   "medications": [
     {
@@ -107,14 +107,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "917f9a489a12bac825e6c1093f0f9f2cabb59fb7a6c05ea6c5a44666508c940e"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "fddfeca932f2471a3f916cc936481b4eaabb4e6c55487f73fdd51a0f202a532e"
     },
     {
       "provider": "paddle",
@@ -1881,6 +1885,17 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. Naproxen 500 mg\n1+0+1 (after meal) - 5\nMupirocin ointment\napply 3 times daily - 5\nPetroleum jelly\napply twice daily - 5\nTab. Omep 20 mg\n1+0+1 (before meal) - 20\n\nLater addition:\nTab. [illegible] 500 mg\n[illegible] - 20\nTab. [illegible] 500 mg\n1+0+1 - 10",
+      "uncertain_spans": [
+        "later-addition tablet names and first schedule",
+        "product spellings"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0099",
   "source_sha256": "d699559c852248ec795cbae1d17f580cd6b7bc5ef9af7e877ca306eaa597fa08",
-  "raw_transcription": ", Tais Levofloxacina (or)\ncar monas\natomf.\n(10)\nalab - Napa\n1-10-11\n+ Pas- Doxophyllin 200\n1 ło +]\n10\n24.0 mg m",
+  "raw_transcription": "Rx\nTab. Levofloxacin 500 mg\n0+0+1 - 5\nTab. Monas 10\n0+0+1 - 10\nTab. Napa 500 mg\n1+0+1 - 10\nTab. Doxophylline 200 mg\n1+0+1 - 10",
   "boxes": [],
   "medications": [
     {
@@ -77,14 +77,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "6f9dfe963553fb83f17019948567a18d3263cf73f88bc3026632413b1472fa39"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "9c52036017a3c6aaf77d8c6ee36649e6614e8abbed260b3e33d59cf2039fac2e"
     },
     {
       "provider": "paddle",
@@ -1947,6 +1951,17 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. Levofloxacin 500 mg\n0+0+1 - 5\nTab. Monas 10\n0+0+1 - 10\nTab. Napa 500 mg\n1+0+1 - 10\nTab. Doxophylline 200 mg\n1+0+1 - 10",
+      "uncertain_spans": [
+        "dose schedules",
+        "product spellings"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

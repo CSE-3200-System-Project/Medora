@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0079",
   "source_sha256": "6fe3c3b6cfb2a291ee9799e33be92ae0de0a9bcf6d2d5f1fb4fe11ab7fe975c2",
-  "raw_transcription": "1 15. Lintabul 6515000 1+1 lo\n2 Th, Bristol 5mg 1+0+0 ml\n3) Tas. Abecas S/LOW Ottimo\n1\nजिन/जडाक/याम\nअन र्थ /कार्बन\n4Th. Rozavel 5V ottimo NuTowe\n2 Th BILG 1+0+1 MUCHO 2/20 03.6.2028-\n(6)TE, Disuper 05w Utt+1 m\n0 5 MAR 2024\nBp12018 Ptu\n5?\n5 जवान/ नजीर/याम",
+  "raw_transcription": "Rx\n1. Tab. Lintab M 2.5/500\n1+0+1 [illegible]\n2. Tab. Bisol 5 mg\n1+0+0 [illegible]\n3. Tab. Abecab 5/20\n0+0+1 [illegible]\n4. Tab. Rozavel 5\n0+0+1 [illegible]\n5. Tab. [illegible]\n1+0+1 [illegible]\n6. Tab. [illegible] 0.5 mg\n0+0+1 [illegible]",
   "boxes": [],
   "medications": [
     {
@@ -77,14 +77,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "fd4a76450694792a59c8b32c2fce7718b1c81794b9a9d8458dbf587cee6ad606"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "21f649d74a710ebadee058caf158f57fb82de3c3b090c414fbf0d14118753aba"
     },
     {
       "provider": "paddle",
@@ -1409,6 +1413,18 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\n1. Tab. Lintab M 2.5/500\n1+0+1 [illegible]\n2. Tab. Bisol 5 mg\n1+0+0 [illegible]\n3. Tab. Abecab 5/20\n0+0+1 [illegible]\n4. Tab. Rozavel 5\n0+0+1 [illegible]\n5. Tab. [illegible]\n1+0+1 [illegible]\n6. Tab. [illegible] 0.5 mg\n0+0+1 [illegible]",
+      "uncertain_spans": [
+        "product spellings",
+        "fifth and sixth tablet names",
+        "trailing timing instructions"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

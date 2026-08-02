@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0100",
   "source_sha256": "15394e54b5cc90f8fe652fb5368e843c1db82b7d00a0810ccbf40a55ee9140f1",
-  "raw_transcription": "Px\nSkap anarid\n10\nTe Calcium D3\n27000",
+  "raw_transcription": "Rx\nTab. Naproxen 500 mg\n1+0+1 [illegible] - [illegible]\nTab. Omep [illegible]\n[illegible] - 10\nTab. Calbo-D3\n[illegible] - 10",
   "boxes": [],
   "medications": [
     {
@@ -37,14 +37,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "6fcb0d7e2574898426298b490de582b71c6f8aec032613f1fe6dd098397ae828"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "3d0677a32cd88298ef8d2df27422a5f715b8acbb6f00cf31deed61023713835b"
     },
     {
       "provider": "paddle",
@@ -1554,6 +1558,18 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. Naproxen 500 mg\n1+0+1 [illegible] - [illegible]\nTab. Omep [illegible]\n[illegible] - 10\nTab. Calbo-D3\n[illegible] - 10",
+      "uncertain_spans": [
+        "dose schedules and durations",
+        "omeprazole strength",
+        "product spellings"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

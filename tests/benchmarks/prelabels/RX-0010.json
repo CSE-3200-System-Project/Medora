@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0010",
   "source_sha256": "ffdbc37cd85282c06ac294ec3219adbbe74e1023e61ac243bae4d2eadbfe4aa5",
-  "raw_transcription": ".\nTab.\nFlugal (150mg)\n1 tab. stat\nTab\nTamen\nstata\n6\nhab.\nKilbac (500g\n? toto\n. Tab.\nDes (5g)\nototo\n0.51\nRanitidiny\n8\nTab.\nK",
+  "raw_transcription": "Tab. Flugal (150mg)\n1 tab stat\nTab. Tamen (500mg)\n১+১+১ (6)\nTab. Kilbac (100mg)\n১+০+১ - ৭ দিন\nTab. Des (5mg)\n0+0+1 - ৫ দিন\nTab. Ranitid 150mg\n১+০+১ খাবার আগে (6)",
   "boxes": [],
   "medications": [
     {
@@ -130,11 +130,15 @@
     "illegible": false
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "6d535ee0689a010c29a8de004e11f5c0433e46883b00e2ad654ed90cc4818e28"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "e122e406a45398eaf25e0e44c825b905bb92096042f1d423b9b18ba6f5afe4ec"
     },
     {
       "provider": "paddle",
@@ -1495,6 +1499,14 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Tab. Flugal (150mg)\n1 tab stat\nTab. Tamen (500mg)\n১+১+১ (6)\nTab. Kilbac (100mg)\n১+০+১ - ৭ দিন\nTab. Des (5mg)\n0+0+1 - ৫ দিন\nTab. Ranitid 150mg\n১+০+১ খাবার আগে (6)",
+      "uncertain_spans": [],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

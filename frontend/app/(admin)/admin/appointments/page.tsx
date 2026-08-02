@@ -1,10 +1,11 @@
 import { AdminAppointmentsClient } from "@/components/admin/pages/admin-appointments-client";
+import type { Appointment } from "@/components/admin/pages/admin-appointments-client";
 import { getAllAppointments } from "@/lib/admin-actions";
 
 export const dynamic = "force-dynamic";
 
 export default async function AppointmentsPage() {
-  let initialAppointments: any[] = [];
+  let initialAppointments: Appointment[] = [];
   let initialTotal = 0;
 
   try {

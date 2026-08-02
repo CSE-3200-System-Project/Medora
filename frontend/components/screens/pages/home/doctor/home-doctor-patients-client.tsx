@@ -5,9 +5,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Navbar } from "@/components/ui/navbar";
 import { AppBackground } from "@/components/ui/app-background";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PageLoadingShell } from "@/components/ui/page-loading-shell";
 import { getDoctorPatients } from "@/lib/appointment-actions";
@@ -15,13 +14,11 @@ import { resolveAvatarUrl } from "@/lib/avatar";
 import { 
   User, 
   Calendar, 
-  Clock, 
   Phone, 
   Mail, 
   CheckCircle2, 
   Search,
-  Activity,
-  ChevronRight
+  Activity
 } from "lucide-react";
 
 interface Patient {
@@ -180,7 +177,7 @@ export default function DoctorPatientsPage() {
           <Card className="rounded-2xl border-border/50">
             <CardContent className="p-8 text-center">
               <Search className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-              <p className="text-muted-foreground">No patients found matching "{searchQuery}"</p>
+              <p className="text-muted-foreground">No patients found matching &quot;{searchQuery}&quot;</p>
             </CardContent>
           </Card>
         ) : (

@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0051",
   "source_sha256": "e119eb4a77ed214a56c78416d60ee9eeba5edd7dc59dfc8ca346933c3f516e2d",
-  "raw_transcription": "7\nTM Joint Subluxation. (U)\n1\nVOLIGEL THE ANTIMON.\n/\nButler. OxICAM (20Ml)\n1\nlas. PANTONIX (20Mg)\npoll wow 2/2 close\n1\nClu. CARTILAGE MAX10VS\n14091\nChamber :\nHitech Multicare Hospital Ltd.\n164. East K.",
+  "raw_transcription": "Rx\nCap. [illegible]\n1+0+1 [illegible]\nCap. Pantonix [illegible]\n1+0+1, half hour [illegible]\nCap. Cartilage [illegible]\n1+0+1 [illegible]",
   "boxes": [],
   "medications": [
     {
@@ -107,14 +107,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "850f3520d46ed9f8e007093c0d01af73e18f9c429667fe29f792296fc4677a07"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "82e2e0b63af05560e8ccbd6660fb52dce3228364e8f5a4fab3c40b795b34d21c"
     },
     {
       "provider": "paddle",
@@ -1844,6 +1848,17 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nCap. [illegible]\n1+0+1 [illegible]\nCap. Pantonix [illegible]\n1+0+1, half hour [illegible]\nCap. Cartilage [illegible]\n1+0+1 [illegible]",
+      "uncertain_spans": [
+        "all three product spellings",
+        "strengths, durations, and trailing instructions"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

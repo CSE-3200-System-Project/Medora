@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0066",
   "source_sha256": "12b4344ebc54bec70fdaa67330a356a1ce6382c89529d8d033235fe41698039e",
-  "raw_transcription": "6. mehryt /um",
+  "raw_transcription": "Rx\n1. [illegible] 500 - 10\n[illegible]\n2. Esotid - 10\n[illegible]",
   "boxes": [],
   "medications": [
     {
@@ -27,14 +27,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "234c23fdb5d5a2463f614d38b1ef116fe8067f53c10406ca2119444c7f6bc98d"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "2a79b90150235d8c5ac8454ed8c86282506196d7a5b816ce8d986c46c124ef09"
     },
     {
       "provider": "paddle",
@@ -1227,6 +1231,17 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\n1. [illegible] 500 - 10\n[illegible]\n2. Esotid - 10\n[illegible]",
+      "uncertain_spans": [
+        "low-resolution image; first medication name and both schedules are unclear",
+        "Esotid spelling"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

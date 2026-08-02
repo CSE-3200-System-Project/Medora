@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0072",
   "source_sha256": "33248ae9118d0667c4ca5704c7e818757106cf6aebfd420f123c5f181540de38",
-  "raw_transcription": "Bp:\n130/80\n62mm\nrx\nDue:\n5.754, F14,\nTy, Comer XR\nTh: 330 mg\nFRS : 6.8\n2m ABA 8.2\nFenocap 2000\n- 3 month\n(0) for\nCol (Dr) Muhammad Ariful Islam M\nR\nAAN\nLipid (F)\nasser 01 month.\nCI Med Spl\nCMH Dhaka\n500 mg\n0+0+ 01/2\nTy.\nar: 1.\n2\nN\n1\n.\nECG\n.\nF13",
+  "raw_transcription": "Rx\nTab. Comet XR 500 mg\n0+0+1 [illegible]\nTab. Fenocap 200 mg\n0+0+1 - 3 months",
   "boxes": [],
   "medications": [
     {
@@ -157,14 +157,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "80a67de8cc51d5560232c269e5fa1f590b2d93e91d63d7ad56dc030e56462f6d"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "8630d70abc2b26aacb2d875f94f5830f7730baf785b4d3bfe2114e2cb244d2a4"
     },
     {
       "provider": "paddle",
@@ -1649,6 +1653,17 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. Comet XR 500 mg\n0+0+1 [illegible]\nTab. Fenocap 200 mg\n0+0+1 - 3 months",
+      "uncertain_spans": [
+        "Comet XR trailing notation",
+        "Fenocap spelling"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

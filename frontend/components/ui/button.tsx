@@ -25,10 +25,10 @@ const buttonVariants = cva(
       },
       size: {
         default: "h-10 sm:h-11 min-h-[44px] px-3 sm:px-4 py-2 has-[>svg]:px-2.5 has-[>svg]:sm:px-3 text-sm sm:text-sm",
-        sm: "h-9 sm:h-10 min-h-[36px] rounded-md gap-1.5 px-2.5 sm:px-3 has-[>svg]:px-2 has-[>svg]:sm:px-2.5 text-sm",
+        sm: "min-h-11 rounded-md gap-1.5 px-2.5 sm:px-3 has-[>svg]:px-2 has-[>svg]:sm:px-2.5 text-sm",
         lg: "h-11 sm:h-12 min-h-[44px] rounded-md px-4 sm:px-6 has-[>svg]:px-3 has-[>svg]:sm:px-4 text-base",
         icon: "size-10 sm:size-11 min-w-[44px] min-h-[44px]",
-        "icon-sm": "size-9 sm:size-10 min-w-[36px] min-h-[36px]",
+        "icon-sm": "size-11 min-w-11 min-h-11",
         "icon-lg": "size-11 sm:size-12 min-w-[44px] min-h-[44px]",
       },
     },

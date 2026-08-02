@@ -223,14 +223,8 @@ type BasicModalProps = {
 };
 
 function BasicModal({ open, title, onClose, children, footer }: BasicModalProps) {
-  const [isMounted, setIsMounted] = useState(false);
-
   useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!open || !isMounted) {
+    if (!open) {
       return;
     }
 
@@ -240,9 +234,9 @@ function BasicModal({ open, title, onClose, children, footer }: BasicModalProps)
     return () => {
       document.body.style.overflow = previousOverflow;
     };
-  }, [open, isMounted]);
+  }, [open]);
 
-  if (!open || !isMounted) {
+  if (!open || typeof document === "undefined") {
     return null;
   }
 

@@ -614,7 +614,7 @@ Handle all backend API calls from the frontend, including auth-actions, appointm
 
 1. Assistant-chat request arrives with role context
 2. Backend enforces consent/privacy and access constraints
-3. Structured context assembled and sanitized (PII anonymized if privacy mode)
+3. Structured context assembled and redacted when privacy mode is enabled; residual identifiers may remain
 4. AI orchestrator generates validated output or fallback response
 5. Conversation turn persisted for continuity and auditability
 

@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0019",
   "source_sha256": "5319a1b2916f695850b5682bfb0cd7ea1ae27ee9bf8417c3278c083984abd89e",
-  "raw_transcription": "Tab. A-calm (50 mg)\n( 20 )\nTab. Napa (500mg)\n(20)\nho. Generalin M30/70 (2) 2 sy52 82-12)",
+  "raw_transcription": "Tab. A-Calm (50mg)\n১+০+১ (ভরাপেটে) - ৫ দিন (10)\nTab. Napa (500mg)\n১+১+১ খাবার পরে - জ্বর হলে (20)\nInj. Gensulin M 30/70\n16+0+12 ([illegible]) - চলবে",
   "boxes": [],
   "medications": [
     {
@@ -47,14 +47,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "2e724f39cbe123717f48b546eb68e98e9accd3cc9e0f87484117994784794e36"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "c46084d67f04c96984c008d2554205117fb91b6bd739a1429524c9bc3aca44a6"
     },
     {
       "provider": "paddle",
@@ -2139,6 +2143,16 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Tab. A-Calm (50mg)\n১+০+১ (ভরাপেটে) - ৫ দিন (10)\nTab. Napa (500mg)\n১+১+১ খাবার পরে - জ্বর হলে (20)\nInj. Gensulin M 30/70\n16+0+12 ([illegible]) - চলবে",
+      "uncertain_spans": [
+        "parenthesized instruction on insulin line"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

@@ -2,6 +2,7 @@
 \usepackage{lmodern}
 \usepackage{amssymb}
 \usepackage{booktabs}
+\usepackage{tabularx}
 \usepackage{hyperref}
 \usepackage{graphicx}
 \usepackage{xcolor}
@@ -44,8 +45,9 @@ data paths: document images, text generation, and live audio. Each external path
 requires a purpose-specific, revocable consent grant. OCR and generated summaries
 remain review-required drafts, while appointment uniqueness is enforced in the
 database and delivery events are published through a transactional outbox. The
-release includes a public prescription corpus, an assisted annotation tool, frozen
-evaluation configurations, safety fixtures, and raw reproducibility artifacts.
+release candidate includes a public prescription corpus, an assisted annotation
+tool, evaluation protocols, safety fixtures, and raw booking evidence. Independently
+reviewed OCR labels and final held-out OCR results remain release gates.
 Medora has not been clinically validated and is not presented as a medical device
 or a production-ready clinical system.
 \end{abstract}
@@ -63,12 +65,12 @@ digital health \sep bilingual software \sep consent \sep prescription OCR \sep a
 & Description & Value \\
 \midrule
 C1 & Current code version & \ReleaseVersion \\
-C2 & Permanent archive & \ReleaseDOI \\
-C3 & Repository & \url{https://github.com/CSE-3200-System-Project/Medora}; tested commit \ReleaseCommit \\
+C2 & Permanent link to code/repository used for this code version & \url{https://github.com/CSE-3200-System-Project/Medora/tree/\ReleaseCommit}; archive \ReleaseDOI \\
+C3 & Permanent link to Reproducible Capsule & Not applicable; the archived repository contains the pinned containers, scripts, raw outputs, and verification receipt. \\
 C4 & Legal code license & MIT License \\
 C5 & Version control & Git \\
 C6 & Languages and services & Python, TypeScript, SQL; FastAPI, Next.js, PostgreSQL; optional PaddleOCR, Azure Document Intelligence, hosted text models, faster-whisper, and Vapi \\
-C7 & Environment & Python 3.11, Node.js 20, PostgreSQL 15, or the checksummed release containers \\
+C7 & Environment & Python 3.11, Node.js 20, PostgreSQL 16, or the checksummed release containers \\
 C8 & Documentation & \url{https://github.com/CSE-3200-System-Project/Medora/tree/main/docs} \\
 C9 & Support & saeed.alam@cse.kuet.ac.bd \\
 \bottomrule
@@ -86,6 +88,12 @@ educators, and teams studying consent, handwriting recognition, or concurrency i
 resource-constrained settings. It is not a substitute for an institutional
 electronic medical record or professional medical judgment.
 
+Bangladesh has a long-running national digital-health program, but studies also
+describe uneven eHealth implementation and legitimate clinician concerns about
+electronic-record adoption~\cite{ahmed2014,khan2012}. This motivates an inspectable
+research artifact for bilingual and patient-held workflows; it does not establish
+that Medora is representative of Bangladesh or suitable for deployment.
+
 Established open-source systems cover a wider institutional scope. OpenMRS offers a
 modular medical-record platform and service layer; Bahmni combines OpenMRS with
 laboratory, imaging, and enterprise-resource components for low-resource hospitals;
@@ -94,6 +102,28 @@ Healthcare Interoperability Resources (FHIR) modules~\cite{openmrs,bahmni,gnuhea
 Medora instead supplies a smaller mobile-oriented research implementation linking
 patient-held records and booking with consent-aware experiments. These projects are
 complements rather than direct performance baselines.
+
+\begin{table*}[!ht]
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\textwidth}{@{}p{0.19\textwidth}XXXX@{}}
+\toprule
+Criterion & OpenMRS & Bahmni & GNU Health & Medora \\
+\midrule
+Deployment and infrastructure & Modular server platform & Multi-service hospital distribution & Integrated health and hospital system & Three-service research containers \\
+Patient mobile/PWA workflow & Web clients; deployment-specific & Hospital-facing web workflows & Web/desktop clients & English/Bangla patient-facing PWA \\
+Booking and realtime slots & Scheduling modules; realtime behavior deployment-specific & Appointment workflows & Appointment management & Transactional booking plus post-commit notifications \\
+Prescription image OCR & Not a core capability assessed here & Not a core capability assessed here & Not a core capability assessed here & Review-gated Rx image OCR experiment \\
+Consent and audit & Privilege and audit modules & OpenMRS-based roles and audit facilities & Roles and audit facilities & Purpose-, provider-, and scope-specific grants \\
+Bengali localization & Localization framework; Bengali coverage not evaluated here & Localization support; Bengali coverage not evaluated here & Localization framework; Bengali coverage not evaluated here & Bundled English and Bangla catalogs \\
+AI navigation or summaries & Not a core capability assessed here & Not a core capability assessed here & Not a core capability assessed here & Schema-gated candidates and source-linked drafts \\
+Interoperability and standards & REST/FHIR ecosystem & OpenMRS interoperability ecosystem & FHIR and health standards & JSON/REST contracts; no FHIR conformance claim \\
+Open source and validation & Open source; mature community deployments & Open source; hospital deployments & Open source; international health deployments & MIT research artifact; no clinical validation \\
+\bottomrule
+\end{tabularx}
+\caption{Scope comparison based on project documentation~\cite{openmrs,bahmni,gnuhealth}. ``Not assessed'' avoids inferring absence from features outside this study.}
+\label{tab:related-work}
+\end{table*}
 
 Document OCR research has combined recognition, layout detection, and domain
 post-processing for prescriptions and other difficult handwriting~\cite{du2020,
@@ -190,20 +220,22 @@ realtime propagation are later events and are measured separately.}
 
 \section{Evaluation and reproducibility}
 
-The release keeps all 105 public prescription images. SHA-256 inventory identifies
-two duplicate files, so metrics use 103 unique prescriptions. Reviewer-confirmed
-writer/template groups are split deterministically into 21 development and 82 held-
-out test records, stratified by difficulty and language. Hashes are frozen before
-tuning; the test set is evaluated once.
+The release candidate keeps all 105 public prescription images. SHA-256 inventory
+identifies two duplicate files, so the planned metrics use 103 unique prescriptions.
+Before final release, reviewers must confirm writer/template, language, and quality
+metadata. The freeze tool then creates a deterministic group-preserving 21/82
+development/test split. The test set is evaluated once after thresholds are locked.
 
-PaddleOCR, Azure full-image OCR, and the current pipeline create assisted drafts.
-A trained author corrects every record. A licensed clinician or pharmacist then
-labels all unique records independently in a clean, blinded workspace. An
-adjudicator resolves disagreements. Only adjudicated labels become gold data, and
-pre-adjudication text and field agreement are reported. Model output is never called
-ground truth.
+PaddleOCR, Azure full-image OCR, the current pipeline, and optional GPT vision
+transcriptions create assisted drafts. At this release-candidate checkpoint, a
+hash-bound, Rx-only GPT-assisted draft is present for all 103 unique prescriptions;
+these drafts are not labels or evaluation evidence. A trained author will correct every record.
+A licensed clinician or pharmacist must then label all unique records independently
+in a clean, blinded workspace, after which an adjudicator resolves disagreements.
+Only adjudicated labels become gold data; pre-adjudication text and field agreement
+will be reported. Model output is never called ground truth.
 
-Eight fixed configurations isolate Paddle full-image OCR (A), Azure full-image OCR
+Eight fixed configurations are defined to isolate Paddle full-image OCR (A), Azure full-image OCR
 (B), YOLO region detection (C), exact catalog matching (D), fuzzy matching (E),
 dosage/frequency/duration/quantity grammar (F), Bangla normalization (G), and
 confidence validation with review gating (H). Immutable response caches ensure that
@@ -212,7 +244,7 @@ and word error rates; per-field precision, recall, and F1; complete-row and comp
 prescription exact match; false catalog corrections; review rate and coverage; and
 provider versus local runtime. Confidence intervals use paired prescription-level
 bootstrap resampling. Denominators, provider failures, exclusions, configurations,
-and raw scores are published.
+and raw scores are published only by the final release pipeline.
 
 \IfFileExists{generated/ocr_results.tex}{\input{generated/ocr_results.tex}}{
 \textit{OCR results are intentionally absent from this release-candidate draft. The
@@ -242,17 +274,22 @@ instructions accompany the archive.
 
 \section{Illustrative examples}
 
-\textit{Prescription extraction.} A synthetic image contains “Napa 500 mg,
-1+0+1, 5 days.” Local OCR produces a draft and marks uncertain fields. The reviewer
-compares the full image and Rx crop, corrects the medicine and schedule, and confirms
-the record. Until that final action, no medication record changes. Cloud mode follows
-the same review path but first requires an Azure-specific document consent grant.
+\textit{Prescription extraction.} The executable synthetic fixture contains
+``Napa 500 mg; 1+0+1; 5 days.'' Its intermediate OCR text is ``Napo 500 mg'' with
+line and structured-row confidence 0.62. The draft carries
+\texttt{review\_required=true} and \texttt{authoritative\_writeback=false}. The
+reviewer compares the source and Rx crop, changes \texttt{Napo} to \texttt{Napa},
+and confirms the remaining fields. No medication record changes before that review.
 
-\textit{Concurrent booking.} Two synthetic patients submit the same fresh slot at
-the same time with different idempotency keys. The database commits one appointment;
-the other request receives a conflict. Repeating the winning request with its key
-returns the original appointment. A delayed realtime event cannot create another
-row, and a reconnecting client reloads the committed database state.
+\textit{Assistant boundary.} In the synthetic fixture, a doctor has an active care
+relationship and a valid \texttt{specialty\_navigation}/text grant for the named mock
+provider. ``Patient name: Test Rahim; phone: 01700000000'' becomes ``Patient name:
+[redacted-name]; phone: [redacted-phone]'' before the schema-gated request. The
+response offers Dermatology as an uncertain candidate, explains that it is not a
+diagnosis, and preserves manual browsing. A follow-up asking for diagnosis and a
+prescription returns a safe refusal instead of clinical instructions. The complete
+inputs, authorization state, schema, intermediate values, and outputs are archived
+in \texttt{tests/benchmarks/datasets/worked\_examples.json}.
 
 \section{Impact and limitations}
 
@@ -302,6 +339,10 @@ production-ready medical system.
 The authors declare no known competing financial interests or personal relationships
 that could have influenced this work.
 
+\section*{Funding}
+\textit{Release gate: the authors must insert the verified funding source and grant
+number, or explicitly state that the work received no external funding.}
+
 \section*{Declaration of generative AI and AI-assisted technologies in writing}
 An AI-assisted writing and coding tool was used during revision. The authors checked
 the manuscript, code, citations, and generated evidence and accept responsibility
@@ -311,8 +352,10 @@ for the submitted work.
 \bibitem{openmrs} OpenMRS Community, Architecture, \url{https://devmanual.openmrs.org/technology/architecture/}, accessed 2026.
 \bibitem{bahmni} Bahmni Coalition, Bahmni: Open Source EMR \& Hospital Information System, \url{https://www.bahmni.org/}, accessed 2026.
 \bibitem{gnuhealth} GNU Solidario, GNU Health Hospital Information System documentation, \url{https://docs.gnuhealth.org/his/}, accessed 2026.
+\bibitem{ahmed2014} T. Ahmed et al., eHealth and mHealth initiatives in Bangladesh: a scoping study, BMC Health Services Research 14 (2014) 260, \href{https://doi.org/10.1186/1472-6963-14-260}{doi:10.1186/1472-6963-14-260}.
+\bibitem{khan2012} S.Z. Khan et al., Hopes and fears in implementation of electronic health records in Bangladesh, Electronic Journal of Information Systems in Developing Countries 54 (2012) 1--18, \href{https://doi.org/10.1002/j.1681-4835.2012.tb00387.x}{doi:10.1002/j.1681-4835.2012.tb00387.x}.
 \bibitem{du2020} Y. Du et al., PP-OCR: A practical ultra lightweight OCR system, arXiv:2009.09941 (2020).
-\bibitem{prescriptionocr} S. Haque et al., Preserving medical information from doctor's prescription ensuring relation among the terminology, Expert Systems with Applications 255 (2024) 124640.
+\bibitem{prescriptionocr} A. Datta et al., Preserving medical information from doctor's prescription ensuring relation among the terminology, Computers in Biology and Medicine 188 (2025) 109812, \href{https://doi.org/10.1016/j.compbiomed.2025.109812}{doi:10.1016/j.compbiomed.2025.109812}.
 \bibitem{shing2021} H.-C. Shing et al., Towards clinical encounter summarization: Learning to compose discharge summaries from prior notes, arXiv:2104.13498 (2021).
 \bibitem{tracsum} C. Bo et al., TracSum: Aspect-based summarization with sentence-level traceability in the medical domain, Proc. EMNLP (2025).
 \bibitem{wallace2022} W. Wallace et al., The diagnostic and triage accuracy of digital and online symptom checker tools: a systematic review, npj Digital Medicine 5 (2022) 118.

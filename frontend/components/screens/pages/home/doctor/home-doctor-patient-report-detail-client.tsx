@@ -50,23 +50,23 @@ export default function DoctorPatientReportDetailPage() {
   const [submittingComment, setSubmittingComment] = React.useState(false);
   const [commentError, setCommentError] = React.useState<string | null>(null);
 
-  React.useEffect(() => {
-    if (reportId) loadReport();
-  }, [reportId]);
-
-  const loadReport = async () => {
+  const loadReport = React.useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
       const data = await getMedicalReport(reportId);
       setReport(data);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Failed to load report:", err);
-      setError(err.message || "Failed to load report");
+      setError(err instanceof Error ? err.message : "Failed to load report");
     } finally {
       setLoading(false);
     }
-  };
+  }, [reportId]);
+
+  React.useEffect(() => {
+    if (reportId) void loadReport();
+  }, [reportId, loadReport]);
 
   const handleAddComment = async () => {
     if (!commentText.trim()) return;
@@ -84,9 +84,9 @@ export default function DoctorPatientReportDetailPage() {
         });
       }
       setCommentText("");
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Failed to add comment:", err);
-      setCommentError(err.message || "Failed to add comment");
+      setCommentError(err instanceof Error ? err.message : "Failed to add comment");
     } finally {
       setSubmittingComment(false);
     }

@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0026",
   "source_sha256": "9d794c95dc6989f53bf5efde998607ce9b4234f483fe11172aeaf90000d5c139",
-  "raw_transcription": "Tob. Glichizite 80",
+  "raw_transcription": "Tab. Gliclazide 80\n১+০+১ ([illegible])",
   "boxes": [],
   "medications": [
     {
@@ -27,14 +27,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "ca060dd0187042499a9f4532468b651564890b4ae0c32e3e545351122ad2698c"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "9bba14a9ee122cdcc3a8fd720fdf5029751babafc4b20d5e4628881c8dd27b1c"
     },
     {
       "provider": "paddle",
@@ -888,6 +892,16 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Tab. Gliclazide 80\n১+০+১ ([illegible])",
+      "uncertain_spans": [
+        "quantity or duration"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

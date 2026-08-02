@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0068",
   "source_sha256": "292db0daec300ea1c371b756e79357f3abf36bd7cdb7037dd39d5dba6a132aa9",
-  "raw_transcription": "Mernas\n0-++7) -\n4% Aceciofenac (1)\nLap americ (10)\nORS (2)",
+  "raw_transcription": "Rx\nTab. [illegible] 10\n[illegible] - 10\nTab. Fexo 120 mg\n0+0+1 - 10\nTab. Aceclofenac 100 mg\n1+0+1 (after meal) - [illegible]\nCap. Omeprazole [illegible]\n[illegible] - 10\nORS - 2",
   "boxes": [],
   "medications": [
     {
@@ -57,14 +57,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "724804988fa9efae994521236be0ccaf8a9dc9b2667420be6e7d8776c8e2c122"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "d45d5ac4a85338ddd7e25fe5cfa27d1cd3aacdd807f5127303d587a69ba0112f"
     },
     {
       "provider": "paddle",
@@ -1731,6 +1735,18 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. [illegible] 10\n[illegible] - 10\nTab. Fexo 120 mg\n0+0+1 - 10\nTab. Aceclofenac 100 mg\n1+0+1 (after meal) - [illegible]\nCap. Omeprazole [illegible]\n[illegible] - 10\nORS - 2",
+      "uncertain_spans": [
+        "first tablet name and schedule",
+        "Aceclofenac duration",
+        "omeprazole strength and schedule"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

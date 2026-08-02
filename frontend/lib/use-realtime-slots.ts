@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef } from "react";
 import { createClient } from "@supabase/supabase-js";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
@@ -20,7 +20,10 @@ export function useRealtimeSlots(
   onSlotChange: () => void,
 ) {
   const callbackRef = useRef(onSlotChange);
-  callbackRef.current = onSlotChange;
+
+  useEffect(() => {
+    callbackRef.current = onSlotChange;
+  }, [onSlotChange]);
 
   useEffect(() => {
     if (!doctorId || !date || !SUPABASE_URL || !SUPABASE_ANON_KEY) return;
@@ -39,8 +42,9 @@ export function useRealtimeSlots(
         },
         (payload) => {
           // Check if the change is for the date we're watching
-          const record = (payload.new as any) || (payload.old as any);
-          if (record?.appointment_date) {
+          const candidate = Object.keys(payload.new).length ? payload.new : payload.old;
+          const record = candidate as { appointment_date?: unknown };
+          if (typeof record.appointment_date === "string") {
             const recordDate = record.appointment_date.slice(0, 10);
             if (recordDate === date) {
               callbackRef.current();

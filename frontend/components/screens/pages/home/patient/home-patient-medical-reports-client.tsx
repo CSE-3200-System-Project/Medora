@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Navbar } from "@/components/ui/navbar";
 import { AppBackground } from "@/components/ui/app-background";
@@ -25,7 +26,6 @@ import {
   FileText,
   Upload,
   CheckCircle2,
-  AlertTriangle,
   Clock,
   ArrowRight,
   FlaskConical,
@@ -62,9 +62,9 @@ export default function PatientMedicalReportsPage() {
       setError(null);
       const data = await listMedicalReports(undefined, 50, 0);
       setReports(data.reports);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Failed to load reports:", err);
-      setError(err.message || "Failed to load reports");
+      setError(err instanceof Error ? err.message : "Failed to load reports");
     } finally {
       setLoading(false);
     }
@@ -129,9 +129,9 @@ export default function PatientMedicalReportsPage() {
 
       // Navigate to the new report
       router.push(`/patient/medical-reports/${result.report.id}`);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Upload failed:", err);
-      setUploadError(err.message || "Upload failed");
+      setUploadError(err instanceof Error ? err.message : "Upload failed");
     } finally {
       setUploading(false);
     }
@@ -195,16 +195,18 @@ export default function PatientMedicalReportsPage() {
               <div
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={handleDrop}
-                className="border-2 border-dashed border-muted-foreground/30 rounded-xl p-8 text-center hover:border-primary/50 transition-colors cursor-pointer"
-                onClick={() => fileInputRef.current?.click()}
+                className="rounded-xl border-2 border-dashed border-muted-foreground/30 p-8 text-center transition-colors hover:border-primary/50"
               >
                 {selectedFile ? (
                   <div className="space-y-3">
                     {previewUrl ? (
-                      <img
+                      <Image
                         src={previewUrl}
-                        alt="Preview"
-                        className="max-h-48 mx-auto rounded-lg object-contain"
+                        alt="Selected medical report preview"
+                        width={768}
+                        height={768}
+                        unoptimized
+                        className="mx-auto h-auto max-h-48 w-auto rounded-lg object-contain"
                       />
                     ) : (
                       <FileText className="h-12 w-12 mx-auto text-primary opacity-70" />
@@ -216,12 +218,12 @@ export default function PatientMedicalReportsPage() {
                       <Button
                         type="button"
                         variant="ghost"
-                        size="sm"
+                        size="icon-sm"
                         onClick={(e) => {
                           e.stopPropagation();
                           clearFile();
                         }}
-                        className="h-6 w-6 p-0"
+                        aria-label="Remove selected report"
                       >
                         <X className="h-4 w-4" />
                       </Button>
@@ -231,14 +233,17 @@ export default function PatientMedicalReportsPage() {
                     </p>
                   </div>
                 ) : (
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     <ImageIcon className="h-12 w-12 mx-auto opacity-40" />
                     <p className="text-muted-foreground">
-                      Drag & drop your report here, or click to browse
+                      Drag and drop your report here, or choose a file.
                     </p>
                     <p className="text-xs text-muted-foreground">
                       Supports JPG, PNG, WebP, PDF (max 15MB)
                     </p>
+                    <Button type="button" variant="outline" onClick={() => fileInputRef.current?.click()}>
+                      Choose file
+                    </Button>
                   </div>
                 )}
               </div>

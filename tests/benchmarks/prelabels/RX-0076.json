@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0076",
   "source_sha256": "f984b0862482568943b8daeec1876767956b5e47bafdf2e1f0bdee7995bd6618",
-  "raw_transcription": "Angulock\n(\n0+07\n1\n12.\nCinnamon (13-\n1\n1+011\n50\n1\nComet 1\n€\n-6m\nअमूल एक\n(मालिमिन) डि. कार्ड (कार्डियनछि)\nने विनयष्ट\nPantano\n١\n100\n1",
+  "raw_transcription": "Rx\nTab. Angilock 50\n0+0+1 - continue\nTab. Cinaron 15\n1+0+1 - 15 days\nTab. Comet 500\n0+1+0 - [illegible]\nTab. [illegible] 1 mg\n1+0+1 - [illegible]",
   "boxes": [],
   "medications": [
     {
@@ -57,14 +57,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "590b26ad403dd8c8b78b44ea7d2c526d957bea2fc8443d811d6a2bec67a64b9a"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "9743b486ae3ee187df2e68f3333d612d38425117fa6e55414f038b433191f2ec"
     },
     {
       "provider": "paddle",
@@ -2012,6 +2016,18 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. Angilock 50\n0+0+1 - continue\nTab. Cinaron 15\n1+0+1 - 15 days\nTab. Comet 500\n0+1+0 - [illegible]\nTab. [illegible] 1 mg\n1+0+1 - [illegible]",
+      "uncertain_spans": [
+        "product spellings",
+        "last tablet name",
+        "Comet and last-tablet durations"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

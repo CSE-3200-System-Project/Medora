@@ -62,7 +62,6 @@ function computeDeltaPercent(points: HealthMetricTrendPoint[]): number | null {
 }
 
 export const VitalsSummaryCard = React.memo(function VitalsSummaryCard({
-  patientData: _patientData = {},
   medicalTests,
 }: VitalsSummaryCardProps) {
   const [vital, setVital] = useState<VitalState>({

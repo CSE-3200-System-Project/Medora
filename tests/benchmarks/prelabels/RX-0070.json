@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0070",
   "source_sha256": "2cddb5b7172cffe7adc1ac4aebef3ea1bec868251b799687e4c81b762db8ac08",
-  "raw_transcription": "Tb- Fixeet plus-(250) (4)\nTab - Etorix-(30) (7 270/m)\nGp- Maxpro- (20) (14)",
+  "raw_transcription": "Rx\nTab. Fixcef 250 - 14\n1+0+1 after meal\nTab. Etoricox 90 [illegible]\n[illegible] after meal\nCap. Moxpro 20 - 14\n1+0+1 before meal",
   "boxes": [],
   "medications": [
     {
@@ -47,14 +47,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "c58d8ae051e886ecf3def24adeb58f0471e520949724f38f343330fd6ab1c42d"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "a23f26c65660bc0f06ac73e580d32997fad89413106f2b098a0bd7dd25cf367e"
     },
     {
       "provider": "paddle",
@@ -607,6 +611,17 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. Fixcef 250 - 14\n1+0+1 after meal\nTab. Etoricox 90 [illegible]\n[illegible] after meal\nCap. Moxpro 20 - 14\n1+0+1 before meal",
+      "uncertain_spans": [
+        "all three product spellings",
+        "Etoricox quantity and schedule"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

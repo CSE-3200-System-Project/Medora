@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0014",
   "source_sha256": "ad17df15f7b833cde091c8571b0b170e9fe5186eabe958199cb1ecfbe157f032",
-  "raw_transcription": "Ad_ Excision + 4/A.\nRx\n- Cap. Flux (500 mg)\n-40\n- 26. Final (100 mg) -10\n0 +0+2.\nsome\n- Mardin-@",
+  "raw_transcription": "Cap. Flux (500mg) (40)\n১+১+১+১ খাবারের আগে - ১০দিন\nTab. [illegible] (120mg) (10)\n0+0+1 - ১০দিন\n[illegible] - 1",
   "boxes": [],
   "medications": [
     {
@@ -67,14 +67,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "8fc1eefe81166ec07fbf88f472e8c442d332f057849583b1fbb8156e737b5939"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "7a32de3084bf611361b3e4171ac2b42dacf6cc4d13a5c0fc10481d3c7453e8ab"
     },
     {
       "provider": "paddle",
@@ -2134,6 +2138,17 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Cap. Flux (500mg) (40)\n১+১+১+১ খাবারের আগে - ১০দিন\nTab. [illegible] (120mg) (10)\n0+0+1 - ১০দিন\n[illegible] - 1",
+      "uncertain_spans": [
+        "medicine name on line 2",
+        "topical medicine name on line 3"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

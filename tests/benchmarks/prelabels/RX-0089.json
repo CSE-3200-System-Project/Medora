@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0089",
   "source_sha256": "8347723c16623e09b2064ebb519eb1789ccb8aab8a5be3c8399e09f95e3c11f4",
-  "raw_transcription": "Tab levofloxacin ( 500 mg)\notofa- ebun\nDoxophiphone (200 mg)\nTab\n10\nMentiquhart (rm)\n0+off- roluri (10\nomeprazole (20m)\ncap\na toto - count (16)",
+  "raw_transcription": "Rx\nTab. Amoxicillin 500 mg\n1+0+1 - 5\nTab. Doxophylline 200 mg\n1+0+1 - 10\nTab. Montelukast 10 mg\n0+0+1 - 10\nCap. Omeprazole 20 mg\n1+0+1 - 10",
   "boxes": [],
   "medications": [
     {
@@ -107,14 +107,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "440131ebed2145af2570fe1d856e4682c71a07f6e6c8537a9b366f7ecfc3405f"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "565c622f9c776508ce4670a8dafe9a6e23e746a0ea8bf1fd4def126fea23b3e3"
     },
     {
       "provider": "paddle",
@@ -1774,6 +1778,17 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. Amoxicillin 500 mg\n1+0+1 - 5\nTab. Doxophylline 200 mg\n1+0+1 - 10\nTab. Montelukast 10 mg\n0+0+1 - 10\nCap. Omeprazole 20 mg\n1+0+1 - 10",
+      "uncertain_spans": [
+        "amoxicillin schedule and duration",
+        "product spellings"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

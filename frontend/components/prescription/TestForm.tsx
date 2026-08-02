@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Plus, Trash2, FlaskConical, AlertTriangle } from "lucide-react";
-import { TestPrescriptionInput, TestUrgency } from "@/lib/prescription-actions";
+import { TestPrescriptionInput } from "@/lib/prescription-actions";
 import { MedicalTestSearch } from "@/components/medical-test";
 
 interface TestFormProps {
@@ -48,7 +48,11 @@ export function TestForm({ tests, onTestsChange }: TestFormProps) {
     onTestsChange(updated);
   };
 
-  const updateTest = (index: number, field: keyof TestPrescriptionInput, value: any) => {
+  const updateTest = <K extends keyof TestPrescriptionInput>(
+    index: number,
+    field: K,
+    value: TestPrescriptionInput[K],
+  ) => {
     const updated = [...tests];
     updated[index] = { ...updated[index], [field]: value };
     onTestsChange(updated);

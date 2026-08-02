@@ -56,7 +56,7 @@ def _normalize_part(value: str | None) -> str:
 def stable_hash_token(*parts: str | None, namespace: str = "subject", length: int = 24) -> str:
     normalized_parts = [_normalize_part(part) for part in parts if _normalize_part(part)]
     if not normalized_parts:
-        normalized_parts = ["anonymous"]
+        normalized_parts = ["unspecified"]
 
     message = f"{namespace}|{'|'.join(normalized_parts)}".encode("utf-8")
     digest = hmac.new(_resolve_hash_secret().encode("utf-8"), message, hashlib.sha256).hexdigest()

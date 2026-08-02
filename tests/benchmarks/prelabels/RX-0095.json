@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0095",
   "source_sha256": "c1ea6cfac64393d35830a4683d053a3ca89816357b5e552c6908fc744fd9a29c",
-  "raw_transcription": "Cap Fucksacin (20)30)\nCap Amoxyelite tele Maaco\n---\nNeomicina sont (2)\n-7de clarzepam's\nam\nponses aintrat e cotone",
+  "raw_transcription": "Rx\nCap. Flucloxacillin 500 mg - 28\n[illegible]\nCap. Amoxicillin + clavulanic acid [illegible] - 20\n[illegible]\nNeomycin ointment - 20\napply [illegible]\nTab. Chlorpheniramine 4 mg\n0+0+1 - 5\nParaffin ointment\napply [illegible]",
   "boxes": [],
   "medications": [
     {
@@ -67,14 +67,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "c459b16459dce79991957389c578cb8b87f7928d7b614c8eadc33e7bc776c79a"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "29f387ad81bde5101ecbbbd692bc37bd904c175b7ca77ec203ac61c37183300b"
     },
     {
       "provider": "paddle",
@@ -1340,6 +1344,17 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nCap. Flucloxacillin 500 mg - 28\n[illegible]\nCap. Amoxicillin + clavulanic acid [illegible] - 20\n[illegible]\nNeomycin ointment - 20\napply [illegible]\nTab. Chlorpheniramine 4 mg\n0+0+1 - 5\nParaffin ointment\napply [illegible]",
+      "uncertain_spans": [
+        "antibiotic strengths and dose schedules",
+        "ointment quantities and application instructions"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

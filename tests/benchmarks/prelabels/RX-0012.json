@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0012",
   "source_sha256": "e6f43c17eaa6ad8848958fa94cb7127e03ca3f03c850ecc938fa2402663c11b2",
-  "raw_transcription": ". Tab. DON-A (10Mg)\nCap.\nESOTID ( 20 mg)\nSINALAX SACHET\n278- 2017\n- 29",
+  "raw_transcription": "Tab. DON-A (40mg)\n১+১+১ খাবারের আগে - ১০দিন (৩০)\nCap. ESOTID (20mg)\n১+০+১ খাবারের আগে - ১মাস (৬০)\nSINALAX SACHET\n১ প্যাকেট ১ গ্লাস পানিতে মিশিয়ে দিনে\n২বার - ১০দিন (২০)",
   "boxes": [],
   "medications": [
     {
@@ -60,11 +60,15 @@
     "illegible": false
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "8a9b63f960ee6d6c260e6e1dcd1aa8b5940b2696d44089048baef2f96de26764"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "88a9f86f54cf62132838a11c84e1d5b90bca5e3814e7e04ab93345f10d6093f1"
     },
     {
       "provider": "paddle",
@@ -2239,6 +2243,14 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Tab. DON-A (40mg)\n১+১+১ খাবারের আগে - ১০দিন (৩০)\nCap. ESOTID (20mg)\n১+০+১ খাবারের আগে - ১মাস (৬০)\nSINALAX SACHET\n১ প্যাকেট ১ গ্লাস পানিতে মিশিয়ে দিনে\n২বার - ১০দিন (২০)",
+      "uncertain_spans": [],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0035",
   "source_sha256": "d766b885f37e91dfff932dcec45aca27b8dc5a3d9a9476021e7fded0730f91bf",
-  "raw_transcription": "Rx\nTale. Tiemonium Methy/Sulphate\n(50)\n19.05.24",
+  "raw_transcription": "Tab. Tiemonium Methylsulphate\n১+১+১ (32)",
   "boxes": [],
   "medications": [
     {
@@ -30,11 +30,15 @@
     "illegible": false
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "2b77141f8f3af82a8afd2061473163a36d8f1b5d8ab1c01deaa86e9059b4b776"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "f5bb461a96703515d0e203d2179677aeb4f191c4b83b423d08d7ede6f9887588"
     },
     {
       "provider": "paddle",
@@ -1798,6 +1802,14 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Tab. Tiemonium Methylsulphate\n১+১+১ (32)",
+      "uncertain_spans": [],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

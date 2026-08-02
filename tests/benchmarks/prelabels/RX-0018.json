@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0018",
   "source_sha256": "a49ab2b2edde136f6589726362e07baef19a8d11f9e1598e007079770c28fbdd",
-  "raw_transcription": "Date:\n1 Td A .- Calm 50\n2-+3+7\n20\n2 Vereine Meril\n3 Te Esotit (20mg)\n290+3 am, Gmis\n20\n4Te. Accclofenac 100\nH00\nAfEs 25/05/2\n8 ORS\nTo\nHg",
+  "raw_transcription": "1. Tab. A-Calm 50\n১+০+১ - [illegible] (20)\n2. Vaseline Meril - 1\n3. Tab. Esotid (20mg)\n১+০+১ [illegible] (20)\n4. Tab. Aceclofenac 100\n১+০+১ [illegible]\n5. ORS - 10",
   "boxes": [],
   "medications": [
     {
@@ -97,14 +97,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "f03ec4c97acf7a035200f5acdda9149327504c2397d909cb1ea63747450a7f81"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "4dbd66b41ed5f55f118043d88b61444b177099cdefad4428982c5bb4c1fd0d31"
     },
     {
       "provider": "paddle",
@@ -2181,6 +2185,19 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "1. Tab. A-Calm 50\n১+০+১ - [illegible] (20)\n2. Vaseline Meril - 1\n3. Tab. Esotid (20mg)\n১+০+১ [illegible] (20)\n4. Tab. Aceclofenac 100\n১+০+১ [illegible]\n5. ORS - 10",
+      "uncertain_spans": [
+        "A-Calm unit",
+        "A-Calm duration",
+        "Esotid instruction",
+        "Aceclofenac instruction"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

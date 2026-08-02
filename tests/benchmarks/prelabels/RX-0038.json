@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0038",
   "source_sha256": "1b9ba17a505fff964d5d5ebbcf7c9444f08369ea249c21a72a299c6ac230e55b",
-  "raw_transcription": "im Sheikh\n5. BC5 (Healtm)\nDCH (Dhaka)\nofessar (Child)\ndical College F\natunnesa Math\nsical, Sirai\n80\nTab. monas a\nototi-80\nwerostan\ncontan\nSp. Azinox ( 200)\náp.\nBabix.\n20 021228\n-\nTab Axadin orby\nstato- sonia\nMucosol\n2+2+2-Mhp\nTab and 200 EM1 90",
+  "raw_transcription": "Tab. Monas 4\n0+0+1 - ৩০দিন\nSyp. [illegible]\n[illegible] - ৩০দিন\nSyp. Contan\n[illegible] - ৫দিন\nSyp. Azinox (200)\n[illegible]\nSyp. Babix\n[illegible]\nTab. Axadin [illegible]\n0+0+1 - ১০দিন\nMucosol\n2+2+2 - ১০দিন\nTab. [illegible] 200\n0+0+1 - ৭দিন",
   "boxes": [],
   "medications": [
     {
@@ -187,14 +187,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "49d77fdce96d8622a3f1e2cc752252340f886c4401b17c96a2bcfeff03c0df99"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "3e7e7d4029274363dc329a30d914fb4d3a7c91d7c2ec0005a5fc55c40250e433"
     },
     {
       "provider": "paddle",
@@ -1316,6 +1320,19 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Tab. Monas 4\n0+0+1 - ৩০দিন\nSyp. [illegible]\n[illegible] - ৩০দিন\nSyp. Contan\n[illegible] - ৫দিন\nSyp. Azinox (200)\n[illegible]\nSyp. Babix\n[illegible]\nTab. Axadin [illegible]\n0+0+1 - ১০দিন\nMucosol\n2+2+2 - ১০দিন\nTab. [illegible] 200\n0+0+1 - ৭দিন",
+      "uncertain_spans": [
+        "second syrup name and dose",
+        "several pediatric doses",
+        "Axadin strength",
+        "last medicine name"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

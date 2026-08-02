@@ -51,7 +51,7 @@ export async function getPatientForDoctor(patientId: string) {
     }
 
     return await response.json();
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Get patient for doctor error:", error);
     throw error;
   }
@@ -85,7 +85,7 @@ export async function getMyAccessHistory(limit = 50, offset = 0) {
       total: data.total ?? 0,
       has_more: data.has_more ?? false,
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Get access history error:", error);
     throw error;
   }
@@ -116,7 +116,7 @@ export async function getMyDoctorAccess(limit = 50, offset = 0) {
       total: data.total ?? 0,
       has_more: data.has_more ?? false,
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Get doctor access error:", error);
     throw error;
   }
@@ -144,7 +144,7 @@ export async function revokeDoctorAccess(doctorId: string, reason?: string) {
     }
 
     return await response.json();
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Revoke access error:", error);
     throw error;
   }
@@ -168,7 +168,7 @@ export async function restoreDoctorAccess(doctorId: string) {
     }
 
     return await response.json();
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Restore access error:", error);
     throw error;
   }
