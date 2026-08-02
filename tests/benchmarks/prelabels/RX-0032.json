@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0032",
   "source_sha256": "53250e1708bf1a746f08678b9a3d105f30e7eb6256d4ccfbb389d0682a856721",
-  "raw_transcription": "Tob. PIC\n50\nstata\n1\nCap. Owcp\n20\n> tots\n28\n.\nTab. Fexo 120\notots\n20\n1 Tob. Metro 400\n19.05.",
+  "raw_transcription": "Tab. P/C\n১+১+১ (50)\nCap. Omes 20\n১+০+১ (20)\nTab. Fexo 120\n0+0+1 (20)\nTab. Metro 400\n১+১+১ (20)",
   "boxes": [],
   "medications": [
     {
@@ -90,11 +90,15 @@
     "illegible": false
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "af459d2d8b28f14993e543de2bf994d121a99faf429498dd4f5506322c2dc497"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "bea4dfcd12cc20bd29fbed81f3d627dc2778e4986171953faafe6b3fda631db9"
     },
     {
       "provider": "paddle",
@@ -1897,6 +1901,14 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Tab. P/C\n১+১+১ (50)\nCap. Omes 20\n১+০+১ (20)\nTab. Fexo 120\n0+0+1 (20)\nTab. Metro 400\n১+১+১ (20)",
+      "uncertain_spans": [],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

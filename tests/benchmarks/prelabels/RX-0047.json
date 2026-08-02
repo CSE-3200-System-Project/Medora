@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0047",
   "source_sha256": "7cf98892926c83c26d1f8cbf890972e12ddbb9111c514b07c2219f46152cac32",
-  "raw_transcription": "Lap SECholsom\nHon-\n3\n2. 702\n9 MONAS(A)\nofons\n15\n3. 700 TOFEN (JMS)",
+  "raw_transcription": "Rx\n1. Cap. [illegible] 20 mg\n[illegible] - 30\n2. Tab. [illegible]\n[illegible] - 15\n3. Tab. Tofen 1 mg\n0+0+1 - 10",
   "boxes": [],
   "medications": [
     {
@@ -67,14 +67,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "adcc0e66f5cf3a672eb2873bb50b76873cec39492d26f44f40f58944abb71fe1"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "1c2151e505515a1f16e4a99472284cb4f981ecba216a9b62733c46d396a47943"
     },
     {
       "provider": "paddle",
@@ -1368,6 +1372,18 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\n1. Cap. [illegible] 20 mg\n[illegible] - 30\n2. Tab. [illegible]\n[illegible] - 15\n3. Tab. Tofen 1 mg\n0+0+1 - 10",
+      "uncertain_spans": [
+        "first capsule name and dose notation",
+        "second tablet name and dose notation",
+        "Tofen spelling"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

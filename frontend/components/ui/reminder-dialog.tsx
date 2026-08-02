@@ -88,8 +88,8 @@ export function ReminderDialog({
         setNotes("");
         onSuccess?.();
       }, 1500);
-    } catch (err: any) {
-      setError(err.message || "Failed to create reminder");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Failed to create reminder");
     } finally {
       setSaving(false);
     }
@@ -320,8 +320,8 @@ export function PrescriptionReminderDialog({
         setNotes("");
         onSuccess?.();
       }, 1500);
-    } catch (err: any) {
-      setError(err.message || "Failed to create reminder");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Failed to create reminder");
     } finally {
       setSaving(false);
     }

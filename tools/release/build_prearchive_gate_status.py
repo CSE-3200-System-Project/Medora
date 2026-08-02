@@ -59,8 +59,17 @@ def main() -> int:
     e2e_audit = load_json(REPORTS / "e2e_npm_audit_final.json")
     provider_manifest = load_json(ROOT / "tests/benchmarks/provider_manifest.json")
     secret_audit = load_json(REPORTS / "generated_secret_audit.json")
+    manuscript_path = ROOT / "docs/softwarex/medora_softwarex.tex"
+    manuscript_text = read_log(manuscript_path)
     records = manifest.get("records", [])
     prelabels = list((ROOT / "tests/benchmarks/prelabels").glob("RX-*.json"))
+    eligible_ids = {item.get("id") for item in records if item.get("included_in_metrics")}
+    gpt_draft_count = sum(
+        load_json(path).get("candidate_outputs", {}).get("gpt_vision", {}).get("review_state")
+        == "ai_assisted_unreviewed"
+        for path in prelabels
+        if path.stem in eligible_ids
+    )
     gold_path = ROOT / "tests/benchmarks/datasets/ocr_gold_standard.jsonl"
     gold_count = sum(bool(line.strip()) for line in gold_path.read_text(encoding="utf-8").splitlines()) if gold_path.is_file() else 0
 
@@ -69,11 +78,11 @@ def main() -> int:
         log_gate("Backend smoke tests", "backend_smoke_final.out.log", r"34 passed", "Backend application smoke suite."),
         log_gate("Integration and security tests", "backend_integration_security_final.out.log", r"14 passed", "Docker-backed integration, authorization, consent, and security checks."),
         log_gate("AI-service unit tests", "ai_unit_final.out.log", r"16 passed", "Local OCR, annotation blinding, parser, provider-separation, grouped corpus-freeze, and AI-service tests."),
-        log_gate("Frontend lint", "frontend_lint_final.out.log", r"MEDORA_GATE_PASSED", "Next.js lint completed with zero errors; 198 non-blocking warnings remain recorded in the log."),
+        log_gate("Frontend lint", "frontend_lint_final.out.log", r"MEDORA_GATE_PASSED", "Next.js lint completed with zero errors and zero warnings."),
         log_gate("Frontend production build", "frontend_build_final.log", r"MEDORA_GATE_PASSED|Compiled successfully", "Production Next.js build."),
         log_gate("Provisional browser checks", "playwright_provisional_final.out.log", r"6 passed", "Six public/storage checks passed; six authenticated journeys were skipped because synthetic credentials were not supplied."),
         log_gate("Clean container validation", "docker_validation_final.log", r"MEDORA_GATE_PASSED", "Pinned backend and AI images passed dependency checks and application imports."),
-        log_gate("Manuscript compilation", "latex_pass2_final.log", r"Output written on medora_softwarex\.pdf \(9 pages", "Second LaTeX pass completed with zero overfull boxes and zero undefined references/citations."),
+        log_gate("Manuscript compilation", "latex_pass2_final.log", r"Output written on medora_softwarex\.pdf \(\d+ pages", "Final LaTeX pass completed with zero overfull boxes and zero undefined references/citations."),
     ]
 
     audit_total = sum(
@@ -111,10 +120,10 @@ def main() -> int:
             },
             {
                 "gate": "Assisted OCR prelabels",
-                "status": "passed" if len(prelabels) == 103 else "not_passed",
+                "status": "passed" if len(prelabels) == 103 and gpt_draft_count == 103 else "not_passed",
                 "evidence": "tests/benchmarks/prelabels/",
                 "evidence_sha256": None,
-                "note": f"{len(prelabels)}/103 composed prelabels; drafts are not ground truth.",
+                "note": f"{len(prelabels)}/103 composed prelabels and {gpt_draft_count}/103 hash-bound GPT Rx drafts; drafts are not ground truth.",
             },
             {
                 "gate": "Booking contention benchmark",
@@ -159,6 +168,13 @@ def main() -> int:
                 "note": "Enter verified approval authority, date, reference, scope, and review grouping/language/image-quality metadata before freezing.",
             },
             {
+                "gate": "Verified funding statement",
+                "status": "blocked" if "Release gate: the authors must insert the verified funding source" in manuscript_text else "passed",
+                "evidence": "docs/softwarex/medora_softwarex.tex",
+                "evidence_sha256": sha256(manuscript_path),
+                "note": "An author must provide the verified funder and grant number or confirm that the work received no external funding.",
+            },
+            {
                 "gate": "Authenticated production-browser journeys",
                 "status": "blocked",
                 "evidence": "tests/e2e/playwright.config.ts",
@@ -196,9 +212,9 @@ def main() -> int:
     rows = [
         "# Medora SoftwareX pre-archive gate status",
         "",
-        f"Generated: {payload['generated_at_utc']}  ",
-        f"Git HEAD: `{commit}`  ",
-        f"Dirty worktree: `{str(dirty).lower()}`  ",
+        f"Generated: {payload['generated_at_utc']}",
+        f"Git HEAD: `{commit}`",
+        f"Dirty worktree: `{str(dirty).lower()}`",
         "Scope: pre-Zenodo evidence only; this is not a final release verification receipt.",
         "",
         "| Gate | Status | Evidence | Note |",

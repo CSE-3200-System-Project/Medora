@@ -4,13 +4,24 @@
  */
 
 import React, { useMemo } from "react";
-import * as LucideIcons from "lucide-react";
+import { Calendar, CheckCircle2, Clock, FlaskConical, Hospital, Pill, Shield, Syringe, type LucideIcon } from "lucide-react";
 import { EVENT_COLOR_MAP, type TimelineEvent } from "./timeline-utils";
 
 interface TimelineNodeProps {
   event: TimelineEvent;
   isAlternate?: boolean;
 }
+
+const TIMELINE_ICONS: Record<string, LucideIcon> = {
+  Calendar,
+  CheckCircle2,
+  Clock,
+  FlaskConical,
+  Hospital,
+  Pill,
+  Shield,
+  Syringe,
+};
 
 export const TimelineNode = React.memo(function TimelineNode({
   event,
@@ -19,7 +30,7 @@ export const TimelineNode = React.memo(function TimelineNode({
   // Get the icon component dynamically
   const IconComponent = useMemo(() => {
     const iconName = event.icon;
-    return (LucideIcons as any)[iconName] || LucideIcons.Clock;
+    return TIMELINE_ICONS[iconName] || Clock;
   }, [event.icon]);
 
   const colors = EVENT_COLOR_MAP[event.type];

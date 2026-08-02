@@ -4,9 +4,7 @@ import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
-import { Plus, Trash2, Clock, Save } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Plus, Trash2, Save } from "lucide-react";
 
 interface TimeRange {
   id: string;
@@ -97,7 +95,7 @@ export function ScheduleSetter({
       const endMinute = endMinutePart ? parseInt(endMinutePart) : (endPart.includes(":") ? parseInt(endPart.split(":")[1]) : 0);
 
       ranges.push({
-        id: Math.random().toString(36).substr(2, 9),
+        id: Math.random().toString(36).substring(2, 11),
         startHour,
         startMinute,
         startPeriod,
@@ -108,13 +106,6 @@ export function ScheduleSetter({
     }
 
     return ranges;
-  }
-
-  // Convert time ranges to string format
-  function formatTimeRanges(ranges: TimeRange[]): string {
-    return ranges.map(r => 
-      `${r.startHour}:${r.startMinute.toString().padStart(2, '0')} ${r.startPeriod} - ${r.endHour}:${r.endMinute.toString().padStart(2, '0')} ${r.endPeriod}`
-    ).join(", ");
   }
 
   const toggleDay = (day: string) => {
@@ -201,8 +192,8 @@ export function ScheduleSetter({
       }
       
       await onSave(dayTimeSlots, duration);
-    } catch (error: any) {
-      alert(error.message || "Failed to save schedule");
+    } catch (error: unknown) {
+      alert(error instanceof Error ? error.message : "Failed to save schedule");
     } finally {
       setIsSaving(false);
     }
@@ -237,7 +228,7 @@ export function ScheduleSetter({
       <Card>
         <CardHeader>
           <CardTitle className="text-lg">Available Days</CardTitle>
-          <CardDescription>Select the days you're available</CardDescription>
+          <CardDescription>Select the days you&apos;re available</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7">
@@ -276,7 +267,7 @@ export function ScheduleSetter({
           <CardContent className="space-y-4">
             {schedule[day].timeRanges.length === 0 && (
               <p className="text-sm text-muted-foreground text-center py-4">
-                No time ranges set. Click "Add Range" to add one.
+                No time ranges set. Click &quot;Add Range&quot; to add one.
               </p>
             )}
             {schedule[day].timeRanges.map(range => (

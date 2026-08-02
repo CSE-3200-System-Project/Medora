@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0021",
   "source_sha256": "31f09139a2ec9fc93fa07e2f42f799bfe8d5980ff30f04fc276528818549a134",
-  "raw_transcription": ". Cap Cefixime\n2+0+3 - 8 13 - (5)\nStitch off ( Pt deaire)\n28/00128",
+  "raw_transcription": "Cap. Cefixime\n১+০+১ - ৫ দিন (10)\nStitch off (Pt desires)",
   "boxes": [],
   "medications": [
     {
@@ -40,11 +40,15 @@
     "illegible": false
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "9990dd232e3fde290587aa7a2797d1dc877f40890004337d898019b642cecba3"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "8159875cf84a35804be4de00bbc3081a38f1c22d5445153192845971eafee87c"
     },
     {
       "provider": "paddle",
@@ -1349,6 +1353,14 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Cap. Cefixime\n১+০+১ - ৫ দিন (10)\nStitch off (Pt desires)",
+      "uncertain_spans": [],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

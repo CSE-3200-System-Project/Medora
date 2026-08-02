@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0009",
   "source_sha256": "6317838e3506046fbfc2117c066d0f9a5c65c1e1633ad795d78ad17b0f8b4727",
-  "raw_transcription": "राशन\nरविश\nस्वादभंवर नाथ\nM OP D (FEMALE)\nS. No ......\n74\nRoom No.\n0.4\nTime.\n24.10.17\n...\nDate\nC-73\nLe 19/4/12\nP. Hypothyroidism\nVertigo\nC/C-7\n4\n1. Tab\nCinaro 15mg.\n1+0+1- 20192.\n2\nCap\nHotel\n0+1+0\nKoeling\nDR. KANIZ FATIMA\nFCPS Part II T.Face\nDermatalogy & Venereology\nCMM Dhaka\n24.10-17\nIssued15 days fuld\nm 13 - 05.12.17\n1\nSIM\n16145648 419211",
+  "raw_transcription": "Tab. Cinaron 15mg\n1+0+1 - 20 দিন\nCap. Feofol\n0+1+0 - 2 মাস",
   "boxes": [],
   "medications": [
     {
@@ -190,11 +190,15 @@
     "illegible": false
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "6c517ed8860aff82c0e5032790f836a11f5a9ab3dc390e4f204a4557e5f12ba1"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "a132cadea1dcea884a5ca7a78f578852a7e21a78e1dc1cd3f41505dd2cb5ad2d"
     },
     {
       "provider": "paddle",
@@ -1820,6 +1824,14 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Tab. Cinaron 15mg\n1+0+1 - 20 দিন\nCap. Feofol\n0+1+0 - 2 মাস",
+      "uncertain_spans": [],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

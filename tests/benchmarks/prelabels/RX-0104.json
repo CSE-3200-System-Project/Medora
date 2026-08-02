@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0104",
   "source_sha256": "e39c6d5cea8678a43e86101c823c0e753ddf2a454fdc890a9ad7efbd9eed10e7",
-  "raw_transcription": "Rx\n- P. Cincozin pln\netato\n-\n29.08.2018",
+  "raw_transcription": "Rx\nTab. Ciprofloxacin 500 mg\n0+0+1 - [illegible]",
   "boxes": [],
   "medications": [
     {
@@ -37,14 +37,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "a98cce600bf42c070feecd0ac3b6ad4bbdbfdbab402414be4e50c0551b030748"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "4019f6074d1167187f6a296cdd37cbd83529711024ff1decd34d4bf275842768"
     },
     {
       "provider": "paddle",
@@ -2070,6 +2074,17 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. Ciprofloxacin 500 mg\n0+0+1 - [illegible]",
+      "uncertain_spans": [
+        "dose schedule and duration",
+        "product spelling"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

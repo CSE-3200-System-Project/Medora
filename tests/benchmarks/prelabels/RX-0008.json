@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0008",
   "source_sha256": "2eb266e5dd1fe9d18a00d06afa4ae76179f8e0ed30fa403bb8a61bcffbcca6a7",
-  "raw_transcription": "Des (5)\nTab.\notota\nBK\nTab.\notto\n20\nRanitid 1 5oy\n. Tab.\nP\nPervitin Cream)\n9/05\noph.",
+  "raw_transcription": "Tab. Des (5mg)\n0+0+1 - ৫ দিন\nTab. B/C\n0+1+0 (20)\nTab. Ranitid 150mg\n১+০+১ খাবার আগে (10)\nTab. Reviton ([illegible])\n[illegible]",
   "boxes": [],
   "medications": [
     {
@@ -87,14 +87,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "838117b2afe0aeec22ed3cfdb42acc8e5d2e705e11d0a359e04e9458c537b6fe"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "781812bd240b9032b27e348377372ac6cb7d3a54cc3b589d44df58b29ee2073d"
     },
     {
       "provider": "paddle",
@@ -1118,6 +1122,16 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Tab. Des (5mg)\n0+0+1 - ৫ দিন\nTab. B/C\n0+1+0 (20)\nTab. Ranitid 150mg\n১+০+১ খাবার আগে (10)\nTab. Reviton ([illegible])\n[illegible]",
+      "uncertain_spans": [
+        "Reviton strength and instruction"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

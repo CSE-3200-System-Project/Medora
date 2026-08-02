@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0015",
   "source_sha256": "f389eb40d7ec3401921a831ef07b87b7f83efc4e4c2a6e288767913b77bc41e3",
-  "raw_transcription": "Rx\n. Tab.\nNorethisterone (5mg)\n-\n1\n2",
+  "raw_transcription": "Tab. Norethisterone (5mg)\n২+২+২ - ৫দিন (৩০)",
   "boxes": [],
   "medications": [
     {
@@ -40,11 +40,15 @@
     "illegible": false
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "5053e87709349d4571069fcc86f016da3243b9e2b9253b95010cfd678d274e59"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "8d7770bc1335e68e17bb064e39a41a3e6f43c9da942fe69e3ca904c682bfaef1"
     },
     {
       "provider": "paddle",
@@ -1848,6 +1852,14 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Tab. Norethisterone (5mg)\n২+২+২ - ৫দিন (৩০)",
+      "uncertain_spans": [],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

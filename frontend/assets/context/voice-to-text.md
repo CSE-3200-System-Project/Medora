@@ -536,7 +536,7 @@ This gives you:
 **Yes, you should use faster-whisper.**
 
 * It is **as good as Whisper-Small for Bangla**
-* It is **faster, cheaper, and more production-ready**
+* It is **faster and cheaper in the tested research configuration**; production readiness has not been established
 * It aligns perfectly with your:
 
   * Next.js frontend

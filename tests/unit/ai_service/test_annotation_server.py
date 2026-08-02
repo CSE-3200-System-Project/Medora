@@ -29,6 +29,17 @@ def test_manifest_and_independent_prelabel_blinding():
             manifest = json.load(response)
         assert manifest["counts"] == {"files": 105, "unique": 103, "development": 21, "test": 82}
 
+        with urllib.request.urlopen(
+            f"{base_url}/api/prelabel?record_id=RX-0012&role=primary",
+            timeout=5,
+        ) as response:
+            assisted = json.load(response)["prelabel"]
+        assert assisted["candidate_outputs"]["gpt_vision"]["review_state"] == "ai_assisted_unreviewed"
+        assert any(
+            item.get("provider") == "gpt-5.6-codex-vision"
+            for item in assisted["assisted_from"]
+        )
+
         try:
             urllib.request.urlopen(
                 f"{base_url}/api/prelabel?record_id=RX-0001&role=independent",

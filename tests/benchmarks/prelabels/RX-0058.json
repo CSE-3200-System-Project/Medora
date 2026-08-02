@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0058",
   "source_sha256": "97c701567f634756921ca391cb2e9b3d94635ebbedf49982c3e2327c7eb81672",
-  "raw_transcription": "8 fixe\n(10\nCount (vien\nVasline\n24.524",
+  "raw_transcription": "Rx\nTab. [illegible]\n1+1+1 - 10\nClotrim cream\napply [illegible]\n[illegible] lotion\napply [illegible]",
   "boxes": [],
   "medications": [
     {
@@ -47,14 +47,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "2a501b623e51f9c53926447202a1f1285ea570f0542383252bcde804d5e35c77"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "b63753314e6b58b2f0814513e4fa19ec3255c114df059436dc4533f7f7077ee9"
     },
     {
       "provider": "paddle",
@@ -1785,6 +1789,17 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. [illegible]\n1+1+1 - 10\nClotrim cream\napply [illegible]\n[illegible] lotion\napply [illegible]",
+      "uncertain_spans": [
+        "low-resolution image; tablet and lotion names are unclear",
+        "Clotrim spelling and topical instructions"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0064",
   "source_sha256": "3946b7e3027deafe36b2e19d5dd5a7307ff50d0e00c59fa8cc4d8b4dc583cadd",
-  "raw_transcription": "Tou. SemidDe 2\n2 124 58+\nTw. Zimax 500\nG4-0 x 3 days.\nORS 1",
+  "raw_transcription": "Rx\nTab. Secnid DS - 2 tablets stat\nTab. Emox 500\n1+0+1 - 3 days\nORS - 10",
   "boxes": [],
   "medications": [
     {
@@ -47,14 +47,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "e180adbda5f3b60c423fd5a88c5ba6aeafac907403b98f4a2ffb9b0100f9e070"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "f14cc85fc5f2dbb5eebc0b737534502215cd58ac31f07fea3dca5f4cbea594a0"
     },
     {
       "provider": "paddle",
@@ -2176,6 +2180,17 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. Secnid DS - 2 tablets stat\nTab. Emox 500\n1+0+1 - 3 days\nORS - 10",
+      "uncertain_spans": [
+        "Secnid and Emox spellings",
+        "Emox schedule"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

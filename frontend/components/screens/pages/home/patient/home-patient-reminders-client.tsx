@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Navbar } from "@/components/ui/navbar";
 import { AppBackground } from "@/components/ui/app-background";
@@ -54,11 +54,7 @@ export default function PatientRemindersPage() {
   const [reminderToDelete, setReminderToDelete] = useState<string | null>(null);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetchReminders(currentPage);
-  }, [currentPage, filter]);
-
-  const fetchReminders = async (page: number) => {
+  const fetchReminders = useCallback(async (page: number) => {
     try {
       setLoading(true);
       setError(null);
@@ -70,19 +66,23 @@ export default function PatientRemindersPage() {
       });
       setReminders(data.reminders ?? data.items ?? []);
       setTotal(data.total ?? 0);
-    } catch (err: any) {
-      setError(err.message || "Failed to load reminders");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Failed to load reminders");
     } finally {
       setLoading(false);
     }
-  };
+  }, [filter]);
+
+  useEffect(() => {
+    void fetchReminders(currentPage);
+  }, [currentPage, fetchReminders]);
 
   const handleToggle = async (reminderId: string) => {
     try {
       setActionLoading(reminderId);
       const updated = await toggleReminder(reminderId);
       setReminders(prev => prev.map(r => r.id === reminderId ? updated : r));
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Failed to toggle reminder:", err);
     } finally {
       setActionLoading(null);
@@ -98,7 +98,7 @@ export default function PatientRemindersPage() {
       setReminders(prev => prev.filter(r => r.id !== reminderToDelete));
       setDeleteDialogOpen(false);
       setReminderToDelete(null);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Failed to delete reminder:", err);
     } finally {
       setActionLoading(null);

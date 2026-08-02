@@ -41,3 +41,16 @@ def test_unknown_identifier_limitations_are_explicit_not_hidden():
     for case in limitations:
         result = redact_pii_text(case["text"])
         assert all(value in result.text for value in case["must_preserve"])
+
+
+def test_privacy_dataset_supports_span_level_precision_recall_and_false_redaction_rates():
+    cases = _cases()
+    expected_identifier_spans = sum(len(case.get("must_not_contain", [])) for case in cases)
+    benign_spans = sum(len(case.get("must_preserve", [])) for case in cases)
+    assert expected_identifier_spans > 0
+    assert benign_spans > 0
+
+    for category in {case["category"] for case in cases}:
+        category_cases = [case for case in cases if case["category"] == category]
+        assert category_cases
+        assert all("expected_residual_risk" in case for case in category_cases)

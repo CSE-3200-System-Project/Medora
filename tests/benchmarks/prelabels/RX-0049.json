@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0049",
   "source_sha256": "f709d424eba93eb22dad47d696db849af0153e1a30115a0462fd1e3ea120a65b",
-  "raw_transcription": "2\n2\nel malevaro\n3. Il Fenolhi\nroel-8pm\nHET\n4.4\nel Montaino\n1",
+  "raw_transcription": "Rx\n1. Tab. Carbimazole 5\n2+0+1\n2. Tab. Indever 10\n1+0+1\n3. Tab. [illegible]\n0+0+1 - [illegible]\n4. Tab. [illegible]\n0+0+1 - [illegible]",
   "boxes": [],
   "medications": [
     {
@@ -67,14 +67,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "94b78044081e9cba4fceccfd6f3231f2c86226e4b8f642561b1b3979bc714d87"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "592c69351731e695475baeb3891f6f5d859357f011d9e32635af99479f243963"
     },
     {
       "provider": "paddle",
@@ -933,6 +937,17 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\n1. Tab. Carbimazole 5\n2+0+1\n2. Tab. Indever 10\n1+0+1\n3. Tab. [illegible]\n0+0+1 - [illegible]\n4. Tab. [illegible]\n0+0+1 - [illegible]",
+      "uncertain_spans": [
+        "Carbimazole strength unit",
+        "third and fourth tablet names and trailing instructions"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

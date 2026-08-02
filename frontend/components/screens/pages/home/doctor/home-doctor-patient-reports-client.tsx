@@ -7,8 +7,6 @@ import { AppBackground } from "@/components/ui/app-background";
 import {
   Card,
   CardContent,
-  CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -24,7 +22,6 @@ import {
   CheckCircle2,
   Clock,
   MessageSquare,
-  AlertTriangle,
   ShieldOff,
 } from "lucide-react";
 
@@ -37,23 +34,23 @@ export default function DoctorPatientReportsPage() {
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
 
-  React.useEffect(() => {
-    if (patientId) loadReports();
-  }, [patientId]);
-
-  const loadReports = async () => {
+  const loadReports = React.useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
       const data = await listMedicalReports(patientId, 50, 0);
       setReports(data.reports);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Failed to load patient reports:", err);
-      setError(err.message || "Failed to load reports");
+      setError(err instanceof Error ? err.message : "Failed to load reports");
     } finally {
       setLoading(false);
     }
-  };
+  }, [patientId]);
+
+  React.useEffect(() => {
+    if (patientId) void loadReports();
+  }, [patientId, loadReports]);
 
   if (loading) {
     return (

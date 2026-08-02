@@ -114,23 +114,23 @@ export default function PatientMedicalReportDetailPage() {
   const [togglingVisibility, setTogglingVisibility] = React.useState(false);
   const [confirmingReview, setConfirmingReview] = React.useState(false);
 
-  React.useEffect(() => {
-    if (reportId) loadReport();
-  }, [reportId]);
-
-  const loadReport = async () => {
+  const loadReport = React.useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
       const data = await getMedicalReport(reportId);
       setReport(data);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Failed to load report:", err);
-      setError(err.message || "Failed to load report");
+      setError(err instanceof Error ? err.message : "Failed to load report");
     } finally {
       setLoading(false);
     }
-  };
+  }, [reportId]);
+
+  React.useEffect(() => {
+    if (reportId) void loadReport();
+  }, [reportId, loadReport]);
 
   // ── Inline edit ───────────────────────────────────────────────────────────
 
@@ -177,8 +177,8 @@ export default function PatientMedicalReportDetailPage() {
         ),
       });
       setEditingId(null);
-    } catch (err: any) {
-      alert(err.message || "Failed to save changes");
+    } catch (err: unknown) {
+      alert(err instanceof Error ? err.message : "Failed to save changes");
     } finally {
       setSaving(false);
     }
@@ -215,8 +215,8 @@ export default function PatientMedicalReportDetailPage() {
       });
       setShowAddRow(false);
       setAddForm(emptyEditing());
-    } catch (err: any) {
-      alert(err.message || "Failed to add result");
+    } catch (err: unknown) {
+      alert(err instanceof Error ? err.message : "Failed to add result");
     } finally {
       setAddingSaving(false);
     }
@@ -238,8 +238,8 @@ export default function PatientMedicalReportDetailPage() {
         reviewed_by_id: null,
         results: report.results.filter((r) => r.id !== resultId),
       });
-    } catch (err: any) {
-      alert(err.message || "Failed to delete result");
+    } catch (err: unknown) {
+      alert(err instanceof Error ? err.message : "Failed to delete result");
     } finally {
       setDeletingId(null);
     }
@@ -253,8 +253,8 @@ export default function PatientMedicalReportDetailPage() {
     try {
       await updateReportVisibility(reportId, newVal);
       setReport({ ...report, shared_with_doctors: newVal });
-    } catch (err: any) {
-      alert(err.message || "Failed to update visibility");
+    } catch (err: unknown) {
+      alert(err instanceof Error ? err.message : "Failed to update visibility");
     } finally {
       setTogglingVisibility(false);
     }
@@ -654,7 +654,7 @@ export default function PatientMedicalReportDetailPage() {
                 <FileText className="h-10 w-10 mx-auto mb-2 opacity-40" />
                 <p>No test results were extracted from this report.</p>
                 <p className="text-sm mt-1">
-                  Click "Add Result" above to manually enter your test data.
+                  Click &quot;Add Result&quot; above to manually enter your test data.
                 </p>
               </div>
             ) : (

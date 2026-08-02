@@ -12,7 +12,7 @@ The distinction is structural, not aspirational. In an AI-bolted architecture, m
 
 ### A2. "Where exactly is the novel research contribution? You said it yourselves — no new algorithm."
 
-The contribution is **engineering composition** under specific local constraints, and §1.5 is explicit about this. Three components, none of which we observed in either the literature surveyed in Chapter 2 or the Bangladeshi market: (a) an integrated platform combining structured records, real-time scheduling, OCR document intelligence, AI assistance, and consent management *for a Bangla-English bilingual context*; (b) a safety-bounded AI orchestration pathway, with anonymisation, schema validation, and confidence-gated routing; and (c) production-grade containerised deployment with observability and CI performance budgets within an academic timeframe. We do not claim a new algorithm — we claim a novel system.
+The contribution is **engineering composition** under specific local constraints, and §1.5 is explicit about this. Three components, none of which we observed in either the literature surveyed in Chapter 2 or the Bangladeshi market: (a) an integrated platform combining structured records, realtime scheduling, OCR document intelligence, AI assistance, and consent management *for a Bangla-English bilingual context*; (b) a safety-bounded AI orchestration pathway, with best-effort identifier redaction, schema validation, and confidence-gated routing; and (c) a reproducible containerized research artifact with observability and CI performance budgets within an academic timeframe. We do not claim a new algorithm, clinical validation, or production readiness—we claim a novel system composition.
 
 ### A3. "Your comparison table (Table 2.1) is suspiciously favourable. How did you assign the 'Yes / No / Partial' values?"
 
@@ -36,7 +36,7 @@ Three concrete reasons. (i) Async I/O is a primitive, not an add-on, which matte
 
 ### B3. "Why Supabase and not raw Postgres?"
 
-Supabase is Postgres plus Auth, Realtime, Storage and row-level security primitives. We use **all** of those: Postgres for persistence (47 Alembic migrations), Auth for JWT-based identity, Realtime for the slot broadcast that prevents double-booking, Storage for prescription image objects, and RLS as defence-in-depth behind RBAC. Replacing Supabase with raw Postgres would mean reimplementing four production-grade subsystems for negligible architectural gain.
+Supabase is Postgres plus Auth, Realtime, Storage and row-level security primitives. We use **all** of those: Postgres for persistence, Auth for JWT-based identity, Realtime for post-commit slot notifications, Storage for prescription image objects, and RLS as defense-in-depth behind RBAC. Database constraints and transactions prevent duplicate bookings; broadcasts do not. Replacing Supabase with raw Postgres would require alternate implementations of these managed subsystems.
 
 ### B4. "194 endpoints across 26 modules feels like a CRUD explosion."
 
@@ -202,7 +202,7 @@ Three levers (§5.5.1). (a) PWA delivery bypasses the app store and works on wea
 
 ### H4. "What about data sovereignty? Are records leaving Bangladesh?"
 
-Persistence is on Supabase (region-configurable). LLM providers are international. Categorical consent + PII anonymisation + keyed-hash tokenisation mean *anonymised* category-filtered context leaves the perimeter; raw patient data does not. Data sovereignty as a hard requirement (records must remain in-country) is not currently enforced — this is a deployment configuration choice, and we'd need a regional Supabase project + an in-region LLM provider for full compliance.
+Persistence is on Supabase and its region is deployment-specific. Hosted model providers may process data internationally. Purpose-specific consent, best-effort identifier redaction, and keyed request tokens reduce exposure for text calls but do not make the content anonymous; prescription images and live audio have separate provider boundaries. Data sovereignty is not currently enforced. A real deployment would require verified regional storage and in-region providers where policy demands them.
 
 ### H5. "Family-member profiles. Multi-generational households are common in Bangladesh — how do you handle a grandfather who can't read?"
 

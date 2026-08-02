@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0060",
   "source_sha256": "5f40323192ccb387104fdaa8c4047c23b40b1bd996143d75dceeea911de63289",
-  "raw_transcription": "\"2 - 1 9 7 สเสาร์ (20)\n24.05.24",
+  "raw_transcription": "Rx\nTab. [illegible]\n[illegible] - 30\nTab. [illegible]\n[illegible] - 10\nTab. Calbo-D\n[illegible] - 10",
   "boxes": [],
   "medications": [
     {
@@ -27,14 +27,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "398b54a0c31808b5e14e55e37bb2654c2f8c853bc5ce4fd323cce260f0d8dfd0"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "e3218f54d65b897dd0e70d53e4a7d44970906e5df707a25ba319e2005ae15e72"
     },
     {
       "provider": "paddle",
@@ -1318,6 +1322,17 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. [illegible]\n[illegible] - 30\nTab. [illegible]\n[illegible] - 10\nTab. Calbo-D\n[illegible] - 10",
+      "uncertain_spans": [
+        "low-resolution image; first two names and all schedules are unclear",
+        "Calbo-D spelling"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

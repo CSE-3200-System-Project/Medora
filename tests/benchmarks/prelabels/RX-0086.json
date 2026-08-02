@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0086",
   "source_sha256": "a40b88484c7c9fab89868034d4d20bf4209ec00ab42ba935508c1ac43ecd721f",
-  "raw_transcription": "R\nO Tob. Mehanidad (400m)\n0 Tas Metformin/Informaty 500)\n01000\n20\n· Corp. Omeprazol (2014)\n. Masil gelly\nK",
+  "raw_transcription": "Rx\nTab. Mecobalamin 500 mcg\n1+0+1 - 20 (after meal)\nTab. [illegible] 500 mg\n1+0+1 - 20 (after meal)\nCap. Omeprazole 20 mg\n1 daily - 20\nMobil gel - local application - 1",
   "boxes": [],
   "medications": [
     {
@@ -57,14 +57,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "c4d7560a1fd0a5e65e07a11c759edea966774e7a4727a2ff53dfa087686eb21a"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "1da51b6b5bfa1f9103dbb0bdfc044025c27637f6788d3798cbe2142e2849a97b"
     },
     {
       "provider": "paddle",
@@ -1479,6 +1483,18 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. Mecobalamin 500 mcg\n1+0+1 - 20 (after meal)\nTab. [illegible] 500 mg\n1+0+1 - 20 (after meal)\nCap. Omeprazole 20 mg\n1 daily - 20\nMobil gel - local application - 1",
+      "uncertain_spans": [
+        "Mecobalamin spelling",
+        "second tablet name",
+        "omeprazole timing"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

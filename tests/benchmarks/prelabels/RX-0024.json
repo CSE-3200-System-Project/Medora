@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0024",
   "source_sha256": "4da0e9a8e3a90a7ee7214abd95d3f57448215565e180fce20b585ac504f0d4c1",
-  "raw_transcription": "on\nal Diagoncels\n736 Inflar (imprese) 400g\n1+1\nThe Exorep\n1+0+1\n0+0+1\n0+0+1 - (10)\nlevo flox\nOpis\n1+1-01\nNasal drop.",
+  "raw_transcription": "Tab. [illegible] (400mg)\n1+1 [illegible]\nTab. [illegible]\n1+0+1 (20)\nTab. Fexo 120mg\n0+0+1 (30)\nTab. Montelukast\n0+0+1 (20)\nTab. Levoflox\n0+0+1 (7)\nTab. [illegible]\n1+1+1 (10)\nNasal drop",
   "boxes": [],
   "medications": [
     {
@@ -77,14 +77,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "afb38c4477bbd1dc567354f52d864a8604dc74ca2b76e151e3f94d15eca8e6a3"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "efab78159ba6b2fffcc8a37def342cd63df3bc60dab6aadec8e68699d77dd28b"
     },
     {
       "provider": "paddle",
@@ -1727,6 +1731,19 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Tab. [illegible] (400mg)\n1+1 [illegible]\nTab. [illegible]\n1+0+1 (20)\nTab. Fexo 120mg\n0+0+1 (30)\nTab. Montelukast\n0+0+1 (20)\nTab. Levoflox\n0+0+1 (7)\nTab. [illegible]\n1+1+1 (10)\nNasal drop",
+      "uncertain_spans": [
+        "medicine name on line 1",
+        "line 1 instruction",
+        "medicine name on line 2",
+        "medicine name on line 6"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0002",
   "source_sha256": "8a608a218b0750284efd06dae52d6a19054e05c7efa29fb1f021bb4660753a64",
-  "raw_transcription": "Ch. Phanynings\n1\nKilbar\n5n\n1\n1+0+1\n7 dias\nTab- Fexo\n20\n16\n010+1\nTab-moram 10mg\n0-+0+1",
+  "raw_transcription": "Tab. Kilbac 5mg\n1+0+1 - 7 days\nTab. Fexo 120\n0+0+1 - 1 month\nTab. Monas 10mg\n0+0+1 - 1 month",
   "boxes": [],
   "medications": [
     {
@@ -70,11 +70,15 @@
     "illegible": false
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "03ec32c84ab9d09ff59beec9f7c06628e66530c955c3cccef5b596825c07f58b"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "b98f8d1e2ec7403911916625029bbf8e673d92359c38f1b0fafffad59c640d4b"
     },
     {
       "provider": "paddle",
@@ -1224,6 +1228,14 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Tab. Kilbac 5mg\n1+0+1 - 7 days\nTab. Fexo 120\n0+0+1 - 1 month\nTab. Monas 10mg\n0+0+1 - 1 month",
+      "uncertain_spans": [],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

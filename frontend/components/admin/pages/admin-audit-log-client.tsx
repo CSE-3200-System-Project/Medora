@@ -26,7 +26,7 @@ import {
 import { getAuditLogs } from "@/lib/admin-actions";
 import { formatMeridiemTime, formatShortDateTime } from "@/lib/utils";
 
-type AuditLog = {
+export type AuditLog = {
   id: string;
   appointment_id: string;
   action_type: string;

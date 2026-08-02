@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0028",
   "source_sha256": "08a0c7f2a1502139d885112749af9bc74fc471cf86516ebff0640998923b7bf0",
-  "raw_transcription": "R\n& Tab. Ketordac (10mg)\n· Cup. Omeprazol (200g)\nTrots\n16\n· Job. Calcium\n$ 20\n4\n· Diclofena - gel.\n0",
+  "raw_transcription": "Tab. Ketorolac (10mg)\n১+০+১ ([illegible])\nCap. Omeprazole (20mg)\n১+০+১ (16)\nTab. Calcium\n0+1+0 (20)\nDiclofenac gel\n[illegible] - 1",
   "boxes": [],
   "medications": [
     {
@@ -67,14 +67,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "b8c1f8f8f23930e236117627e5cbfb3ddc3ee97e7844ba4bdf26295deae24c24"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "0cfdd07b796d378af0c95b1401e670273ff9ef13578dbba537f08e70cdf21128"
     },
     {
       "provider": "paddle",
@@ -2100,6 +2104,17 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Tab. Ketorolac (10mg)\n১+০+১ ([illegible])\nCap. Omeprazole (20mg)\n১+০+১ (16)\nTab. Calcium\n0+1+0 (20)\nDiclofenac gel\n[illegible] - 1",
+      "uncertain_spans": [
+        "Ketorolac quantity or duration",
+        "Diclofenac gel instruction"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

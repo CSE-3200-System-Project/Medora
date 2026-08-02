@@ -47,7 +47,7 @@ export function TimeSlotGrid({
   const [detailsOpen, setDetailsOpen] = React.useState(false);
   const [isCompleting, setIsCompleting] = React.useState(false);
   const [serverCanComplete, setServerCanComplete] = React.useState<boolean | null>(null);
-  const [checkingCanComplete, setCheckingCanComplete] = React.useState(false);
+  const [, setCheckingCanComplete] = React.useState(false);
 
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
@@ -99,8 +99,8 @@ export function TimeSlotGrid({
       setDetailsOpen(false);
       // Refresh the page to show updated status
       window.location.reload();
-    } catch (error: any) {
-      alert(error.message || "Failed to complete appointment");
+    } catch (error: unknown) {
+      alert(error instanceof Error ? error.message : "Failed to complete appointment");
     } finally {
       setIsCompleting(false);
     }

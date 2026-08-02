@@ -59,6 +59,16 @@ interface RouteData {
   distance: number; // meters
 }
 
+interface OsrmRoute {
+  geometry: { coordinates: [number, number][] };
+  duration: number;
+  distance: number;
+}
+
+interface OsrmResponse {
+  routes?: OsrmRoute[];
+}
+
 interface MapViewProps {
   doctors: Doctor[];
   className?: string;
@@ -125,10 +135,10 @@ async function fetchRoutes(
       return [];
     }
     
-    const data = await response.json();
+    const data = (await response.json()) as OsrmResponse;
     
     if (data.routes && data.routes.length > 0) {
-      const parsed = data.routes.map((route: any) => ({
+      const parsed: RouteData[] = data.routes.map((route) => ({
         coordinates: route.geometry.coordinates,
         duration: route.duration,
         distance: route.distance,

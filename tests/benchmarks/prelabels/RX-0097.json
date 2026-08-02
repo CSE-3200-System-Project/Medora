@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0097",
   "source_sha256": "853d062ecf2286746d3536a9be3410cc103fbfbe86484a0ccae31e049b7d3e1b",
-  "raw_transcription": "common cold\n· Tu. Serin iz\n22070 ---\nGalvus\n0 7370\n(20)\nThe Month Lunkent\n0707 -\nV. Tw. Binacodyl 5\nno 30/6.\n07073\ny",
+  "raw_transcription": "Rx\nTab. [illegible] 1 gm\n[illegible]\nTab. [illegible]\n[illegible]\nTab. Montelukast 10\n0+0+1 - 20\nTab. Bisacodyl 5\n0+0+1 - 10",
   "boxes": [],
   "medications": [
     {
@@ -67,14 +67,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "cd3540aa5b89fc4bcce972512cfe94200bc598a99475664ca34e12e0ab1839a9"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "2adbcd04c8b2b00dd1c66abf3f476b7e3428dd1aff626abce39067a9b6a258ec"
     },
     {
       "provider": "paddle",
@@ -2514,6 +2518,17 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. [illegible] 1 gm\n[illegible]\nTab. [illegible]\n[illegible]\nTab. Montelukast 10\n0+0+1 - 20\nTab. Bisacodyl 5\n0+0+1 - 10",
+      "uncertain_spans": [
+        "first two product names and schedules",
+        "product spellings"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0041",
   "source_sha256": "ed25dcc636af130ddc9ca3cf77468907acc64e04935ff8dff45f4b29d6b357c2",
-  "raw_transcription": "06\n3/5/16\nRco\ndone\n4/\nWPF- upto-50\nx\nauf.\nFlocos\n(500mg)\n18\nsport after\n91/50/60/hr-\nLabas\n1×3\nMapa\n-\n.",
+  "raw_transcription": "Rx\nCap. [illegible] 500 mg - 18\n[illegible]\nTab. Nigoa - 12\n1 x 3",
   "boxes": [],
   "medications": [
     {
@@ -107,14 +107,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "0fc3621954bf4ae68e994f17c0443c4c9b479072a382a5d8753b6dcd8d934125"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "26f4abe62b154b913a8c0a7285a621fbbb05f33e533c3f942c0a24e7e9e20040"
     },
     {
       "provider": "paddle",
@@ -1106,6 +1110,18 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nCap. [illegible] 500 mg - 18\n[illegible]\nTab. Nigoa - 12\n1 x 3",
+      "uncertain_spans": [
+        "first medicine name",
+        "intervening medicine line",
+        "Nigoa spelling and dose notation"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

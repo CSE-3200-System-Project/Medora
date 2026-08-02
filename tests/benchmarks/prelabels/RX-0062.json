@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0062",
   "source_sha256": "109a0b3b6dd129aeecf8759e6104f11c963cbcdd5820409342d0ef71c5fd5691",
-  "raw_transcription": "Rx\nTab .\nMexifloxacin (400 mg)\n. Tab\nDoxophyline (200mg)\na toto- ena-\n10\n. Tab .\nMontilukast (10mg)\ncap\n07013-2014-\nomeprazole (20mg)\na tofa - 84\n10",
+  "raw_transcription": "Rx\nTab. Moxifloxacin 400 mg\n[illegible] - 7\nTab. Doxophylline 200 mg\n1+0+1 - 10\nTab. Montelukast 10 mg\n0+0+1 - 10\nCap. Omeprazole 20 mg\n1+0+1 - 10 (30 minutes before meal)",
   "boxes": [],
   "medications": [
     {
@@ -97,14 +97,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "85f38a53a79425af6b8c66b362267893579989d78f68865f4320aae2509a76cb"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "3348bc64bf5adfae81880ba7409548a898aae690a3875ba2d1db8b52fad72aae"
     },
     {
       "provider": "paddle",
@@ -2311,6 +2315,17 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. Moxifloxacin 400 mg\n[illegible] - 7\nTab. Doxophylline 200 mg\n1+0+1 - 10\nTab. Montelukast 10 mg\n0+0+1 - 10\nCap. Omeprazole 20 mg\n1+0+1 - 10 (30 minutes before meal)",
+      "uncertain_spans": [
+        "moxifloxacin schedule",
+        "Doxophylline and Montelukast spellings"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

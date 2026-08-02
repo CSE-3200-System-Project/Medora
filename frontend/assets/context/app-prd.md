@@ -12,7 +12,7 @@
 
 ## EXECUTIVE SUMMARY
 
-Medora frontend is a **production-ready healthcare web application** built with Next.js 15, React 19, TypeScript, and Tailwind CSS. It implements:
+Medora frontend is a **research-software web application** built with Next.js 16, React 19, TypeScript, and Tailwind CSS. It implements:
 
 * **Landing Page** (hero, features, CTA, doctor/patient differentiation)
 * **Authentication** (signup, login, logout, email verification, role selection)

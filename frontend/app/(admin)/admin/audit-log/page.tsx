@@ -1,10 +1,11 @@
 import { AdminAuditLogClient } from "@/components/admin/pages/admin-audit-log-client";
+import type { AuditLog } from "@/components/admin/pages/admin-audit-log-client";
 import { getAuditLogs } from "@/lib/admin-actions";
 
 export const dynamic = "force-dynamic";
 
 export default async function AuditLogPage() {
-  let initialLogs: any[] = [];
+  let initialLogs: AuditLog[] = [];
   let initialTotal = 0;
 
   try {

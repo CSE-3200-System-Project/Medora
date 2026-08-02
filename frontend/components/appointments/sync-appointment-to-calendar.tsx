@@ -31,7 +31,7 @@ export function SyncAppointmentToCalendar({
   const handleSync = async () => {
     setSyncing(true);
     try {
-      const result = await syncAppointmentToCalendar(appointmentId, {
+      await syncAppointmentToCalendar(appointmentId, {
         summary,
         description,
         start_datetime: startDatetime,

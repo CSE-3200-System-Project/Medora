@@ -1,11 +1,12 @@
 import { AdminDoctorsClient } from "@/components/admin/pages/admin-doctors-client";
+import type { Doctor } from "@/components/admin/pages/admin-doctors-client";
 import { getAllDoctors, getPendingDoctors } from "@/lib/admin-actions";
 
 export const dynamic = "force-dynamic";
 
 export default async function DoctorsPage() {
-  let allDoctors: any[] = [];
-  let pendingDoctors: any[] = [];
+  let allDoctors: Doctor[] = [];
+  let pendingDoctors: Doctor[] = [];
 
   try {
     const [allResponse, pendingResponse] = await Promise.all([getAllDoctors(), getPendingDoctors()]);

@@ -1,10 +1,11 @@
 import { AdminPatientsClient } from "@/components/admin/pages/admin-patients-client";
+import type { PatientRecord } from "@/components/admin/patients/types";
 import { getAllPatients } from "@/lib/admin-actions";
 
 export const dynamic = "force-dynamic";
 
 export default async function PatientsPage() {
-  let initialPatients: any[] = [];
+  let initialPatients: PatientRecord[] = [];
   let initialTotal = 0;
   let initialError: string | null = null;
 

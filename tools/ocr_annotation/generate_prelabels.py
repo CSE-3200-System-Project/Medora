@@ -249,9 +249,23 @@ def main() -> int:
         previous = json.loads(prelabel_path.read_text(encoding="utf-8")) if prelabel_path.exists() else {}
         candidate_outputs = dict(previous.get("candidate_outputs") or {})
         candidate_outputs.update({name: value["output"] for name, value in candidates.items()})
-        preferred_output = candidate_outputs.get("pipeline") or candidate_outputs.get("azure") or candidate_outputs.get("paddle")
+        # A manually requested GPT vision transcription may be more readable than
+        # provider OCR, but it is still only an assisted draft. Preserve it across
+        # provider-cache refreshes until the primary reviewer replaces it.
+        preferred_output = (
+            candidate_outputs.get("gpt_vision")
+            or candidate_outputs.get("pipeline")
+            or candidate_outputs.get("azure")
+            or candidate_outputs.get("paddle")
+        )
         if preferred_output is None:
             raise RuntimeError(f"No candidate output for {record['id']}")
+        structured_output = (
+            candidate_outputs.get("pipeline")
+            or candidate_outputs.get("azure")
+            or candidate_outputs.get("paddle")
+            or preferred_output
+        )
         assisted_by_provider = {
             item["provider"]: item for item in previous.get("assisted_from", []) if item.get("provider")
         }
@@ -270,7 +284,7 @@ def main() -> int:
             "source_sha256": record["sha256"],
             "raw_transcription": preferred_output.get("raw_text", ""),
             "boxes": [],
-            "medications": annotation_medications(preferred_output.get("medications", [])),
+            "medications": annotation_medications(structured_output.get("medications", [])),
             "language": "unreviewed",
             "script": "unreviewed",
             "writer_or_template_group": record["writer_or_template_group"],

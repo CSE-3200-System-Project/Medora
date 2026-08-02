@@ -35,7 +35,7 @@ import { ConfirmationDialog } from "@/components/ui/confirmation-dialog";
 import { MedoraLoader } from "@/components/ui/medora-loader";
 import { getPendingDoctors, getAllDoctors, verifyDoctor, banUser, unbanUser } from "@/lib/admin-actions";
 
-type Doctor = {
+export type Doctor = {
   id: string;
   name: string;
   email: string;

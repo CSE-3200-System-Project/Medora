@@ -49,7 +49,7 @@ import {
 /*  Types                                                              */
 /* ------------------------------------------------------------------ */
 
-type Appointment = {
+export type Appointment = {
   id: string;
   appointment_date: string;
   status: string;

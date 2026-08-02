@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0023",
   "source_sha256": "fb4cf4fe118bcb6783a724bcb9dc2d74e085b7482fabc83cb6ffa2375a0e9e21",
-  "raw_transcription": "- Tab Compridas\n10\njob faxa\n01041\nIS)\n- Cap omeprazole(200)\n10\n1-1 0+ 1.\nTab. Mones (om)\n-",
+  "raw_transcription": "Tab. Domperidone [illegible] (10)\n0+0+1\nTab. Fexa 120 (15)\n0+0+1\nCap. Omeprazole (20mg) (10)\n1+0+1\nTab. Monas (10mg)\n0+0+1",
   "boxes": [],
   "medications": [
     {
@@ -57,14 +57,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "351df9afb7d6d1fbb3a71b6270c110ccb318b10d7e52c80677c494c5bc9d55b0"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "5b4a18c6f3d01992bac6f78ea17889fe70bed53d510868d165aec8a9bc671cac"
     },
     {
       "provider": "paddle",
@@ -1334,6 +1338,16 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Tab. Domperidone [illegible] (10)\n0+0+1\nTab. Fexa 120 (15)\n0+0+1\nCap. Omeprazole (20mg) (10)\n1+0+1\nTab. Monas (10mg)\n0+0+1",
+      "uncertain_spans": [
+        "Domperidone strength"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

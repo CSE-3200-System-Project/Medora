@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0033",
   "source_sha256": "51913af0c9a6cdfc105061e89a7c665de25d986ec8db7a0f8eefb7936dc029c8",
-  "raw_transcription": "0\nTab .\nParacetamol Extend. 665.\n1 Tb. Myolax 50mg\n2+0+2\n20mm\n1 Tab. Esotid 20mg\n2+042 - 2015000",
+  "raw_transcription": "Tab. Paracetamol Extend 665\n১+১+১ - ১৫ দিন (45)\nTab. Myolax 50mg\n১+০+১ - ২০ দিন (40)\nTab. Esotid 20mg\n১+০+১ - ২০ দিন (40)",
   "boxes": [],
   "medications": [
     {
@@ -60,11 +60,15 @@
     "illegible": false
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "983fb0a0b701ac536dd0c2c53c4b2f126b99a66eb4943291d890c0f7a220629c"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "cd7c2dcbc51e299af4e6b445cd5ae9efe05b3c478ebd0c6afc28f22bb7aac390"
     },
     {
       "provider": "paddle",
@@ -2203,6 +2207,14 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Tab. Paracetamol Extend 665\n১+১+১ - ১৫ দিন (45)\nTab. Myolax 50mg\n১+০+১ - ২০ দিন (40)\nTab. Esotid 20mg\n১+০+১ - ২০ দিন (40)",
+      "uncertain_spans": [],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

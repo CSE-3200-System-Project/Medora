@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0055",
   "source_sha256": "859a353ff86fe85d6bf0c512eefb69a1182cca3a7e23ca293647c6809bc666d1",
-  "raw_transcription": "FENTIGAL VAGINAL CREAM I VÝ\n+0\nbom + Tun vous (nom)\nstato\nmicrogest (com)\nexp.\n1\n1-+\no +o2 Pain Will pines [200ml 2/09/204\n0-40+12\nTab Duvadilan Tom) tom\nदवाजी लगाव समग्र :\nविकान 50 6शतक",
+  "raw_transcription": "Rx\nFentigal vaginal cream [illegible]\n[illegible]\nTab. [illegible] 100 mg\n0+0+1 - [illegible]\nCap. Pregaba [illegible]\n1+0+1 - [illegible]\nTab. [illegible] 5 mg\n[illegible]\nTab. [illegible] 10 mg\n0+0+1 - [illegible]\nTab. [illegible]\n[illegible]\nTab. [illegible] 10 mg\n[illegible]",
   "boxes": [],
   "medications": [
     {
@@ -87,14 +87,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "9585d2a85d7d7f1b81e1d788a5ad4f76b0467dbb9fa1187353d7a70f83b54a53"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "fcf2cd779db2f75cce5d7e282e4bfb221de88e9be418841eac1f99c4c28f8d9f"
     },
     {
       "provider": "paddle",
@@ -1466,6 +1470,17 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nFentigal vaginal cream [illegible]\n[illegible]\nTab. [illegible] 100 mg\n0+0+1 - [illegible]\nCap. Pregaba [illegible]\n1+0+1 - [illegible]\nTab. [illegible] 5 mg\n[illegible]\nTab. [illegible] 10 mg\n0+0+1 - [illegible]\nTab. [illegible]\n[illegible]\nTab. [illegible] 10 mg\n[illegible]",
+      "uncertain_spans": [
+        "low-resolution image; most product names and instructions are illegible",
+        "Fentigal and Pregaba spellings"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

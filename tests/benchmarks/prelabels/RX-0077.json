@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0077",
   "source_sha256": "4ae29fc9c81ea773646433279e4129069c7cb8aa632e012359e112ab552d724e",
-  "raw_transcription": "Rt. knee a che\nFollowing sporting Injury\nADT =1\nVarw/valsus.for\n€)\nTas Naproxen 250ml\n1+0+0\n10\nXmy Rt Km\nNAD\nTap One (20mg)\n1foto\n10",
+  "raw_transcription": "Rx\nTab. Naprosyn 250 mg\n1+0+0 - 10\nCap. Ome 20 mg\n1+0+0 - 10",
   "boxes": [],
   "medications": [
     {
@@ -97,14 +97,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "900e9f227571a7d338f860a82c361ebde5da153ba002c149becc7b5fd40ea746"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "2a11ae563519230134ad1a289aeac1e873060d21ca06f192fb71f61c3f5d5485"
     },
     {
       "provider": "paddle",
@@ -1375,6 +1379,16 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. Naprosyn 250 mg\n1+0+0 - 10\nCap. Ome 20 mg\n1+0+0 - 10",
+      "uncertain_spans": [
+        "product spellings"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

@@ -10,6 +10,11 @@ import {
   Home, Briefcase, AlertTriangle, MessageSquarePlus,
   Footprints, MoonStar, Waves, ShieldCheck, History, ExternalLink
 } from "lucide-react"
+import type { LucideIcon } from "lucide-react"
+import type { Medication } from "@/components/medicine"
+import type { Surgery } from "@/components/medical-history/surgery-manager"
+import type { Hospitalization } from "@/components/medical-history/hospitalization-manager"
+import type { Vaccination } from "@/components/medical-history/vaccination-manager"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
@@ -29,6 +34,50 @@ import { getPatientHealthForDoctor, type PatientHealthOverview } from "@/lib/hea
 import { buildClinicalPrescriptionDocumentHtml } from "@/lib/clinical-prescription-document"
 import { getFullPrescriptionByConsultation, type FullPrescriptionResponse } from "@/lib/prescription-actions"
 import { formatShortDateTime, parseCompositeReason, humanizeConsultationType, humanizeAppointmentType } from "@/lib/utils"
+
+interface MedicationRecord {
+  id?: string | number
+  drug_id?: string | number
+  name?: string
+  display_name?: string
+  started_date?: string
+  status?: string
+  dosage?: string
+  frequency?: string
+  duration?: string
+  prescribing_doctor?: string
+}
+
+interface AllergyRecord {
+  drug_name?: string
+  reaction?: string
+  severity?: string
+}
+
+interface HistoryRecord {
+  id?: string | number
+  name?: string
+  reason?: string
+  year?: string | number
+  hospital?: string
+  duration?: string
+  duration_days?: string | number
+  date?: string
+  next_due?: string
+}
+
+interface AssistantSummaryShape {
+  doctor_brief?: {
+    quick_text?: string
+    one_liner?: string
+    key_findings?: string[]
+  }
+  clinical_context?: {
+    conditions?: string[]
+    medications?: string[]
+  }
+  pre_consultation_checklist?: string[]
+}
 
 interface PatientData {
   id: string
@@ -65,16 +114,16 @@ interface PatientData {
   
   // Medications
   taking_medications: boolean
-  medications: any[] | null
-  drug_allergies: any[] | null
+  medications: Array<string | MedicationRecord> | null
+  drug_allergies: Array<string | AllergyRecord> | null
   food_allergies: string | null
   environmental_allergies: string | null
   
   // Medical History
-  surgeries: any[] | null
-  hospitalizations: any[] | null
+  surgeries: Array<string | HistoryRecord> | null
+  hospitalizations: Array<string | HistoryRecord> | null
   ongoing_treatments: string | null
-  vaccinations: any[] | null
+  vaccinations: Array<string | HistoryRecord> | null
   last_checkup_date: string | null
   
   // Family History
@@ -181,8 +230,8 @@ export default function DoctorPatientViewPage() {
       setAssistantError(null)
       const response = await getDoctorPatientAssistantSummary(patientId)
       setAssistantSummary(response)
-    } catch (err: any) {
-      setAssistantError(err?.message || "Failed to generate assistant summary")
+    } catch (err: unknown) {
+      setAssistantError(getErrorMessage(err, "Failed to generate assistant summary"))
     } finally {
       setAssistantLoading(false)
     }
@@ -193,8 +242,8 @@ export default function DoctorPatientViewPage() {
       try {
         const data = await getPatientForDoctor(patientId)
         setPatient(data)
-      } catch (err: any) {
-        setError(err.message || "Failed to load patient data")
+      } catch (err: unknown) {
+        setError(getErrorMessage(err, "Failed to load patient data"))
       } finally {
         setLoading(false)
       }
@@ -222,8 +271,8 @@ export default function DoctorPatientViewPage() {
         prescriptionId || undefined,
       )
       setHistoryPreviewData(payload)
-    } catch (err: any) {
-      setHistoryPreviewError(err?.message || "Failed to load historical prescription preview")
+    } catch (err: unknown) {
+      setHistoryPreviewError(getErrorMessage(err, "Failed to load historical prescription preview"))
     } finally {
       setHistoryPreviewLoading(false)
     }
@@ -257,9 +306,9 @@ export default function DoctorPatientViewPage() {
             setHealthNoConsent(true)
           }
         }
-      } catch (err: any) {
+      } catch (err: unknown) {
         if (!cancelled) {
-          if (err?.message?.includes("not granted")) {
+          if (getErrorMessage(err, "").includes("not granted")) {
             setHealthNoConsent(true)
           } else {
             setHealthNoConsent(false)
@@ -349,11 +398,11 @@ export default function DoctorPatientViewPage() {
     }
 
     return {
-      id: String((med as any).id || `med-${index}`),
-      drug_id: String((med as any).drug_id || ""),
-      display_name: String((med as any).name || (med as any).display_name || "Medication"),
-      started_date: String((med as any).started_date || patient?.last_checkup_date || ""),
-      status: String((med as any).status || "current"),
+      id: String(med.id || `med-${index}`),
+      drug_id: String(med.drug_id || ""),
+      display_name: String(med.name || med.display_name || "Medication"),
+      started_date: String(med.started_date || patient?.last_checkup_date || ""),
+      status: String(med.status || "current"),
     }
   }).filter((med) => Boolean(med.started_date))
   const timelineSurgeries = (patient?.surgeries || [])
@@ -367,10 +416,10 @@ export default function DoctorPatientViewPage() {
       }
 
       return {
-        id: String((entry as any).id || `surgery-${index}`),
-        name: String((entry as any).name || "Surgery"),
-        year: String((entry as any).year || ""),
-        hospital: (entry as any).hospital ? String((entry as any).hospital) : undefined,
+        id: String(entry.id || `surgery-${index}`),
+        name: String(entry.name || "Surgery"),
+        year: String(entry.year || ""),
+        hospital: entry.hospital ? String(entry.hospital) : undefined,
       }
     })
     .filter((entry) => Boolean(entry.year))
@@ -385,10 +434,10 @@ export default function DoctorPatientViewPage() {
       }
 
       return {
-        id: String((entry as any).id || `hospitalization-${index}`),
-        reason: String((entry as any).reason || "Hospitalization"),
-        year: String((entry as any).year || ""),
-        duration: (entry as any).duration ? String((entry as any).duration) : undefined,
+        id: String(entry.id || `hospitalization-${index}`),
+        reason: String(entry.reason || "Hospitalization"),
+        year: String(entry.year || ""),
+        duration: entry.duration ? String(entry.duration) : undefined,
       }
     })
     .filter((entry) => Boolean(entry.year))
@@ -403,10 +452,10 @@ export default function DoctorPatientViewPage() {
       }
 
       return {
-        id: String((entry as any).id || `vax-${index}`),
-        name: String((entry as any).name || "Vaccination"),
-        date: String((entry as any).date || ""),
-        next_due: (entry as any).next_due ? String((entry as any).next_due) : undefined,
+        id: String(entry.id || `vax-${index}`),
+        name: String(entry.name || "Vaccination"),
+        date: String(entry.date || ""),
+        next_due: entry.next_due ? String(entry.next_due) : undefined,
       }
     })
     .filter((entry) => Boolean(entry.date))
@@ -523,7 +572,7 @@ export default function DoctorPatientViewPage() {
                     AI Pre-Consultation Summary
                   </CardTitle>
                   <CardDescription>
-                    Assistant summary from authorized records with anonymized AI support. Final clinical decisions remain with the doctor.
+                    Assistant summary from authorized records with redacted AI input. Redaction can miss identifiers; final clinical decisions remain with the doctor.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="pt-5 space-y-4">
@@ -553,8 +602,8 @@ export default function DoctorPatientViewPage() {
                       <div className="rounded-lg border border-primary/20 bg-primary/5 p-3">
                         <h4 className="text-sm font-semibold text-foreground mb-2">Doctor Brief</h4>
                         <p className="text-sm text-foreground">
-                          {((assistantSummary.summary as any).doctor_brief?.quick_text as string)
-                            || ((assistantSummary.summary as any).doctor_brief?.one_liner as string)
+                          {((assistantSummary.summary as AssistantSummaryShape).doctor_brief?.quick_text)
+                            || ((assistantSummary.summary as AssistantSummaryShape).doctor_brief?.one_liner)
                             || "Summary prepared."}
                         </p>
                       </div>
@@ -562,7 +611,7 @@ export default function DoctorPatientViewPage() {
                       <div>
                         <h4 className="text-sm font-semibold text-foreground mb-2">Key Findings</h4>
                         <ul className="space-y-1">
-                          {(((assistantSummary.summary as any).doctor_brief?.key_findings as string[]) || []).map((point) => (
+                          {((assistantSummary.summary as AssistantSummaryShape).doctor_brief?.key_findings || []).map((point) => (
                             <li key={point} className="text-sm text-foreground">- {point}</li>
                           ))}
                         </ul>
@@ -590,7 +639,7 @@ export default function DoctorPatientViewPage() {
                       <div>
                         <h4 className="text-sm font-semibold text-foreground mb-2">Current Conditions</h4>
                         <div className="flex flex-wrap gap-2">
-                          {(((assistantSummary.summary as any).clinical_context?.conditions as string[]) || []).slice(0, 8).map((item) => (
+                          {((assistantSummary.summary as AssistantSummaryShape).clinical_context?.conditions || []).slice(0, 8).map((item) => (
                             <span key={item} className="px-2 py-1 rounded-md bg-muted text-xs text-foreground">{item}</span>
                           ))}
                         </div>
@@ -599,7 +648,7 @@ export default function DoctorPatientViewPage() {
                       <div>
                         <h4 className="text-sm font-semibold text-foreground mb-2">Current Medications</h4>
                         <ul className="space-y-1">
-                          {(((assistantSummary.summary as any).clinical_context?.medications as string[]) || []).slice(0, 6).map((item) => (
+                          {((assistantSummary.summary as AssistantSummaryShape).clinical_context?.medications || []).slice(0, 6).map((item) => (
                             <li key={item} className="text-sm text-foreground">- {item}</li>
                           ))}
                         </ul>
@@ -608,7 +657,7 @@ export default function DoctorPatientViewPage() {
                       <div>
                         <h4 className="text-sm font-semibold text-foreground mb-2">Pre-Consultation Checklist</h4>
                         <ul className="space-y-1">
-                          {(((assistantSummary.summary as any).pre_consultation_checklist as string[]) || []).slice(0, 6).map((item) => (
+                          {((assistantSummary.summary as AssistantSummaryShape).pre_consultation_checklist || []).slice(0, 6).map((item) => (
                             <li key={item} className="text-sm text-foreground">- {item}</li>
                           ))}
                         </ul>
@@ -790,7 +839,7 @@ export default function DoctorPatientViewPage() {
                       {medications.length > 0 ? (
                         <>
                           <div className="scrollbar-themed max-h-72 space-y-2 overflow-y-auto pr-1">
-                            {medicationsPagination.pageItems.map((med: any, index: number) => (
+                            {medicationsPagination.pageItems.map((med, index) => (
                               <div
                                 key={`${medicationsPagination.startIndex}-${index}`}
                                 className="p-3 rounded-lg bg-primary/5 border border-primary/10"
@@ -839,7 +888,7 @@ export default function DoctorPatientViewPage() {
                       {drugAllergies.length > 0 ? (
                         <>
                           <div className="scrollbar-themed max-h-64 space-y-2 overflow-y-auto pr-1">
-                            {drugAllergiesPagination.pageItems.map((allergy: any, index: number) => (
+                            {drugAllergiesPagination.pageItems.map((allergy, index) => (
                               <div
                                 key={`${drugAllergiesPagination.startIndex}-${index}`}
                                 className="p-2 rounded-lg bg-amber-500/10 border border-amber-500/20"
@@ -1353,10 +1402,10 @@ export default function DoctorPatientViewPage() {
               </div>
             ) : (
               <EnhancedMedicalHistoryTimeline
-                surgeries={timelineSurgeries as any}
-                hospitalizations={timelineHospitalizations as any}
-                vaccinations={timelineVaccinations as any}
-                medications={timelineMedications as any}
+                surgeries={timelineSurgeries as Surgery[]}
+                hospitalizations={timelineHospitalizations as Hospitalization[]}
+                vaccinations={timelineVaccinations as Vaccination[]}
+                medications={timelineMedications as Medication[]}
                 appointments={timelineAppointments}
                 medicalTests={[]}
                 doctorPrescriptions={[]}
@@ -1440,7 +1489,7 @@ function toPositiveNumber(value: unknown): number | null {
   return numericValue
 }
 
-function InfoItem({ icon: Icon, label, value }: { icon?: any; label: string; value: string | null }) {
+function InfoItem({ icon: Icon, label, value }: { icon?: LucideIcon; label: string; value: string | null }) {
   if (!value) return null
   return (
     <div className="flex items-start gap-3 p-2 rounded-lg hover:bg-muted/50 transition-colors">
@@ -1457,7 +1506,7 @@ function InfoItem({ icon: Icon, label, value }: { icon?: any; label: string; val
   )
 }
 
-function MeasurementCard({ icon: Icon, label, value, highlight }: { icon: any; label: string; value: string; highlight?: boolean }) {
+function MeasurementCard({ icon: Icon, label, value, highlight }: { icon: LucideIcon; label: string; value: string; highlight?: boolean }) {
   return (
     <div className={`p-4 rounded-xl text-center transition-all hover:scale-105 ${
       highlight 
@@ -1475,7 +1524,7 @@ function MeasurementCard({ icon: Icon, label, value, highlight }: { icon: any; l
   )
 }
 
-function HistorySection({ title, items }: { title: string; items: any[] | null }) {
+function HistorySection({ title, items }: { title: string; items: Array<string | HistoryRecord> | null }) {
   const normalizedItems = items || []
   const sectionPagination = usePagination(normalizedItems, 4)
 
@@ -1516,6 +1565,10 @@ function HistorySection({ title, items }: { title: string; items: any[] | null }
       )}
     </div>
   )
+}
+
+function getErrorMessage(error: unknown, fallback: string): string {
+  return error instanceof Error && error.message ? error.message : fallback
 }
 
 function FamilyHistoryItem({ condition, hasCondition }: { condition: string; hasCondition: boolean }) {

@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0078",
   "source_sha256": "64e0e3a8f147bac5f1b4a2ad334ff996b23a401c0542e6e487a062c71146ff63",
-  "raw_transcription": "1\nKilbac (5mg)\n2000)\n-96m\n25, Napa\n2000)\nEsofia (200)\n3\n2000",
+  "raw_transcription": "Rx\n1. Tab. [illegible] 50 mg\n[illegible] - 7 days\n2. Tab. Napa\n[illegible] - 7 days\n3. Tab. Esotid 20 mg\n[illegible] - 7 days",
   "boxes": [],
   "medications": [
     {
@@ -47,14 +47,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "38022c955a0cc6cf7b26eb87af2b493150123c18af574ced43a4e3ee19efc86e"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "f839fe92b8de9d4e8dc2889081fba48946f1ba3145046ad64e87a9ba3e50caf7"
     },
     {
       "provider": "paddle",
@@ -1003,6 +1007,18 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\n1. Tab. [illegible] 50 mg\n[illegible] - 7 days\n2. Tab. Napa\n[illegible] - 7 days\n3. Tab. Esotid 20 mg\n[illegible] - 7 days",
+      "uncertain_spans": [
+        "first tablet name",
+        "all dose schedules",
+        "Esotid spelling"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

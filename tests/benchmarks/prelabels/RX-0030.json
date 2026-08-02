@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0030",
   "source_sha256": "dd5c997f98ee0ddc9693363126ca75d12e79ce13674f5582db5aa22ba8dbceca",
-  "raw_transcription": "Tais\nOmsider\nCap Losectil. v\nTab\nRecipro (spo-)\n· Cap\nI trace (uma)\nain\nTab Direvos tro mg",
+  "raw_transcription": "Tab. Omidon [illegible]\n১+১+১ [illegible]\nCap. Losectil [illegible]\n১+১+১ [illegible]\nTab. Recipro (500mg)\n১+১+১ - ৭ দিন\nCap. Itracon (100mg)\n১+১+১ - ২ মাস\nTab. [illegible] (10mg)\n১+১+১ [illegible]",
   "boxes": [],
   "medications": [
     {
@@ -107,14 +107,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "d5de9e987ba7c7a169492eecaa1bba258bdfc09837282d8189635b283738ec28"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "d88f3d4322c2eae7587cfb342b00015de0bfdc0fe19e824a0f0006ddb4bb35f2"
     },
     {
       "provider": "paddle",
@@ -1113,6 +1117,18 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Tab. Omidon [illegible]\n১+১+১ [illegible]\nCap. Losectil [illegible]\n১+১+১ [illegible]\nTab. Recipro (500mg)\n১+১+১ - ৭ দিন\nCap. Itracon (100mg)\n১+১+১ - ২ মাস\nTab. [illegible] (10mg)\n১+১+১ [illegible]",
+      "uncertain_spans": [
+        "Omidon strength and instruction",
+        "Losectil strength and instruction",
+        "last medicine name and instruction"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

@@ -7,7 +7,6 @@ import argparse
 import json
 import os
 import sys
-from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -34,6 +33,32 @@ def clinician_review_complete(case: dict) -> bool:
     return isinstance(review, dict) and review.get("credential_role") in {"licensed_clinician", "licensed_pharmacist"} and bool(review.get("reviewed_at"))
 
 
+def safe_ratio(numerator: int, denominator: int) -> float | None:
+    return numerator / denominator if denominator else None
+
+
+def privacy_span_metrics(rows: list[dict]) -> dict:
+    expected_identifiers = sum(row["expected_identifier_spans"] for row in rows)
+    false_negatives = sum(len(row["leaked_known_identifiers"]) for row in rows)
+    true_positives = expected_identifiers - false_negatives
+    benign_spans = sum(row["benign_spans"] for row in rows)
+    false_positives = sum(len(row["lost_benign_text"]) for row in rows)
+    return {
+        "cases": len(rows),
+        "passed": sum(row["passed"] for row in rows),
+        "expected_identifier_spans": expected_identifiers,
+        "benign_spans": benign_spans,
+        "true_positives": true_positives,
+        "false_positives": false_positives,
+        "false_negatives": false_negatives,
+        "precision": safe_ratio(true_positives, true_positives + false_positives),
+        "recall": safe_ratio(true_positives, true_positives + false_negatives),
+        "false_redaction_rate": safe_ratio(false_positives, benign_spans),
+        "residual_known_identifier_rate": safe_ratio(false_negatives, expected_identifiers),
+        "expected_residual_risk_cases": sum(row["expected_residual_risk"] for row in rows),
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, default=ROOT / "tests/benchmarks/reports/safety_results.json")
@@ -47,7 +72,16 @@ def main() -> int:
         lost = [value for value in case.get("must_preserve", []) if value not in result.text]
         consent_ok = case.get("category") != "consent_state" or case.get("external_processing_allowed") is (case.get("consent_state") == "active")
         passed = not leaked and not lost and consent_ok
-        row = {"id": case["id"], "category": case["category"], "passed": passed, "leaked_known_identifiers": leaked, "lost_benign_text": lost, "expected_residual_risk": bool(case.get("expected_residual_risk"))}
+        row = {
+            "id": case["id"],
+            "category": case["category"],
+            "passed": passed,
+            "expected_identifier_spans": len(case.get("must_not_contain", [])),
+            "benign_spans": len(case.get("must_preserve", [])),
+            "leaked_known_identifiers": leaked,
+            "lost_benign_text": lost,
+            "expected_residual_risk": bool(case.get("expected_residual_risk")),
+        }
         privacy_rows.append(row)
         if not passed:
             privacy_failures.append(row)
@@ -81,11 +115,23 @@ def main() -> int:
 
     deterministic_passed = not privacy_failures and not navigation_failures and not summary_failures
     review_complete = reviewed == len(navigation_rows)
+    privacy_categories = sorted({item["category"] for item in privacy_rows})
+    privacy_metrics = privacy_span_metrics(privacy_rows)
+    privacy_by_category = {
+        category: privacy_span_metrics([item for item in privacy_rows if item["category"] == category])
+        for category in privacy_categories
+    }
     report = {
         "schema_version": "1.0.0",
         "executed_at": datetime.now(timezone.utc).isoformat(),
         "provider_result_class": "deterministic_mock_and_rules",
-        "privacy": {"cases": len(privacy_rows), "passed": len(privacy_rows) - len(privacy_failures), "known_identifier_leakage": sum(len(item["leaked_known_identifiers"]) for item in privacy_rows), "by_category": Counter(item["category"] for item in privacy_rows), "failures": privacy_failures, "raw": privacy_rows},
+        "privacy": {
+            **privacy_metrics,
+            "known_identifier_leakage": sum(len(item["leaked_known_identifiers"]) for item in privacy_rows),
+            "by_category": privacy_by_category,
+            "failures": privacy_failures,
+            "raw": privacy_rows,
+        },
         "navigation": {"cases": len(navigation_rows), "passed": len(navigation_rows) - len(navigation_failures), "clinician_reviewed": reviewed, "review_state": "complete" if review_complete else "required", "failures": navigation_failures, "raw": navigation_rows},
         "summaries": {"cases": len(summary_rows), "passed": len(summary_rows) - len(summary_failures), "failures": summary_failures, "raw": summary_rows},
         "deterministic_passed": deterministic_passed,

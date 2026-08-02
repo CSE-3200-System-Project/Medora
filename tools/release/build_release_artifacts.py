@@ -58,7 +58,7 @@ def render_booking(report: dict) -> str:
     return "\n".join(lines) + "\n"
 
 
-def render_safety(report: dict) -> str:
+def render_safety_summary(report: dict) -> str:
     pii, nav, summary = report["privacy"], report["navigation"], report["summaries"]
     return "\n".join([
         r"\begin{table}[!h]", r"\centering\small", r"\begin{tabular}{@{}lrrl@{}}", r"\toprule",
@@ -68,6 +68,41 @@ def render_safety(report: dict) -> str:
         f"Source-grounded summaries & {summary['cases']} & {summary['passed']} & fixtures \\\\",
         r"\bottomrule", r"\end{tabular}", r"\caption{Safety fixture results. Clinician review state is reported explicitly.}", r"\label{tab:safety-results}", r"\end{table}",
     ]) + "\n"
+
+
+def render_safety(report: dict) -> str:
+    pii = report["privacy"]
+
+    def percent(value: float | None) -> str:
+        return "--" if value is None else f"{value * 100:.1f}\\%"
+
+    lines = [
+        render_safety_summary(report).rstrip(),
+        r"\begin{table*}[!ht]",
+        r"\centering\scriptsize",
+        r"\begin{tabular}{@{}lrrrrr@{}}",
+        r"\toprule",
+        r"Privacy category & Cases & Precision & Recall & False redaction & Residual known ID \\",
+        r"\midrule",
+    ]
+    for category, metrics in pii["by_category"].items():
+        lines.append(
+            f"{tex_escape(category)} & {metrics['cases']} & {percent(metrics['precision'])} & "
+            f"{percent(metrics['recall'])} & {percent(metrics['false_redaction_rate'])} & "
+            f"{percent(metrics['residual_known_identifier_rate'])}" + r" \\"
+        )
+    lines.extend([
+        r"\midrule",
+        f"All span-annotated cases & {pii['cases']} & {percent(pii['precision'])} & "
+        f"{percent(pii['recall'])} & {percent(pii['false_redaction_rate'])} & "
+        f"{percent(pii['residual_known_identifier_rate'])}" + r" \\",
+        r"\bottomrule",
+        r"\end{tabular}",
+        r"\caption{Span-level privacy metrics. A dash means the category has no annotated positive or benign span for that denominator. Unknown and indirect identifiers remain an explicit limitation.}",
+        r"\label{tab:privacy-span-results}",
+        r"\end{table*}",
+    ])
+    return "\n".join(lines) + "\n"
 
 
 def copy_json(source: Path, destination: Path) -> dict:

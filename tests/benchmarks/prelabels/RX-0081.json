@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0081",
   "source_sha256": "d8597a0782afb94fad92cdf5ebdfb4b7f526c82f24aefa826dfbcf7c751aae49",
-  "raw_transcription": "15. ROSU5V Other no\nTab. Albenos BrownW",
+  "raw_transcription": "Rx\n1. Tab. Gemer 1/500\n1+0+0 [illegible]\n2. Tab. Ancor A 2.5/5 mg\n0+0+1 [illegible]\n3. Tab. Pantonic 20 mg\n1+0+1 [illegible]\n4. Tab. Rosu 5 mg\n0+0+1 [illegible]\n5. [illegible] 50 mcg\n[illegible]",
   "boxes": [],
   "medications": [
     {
@@ -37,14 +37,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "2c2e03b0fc665e7cf1cbf14c78ccec0d74973e11896006bd1ea41a6c644ec2e1"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "831aa8eb48008327f12a3d4498a39984a3d35c1eb5594350d00d4c57bf2bd251"
     },
     {
       "provider": "paddle",
@@ -1559,6 +1563,18 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\n1. Tab. Gemer 1/500\n1+0+0 [illegible]\n2. Tab. Ancor A 2.5/5 mg\n0+0+1 [illegible]\n3. Tab. Pantonic 20 mg\n1+0+1 [illegible]\n4. Tab. Rosu 5 mg\n0+0+1 [illegible]\n5. [illegible] 50 mcg\n[illegible]",
+      "uncertain_spans": [
+        "timing instructions",
+        "fifth product and directions",
+        "product spellings"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

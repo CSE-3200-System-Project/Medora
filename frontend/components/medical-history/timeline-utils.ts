@@ -83,7 +83,7 @@ interface TimelineSourceData {
   hospitalizations: Hospitalization[];
   vaccinations: Vaccination[];
   medications: Medication[];
-  appointments: any[];
+  appointments: TimelineAppointment[];
   medicalTests?: Array<{
     test_name: string;
     test_date: string;
@@ -94,6 +94,16 @@ interface TimelineSourceData {
     notes?: string;
   }>;
   doctorPrescriptions?: Prescription[];
+}
+
+export interface TimelineAppointment {
+  appointment_date: string;
+  reason?: string;
+  notes?: string;
+  status?: string;
+  doctor_title?: string;
+  doctor_name?: string;
+  doctor?: string;
 }
 
 /**
@@ -119,6 +129,7 @@ export function aggregateTimelineEvents(data: TimelineSourceData): TimelineEvent
         date: app.appointment_date,
         title: eventType === 'follow-up' ? 'Follow-up' : 'Consultation',
         doctorName: primaryTitle,
+        items: secondary ? [secondary] : undefined,
         icon: 'CheckCircle2',
         color: EVENT_COLOR_MAP[eventType],
         badge: app.status === 'COMPLETED' ? 'Completed' : 'Scheduled',
@@ -136,7 +147,7 @@ export function aggregateTimelineEvents(data: TimelineSourceData): TimelineEvent
           date: prescription.created_at,
           title: 'Medication Prescribed',
           doctorName: `Dr. ${prescription.doctor_name}`,
-          items: prescription.medications.map((med: any) => med.medicine_name).filter(Boolean),
+          items: prescription.medications.map((med) => med.medicine_name).filter(Boolean),
           icon: 'Pill',
           color: EVENT_COLOR_MAP.prescription,
           badge: 'Active',
@@ -155,10 +166,10 @@ export function aggregateTimelineEvents(data: TimelineSourceData): TimelineEvent
           date: prescription.created_at,
           title: 'Lab Test Ordered',
           doctorName: `Dr. ${prescription.doctor_name}`,
-          items: prescription.tests.map((test: any) => test.test_name).filter(Boolean),
+          items: prescription.tests.map((test) => test.test_name).filter(Boolean),
           icon: 'FlaskConical',
           color: EVENT_COLOR_MAP['lab-test'],
-          badge: prescription.tests.some((test: any) => test.urgency === 'urgent') ? 'Urgent' : 'Pending',
+          badge: prescription.tests.some((test) => test.urgency === 'urgent') ? 'Urgent' : 'Pending',
         });
       }
     });

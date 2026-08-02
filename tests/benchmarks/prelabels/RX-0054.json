@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0054",
   "source_sha256": "b75d2de53cee1fba01f0e09ff0f1f131ff96901ad25fe468518a09d90c407a98",
-  "raw_transcription": "TREATMENTION DISCHARGE\nTabls L. 5\nเสาะ\n- Solcher so\n- جرين\nRosuva to\ncedemida 40,90\n6 Caport",
+  "raw_transcription": "Treatment on discharge\n1. [illegible] 75 [illegible]\n2. Tab. [illegible]\n3. [illegible] 30 [illegible]\n4. [illegible]\n5. Pantop 40 [illegible]\n6. [illegible] 40/50 [illegible]\n7. [illegible] 50 [illegible]\n8. [illegible] 10 [illegible]\n9. [illegible]",
   "boxes": [],
   "medications": [
     {
@@ -77,14 +77,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "9d37308861ce5c2257435c416b28ef3f80ba8a33a8934d92118684137ac785c4"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "8739ebd511ac6c29612005e303e7505c371ad799fa110e941539dd6724545271"
     },
     {
       "provider": "paddle",
@@ -970,6 +974,16 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Treatment on discharge\n1. [illegible] 75 [illegible]\n2. Tab. [illegible]\n3. [illegible] 30 [illegible]\n4. [illegible]\n5. Pantop 40 [illegible]\n6. [illegible] 40/50 [illegible]\n7. [illegible] 50 [illegible]\n8. [illegible] 10 [illegible]\n9. [illegible]",
+      "uncertain_spans": [
+        "low-resolution image; most medication names, frequencies, and durations are illegible"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

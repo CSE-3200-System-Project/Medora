@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0006",
   "source_sha256": "67679b02ad347fe6d7c8babc8db2f93308f70e34636b933cda4f195dcfb07818",
-  "raw_transcription": "Rx,\n. Tal Pantones\n20mg)\n1+0+1\n20\nTal Algin ( say)\n1+0 +1\ntomy\n10",
+  "raw_transcription": "Tab. Pantonix (20mg)\n1+0+1 (20)\nTab. Algin (500mg)\n1+0+1 (10)",
   "boxes": [],
   "medications": [
     {
@@ -60,11 +60,15 @@
     "illegible": false
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "d058e4339aa531f877ee843d6e2644ddf8707a896af87e1d7bd7a21a9c380326"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "bd79e681a159ff7747a4c51b1aec6fb15fd5e238cc3b5761623fef7637bd43f0"
     },
     {
       "provider": "paddle",
@@ -1145,6 +1149,14 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Tab. Pantonix (20mg)\n1+0+1 (20)\nTab. Algin (500mg)\n1+0+1 (10)",
+      "uncertain_spans": [],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

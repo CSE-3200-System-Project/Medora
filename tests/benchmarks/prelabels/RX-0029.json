@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0029",
   "source_sha256": "fb15e80f78d1c5bea1e6b98b9409f5bb7189680511a67a2f41e8ebbaf47bb03a",
-  "raw_transcription": "Rx\n- Tab. Aceclofenae\n21012\n- They Myolax (50 mg)-\n20\nKb. DON-A (20\nCap. onetid (10\n2top)",
+  "raw_transcription": "Tab. Aceclofenac\n১+০+১\nTab. Myolax (50mg)\n১+০+১ খাবার পর (20)\nTab. DON-A\n১+০+১ (20)\nCap. Ometid (20)\n১+০+১ (20)",
   "boxes": [],
   "medications": [
     {
@@ -60,11 +60,15 @@
     "illegible": false
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "d22287cdb5c8197b7248125adccaac61747b778d174b9225b390d5989eb754b8"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "af62d65dd9ffe32cd715a618c1b58bf2a48ad0936997b92aeed17f87212ec044"
     },
     {
       "provider": "paddle",
@@ -1859,6 +1863,14 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Tab. Aceclofenac\n১+০+১\nTab. Myolax (50mg)\n১+০+১ খাবার পর (20)\nTab. DON-A\n১+০+১ (20)\nCap. Ometid (20)\n১+০+১ (20)",
+      "uncertain_spans": [],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

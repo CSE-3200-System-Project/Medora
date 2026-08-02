@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0093",
   "source_sha256": "69da85af6be56ce6c2dcc6e67ab8072ecd8a6ad29bf239f25fc50a603fb24841",
-  "raw_transcription": "-19)\n0+++21103-1)\n. Inb. Tofor long)\n0+0+8 - gina\n. Tab. Drie (home)",
+  "raw_transcription": "Rx\n[illegible] cream\nlocal application - [illegible]\nTab. Fexo 120 mg\n0+0+1 - 7 days\nTab. Tofen 1 mg\n0+0+1 - 7 days\nTab. Omes 20 mg\n1+0+1 (before meal) - 30",
   "boxes": [],
   "medications": [
     {
@@ -37,14 +37,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "1de14c5b6dc142db280bbfc12faecb25b3f21eba0a4b195b0884d9fef73d89f3"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "30baaa4b1d9ed3583fbcfdbd321e393fff418a3a87e28f8d42e3b33c12df7da2"
     },
     {
       "provider": "paddle",
@@ -1170,6 +1174,17 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\n[illegible] cream\nlocal application - [illegible]\nTab. Fexo 120 mg\n0+0+1 - 7 days\nTab. Tofen 1 mg\n0+0+1 - 7 days\nTab. Omes 20 mg\n1+0+1 (before meal) - 30",
+      "uncertain_spans": [
+        "cream name and instructions",
+        "product spellings"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

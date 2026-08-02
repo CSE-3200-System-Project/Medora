@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Plus, Trash2, Scissors, AlertTriangle, Clock } from "lucide-react";
-import { SurgeryRecommendationInput, SurgeryUrgency } from "@/lib/prescription-actions";
+import { SurgeryRecommendationInput } from "@/lib/prescription-actions";
 
 interface SurgeryFormProps {
   surgeries: SurgeryRecommendationInput[];
@@ -45,7 +45,11 @@ export function SurgeryForm({ surgeries, onSurgeriesChange }: SurgeryFormProps) 
     onSurgeriesChange(updated);
   };
 
-  const updateSurgery = (index: number, field: keyof SurgeryRecommendationInput, value: any) => {
+  const updateSurgery = <K extends keyof SurgeryRecommendationInput>(
+    index: number,
+    field: K,
+    value: SurgeryRecommendationInput[K],
+  ) => {
     const updated = [...surgeries];
     updated[index] = { ...updated[index], [field]: value };
     onSurgeriesChange(updated);

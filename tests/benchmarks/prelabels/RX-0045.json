@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0045",
   "source_sha256": "ae82c911dbc2006e32d39adc5dad0e402e6d9db5c11531f27618b3b35b02a014",
-  "raw_transcription": "Date :-\n11 Find: 0 -YA\nSer No :-\nRoom No :-\nC-67\nSub- Acute lyrsidiler\n(Hypoth grand chose)\nFF25.\nTSH = 89.85 uschd.\nPT =5-1 Duath.\nIssoal 15 day\n11/10/17\nTil-\n1\nFT, TSH .\nThyrox (50 equ)\n2 -to-to (GwTO)\nST.\nMD ABDULLAH-AL-MAMU",
+  "raw_transcription": "Rx\nTab. Thyrox 50 mcg\n2+0+0 - 6 weeks",
   "boxes": [],
   "medications": [
     {
@@ -150,11 +150,15 @@
     "illegible": false
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "dfddd6947e11ab92f798f8c88448b76793d1ffe354e80855ad125e25ae004bc0"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "63fd7ee6001ce1443db015ccc7cf19261a72cf9861c7fdb43b952e0fd8dd14d0"
     },
     {
       "provider": "paddle",
@@ -1350,6 +1354,14 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. Thyrox 50 mcg\n2+0+0 - 6 weeks",
+      "uncertain_spans": [],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

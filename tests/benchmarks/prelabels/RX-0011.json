@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0011",
   "source_sha256": "b9e7a55326614dcb11e1dae959c7930c8fbd391baa6b4773297fca14778f84a3",
-  "raw_transcription": "1.\nTy- Acos - 500 kg\n2.\n0+0+2- 8RR RRGM\nap - Dexilend - (30mq)\n3\n2+3+2- RAW OM SNAT\n@ - Anokast - gowy\nO+6+2- Blue ME Drea!\nFossical -D\n4.\n5.\n2+0+2- 4 2\nFlexi - Jockey\n6\n2+0+2- 2014 MA al\nShop - Djecuex plus-1ph\nStep - Coughlin - 3ph",
+  "raw_transcription": "Tab. A-Cos 500mg\n0+0+1 - [illegible Bangla instruction]\nCap. Dexilend (30mg)\n১+০+১ - [illegible Bangla instruction]\nTab. Anokast (10mg)\n0+0+1 - [illegible Bangla instruction]\nFossical-D\n১+০+১ - [illegible]\nFlexi (100mg)\n১+০+১ - [illegible]\nSyp. [illegible] Plus - 1 bottle\nSyp. Coughlin - [illegible]",
   "boxes": [],
   "medications": [
     {
@@ -97,14 +97,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "291a9b55c6c21b5b02f9ff4a4d1129c40c88cfa92e69b1f1429adb7584252ff0"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "19aa63904f05b37021b4df7a8eebaac1a2fe8d34139ff88c95710670e686a591"
     },
     {
       "provider": "paddle",
@@ -1063,6 +1067,18 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Tab. A-Cos 500mg\n0+0+1 - [illegible Bangla instruction]\nCap. Dexilend (30mg)\n১+০+১ - [illegible Bangla instruction]\nTab. Anokast (10mg)\n0+0+1 - [illegible Bangla instruction]\nFossical-D\n১+০+১ - [illegible]\nFlexi (100mg)\n১+০+১ - [illegible]\nSyp. [illegible] Plus - 1 bottle\nSyp. Coughlin - [illegible]",
+      "uncertain_spans": [
+        "Bangla instructions on most lines",
+        "first syrup name",
+        "Coughlin instruction"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

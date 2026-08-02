@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0.0",
-  "generated_at_utc": "2026-08-01T18:42:09.002145+00:00",
-  "git_head": "c567c9baab2ec818063dd345f2b27c97c733d575",
+  "generated_at_utc": "2026-08-02T01:05:26.702028+00:00",
+  "git_head": "238e0abaae58ec01883731c594c3d32df2320356",
   "worktree_dirty": true,
   "scope": "pre-Zenodo evidence; not a final release verification receipt",
   "counts": {
     "passed": 15,
-    "blocked": 5,
+    "blocked": 6,
     "not_passed": 0,
     "deferred_by_request": 1
   },
@@ -43,14 +43,14 @@
       "gate": "Frontend lint",
       "status": "passed",
       "evidence": "tests/benchmarks/reports/current/frontend_lint_final.out.log",
-      "evidence_sha256": "4ea3ec2f3cf484e95f592dc73738f88fdded44ea1c52075309cac29e7b32dfc7",
-      "note": "Next.js lint completed with zero errors; 198 non-blocking warnings remain recorded in the log."
+      "evidence_sha256": "0430bf9fbebe5b55afaad0213ea331058b6536291db5b3b010f5fa30759fea21",
+      "note": "Next.js lint completed with zero errors and zero warnings."
     },
     {
       "gate": "Frontend production build",
       "status": "passed",
       "evidence": "tests/benchmarks/reports/current/frontend_build_final.log",
-      "evidence_sha256": "10d9e6239c0e2e71b81700b8971cadd56fbc2fc954ccb286b3bf6a7403844582",
+      "evidence_sha256": "1abe4244b8e916dfa547895345a9c23e7be8448ef6f80cee0b8dbbad992ad08a",
       "note": "Production Next.js build."
     },
     {
@@ -71,8 +71,8 @@
       "gate": "Manuscript compilation",
       "status": "passed",
       "evidence": "tests/benchmarks/reports/current/latex_pass2_final.log",
-      "evidence_sha256": "3c065421eacbd40e35c315e6584cb33de3c9a4edb5734b7cfe4044ae78f7a23f",
-      "note": "Second LaTeX pass completed with zero overfull boxes and zero undefined references/citations."
+      "evidence_sha256": "201ddf15aebbab65414b1cffd6bc4423d70c4c8294762c3e4bf74086e4d296c1",
+      "note": "Final LaTeX pass completed with zero overfull boxes and zero undefined references/citations."
     },
     {
       "gate": "JavaScript production dependency audit",
@@ -100,7 +100,7 @@
       "status": "passed",
       "evidence": "tests/benchmarks/prelabels/",
       "evidence_sha256": null,
-      "note": "103/103 composed prelabels; drafts are not ground truth."
+      "note": "103/103 composed prelabels and 103/103 hash-bound GPT Rx drafts; drafts are not ground truth."
     },
     {
       "gate": "Booking contention benchmark",
@@ -113,7 +113,7 @@
       "gate": "Deterministic safety fixtures",
       "status": "passed",
       "evidence": "tests/benchmarks/reports/current/safety_results.json",
-      "evidence_sha256": "56045164107781172d87d03c274feaffee9dafad7e17dae1ffc8f89b069cfca0",
+      "evidence_sha256": "9fbbbab64a28b9f592a4079169fc408e9f0bd5da8586dee598b4c598fc68871d",
       "note": "Privacy, navigation behavior, and source-grounded summary fixtures; licensed navigation review is a separate gate."
     },
     {
@@ -127,7 +127,7 @@
       "gate": "Licensed symptom-navigation review",
       "status": "blocked",
       "evidence": "tests/benchmarks/reports/current/safety_results.json",
-      "evidence_sha256": "56045164107781172d87d03c274feaffee9dafad7e17dae1ffc8f89b069cfca0",
+      "evidence_sha256": "9fbbbab64a28b9f592a4079169fc408e9f0bd5da8586dee598b4c598fc68871d",
       "note": "required"
     },
     {
@@ -143,6 +143,13 @@
       "evidence": "samples/DATA_USE_NOTICE.md",
       "evidence_sha256": "e5e3b060565015fde8ae8c544a7f110e5cc369d3f139d7dffaae84f8919e6876",
       "note": "Enter verified approval authority, date, reference, scope, and review grouping/language/image-quality metadata before freezing."
+    },
+    {
+      "gate": "Verified funding statement",
+      "status": "blocked",
+      "evidence": "docs/softwarex/medora_softwarex.tex",
+      "evidence_sha256": "9687c323c7ad44391d52a9f4dd0c8bf0d31bfad8d8553958a97fd587e4be552a",
+      "note": "An author must provide the verified funder and grant number or confirm that the work received no external funding."
     },
     {
       "gate": "Authenticated production-browser journeys",

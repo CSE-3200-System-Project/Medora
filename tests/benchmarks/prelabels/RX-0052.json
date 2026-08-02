@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0052",
   "source_sha256": "c354199512c96675951d23f668f0e7a23ec754b5d1d0226294ae123a436e6a10",
-  "raw_transcription": "Plan\nHernioplasty V SAB (mesh repair)\n21.11.23\nJal Dassban (0.5mg)\n0+0+2- yarar 2(25\n21.11.23\n/90 mm Hg\nRefer to PAKM Fazlul Haque si\nfor control QHTN & DM & short\nactive insulin\n-13 5Telange\n87\nMid",
+  "raw_transcription": "Rx\nTab. Disopan 0.5 mg\n0+0+1 - before sleep",
   "boxes": [],
   "medications": [
     {
@@ -87,14 +87,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "a0ef355caa688777dd954e1f58b728c65b0c1777600bbfad9b113a9954b27b99"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "0dca78b03dd0eb348e3e6e47fdcd0117b9f039cf7d3d7d0d0b117db41ef93c6a"
     },
     {
       "provider": "paddle",
@@ -1606,6 +1610,16 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. Disopan 0.5 mg\n0+0+1 - before sleep",
+      "uncertain_spans": [
+        "Disopan spelling"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

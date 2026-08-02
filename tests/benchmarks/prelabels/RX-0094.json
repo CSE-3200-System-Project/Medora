@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0094",
   "source_sha256": "e29b4376e6aad9521f8e236ffcbf417121c1d7b31c19b2be1ae81841959ca9c2",
-  "raw_transcription": "To Tolparis (10)\n140EL\nColumn Dz (D)\n1+0+1",
+  "raw_transcription": "Rx\nTab. [illegible] 120\n1+0+1 - 10\nTab. [illegible]\n1+0+1 - 10\nTab. Calbo-D\n1+0+1 - 10\nTab. Esoral\n1+0+1 - 10\nDiclofenac gel - 1",
   "boxes": [],
   "medications": [
     {
@@ -37,14 +37,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "2f89e558a861458e038e559bfe579ce3a83416459bdcffd7ee5ebbc613fd5d6c"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "69443366ad71c6457d67bf1fca3e2fcad2b7a9f66b5774f1323e88ce8964c208"
     },
     {
       "provider": "paddle",
@@ -1064,6 +1068,17 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. [illegible] 120\n1+0+1 - 10\nTab. [illegible]\n1+0+1 - 10\nTab. Calbo-D\n1+0+1 - 10\nTab. Esoral\n1+0+1 - 10\nDiclofenac gel - 1",
+      "uncertain_spans": [
+        "first two tablet names",
+        "product spellings and strengths"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

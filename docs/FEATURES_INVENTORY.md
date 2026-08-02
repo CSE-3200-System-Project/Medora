@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document provides a comprehensive inventory of all features in Medora, categorized by implementation status. Features marked as **✅ Implemented** are production-ready, while **🔲 Planned** features are documented for future development.
+This document provides a comprehensive inventory of all features in Medora, categorized by implementation status. Features marked as **✅ Implemented** exist in the research-software artifact but are not thereby clinically validated or production-ready; **🔲 Planned** features are documented for future development.
 
 ---
 
@@ -330,7 +330,7 @@ This document provides a comprehensive inventory of all features in Medora, cate
 |---------|-------------|----------|
 | Predictive Analytics | AI-powered health risk predictions | Medium |
 | Custom Reports | User-generated analytics reports | Low |
-| Population Health Insights | Aggregate anonymized health data | Low |
+| Population Health Insights | Aggregate de-identified health data; residual re-identification risk must be assessed | Low |
 | Doctor Performance Benchmarks | Comparative doctor metrics | Low |
 
 ---

@@ -55,7 +55,7 @@ If asked *"which tool runs in CI?"* → unit + integration + Playwright + Lighth
 
 > Important caveat (§7.2): the corpus is sufficient for **directional** validation but not large enough to characterise the full long-tail of BD prescription writing. Acknowledge it openly — don't oversell.
 
-> Why is this dataset described as "anonymised and selected" (§1.9.5)? Because privacy policy forbids publishing real patient data. The benchmarks are reproducible *in approach*; exact numbers depend on a comparable corpus.
+> The corpus contains identifiable prescription images and is not anonymous. Its separate data-use notice and verified public-redistribution authorization must accompany the fixed release. Metrics are reported only from the hash-frozen, independently reviewed corpus; authorization does not remove re-identification risk.
 
 ---
 

@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
 import { getPublicDoctorProfile } from "@/lib/auth-actions";
 import { DoctorInformationSection } from "@/components/doctor/doctor-information-section";
+import type { DoctorInformation } from "@/components/doctor/doctor-information-section";
 import { AppBackground } from "@/components/ui/app-background";
 import { Navbar } from "@/components/ui/navbar";
 import { MedoraLoader } from "@/components/ui/medora-loader";
@@ -32,7 +33,7 @@ export default function DoctorProfilePage() {
   const params = useParams();
   const profileId = params.id as string;
 
-  const [doctor, setDoctor] = React.useState<any>(null);
+  const [doctor, setDoctor] = React.useState<DoctorInformation | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
 
@@ -42,8 +43,8 @@ export default function DoctorProfilePage() {
         setLoading(true);
         const data = await getPublicDoctorProfile(profileId);
         setDoctor(data);
-      } catch (err: any) {
-        setError(err.message || "Failed to load doctor profile");
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : "Failed to load doctor profile");
       } finally {
         setLoading(false);
       }

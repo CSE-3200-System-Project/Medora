@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0027",
   "source_sha256": "a53a5a38c877f6986307ce908c13cf2afbf910e218b74590e57d0a9b4a3f6556",
-  "raw_transcription": "Rx\n·1 Tab. Levox (5001)\nDrops.\n=) Tab. Fixel\n0-TOT ?-\nTab. P/C (2008)\nCap Ones (20)\n-\nstoer-",
+  "raw_transcription": "Tab. Levox (500)\n0+0+1 (5)\nTab. Fixel (200)\n0+0+1 (5)\nTab. P/C (500)\n১+১+১ (15)\nCap. Omes (20)\n১+০+১ (10)",
   "boxes": [],
   "medications": [
     {
@@ -80,11 +80,15 @@
     "illegible": false
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "da1c21d6e70954fbd57935e7342d3df5cc284ce1a67ffa0cb5e25ab91b779a3b"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "5c82ffd5d9fd0b817f3910d9732e5c5a64d94e32b6cb9f8c74e8df6f1968bf9f"
     },
     {
       "provider": "paddle",
@@ -2309,6 +2313,14 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Tab. Levox (500)\n0+0+1 (5)\nTab. Fixel (200)\n0+0+1 (5)\nTab. P/C (500)\n১+১+১ (15)\nCap. Omes (20)\n১+০+১ (10)",
+      "uncertain_spans": [],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

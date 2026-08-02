@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0031",
   "source_sha256": "20ddb5520391e7f4c0de317ce9bcf1385a172417dda9a6162d6a66b9d0a80738",
-  "raw_transcription": "Rx\n+ Tab Ferofenadine (1205)\notper\nCy One prazete\nTae Marcolet\nislastig",
+  "raw_transcription": "Tab. Fexofenadine (120mg)\n0+0+1 (20)\nCap. Omeprazole [illegible]\n১+০+১ ([illegible])\nTab. Montelukast [illegible]",
   "boxes": [],
   "medications": [
     {
@@ -67,14 +67,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "e9e6580de388445f823ac8edf59976ddf9929742b5395465d6814ce5501e3080"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "0b4bd775620ad9dedeeef9cbf2c89e4d3e01ebd7c5ffa3e1afc31396cb5833e1"
     },
     {
       "provider": "paddle",
@@ -1016,6 +1020,17 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Tab. Fexofenadine (120mg)\n0+0+1 (20)\nCap. Omeprazole [illegible]\n১+০+১ ([illegible])\nTab. Montelukast [illegible]",
+      "uncertain_spans": [
+        "Omeprazole strength and quantity",
+        "Montelukast strength and instruction"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

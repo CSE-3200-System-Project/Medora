@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0067",
   "source_sha256": "7780f98a5d1fd16093f9321b4d770ed5c48be679f77a427783912bf00965f82a",
-  "raw_transcription": "toto -\nTur ketotifen I may\n0+0+1 -- 26\nTab Doxyphylive 200mg.\n/ Menit Petroleum Jelly\nTak: Paracetamol 500 mg.",
+  "raw_transcription": "Rx\nTab. Levofloxacin 500 mg\n1+0+0 - 7 days\nTab. Montelukast [illegible]\n0+0+1 - 30 days\nTab. [illegible] 1 mg\n0+0+1 - 30 days\nTab. Omeprazole 20 mg\n1+0+1 - 30 days\nMenthol [illegible]\nTab. Paracetamol 500 mg\n1+1+1 - if fever/pain",
   "boxes": [],
   "medications": [
     {
@@ -67,14 +67,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "ff1340ae8062aafa4dc89e5b48c34f30a2eb2306d6e0e87ddc1172591de0d1ca"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "1f40b330235b08520bf30ada85a5256fe648bb111811e819e71acce681f2c0f9"
     },
     {
       "provider": "paddle",
@@ -1462,6 +1466,18 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. Levofloxacin 500 mg\n1+0+0 - 7 days\nTab. Montelukast [illegible]\n0+0+1 - 30 days\nTab. [illegible] 1 mg\n0+0+1 - 30 days\nTab. Omeprazole 20 mg\n1+0+1 - 30 days\nMenthol [illegible]\nTab. Paracetamol 500 mg\n1+1+1 - if fever/pain",
+      "uncertain_spans": [
+        "second tablet strength",
+        "third tablet name",
+        "Menthol instruction"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0059",
   "source_sha256": "c38021d76145877979121f64df279316c886e181f1271d3240b1d69a3f5f5e79",
-  "raw_transcription": "Rx\n.Tab. Furosemid + stinonolachine\n(2015m)\n2+40- 6AT\n· petroleum cully-\n· cap. magnaside (20g)\n+ tata - @ Pha",
+  "raw_transcription": "Rx\nTab. Furosemide + spironolactone 20/50\n[illegible] - 5\nPetroleum jelly - local application\nCap. Omeprazole 20 mg\n[illegible] - 10",
   "boxes": [],
   "medications": [
     {
@@ -57,14 +57,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "377706c934cea1e7e4b7dda1dbe8cf4fd7ec494b2bcc4a730056390e218a1e00"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "4f4b5b8503529831fffa09b6ea2fb7090365394d407ca44d53ed808ebc1883db"
     },
     {
       "provider": "paddle",
@@ -1910,6 +1914,17 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. Furosemide + spironolactone 20/50\n[illegible] - 5\nPetroleum jelly - local application\nCap. Omeprazole 20 mg\n[illegible] - 10",
+      "uncertain_spans": [
+        "dose schedules",
+        "whether 20/50 denotes mg strengths"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

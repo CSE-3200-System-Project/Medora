@@ -9,7 +9,7 @@
 Medora is an **AI-native, consent-aware, bilingual healthcare platform for Bangladesh** that fuses authenticated appointment booking, prescription OCR, telemedicine context, and safety-bounded AI assistance into one Next.js + FastAPI + dedicated AI/OCR microservice stack on Supabase.
 
 If asked "in one breath, what is Medora?":
-> "A production-grade, role-based PWA where patients, doctors, and admins share a single Bangla/English application surface. It does real-time appointment booking, YOLO + Azure-DI OCR of paper prescriptions, schema-validated multi-provider LLM orchestration, and consent-gated patient records — all behind explicit safety guardrails, with observability and CI performance budgets enforced."
+> "A research-software, role-based PWA where patients, doctors, and admins share a single Bangla/English application surface. It supports appointment booking, YOLO + Azure-DI OCR of paper prescriptions, schema-validated multi-provider LLM orchestration, and consent-gated patient records—with explicit safety boundaries, observability, and CI performance budgets. It is not clinically validated or production-ready."
 
 Three numbers to memorise: **194 backend endpoints**, **47 Alembic migrations**, **~10.5 s** (abstract) / **~3.5 s** (Chapter 4 measured) OCR end-to-end. If asked about the discrepancy: the abstract reports the conservative end-to-end including upload + queueing, Chapter 4 Table 4.2 reports the per-document model time inside the OCR microservice.
 
@@ -50,8 +50,8 @@ If a reviewer says *"isn't this just another telemedicine app?"* — answer with
 The novelty is **not** a new algorithm; it is the **composition** of well-known parts in a way the literature/market does not show:
 
 1. **Integrated platform**: structured patient history + real-time booking + Rx-document intelligence inside *one* consent-aware bilingual surface for Bangladesh.
-2. **Safety-bounded AI orchestration pathway**: every external model call is anonymised, schema-validated, confidence-routed, and the deterministic backend retains final authority over patient-facing decisions.
-3. **Production-grade deployment in an academic timeframe**: container orchestration (Azure Container Apps), observability dashboards (Grafana/Prometheus), and CI-enforced performance budgets — not a toy prototype.
+2. **Safety-bounded AI orchestration pathway**: hosted text calls use best-effort identifier redaction, schema validation, confidence routing, and deterministic backend authority over patient-facing decisions. Image and audio providers have separate consent boundaries.
+3. **Reproducible deployment artifact in an academic timeframe**: container orchestration (Azure Container Apps), observability dashboards (Grafana/Prometheus), and CI-enforced performance budgets. These do not establish clinical or production readiness.
 
 If asked *"what is genuinely new here?"* → quote those three. Don't claim a new model.
 
@@ -67,11 +67,11 @@ If asked *"what is genuinely new here?"* → quote those three. Don't claim a ne
 | Backend | FastAPI on Python 3.11 + Uvicorn, **194 endpoints across 26 route modules**, **19 service modules** | Async I/O for booking, structured DI for security/RBAC. |
 | Persistence | async SQLAlchemy 2 on **Supabase PostgreSQL**, **47 Alembic migrations**, RLS context | Single ORM, auditable schema evolution, row-level security primitives from Supabase. |
 | Realtime | Supabase Realtime channels for slot updates | Sub-second client-to-client slot propagation (~500 ms measured). |
-| AI orchestration | Provider-agnostic adapter for **Groq, Gemini, Cerebras**; Pydantic schema validation; PII anonymisation | Decouples vendor from contract; lets us fall back without changing UI. |
+| AI orchestration | Provider-agnostic adapter for **Groq, Gemini, Cerebras**; Pydantic schema validation; best-effort identifier redaction | Decouples vendor from contract; lets us fall back without changing UI while documenting residual disclosure risk. |
 | OCR microservice | **YOLO ONNX** region detector + **Azure Document Intelligence** (primary) + **PaddleOCR** (fallback) + **RapidFuzz** medicine matcher | Detector-plus-recognizer; not a single end-to-end model. |
 | Voice | `faster-whisper` STT + Vapi voice agent with backend webhook | Speech in BD context; tool-calls routed through Chorui. |
 | Notifications | VAPID web push via `pywebpush` | Browser-native push, no native-app store gate. |
-| Deploy | **Azure Container Apps**, **GitHub Actions** CI, **Grafana + Prometheus** observability | Production posture inside academic budget. |
+| Deploy | **Azure Container Apps**, **GitHub Actions** CI, **Grafana + Prometheus** observability | Reproducible research deployment and operational instrumentation inside an academic budget. |
 | Testing | Pytest + Locust + k6 + Playwright + Lighthouse CI + bundle-size budgets | Each layer measured the way it is actually used. |
 
 If asked "why not Django/Express/T3/etc." → because async FastAPI + Pydantic gives the schema-first contract the AI/OCR boundary needs, and async SQLAlchemy plays cleanly with Supabase's pgbouncer.
@@ -194,9 +194,9 @@ If asked open-endedly, structure the answer as:
 1. **Service decomposition** with explicit interface boundaries (frontend / backend / OCR / external AI).
 2. **Contract-first API design** (FastAPI routers, Pydantic schemas, server actions on the FE).
 3. **Asynchronous backend processing** (async SQLAlchemy, background workers for hold expiry + reminders).
-4. **Consent-first data flow** with PII anonymisation before any external AI call.
+4. **Consent-first data flow** with separate image, text, and audio boundaries plus best-effort identifier redaction for hosted text calls.
 5. **Empirical validation** at every layer (unit, integration, E2E, security, load, OCR accuracy, Lighthouse).
-6. **Production-grade ops** (Azure Container Apps, GitHub Actions, Grafana/Prometheus, performance budgets in CI).
+6. **Research operations** (Azure Container Apps, GitHub Actions, Grafana/Prometheus, performance budgets in CI), without a production-readiness claim.
 
 Six bullet points = the methodology. Anything else is a detail of one of those six.
 

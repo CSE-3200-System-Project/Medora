@@ -129,11 +129,7 @@ export default function PatientProfilePage() {
   const [loading, setLoading] = React.useState(true);
   const [loadError, setLoadError] = React.useState<string | null>(null);
 
-  React.useEffect(() => {
-    loadPatientProfile();
-  }, []);
-
-  const loadPatientProfile = async () => {
+  const loadPatientProfile = React.useCallback(async () => {
     setLoadError(null);
     setLoading(true);
     try {
@@ -174,7 +170,11 @@ export default function PatientProfilePage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [tCommon]);
+
+  React.useEffect(() => {
+    void loadPatientProfile();
+  }, [loadPatientProfile]);
 
   const calculateAge = (dob: string) => {
     if (!dob) return null;
@@ -584,7 +584,7 @@ export default function PatientProfilePage() {
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                 {/* Surgeries */}
-                <div className="p-4 bg-surface/50 dark:bg-muted/20 rounded-lg border border-border/50 hover:bg-surface/80 dark:hover:bg-muted/30 cursor-pointer transition-colors" onClick={() => router.push('/patient/medical-history')}>
+                <button type="button" className="min-h-11 w-full rounded-lg border border-border/50 bg-surface/50 p-4 text-left transition-colors hover:bg-surface/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 dark:bg-muted/20 dark:hover:bg-muted/30" onClick={() => router.push('/patient/medical-history')}>
                   <div className="flex items-center gap-2 mb-2">
                     <Hospital className="h-4 w-4 text-primary" />
                     <p className="font-medium text-sm">{tCommon("patientProfile.sections.surgeries")}</p>
@@ -601,9 +601,9 @@ export default function PatientProfilePage() {
                   ) : (
                     <p className="text-xs text-muted-foreground">{tCommon("patientProfile.empty.noSurgeries")}</p>
                   )}
-                </div>
+                </button>
                 {/* Hospitalizations */}
-                <div className="p-4 bg-surface/50 dark:bg-muted/20 rounded-lg border border-border/50 hover:bg-surface/80 dark:hover:bg-muted/30 cursor-pointer transition-colors" onClick={() => router.push('/patient/medical-history')}>
+                <button type="button" className="min-h-11 w-full rounded-lg border border-border/50 bg-surface/50 p-4 text-left transition-colors hover:bg-surface/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 dark:bg-muted/20 dark:hover:bg-muted/30" onClick={() => router.push('/patient/medical-history')}>
                   <div className="flex items-center gap-2 mb-2">
                     <Hospital className="h-4 w-4 text-primary" />
                     <p className="font-medium text-sm">{tCommon("patientProfile.sections.hospitalizations")}</p>
@@ -620,9 +620,9 @@ export default function PatientProfilePage() {
                   ) : (
                     <p className="text-xs text-muted-foreground">{tCommon("patientProfile.empty.noHospitalizations")}</p>
                   )}
-                </div>
+                </button>
                 {/* Recent Visits */}
-                <div className="p-4 bg-surface/50 dark:bg-muted/20 rounded-lg border border-border/50 hover:bg-surface/80 dark:hover:bg-muted/30 cursor-pointer transition-colors" onClick={() => router.push('/patient/appointments')}>
+                <button type="button" className="min-h-11 w-full rounded-lg border border-border/50 bg-surface/50 p-4 text-left transition-colors hover:bg-surface/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 dark:bg-muted/20 dark:hover:bg-muted/30" onClick={() => router.push('/patient/appointments')}>
                   <div className="flex items-center gap-2 mb-2">
                     <Calendar className="h-4 w-4 text-primary" />
                     <p className="font-medium text-sm">{tCommon("patientProfile.sections.recentVisits")}</p>
@@ -641,23 +641,23 @@ export default function PatientProfilePage() {
                   ) : (
                     <p className="text-xs text-muted-foreground">{tCommon("patientProfile.empty.noVisits")}</p>
                   )}
-                </div>
+                </button>
                 {/* Prescriptions */}
-                <div className="p-4 bg-blue-50/50 dark:bg-blue-900/15 rounded-lg border border-blue-200/50 dark:border-blue-800/50 hover:bg-blue-100/50 dark:hover:bg-blue-900/25 cursor-pointer transition-colors" onClick={() => router.push('/patient/prescriptions')}>
+                <button type="button" className="min-h-11 w-full rounded-lg border border-blue-200/50 bg-blue-50/50 p-4 text-left transition-colors hover:bg-blue-100/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 dark:border-blue-800/50 dark:bg-blue-900/15 dark:hover:bg-blue-900/25" onClick={() => router.push('/patient/prescriptions')}>
                   <div className="flex items-center gap-2 mb-2">
                     <Pill className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                     <p className="font-medium text-sm text-blue-900 dark:text-blue-300">{tCommon("patientProfile.cards.prescriptions.title")}</p>
                   </div>
                   <p className="text-xs text-blue-700 dark:text-blue-400">{tCommon("patientProfile.cards.prescriptions.quickAction")}</p>
-                </div>
+                </button>
                 {/* Reminders */}
-                <div className="p-4 bg-amber-50/50 dark:bg-amber-900/15 rounded-lg border border-amber-200/50 dark:border-amber-800/50 hover:bg-amber-100/50 dark:hover:bg-amber-900/25 cursor-pointer transition-colors" onClick={() => router.push('/patient/reminders')}>
+                <button type="button" className="min-h-11 w-full rounded-lg border border-amber-200/50 bg-amber-50/50 p-4 text-left transition-colors hover:bg-amber-100/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-600 focus-visible:ring-offset-2 dark:border-amber-800/50 dark:bg-amber-900/15 dark:hover:bg-amber-900/25" onClick={() => router.push('/patient/reminders')}>
                   <div className="flex items-center gap-2 mb-2">
                     <Bell className="h-4 w-4 text-amber-600 dark:text-amber-400" />
                     <p className="font-medium text-sm text-amber-900 dark:text-amber-300">{tCommon("patientProfile.cards.reminders.title")}</p>
                   </div>
                   <p className="text-xs text-amber-700 dark:text-amber-400">{tCommon("patientProfile.cards.reminders.quickAction")}</p>
-                </div>
+                </button>
               </div>
             </CardContent>
           </Card>

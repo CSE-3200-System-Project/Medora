@@ -12,7 +12,7 @@ import { User, Mail, Phone, Ban, Unlock, UserCog } from "lucide-react";
 import { ConfirmationDialog } from "@/components/ui/confirmation-dialog";
 import { banUser, unbanUser } from "@/lib/admin-actions";
 
-type UserRecord = {
+export type UserRecord = {
   id: string;
   name: string;
   email: string;

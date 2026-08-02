@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0105",
   "source_sha256": "f0ef1919ebad9d5007a95a09c3fb02c8f733b986aa1e354fd309a225ae395e31",
-  "raw_transcription": "Date\nRx\n- Db. Naproxen (500mg)-20\nร้องกิจ)\n- Cap. fratid (como)-",
+  "raw_transcription": "Rx\nTab. Naproxen 500 mg\n1+0+1 (after meal) - 20\nCap. Omeprazole 20 mg\n1+0+1 (before meal) - 20",
   "boxes": [],
   "medications": [
     {
@@ -47,14 +47,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "cf298431d3c2e95ecf7c288bd53caf72c820c5abdcc46d697878206873f21fc4"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "c4a4fc6af6026bb87a813e5ae591eb50b75b7de5ab07a0dc6ab5ffe877cb9fce"
     },
     {
       "provider": "paddle",
@@ -2033,6 +2037,17 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\nTab. Naproxen 500 mg\n1+0+1 (after meal) - 20\nCap. Omeprazole 20 mg\n1+0+1 (before meal) - 20",
+      "uncertain_spans": [
+        "dose schedules",
+        "product spellings"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {

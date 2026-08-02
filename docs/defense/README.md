@@ -45,5 +45,5 @@ q_out = P( S( F(x, Π_u) ) )                     — outbound AI payload after c
 ## Three sentences to memorise
 
 1. **What is Medora?** "An AI-native, consent-aware, bilingual healthcare platform for Bangladesh that fuses authenticated appointment booking, prescription OCR, telemedicine context, and safety-bounded AI assistance into one Next.js + FastAPI + dedicated AI/OCR microservice stack on Supabase."
-2. **What's novel?** "The composition: integrated bilingual platform, safety-bounded AI orchestration pathway, and production-grade deployment within an academic timeframe — none of which we observed in the surveyed literature or BD market."
+2. **What's novel?** "The composition: an integrated bilingual research platform, a safety-bounded AI orchestration pathway, and a reproducible containerized artifact within an academic timeframe—none of which we observed in the surveyed literature or Bangladesh market. This is not a claim of clinical or production validation."
 3. **What did we measure?** "Every metric in Table 4.2 passes with 25–50% margin; OCR exceeds documented thresholds at 92% medicine and 89% dosage accuracy; critical end-to-end and security suites pass at 100%, load tests stay under 0.5% error."

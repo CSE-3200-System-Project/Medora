@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "record_id": "RX-0061",
   "source_sha256": "b4b734b5da2d9930db7d64e51fbcf0d25f3faee75906715c38c1e5e089c8a126",
-  "raw_transcription": "3 21 max /500 (5)\n01043\n3 Acuplus\n2 Alatrol\n18.5.24",
+  "raw_transcription": "Rx\n1. [illegible] 500 [illegible] - 5\n[illegible]\n2. [illegible] - 10\n[illegible]\n3. [illegible] - 10\n[illegible]\n4. [illegible] - 10\n[illegible]",
   "boxes": [],
   "medications": [
     {
@@ -47,14 +47,18 @@
   },
   "flags": {
     "uncertain": true,
-    "illegible": false
+    "illegible": true
   },
   "omissions": "",
-  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "reviewer_notes": "Assisted draft; every value requires human verification. GPT vision-assisted Rx-only transcription imported; every character and structured medication field still requires human verification.",
   "assisted_from": [
     {
       "provider": "azure",
       "cache_sha256": "d1342358ceb5e79d649a09fe7930fa36ae8890d1ef3e6b3901a61f18ff933e21"
+    },
+    {
+      "provider": "gpt-5.6-codex-vision",
+      "draft_sha256": "7268bd989d7dbbd6860533f303434c04eb022785e0f1ddb51b8053201d57b3be"
     },
     {
       "provider": "paddle",
@@ -1822,6 +1826,16 @@
         "medicine_candidates_loaded": 0
       },
       "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    },
+    "gpt_vision": {
+      "model": "gpt-5.6-codex-vision",
+      "scope": "rx_section_only",
+      "review_state": "ai_assisted_unreviewed",
+      "raw_text": "Rx\n1. [illegible] 500 [illegible] - 5\n[illegible]\n2. [illegible] - 10\n[illegible]\n3. [illegible] - 10\n[illegible]\n4. [illegible] - 10\n[illegible]",
+      "uncertain_spans": [
+        "low-resolution image; medication names and schedules are illegible"
+      ],
+      "transcribed_at": "2026-08-02"
     }
   },
   "adjudication": {
