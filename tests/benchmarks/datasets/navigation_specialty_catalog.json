@@ -1,0 +1,30 @@
+{
+  "available_specialties": [
+    "Cardiologist",
+    "Dermatologist",
+    "Gastroenterologist",
+    "General Physician",
+    "Gynecologists",
+    "Internal Medicine",
+    "Neurologist",
+    "Orthopedist",
+    "Pediatrician",
+    "Psychiatrist",
+    "Dentist",
+    "ENT Specialist"
+  ],
+  "specialties_with_doctors": [
+    "Cardiologist",
+    "Dermatologist",
+    "Gastroenterologist",
+    "General Physician",
+    "Gynecologists",
+    "Internal Medicine",
+    "Neurologist",
+    "Orthopedist",
+    "Pediatrician",
+    "Psychiatrist",
+    "Dentist",
+    "ENT Specialist"
+  ]
+}

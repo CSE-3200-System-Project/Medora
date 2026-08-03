@@ -7,7 +7,7 @@ import re
 from fastapi import APIRouter, Depends, HTTPException, Header, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, or_, desc
-from typing import List, Optional, Tuple
+from typing import Iterable, List, Optional, Tuple
 from datetime import date
 from types import SimpleNamespace
 
@@ -66,6 +66,133 @@ EMERGENCY_PATTERNS = (
 def detect_emergency_red_flags(text: str) -> bool:
     normalized = str(text or "").strip()
     return any(pattern.search(normalized) for pattern in EMERGENCY_PATTERNS)
+
+
+EMERGENCY_SAFETY_MESSAGE = (
+    "This navigation search cannot assess an emergency. Call Bangladesh emergency service 999 "
+    "or go to the nearest emergency department now."
+)
+
+
+def classify_navigation_outcome(
+    *,
+    user_text: str,
+    intent: dict | None,
+    available_specialties: list[str],
+    specialties_with_doctors: Iterable[str],
+) -> dict:
+    """Decide the navigation outcome for one utterance, with no I/O.
+
+    This is the whole decision surface of ``ai_doctor_search``: the deterministic
+    emergency rules, the provider-unavailable fallback, and the three-tier specialty
+    match. It is pure so the safety benchmark can score the real rules instead of a
+    reimplementation of them. ``intent=None`` means the provider failed or returned
+    nothing usable.
+
+    This never assigns urgency, severity, or a triage level, and manual browsing
+    always stays available.
+    """
+    if detect_emergency_red_flags(user_text):
+        return {
+            "outcome": "emergency",
+            "requires_immediate_care": True,
+            "uncertain": True,
+            "manual_browse_available": True,
+            "ambiguity": "high",
+            "safety_message": EMERGENCY_SAFETY_MESSAGE,
+            "medical_intent": {"navigation_bypassed": "emergency_red_flag"},
+            "candidate_source": "none",
+            "matched_specialties": [],
+            "primary_specialties": [],
+            "secondary_specialties": [],
+            "extracted_specialties": [],
+            "fallback_reason": None,
+        }
+
+    if intent is None:
+        return {
+            "outcome": "provider_unavailable",
+            "requires_immediate_care": False,
+            "uncertain": True,
+            "manual_browse_available": True,
+            "ambiguity": "high",
+            "safety_message": None,
+            "medical_intent": {"error": "llm_unavailable", "fallback": "manual_search"},
+            "candidate_source": "none",
+            "matched_specialties": [],
+            "primary_specialties": [],
+            "secondary_specialties": [],
+            "extracted_specialties": [],
+            "fallback_reason": None,
+        }
+
+    specialties_with_doctors = list(specialties_with_doctors)
+    symptoms = [item.get("name", "") for item in intent.get("symptoms", [])]
+
+    # Tier 1: provider-proposed specialties, filtered by confidence and catalog match.
+    matched_specialties = match_specialties_from_llm_response(
+        intent.get("specialties", []),
+        available_specialties,
+        min_confidence=0.3,
+    )
+    primary_specialties = [name for name, _confidence in matched_specialties]
+    candidate_source = "matched" if primary_specialties else "none"
+
+    # Tier 2: symptom-derived related specialties.
+    if not primary_specialties:
+        related = get_related_specialties(symptoms, max_results=3)
+        primary_specialties = [item for item in related if item in specialties_with_doctors]
+        if primary_specialties:
+            candidate_source = "symptom_fallback"
+
+    # Tier 3: fallback chain so the patient always gets somewhere to go.
+    final_specialties, secondary_specialties = get_fallback_chain(
+        primary_specialties=primary_specialties,
+        available_specialties=specialties_with_doctors,
+        min_count=2,
+    )
+    extracted_specialties = final_specialties + secondary_specialties
+    if candidate_source == "none" and extracted_specialties:
+        candidate_source = "universal_fallback"
+
+    fallback_reason = None
+    if secondary_specialties:
+        if "General Physician" in secondary_specialties:
+            fallback_reason = "General Physicians included for comprehensive consultation"
+        elif "Internal Medicine" in secondary_specialties:
+            fallback_reason = "Internal Medicine added for diagnostic evaluation"
+        else:
+            fallback_reason = "Additional specialties included to ensure availability"
+
+    ambiguity = intent.get("ambiguity", "low")
+    public_intent = {
+        key: value
+        for key, value in intent.items()
+        if key not in {"severity", "urgency", "triage", "triage_priority"}
+    }
+    return {
+        "outcome": "navigation",
+        "requires_immediate_care": False,
+        "uncertain": ambiguity != "low",
+        "manual_browse_available": True,
+        "ambiguity": ambiguity,
+        "safety_message": None,
+        "medical_intent": {
+            **public_intent,
+            "matched_specialties": matched_specialties,
+            "primary_specialties": final_specialties,
+            "secondary_specialties": secondary_specialties,
+            "extracted_specialty_names": extracted_specialties,
+            "total_specialties_matched": len(extracted_specialties),
+            "fallback_reason": fallback_reason,
+        },
+        "candidate_source": candidate_source,
+        "matched_specialties": matched_specialties,
+        "primary_specialties": final_specialties,
+        "secondary_specialties": secondary_specialties,
+        "extracted_specialties": extracted_specialties,
+        "fallback_reason": fallback_reason,
+    }
 
 
 def _normalize_secret(value: str | None) -> str | None:
@@ -464,19 +591,22 @@ async def ai_doctor_search(
             actor_id = str(user.id)
             patient_context_text, patient_context_factors = await get_patient_history_context(db, user.id)
 
-    if detect_emergency_red_flags(request.user_text):
+    emergency_outcome = classify_navigation_outcome(
+        user_text=request.user_text,
+        intent=None,
+        available_specialties=[],
+        specialties_with_doctors=[],
+    )
+    if emergency_outcome["outcome"] == "emergency":
         return AIDoctorSearchResponse(
             doctors=[],
-            ambiguity="high",
-            medical_intent={"navigation_bypassed": "emergency_red_flag"},
+            ambiguity=emergency_outcome["ambiguity"],
+            medical_intent=emergency_outcome["medical_intent"],
             patient_context_factors=None,
-            requires_immediate_care=True,
-            safety_message=(
-                "This navigation search cannot assess an emergency. Call Bangladesh emergency service 999 "
-                "or go to the nearest emergency department now."
-            ),
-            uncertain=True,
-            manual_browse_available=True,
+            requires_immediate_care=emergency_outcome["requires_immediate_care"],
+            safety_message=emergency_outcome["safety_message"],
+            uncertain=emergency_outcome["uncertain"],
+            manual_browse_available=emergency_outcome["manual_browse_available"],
         )
 
     if actor_id is None:
@@ -550,53 +680,36 @@ RULES:
         )
     except AIOrchestratorError as e:
         logger.warning("LLM error in AI search: %s", e)
-        public_error = "llm_unavailable"
+        unavailable = classify_navigation_outcome(
+            user_text=request.user_text,
+            intent=None,
+            available_specialties=available_specialties,
+            specialties_with_doctors=[],
+        )
         return AIDoctorSearchResponse(
-            doctors=[], 
-            ambiguity="high", 
-            medical_intent={"error": public_error, "fallback": "manual_search"},
+            doctors=[],
+            ambiguity=unavailable["ambiguity"],
+            medical_intent=unavailable["medical_intent"],
             patient_context_factors=patient_context_factors if patient_context_factors else None,
-            uncertain=True,
-            manual_browse_available=True,
+            uncertain=unavailable["uncertain"],
+            manual_browse_available=unavailable["manual_browse_available"],
         )
 
     # 4. Get specialties that have actual doctors available
     available_specialties_with_doctors = await get_available_specialties_with_doctors(db)
-    
-    # 5. Multi-Tier Specialty Matching (Enhanced Medical Knowledge)
-    symptoms = [s.get('name', '') for s in llm_response.get("symptoms", [])]
-    
-    # Tier 1: LLM-extracted specialties
-    matched_specialties = match_specialties_from_llm_response(
-        llm_response.get("specialties", []),
-        available_specialties,
-        min_confidence=0.3
+
+    # 5. Multi-tier specialty matching, shared with the safety benchmark.
+    outcome = classify_navigation_outcome(
+        user_text=request.user_text,
+        intent=llm_response,
+        available_specialties=available_specialties,
+        specialties_with_doctors=available_specialties_with_doctors,
     )
-    primary_specialties = [name for name, confidence in matched_specialties]
-    
-    # Tier 2: Symptom-based related specialties
-    if not primary_specialties:
-        related = get_related_specialties(symptoms, max_results=3)
-        primary_specialties = [s for s in related if s in available_specialties_with_doctors]
-    
-    # Tier 3: Build fallback chain with GP/Internal Medicine
-    final_specialties, secondary_specialties = get_fallback_chain(
-        primary_specialties=primary_specialties,
-        available_specialties=available_specialties_with_doctors,
-        min_count=2  # Always return at least 2 specialties
-    )
-    
-    # Combine for query (but track which are primary vs secondary)
-    extracted_specialties = final_specialties + secondary_specialties
-    
-    fallback_reason = None
-    if secondary_specialties:
-        if "General Physician" in secondary_specialties:
-            fallback_reason = "General Physicians included for comprehensive consultation"
-        elif "Internal Medicine" in secondary_specialties:
-            fallback_reason = "Internal Medicine added for diagnostic evaluation"
-        else:
-            fallback_reason = "Additional specialties included to ensure availability"
+    matched_specialties = outcome["matched_specialties"]
+    final_specialties = outcome["primary_specialties"]
+    secondary_specialties = outcome["secondary_specialties"]
+    extracted_specialties = outcome["extracted_specialties"]
+    fallback_reason = outcome["fallback_reason"]
 
     # 5. Query Database (PRD Section 7.1)
     stmt = select(DoctorProfile, Profile, Speciality).join(
@@ -722,26 +835,13 @@ RULES:
     # Sort by score (highest first)
     scored_doctors.sort(key=lambda x: x.score, reverse=True)
 
-    public_intent = {
-        key: value
-        for key, value in llm_response.items()
-        if key not in {"severity", "urgency", "triage", "triage_priority"}
-    }
     return AIDoctorSearchResponse(
         doctors=scored_doctors[:10],  # Top 10 results
-        ambiguity=llm_response.get("ambiguity", "low"),
-        medical_intent={
-            **public_intent,
-            "matched_specialties": matched_specialties,
-            "primary_specialties": final_specialties,
-            "secondary_specialties": secondary_specialties,
-            "extracted_specialty_names": extracted_specialties,
-            "total_specialties_matched": len(extracted_specialties),
-            "fallback_reason": fallback_reason
-        },
+        ambiguity=outcome["ambiguity"],
+        medical_intent=outcome["medical_intent"],
         patient_context_factors=patient_context_factors if patient_context_factors else None,
-        uncertain=llm_response.get("ambiguity", "low") != "low",
-        manual_browse_available=True,
+        uncertain=outcome["uncertain"],
+        manual_browse_available=outcome["manual_browse_available"],
     )
 
 

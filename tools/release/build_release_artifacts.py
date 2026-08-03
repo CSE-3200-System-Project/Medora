@@ -62,12 +62,58 @@ def render_safety_summary(report: dict) -> str:
     pii, nav, summary = report["privacy"], report["navigation"], report["summaries"]
     return "\n".join([
         r"\begin{table}[!h]", r"\centering\small", r"\begin{tabular}{@{}lrrl@{}}", r"\toprule",
-        r"Suite & Cases & Passed & Review state \\", r"\midrule",
+        r"Suite & Cases & No undisclosed failure & Review state \\", r"\midrule",
         f"Bilingual privacy & {pii['cases']} & {pii['passed']} & synthetic \\\\",
         f"Symptom navigation & {nav['cases']} & {nav['passed']} & {tex_escape(nav['review_state'])} \\\\",
         f"Source-grounded summaries & {summary['cases']} & {summary['passed']} & fixtures \\\\",
-        r"\bottomrule", r"\end{tabular}", r"\caption{Safety fixture results. Clinician review state is reported explicitly.}", r"\label{tab:safety-results}", r"\end{table}",
+        r"\bottomrule", r"\end{tabular}",
+        r"\caption{Safety fixture results. A case passes when it exposes no \emph{undisclosed} "
+        r"failure; measured detection rates are reported separately in Table~\ref{tab:privacy-span-results}. "
+        r"Clinician review state is reported explicitly.}",
+        r"\label{tab:safety-results}", r"\end{table}",
     ]) + "\n"
+
+
+def render_navigation(report: dict) -> str:
+    nav = report["navigation"]
+    rows: dict[str, dict[str, int]] = {}
+    for item in nav["raw"]:
+        bucket = rows.setdefault(
+            item["expected"], {"cases": 0, "recorded": 0, "mock": 0, "documented": 0}
+        )
+        bucket["cases"] += 1
+        bucket["recorded"] += bool(item["matched_expected"])
+        bucket["mock"] += item["mock_candidate_source"] == item["expected_candidate_source"]
+        bucket["documented"] += bool(item["limitation_class"])
+
+    lines = [
+        r"\begin{table}[!h]",
+        r"\centering\small",
+        r"\begin{tabular}{@{}lrrrr@{}}",
+        r"\toprule",
+        r"Expected class & Cases & Recorded & Mock & Documented \\",
+        r"\midrule",
+    ]
+    for label, bucket in sorted(rows.items()):
+        lines.append(
+            f"{tex_escape(label)} & {bucket['cases']} & {bucket['recorded']} & "
+            f"{bucket['mock']} & {bucket['documented']}" + r" \\"
+        )
+    lines.extend([
+        r"\midrule",
+        f"Emergency false positives & {nav['emergency_false_positives']} & -- & -- & --" + r" \\",
+        f"Emergency false negatives & {nav['emergency_false_negatives']} & -- & -- & --" + r" \\",
+        r"\bottomrule",
+        r"\end{tabular}",
+        r"\caption{Symptom-navigation fixtures. \emph{Recorded} and \emph{Mock} count agreement "
+        r"with the labelled class when the classifier is driven by a recorded provider intent and "
+        r"by the deterministic mock provider respectively; they are measurements, not pass/fail. "
+        r"\emph{Documented} counts cases carrying a written limitation. Emergency false positives "
+        r"are keyword matches on negated, third-person, or historical mentions.}",
+        r"\label{tab:navigation-results}",
+        r"\end{table}",
+    ])
+    return "\n".join(lines) + "\n"
 
 
 def render_safety(report: dict) -> str:
@@ -78,27 +124,34 @@ def render_safety(report: dict) -> str:
 
     lines = [
         render_safety_summary(report).rstrip(),
+        render_navigation(report).rstrip(),
         r"\begin{table*}[!ht]",
         r"\centering\scriptsize",
         r"\begin{tabular}{@{}lrrrrr@{}}",
         r"\toprule",
-        r"Privacy category & Cases & Precision & Recall & False redaction & Residual known ID \\",
+        r"Identifier group & Cases & Precision & Recall & False redaction & Documented limitations \\",
         r"\midrule",
     ]
-    for category, metrics in pii["by_category"].items():
+    for group, metrics in pii["by_report_group"].items():
         lines.append(
-            f"{tex_escape(category)} & {metrics['cases']} & {percent(metrics['precision'])} & "
+            f"{tex_escape(group)} & {metrics['cases']} & {percent(metrics['precision'])} & "
             f"{percent(metrics['recall'])} & {percent(metrics['false_redaction_rate'])} & "
-            f"{percent(metrics['residual_known_identifier_rate'])}" + r" \\"
+            f"{metrics['documented_limitations']}" + r" \\"
         )
     lines.extend([
         r"\midrule",
-        f"All span-annotated cases & {pii['cases']} & {percent(pii['precision'])} & "
+        f"All production-path cases & {pii['cases']} & {percent(pii['precision'])} & "
         f"{percent(pii['recall'])} & {percent(pii['false_redaction_rate'])} & "
-        f"{percent(pii['residual_known_identifier_rate'])}" + r" \\",
+        f"{pii['documented_limitations']}" + r" \\",
         r"\bottomrule",
         r"\end{tabular}",
-        r"\caption{Span-level privacy metrics. A dash means the category has no annotated positive or benign span for that denominator. Unknown and indirect identifiers remain an explicit limitation.}",
+        r"\caption{Span-level privacy metrics measured on the production call path, which supplies "
+        r"no known identifiers to the redactor. A dash means the group annotates no span for that "
+        r"denominator. Recall below 100\% reflects identifier forms the redactor does not claim to "
+        r"detect, chiefly unlabelled personal names, clinician details in prose, month-name dates, "
+        r"and obfuscated contact formats; every such case is enumerated with a written limitation "
+        r"in the archived results file. Undisclosed failures are zero by construction of the "
+        r"release gate.}",
         r"\label{tab:privacy-span-results}",
         r"\end{table*}",
     ])

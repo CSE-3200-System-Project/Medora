@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
-  "generated_at_utc": "2026-08-02T01:05:26.702028+00:00",
-  "git_head": "238e0abaae58ec01883731c594c3d32df2320356",
+  "generated_at_utc": "2026-08-03T02:03:27.814695+00:00",
+  "git_head": "a3f3162f9167d72234888bbd916845b61d6d7201",
   "worktree_dirty": true,
   "scope": "pre-Zenodo evidence; not a final release verification receipt",
   "counts": {
@@ -15,14 +15,14 @@
       "gate": "Backend unit tests",
       "status": "passed",
       "evidence": "tests/benchmarks/reports/current/backend_unit_final.out.log",
-      "evidence_sha256": "08d54520efc39d81e272d8dc10b7c1ac172fac12c1e178635eb5bf9f10384856",
+      "evidence_sha256": "b6332c80ad202dfaf247d9927075146631f5fd43814825455bc1c2d9d079bf89",
       "note": "Focused backend unit suite."
     },
     {
       "gate": "Backend smoke tests",
       "status": "passed",
       "evidence": "tests/benchmarks/reports/current/backend_smoke_final.out.log",
-      "evidence_sha256": "7c804f6f565c7c0186bd7295e6c6fc59a417a8ceb9456e717fb85c2d012b6ef6",
+      "evidence_sha256": "2d182e5feb724de8fd189efb490c0fa05f8af8d18b3c915e72768b8db14e2084",
       "note": "Backend application smoke suite."
     },
     {
@@ -36,7 +36,7 @@
       "gate": "AI-service unit tests",
       "status": "passed",
       "evidence": "tests/benchmarks/reports/current/ai_unit_final.out.log",
-      "evidence_sha256": "c36816df3046b5ffe519d28a41493c94a78bee269da03f9cd261da4d3a9a1188",
+      "evidence_sha256": "b5b60b6c3117e0d760ebfefac4b53e14959db1673c891fd00a4394bd7e213992",
       "note": "Local OCR, annotation blinding, parser, provider-separation, grouped corpus-freeze, and AI-service tests."
     },
     {
@@ -71,7 +71,7 @@
       "gate": "Manuscript compilation",
       "status": "passed",
       "evidence": "tests/benchmarks/reports/current/latex_pass2_final.log",
-      "evidence_sha256": "201ddf15aebbab65414b1cffd6bc4423d70c4c8294762c3e4bf74086e4d296c1",
+      "evidence_sha256": "3a1013e3221de79f1ad20a2620ff7611285a801ff275e6564dbdb62fe0b46ad0",
       "note": "Final LaTeX pass completed with zero overfull boxes and zero undefined references/citations."
     },
     {
@@ -113,7 +113,7 @@
       "gate": "Deterministic safety fixtures",
       "status": "passed",
       "evidence": "tests/benchmarks/reports/current/safety_results.json",
-      "evidence_sha256": "9fbbbab64a28b9f592a4079169fc408e9f0bd5da8586dee598b4c598fc68871d",
+      "evidence_sha256": "822a0b3ff165cfaeeeadbc6e5e443cb9323ff8600dd313cd3120c3de99cbb505",
       "note": "Privacy, navigation behavior, and source-grounded summary fixtures; licensed navigation review is a separate gate."
     },
     {
@@ -127,7 +127,7 @@
       "gate": "Licensed symptom-navigation review",
       "status": "blocked",
       "evidence": "tests/benchmarks/reports/current/safety_results.json",
-      "evidence_sha256": "9fbbbab64a28b9f592a4079169fc408e9f0bd5da8586dee598b4c598fc68871d",
+      "evidence_sha256": "822a0b3ff165cfaeeeadbc6e5e443cb9323ff8600dd313cd3120c3de99cbb505",
       "note": "required"
     },
     {
@@ -148,7 +148,7 @@
       "gate": "Verified funding statement",
       "status": "blocked",
       "evidence": "docs/softwarex/medora_softwarex.tex",
-      "evidence_sha256": "9687c323c7ad44391d52a9f4dd0c8bf0d31bfad8d8553958a97fd587e4be552a",
+      "evidence_sha256": "65270afe0dec141fd919da9225d6bbb0e1c1257536ace0acab781feb0bf6f718",
       "note": "An author must provide the verified funder and grant number or confirm that the work received no external funding."
     },
     {
