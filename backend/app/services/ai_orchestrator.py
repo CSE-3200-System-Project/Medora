@@ -255,7 +255,32 @@ class AIOrchestrator:
                 "Avoid diagnosis certainty. Mention missing critical context."
             ),
         )
-        sources = source_refs or [{"source_type": "request_context", "source_id": "provided_context"}]
+        if not source_refs:
+            # No source record was supplied, so there is nothing to ground a summary in.
+            # Synthesising a "provided_context" source here would present model prose as
+            # record-backed, which is the gap-filling the grounding contract forbids.
+            # GroundedSummaryItem.sources requires at least one entry, so emit an
+            # unmistakable sentinel and discard the model's text.
+            result.validated_output["items"] = [
+                {
+                    "text": "not found in the record",
+                    "sources": [
+                        {
+                            "source_type": "no_source_record",
+                            "source_id": "none",
+                            "source_timestamp": None,
+                        }
+                    ],
+                    "status": "missing",
+                    "conflict_group": None,
+                }
+            ]
+            result.validated_output["clinician_verification_required"] = True
+            result.validated_output["writeback_allowed"] = False
+            result.raw_output = dict(result.validated_output)
+            return result if include_meta else result.validated_output
+
+        sources = source_refs
         if not result.validated_output.get("items"):
             findings = result.validated_output.get("key_findings") or [result.validated_output.get("summary", "")]
             result.validated_output["items"] = [

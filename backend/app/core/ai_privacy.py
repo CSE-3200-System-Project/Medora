@@ -25,11 +25,27 @@ ACCOUNT_ID_PATTERN = re.compile(
 DATE_PATTERN = re.compile(
     r"(?<!\d)(?:\d{4}[-/]\d{1,2}[-/]\d{1,2}|\d{1,2}[-/.]\d{1,2}[-/.]\d{2,4}|[০-৯]{1,2}[-/.][০-৯]{1,2}[-/.][০-৯]{2,4})(?!\d)"
 )
+# `\b` is unreliable for Bengali labels: `ঠিকানা` ends in U+09BE (vowel sign AA),
+# which is not a word character, so a trailing `\b` can never match after it.
+# Lookarounds give the same "not glued to another word" guarantee in both scripts.
 LABELED_NAME_PATTERN = re.compile(
-    r"(?i)(?P<label>\b(?:patient\s+name|doctor\s+name|name|নাম|রোগীর\s+নাম|ডাক্তারের\s+নাম)\b\s*[:=])\s*[^\n,;]{2,80}"
+    r"(?i)(?P<label>(?<!\w)(?:patient\s+name|doctor\s+name|রোগীর\s+নাম|ডাক্তারের\s+নাম|name|নাম)(?!\w)\s*[:=])"
+    # A labelled value is bounded to at most three tokens. The previous 80-character
+    # run swallowed the clinical remainder of the line (e.g. "Patient name: X has
+    # fever and needs review"), which is a data-loss defect, not a privacy control.
+    # `।` (Bengali danda) and `॥` terminate a Bengali sentence exactly as `.` does in
+    # Latin script. Omitting them let the value run into the following clinical text,
+    # and made redaction non-idempotent: each pass consumed one more word.
+    # Refuse to start on an existing placeholder, otherwise a second pass consumes
+    # `[redacted-name]` plus the next two clinical words, and redaction is not idempotent.
+    r"\s*(?!\[redacted-)(?:[^\s\n,;.।॥]+(?:[ \t]+[^\s\n,;.।॥]+){0,2})"
 )
 LABELED_ADDRESS_PATTERN = re.compile(
-    r"(?i)(?P<label>\b(?:address|ঠিকানা)\b\s*[:=])\s*[^\n;]{4,160}"
+    r"(?i)(?P<label>(?<!\w)(?:address|ঠিকানা)(?!\w)\s*[:=])"
+    # Stop at a sentence boundary (period followed by a capital or Bengali letter)
+    # so trailing clinical prose survives, while "Apt. 3B"-style internal periods do not
+    # truncate the address itself.
+    r"\s*(?!\[redacted-)(?:[^\n;.।॥]|\.(?!\s+[A-Zঀ-৿])){4,160}"
 )
 
 

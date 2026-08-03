@@ -69,6 +69,36 @@ request carries an idempotency key. The harness checks one committed appointment
 no duplicate row, stable replay, rollback/retry behavior, and outbox delivery after
 commit. Transaction and notification-propagation latency are reported separately.
 
+## Safety fixtures
+
+```bash
+python tests/benchmarks/generate_safety_datasets.py
+python tests/benchmarks/review_navigation_cases.py --check
+python tests/benchmarks/run_safety_benchmarks.py --allow-unreviewed \
+    --output tests/benchmarks/reports/current/safety_results.json
+```
+
+Regenerate before review, not after: the navigation writer carries an existing
+clinician review forward only when the reviewed case is unchanged on every field that
+could alter its meaning, and resets it otherwise.
+
+The benchmark forces `AI_PROVIDER=mock` and refuses to run if the resolved provider is
+anything else, so no fixture reaches a paid provider and no live output is pooled with
+deterministic output.
+
+Results are two-tier. `passed` is a hard assertion and is false only for an
+*undisclosed* failure; it drives the exit code and the release gate. `matched_expected`
+is the measurement and gates nothing. Measured privacy precision and recall are below
+100% by design — the corpus deliberately includes identifier forms the redactor does
+not claim to detect — and each such case carries a written `limitation_note` that is
+published with the results. A case flagged as a limitation that starts passing is
+reported as `stale_limitation` and fails the unit suite so the disclosure is retired
+rather than left in the paper.
+
+`--allow-unreviewed` still records `review_state: "required"` and `passed: false`. The
+release run omits the flag and exits 2 until a licensed reviewer signs off every
+navigation fixture.
+
 ## Final release gate
 
 Run `python tools/release/check_softwarex_release.py`. It fails for an unfrozen

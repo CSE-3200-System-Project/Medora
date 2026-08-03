@@ -191,8 +191,12 @@ is called \texttt{receipt\_acknowledged} or \texttt{discrepancy\_reported}; neit
 medicine is appropriate. Deprecated accept/reject routes retain compatibility for
 one release but map to those meanings.
 
-Generated summaries are read-only. Every item includes its source type, record
-identifier, timestamp, and conflict or missing-evidence state. The interface keeps a
+Generated summaries are read-only. Source references are collected by the backend and
+attached after validation, so an item can only cite a record the request actually
+supplied; a request carrying no source record yields an explicit not-found item rather
+than model prose. Record timestamps are removed by input sanitization before the
+prompt leaves the deployment, so the model cannot reason about temporal order, and
+source references are attached per request rather than per item. The interface keeps a
 clinician-verification warning visible and provides no automatic writeback.
 Specialty search returns candidates, explanations, uncertainty, and manual browse
 controls. Deterministic red flags replace model output with emergency-care guidance
@@ -250,13 +254,29 @@ and raw scores are published only by the final release pipeline.
 \textit{OCR results are intentionally absent from this release-candidate draft. The
 release gate requires independently reviewed labels and a generated table.}}
 
-The privacy suite contains 130 synthetic bilingual cases spanning known identifier
-classes, over-redaction, consent state, prompt injection, and unknown-identifier
-limitations. Separate clinician-reviewed navigation fixtures cover emergency flags,
-uncertainty, correction, and manual bypass. Summary fixtures cover allergy, dose,
-negation, time, duplication, conflict, missing evidence, malformed output, and
-provider failure. Deterministic mock-provider and live-provider results are never
-pooled.
+The privacy suite is a hand-authored synthetic bilingual corpus spanning labelled and
+unlabelled names, contact details, national, passport and account identifiers,
+clinician details, addresses, dates, mixed-script records, spacing and misspelling
+variants, obfuscated formats, over-redaction controls, consent state, prompt
+injection, and indirect-identifier limitations. Cases are deliberately not derived
+from the redaction patterns they test, so measured precision and recall fall below
+100\%: unlabelled personal names in either script, clinician names in prose,
+month-name dates, and obfuscated contact formats are not detected. Each such case
+carries a written limitation in the archived results, and the release gate fails on
+any failure that is not disclosed in this way.
+
+Navigation fixtures are scored on two paths, a recorded provider intent and the
+deterministic mock provider, against the same classifier the request path uses.
+Uncertainty is a flag reported alongside candidate specialties rather than a fourth
+exclusive class, and manual browsing is asserted to remain available on every path
+including emergencies. The deterministic red-flag rules are keyword based and match
+negated, third-person, and historical mentions, so they over-trigger toward emergency
+guidance; those cases are enumerated. Summary fixtures invoke the summarizer end to
+end under the mock provider and assert that no item cites a record identifier the
+backend did not supply, that a request with no source record yields an explicit
+not-found item rather than model prose, and that malformed and schema-invalid
+provider output raises rather than degrades. Deterministic mock-provider and
+live-provider results are never pooled.
 
 Booking contention is run at 2, 10, and 50 concurrent attempts for 30 fresh-slot
 repetitions per level after warm-up. The harness requires one committed appointment,

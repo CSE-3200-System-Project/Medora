@@ -74,7 +74,7 @@ def main() -> int:
     gold_count = sum(bool(line.strip()) for line in gold_path.read_text(encoding="utf-8").splitlines()) if gold_path.is_file() else 0
 
     gates = [
-        log_gate("Backend unit tests", "backend_unit_final.out.log", r"45 passed", "Focused backend unit suite."),
+        log_gate("Backend unit tests", "backend_unit_final.out.log", r"55 passed", "Focused backend unit suite."),
         log_gate("Backend smoke tests", "backend_smoke_final.out.log", r"34 passed", "Backend application smoke suite."),
         log_gate("Integration and security tests", "backend_integration_security_final.out.log", r"14 passed", "Docker-backed integration, authorization, consent, and security checks."),
         log_gate("AI-service unit tests", "ai_unit_final.out.log", r"16 passed", "Local OCR, annotation blinding, parser, provider-separation, grouped corpus-freeze, and AI-service tests."),

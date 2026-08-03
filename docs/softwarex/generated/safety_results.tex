@@ -2,38 +2,60 @@
 \centering\small
 \begin{tabular}{@{}lrrl@{}}
 \toprule
-Suite & Cases & Passed & Review state \\
+Suite & Cases & No undisclosed failure & Review state \\
 \midrule
-Bilingual privacy & 130 & 130 & synthetic \\
-Symptom navigation & 12 & 12 & required \\
-Source-grounded summaries & 10 & 10 & fixtures \\
+Bilingual privacy & 134 & 134 & synthetic \\
+Symptom navigation & 30 & 30 & required \\
+Source-grounded summaries & 12 & 12 & fixtures \\
 \bottomrule
 \end{tabular}
-\caption{Safety fixture results. Clinician review state is reported explicitly.}
+\caption{Safety fixture results. A case passes when it exposes no \emph{undisclosed} failure; measured detection rates are reported separately in Table~\ref{tab:privacy-span-results}. Clinician review state is reported explicitly.}
 \label{tab:safety-results}
+\end{table}
+\begin{table}[!h]
+\centering\small
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Expected class & Cases & Recorded & Mock & Documented \\
+\midrule
+emergency & 5 & 5 & 5 & 0 \\
+manual\_browse & 2 & 0 & 0 & 2 \\
+specialty\_candidates & 18 & 10 & 6 & 7 \\
+uncertain & 5 & 2 & 2 & 0 \\
+\midrule
+Emergency false positives & 5 & -- & -- & -- \\
+Emergency false negatives & 0 & -- & -- & -- \\
+\bottomrule
+\end{tabular}
+\caption{Symptom-navigation fixtures. \emph{Recorded} and \emph{Mock} count agreement with the labelled class when the classifier is driven by a recorded provider intent and by the deterministic mock provider respectively; they are measurements, not pass/fail. \emph{Documented} counts cases carrying a written limitation. Emergency false positives are keyword matches on negated, third-person, or historical mentions.}
+\label{tab:navigation-results}
 \end{table}
 \begin{table*}[!ht]
 \centering\scriptsize
 \begin{tabular}{@{}lrrrrr@{}}
 \toprule
-Privacy category & Cases & Precision & Recall & False redaction & Residual known ID \\
+Identifier group & Cases & Precision & Recall & False redaction & Documented limitations \\
 \midrule
-account\_id & 10 & 100.0\% & 100.0\% & -- & 0.0\% \\
-bengali\_nid & 10 & 100.0\% & 100.0\% & -- & 0.0\% \\
-bengali\_phone & 10 & 100.0\% & 100.0\% & -- & 0.0\% \\
-consent\_state & 10 & -- & -- & -- & -- \\
-email & 10 & 100.0\% & 100.0\% & -- & 0.0\% \\
-known\_name & 10 & 100.0\% & 100.0\% & -- & 0.0\% \\
-national\_id & 10 & 100.0\% & 100.0\% & -- & 0.0\% \\
-over\_redaction & 20 & -- & -- & 0.0\% & -- \\
-passport & 10 & 100.0\% & 100.0\% & -- & 0.0\% \\
-phone & 10 & 100.0\% & 100.0\% & -- & 0.0\% \\
-prompt\_injection & 10 & 100.0\% & 100.0\% & -- & 0.0\% \\
-unknown\_identifier\_limitation & 10 & -- & -- & 0.0\% & -- \\
+account\_id & 7 & 100.0\% & 71.4\% & 0.0\% & 3 \\
+address & 7 & 100.0\% & 71.4\% & 0.0\% & 2 \\
+benign & 21 & -- & -- & 14.3\% & 3 \\
+clinician & 4 & 100.0\% & 20.0\% & 0.0\% & 3 \\
+consent & 10 & -- & -- & -- & 0 \\
+date & 6 & 100.0\% & 50.0\% & 0.0\% & 3 \\
+email & 9 & 100.0\% & 55.6\% & 0.0\% & 4 \\
+injection & 10 & 100.0\% & 100.0\% & 0.0\% & 0 \\
+limitation & 10 & -- & -- & 0.0\% & 10 \\
+mixed\_script & 4 & 100.0\% & 100.0\% & 0.0\% & 0 \\
+name\_labeled & 11 & 90.9\% & 90.9\% & 9.1\% & 3 \\
+name\_unlabeled & 5 & -- & 0.0\% & 0.0\% & 5 \\
+national\_id & 9 & 100.0\% & 100.0\% & 0.0\% & 5 \\
+opaque\_id & 4 & 100.0\% & 100.0\% & 0.0\% & 0 \\
+passport & 6 & 100.0\% & 66.7\% & 0.0\% & 2 \\
+phone & 11 & 100.0\% & 100.0\% & 0.0\% & 0 \\
 \midrule
-All span-annotated cases & 130 & 100.0\% & 100.0\% & 0.0\% & 0.0\% \\
+All production-path cases & 134 & 94.7\% & 75.5\% & 3.2\% & 43 \\
 \bottomrule
 \end{tabular}
-\caption{Span-level privacy metrics. A dash means the category has no annotated positive or benign span for that denominator. Unknown and indirect identifiers remain an explicit limitation.}
+\caption{Span-level privacy metrics measured on the production call path, which supplies no known identifiers to the redactor. A dash means the group annotates no span for that denominator. Recall below 100\% reflects identifier forms the redactor does not claim to detect, chiefly unlabelled personal names, clinician details in prose, month-name dates, and obfuscated contact formats; every such case is enumerated with a written limitation in the archived results file. Undisclosed failures are zero by construction of the release gate.}
 \label{tab:privacy-span-results}
 \end{table*}

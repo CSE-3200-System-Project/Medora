@@ -16,13 +16,23 @@ the fail-closed checker exits nonzero.
    python tests/benchmarks/ocr_accuracy_benchmark.py
    ```
 
-3. Have the licensed reviewer assess the 12 bilingual navigation fixtures without
-   seeing model output:
+3. Regenerate the safety fixtures, then have the licensed reviewer assess the 30
+   bilingual navigation fixtures without seeing model output. Regenerating first
+   matters: the generator preserves an existing review only when the case it reviewed
+   is unchanged, so reviewing before regenerating can discard the reviewer's work.
 
    ```powershell
+   python tests/benchmarks/generate_safety_datasets.py
    python tests/benchmarks/review_navigation_cases.py --reviewer-id REVIEWER --credential-role licensed_clinician
    python tests/benchmarks/run_safety_benchmarks.py
    ```
+
+   Two fixtures need an explicit clinical decision rather than a yes/no sign-off:
+   NAV-022 (`শ্বাসকষ্ট হচ্ছে`) and NAV-023 (`বুক ধড়ফড় করছে এবং মাথা ঘুরছে`) are Bengali
+   paraphrases of red-flag presentations that the configured patterns do not match. If
+   the reviewer judges either to be an emergency, `EMERGENCY_PATTERNS` in
+   `backend/app/routes/ai_doctor.py` must be extended and the fixture's limitation
+   cleared; otherwise the limitation stands with the reviewer's rationale recorded.
 
 4. Record the actual Azure resource region, Groq organization zero-data-retention
    state, Vapi organization retention/zero-data-retention state, and frozen-run
