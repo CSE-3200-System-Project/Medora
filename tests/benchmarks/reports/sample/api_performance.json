@@ -1,4 +1,6 @@
 {
+  "_notice": "SYNTHETIC ILLUSTRATIVE FIXTURE - NOT A MEASUREMENT. Hand-authored to show the report shape. No value here was produced by executing a benchmark. Do not cite.",
+  "_synthetic": true,
   "generated_at": "2026-04-03T15:00:00Z",
   "summary": {
     "total_requests": 4800,

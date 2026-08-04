@@ -932,11 +932,16 @@ def nav(
     expected_emergency_rule_fires: bool | None = None,
     limitation_class: str | None = None,
     limitation_note: str | None = None,
+    expected_label_basis: str = "protocol",
 ) -> dict:
     return {
         "id": case_id,
         "locale": locale,
         "text": text,
+        # Where the expected label came from. "protocol" means it follows the written
+        # navigation protocol; anything else marks a label a human chose case by case,
+        # which must not be read as clinical validation.
+        "expected_label_basis": expected_label_basis,
         "expected": expected,
         "expected_emergency": expected_emergency,
         "expected_uncertain": expected_uncertain,
@@ -1167,9 +1172,14 @@ def symptom_cases() -> list[dict]:
                 limitation_class=KNOWN,
                 limitation_note=(
                     "A Bengali paraphrase of a red-flag presentation that the configured patterns "
-                    "do not match. Whether this utterance should trigger emergency guidance is a "
-                    "clinical judgement and is deferred to the licensed reviewer."
+                    "do not match. The authors added these two cases to demonstrate the "
+                    "under-coverage and assigned the non-emergency expected label themselves; that "
+                    "label is an authoring decision, not a clinical one. No licensed clinician has "
+                    "judged whether either utterance should trigger emergency guidance, so neither "
+                    "case supports any claim about emergency-detection safety. `clinician_review` "
+                    "stays outstanding and the licensed-navigation gate stays blocked."
                 ),
+                expected_label_basis="author_assigned_demonstration",
             )
         )
 

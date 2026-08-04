@@ -39,14 +39,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0002",
@@ -62,14 +65,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0003",
@@ -85,14 +91,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0004",
@@ -108,14 +117,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0005",
@@ -131,14 +143,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0006",
@@ -154,14 +169,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0007",
@@ -177,14 +195,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0008",
@@ -200,14 +221,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0009",
@@ -223,14 +247,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0010",
@@ -246,14 +273,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "development"
+      "split": "development",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0011",
@@ -269,14 +299,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0012",
@@ -292,14 +325,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0013",
@@ -315,14 +351,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "development"
+      "split": "development",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0014",
@@ -338,14 +377,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0015",
@@ -361,14 +403,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "development"
+      "split": "development",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0016",
@@ -384,14 +429,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0017",
@@ -407,14 +455,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0018",
@@ -430,14 +481,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "development"
+      "split": "development",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0019",
@@ -453,14 +507,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0020",
@@ -476,14 +533,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0021",
@@ -499,14 +559,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0022",
@@ -522,14 +585,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0023",
@@ -545,14 +611,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0024",
@@ -568,14 +637,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0025",
@@ -591,14 +663,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0026",
@@ -614,14 +689,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "development"
+      "split": "development",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0027",
@@ -637,14 +715,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0028",
@@ -660,14 +741,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "development"
+      "split": "development",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0029",
@@ -683,14 +767,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "development"
+      "split": "development",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0030",
@@ -706,14 +793,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0031",
@@ -729,14 +819,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0032",
@@ -752,14 +845,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0033",
@@ -775,14 +871,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0034",
@@ -798,14 +897,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0035",
@@ -821,14 +923,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0036",
@@ -844,14 +949,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0037",
@@ -867,14 +975,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0038",
@@ -890,14 +1001,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "development"
+      "split": "development",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0039",
@@ -913,14 +1027,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0040",
@@ -936,14 +1053,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0041",
@@ -959,14 +1079,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0042",
@@ -982,14 +1105,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "development"
+      "split": "development",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0043",
@@ -1005,14 +1131,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0044",
@@ -1028,14 +1157,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0045",
@@ -1051,14 +1183,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0046",
@@ -1074,14 +1209,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0047",
@@ -1097,14 +1235,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0048",
@@ -1120,14 +1261,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "development"
+      "split": "development",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0049",
@@ -1143,14 +1287,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0050",
@@ -1166,14 +1313,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0051",
@@ -1189,14 +1339,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0052",
@@ -1212,14 +1365,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0053",
@@ -1235,14 +1391,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0054",
@@ -1258,14 +1417,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 2,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0055",
@@ -1281,14 +1443,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0056",
@@ -1304,14 +1469,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0057",
@@ -1327,14 +1495,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0058",
@@ -1350,14 +1521,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "development"
+      "split": "development",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0059",
@@ -1373,14 +1547,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "development"
+      "split": "development",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0060",
@@ -1396,14 +1573,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0061",
@@ -1419,14 +1599,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0062",
@@ -1442,14 +1625,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0063",
@@ -1465,14 +1651,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0064",
@@ -1488,14 +1677,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0065",
@@ -1511,14 +1703,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0066",
@@ -1534,14 +1729,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "development"
+      "split": "development",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0067",
@@ -1557,14 +1755,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0068",
@@ -1580,14 +1781,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0069",
@@ -1603,14 +1807,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "development"
+      "split": "development",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0070",
@@ -1626,14 +1833,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0071",
@@ -1649,14 +1859,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": "RX-0054",
       "duplicate_group_size": 2,
       "included_in_metrics": false,
-      "split": null
+      "split": null,
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0072",
@@ -1672,14 +1885,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0073",
@@ -1695,14 +1911,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0074",
@@ -1718,14 +1937,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0075",
@@ -1741,14 +1963,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0076",
@@ -1764,14 +1989,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0077",
@@ -1787,14 +2015,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0078",
@@ -1810,14 +2041,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0079",
@@ -1833,14 +2067,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 2,
       "included_in_metrics": true,
-      "split": "development"
+      "split": "development",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0080",
@@ -1856,14 +2093,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "development"
+      "split": "development",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0081",
@@ -1879,14 +2119,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "development"
+      "split": "development",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0082",
@@ -1902,14 +2145,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0083",
@@ -1925,14 +2171,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "directly_collected",
+      "redistribution_basis": "verbal consent from the depicted individual for research use; patient direct identifiers destroyed by irreversible redaction before redistribution (scope: patient-identifiers-only-v1)",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": "RX-0079",
       "duplicate_group_size": 2,
       "included_in_metrics": false,
-      "split": null
+      "split": null,
+      "provenance_reviewed": true,
+      "source_dataset": null,
+      "consent_basis": "verbal"
     },
     {
       "id": "RX-0084",
@@ -1948,14 +2197,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0085",
@@ -1971,14 +2223,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0086",
@@ -1994,14 +2249,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0087",
@@ -2017,14 +2275,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "development"
+      "split": "development",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0088",
@@ -2040,14 +2301,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0089",
@@ -2063,14 +2327,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "development"
+      "split": "development",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0090",
@@ -2086,14 +2353,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0091",
@@ -2109,14 +2379,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0092",
@@ -2132,14 +2405,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0093",
@@ -2155,14 +2431,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0094",
@@ -2178,14 +2457,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0095",
@@ -2201,14 +2483,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0096",
@@ -2224,14 +2509,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0097",
@@ -2247,14 +2535,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0098",
@@ -2270,14 +2561,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "development"
+      "split": "development",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0099",
@@ -2293,14 +2587,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0100",
@@ -2316,14 +2613,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0101",
@@ -2339,14 +2639,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0102",
@@ -2362,14 +2665,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0103",
@@ -2385,14 +2691,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "development"
+      "split": "development",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0104",
@@ -2408,14 +2717,17 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     },
     {
       "id": "RX-0105",
@@ -2431,14 +2743,32 @@
         "contrast": "unreviewed",
         "occlusion": "unreviewed"
       },
-      "provenance": "author-curated public prescription corpus",
-      "redistribution_basis": "written approval confirmed by authors",
+      "provenance": "public_dataset",
+      "redistribution_basis": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1 redistributed under CC BY 4.0",
       "approval_reference": "RELEASE_GATE: enter authority/date/reference from approval record",
       "writer_or_template_group": "unassigned",
       "duplicate_of": null,
       "duplicate_group_size": 1,
       "included_in_metrics": true,
-      "split": "test"
+      "split": "test",
+      "provenance_reviewed": true,
+      "source_dataset": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "consent_basis": null
     }
-  ]
+  ],
+  "provenance_classification": {
+    "performed_on": "2026-08-04",
+    "discriminator": "source image pixel dimensions",
+    "method": "The upstream Roboflow export applies \"Resize to 640x640 (Fit (white edges))\" to every image. All 70 records measuring exactly 640x640 were classified public_dataset; the remaining 35 carry native camera dimensions (4624x3468, 960x1280, 4000x3000) and were classified directly_collected. The two sets fall in contiguous ingestion-order blocks, which corroborates the split independently of pixel size.",
+    "limitation": "Pixel dimensions identify images that passed through a Roboflow export, not their ultimate origin. If any author-collected photograph was routed through the same workspace it would be classified public_dataset here. That direction is the conservative error: it declines to assert patient consent for a record rather than assuming it.",
+    "upstream_dataset": {
+      "source": "roboflow-universe:jannat-nmkds/prescription-3xf5s v1",
+      "url": "https://universe.roboflow.com/jannat-nmkds/prescription-3xf5s",
+      "author": "Jannat",
+      "images": 213,
+      "licence": "CC BY 4.0",
+      "derivative_export": "roboflow:sarwad/prescription-oeiss-f5hvb v1",
+      "attribution_required": true
+    }
+  }
 }

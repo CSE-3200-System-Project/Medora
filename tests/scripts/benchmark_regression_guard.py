@@ -30,8 +30,16 @@ def main() -> int:
     baseline = _load_json(Path(args.baseline))
     current = _load_json(Path(args.current))
 
-    baseline_p95 = float(baseline.get("p95_ms", 0.0))
-    current_p95 = float(current.get("p95_ms", 0.0))
+    # A missing p95 used to default to 0.0, which made the comparison trivially pass and
+    # produced a `violations: []` report that looked like evidence. An absent metric is a
+    # broken run, not a passing one.
+    for label, payload, path in (("baseline", baseline, args.baseline), ("current", current, args.current)):
+        if "p95_ms" not in payload:
+            print(f"[REGRESSION] {label} file {path} has no 'p95_ms'; refusing to report a pass.")
+            return 2
+
+    baseline_p95 = float(baseline["p95_ms"])
+    current_p95 = float(current["p95_ms"])
     baseline_error_rate = float(baseline.get("error_rate", 0.0))
     current_error_rate = float(current.get("error_rate", 0.0))
 

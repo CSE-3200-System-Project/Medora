@@ -41,4 +41,4 @@ backend\venv\Lib\site-packages\requests\__init__.py:113
     warnings.warn(
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-55 passed, 10 warnings in 3.03s
+55 passed, 10 warnings in 3.32s

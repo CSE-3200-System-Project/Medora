@@ -80,10 +80,37 @@ def main() -> int:
             lines.append(f"- {violation}")
         lines.append("")
 
+    # Silently omitting a section made a summary with no data at all look like a clean
+    # run. Absent inputs are now named in the document itself.
+    missing = [
+        name
+        for name, payload in (
+            ("api_benchmark.json", api),
+            ("db_benchmark.json", db),
+            ("ocr_pipeline_benchmark.json", ocr),
+            ("realtime_consistency.json", realtime),
+            ("regression_guard_report.json", regression),
+        )
+        if payload is None
+    ]
+    if missing:
+        lines.extend(
+            [
+                "## Sections not reported",
+                "",
+                "These benchmarks produced no output file, so no result is claimed for them:",
+                "",
+                *[f"- `{name}` — not executed" for name in missing],
+                "",
+            ]
+        )
+
     out_path = Path("tests/benchmarks/reports/current/benchmark_summary.md")
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text("\n".join(lines), encoding="utf-8")
     print(f"Wrote {out_path}")
+    if missing:
+        print(f"Missing benchmark inputs, reported in the summary: {', '.join(missing)}")
     return 0
 
 

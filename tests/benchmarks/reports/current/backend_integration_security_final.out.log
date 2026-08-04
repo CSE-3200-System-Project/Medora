@@ -1,4 +1,4 @@
-..............                                                           [100%]
+...................                                                      [100%]
 ============================== warnings summary ===============================
 backend\venv\Lib\site-packages\pyiceberg\table\metadata.py:365
   C:\Code\System\Medora\backend\venv\Lib\site-packages\pyiceberg\table\metadata.py:365: PydanticDeprecatedSince212: Using `@model_validator` with mode='after' on a classmethod is deprecated. Instead, use an instance method. See the documentation at https://docs.pydantic.dev/2.12/concepts/validators/#model-after-validator. Deprecated in Pydantic V2.12 to be removed in V3.0.
@@ -51,14 +51,6 @@ backend\app\schemas\upload.py:7
 backend\app\schemas\review.py:27
   C:\Code\System\Medora\backend\app\schemas\review.py:27: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
     class ReviewResponse(BaseModel):
-
-backend\app\schemas\doctor.py:5
-  C:\Code\System\Medora\backend\app\schemas\doctor.py:5: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
-    class DoctorCardSchema(BaseModel):
-
-backend\app\schemas\doctor.py:70
-  C:\Code\System\Medora\backend\app\schemas\doctor.py:70: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
-    class DoctorProfileResponse(BaseModel):
 
 backend\app\schemas\speciality.py:3
   C:\Code\System\Medora\backend\app\schemas\speciality.py:3: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
@@ -172,11 +164,11 @@ backend\app\schemas\patient_data_sharing.py:34
   C:\Code\System\Medora\backend\app\schemas\patient_data_sharing.py:34: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
     class SharingCategoryResponse(BaseModel):
 
+security/test_rbac_and_jwt.py: 25 warnings
 integration/backend/test_ai_and_ocr_integration.py: 7 warnings
 integration/backend/test_clinical_lifecycle.py: 7 warnings
 integration/backend/test_consultation_draft_preview.py: 5 warnings
 integration/backend/test_review_moderation.py: 15 warnings
-security/test_rbac_and_jwt.py: 25 warnings
   C:\Code\System\Medora\backend\venv\Lib\site-packages\sqlalchemy\sql\schema.py:3624: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
     return util.wrap_callable(lambda ctx: fn(), fn)  # type: ignore
 
@@ -185,4 +177,4 @@ security/test_rbac_and_jwt.py::test_ai_query_access_is_audit_logged
     accessed_at=datetime.utcnow(),
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-14 passed, 103 warnings in 53.52s
+19 passed, 101 warnings in 63.06s (0:01:03)

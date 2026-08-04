@@ -30,12 +30,12 @@
       "bytes": 2183
     },
     "tests/benchmarks/provider_manifest.json": {
-      "sha256": "81627e396b4c387383949395cf089935a4f9ff58e5e0b07bbf4762dafdb8a3b1",
-      "bytes": 3979
+      "sha256": "17baaba9410e5eb09337cf7cad9a71fd61b93e0fccb0b0b521febd3ff439cdd2",
+      "bytes": 4348
     },
     "tests/benchmarks/datasets/ocr_corpus_manifest.json": {
-      "sha256": "704363c7521e03fba78c5997f5aedef566b183e07fe102073f8242c0cb2d0bff",
-      "bytes": 90916
+      "sha256": "307727be59970ba8c74f181e369a665ba010660ae51b41bcf097ae912c394aa8",
+      "bytes": 111590
     },
     "ai_service/models/Yolo26s/Yolo26s-prescription-5.onnx": {
       "sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8",
@@ -76,10 +76,22 @@
   },
   "container_images": {
     "medora-backend:softwarex-rc": {
-      "status": "not built in this environment"
+      "image_id": "sha256:e286789ba49b134abbc0304a0d5d676ecf44daa5c21e4df92f58b7ca9d0f53af",
+      "repo_digests": [
+        "medora-backend@sha256:e286789ba49b134abbc0304a0d5d676ecf44daa5c21e4df92f58b7ca9d0f53af"
+      ],
+      "os": "linux",
+      "architecture": "amd64",
+      "size_bytes": 352239612
     },
     "medora-ai:softwarex-rc": {
-      "status": "not built in this environment"
+      "image_id": "sha256:02e353a4707b5d3c89a1dd12941b1f85e9bae55dfcebdb61816ecdcc2783fd00",
+      "repo_digests": [
+        "medora-ai@sha256:02e353a4707b5d3c89a1dd12941b1f85e9bae55dfcebdb61816ecdcc2783fd00"
+      ],
+      "os": "linux",
+      "architecture": "amd64",
+      "size_bytes": 688068110
     }
   }
 }

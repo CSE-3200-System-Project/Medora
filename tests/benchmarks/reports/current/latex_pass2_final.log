@@ -369,10 +369,10 @@ tive_writeback=false\T1/lmr/m/n/12 .
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-) [8] [9] [10]
-Underfull \hbox (badness 1286) in paragraph at lines 375--376
+) [8] [9] [10] [11]
+Underfull \hbox (badness 1286) in paragraph at lines 388--389
 \T1/lmr/m/n/12 a scop-ing study, BMC Health Ser-vices Re-search 14 (2014) 260,
-[11] [12] (medora_softwarex.aux) )
+[12] (medora_softwarex.aux) )
 (see the transcript file for additional information)<C:/Users/Sarwad/AppData/Lo
 cal/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb><C:/Users/Sarwad/AppData/L
 ocal/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/Sarwad/AppData/
@@ -387,5 +387,5 @@ Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy7.pfb><C:/Users/Sarwad/AppData/
 Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy8.pfb><C:/Users/Sarwad/AppData/
 Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/Users/Sarwad/AppData
 /Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb>
-Output written on medora_softwarex.pdf (12 pages, 371083 bytes).
+Output written on medora_softwarex.pdf (12 pages, 371108 bytes).
 Transcript written on medora_softwarex.log.

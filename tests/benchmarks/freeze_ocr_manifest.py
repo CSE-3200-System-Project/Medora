@@ -158,6 +158,15 @@ def main() -> int:
     if len(records) != 105 or len(unique) != 103:
         raise SystemExit("manifest must contain 105 files and 103 unique metric records")
 
+    unclassified = [record["id"] for record in records if not record.get("provenance_reviewed")]
+    if unclassified:
+        raise SystemExit(
+            f"{len(unclassified)} record(s) have unclassified provenance "
+            f"(e.g. {', '.join(unclassified[:5])}). The corpus mixes directly collected "
+            "prescriptions with a public dataset, and those carry different consent and "
+            "redistribution bases. Run tests/benchmarks/classify_corpus_provenance.py first."
+        )
+
     by_id = {record["id"]: record for record in records}
     for record in unique:
         record.update(reviewed_metadata(record))

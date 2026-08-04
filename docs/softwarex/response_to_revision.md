@@ -13,11 +13,11 @@ authorized person or archive service and cannot be truthfully automated.
 | C2 | Text, image, and live-audio flows are separated | `backend/app/services/processing_consent.py`; `ai_service/app/pipeline.py` | Trust-boundary figure; provider-separation tests | Implemented |
 | C3 | Removed anonymity claims; documented unknown/indirect identifier risk | `backend/app/core/ai_privacy.py`; `docs/DATA_GOVERNANCE.md` | PII case-level output and leakage report | Deterministic evidence generated: 134 production-path cases, zero *undisclosed* leaks, and 43 cases carrying a written limitation. Measured recall is 0.755, so identifiable text demonstrably survives in named classes; the residual risk is reported, not claimed away |
 | C4 | Bilingual redaction, consent state, over-redaction, prompt-injection fixtures | `tests/benchmarks/datasets/pii_safety_cases.jsonl` | `generated/safety_results.json/.tex` | Rebuilt as a hand-authored corpus that is not derived from the redaction patterns it tests. 134 production-path cases: TP=71, FP=4, FN=23, precision=0.947, recall=0.755, false-redaction rate=0.032, 43 documented limitations, 0 undisclosed failures. Coverage now includes unlabelled names, clinician details, addresses, dates, misspelled and spaced labels, obfuscated formats, and mixed-script records |
-| C5 | Adjudicated OCR labels, grouped split, denominators, failures, exclusions, raw scores, CIs | `tools/ocr_annotation`; `freeze_ocr_manifest.py`; `build_ocr_gold_standard.py`; `ocr_accuracy_benchmark.py` | Gold JSONL, agreement report, raw score table | Workflow implemented, but evidence pending: provider candidate records and separate Rx-only GPT-assisted drafts exist for 103/103 eligible images; primary-author, independent, and adjudicated label counts remain zero |
-| C6 | Frozen A–H ablation with immutable provider caches | `generate_prelabels.py`; `import_gpt_vision_drafts.py`; `ocr_accuracy_benchmark.py` | Cache hashes and `ocr_results.json/.tex` | Candidate outputs and GPT-assisted Rx transcriptions exist for all 103 unique prescriptions. Metrics remain blocked on primary correction, licensed review, adjudication, and split freeze |
+| C5 | Adjudicated OCR labels, grouped split, denominators, failures, exclusions, raw scores, CIs | `tools/ocr_annotation`; `freeze_ocr_manifest.py`; `build_ocr_gold_standard.py`; `ocr_accuracy_benchmark.py` | Not claimed in this release | **Withdrawn as a claim.** The manuscript now reports prescription OCR as a negative result: the pipeline did not reach usable accuracy on handwritten Bangladeshi prescriptions, no accuracy figure is stated, and no OCR table is published. The annotation and adjudication workflow remains in the repository for future work, but this release makes no assertion that C5's evidence would support, so there is nothing left to under-report |
+| C6 | Frozen A–H ablation with immutable provider caches | `generate_prelabels.py`; `import_gpt_vision_drafts.py`; `ocr_accuracy_benchmark.py` | Not claimed in this release | **Withdrawn as a claim**, for the same reason as C5. The eight-configuration ablation was designed to attribute accuracy across pipeline stages; with no accuracy claim there is no attribution to make. The scripts and immutable-cache mechanism remain available for a future evaluation |
 | C7 | Transactional idempotency, uniqueness, and post-commit outbox; 2/10/50 contention protocol | `appointment_service.py`; `test_booking_contention_release.py` | `generated/booking_results.json/.tex`; 90 raw repetitions | Passed 30/30 at each concurrency on fresh PostgreSQL 16 after excluded warm-ups |
 | C8 | Deterministic navigation red flags, source-linked summaries, failure fixtures; mock/live separation | `ai_doctor.py`; `ai_orchestrator.py`; safety datasets; `review_navigation_cases.py` | Clinician-reviewed navigation and summary report | 30 navigation fixtures scored against the extracted `classify_navigation_outcome` on two paths (recorded intent and mock provider): 30/30 with no undisclosed failure, 17/30 agreeing with the labelled class, 5 emergency false positives from negated/third-person/historical mentions, 0 false negatives, 9 documented limitations. 12 summary fixtures now invoke the summarizer end to end. Licensed review and live-provider report pending |
-| C9 | Public-image approval scope and separate image/derived-data notice | `samples/DATA_USE_NOTICE.md`; `DATA_LICENSE.md`; `freeze_ocr_manifest.py` | Approval authority/date/reference in frozen corpus and release metadata | External metadata gate; validated freeze command prevents placeholder approval data |
+| C9 | Public-image approval scope and separate image/derived-data notice | `samples/DATA_USE_NOTICE.md`; `samples/MEDICINE_CORPUS_NOTICE.md`; `tests/benchmarks/DATA_LICENSE.md` | Data-use notices; medicine-corpus provenance and licence records | Resolved for this release. The prescription image corpus is **not deposited**, which removes the approval-citation dependency: its notice, per-record provenance classification, and re-identification prohibition remain in the repository, and any future deposit requires documented consent or controlled access. Separately, the medicine reference now carries a full provenance and licence record — five sources under CC0 1.0 (two), Apache 2.0, MIT, and CC BY 4.0, aggregate offered under CC BY 4.0 with a NOTICE crediting each source and an Apache-2.0 statement of changes. Two sources are website scrapes, disclosed as a provenance limitation rather than a redistribution barrier |
 | C10 | Reframed as research software, with no clinical or production-readiness claim | Manuscript abstract, limitations, conclusion; README | Manuscript word/claim gate | Implemented |
 
 ## Manuscript items M1–M12
@@ -43,7 +43,7 @@ authorized person or archive service and cannot be truthfully automated.
 |---|---|---|---|
 | P1 | New title and claim-bounded abstract | Manuscript front matter | Implemented |
 | P2 | New trust-boundary, consent-flow, and booking/outbox diagrams | `docs/softwarex/figures-src/*.tex` | Implemented; LaTeX build passes with no overfull boxes or unresolved citations, and all diagram pages were visually checked for overlap |
-| P3 | Body rewritten below 3,000 words | `medora_softwarex.tex` | Implemented; release checker counts 1,823 words |
+| P3 | Body rewritten below 3,000 words | `medora_softwarex.tex` | Implemented; release checker counts 2,998 words after the reframe. The AI component and endpoint inventories are carried in tables rather than prose, so breadth is documented without consuming the budget |
 | P4 | Abbreviations expanded; navigation, acknowledgment, draft, and propagation terms corrected | Entire manuscript and captions | Implemented |
 | P5 | All measured numbers enter through generated result files; approximate/manual result phrases are gated | manuscript `generated/*.tex` inputs; release checker | Booking and provisional safety tables generated directly; OCR table pending gold-standard gate |
 | P6 | Ethics, consent, public data, deployment maturity, and residual limitations stated | Manuscript ethics/limitations; data-use notice | Implemented; approval citation pending |
@@ -88,3 +88,46 @@ test/lint/build evidence, exact commit, archive
 checksum, and resolving DOI are present. As of this response, those external and
 execution gates remain open and the repository must not be tagged or deposited as a
 completed `v1.0.0` release.
+
+## Reframe (2026-08-04): assistive-AI layer and medicine reference lead the paper
+
+An internal review found the manuscript described the system it was easiest to evaluate
+rather than the system that was built. The word "Chorui" appeared zero times; "drug" and
+"brand" zero; "voice" zero. A 74,390-term medicine reference and a twenty-one-endpoint
+assistive-AI layer were visible only as OCR sub-stages. The paper has been restructured:
+
+- **Title and abstract** now lead with the consent-gated assistive-AI layer over the
+  medicine reference.
+- **New Section 2.2** documents the medicine reference: three-table schema, deterministic
+  published build, 7,389 drugs / 67,001 brands / 74,390 index terms from five sources.
+- **New Section 2.3** documents the AI layer, with two new tables. `tab:components`
+  enumerates all nineteen AI/ML components and records that fifteen are deterministic —
+  routing, consent, redaction, red-flag detection, specialty fallback, and grammar parsing
+  involve no model. `tab:ai-surface` enumerates all twenty-one endpoints in nine groups,
+  with their human-in-the-loop control and, in the final column, whether each carries a
+  reproducible evaluation. Six of nine do not, and the manuscript says so in the body.
+- **Chorui is named, figured, and quantified**: 24 registry entries over 23 canonical
+  intents, 11 patient-scoped, 11 doctor-scoped, 2 shared, administrative routes never
+  registered.
+- **OCR** moved to a clearly labelled negative result (see C5/C6 above).
+
+The evaluation position is stated rather than implied: structural controls apply uniformly
+across all twenty-one endpoints, empirical evidence does not, and capability is not
+presented as validated performance.
+
+## Gate status after the reframe
+
+Withdrawing the OCR accuracy claim and the image deposit removes three previously blocked
+gates from the release path (OCR gold standard / A–H benchmark; approval citation and
+corpus freeze; and the OCR-label dependency in the navigation review). Three external
+gates remain open and cannot be closed by automation:
+
+| Gate | Needs |
+|---|---|
+| Licensed symptom-navigation review | A licensed clinician to review the 30 navigation fixtures |
+| Provider/account release metadata | The Azure account owner to confirm region and organisation retention/ZDR settings |
+| Authenticated production-browser journeys | A non-production synthetic patient/doctor/admin credential set |
+| Final commit verification and Zenodo metadata | Tag, archive, DOI — intentionally deferred |
+
+None of these is a scientific claim; each is an authorisation or credential an author must
+supply. The manuscript makes no assertion that depends on them.
