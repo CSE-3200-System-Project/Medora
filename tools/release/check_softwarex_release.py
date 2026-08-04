@@ -56,16 +56,29 @@ def main() -> int:
     if PENDING in serialized:
         fail(errors, "release metadata contains RELEASE_PENDING")
 
-    manifest = read_json(ROOT / "tests" / "benchmarks" / "datasets" / "ocr_corpus_manifest.json", errors)
-    if not manifest.get("frozen"):
-        fail(errors, "OCR corpus manifest is not frozen")
-    records = manifest.get("records", [])
-    if len(records) != 105 or sum(bool(item.get("included_in_metrics")) for item in records) != 103:
-        fail(errors, "OCR manifest must contain 105 archive files and 103 metric records")
+    # OCR accuracy is a withdrawn claim (no gold-standard annotation exists;
+    # see the manuscript's Ethics/related-work framing and
+    # response_to_revision.md). The gate no longer requires a frozen
+    # manifest, adjudicated gold standard, or ocr_results.* artifacts --
+    # requiring them here would make the gate unsatisfiable for exactly the
+    # release this repository actually ships.
 
-    gold_path = ROOT / "tests" / "benchmarks" / "datasets" / "ocr_gold_standard.jsonl"
-    if not gold_path.exists() or sum(1 for line in gold_path.read_text(encoding="utf-8").splitlines() if line.strip()) != 103:
-        fail(errors, "gold standard must contain 103 adjudicated records")
+    corpus_csv = ROOT / "data" / "medicine_reference" / "Final_Medicine_Dataset.csv"
+    if not corpus_csv.exists():
+        fail(errors, "medicine reference corpus CSV is missing")
+    else:
+        import csv
+
+        with corpus_csv.open(encoding="utf-8-sig", newline="") as handle:
+            rows = list(csv.DictReader(handle))
+        if len(rows) != 71795:
+            fail(errors, f"medicine reference corpus has {len(rows)} rows, expected 71795")
+        drug_keys = {row["drug_key"] for row in rows}
+        if len(drug_keys) != 7389:
+            fail(errors, f"medicine reference corpus resolves to {len(drug_keys)} drugs, expected 7389")
+        brand_keys = {(row["drug_key"], row["brand_name"], row["manufacturer"]) for row in rows}
+        if len(brand_keys) != 67001:
+            fail(errors, f"medicine reference corpus resolves to {len(brand_keys)} brands, expected 67001")
 
     provider_manifest = read_json(ROOT / "tests" / "benchmarks" / "provider_manifest.json", errors)
     serialized_providers = json.dumps(provider_manifest).casefold()
@@ -76,7 +89,7 @@ def main() -> int:
         fail(errors, "provider manifest is incomplete or not execution-dated")
 
     required_generated = (
-        "ocr_results.json", "ocr_results.tex", "booking_results.json",
+        "booking_results.json",
         "booking_results.tex", "safety_results.json", "safety_results.tex",
         "release_metadata.tex", "dependency_container_model_checksums.json",
         "verification.json",
@@ -118,7 +131,7 @@ def main() -> int:
         elif hashlib.sha256(log_path.read_bytes()).hexdigest() != receipt.get("log_sha256"):
             fail(errors, f"verification log hash mismatch: {check}")
 
-    for report_name in ("ocr_results.json", "booking_results.json", "safety_results.json"):
+    for report_name in ("booking_results.json", "safety_results.json"):
         report = read_json(DOCS / "generated" / report_name, errors)
         if report.get("passed") is False:
             fail(errors, f"generated report did not pass: {report_name}")

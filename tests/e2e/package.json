@@ -1,6 +1,7 @@
 {
   "name": "medora-e2e",
   "version": "1.0.0",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "test": "playwright test",
