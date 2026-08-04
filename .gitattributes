@@ -1,0 +1,4 @@
+# Captured tool output is evidence, not source. Recording it verbatim matters more than
+# whitespace hygiene, so exclude it from whitespace checks rather than editing the logs.
+tests/benchmarks/reports/**/*.log -whitespace
+tests/benchmarks/reports/**/*.out.log -whitespace

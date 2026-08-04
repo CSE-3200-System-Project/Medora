@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Medora identifier redaction</title>
+<link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+
+<header class="bar">
+  <div class="bar-left">
+    <span class="rec" id="record-label">RX-0000</span>
+    <span class="counter"><span id="pos">0</span> of <span id="total">0</span></span>
+  </div>
+  <div class="progress"><div class="progress-fill" id="progress-fill"></div>
+    <span class="progress-text"><span id="done-count">0</span> marked</span></div>
+  <div class="bar-right">
+    <button id="btn-prev" class="ghost">← Prev</button>
+    <button id="btn-next" class="ghost">Next →</button>
+    <button id="btn-save" class="primary">Save &amp; next</button>
+  </div>
+</header>
+
+<div class="split">
+  <div class="pane canvas-pane">
+    <div class="tools">
+      <span class="mode">Drawing: <strong id="active-cat">patient_name</strong></span>
+      <button data-zoom="in">+</button>
+      <button data-zoom="out">−</button>
+      <button data-zoom="fit">Fit</button>
+      <button id="btn-undo" class="ghost">Undo last box</button>
+      <span class="hint">drag on the image to cover an identifier</span>
+    </div>
+    <div class="stage" id="stage">
+      <div class="canvas-wrap" id="canvas-wrap">
+        <img id="image" alt="Prescription" draggable="false" />
+        <div id="overlay"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pane side">
+    <div class="reminder">
+      Cover <strong>identifier fields only</strong>. Do not cover the Rx section, and do not
+      blank the whole page &mdash; the layout clutter has to stay for the region-detection
+      comparison to mean anything.
+    </div>
+
+    <h2>Identifier checklist</h2>
+    <p class="sub">Each row must be either boxed or marked <em>not present</em>. This is what
+      stops an identifier being missed by silence.</p>
+    <div id="checklist"></div>
+
+    <label class="block">
+      <span class="lbl">Notes <small>optional</small></span>
+      <textarea id="notes" rows="2" spellcheck="false"></textarea>
+    </label>
+
+    <p class="err" id="error" hidden></p>
+    <p class="ok" id="saved" hidden>Saved</p>
+  </div>
+</div>
+
+<script src="/app.js"></script>
+</body>
+</html>
