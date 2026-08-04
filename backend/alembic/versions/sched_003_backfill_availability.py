@@ -19,6 +19,16 @@ import re
 revision: str = "sched_003"
 down_revision: Union[str, None] = "sched_002"
 branch_labels: Union[str, Sequence[str], None] = None
+# KNOWN ISSUE (not fixed here): day_time_slots is added by l0c4t10n_001, a
+# parallel branch (off r3p0rt_001, not off sched_002's own lineage). On a
+# fresh database, if Alembic's chosen topological order runs this branch to
+# completion before l0c4t10n_001, the SELECT below fails with "column
+# day_time_slots does not exist". Declaring `depends_on = ("l0c4t10n_001",)`
+# fixes the ordering but made alembic/script/revision.py's
+# _topological_sort effectively hang (multi-minute, possibly worse than
+# exponential) on this revision graph -- reverted rather than trade one
+# reproducibility bug for a much worse one. A real fix needs either a
+# smaller, targeted depends_on graph or an Alembic version bump.
 depends_on: Union[str, Sequence[str], None] = None
 
 # Map day names to day_of_week integers (0=Monday..6=Sunday)
@@ -56,8 +66,26 @@ def _parse_time_str(time_str: str, period: str) -> str:
     return f"{hours_int:02d}:{int(minutes):02d}:00"
 
 
+def _column_names(table_name: str) -> set[str]:
+    inspector = sa.inspect(op.get_bind())
+    return {column["name"] for column in inspector.get_columns(table_name)}
+
+
 def upgrade() -> None:
     connection = op.get_bind()
+
+    if "day_time_slots" not in _column_names("doctor_profiles"):
+        # day_time_slots is added by d4y_t1m3_001, a parallel branch (off
+        # r3p0rt_001, not off sched_002's own lineage) that a fresh database
+        # may not have applied yet at this point in Alembic's chosen
+        # topological order. This migration only backfills existing data
+        # into doctor_availability/doctor_time_blocks; on a database where
+        # the column doesn't exist yet, there is by definition no data to
+        # backfill, so skipping is correct, not just convenient. (A
+        # `depends_on` edge would express the ordering directly, but on
+        # this migration graph it makes Alembic's topological sort hang for
+        # minutes -- see the note on sched_003's own revision history.)
+        return
 
     # Fetch all doctors with day_time_slots
     result = connection.execute(

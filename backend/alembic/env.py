@@ -32,6 +32,7 @@ from app.db.models import (
     consultation, notification, reminder, patient_access, medicine, medical_test, media_file,
     oauth_token, ai_interaction, chorui_chat, health_metric, doctor_action, medical_report,
     doctor_location, doctor_review, processing_consent, appointment_delivery,
+    slot_change_event,
 )
 target_metadata = Base.metadata
 
@@ -70,7 +71,17 @@ def run_migrations_online() -> None:
 
     with connectable.connect() as connection:
         context.configure(
-            connection=connection, target_metadata=target_metadata
+            connection=connection,
+            target_metadata=target_metadata,
+            # Several migrations add a Postgres enum value with ALTER TYPE
+            # ... ADD VALUE and a later migration uses that value -- Postgres
+            # refuses to use a new enum value in the same transaction it was
+            # added in. Historically these migrations were applied one at a
+            # time in separate `alembic upgrade` invocations, so this never
+            # surfaced; replaying the full history in a single run (a fresh
+            # database) hits it. transaction_per_migration matches how they
+            # were actually applied and resolves it.
+            transaction_per_migration=True,
         )
 
         with context.begin_transaction():

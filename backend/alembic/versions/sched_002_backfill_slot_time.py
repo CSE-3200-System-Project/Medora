@@ -41,12 +41,12 @@ def upgrade() -> None:
             UPDATE appointments
             SET slot_time = (
                 regexp_replace(
-                    substring(notes FROM 'Slot:\\s*(\\d{1,2}:\\d{2}\\s*(?:AM|PM))'),
+                    substring(notes FROM 'Slot:\\s*(\\d{1,2}:\\d{2}\\s*(?\\:AM|PM))'),
                     '\\s+', ' ', 'g'
                 )
             )::time
             WHERE notes IS NOT NULL
-              AND notes ~ 'Slot:\\s*\\d{1,2}:\\d{2}\\s*(?:AM|PM)'
+              AND notes ~ 'Slot:\\s*\\d{1,2}:\\d{2}\\s*(?\\:AM|PM)'
         """)
     )
 
