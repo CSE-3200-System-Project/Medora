@@ -78,6 +78,26 @@ C9 & Support & saeed.alam@cse.kuet.ac.bd \\
 \caption{Code metadata. The archived release date is \ReleaseDate.}
 \end{table}
 
+\section*{Software metadata}
+\begin{table}[!h]
+\small
+\begin{tabular}{@{}p{0.05\textwidth}p{0.35\textwidth}p{0.53\textwidth}@{}}
+\toprule
+& Description & Value \\
+\midrule
+S1 & Current software version & \ReleaseVersion \\
+S2 & Permanent link to executables of this version & Not applicable; Medora is distributed as source and pinned containers, not a standalone executable. See C2 for the archived repository link. \\
+S3 & Permanent link to Reproducible Capsule & Not applicable; see C3. \\
+S4 & Legal software license & MIT License \\
+S5 & Computing platforms/operating systems & Linux, Windows, macOS via Docker; the frontend is a browser client with no platform dependency \\
+S6 & Installation requirements and dependencies & Python 3.11, Node.js 20, PostgreSQL 16; exact versions pinned in \texttt{requirements-release.txt} (backend, ai\_service) and \texttt{package-lock.json} (frontend) \\
+S7 & Link to user/developer manual & \url{https://github.com/CSE-3200-System-Project/Medora/tree/main/docs} \\
+S8 & Support email for questions & saeed.alam@cse.kuet.ac.bd \\
+\bottomrule
+\end{tabular}
+\caption{Software metadata (optional).}
+\end{table}
+
 \section{Motivation and significance}
 
 Medora addresses a practical research problem: how can a bilingual web platform put

@@ -20,8 +20,13 @@ summaries, and specialty candidates are drafts that require human judgment.
   SoftwareX benchmark protocols.
 - `tools/ocr_annotation/`: loopback annotation workspace for the prescription corpus.
 - `docs/softwarex/`: revised manuscript, diagrams, checklist response, and release gates.
-- `samples/`: 105 public prescription images subject to a separate
-  [data-use notice](samples/DATA_USE_NOTICE.md).
+- `data/medicine_reference/`: the consolidated Bangladesh medicine reference corpus
+  (71,795 rows) and the deterministic script that builds it.
+- `samples/`: provenance and licensing notices for the medicine corpus and the
+  prescription image corpus. The identifiable prescription images themselves are not
+  in this repository or its history -- see
+  [samples/DATA_USE_NOTICE.md](samples/DATA_USE_NOTICE.md) and the manuscript's Ethics
+  section for why.
 
 ## Safety and data semantics
 
@@ -66,7 +71,7 @@ but reconnecting clients re-query PostgreSQL as the authoritative state.
 
 ## Local development
 
-Prerequisites: Python 3.11, Node.js 20, PostgreSQL 15, and optional provider/model
+Prerequisites: Python 3.11, Node.js 20, PostgreSQL 16, and optional provider/model
 credentials for live OCR, text, or audio features.
 
 Frontend:
@@ -122,26 +127,22 @@ credentials are absent; they are never recorded as skipped passes.
 
 ## OCR annotation and evaluation
 
-The inventory retains all 105 images and excludes two exact duplicate files from
-metrics, leaving 103 unique prescriptions. The release protocol requires:
-
-1. Assisted prelabels from Paddle, Azure, and the current pipeline.
-2. Correction of every draft by a trained author.
-3. Independent, blinded labelling of all 103 unique records by a licensed clinician
-   or pharmacist.
-4. Adjudication of every disagreement.
-5. A frozen 21-record development split and 82-record held-out test split.
-
-Start the local workspace with:
+Prescription OCR accuracy is **withdrawn as a claim** in this release, not evaluated:
+the pipeline did not reach usable accuracy on handwritten Bangladeshi prescriptions, no
+accuracy figure is stated, and no OCR results table is published. The annotation,
+adjudication, and eight-configuration (A–H) ablation tooling below remains in the
+repository for future work, but nothing here is required by, or asserted in, the
+current manuscript.
 
 ```powershell
 python tools/ocr_annotation/server.py --reviewer-id REVIEWER --role primary
 ```
 
-The benchmark evaluates configurations A–H on immutable provider responses and
-publishes text/field metrics, prescription-level paired-bootstrap confidence
-intervals, failures, exclusions, raw scores, and local/provider runtime. AI output is
-never treated as ground truth.
+The workspace supports assisted prelabelling (Paddle, Azure, the current pipeline),
+correction, independent blinded labelling, and adjudication, evaluating configurations
+A–H on immutable provider responses with text/field metrics, prescription-level
+paired-bootstrap confidence intervals, failures, exclusions, raw scores, and
+local/provider runtime. AI output is never treated as ground truth.
 
 ## SoftwareX release state
 

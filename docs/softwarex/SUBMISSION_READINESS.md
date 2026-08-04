@@ -1,8 +1,12 @@
 # Medora SoftwareX — submission readiness ledger
 
-**Verdict as of 2026-08-03: not submittable.** One blocker dominates everything else —
-the manuscript contains no OCR results at all — and it is gated on human work no
-automation can do.
+**Verdict as of 2026-08-04: not submittable, but no blocker is scientific.** The OCR
+accuracy claim was withdrawn (see §1, superseding the framing below, which described a
+now-resolved state as of 2026-08-03) rather than completed, which removed the one
+blocker that needed unautomatable human labelling work. What remains is exclusively
+credential- and authorization-gated: a DOI/tag, CI verification receipts, provider
+account metadata, and synthetic test credentials. See `response_to_revision.md` C5/C6
+for the withdrawal and its rationale.
 
 This file is the hand- and agent-maintained record of where the submission actually
 stands. It is deliberately separate from two neighbours:
@@ -15,30 +19,38 @@ stands. It is deliberately separate from two neighbours:
 
 ---
 
-## 1. The dominant blocker
+## 1. OCR accuracy: withdrawn, not blocked
 
-`medora_softwarex.tex` wraps the A–H ablation table in
-`\IfFileExists{generated/ocr_results.tex}`. That file does not exist, so the compiled
-PDF renders an italic placeholder where the paper's central technical contribution
-(M-C5, M-C6) should be. There are no OCR numbers in the paper.
+**Superseded (2026-08-04).** The paragraph and table below described the state as of
+2026-08-03, when `medora_softwarex.tex` still wrapped the A–H ablation table in
+`\IfFileExists{generated/ocr_results.tex}` and the missing file rendered as a
+placeholder. That is no longer the case: the manuscript now states plainly that the
+OCR pipeline did not reach usable accuracy on handwritten Bangladeshi prescriptions,
+reports no accuracy figure, and publishes no OCR results table. `medora_softwarex.tex`
+no longer references `generated/ocr_results.tex` at all (grep confirms zero hits). This
+is a stated negative result, not an unfinished claim, so it no longer gates the release.
 
-Everything upstream of it is staged and everything downstream is blocked:
+The annotation, adjudication, and A–H ablation tooling described below remains in the
+repository and functional for future work, but nothing downstream of it blocks this
+submission. Historical detail, retained for that future work:
 
-| Item | State |
+| Item | State (as of 2026-08-03, before the withdrawal) |
 |---|---|
-| Prescription images | 105 archived, 103 hash-unique (RX-0071, RX-0083 excluded as duplicates) |
+| Prescription images | 105 archived, 103 hash-unique (RX-0071, RX-0083 excluded as duplicates); the images themselves are no longer in this repository's history (see §9's Ethics note and `samples/DATA_USE_NOTICE.md`) |
 | Provider response caches | 103 × 3 (`paddle_full`, `azure_full`, `azure_yolo`), immutable, hash-verified |
 | GPT-assisted Rx-only drafts | 103/103, all `review_state: ai_assisted_unreviewed` — explicitly **not** ground truth |
 | Composed prelabels | 103/103, all `adjudication.state: not_started`, `boxes: []` |
-| `tests/benchmarks/annotations/` | **does not exist** — no human annotation has ever been saved |
-| `ocr_corpus_manifest.json` | `frozen: false`, three freeze blockers outstanding |
-| `ocr_gold_standard.jsonl` | **absent** — 0 of 103 adjudicated |
-| A–H ablation | harness complete (`ocr_accuracy_benchmark.py`), **never run**; fails closed on the missing gold standard |
+| `tests/benchmarks/annotations/` | does not exist — no human annotation has been saved |
+| `ocr_corpus_manifest.json` | `frozen: false` |
+| `ocr_gold_standard.jsonl` | absent — 0 of 103 adjudicated |
+| A–H ablation | harness complete (`ocr_accuracy_benchmark.py`), never run |
 
-The work is: the primary author corrects all 103 assisted drafts; a *different* licensed
-clinician or pharmacist labels the same 103 images in the blinded independent role; an
-adjudicator resolves every disagreement; then freeze, build the gold standard, and run
-the held-out benchmark once. See `annotation_protocol.md` and `PRE_ZENODO_HANDOFF.md`.
+Resuming this work would still require: the primary author correcting all 103 assisted
+drafts; a *different* licensed clinician or pharmacist independently, blindly labelling
+the same 103 images; an adjudicator resolving every disagreement; then freezing,
+building the gold standard, and running the held-out benchmark once. See
+`annotation_protocol.md` and `PRE_ZENODO_HANDOFF.md`. `tools/release/check_softwarex_release.py`
+no longer requires any of this.
 
 ---
 
@@ -55,8 +67,8 @@ Status column is what I verified in the repository, which is not always what
 | M-C2 separate text/image/audio paths | Done | `processing_consent.py`, `ai_service/app/pipeline.py`, `figures-src/trust_boundary.tex` |
 | M-C3 no absolute anonymity claims | Done | Zero absolute claims in the `.tex`; the three `anonym*` hits are all limiting |
 | M-C4 PII + consent guard evaluated | **Done, rebuilt 2026-08-03** | Was self-fulfilling; see §3. Now precision 0.947 / recall 0.755 over 134 hand-authored cases |
-| M-C5 OCR evaluation transparency | **Blocked** | 0/103 adjudicated labels |
-| M-C6 OCR baselines + ablation | **Blocked** | Harness exists; never run |
+| M-C5 OCR evaluation transparency | **Withdrawn as a claim (2026-08-04)** | No accuracy figure is stated; 0/103 adjudicated labels; harness remains for future work |
+| M-C6 OCR baselines + ablation | **Withdrawn as a claim (2026-08-04)** | Harness exists, never run; no attribution claim to make without an accuracy claim |
 | M-C7 atomic booking under concurrency | Done | 30/30 at concurrency 2/10/50, `booking_results.json`. Advisory lock + partial unique index + idempotency key + post-commit outbox |
 | M-C8 AI safety + factuality | **Partly done, rebuilt 2026-08-03** | Deterministic side now genuine (§3); licensed navigation review still blocked |
 | M-C9 ethics / data governance | **Blocked (external)** | `samples/DATA_USE_NOTICE.md` exists; approval authority, date, and reference must be supplied by an author |

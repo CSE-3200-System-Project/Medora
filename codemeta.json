@@ -1,0 +1,47 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+  "@type": "SoftwareSourceCode",
+  "name": "Medora",
+  "description": "Medora is open-source research software for bilingual health-record management, human-reviewed prescription digitization, specialty navigation, and transactionally safe appointment coordination. It is not a clinically validated medical device.",
+  "identifier": "medora",
+  "codeRepository": "https://github.com/CSE-3200-System-Project/Medora",
+  "license": "https://spdx.org/licenses/MIT",
+  "version": "1.0.0",
+  "programmingLanguage": ["Python", "TypeScript", "SQL"],
+  "runtimePlatform": ["Python 3.11", "Node.js 20", "PostgreSQL 16"],
+  "operatingSystem": ["Linux", "Windows", "macOS"],
+  "applicationCategory": "Health informatics",
+  "keywords": [
+    "digital health",
+    "bilingual software",
+    "prescription OCR",
+    "consent",
+    "appointment coordination",
+    "deterministic intent routing"
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "Sarwad Hasan",
+      "familyName": "Siddiqui"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Adiba",
+      "familyName": "Tahsin"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Kazi Saeed",
+      "familyName": "Alam",
+      "email": "saeed.alam@cse.kuet.ac.bd"
+    }
+  ],
+  "softwareRequirements": [
+    "Python 3.11",
+    "Node.js 20",
+    "PostgreSQL 16"
+  ],
+  "readme": "https://github.com/CSE-3200-System-Project/Medora/blob/main/README.md",
+  "issueTracker": "https://github.com/CSE-3200-System-Project/Medora/issues"
+}
