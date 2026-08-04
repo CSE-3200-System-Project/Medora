@@ -1,5 +1,9 @@
 # MEDORA AI Navigation Audit
 
+> **Archived.** Point-in-time audit from Chorui's development. The shipped
+> architecture is documented in `docs/architecture/ai-system.md` and
+> `docs/workflows/ai-flows.md`.
+
 ## Section 1 - Chorui AI Presence Analysis
 
 ### 1.1 Chorui-related implementations found

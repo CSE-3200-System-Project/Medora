@@ -1,5 +1,9 @@
 # AI Navigation Implementation Plan
 
+> **Archived.** Planning document from Chorui's development. The shipped
+> architecture is documented in `docs/architecture/ai-system.md` and
+> `docs/workflows/ai-flows.md`.
+
 ## 1. System Understanding Summary
 
 ### Current Chorui AI Capabilities (Verified)

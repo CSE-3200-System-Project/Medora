@@ -1,6 +1,6 @@
 # Medora Documentation Index
 
-**Medora** — AI-native healthcare platform for Bangladesh. Full-stack: Next.js 15 frontend, FastAPI backend, dedicated OCR microservice.
+**Medora** — AI-native healthcare platform for Bangladesh. Full-stack: Next.js 16 frontend, FastAPI backend, dedicated OCR microservice.
 
 ---
 
@@ -26,24 +26,23 @@ These docs are verified against actual code and reflect the current implementati
 ### API & System
 | Document | What it covers |
 |---|---|
-| [api/routes.md](./api/routes.md) | All 26 route modules, every endpoint with method/path/auth |
+| [api/routes.md](./api/routes.md) | All 28 route modules, every endpoint with method/path/auth |
 | [system/data-flow.md](./system/data-flow.md) | Request lifecycle, auth path, AI data path, OCR path, background loops |
 | [system/realtime.md](./system/realtime.md) | Supabase Realtime, push notifications, reminder dispatcher, hold expiry |
 
 ---
 
-## Legacy / Academic Docs
+## Supplementary Docs
 
-These were written during development and may not reflect the current state exactly. Use the developer reference above for ground truth.
+Narrower or point-in-time material. Where these disagree with the developer reference
+above on current behavior, the developer reference and the code win.
 
 | Document | Description |
 |---|---|
-| [PROJECT_OVERVIEW.md](./PROJECT_OVERVIEW.md) | High-level system overview (may be partially outdated) |
-| [FINAL_REPORT.md](./FINAL_REPORT.md) | Academic final report |
+| [PROJECT_OVERVIEW.md](./PROJECT_OVERVIEW.md) | High-level system overview |
 | [FEATURES_INVENTORY.md](./FEATURES_INVENTORY.md) | Feature list across roles |
 | [DEPLOYMENT.md](./DEPLOYMENT.md) | Docker, CI/CD, environment setup |
 | [TESTING_REPORT.md](./TESTING_REPORT.md) | Test coverage and benchmarks |
-| [TEAM_CONTRIBUTIONS.md](./TEAM_CONTRIBUTIONS.md) | Team member contributions |
 | [DIAGRAMS_DOCUMENTATION.md](./DIAGRAMS_DOCUMENTATION.md) | Architecture diagrams |
 | [chorui-ai-pipeline.md](./chorui-ai-pipeline.md) | Chorui AI pipeline (see ai-system.md for current version) |
 | [pwa-doc.md](./pwa-doc.md) | PWA service worker details |
@@ -51,6 +50,11 @@ These were written during development and may not reflect the current state exac
 | [vapi-voice-integration.md](./vapi-voice-integration.md) | Vapi voice call integration |
 | [backend-implementation-prd.md](./backend-implementation-prd.md) | Original backend PRD |
 | [frontend-implementation-prd.md](./frontend-implementation-prd.md) | Original frontend PRD |
+
+## Archive
+
+Superseded planning and reporting documents from earlier in development, kept for
+history rather than reference: [docs/archive/](./archive/).
 
 ---
 
