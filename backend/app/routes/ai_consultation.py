@@ -22,6 +22,7 @@ from app.core.patient_reference import (
     resolve_doctor_patient_identifier,
 )
 from app.core.dependencies import get_db, resolve_profile
+from app.core.vapi_auth import verify_vapi_tool_secret
 from app.db.models.ai_interaction import AIInteraction
 from app.db.models.chorui_chat import ChoruiChatMessage
 from app.db.models.appointment import Appointment, AppointmentStatus
@@ -4425,14 +4426,9 @@ async def _handle_vapi_navigate(
 async def chorui_vapi_tool_webhook(
     payload: dict[str, Any],
     request: Request,
+    _vapi_secret: None = Depends(verify_vapi_tool_secret),
     db: AsyncSession = Depends(get_db),
 ):
-    configured_secret = _safe_vapi_text(settings.VAPI_TOOL_SHARED_SECRET)
-    if configured_secret:
-        provided_secret = _safe_vapi_text(request.headers.get("x-vapi-tool-secret"), max_length=256)
-        if provided_secret != configured_secret:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid Vapi tool secret")
-
     tool_calls = _extract_vapi_tool_calls(payload)
     if not tool_calls:
         return {"received": True}

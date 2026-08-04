@@ -54,7 +54,7 @@ NEXT_PUBLIC_BACKEND_URL=http://localhost:8000
 VAPI_TOOL_SHARED_SECRET=
 ```
 
-`VAPI_TOOL_SHARED_SECRET` is optional but recommended. If set, your Vapi tool must send the same value in `x-vapi-tool-secret`.
+`VAPI_TOOL_SHARED_SECRET` is required for the Vapi tool webhooks. If unset, `/ai/vapi/tools/*` return `503` and refuse all requests rather than accepting unauthenticated traffic. Your Vapi tool must send the same value in the `x-vapi-tool-secret` header.
 
 ## Vapi dashboard setup
 

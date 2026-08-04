@@ -15,6 +15,7 @@ from fastapi.middleware.gzip import GZipMiddleware
 from sqlalchemy import text
 from app.core.config import settings
 from app.core.performance_metrics import begin_request_metrics, end_request_metrics
+from app.core.rate_limit import RateLimitMiddleware
 from app.routes import health, auth, profile, upload, admin, doctor, speciality, appointment, ai_doctor, ai_consultation, medicine, medical_test, notification, patient_access, reminder, consultation, consultation_ai, availability, reschedule, oauth, health_metrics, doctor_actions, patient_dashboard, health_data_consent, medical_report, patient_data_sharing, processing_consent, review
 from app.services.reminder_dispatcher import start_reminder_dispatcher, stop_reminder_dispatcher
 from app.db.session import AsyncSessionLocal
@@ -289,7 +290,14 @@ async def lifespan(app: FastAPI):
     logger.info("Shutting down...")
 
 
-app = FastAPI(title="Backend API", lifespan=lifespan)
+_is_production = settings.ENVIRONMENT.lower() == "production"
+app = FastAPI(
+    title="Backend API",
+    lifespan=lifespan,
+    docs_url=None if _is_production else "/docs",
+    redoc_url=None if _is_production else "/redoc",
+    openapi_url=None if _is_production else "/openapi.json",
+)
 
 # Get allowed origins from env or default to localhost
 origins = [
@@ -299,7 +307,23 @@ origins = [
 
 # Add additional origins if specified in env (comma separated)
 if os.getenv("ALLOWED_ORIGINS"):
-    origins.extend(os.getenv("ALLOWED_ORIGINS").split(","))
+    origins.extend(part.strip() for part in os.getenv("ALLOWED_ORIGINS").split(",") if part.strip())
+
+if "*" in origins and any(o != "*" for o in origins):
+    origins = ["*"]
+if origins == ["*"]:
+    # allow_credentials=True with a wildcard origin is rejected by browsers
+    # anyway, and combining them is a CORS misconfiguration smell -- refuse
+    # credentialed wildcard rather than silently disabling credentials.
+    raise RuntimeError(
+        "ALLOWED_ORIGINS must not be '*' while allow_credentials=True. "
+        "List explicit origins instead."
+    )
+
+# Rate limiting must be added before CORSMiddleware: Starlette wraps
+# middleware so the most-recently-added is outermost, so adding this first
+# means CORSMiddleware wraps it and adds CORS headers to 429 responses too.
+app.add_middleware(RateLimitMiddleware)
 
 app.add_middleware(
     CORSMiddleware,
@@ -335,6 +359,12 @@ async def add_performance_headers(request: Request, call_next):
         if existing_server_timing:
             timing_parts.insert(0, existing_server_timing)
         response.headers["Server-Timing"] = ", ".join(timing_parts)
+
+        response.headers["X-Content-Type-Options"] = "nosniff"
+        response.headers["X-Frame-Options"] = "DENY"
+        response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+        if _is_production:
+            response.headers["Strict-Transport-Security"] = "max-age=63072000; includeSubDomains"
         return response
     finally:
         end_request_metrics(metrics_token)

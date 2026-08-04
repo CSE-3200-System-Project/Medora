@@ -2,6 +2,9 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
+    # "production" hides /docs, /redoc, and /openapi.json. Any other value
+    # (the default) keeps them available for local development.
+    ENVIRONMENT: str = "development"
     SUPABASE_DATABASE_URL: str  # For SQLAlchemy (postgresql+asyncpg://...)
     SUPABASE_URL: str           # For Supabase Auth API
     SUPABASE_KEY: str           # Public/anon key for auth flows
@@ -45,6 +48,9 @@ class Settings(BaseSettings):
     VAPI_API_KEY: str | None = None
     VAPI_ASSISTANT_ID: str | None = None
     VAPI_PUBLIC_KEY: str | None = None
+    # Required to authenticate the /ai/vapi/tools/* webhooks. If unset, those
+    # endpoints refuse all requests (fail closed) rather than accepting
+    # unauthenticated traffic. See app/core/vapi_auth.py.
     VAPI_TOOL_SHARED_SECRET: str | None = None
 
     GOOGLE_CLIENT_ID: str | None = None

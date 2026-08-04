@@ -145,10 +145,6 @@ async def _serialize_review(db: AsyncSession, review: DoctorReview) -> ReviewRes
         author=author,
     )
 
-@router.get("/testxyz")
-async def test_route():
-    return {"message": "Test route working"}
-
 @router.get("/search", response_model=DoctorSearchResponse)
 async def search_doctors(
     request: Request,

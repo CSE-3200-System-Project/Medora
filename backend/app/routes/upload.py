@@ -371,7 +371,7 @@ def _calculate_prescription_confidence(medications: list[dict]) -> float:
 
 
 @router.post("/")
-async def upload_file(file: UploadFile = File(...)):
+async def upload_file(file: UploadFile = File(...), user: any = Depends(get_current_user_token)):
     """Legacy upload endpoint retained for backward compatibility."""
     try:
         if not file.filename:
@@ -393,8 +393,8 @@ async def upload_file(file: UploadFile = File(...)):
         raise
     except StorageApiError as exc:
         _raise_storage_exception(exc, "upload")
-    except Exception as exc:
-        raise HTTPException(status_code=500, detail=f"File upload failed: {str(exc)}")
+    except Exception:
+        raise HTTPException(status_code=500, detail="File upload failed")
 
 
 @router.post("/files", response_model=MediaUploadResponse)

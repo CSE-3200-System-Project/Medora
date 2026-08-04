@@ -56,12 +56,16 @@ class RedactionResult:
 
 
 def _resolve_hash_secret() -> str:
-    candidate = (
-        settings.AI_ID_HASH_SECRET
-        or settings.SUPABASE_SERVICE_ROLE_KEY
-        or settings.SUPABASE_KEY
-        or "medora-default-local-secret"
-    )
+    # SUPABASE_KEY (the anon key) is not a valid fallback: it ships to the
+    # browser, so deriving pseudonym hashes from it makes them reversible by
+    # anyone with the client bundle. Fail loudly instead of silently using a
+    # public or hardcoded value.
+    candidate = settings.AI_ID_HASH_SECRET or settings.SUPABASE_SERVICE_ROLE_KEY
+    if not candidate:
+        raise RuntimeError(
+            "AI_ID_HASH_SECRET or SUPABASE_SERVICE_ROLE_KEY must be configured "
+            "before pseudonymising identifiers for AI processing."
+        )
     return str(candidate).strip()
 
 
