@@ -7,12 +7,18 @@ const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
 
 /**
- * Hook that subscribes to realtime appointment changes for a specific doctor+date.
- * When an appointment is created, updated, or deleted for the given doctor,
- * the `onSlotChange` callback fires so the UI can refresh available slots.
+ * Hook that subscribes to realtime slot-availability changes for a doctor+date.
+ * When availability moves, `onSlotChange` fires so the UI can refetch slots
+ * through the backend.
  *
  * This is a progressive enhancement — the booking flow works without it
  * (poll-on-focus), but with it, slots update in real time.
+ *
+ * It listens to `slot_change_events`, not `appointments`. That table is written by a
+ * trigger and holds only (doctor_id, appointment_date, changed_at), so nothing
+ * patient-identifying reaches the browser. Subscribing to `appointments` would stream
+ * whole rows to any holder of the anon key, which is public by construction — see
+ * migration `sec_001`.
  */
 export function useRealtimeSlots(
   doctorId: string | null | undefined,
@@ -37,16 +43,16 @@ export function useRealtimeSlots(
         {
           event: "*",
           schema: "public",
-          table: "appointments",
+          table: "slot_change_events",
           filter: `doctor_id=eq.${doctorId}`,
         },
         (payload) => {
-          // Check if the change is for the date we're watching
+          // The row carries no detail worth reading beyond the date it refers to;
+          // the callback refetches authoritative slots from the backend.
           const candidate = Object.keys(payload.new).length ? payload.new : payload.old;
           const record = candidate as { appointment_date?: unknown };
           if (typeof record.appointment_date === "string") {
-            const recordDate = record.appointment_date.slice(0, 10);
-            if (recordDate === date) {
+            if (record.appointment_date.slice(0, 10) === date) {
               callbackRef.current();
             }
           } else {

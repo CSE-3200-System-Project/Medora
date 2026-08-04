@@ -1,5 +1,10 @@
 # Medora Performance Summary (Sample)
 
+> **SYNTHETIC ILLUSTRATIVE FIXTURE — NOT A MEASUREMENT.** Every number below was
+> hand-authored to show the report shape. Nothing here was produced by executing a
+> benchmark. Do not cite these values in the manuscript, slides, or defence material.
+> Real executed evidence lives in `tests/benchmarks/reports/current/`.
+
 Generated at: 2026-04-03T15:00:00Z
 
 ## API Latency

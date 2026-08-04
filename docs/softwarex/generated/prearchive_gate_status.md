@@ -1,7 +1,7 @@
 # Medora SoftwareX pre-archive gate status
 
-Generated: 2026-08-03T02:03:27.814695+00:00
-Git HEAD: `a3f3162f9167d72234888bbd916845b61d6d7201`
+Generated: 2026-08-03T18:56:32.246176+00:00
+Git HEAD: `5ec5c9c4f8ad20226befae6e9a98770585163e4c`
 Dirty worktree: `true`
 Scope: pre-Zenodo evidence only; this is not a final release verification receipt.
 
@@ -9,7 +9,7 @@ Scope: pre-Zenodo evidence only; this is not a final release verification receip
 |---|---|---|---|
 | Backend unit tests | passed | `tests/benchmarks/reports/current/backend_unit_final.out.log` | Focused backend unit suite. |
 | Backend smoke tests | passed | `tests/benchmarks/reports/current/backend_smoke_final.out.log` | Backend application smoke suite. |
-| Integration and security tests | passed | `tests/benchmarks/reports/current/backend_integration_security_final.out.log` | Docker-backed integration, authorization, consent, and security checks. |
+| Integration and security tests | passed | `tests/benchmarks/reports/current/backend_integration_security_final.out.log` | Docker-backed integration, authorization, consent, and security checks, including the five data-plane grant/RLS invariants added with sec_001. |
 | AI-service unit tests | passed | `tests/benchmarks/reports/current/ai_unit_final.out.log` | Local OCR, annotation blinding, parser, provider-separation, grouped corpus-freeze, and AI-service tests. |
 | Frontend lint | passed | `tests/benchmarks/reports/current/frontend_lint_final.out.log` | Next.js lint completed with zero errors and zero warnings. |
 | Frontend production build | passed | `tests/benchmarks/reports/current/frontend_build_final.log` | Production Next.js build. |
@@ -26,7 +26,7 @@ Scope: pre-Zenodo evidence only; this is not a final release verification receip
 | Licensed symptom-navigation review | blocked | `tests/benchmarks/reports/current/safety_results.json` | required |
 | Provider/account release metadata | blocked | `tests/benchmarks/provider_manifest.json` | Azure region and organization retention/ZDR facts must be verified by the account owner; execution date is set only for the frozen final run. |
 | Approval citation and corpus freeze | blocked | `samples/DATA_USE_NOTICE.md` | Enter verified approval authority, date, reference, scope, and review grouping/language/image-quality metadata before freezing. |
-| Verified funding statement | blocked | `docs/softwarex/medora_softwarex.tex` | An author must provide the verified funder and grant number or confirm that the work received no external funding. |
+| Verified funding statement | passed | `docs/softwarex/medora_softwarex.tex` | An author must provide the verified funder and grant number or confirm that the work received no external funding. |
 | Authenticated production-browser journeys | blocked | `tests/e2e/playwright.config.ts` | Requires a non-production synthetic patient/doctor/admin account set; no real account is created by this tool. |
 | Final commit verification and Zenodo metadata | deferred_by_request | `docs/softwarex/release_metadata.json` | Intentionally stopped before tagging, archiving, DOI insertion, or deposit, as requested. |
 

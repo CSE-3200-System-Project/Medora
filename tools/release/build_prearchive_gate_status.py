@@ -76,7 +76,7 @@ def main() -> int:
     gates = [
         log_gate("Backend unit tests", "backend_unit_final.out.log", r"55 passed", "Focused backend unit suite."),
         log_gate("Backend smoke tests", "backend_smoke_final.out.log", r"34 passed", "Backend application smoke suite."),
-        log_gate("Integration and security tests", "backend_integration_security_final.out.log", r"14 passed", "Docker-backed integration, authorization, consent, and security checks."),
+        log_gate("Integration and security tests", "backend_integration_security_final.out.log", r"19 passed", "Docker-backed integration, authorization, consent, and security checks, including the five data-plane grant/RLS invariants added with sec_001."),
         log_gate("AI-service unit tests", "ai_unit_final.out.log", r"16 passed", "Local OCR, annotation blinding, parser, provider-separation, grouped corpus-freeze, and AI-service tests."),
         log_gate("Frontend lint", "frontend_lint_final.out.log", r"MEDORA_GATE_PASSED", "Next.js lint completed with zero errors and zero warnings."),
         log_gate("Frontend production build", "frontend_build_final.log", r"MEDORA_GATE_PASSED|Compiled successfully", "Production Next.js build."),
