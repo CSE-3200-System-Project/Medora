@@ -1,0 +1,87 @@
+# Local, self-contained bring-up of all three services plus a local Postgres.
+# This is a development/reproducibility convenience, not the production
+# deployment topology: production uses Supabase-hosted Postgres (see
+# backend/docker-compose.yaml) and separate container deployments for
+# backend and ai_service (see .github/workflows/deploy-*.yml).
+#
+# Usage:
+#   cp backend/.env.example backend/.env
+#   cp ai_service/.env.example ai_service/.env
+#   cp frontend/.env.example frontend/.env
+#   # edit the three .env files: at minimum point SUPABASE_DATABASE_URL at
+#   # the `postgres` service below (postgresql+asyncpg://postgres:postgres@postgres:5432/medora)
+#   docker compose up --build
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: medora-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: medora
+    ports:
+      - "5432:5432"
+    volumes:
+      - medora-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: medora-backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    environment:
+      SUPABASE_DATABASE_URL: ${SUPABASE_DATABASE_URL:-postgresql+asyncpg://postgres:postgres@postgres:5432/medora}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:3000}
+      AI_OCR_SERVICE_URL: http://ai_service:8000
+      RUN_MIGRATIONS: ${RUN_MIGRATIONS:-true}
+      PRELOAD_WHISPER_ON_STARTUP: ${PRELOAD_WHISPER_ON_STARTUP:-false}
+    restart: unless-stopped
+
+  ai_service:
+    build:
+      context: ./ai_service
+      dockerfile: Dockerfile
+    container_name: medora-ai-service
+    ports:
+      - "8001:8000"
+    env_file:
+      - ./ai_service/.env
+    restart: unless-stopped
+
+  frontend:
+    image: node:20-alpine
+    container_name: medora-frontend
+    working_dir: /app
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./frontend/.env
+    environment:
+      BACKEND_URL: http://backend:8000
+    volumes:
+      - ./frontend:/app:cached
+      - medora-frontend-node-modules:/app/node_modules
+    command: sh -c "npm ci && npm run dev"
+
+networks:
+  default:
+    name: medora-network
+
+volumes:
+  medora-postgres-data:
+  medora-frontend-node-modules:
