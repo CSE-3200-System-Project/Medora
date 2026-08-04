@@ -1,5 +1,8 @@
 # Team Contributions & Work Distribution
 
+> **Archived.** Historical record from the coursework project, moved out of the
+> maintained developer reference. See `docs/INDEX.md` for current documentation.
+
 ## Overview
 
 Medora was built by **two developers** working collaboratively over a **3-month period** (January 2026 - April 2026). The project represents **185+ git commits** with clear division of responsibilities while maintaining significant overlap in critical areas to ensure system cohesion.
