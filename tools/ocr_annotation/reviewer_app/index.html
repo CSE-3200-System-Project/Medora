@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Medora prescription Rx review</title>
+<link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+
+<!-- ---------------- Sign-in / attestation ---------------- -->
+<section id="gate" class="gate">
+  <div class="gate-card">
+    <h1>Prescription Rx review</h1>
+    <p class="lede">
+      You will see <strong id="gate-count">…</strong> prescription photographs. For each one,
+      transcribe <strong>only the Rx section</strong> &mdash; the prescribed medicines and their
+      instructions. Nothing else on the page.
+    </p>
+
+    <div class="callout">
+      <h2>What to transcribe</h2>
+      <ul>
+        <li><strong>Include:</strong> everything written after the <span class="rx">℞</span> symbol &mdash; medicine names, strength, dose, frequency, duration, route, quantity, and instructions.</li>
+        <li><strong>Exclude:</strong> patient name, age, sex, address, phone, ID numbers, dates, doctor name, degrees, registration number, chamber or hospital details, letterhead, signature, advice or follow-up notes outside the Rx list, and vitals.</li>
+        <li>If you cannot read something, type <code>[illegible]</code> in its place rather than guessing.</li>
+      </ul>
+    </div>
+
+    <label class="field">
+      <span>Your full name</span>
+      <input id="r-name" type="text" autocomplete="name" placeholder="Dr. Jane Doe" />
+    </label>
+    <label class="field">
+      <span>Professional role</span>
+      <select id="r-role">
+        <option value="">Select…</option>
+        <option value="licensed_clinician">Licensed clinician</option>
+        <option value="licensed_pharmacist">Licensed pharmacist</option>
+      </select>
+    </label>
+    <label class="field">
+      <span>Registration / licence number</span>
+      <input id="r-reg" type="text" placeholder="BMDC / Pharmacy Council number" />
+    </label>
+    <label class="field">
+      <span>Reviewer ID <small>(short label used in the dataset, e.g. reviewer-b)</small></span>
+      <input id="r-id" type="text" placeholder="reviewer-b" />
+    </label>
+
+    <label class="check">
+      <input id="r-attest" type="checkbox" />
+      <span>
+        I confirm that I hold the professional registration stated above, that I am transcribing
+        these prescriptions independently, and that I have not been shown any machine-generated
+        transcription or any other reviewer's answers for these images.
+      </span>
+    </label>
+
+    <p class="err" id="gate-error" hidden></p>
+    <button id="gate-start" class="primary">Start reviewing</button>
+    <p class="fineprint">
+      Images stay on this computer. Nothing is uploaded anywhere. Your work saves automatically
+      after every record and you can close and reopen this page at any time.
+    </p>
+  </div>
+</section>
+
+<!-- ---------------- Main workspace ---------------- -->
+<main id="app" hidden>
+  <header class="bar">
+    <div class="bar-left">
+      <span class="rec" id="record-label">RX-0000</span>
+      <span class="counter"><span id="pos">0</span> of <span id="total">0</span></span>
+    </div>
+    <div class="progress" aria-label="Progress">
+      <div class="progress-fill" id="progress-fill"></div>
+      <span class="progress-text"><span id="done-count">0</span> saved</span>
+    </div>
+    <div class="bar-right">
+      <button id="btn-export" class="ghost">Finish &amp; export</button>
+    </div>
+  </header>
+
+  <div class="split">
+    <!-- image -->
+    <div class="pane image-pane">
+      <div class="tools">
+        <button data-zoom="in" title="Zoom in (+)">+</button>
+        <button data-zoom="out" title="Zoom out (−)">−</button>
+        <button data-zoom="fit" title="Fit to window (0)">Fit</button>
+        <button data-rotate="left" title="Rotate left ([)">⟲</button>
+        <button data-rotate="right" title="Rotate right (])">⟳</button>
+        <span class="hint">drag to pan · scroll to zoom</span>
+      </div>
+      <div class="viewport" id="viewport">
+        <img id="image" alt="Prescription under review" draggable="false" />
+      </div>
+    </div>
+
+    <!-- form -->
+    <div class="pane form-pane">
+      <div class="reminder">
+        Rx section only. Leave out patient, doctor, clinic, dates, and vitals.
+      </div>
+
+      <label class="block">
+        <span class="lbl">Rx transcription <small>one medicine per line, exactly as written</small></span>
+        <textarea id="transcription" rows="9" spellcheck="false"
+          placeholder="Tab. Napa 500 mg&#10;1+0+1 — 7 days&#10;Cap. Omeprazole 20 mg&#10;1+0+0 — before breakfast — 14 days"></textarea>
+      </label>
+
+      <div class="meds">
+        <div class="meds-head">
+          <span class="lbl">Structured medicines <small>optional but valuable</small></span>
+          <button id="btn-add-med" class="ghost small">+ Add medicine</button>
+        </div>
+        <div id="med-rows"></div>
+      </div>
+
+      <div class="flags">
+        <label class="check inline"><input type="checkbox" id="f-illegible" /> <span>Rx section is partly or wholly illegible</span></label>
+        <label class="check inline"><input type="checkbox" id="f-uncertain" /> <span>I am uncertain about part of this transcription</span></label>
+        <label class="check inline"><input type="checkbox" id="f-norx" /> <span>This image has no readable Rx section at all</span></label>
+      </div>
+
+      <label class="block">
+        <span class="lbl">Notes <small>optional</small></span>
+        <textarea id="notes" rows="2" spellcheck="false" placeholder="Anything the adjudicator should know"></textarea>
+      </label>
+
+      <div class="actions">
+        <button id="btn-prev" class="ghost">← Previous</button>
+        <button id="btn-skip" class="ghost">Skip for now</button>
+        <button id="btn-save" class="primary">Save &amp; next →</button>
+      </div>
+      <p class="saved-note" id="saved-note" hidden>Saved</p>
+      <p class="err" id="form-error" hidden></p>
+
+      <details class="shortcuts">
+        <summary>Keyboard shortcuts</summary>
+        <ul>
+          <li><kbd>Ctrl</kbd>+<kbd>Enter</kbd> save and go to next</li>
+          <li><kbd>Alt</kbd>+<kbd>←</kbd> / <kbd>Alt</kbd>+<kbd>→</kbd> previous / next</li>
+          <li><kbd>+</kbd> <kbd>−</kbd> <kbd>0</kbd> zoom in, out, fit</li>
+          <li><kbd>[</kbd> <kbd>]</kbd> rotate</li>
+        </ul>
+      </details>
+    </div>
+  </div>
+</main>
+
+<!-- ---------------- Export ---------------- -->
+<section id="done" class="gate" hidden>
+  <div class="gate-card">
+    <h1>Export your review</h1>
+    <p id="done-summary" class="lede"></p>
+    <p>Click below to download a single file, then send that file back to the study author.</p>
+    <a id="download" class="primary as-button" href="/api/export">Download review file</a>
+    <button id="btn-back" class="ghost">Back to reviewing</button>
+    <p class="fineprint">
+      The download contains only your transcriptions and your stated registration details.
+      It contains no images.
+    </p>
+  </div>
+</section>
+
+<script src="/app.js"></script>
+</body>
+</html>
