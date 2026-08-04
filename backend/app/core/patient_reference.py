@@ -37,13 +37,20 @@ def normalize_patient_ref(value: str | None) -> str | None:
 
 
 def _resolve_patient_ref_secret() -> str:
+    # SUPABASE_KEY (the anon key) is not a valid fallback: it ships to the
+    # browser, so deriving the pseudonymous patient reference from it makes
+    # it reversible by anyone with the client bundle. Fail loudly instead of
+    # silently using a public or hardcoded value.
     candidate = (
         settings.PATIENT_REF_HASH_SECRET
         or settings.AI_ID_HASH_SECRET
         or settings.SUPABASE_SERVICE_ROLE_KEY
-        or settings.SUPABASE_KEY
-        or "medora-patient-ref-local-dev"
     )
+    if not candidate:
+        raise RuntimeError(
+            "PATIENT_REF_HASH_SECRET, AI_ID_HASH_SECRET, or SUPABASE_SERVICE_ROLE_KEY "
+            "must be configured before deriving pseudonymous patient references."
+        )
     return str(candidate).strip()
 
 

@@ -15,6 +15,8 @@ from app.core.ai_privacy import redact_pii_text
 from app.core.config import settings
 from app.core.security import verify_jwt
 from app.core.dependencies import get_db
+from app.core.vapi_auth import verify_vapi_tool_secret
+from app.routes.auth import get_current_user_token
 from app.db.models.doctor import DoctorProfile
 from app.db.models.doctor_location import DoctorLocation
 from app.db.models.profile import Profile
@@ -849,14 +851,9 @@ RULES:
 async def vapi_doctor_search_tool(
     payload: dict,
     request: Request,
+    _vapi_secret: None = Depends(verify_vapi_tool_secret),
     db: AsyncSession = Depends(get_db),
 ):
-    configured_secret = _safe_vapi_text(settings.VAPI_TOOL_SHARED_SECRET, max_length=256)
-    if configured_secret:
-        provided_secret = _safe_vapi_text(request.headers.get("x-vapi-tool-secret"), max_length=256)
-        if provided_secret != configured_secret:
-            raise HTTPException(status_code=401, detail="Invalid Vapi tool secret")
-
     tool_calls = _extract_vapi_tool_calls(payload)
     if not tool_calls:
         return {"received": True}
@@ -1000,7 +997,8 @@ MAX_AUDIO_SIZE = 10 * 1024 * 1024
 )
 async def normalize_voice(
     audio_file: UploadFile = File(..., description="Audio file (webm, wav, mp3)"),
-    language: Optional[str] = Form(default="auto", description="Language hint: 'auto' (detect), 'bn' (Bangla), or 'en' (English)")
+    language: Optional[str] = Form(default="auto", description="Language hint: 'auto' (detect), 'bn' (Bangla), or 'en' (English)"),
+    current_user=Depends(get_current_user_token),
 ):
     """
     Transcribe voice audio to text for AI doctor search.
