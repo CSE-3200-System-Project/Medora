@@ -14,6 +14,11 @@ branch_labels = None
 depends_on = None
 
 
+def _column_names(table_name: str) -> set[str]:
+    inspector = sa.inspect(op.get_bind())
+    return {column["name"] for column in inspector.get_columns(table_name)}
+
+
 def upgrade() -> None:
     op.create_table(
         "user_oauth_tokens",
@@ -38,19 +43,20 @@ def upgrade() -> None:
     )
 
     # Also add google_event_id to appointments if not already there
-    # (it was declared in sched_001 but let's ensure it)
-    try:
+    # (it was declared in sched_001 but let's ensure it). A bare try/except
+    # around a failing DDL statement does not work in Postgres: once one
+    # statement in a transaction errors, every later statement in that same
+    # transaction -- including Alembic's own version-tracking UPDATE --
+    # fails with "current transaction is aborted", regardless of whether
+    # Python catches the original exception. Check first instead.
+    if "google_event_id" not in _column_names("appointments"):
         op.add_column(
             "appointments",
             sa.Column("google_event_id", sa.String(), nullable=True),
         )
-    except Exception:
-        pass  # Column may already exist from sched_001
 
 
 def downgrade() -> None:
-    try:
+    if "google_event_id" in _column_names("appointments"):
         op.drop_column("appointments", "google_event_id")
-    except Exception:
-        pass
     op.drop_table("user_oauth_tokens")

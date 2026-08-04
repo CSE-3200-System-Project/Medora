@@ -58,11 +58,25 @@ def upgrade() -> None:
         unique=False,
     )
 
-    # Fuzzy medicine search index
+    # Fuzzy medicine search index. medicine_search_index did not exist in this
+    # project's own migration history until med_001 (it long predated Alembic
+    # tracking it, created directly in Supabase) -- guard so a fresh database
+    # applying migrations in order doesn't fail here; med_001 creates this same
+    # index once the table exists.
     op.execute("CREATE EXTENSION IF NOT EXISTS pg_trgm;")
     op.execute(
-        "CREATE INDEX IF NOT EXISTS ix_medicine_search_index_term_trgm "
-        "ON medicine_search_index USING gin (term gin_trgm_ops);"
+        """
+        DO $$
+        BEGIN
+            IF EXISTS (
+                SELECT FROM information_schema.tables WHERE table_name = 'medicine_search_index'
+            ) THEN
+                CREATE INDEX IF NOT EXISTS ix_medicine_search_index_term_trgm
+                ON medicine_search_index USING gin (term gin_trgm_ops);
+            END IF;
+        END
+        $$;
+        """
     )
 
 

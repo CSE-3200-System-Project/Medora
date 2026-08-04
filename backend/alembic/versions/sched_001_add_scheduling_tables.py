@@ -230,6 +230,13 @@ def upgrade() -> None:
                 "reschedule_proposed",
                 name="appointmentrequeststatus",
                 create_type=False,
+                # create_type=False alone does not stop op.create_table from
+                # re-issuing CREATE TYPE: SQLAlchemy's _on_table_create only
+                # honors create_type once the Enum is attached to a
+                # MetaData. Without this, a fresh database fails here with
+                # "type already exists" even though the type was already
+                # created via .create(checkfirst=True) above.
+                metadata=sa.MetaData(),
             ),
             server_default="pending",
         ),
@@ -280,6 +287,7 @@ def upgrade() -> None:
                 "admin",
                 name="requestedbyrole",
                 create_type=False,
+                metadata=sa.MetaData(),  # see comment on appointmentrequeststatus above
             ),
             nullable=False,
         ),
@@ -294,6 +302,7 @@ def upgrade() -> None:
                 "rejected",
                 name="reschedulerequeststatus",
                 create_type=False,
+                metadata=sa.MetaData(),  # see comment on appointmentrequeststatus above
             ),
             server_default="pending",
         ),
