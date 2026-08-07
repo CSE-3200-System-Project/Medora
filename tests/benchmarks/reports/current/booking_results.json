@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "executed_at": "2026-08-07T21:36:26.437210+00:00",
+  "executed_at": "2026-08-07T22:25:15.151022+00:00",
   "protocol": {
     "concurrency": [
       2,
@@ -22,11 +22,11 @@
       "idempotency_mismatch_rejected": true,
       "outbox": {
         "processed": true,
-        "provider_propagation_ms": 123.63799999999999
+        "provider_propagation_ms": 124.587
       },
       "request_latencies_ms": [
-        152.92209999461193,
-        140.1206999871647
+        142.2745999880135,
+        126.63340001017787
       ],
       "passed": true
     },
@@ -41,19 +41,19 @@
       "idempotency_mismatch_rejected": true,
       "outbox": {
         "processed": true,
-        "provider_propagation_ms": 605.4000000000001
+        "provider_propagation_ms": 577.898
       },
       "request_latencies_ms": [
-        326.17709999613,
-        327.53799999773037,
-        420.5830999999307,
-        354.61079998640344,
-        387.0311000064248,
-        455.7972000038717,
-        557.9447000054643,
-        487.20329999923706,
-        521.5752000076463,
-        594.7025000059512
+        318.58579999243375,
+        316.9458000047598,
+        347.83890000835527,
+        381.0570999921765,
+        447.6342999987537,
+        550.0464000069769,
+        583.1942999939201,
+        411.37060000619385,
+        485.1474000024609,
+        516.8275000032736
       ],
       "passed": true
     },
@@ -68,59 +68,59 @@
       "idempotency_mismatch_rejected": true,
       "outbox": {
         "processed": true,
-        "provider_propagation_ms": 927.7370000000001
+        "provider_propagation_ms": 1149.023
       },
       "request_latencies_ms": [
-        476.015299995197,
-        488.7905000068713,
-        482.9421999893384,
-        475.2013999968767,
-        490.90849999629427,
-        521.586999995634,
-        552.6656000001822,
-        583.4338999993633,
-        613.9972000091802,
-        808.9650000038091,
-        644.130699991365,
-        744.3521999957738,
-        709.0224999992643,
-        775.9647000057157,
-        673.9661999890814,
-        1000.2794000029098,
-        813.1817999965278,
-        817.6761999930022,
-        822.6597000029869,
-        827.4115999956848,
-        831.613100002869,
-        836.2222999858204,
-        841.4100000081817,
-        846.4461999974446,
-        851.9851000019116,
-        857.174999997369,
-        862.4340999958804,
-        869.5176999899559,
-        874.648500001058,
-        878.309799998533,
-        885.0723999930779,
-        890.3927999926964,
-        894.913500000257,
-        901.1743000010028,
-        908.4646999981487,
-        915.4431000060868,
-        919.785399993998,
-        925.5607999948552,
-        930.6444999965606,
-        938.4645000100136,
-        943.3530999958748,
-        950.7159999920987,
-        955.6618999922648,
-        960.8396999974502,
-        965.3738000051817,
-        971.3277000118978,
-        976.800300006289,
-        981.1253000079887,
-        985.9309999883408,
-        991.0149999923306
+        646.8438999872888,
+        645.569100001012,
+        652.4337000009837,
+        661.1189000104787,
+        658.213100003195,
+        692.7052000100957,
+        792.7621999988332,
+        724.4174000079511,
+        757.2680000012042,
+        867.8313999989768,
+        903.6178999958793,
+        830.2954000100726,
+        939.2372000002069,
+        1011.9396999944001,
+        973.1075000017881,
+        1229.455799999414,
+        1018.8307999924291,
+        1023.3593000011751,
+        1031.0193999903277,
+        1036.794200001168,
+        1045.7277000095928,
+        1053.5440999956336,
+        1059.4893999950727,
+        1069.4519999960903,
+        1077.3290999932215,
+        1083.4308000048622,
+        1089.4068000052357,
+        1095.9681999956956,
+        1103.1171000067843,
+        1107.8081000014208,
+        1115.016800002195,
+        1119.6196999953827,
+        1126.017500006128,
+        1131.261500006076,
+        1138.4542000014335,
+        1144.7761000017636,
+        1150.0844999973197,
+        1153.300499994657,
+        1158.930399993551,
+        1164.717899999232,
+        1168.4565000032308,
+        1177.251500004786,
+        1182.5657000008505,
+        1187.874399998691,
+        1192.9044999997132,
+        1199.122800011537,
+        1204.4718999968609,
+        1209.2942000017501,
+        1212.8913000051398,
+        1217.5075999984983
       ],
       "passed": true
     }
@@ -134,18 +134,18 @@
       "transaction_latency_ms": {
         "scope": "HTTP request through committed transaction",
         "n": 60,
-        "mean": 29.844453334468806,
-        "p50": 28.143400006229058,
-        "p95": 42.0598000055179,
-        "p99": 44.50780000479426
+        "mean": 25.850423333031358,
+        "p50": 25.60259999881964,
+        "p95": 30.07959999376908,
+        "p99": 32.158200003323145
       },
       "notification_propagation_latency_ms": {
         "scope": "outbox creation to processed_at; not database consistency",
         "n": 30,
-        "mean": 53.1652,
-        "p50": 50.897,
-        "p95": 67.48400000000001,
-        "p99": 67.535
+        "mean": 46.482166666666664,
+        "p50": 44.536,
+        "p95": 58.629,
+        "p99": 58.934
       },
       "raw": [
         {
@@ -159,7 +159,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 52.175
+            "provider_propagation_ms": 46.256
           },
           "passed": true
         },
@@ -174,7 +174,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 45.236
+            "provider_propagation_ms": 44.432
           },
           "passed": true
         },
@@ -189,7 +189,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 50.256
+            "provider_propagation_ms": 45.224000000000004
           },
           "passed": true
         },
@@ -204,7 +204,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 43.962
+            "provider_propagation_ms": 43.166000000000004
           },
           "passed": true
         },
@@ -219,7 +219,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 50.897
+            "provider_propagation_ms": 48.211999999999996
           },
           "passed": true
         },
@@ -234,7 +234,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 50.53
+            "provider_propagation_ms": 45.978
           },
           "passed": true
         },
@@ -249,7 +249,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 67.48400000000001
+            "provider_propagation_ms": 58.629
           },
           "passed": true
         },
@@ -264,7 +264,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 51.036
+            "provider_propagation_ms": 47.851
           },
           "passed": true
         },
@@ -279,7 +279,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 50.604000000000006
+            "provider_propagation_ms": 47.571000000000005
           },
           "passed": true
         },
@@ -294,7 +294,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 57.79900000000001
+            "provider_propagation_ms": 44.909
           },
           "passed": true
         },
@@ -309,7 +309,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 59.871
+            "provider_propagation_ms": 41.725
           },
           "passed": true
         },
@@ -324,7 +324,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 55.010000000000005
+            "provider_propagation_ms": 42.803
           },
           "passed": true
         },
@@ -339,7 +339,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 64.108
+            "provider_propagation_ms": 44.536
           },
           "passed": true
         },
@@ -354,7 +354,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 46.566
+            "provider_propagation_ms": 42.824
           },
           "passed": true
         },
@@ -369,7 +369,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 54.491
+            "provider_propagation_ms": 53.632
           },
           "passed": true
         },
@@ -384,7 +384,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 65.81099999999999
+            "provider_propagation_ms": 42.565
           },
           "passed": true
         },
@@ -399,7 +399,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 55.134
+            "provider_propagation_ms": 41.385
           },
           "passed": true
         },
@@ -414,7 +414,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 64.82000000000001
+            "provider_propagation_ms": 41.675
           },
           "passed": true
         },
@@ -429,7 +429,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 67.535
+            "provider_propagation_ms": 42.527
           },
           "passed": true
         },
@@ -444,7 +444,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 44.007999999999996
+            "provider_propagation_ms": 41.769
           },
           "passed": true
         },
@@ -459,7 +459,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 47.794000000000004
+            "provider_propagation_ms": 45.181
           },
           "passed": true
         },
@@ -474,7 +474,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 48.15
+            "provider_propagation_ms": 43.827999999999996
           },
           "passed": true
         },
@@ -489,7 +489,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 51.195
+            "provider_propagation_ms": 58.934
           },
           "passed": true
         },
@@ -504,7 +504,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 47.624
+            "provider_propagation_ms": 46.303
           },
           "passed": true
         },
@@ -519,7 +519,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 48.54
+            "provider_propagation_ms": 51.32599999999999
           },
           "passed": true
         },
@@ -534,7 +534,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 55.674
+            "provider_propagation_ms": 55.885
           },
           "passed": true
         },
@@ -549,7 +549,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 46.254999999999995
+            "provider_propagation_ms": 44.265
           },
           "passed": true
         },
@@ -564,7 +564,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 48.188
+            "provider_propagation_ms": 44.067
           },
           "passed": true
         },
@@ -579,7 +579,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 50.613
+            "provider_propagation_ms": 44.231
           },
           "passed": true
         },
@@ -594,7 +594,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 53.589999999999996
+            "provider_propagation_ms": 52.776
           },
           "passed": true
         }
@@ -608,18 +608,18 @@
       "transaction_latency_ms": {
         "scope": "HTTP request through committed transaction",
         "n": 300,
-        "mean": 291.6057363335373,
-        "p50": 271.8429000087781,
-        "p95": 417.9392999940319,
-        "p99": 451.53099999879487
+        "mean": 279.3804240001191,
+        "p50": 257.8116999939084,
+        "p95": 390.67149999027606,
+        "p99": 420.6973999971524
       },
       "notification_propagation_latency_ms": {
         "scope": "outbox creation to processed_at; not database consistency",
         "n": 30,
-        "mean": 410.5584333333333,
-        "p50": 401.31899999999996,
-        "p95": 462.172,
-        "p99": 507.10299999999995
+        "mean": 393.54313333333334,
+        "p50": 385.64,
+        "p95": 437.652,
+        "p99": 499.05
       },
       "raw": [
         {
@@ -633,7 +633,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 507.10299999999995
+            "provider_propagation_ms": 412.83
           },
           "passed": true
         },
@@ -648,7 +648,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 423.632
+            "provider_propagation_ms": 399.645
           },
           "passed": true
         },
@@ -663,7 +663,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 426.02299999999997
+            "provider_propagation_ms": 383.618
           },
           "passed": true
         },
@@ -678,7 +678,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 462.172
+            "provider_propagation_ms": 370.08799999999997
           },
           "passed": true
         },
@@ -693,7 +693,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 429.97999999999996
+            "provider_propagation_ms": 376.267
           },
           "passed": true
         },
@@ -708,7 +708,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 406.33000000000004
+            "provider_propagation_ms": 398.53499999999997
           },
           "passed": true
         },
@@ -723,7 +723,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 438.469
+            "provider_propagation_ms": 437.652
           },
           "passed": true
         },
@@ -738,7 +738,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 380.764
+            "provider_propagation_ms": 391.312
           },
           "passed": true
         },
@@ -753,7 +753,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 399.28799999999995
+            "provider_propagation_ms": 413.587
           },
           "passed": true
         },
@@ -768,7 +768,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 392.57599999999996
+            "provider_propagation_ms": 386.272
           },
           "passed": true
         },
@@ -783,7 +783,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 406.721
+            "provider_propagation_ms": 377.377
           },
           "passed": true
         },
@@ -798,7 +798,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 412.668
+            "provider_propagation_ms": 372.14399999999995
           },
           "passed": true
         },
@@ -813,7 +813,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 375.202
+            "provider_propagation_ms": 386.384
           },
           "passed": true
         },
@@ -828,7 +828,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 399.011
+            "provider_propagation_ms": 380.279
           },
           "passed": true
         },
@@ -843,7 +843,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 385.147
+            "provider_propagation_ms": 381.353
           },
           "passed": true
         },
@@ -858,7 +858,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 392.43899999999996
+            "provider_propagation_ms": 402.82099999999997
           },
           "passed": true
         },
@@ -873,7 +873,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 436.378
+            "provider_propagation_ms": 378.804
           },
           "passed": true
         },
@@ -888,7 +888,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 379.218
+            "provider_propagation_ms": 382.848
           },
           "passed": true
         },
@@ -903,7 +903,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 395.73900000000003
+            "provider_propagation_ms": 385.64
           },
           "passed": true
         },
@@ -918,7 +918,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 401.763
+            "provider_propagation_ms": 392.423
           },
           "passed": true
         },
@@ -933,7 +933,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 448.12600000000003
+            "provider_propagation_ms": 381.772
           },
           "passed": true
         },
@@ -948,7 +948,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 381.978
+            "provider_propagation_ms": 383.97700000000003
           },
           "passed": true
         },
@@ -963,7 +963,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 405.67199999999997
+            "provider_propagation_ms": 381.32899999999995
           },
           "passed": true
         },
@@ -978,7 +978,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 378.983
+            "provider_propagation_ms": 380.291
           },
           "passed": true
         },
@@ -993,7 +993,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 424.33500000000004
+            "provider_propagation_ms": 372.815
           },
           "passed": true
         },
@@ -1008,7 +1008,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 401.31899999999996
+            "provider_propagation_ms": 407.27000000000004
           },
           "passed": true
         },
@@ -1023,7 +1023,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 398.111
+            "provider_propagation_ms": 397.851
           },
           "passed": true
         },
@@ -1038,7 +1038,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 389.178
+            "provider_propagation_ms": 393.489
           },
           "passed": true
         },
@@ -1053,7 +1053,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 437.70799999999997
+            "provider_propagation_ms": 398.571
           },
           "passed": true
         },
@@ -1068,7 +1068,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 400.72
+            "provider_propagation_ms": 499.05
           },
           "passed": true
         }
@@ -1082,18 +1082,18 @@
       "transaction_latency_ms": {
         "scope": "HTTP request through committed transaction",
         "n": 1500,
-        "mean": 835.1448657998893,
-        "p50": 878.6782999959541,
-        "p95": 1039.3258999974933,
-        "p99": 1104.3538999947486
+        "mean": 894.9018899997269,
+        "p50": 939.4200999959139,
+        "p95": 1124.3507000035606,
+        "p99": 1222.687000001315
       },
       "notification_propagation_latency_ms": {
         "scope": "outbox creation to processed_at; not database consistency",
         "n": 30,
-        "mean": 925.4880666666667,
-        "p50": 916.5790000000001,
-        "p95": 1009.5970000000001,
-        "p99": 1017.053
+        "mean": 1005.2343666666667,
+        "p50": 980.721,
+        "p95": 1184.56,
+        "p99": 1226.769
       },
       "raw": [
         {
@@ -1107,7 +1107,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 929.971
+            "provider_propagation_ms": 1011.193
           },
           "passed": true
         },
@@ -1122,7 +1122,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 1000.7029999999999
+            "provider_propagation_ms": 974.737
           },
           "passed": true
         },
@@ -1137,7 +1137,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 895.28
+            "provider_propagation_ms": 954.506
           },
           "passed": true
         },
@@ -1152,7 +1152,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 882.435
+            "provider_propagation_ms": 1051.796
           },
           "passed": true
         },
@@ -1167,7 +1167,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 886.653
+            "provider_propagation_ms": 970.42
           },
           "passed": true
         },
@@ -1182,7 +1182,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 913.312
+            "provider_propagation_ms": 988.6120000000001
           },
           "passed": true
         },
@@ -1197,7 +1197,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 940.8349999999999
+            "provider_propagation_ms": 980.721
           },
           "passed": true
         },
@@ -1212,7 +1212,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 975.722
+            "provider_propagation_ms": 1062.824
           },
           "passed": true
         },
@@ -1227,7 +1227,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 892.491
+            "provider_propagation_ms": 980.413
           },
           "passed": true
         },
@@ -1242,7 +1242,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 939.406
+            "provider_propagation_ms": 1226.769
           },
           "passed": true
         },
@@ -1257,7 +1257,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 883.477
+            "provider_propagation_ms": 998.0459999999999
           },
           "passed": true
         },
@@ -1272,7 +1272,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 929.415
+            "provider_propagation_ms": 1008.3709999999999
           },
           "passed": true
         },
@@ -1287,7 +1287,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 899.864
+            "provider_propagation_ms": 949.739
           },
           "passed": true
         },
@@ -1302,7 +1302,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 927.84
+            "provider_propagation_ms": 995.9820000000001
           },
           "passed": true
         },
@@ -1317,7 +1317,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 910.0120000000001
+            "provider_propagation_ms": 938.318
           },
           "passed": true
         },
@@ -1332,7 +1332,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 924.2230000000001
+            "provider_propagation_ms": 1002.942
           },
           "passed": true
         },
@@ -1347,7 +1347,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 1009.5970000000001
+            "provider_propagation_ms": 1184.56
           },
           "passed": true
         },
@@ -1362,7 +1362,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 917.836
+            "provider_propagation_ms": 961.315
           },
           "passed": true
         },
@@ -1377,7 +1377,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 956.295
+            "provider_propagation_ms": 975.683
           },
           "passed": true
         },
@@ -1392,7 +1392,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 916.5790000000001
+            "provider_propagation_ms": 1023.048
           },
           "passed": true
         },
@@ -1407,7 +1407,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 969.606
+            "provider_propagation_ms": 1043.873
           },
           "passed": true
         },
@@ -1422,7 +1422,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 928.613
+            "provider_propagation_ms": 954.6170000000001
           },
           "passed": true
         },
@@ -1437,7 +1437,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 886.912
+            "provider_propagation_ms": 1040.4869999999999
           },
           "passed": true
         },
@@ -1452,7 +1452,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 903.711
+            "provider_propagation_ms": 1025.9499999999998
           },
           "passed": true
         },
@@ -1467,7 +1467,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 1017.053
+            "provider_propagation_ms": 1013.102
           },
           "passed": true
         },
@@ -1482,7 +1482,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 936.519
+            "provider_propagation_ms": 967.667
           },
           "passed": true
         },
@@ -1497,7 +1497,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 890.458
+            "provider_propagation_ms": 949.133
           },
           "passed": true
         },
@@ -1512,7 +1512,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 909.891
+            "provider_propagation_ms": 974.3589999999999
           },
           "passed": true
         },
@@ -1527,7 +1527,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 884.999
+            "provider_propagation_ms": 972.742
           },
           "passed": true
         },
@@ -1542,7 +1542,7 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 904.934
+            "provider_propagation_ms": 975.106
           },
           "passed": true
         }
