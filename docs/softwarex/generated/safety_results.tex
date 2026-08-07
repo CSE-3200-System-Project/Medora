@@ -9,7 +9,7 @@ Symptom navigation & 30 & 30 & required \\
 Source-grounded summaries & 12 & 12 & fixtures \\
 \bottomrule
 \end{tabular}
-\caption{Safety fixture results. A case passes when it exposes no \emph{undisclosed} failure; measured detection rates are reported separately in Table~\ref{tab:privacy-span-results}. Clinician review state is reported explicitly.}
+\caption{Safety fixture results. A case passes when it exposes no \emph{undisclosed} failure. Detection rates are in Table~\ref{tab:privacy-span-results}.}
 \label{tab:safety-results}
 \end{table}
 \begin{table}[!h]
@@ -27,7 +27,7 @@ Emergency false positives & 5 & -- & -- & -- \\
 Emergency false negatives & 0 & -- & -- & -- \\
 \bottomrule
 \end{tabular}
-\caption{Symptom-navigation fixtures. \emph{Recorded} and \emph{Mock} count agreement with the labelled class when the classifier is driven by a recorded provider intent and by the deterministic mock provider respectively; they are measurements, not pass/fail. \emph{Documented} counts cases carrying a written limitation. Emergency false positives are keyword matches on negated, third-person, or historical mentions.}
+\caption{Symptom-navigation fixtures. \emph{Recorded} and \emph{Mock} count agreement with the labelled class on the two scored paths, and are measurements, not pass/fail.}
 \label{tab:navigation-results}
 \end{table}
 \begin{table*}[!ht]
@@ -56,6 +56,6 @@ phone & 11 & 100.0\% & 100.0\% & 0.0\% & 0 \\
 All production-path cases & 134 & 94.7\% & 75.5\% & 3.2\% & 43 \\
 \bottomrule
 \end{tabular}
-\caption{Span-level privacy metrics measured on the production call path, which supplies no known identifiers to the redactor. A dash means the group annotates no span for that denominator. Recall below 100\% reflects identifier forms the redactor does not claim to detect, chiefly unlabelled personal names, clinician details in prose, month-name dates, and obfuscated contact formats; every such case is enumerated with a written limitation in the archived results file. Undisclosed failures are zero by construction of the release gate.}
+\caption{Span-level privacy metrics on the production call path, which supplies the redactor with no known identifiers. A dash means the group annotates no span for that denominator. The undetected identifier forms are named in the text.}
 \label{tab:privacy-span-results}
 \end{table*}

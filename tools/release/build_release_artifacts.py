@@ -68,8 +68,7 @@ def render_safety_summary(report: dict) -> str:
         f"Source-grounded summaries & {summary['cases']} & {summary['passed']} & fixtures \\\\",
         r"\bottomrule", r"\end{tabular}",
         r"\caption{Safety fixture results. A case passes when it exposes no \emph{undisclosed} "
-        r"failure; measured detection rates are reported separately in Table~\ref{tab:privacy-span-results}. "
-        r"Clinician review state is reported explicitly.}",
+        r"failure. Detection rates are in Table~\ref{tab:privacy-span-results}.}",
         r"\label{tab:safety-results}", r"\end{table}",
     ]) + "\n"
 
@@ -106,10 +105,7 @@ def render_navigation(report: dict) -> str:
         r"\bottomrule",
         r"\end{tabular}",
         r"\caption{Symptom-navigation fixtures. \emph{Recorded} and \emph{Mock} count agreement "
-        r"with the labelled class when the classifier is driven by a recorded provider intent and "
-        r"by the deterministic mock provider respectively; they are measurements, not pass/fail. "
-        r"\emph{Documented} counts cases carrying a written limitation. Emergency false positives "
-        r"are keyword matches on negated, third-person, or historical mentions.}",
+        r"with the labelled class on the two scored paths, and are measurements, not pass/fail.}",
         r"\label{tab:navigation-results}",
         r"\end{table}",
     ])
@@ -145,13 +141,9 @@ def render_safety(report: dict) -> str:
         f"{pii['documented_limitations']}" + r" \\",
         r"\bottomrule",
         r"\end{tabular}",
-        r"\caption{Span-level privacy metrics measured on the production call path, which supplies "
-        r"no known identifiers to the redactor. A dash means the group annotates no span for that "
-        r"denominator. Recall below 100\% reflects identifier forms the redactor does not claim to "
-        r"detect, chiefly unlabelled personal names, clinician details in prose, month-name dates, "
-        r"and obfuscated contact formats; every such case is enumerated with a written limitation "
-        r"in the archived results file. Undisclosed failures are zero by construction of the "
-        r"release gate.}",
+        r"\caption{Span-level privacy metrics on the production call path, which supplies the "
+        r"redactor with no known identifiers. A dash means the group annotates no span for that "
+        r"denominator. The undetected identifier forms are named in the text.}",
         r"\label{tab:privacy-span-results}",
         r"\end{table*}",
     ])

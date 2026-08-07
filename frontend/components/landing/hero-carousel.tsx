@@ -167,28 +167,27 @@ export function HeroCarousel() {
         <div
           className="relative flex min-h-[31rem] flex-col justify-center bg-linear-to-b from-background/85 via-card/70 to-card/95 p-6 sm:p-8 md:p-10 lg:col-span-6 lg:h-full lg:min-h-0 lg:p-12"
         >
-          <div className="pointer-events-none absolute inset-0 -z-10 lg:hidden">
-            {HERO_SLIDES.map((slide, index) => (
-              <div
-                key={slide.id}
-                className={`absolute inset-0 transition-opacity duration-[1200ms] ease-in-out ${
-                  index === slideIndex ? "opacity-30" : "opacity-0"
-                }`}
-                aria-hidden
-              >
-                <Image
-                  src={slide.image}
-                  alt=""
-                  fill
-                  sizes="100vw"
-                  className="object-cover"
-                  priority={index === 0}
-                  loading={index === 0 ? "eager" : "lazy"}
-                  decoding="async"
-                  placeholder="blur"
-                />
-              </div>
-            ))}
+          {/* Below lg this is a decorative wash at 30% opacity behind the copy, and it is
+              aria-hidden, so rotating it communicates nothing the text does not. It also
+              made the landing page's largest contentful paint a lazily-loaded image that
+              only began downloading at the first auto-advance: 12.3 s on a throttled
+              mobile connection against 0.9 s on desktop. Pinning it to the one slide we
+              preload keeps the measured element the one we actually prioritise. The
+              visible rotation still happens in the desktop panel below. */}
+          <div className="pointer-events-none absolute inset-0 -z-10 lg:hidden" aria-hidden>
+            <div className="absolute inset-0 opacity-30">
+              <Image
+                src={HERO_SLIDES[0].image}
+                alt=""
+                fill
+                sizes="100vw"
+                className="object-cover"
+                priority
+                fetchPriority="high"
+                decoding="async"
+                placeholder="blur"
+              />
+            </div>
             <div className="absolute inset-0 bg-linear-to-b from-background/60 via-background/85 to-background" />
           </div>
 

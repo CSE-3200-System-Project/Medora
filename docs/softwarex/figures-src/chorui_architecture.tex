@@ -1,0 +1,21 @@
+\documentclass[tikz]{standalone}
+\input{diagram_preamble}
+\begin{document}
+\begin{tikzpicture}[node distance=1.1cm and 1.1cm]
+\node[actor] (user) {Patient / Doctor};
+\node[process, right=of user] (ui) {Chorui UI\\chat + voice};
+\node[process, right=of ui] (intent) {Intent normalizer\\role-aware context};
+\node[process, right=of intent] (nav) {Navigation engine\\confidence gating};
+\node[process, below=of intent] (llm) {Orchestrator + LLM};
+\node[store, below=of nav] (registry) {Navigation registry\\safe destinations};
+\node[store, below=of ui] (history) {Chat history\\session memory};
+\draw[arrow] (user) -- (ui);
+\draw[arrow] (ui) -- (intent);
+\draw[arrow] (intent) -- (nav);
+\draw[arrow] (intent) -- (llm);
+\draw[arrow] (nav) -- (registry);
+\draw[arrow] (ui) -- (history);
+\draw[arrow] (llm) -- (history);
+\node[group, fit=(user)(ui)(intent)(nav)(llm)(registry)(history), label={[yshift=0.15cm]above:How the Chorui assistant works}] {};
+\end{tikzpicture}
+\end{document}

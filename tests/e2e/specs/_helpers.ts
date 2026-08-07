@@ -19,10 +19,17 @@ export async function loginIfCredentials(page: Page): Promise<void> {
 
   await page.goto("/login");
   await page.getByLabel(/Email Address/i).fill(email);
-  await page.getByLabel(/Password/i).fill(password);
+  // Not /Password/i: that also matches the "Show password" toggle button next to the
+  // field, and the ambiguity fails in strict mode.
+  await page.getByLabel("Password", { exact: true }).fill(password);
   await page.getByRole("button", { name: /Sign In/i }).click();
 
   await page.waitForLoadState("networkidle");
+
+  // Without this the specs below would run as an anonymous visitor and still pass on
+  // whatever the login page happens to render, which is the failure mode that let the
+  // broken locator above go unnoticed for as long as these tests were skipped.
+  await expect(page).not.toHaveURL(/\/login/, { timeout: 15_000 });
 }
 
 export async function requireCredentialsOrSkip(testSkip: (condition: boolean, description: string) => void) {

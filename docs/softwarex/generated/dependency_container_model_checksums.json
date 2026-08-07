@@ -2,20 +2,20 @@
   "schema_version": "1.0.0",
   "files": {
     "backend/requirements-release.txt": {
-      "sha256": "5f59a7c68ffaca2f7b8ff71ecba98fa4e30681c45ec1a7f0635f4ca235cd53e0",
-      "bytes": 679
+      "sha256": "b0f210301a0e081fe8dc32c826215093967350e32b91054bdd72ef33d941ee8b",
+      "bytes": 710
     },
     "ai_service/requirements-release.txt": {
-      "sha256": "63952d86e395a9cef1a244db3943dc157b2676842596c02cf5b3ffc03dc63f4c",
-      "bytes": 609
+      "sha256": "5dfbd4366419e72c8b37a451887f91c0b62eaaa769a1c3935b9e0fbc8bdfddfa",
+      "bytes": 631
     },
     "tests/requirements-release.txt": {
       "sha256": "7bf94e013dc4fc61e9768aec079d4ddc1a1b9429db0a6bcaff46022e159f5ba9",
       "bytes": 200
     },
     "frontend/package-lock.json": {
-      "sha256": "aad37ffdb3b9801865afadbea8b68440fd71cf07eaf5738341e86451a5e3aa9a",
-      "bytes": 518182
+      "sha256": "354ecf7f5367b5a2a05972df1b3d141222da910be1fc0ab794026ca4f25fff51",
+      "bytes": 515657
     },
     "tests/e2e/package-lock.json": {
       "sha256": "0b3ac6cea6b67e91419310f7fed8e15b5f3a9ec2d98b130b97f2a8b96738848f",
@@ -26,12 +26,12 @@
       "bytes": 1003
     },
     "ai_service/Dockerfile": {
-      "sha256": "f36640c41de5c52f6bd901381fbf99583db6c54822def8de281f67525dca2df6",
-      "bytes": 2183
+      "sha256": "941a4dfde4e3736a95bc8d712429e06d45c21be42c65d4a47f23ce8e7c8feca3",
+      "bytes": 2255
     },
     "tests/benchmarks/provider_manifest.json": {
-      "sha256": "17baaba9410e5eb09337cf7cad9a71fd61b93e0fccb0b0b521febd3ff439cdd2",
-      "bytes": 4348
+      "sha256": "d486ef6f138fda1c8181badb92c2fc5ccc0fe642a737677963d3bb9899a1849d",
+      "bytes": 5381
     },
     "tests/benchmarks/datasets/ocr_corpus_manifest.json": {
       "sha256": "307727be59970ba8c74f181e369a665ba010660ae51b41bcf097ae912c394aa8",
@@ -76,22 +76,10 @@
   },
   "container_images": {
     "medora-backend:softwarex-rc": {
-      "image_id": "sha256:e286789ba49b134abbc0304a0d5d676ecf44daa5c21e4df92f58b7ca9d0f53af",
-      "repo_digests": [
-        "medora-backend@sha256:e286789ba49b134abbc0304a0d5d676ecf44daa5c21e4df92f58b7ca9d0f53af"
-      ],
-      "os": "linux",
-      "architecture": "amd64",
-      "size_bytes": 352239612
+      "status": "not built in this environment"
     },
     "medora-ai:softwarex-rc": {
-      "image_id": "sha256:02e353a4707b5d3c89a1dd12941b1f85e9bae55dfcebdb61816ecdcc2783fd00",
-      "repo_digests": [
-        "medora-ai@sha256:02e353a4707b5d3c89a1dd12941b1f85e9bae55dfcebdb61816ecdcc2783fd00"
-      ],
-      "os": "linux",
-      "architecture": "amd64",
-      "size_bytes": 688068110
+      "status": "not built in this environment"
     }
   }
 }

@@ -44,6 +44,15 @@ test.describe("Prescription Upload + OCR", () => {
     });
 
     await page.getByRole("button", { name: /Extract Text/i }).click();
-    await expect(page.getByText(/Napa 500mg 1\+0\+1 5 days/i)).toBeVisible({ timeout: 10000 });
+
+    // The response is rendered as structured fields rather than echoed as the raw
+    // string, and it lands in a review panel that a person has to approve. Assert that
+    // shape: it is the human-in-the-loop behaviour the extraction is supposed to have.
+    await expect(page.getByRole("heading", { name: /Extracted Text/i })).toBeVisible({ timeout: 10000 });
+    await expect(page.getByText(/Napa/)).toBeVisible();
+    await expect(page.getByText(/500mg/).first()).toBeVisible();
+    await expect(page.getByText(/1\+0\+1/).first()).toBeVisible();
+    await expect(page.getByRole("heading", { name: /Medicine Review \(Human Approval\)/i })).toBeVisible();
+    await expect(page.getByRole("button", { name: /Approve & Add to Profile/i })).toBeVisible();
   });
 });

@@ -38,14 +38,73 @@ def read_json(path: Path, errors: list[str]) -> dict:
         return {}
 
 
+FLOAT_PATTERN = re.compile(r"\\begin\{(table\*|table|figure\*|figure)\}.*?\\end\{\1\}", re.S)
+# The two metadata tables are excluded by name in the SoftwareX Guide for Authors.
+METADATA_CAPTIONS = ("Code metadata.", "Software metadata (optional)")
+
+
+def _strip_macros(text: str) -> str:
+    text = re.sub(r"\\(?:cite|ref|label|url|href|input|includegraphics)\s*(?:\[[^]]*\])?\{[^}]*\}", " ", text)
+    text = re.sub(r"\\[A-Za-z*]+(?:\[[^]]*\])?", " ", text)
+    text = re.sub(r"[^\w'-]+", " ", text, flags=re.UNICODE)
+    return text
+
+
+def _words(text: str) -> int:
+    return len(_strip_macros(text).split())
+
+
+def _captions(block: str) -> str:
+    found = []
+    for start in (match.end() for match in re.finditer(r"\\caption\{", block)):
+        depth, index = 1, start
+        while index < len(block) and depth:
+            if block[index] == "{":
+                depth += 1
+            elif block[index] == "}":
+                depth -= 1
+            index += 1
+        found.append(block[start:index - 1])
+    return " ".join(found)
+
+
+def _expand_inputs(source: str, base: Path) -> str:
+    def replace(match: re.Match[str]) -> str:
+        target = base / match.group(1)
+        if not target.suffix:
+            target = target.with_suffix(".tex")
+        return target.read_text(encoding="utf-8") if target.is_file() else " "
+
+    for _ in range(3):
+        source = re.sub(r"\\input\{([^}]*)\}", replace, source)
+    return source
+
+
 def manuscript_word_count(path: Path) -> int:
-    source = path.read_text(encoding="utf-8")
-    source = re.sub(r"%.*", " ", source)
-    source = re.sub(r"\\begin\{(?:table|figure|thebibliography)\}.*?\\end\{(?:table|figure|thebibliography)\}", " ", source, flags=re.S)
-    source = re.sub(r"\\(?:cite|ref|label|url|href|input)\{[^}]*\}", " ", source)
-    source = re.sub(r"\\[A-Za-z*]+(?:\[[^]]*\])?", " ", source)
-    source = re.sub(r"[^\w'-]+", " ", source, flags=re.UNICODE)
-    return len(source.split())
+    """Count the manuscript the way the SoftwareX Guide for Authors counts it.
+
+    "The maximum word count is 3000 excluding: title, authors, affiliations,
+    references, metadata tables and including: abstract, running text, captions,
+    footnotes." Captions therefore count and table bodies do not.
+    """
+    source = re.sub(r"(?<!\\)%.*", " ", path.read_text(encoding="utf-8"))
+    source = _expand_inputs(source, path.parent)
+    body = source.split(r"\begin{document}", 1)[-1].split(r"\begin{thebibliography}", 1)[0]
+
+    abstract = re.search(r"\\begin\{abstract\}(.*?)\\end\{abstract\}", body, re.S)
+    total = _words(abstract.group(1)) if abstract else 0
+
+    main = body.split(r"\end{frontmatter}", 1)[-1]
+    for block in (match.group(0) for match in FLOAT_PATTERN.finditer(main)):
+        caption = _captions(block)
+        if not any(marker in caption for marker in METADATA_CAPTIONS):
+            total += _words(caption)
+    return total + _words(FLOAT_PATTERN.sub(" ", main))
+
+
+def manuscript_figure_count(path: Path) -> int:
+    source = _expand_inputs(re.sub(r"(?<!\\)%.*", " ", path.read_text(encoding="utf-8")), path.parent)
+    return len(re.findall(r"\\begin\{figure\*?\}", source))
 
 
 def main() -> int:
@@ -105,7 +164,10 @@ def main() -> int:
         source = manuscript.read_text(encoding="utf-8")
         count = manuscript_word_count(manuscript)
         if count > 3000:
-            fail(errors, f"manuscript body estimate is {count} words (>3000)")
+            fail(errors, f"manuscript is {count} words including captions (>3000)")
+        figures = manuscript_figure_count(manuscript)
+        if figures > 6:
+            fail(errors, f"manuscript has {figures} figures (SoftwareX allows 6)")
         forbidden = ("about 92", "approximately 92", "~92", "representative run", "production-grade")
         for phrase in forbidden:
             if phrase.casefold() in source.casefold():

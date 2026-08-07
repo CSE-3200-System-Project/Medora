@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "release": "v1.0.0",
-  "execution_date": null,
+  "execution_date": "2026-08-08",
   "providers": [
     {
       "id": "mock-text-v1",
@@ -65,13 +65,14 @@
       "timeout_seconds": 20,
       "retries": 2,
       "fallback_policy": "Live results reported per provider; never pooled",
-      "retention_assumption": "Synchronous inference is not retained by default, but inputs/outputs may be logged up to 30 days for reliability or abuse unless organization Zero Data Retention is enabled; ZDR status must be recorded at release execution",
+      "retention_assumption": "Groq exposes no API for the organization Zero Data Retention setting, so this release makes the conservative assumption instead of a favourable claim: synchronous inference is not retained by default, and inputs and outputs may be logged for up to 30 days for reliability and abuse handling per Groq's published policy. No Zero Data Retention agreement is claimed for this deployment.",
       "documentation": [
         "https://console.groq.com/docs/your-data",
         "https://console.groq.com/docs/model/openai/gpt-oss-120b"
       ],
       "paid_service_required": true,
-      "result_class": "live_external"
+      "result_class": "live_external",
+      "retention_verification": "Checked 2026-08-08. The GroqCloud REST API has no organization-settings endpoint; the ZDR flag is visible only in the console. The documented default above is therefore treated as the operative retention."
     },
     {
       "id": "vapi-audio-release-v1",
@@ -85,13 +86,14 @@
       "timeout_seconds": 30,
       "retries": 0,
       "fallback_policy": "none; local audio mode is a separate workflow",
-      "retention_assumption": "The configured assistant response contains no artifact/compliance override. Vapi documents pay-as-you-go retention up to 14 days for calls and 30 days for chats; organization Zero Data Retention was not established by the API response",
+      "retention_assumption": "Vapi's documented pay-as-you-go retention applies: up to 14 days for calls and 30 days for chats. All three assistants on the account return compliancePlan null and artifactPlan null, so no assistant-scope compliance or artifact override reduces it. No Zero Data Retention agreement is claimed for this deployment.",
       "documentation": [
         "https://docs.vapi.ai/assistants/call-recording",
         "https://docs.vapi.ai/security-and-privacy/data-flow"
       ],
       "paid_service_required": true,
-      "result_class": "live_external"
+      "result_class": "live_external",
+      "retention_verification": "Checked 2026-08-08 against the live account. GET /assistant with the private key returns HTTP 200 and three assistants, each with compliancePlan and artifactPlan null. GET /org, GET /org/{id}, and GET /org/me all return HTTP 401 for both the private and public keys, so the organization-scope retention flag is readable only in the console; the documented default above is treated as the operative retention."
     }
   ]
 }

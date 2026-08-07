@@ -2,9 +2,12 @@ from __future__ import annotations
 
 import argparse
 import asyncio
+import itertools
 import json
 import os
+import struct
 import time
+import zlib
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -29,6 +32,37 @@ def _future_iso(days: int = 2) -> str:
     return (datetime.now(timezone.utc) + timedelta(days=days)).replace(
         hour=0, minute=0, second=0, microsecond=0
     ).isoformat()
+
+
+# Every booking used to target the same date and slot, so at most one request in a run
+# could ever be created and the endpoint's measured latency was the rejection path. Each
+# request now claims its own day.
+_booking_days = itertools.count(2)
+
+# /ai/search is limited to 20 requests per 60 s (core/rate_limit.py). Sending more
+# measures the limiter rather than the endpoint, so the caller's iteration count is
+# clamped to the documented budget and the clamp is recorded in the report.
+AI_SEARCH_RULE = ("POST", "/ai/search", 20, 60.0)
+
+
+def _grey_png(width: int, height: int) -> bytes:
+    """Build a valid greyscale PNG without pulling in an image library.
+
+    The previous fixture was a 1x1 PNG that Pillow rejects as truncated, so the OCR
+    endpoint answered 502 on every request and the timing described the rejection
+    rather than the pipeline.
+    """
+
+    def chunk(tag: bytes, payload: bytes) -> bytes:
+        return struct.pack(">I", len(payload)) + tag + payload + struct.pack(">I", zlib.crc32(tag + payload))
+
+    raw = b"".join(b"\x00" + bytes((index * 4) % 256 for index in range(width)) for _ in range(height))
+    return (
+        b"\x89PNG\r\n\x1a\n"
+        + chunk(b"IHDR", struct.pack(">IIBBBBB", width, height, 8, 0, 0, 0, 0))
+        + chunk(b"IDAT", zlib.compress(raw, 9))
+        + chunk(b"IEND", b"")
+    )
 
 
 async def _run_endpoint(
@@ -107,11 +141,7 @@ async def main() -> int:
     doctor_token = os.getenv("MEDORA_DOCTOR_TOKEN", "doctor-token")
     doctor_id = os.getenv("MEDORA_DOCTOR_ID", "doctor-id")
 
-    png = (
-        b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01"
-        b"\x08\x02\x00\x00\x00\x90wS\xde\x00\x00\x00\nIDATx\x9cc`\x00\x00\x00\x02"
-        b"\x00\x01\xe2!\xbc3\x00\x00\x00\x00IEND\xaeB`\x82"
-    )
+    png = _grey_png(64, 64)
 
     async with httpx.AsyncClient(base_url=base_url, timeout=30.0) as client:
         results = [
@@ -124,7 +154,7 @@ async def main() -> int:
                     "headers": {"Idempotency-Key": f"api-benchmark-{time.time_ns()}"},
                     "json": {
                         "doctor_id": doctor_id,
-                        "appointment_date": _future_iso(),
+                        "appointment_date": _future_iso(next(_booking_days)),
                         "reason": "Benchmark booking",
                         "notes": "Slot: 8:00 PM",
                     }
@@ -143,7 +173,7 @@ async def main() -> int:
                         "consultation_mode": "online",
                     }
                 },
-                iterations=args.iterations,
+                iterations=min(args.iterations, AI_SEARCH_RULE[2]),
                 concurrency=args.concurrency,
             ),
             await _run_endpoint(
@@ -179,6 +209,15 @@ async def main() -> int:
         "base_url": base_url,
         "iterations": args.iterations,
         "concurrency": args.concurrency,
+        "protocol_notes": [
+            "Each /appointment/ request books a distinct future day so the endpoint is "
+            "measured on the create path rather than on slot-conflict rejection.",
+            f"/ai/search is clamped to {AI_SEARCH_RULE[2]} requests, its documented "
+            f"limit per {AI_SEARCH_RULE[3]:.0f} s window, so the measurement is of the "
+            "endpoint and not of the rate limiter.",
+            "/upload/prescription/extract requires AI_OCR_SERVICE_URL to resolve; a "
+            "502 here means the OCR service was unreachable, not that it was slow.",
+        ],
         "results": [asdict(item) for item in results],
         "summary": {
             "total_requests": aggregate_requests,

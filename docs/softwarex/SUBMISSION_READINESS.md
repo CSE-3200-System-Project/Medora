@@ -82,13 +82,13 @@ Status column is what I verified in the repository, which is not always what
 | M-M2 navigation not triage | Done | Deterministic emergency rules fire before any LLM or consent call; `uncertain` flag in `ai_search.py`; triage vocabulary actively stripped |
 | M-M3 grounded summaries | **Done, rebuilt 2026-08-03** | Scorer previously never invoked a summarizer; now end-to-end. Two honest limitations now reported rather than asserted away |
 | M-M4 acknowledge/discrepancy semantics | Done | Enum, migration `softwarex_002`, routes, UI; deprecated aliases retained one release |
-| M-M5 reproducible benchmark protocol | Partly | Booking and safety protocols frozen and executed; OCR pending gold standard |
+| M-M5 reproducible benchmark protocol | **Done for everything claimed** | Booking 30/30 at 2/10/50, safety reproduced, frontend Lighthouse executed and the defect it found fixed (§13), API latency executed at 155/155 with zero failures after three protocol defects were fixed (§15). OCR remains withdrawn, not pending |
 | M-M6 propagation vs consistency | Done | Reported as separate outputs in `booking_results.json` |
-| M-M7 offline cache | Done | `app/sw.ts` caches only same-origin static assets; `sensitive-browser-storage.spec.ts` enumerates cache contents. Authenticated journeys still blocked on credentials |
+| M-M7 offline cache | **Done, closed 2026-08-08** | `app/sw.ts` caches only same-origin static assets; `sensitive-browser-storage.spec.ts` enumerates cache contents. Authenticated journeys now run: 12 passed, 0 skipped, without `E2E_ALLOW_SKIPS` (§16) |
 | M-M8 role/permission matrix | Done | `docs/ROLE_PERMISSION_MATRIX.md` + negative tests |
 | M-M9 consent semantics | Done | Versioned grants, revocation, typed denials |
 | M-M10 related work | Done | `tab:related-work`, 4 systems × 9 criteria |
-| M-M11 provider/model config | **Partly (2026-08-04)** | Azure region resolved to `eastus`; Groq/Vapi ZDR still unverified |
+| M-M11 provider/model config | **Done, closed 2026-08-08** | Azure region `eastus`; Groq and Vapi organization ZDR are not API-readable, so the manifest records the documented worst-case retention as operative and claims no ZDR (§17). `execution_date` set; no incomplete markers remain |
 | M-M12 worked examples | Done | `worked_examples.json` + `test_softwarex_worked_examples.py` |
 
 ### Presentation
@@ -96,11 +96,11 @@ Status column is what I verified in the repository, which is not always what
 | Code | Verified status |
 |---|---|
 | M-P1 title/abstract | Done |
-| M-P2 trust-boundary figures | Done — 3 diagram sources tracked; build has zero overfull boxes |
-| M-P3 length | Done — 2,455 words against a 3,000 gate |
+| M-P2 trust-boundary figures | Done — 3 diagrams plus 3 interface plates built by `tools/softwarex/build_ui_figures.py`; 6 figures is the journal maximum; build has zero overfull boxes |
+| M-P3 length | Done — 2,989 words counted the Guide for Authors' way (captions included) against a 3,000 cap |
 | M-P4 captions/terminology | Done |
-| M-P5 generated result tables | Partly — booking and safety generated; OCR table blocked |
-| M-P6 conclusion foregrounds limitations | Done except the approval citation |
+| M-P5 generated result tables | Partly — booking and safety generated; OCR table withdrawn with the claim |
+| M-P6 conclusion foregrounds limitations | Done |
 
 ---
 
@@ -166,6 +166,28 @@ disclosure flag → exit 2; omitting `--allow-unreviewed` → exit 2.
 | — | Zenodo deposit/DOI | release manager | Deferred by request until 1–5 clear |
 
 Gate matrix is now **16 passed, 5 blocked, 1 deferred**.
+
+### Environment restored 2026-08-08
+
+The checkout arrived with no `frontend/node_modules`, no `backend/venv`, no
+`ai_service/venv`, and Docker stopped, which blocked six of the nine receipts. All were
+restored with the author's explicit authorization, which overrides the standing "never
+create a virtual environment" rule for this session only.
+
+Both venvs are on **Python 3.13**, not the 3.14 on `PATH`. `supabase 2.27.0` pulls
+`storage3` which pulls `pyiceberg`, and `pyiceberg` has no cp314 wheel; its source build
+fails. Anyone recreating these environments needs 3.13.
+
+`ai_service/venv` additionally needs `tests/requirements-test.txt` — its own
+requirements file carries no pytest, so the AI unit suite cannot run from a plain
+install.
+
+### What actually remains blocked
+
+| Blocker | Who | Why no automation closes it |
+|---|---|---|
+| M-C8 licensed navigation review | licensed clinician | 30 fixtures need a clinical judgement. Explicitly out of scope for this session |
+| M-C1 Zenodo deposit and DOI | release manager | `zenodo_doi`, `zenodo_url`, and `archive_sha256` cannot exist before the deposit |
 
 ## 8. Independent reviewer package
 
@@ -363,6 +385,182 @@ Integration and security now run **19 tests**, up from 14. The pass count pinned
 `build_prearchive_gate_status.py` was updated to match; it had briefly reported
 `not_passed` because the gate asserts an exact count.
 
+## 13. Frontend Lighthouse measurement (2026-08-08) — executed, failed, fixed, re-measured
+
+M-M5's frontend half had never been run. Running it exposed a real landing-page defect,
+which is now fixed at root cause and re-measured. No Lighthouse figure appears in the
+manuscript, so nothing the paper claims is affected either way.
+
+Protocol: production build, `next start` on `127.0.0.1:3000`, Lighthouse 12.6.1 with
+simulated throttling, three runs per route per form factor, medians reported.
+Chromium 151.0.7922.34 (the Playwright-managed build). Nothing was uploaded — see the
+warning below. Raw reports in `tests/benchmarks/reports/current/lighthouse/`, summary
+in `frontend_lighthouse_results.json`.
+
+| Form factor | Route | Score | LCP ms | FCP ms | CLS | TBT ms | TTFB ms |
+|---|---|---|---|---|---|---|---|
+| mobile | `/` **before** | 0.72 | **12282** | 2114 | 0.0586 | 107 | 12.2 |
+| mobile | `/` **after** | **0.91** | **2205** | 2205 | 0.0586 | 254 | 11.2 |
+| mobile | `/login` | 0.98 | 1796 | 1796 | 0.0003 | 107 | 9.5 |
+| mobile | `/selection` | 0.85 | 4046 | 1936 | 0.0001 | 86 | 7.7 |
+| desktop | `/` | 0.99 | 965 | 491 | 0.0023 | 0 | 11.1 |
+| desktop | `/login` | 0.99 | 927 | 487 | 0.0000 | 0 | 8.7 |
+| desktop | `/selection` | 0.99 | 847 | 487 | 0.0000 | 0 | 8.0 |
+
+Before the fix the landing page failed two of `lighthouserc.mobile.json`'s own
+assertions: performance 0.72 against a 0.75 floor, and LCP 12.3 s against a 5.5 s
+ceiling. `frontend_perf_guard.mjs` exited 1 with `lcp regressed by 28.79%`.
+
+**Root cause.** The hero carousel auto-advances every 6,000 ms. Only slide 0 carried
+`priority` and `loading="eager"`; slides 1–3 were lazy. Under mobile throttling the
+trace runs past the first advance, so the browser attributed LCP to the slide-1 image
+(`doctor-square`), which only began downloading at that moment. All three runs agreed
+on the element and landed between 12.1 and 12.5 s. Desktop finishes before the first
+advance and attributed LCP to the eager slide-0 image at about 0.9 s, which is why the
+same page scored 0.99 there.
+
+**The fix.** Below `lg` the rotating image is a 30%-opacity `aria-hidden` wash behind
+the copy; rotating it communicates nothing the text does not. It is now pinned to the
+one slide that is preloaded, so the measured element is the element the page actually
+prioritises. The visible rotation continues in the desktop panel, and the text, CTAs,
+and controls still rotate on mobile. Bandwidth is unchanged — the page now loads one
+mobile background instead of four.
+
+Two earlier attempts are worth recording because they did not work. Gating the
+auto-advance on the `load` event changed nothing: `document.readyState` is already
+`complete` when the component hydrates, so the gate opened immediately (mobile scored
+0.69–0.70, marginally worse). Preloading the next slide would not have helped either —
+a swap to an already-cached image still registers a new, later LCP candidate.
+
+After the fix: mobile `/` 0.90/0.91/0.93 across three runs, LCP 2,205 ms, and
+`frontend_perf_guard.mjs` passes with mean score 0.913, LCP 2,702 ms, CLS 0.0196, and
+TTFB 11.2 ms against a baseline of 0.78 / 4,700 ms / 0.02 / 100 ms.
+
+**Do not run `npm run perf:lhci:mobile` or `:desktop` as written.** Both
+`lighthouserc.*.json` set `upload.target: temporary-public-storage`, which publishes
+the report and its full-page screenshots to a public Google-hosted URL. Neither route
+measured here is authenticated, so nothing sensitive left this machine, but the
+setting will do the wrong thing the moment anyone points it at a signed-in page.
+
+Two workarounds were needed and are recorded so the run is reproducible. No Chrome is
+installed on this machine; the Playwright-managed Chromium works when passed as
+`CHROME_PATH`. And `chrome-launcher` raises `EPERM` deleting its temporary Chrome
+profile under `%TEMP%`, which kills Node and aborts `lhci autorun` before it collects
+anything — the crash lands strictly after the report file is written, so
+`tests/performance/frontend_lighthouse_benchmark.mjs` spawns one run at a time and
+judges each by whether its report appeared rather than by the exit code.
+
+`frontend_perf_guard.mjs` also averages every report in its directory together, across
+routes and form factors, and takes a mean rather than a median. It is only meaningful
+pointed at one form factor at a time. The new script reports medians per route.
+
+## 15. API latency benchmark (2026-08-08) — executed for the first time
+
+`tests/performance/api_latency_benchmark.py` had never been run. Running it against a
+local backend on the production database exposed three protocol defects that would have
+made any published number meaningless, all fixed in the script:
+
+| Defect | Effect | Fix |
+|---|---|---|
+| Every booking targeted the same date and slot | At most one request per run could be created, so 59 of 60 measured the 400 rejection path at a p95 of 8.8 s | Each request claims its own future day |
+| 60 requests were sent to `/ai/search`, which is limited to 20 per 60 s | 40 of 60 measured the rate limiter's 429 | Clamped to the documented budget, and the clamp is recorded in the report |
+| The upload fixture was a 1x1 PNG that Pillow rejects as truncated | Every OCR request answered 502; the timing described the rejection | A valid 64x64 greyscale PNG built from `zlib`/`struct`, no new dependency |
+
+A fourth problem was environmental rather than a defect: `AI_OCR_SERVICE_URL` points at
+`medora-ai-ocr.…eastasia.azurecontainerapps.io`, which no longer resolves
+(`getaddrinfo failed`). The benchmark ran with it overridden to the local
+`ai_service` on `127.0.0.1:8001`. **That deployment being gone is worth someone's
+attention independently of this benchmark.**
+
+Final run: 155 requests, **zero failures**, 60 iterations at concurrency 10, medians and
+p95 in milliseconds.
+
+| Endpoint | n | errors | p50 | p95 | p99 | rps |
+|---|---|---|---|---|---|---|
+| `POST /appointment/` | 60 | 0 | 5106 | 7928 | 9638 | 1.8 |
+| `POST /ai/search` | 20 | 0 | 662 | 917 | 925 | 12.8 |
+| `POST /upload/prescription/extract` | 15 | 0 | 1284 | 2501 | 2511 | 3.0 |
+| `GET /health` | 60 | 0 | 12 | 40 | 43 | 549.5 |
+
+The booking figure is the one that matters and it is poor: a p50 of 5.1 s and 1.8
+requests per second on the create path. This is the architecture `CLAUDE.md` already
+describes rather than a new discovery — a transaction-mode pgBouncer forcing `NullPool`
+so every request opens a fresh TCP, TLS, and auth round trip, against a database in
+ap-south-1 from a client elsewhere, with the endpoint's queries issued sequentially.
+`/health`, which touches none of that, answers in 12 ms.
+
+No latency figure appears in the manuscript and none is being added.
+
+## 16. M-M7 authenticated browser journeys (2026-08-08) — closed
+
+`tests/e2e/provision_synthetic_accounts.py` creates one patient, doctor, and admin
+account through the GoTrue admin API with matching `profiles`, `patient_profiles`, and
+`doctor_profiles` rows, and writes the credentials to `tests/e2e/.env.e2e.local`, which
+`.gitignore` already excludes. It has a `--delete` path; the accounts are real rows in
+the real project and should not outlive the verification they exist for.
+
+**Result: 12 passed, 0 skipped, exit 0, without `E2E_ALLOW_SKIPS`.** Previously 6
+passed and 6 skipped.
+
+The six journeys had never executed, and every one of them was broken:
+
+| Defect | Detail |
+|---|---|
+| `getByLabel(/Password/i)` matched two elements | The "Show password" toggle carries that accessible name, so login failed in strict mode before any spec body ran |
+| Login was never asserted | `loginIfCredentials` waited for `networkidle` and returned. A failed sign-in would have run every spec as an anonymous visitor and passed on whatever the login page rendered. It now asserts the URL leaves `/login` |
+| The onboarding wizard overlaid every patient page | Fixed in the provisioner: the synthetic patient is created with `onboarding_completed` true, which the `?mode=edit` onboarding spec is unaffected by |
+| The find-doctor spec clicked the AI-mode toggle unconditionally | AI mode is now the default, so the click turned it *off*. It now enters the mode only if the entry button is present |
+| Three selectors were stale | The concern field's placeholder, the extracted-text assertion, and a `Cardiology|Arefin` match that resolved to three elements |
+
+The prescription assertion is now stronger than it was: instead of looking for the raw
+string, it asserts the structured medication fields and the "Medicine Review (Human
+Approval)" panel with its approve control — which is the human-in-the-loop behaviour the
+manuscript claims for the extraction path.
+
+Run serialized (`--workers=1`). Twelve parallel sign-ins of one account hit GoTrue's
+rate limit and failed intermittently.
+
+## 17. M-M11 provider retention (2026-08-08) — closed conservatively
+
+Neither provider exposes its organization Zero Data Retention flag to an API, so the
+manifest now records the **worse** case as operative rather than an unverified
+favourable one, and records exactly how that was established.
+
+- **Vapi.** `GET /assistant` with the private key returns HTTP 200 and three assistants,
+  every one with `compliancePlan` and `artifactPlan` null, so nothing at assistant scope
+  reduces retention. `GET /org`, `GET /org/{id}`, and `GET /org/me` return HTTP 401 for
+  both the private and the public key. The documented pay-as-you-go retention (14 days
+  for calls, 30 for chats) is therefore the operative figure and no ZDR is claimed.
+- **Groq.** No organization-settings endpoint exists. The published default — inference
+  not retained, inputs and outputs loggable for up to 30 days for reliability and abuse
+  handling — is the operative figure and no ZDR is claimed.
+
+An early probe returned HTTP 403 with Cloudflare error 1010 for every Vapi path, which
+is a blocked client fingerprint rather than an authorization answer; a normal
+`User-Agent` header was needed before the real 200/401 responses appeared. The earlier
+"403, so the API cannot establish it" reading was wrong.
+
+`execution_date` is set to 2026-08-08 and no incomplete-marker string remains in the
+manifest.
+
+## 14. A production dependency vulnerability had reappeared (2026-08-08)
+
+The gate matrix records "Combined reported production vulnerabilities: 0". That had
+stopped being true. `npm audit --omit=dev` reported `dompurify <=3.4.12`, moderate,
+GHSA-55q2-fjhq-7xh7 — an IN\_PLACE hook removal leaves a detached subtree executable,
+causing XSS. It reaches the bundle through `html2pdf.js` → `jspdf`.
+
+Fixed by pinning `dompurify` to `3.4.13` in `frontend/package.json`'s existing
+`overrides` block, which is how `postcss`, `sharp`, and `tmp` are already pinned here.
+`npm audit fix` was tried first and rejected: run with `--omit=dev` it prunes
+`@playwright/test`, `playwright`, `playwright-core`, and `fsevents` out of the
+lockfile, which would leave `npm ci` unable to install the dev toolchain the lint,
+build, and Lighthouse steps depend on.
+
+Verified after the change: `npm ci` 0, `npm run lint` 0, `npm run build` 0,
+`npm audit --omit=dev` reports 0 vulnerabilities, and the installed tree resolves
+`dompurify 3.4.13`.
+
 ## 9. Open ethics decision — raw image redistribution
 
 The corpus mixes prescriptions collected directly from the authors, their families, and
@@ -409,7 +607,12 @@ absence went unnoticed.
   check must be re-recorded on the final release commit regardless of what passes now.
 - Integration and security were **re-run under Docker on 2026-08-03** against this
   session's backend changes: 14 passed. No longer stale.
-- `LICENSE.txt` (a byte-identical duplicate of `LICENSE`) has been removed.
+- `LICENSE.txt` was removed on 2026-08-03 and restored on 2026-08-07: the Guide for
+  Authors requires the repository to carry `README.md` and `LICENSE.txt` by name.
+- §5's two evidence paths are gone. `docs/defense/06_PROFESSOR_QNA.md` was deleted with
+  the rest of `docs/defense/` in 5a36a5a8, and `frontend/.lighthouseci/` has never been
+  committed. The corrections §5 records were real; the files that carried them are not
+  in the tree any more, and §13 now supersedes the LCP one with a measured figure.
 - The `DATA_LICENSE.md` path in `response_to_revision.md` C9 now points at
   `tests/benchmarks/DATA_LICENSE.md`, where the file actually lives.
 - `.gitattributes` marks captured logs `-whitespace` so `git diff --check` stays clean
@@ -466,3 +669,30 @@ and cite a file path for every claim.
 | 2026-08-04 | Claude | Full suites re-run on fresh evidence after `sec_002`: backend unit 55, smoke 34, ai\_service 16, integration+security **19** (was 14) | `reports/current/*_final.out.log` |
 | 2026-08-04 | Claude | Updated the integration gate's pinned pass count 14 → 19 | `tools/release/build_prearchive_gate_status.py` |
 | 2026-08-04 | Claude | Reset the admin password for `medora0631@gmail.com` at the author's request; bcrypt verified. Note: no account named `medoraadmin` exists | `auth.users` |
+| 2026-08-07 | Claude | Added five interface figure plates (bilingual locales, consent + audit surface, patient/clinician assistive AI, mobile viewports, prescription composition against the medicine reference), built deterministically rather than hand-cropped | `tools/softwarex/build_ui_figures.py`, `docs/softwarex/figures-ui/` |
+| 2026-08-07 | Claude | Template compliance: keywords 7 → 6, abstract trimmed toward the "ca. 100 words" guidance, Ethics moved out of the numbered §1–§5 body into an unnumbered declaration, software self-citation added, related-work table given an in-text reference | `medora_softwarex.tex` |
+| 2026-08-07 | Claude | Covered the demonstration account's telephone and email with opaque fill in the prescription figure; the pseudonymous patient reference is retained deliberately | `build_ui_figures.py` `REDACTIONS` |
+| 2026-08-07 | Claude | Rebuilt: 21 pages, 2,996 words, zero overfull boxes, zero undefined references or citations | `medora_softwarex.pdf`, `medora_softwarex.log` |
+| 2026-08-07 | Claude | **The length rule we were using was the wrong one.** The Guide for Authors counts captions toward the 3,000 words and caps figures at six; the template excludes floats and mentions no figure cap. Measured the Guide's way the manuscript was 3,557 words with 9 figures | SoftwareX Guide for Authors |
+| 2026-08-07 | Claude | Cut to 2,989 words and 6 figures: dropped the booking-timeline diagram, the prescription screenshot, and the mobile plate; compressed every caption; removed Motivation/Conclusions repetition. No claim, number, or limitation removed | `medora_softwarex.tex`, `build_release_artifacts.py` |
+| 2026-08-07 | Claude | Release gate rewritten to count the Guide's way (expands `\input`, counts captions, excludes the two metadata tables) and to fail above 6 figures | `check_softwarex_release.py` |
+| 2026-08-07 | Claude | Humanizer pass over the manuscript prose: em dashes removed, copula-avoidance and trailing participles rewritten, signposting and duplicated enumerations cut | `medora_softwarex.tex` |
+| 2026-08-07 | Claude | **Repository defect**: `.gitignore` line 82 was an unanchored `softwarex/`, which matches at any depth and silently ignored all of `docs/softwarex`. The chorui figure and every interface PNG were uncommittable, so a fresh clone could not build the manuscript. Anchored to the repo root | `.gitignore` |
+| 2026-08-07 | Claude | Restored `LICENSE.txt`; the Guide for Authors requires the repository to carry `README.md` and `LICENSE.txt` by name | repo root |
+| 2026-08-07 | Claude | Added two phone viewports as panels inside the consent and assistive-AI figures, so responsiveness is shown without spending a figure against the 6-figure cap. Consent panel (c) is the same screen as (a) | `medora_softwarex.tex` |
+| 2026-08-07 | Claude | Stated reminder delivery accurately after reading the code: a background dispatcher writes in-app notifications and email; web push exists but stays off unless VAPID keys are configured | `reminder_dispatcher.py`, `email_service.py`, `push_service.py` |
+| 2026-08-07 | Claude | Final state: 2,995 words counted the Guide's way, 6 figures, 18 pages, zero overfull boxes, zero undefined references. Zero em dashes and zero flagged AI-writing patterns in the body | `medora_softwarex.pdf` |
+| 2026-08-08 | Claude | Restored `frontend/node_modules` with `npm ci`; lint, production build, and bundle budget all re-run clean on this checkout | `frontend_lint_20260808.out.log`, `frontend_build_20260808.log`, `frontend_bundle_budget_20260808.log` |
+| 2026-08-08 | Claude | Recompiled the manuscript independently: 18 pages, zero overfull boxes, zero undefined references or citations. Confirms the 2026-08-07 claim | `latex_pass2_20260808.log` |
+| 2026-08-08 | Claude | **Executed the frontend Lighthouse benchmark for the first time.** Mobile `/` scores 0.72 with a 12.3 s LCP and fails two of the config's own assertions; the perf guard exits 1 at +28.79% LCP. Root cause is the hero carousel advancing onto a lazily-loaded slide inside the LCP window. Not fixed — see §13 | `frontend_lighthouse_results.json`, `frontend_lighthouse_benchmark.mjs` |
+| 2026-08-08 | Claude | **Production dependency vulnerability had reappeared**: `dompurify <=3.4.12`, moderate XSS, via `html2pdf.js`/`jspdf`. Pinned to 3.4.13 in `overrides`; audit back to 0. `npm audit fix` was rejected because it prunes the dev toolchain out of the lockfile | `frontend/package.json`, §14 |
+| 2026-08-08 | Claude | Confirmed M-M11 cannot be closed by API: `GET https://api.vapi.ai/org` with the project key returns HTTP 403, so the organization ZDR setting is only readable in the console | `provider_manifest.json` |
+| 2026-08-08 | Claude | Recorded that `backend/venv`, `ai_service/venv`, and the Docker daemon were absent on this checkout | §4 |
+| 2026-08-08 | author + Claude | Rebuilt both venvs on Python 3.13 with explicit authorization. 3.14 cannot be used: `supabase` → `storage3` → `pyiceberg` has no cp314 wheel and its source build fails | `backend/venv`, `ai_service/venv` |
+| 2026-08-08 | Claude | **Fixed the landing-page LCP defect** the Lighthouse run exposed: the mobile hero wash is pinned to the preloaded slide instead of rotating onto lazy images. Mobile `/` 0.72 → 0.91, LCP 12,282 → 2,205 ms, perf guard now passes | `components/landing/hero-carousel.tsx`, §13 |
+| 2026-08-08 | author + Claude | **M-M7 closed.** Provisioned synthetic patient/doctor/admin accounts and fixed five defects in journeys that had never executed, including a login helper that never asserted it had logged in. Playwright 12 passed, 0 skipped, no `E2E_ALLOW_SKIPS` | `tests/e2e/provision_synthetic_accounts.py`, `_helpers.ts`, §16 |
+| 2026-08-08 | Claude | **API latency benchmark executed for the first time.** Three protocol defects fixed (same-slot bookings, exceeding the `/ai/search` rate limit, a 1x1 PNG Pillow rejects). Final run 155/155 with zero failures | `api_latency_benchmark.py`, §15 |
+| 2026-08-08 | Claude | Found `AI_OCR_SERVICE_URL` points at an Azure Container App that no longer resolves; the benchmark ran against the local `ai_service` instead | `backend/.env`, §15 |
+| 2026-08-08 | Claude | **M-M11 closed conservatively.** Vapi `GET /assistant` 200 with all three `compliancePlan`/`artifactPlan` null; org endpoints 401 for both keys; Groq has no such endpoint. Manifest now asserts documented worst-case retention and claims no ZDR | `provider_manifest.json`, §17 |
+| 2026-08-08 | Claude | Wrote down the clean-container procedure, which had only ever existed in a shell history | `tools/release/validate_clean_containers.sh` |
+| 2026-08-08 | Claude | Suites re-run on this checkout: backend unit 62 (was 55), ai\_service 16, integration+security 29 (was 19), booking 30/30 at 2/10/50, safety 0.947/0.755 unchanged, frontend lint and build clean, manuscript 18 pages / 0 overfull / 0 undefined | `reports/current/*_20260808.*` |

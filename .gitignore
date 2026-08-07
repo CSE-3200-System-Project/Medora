@@ -43,7 +43,11 @@ docs/softwarex/imagesui/
 docs/softwarex/figures-src/*
 !docs/softwarex/figures-src/trust_boundary.tex
 !docs/softwarex/figures-src/consent_flow.tex
-!docs/softwarex/figures-src/booking_timeline.tex
+# Figure 3 ships as a compiled PDF, so both halves have to survive a clone or the
+# archived manuscript does not build.
+!docs/softwarex/figures-src/diagram_preamble.tex
+!docs/softwarex/figures-src/chorui_architecture.tex
+!docs/softwarex/figures-src/chorui_architecture.pdf
 docs/softwarex/generated/*
 !docs/softwarex/generated/.gitkeep
 !docs/softwarex/generated/README.md
@@ -79,6 +83,9 @@ tests/benchmarks/reports/current/*
 !tests/benchmarks/reports/current/release_gate_prearchive.log
 !tests/benchmarks/reports/current/safety_results.json
 
+# Anchored to the repository root on purpose. An unanchored "softwarex/" matches at
+# any depth and silently swallows all of docs/softwarex, which is where the manuscript
+# and its figures live.
 /softwarex/
 
 # Built reviewer packages: 144 MB of identifiable prescription images.
