@@ -293,7 +293,7 @@ async def _extract_prescription_with_ai_service(
 ) -> dict:
     endpoint = settings.AI_OCR_SERVICE_URL.rstrip("/") + "/ocr/prescription"
     timeout = httpx.Timeout(
-        connect=5.0,
+        connect=settings.AI_OCR_CONNECT_TIMEOUT_SECONDS,
         read=settings.AI_OCR_TIMEOUT_SECONDS,
         write=30.0,
         pool=5.0,

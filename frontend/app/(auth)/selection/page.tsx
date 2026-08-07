@@ -32,11 +32,15 @@ export default function SelectionPage() {
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1279px) 100vw, 50vw"
             className="object-cover transition-none md:transition-transform md:duration-700 motion-reduce:transition-none md:group-hover:scale-105"
-            loading="lazy"
-            fetchPriority="low"
+            // This panel fills the top of the viewport on every breakpoint, so it is the
+            // largest contentful paint. It was marked lazy and low priority, which cost
+            // about two seconds on a throttled mobile connection. The patient panel below
+            // stays lazy: it starts below the fold on a phone.
+            priority
+            fetchPriority="high"
           />
           <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/30 to-transparent md:group-hover:from-black/60 transition-colors duration-300" />
-          
+
           <div className="absolute inset-0 flex flex-col items-center justify-end p-5 sm:p-6 pb-8 xl:pb-16">
             <div className="bg-card/20 backdrop-blur-sm rounded-full p-3 mb-4 group-hover:bg-card/30 transition-colors">
               <Stethoscope className="h-8 w-8 xl:h-10 xl:w-10 text-white" />

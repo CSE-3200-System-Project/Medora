@@ -1,0 +1,36 @@
+{
+  "metadata": {
+    "upload_type": "software",
+    "title": "Medora: An open-source bilingual platform for consent-aware health-record management and appointment coordination",
+    "creators": [
+      {
+        "name": "Siddiqui, Sarwad Hasan"
+      },
+      {
+        "name": "Tahsin, Adiba"
+      },
+      {
+        "name": "Alam, Kazi Saeed"
+      }
+    ],
+    "description": "Medora is open-source research software for bilingual health-record management, human-reviewed prescription digitization, specialty navigation, and transactionally safe appointment coordination. It is not a clinically validated medical device.",
+    "keywords": [
+      "digital health",
+      "bilingual software",
+      "prescription OCR",
+      "consent",
+      "appointment coordination"
+    ],
+    "license": "mit",
+    "version": "v1.0.0",
+    "publication_date": "2026-08-08",
+    "related_identifiers": [
+      {
+        "relation": "isSupplementTo",
+        "identifier": "https://github.com/CSE-3200-System-Project/Medora",
+        "scheme": "url"
+      }
+    ],
+    "notes": "Research software. Not a clinically validated medical device. The prescription image corpus is not included in this archive; see samples/DATA_USE_NOTICE.md."
+  }
+}

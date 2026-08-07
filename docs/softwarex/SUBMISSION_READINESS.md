@@ -585,6 +585,100 @@ Verified after the change: `npm ci` 0, `npm run lint` 0, `npm run build` 0,
 `npm audit --omit=dev` reports 0 vulnerabilities, and the installed tree resolves
 `dompurify 3.4.13`.
 
+## 18. Azure deployment and cost (2026-08-08)
+
+### The OCR service had been broken since deployment
+
+`AI_OCR_SERVICE_URL` in `backend/.env` pointed at
+`medora-ai-ocr.proudbay-b42fc45b.eastasia.azurecontainerapps.io`, a Container Apps
+environment that no longer exists. The live service is `medora-ai-service` in
+`medora-rg-us`, eastus. The local file is corrected.
+
+Fixing the URL exposed the real fault. The deployed service answered `/health` with 200
+and every OCR call with 500:
+
+```
+RuntimeError: Missing AZURE_OCR_ENDPOINT or AZURE_OCR_KEY in environment.
+```
+
+`AZURE_OCR_KEY` was wired correctly as a secret reference. `AZURE_OCR_ENDPOINT` was set
+to the **empty string**. It now holds
+`https://medora-prescription-ocr-ai.cognitiveservices.azure.com/`, and a direct call
+returns 200 with `azure_prebuilt-read` in about 150 ms. Cloud OCR works for the first
+time in this deployment.
+
+**One defect remains and it should not be papered over.** The deployed service serves
+`processing_mode=cloud` but returns 500 for `local` and `auto`:
+
+```
+RuntimeError: PDX has already been initialized. Reinitialization is not supported.
+```
+
+`/upload/prescription/extract` defaults `processing_mode` to `local`
+(`upload.py:577`), so the default path through the deployed backend still fails. The
+tempting fix, changing that default to `cloud`, would send prescription images to Azure
+when the caller asked for on-device processing, which is exactly the separation M-C2
+exists to guarantee. The correct fix is in the AI service's PaddleOCR initialisation and
+needs a rebuild and redeploy. Failing loudly is the right behaviour until then.
+
+Separately, `AI_OCR_CONNECT_TIMEOUT_SECONDS` (default 45 s) replaces a hard-coded 5 s
+connect timeout. With the service scaled to zero a cold start takes about 24 s, so the
+old value turned every first request into a 502 while the 180 s read timeout sat unused.
+
+### Where the money was going
+
+Month to date, eight days in:
+
+| Line | Cost |
+|---|---|
+| `medora-ai-service` idle memory | $6.28 |
+| `medora-ai-service` idle vCPU | $3.14 |
+| `medora-backend` idle memory | $4.70 |
+| `medora-backend` idle vCPU | $2.35 |
+| **all four idle lines** | **$16.47** |
+| all active usage, both apps | $0.07 |
+| Container Registry (Basic, flat) | $1.11 |
+
+**99.6% of Container Apps spend was idle capacity.** Both apps ran `minReplicas: 1`, so
+3.5 vCPU and 7 GiB were billed around the clock to serve $0.07 of work. That is roughly
+$66 a month against a one-time Azure for Students credit.
+
+Both apps are now `minReplicas: 0`. Cold start measured after the change: backend about
+1 s, AI service 24.2 s, both under 1 s warm. A budget named `medora-monthly-guard` is
+set at $15 a month with alerts at 50%, 80%, 100% actual and 100% forecast.
+
+The database has 33 accounts, 56 appointments, and **zero upcoming appointments**, so
+the background loops the backend runs (reminder dispatch, hold expiry, auto-complete)
+have nothing to process while it is scaled down. That is what makes scale-to-zero safe
+here, and it stops being safe the moment there is a real booking in the future.
+
+### Thirteen secrets are stored in plaintext on the backend container app
+
+`az containerapp show` returns these as literal values rather than secret references:
+
+```
+SUPABASE_SERVICE_ROLE_KEY, SUPABASE_JWT_SECRET, SUPABASE_KEY, GROQ_API_KEY,
+GEMINI_API_KEY, CEREBRAS_CLOUD_API_KEY, VAPI_API_KEY, VAPI_PUBLIC_KEY,
+PATIENT_REF_HASH_SECRET, AI_ID_HASH_SECRET, GOOGLE_CLIENT_SECRET, SMTP_PASSWORD,
+ADMIN_PASSWORD
+```
+
+Anyone with Reader on the subscription can read all of them, and they appear in
+Resource Manager deployment history. `medora-ai-service` does this correctly with
+`secretRef`, and the backend already has a secret store holding `admin-password`, so
+the mechanism exists and is unused.
+
+Two of these matter beyond the usual: `SUPABASE_JWT_SECRET` allows forging a token for
+any user, and `PATIENT_REF_HASH_SECRET` plus `AI_ID_HASH_SECRET` are what make
+`core/patient_reference.py` pseudonymous. With those secrets in hand the mapping from
+pseudonym back to patient UUID is a brute-force over a known space, which weakens a
+property the manuscript relies on.
+
+**Moving them to secret references is not sufficient. They have been readable and should
+be rotated first**, then stored as references. This has not been done: rotating live
+credentials is the account owner's call, not something to do to a running system
+unasked.
+
 ## 9. Open ethics decision — raw image redistribution
 
 The corpus mixes prescriptions collected directly from the authors, their families, and
@@ -735,3 +829,13 @@ and cite a file path for every claim.
 | 2026-08-08 | Claude | Wrote `release_metadata.json` with the real commit and date, and recorded the approval citation as not applicable because no prescription image is archived | `docs/softwarex/release_metadata.json` |
 | 2026-08-08 | Claude | Corrected two gate definitions that asserted the wrong thing: the browser-journey gate was hard-coded blocked, and the approval gate was tied to the withdrawn OCR freeze | `build_prearchive_gate_status.py` |
 | 2026-08-08 | Claude | Gate matrix 16/5/1 → **19 passed, 2 blocked, 1 deferred**; release checker 17 failures → 3, all of them M-C8 or M-C1 | `prearchive_gate_status.json` |
+| 2026-08-08 | Claude | Built the Zenodo deposit path: archive from the verified commit, SHA-256, deposition record from `CITATION.cff`. Only the authenticated upload remains | `tools/release/build_zenodo_deposit.py` |
+| 2026-08-08 | Claude | `explanation.md` claimed M5, M7, and M11 were open and listed four remaining gates. Rewritten against the current state; humanizer pass over both it and the manuscript returns zero hits | `explanation.md` |
+| 2026-08-08 | author + Claude | **Repaired the deployed OCR service.** `AZURE_OCR_ENDPOINT` was an empty string, so every call 500'd. Cloud OCR now answers 200 in about 150 ms. `local` mode still fails on a Paddle re-initialisation error | §18 |
+| 2026-08-08 | Claude | Replaced a hard-coded 5 s OCR connect timeout with `AI_OCR_CONNECT_TIMEOUT_SECONDS` (45 s); a scale-to-zero cold start takes 24 s and was returning 502 | `config.py`, `upload.py` |
+| 2026-08-08 | author + Claude | **Cut Azure spend by about 93%.** 99.6% of Container Apps cost was idle replicas at `minReplicas: 1` serving $0.07 of work. Both apps now scale to zero; a $15/month budget with four alert thresholds is in place | §18 |
+| 2026-08-08 | Claude | Found 13 secrets stored as plaintext env vars on the backend container app, including the JWT secret and both pseudonymisation secrets. Reported for rotation; not touched | §18 |
+| 2026-08-08 | Claude | Rewrote `run_benchmarks.sh` to report a per-step outcome and exit non-zero on failure. It immediately exposed that four steps could never have run: two were hidden by `\|\| true`, `realtime_slot_consistency_benchmark.py` was never passed its required `--slots`, and several scripts failed on `No module named 'tests'` because the root was not on `PYTHONPATH` | `run_benchmarks.sh` |
+| 2026-08-08 | Claude | Database concurrency benchmark executed for the first time: 500 operations at concurrency 80 gave **449 failures (89.8%)**, the pooler refusing connections. Corroborates the architecture note in `CLAUDE.md` | `reports/current/db_benchmark.json` |
+| 2026-08-08 | Claude | The selection page's above-the-fold image was `loading="lazy"` with `fetchPriority="low"`. Mobile 0.85 → 0.96, LCP 4,046 → 2,087 ms | `app/(auth)/selection/page.tsx` |
+| 2026-08-08 | Claude | `tests/e2e` production dependency audit: 0 vulnerabilities | `reports/current/e2e_npm_audit_20260808.json` |

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-03T22:57:59.692572+00:00",
+  "generated_at": "2026-08-07T22:10:46.887255+00:00",
   "assumptions": {
     "monthly_api_requests": 2500000,
     "monthly_ocr_requests": 250000,
