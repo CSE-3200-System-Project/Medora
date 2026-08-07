@@ -18,9 +18,19 @@ checklist suggested, and what is still open.
 | Abstract | 133 words | guideline is "ca. 100" |
 | Keywords | 6 | maximum is 6 |
 
-The release gate still exits 2. Everything it complains about is a credential, an account
-fact, or the Zenodo deposit. None of it is a scientific claim, and the manuscript asserts
-nothing that depends on any of it.
+The release gate still exits 2, but on three complaints rather than seventeen, and all
+three trace to the same two places: the Zenodo deposit has not happened and the licensed
+clinician review has not happened.
+
+```
+- release metadata contains RELEASE_PENDING           # no DOI, URL, or archive hash yet
+- missing generated artifact release_metadata.tex     # written only once the DOI exists
+- generated report did not pass: safety_results.json  # clinician_reviewed = 0
+```
+
+The pre-archive gate matrix reads 19 passed, 2 blocked, 1 deferred. All nine verification
+receipts pass on the commit they name. Neither open item is a scientific claim, and the
+manuscript asserts nothing that depends on either.
 
 ## The length rules, and why the earlier answer was wrong
 
@@ -75,14 +85,14 @@ of `SUBMISSION_READINESS.md`. This table is the short version.
 
 | Code | Status | Evidence |
 |---|---|---|
-| C1 fixed archived release and DOI | Blocked, external | `CITATION.cff`, `CHANGELOG.md`, `codemeta.json` exist. The software self-citation is now in the bibliography and carries `\ReleaseDOI`. The tag and Zenodo deposit are the only missing pieces |
+| C1 fixed archived release and DOI | Blocked, external | `CITATION.cff`, `CHANGELOG.md`, `codemeta.json` exist and the software self-citation carries `\ReleaseDOI`. `tools/release/build_zenodo_deposit.py` builds the archive, hashes it, and writes the deposition record; the authenticated upload is the only remaining step |
 | C2 separate text, image, audio paths | Done | `figures-src/trust_boundary.tex`; `processing_consent.py`; `ai_service/app/pipeline.py` |
 | C3 no absolute anonymity claims | Done | Every remaining use of an anonymity word in the `.tex` is a limiting one |
 | C4 evaluate PII and consent guard | Done | 134 production-path cases, precision 0.947, recall 0.755, false redaction 0.032, 43 written limitations, 0 undisclosed failures |
 | C5 rebuild OCR evaluation | Withdrawn | No accuracy figure is stated and no OCR table is published. See "deliberate deviations" below |
 | C6 OCR baselines and ablation | Withdrawn | Same reason. The harness is still in the repository for future work |
 | C7 atomic booking under concurrency | Done | 30 of 30 at concurrency 2, 10, and 50. Transaction p95 81.1, 658.9, 1789.8 ms; outbox p95 124.5, 793.9, 1739.3 ms; no duplicate active row |
-| C8 AI safety and factuality | Partly done | 30 navigation fixtures scored on two paths, 17 of 30 agreeing with the labelled class, 5 emergency false positives, 0 false negatives, 9 documented limitations. 12 of 12 summary fixtures run the summarizer end to end. Licensed clinician review is outstanding |
+| C8 AI safety and factuality | Partly done | 30 navigation fixtures scored on two paths, 17 of 30 agreeing with the labelled class, 5 emergency false positives, 0 false negatives, 9 documented limitations. 12 of 12 summary fixtures run the summarizer end to end. Licensed clinician review is outstanding, and it is the reason `safety_results.json` reports `passed: false` |
 | C9 ethics and data governance | Done for this release | The prescription image corpus is not deposited, which removes the approval-citation dependency. Provenance, licence, and a re-identification prohibition stay in the repository |
 | C10 no production-grade wording | Done | The release gate fails on the literal phrase, and the abstract, impact, and conclusion are research-framed |
 
@@ -93,16 +103,23 @@ and discrepancy semantics, M6 consistency separated from propagation, M8 role an
 permission matrix, M9 consent semantics, M10 related work, and M12 worked examples are all
 implemented with a named evidence path in `response_to_revision.md`.
 
-Two are partial and the manuscript says so. M5 asked for a reproducible benchmark protocol
-covering API latency and web vitals as well as booking. The booking protocol is frozen and
-executed; the latency and Lighthouse runs were never performed, so the manuscript reports
-no such numbers rather than reporting weak ones. M11 asked for full provider metadata. The
-Azure region resolved to `eastus`, but the Groq and Vapi organisation retention settings
-have not been confirmed by the account owner and are recorded as unverified.
+M5, M7, and M11 were partial when this document was first written. All three are now
+closed, and closing them is where most of the work of this pass went.
 
-M7, the offline cache audit, is implemented and tested for storage contents. The
-authenticated browser journeys that would complete it need synthetic credentials nobody has
-provisioned yet.
+**M5** asked for a reproducible benchmark protocol covering API latency and web vitals as
+well as booking. Booking was already frozen and executed. Lighthouse and the API latency
+benchmark had never been run, and running each of them for the first time exposed
+defects. The manuscript still reports no latency or Lighthouse number, so none of this
+changes a claim; it changes whether the claim of having a protocol is true.
+
+**M7** now runs. Twelve specs pass across the English and Bangla projects with no skipped
+authenticated journey, against synthetic accounts a committed provisioner creates.
+
+**M11** is closed conservatively. Neither Groq nor Vapi exposes its organisation
+zero-data-retention flag to an API, so instead of recording a favourable claim nobody
+verified, the manifest records the documented worst case as operative and states that no
+zero-data-retention agreement is claimed. What was checked, and what each endpoint
+answered, is written down beside it.
 
 ### Presentation
 
@@ -230,27 +247,64 @@ benefit is the exact overclaiming that C10 exists to prevent. The section instea
 is reusable independently of the platform: the medicine reference with its build script, the
 deterministic mock provider, and the registry containment pattern.
 
+## What running the untested benchmarks exposed
+
+Every benchmark that had never been executed was broken, and one of them was measuring a
+real product defect. This is the same pattern as the 2026-08-03 evidence audit: a check
+that has never run is not evidence that something works.
+
+**The landing page took 12.3 seconds to paint on a throttled mobile connection.** The hero
+carousel advances every six seconds and only the first slide was preloaded, so the browser
+attributed the largest contentful paint to an image that started downloading at the moment
+of the advance. Desktop finished before the first advance and scored 0.99 on the same page,
+which is why nobody had noticed. Below the large breakpoint that image is a thirty-percent
+opacity decorative wash behind the text, so it is now pinned to the slide that is
+preloaded; the visible rotation continues on desktop and the text and buttons still rotate
+on mobile. The page went from 0.72 to 0.91 and from 12,282 ms to 2,205 ms.
+
+**The latency benchmark had three defects that would each have produced a meaningless
+number.** Every booking targeted the same date and slot, so fifty-nine of sixty requests
+measured the rejection path. Sixty requests were sent to an endpoint documented as
+accepting twenty per minute, so forty of them measured the rate limiter. The upload
+fixture was a one-pixel PNG that Pillow rejects as truncated, so every OCR request answered
+502. After fixing all three the run is 155 requests with zero failures.
+
+**Six browser journeys had never executed and all six were broken.** The worst of them was
+a login helper that filled a password field, clicked sign in, waited for the network to go
+quiet, and returned without ever checking that it had logged in. Had the other defects not
+masked it, every authenticated spec would have run as an anonymous visitor and passed.
+
+**A production dependency vulnerability had come back.** `dompurify` at or below 3.4.12
+carries a moderate cross-site-scripting advisory and reaches the bundle through
+`html2pdf.js`. The gate matrix claimed zero production vulnerabilities. It is pinned now.
+
 ## Still open, and who has to close it
 
-Four gates, none of which an agent or a script can close honestly.
+Two gates, neither of which an agent or a script can close honestly.
 
 1. A licensed clinician has to review the 30 navigation fixtures. Two of them, NAV-022 and
    NAV-023, are Bengali paraphrases of red-flag presentations that the current patterns do
    not match, and they need a clinical decision rather than a yes or no sign-off.
-2. The Azure, Groq, and Vapi account owner has to confirm organisation retention and
-   zero-data-retention settings.
-3. Someone has to provision non-production synthetic patient, doctor, and administrator
-   accounts so the authenticated Playwright journeys can run without skips.
-4. The release manager has to tag, archive, and deposit, then paste the DOI and archive
-   checksum back into `release_metadata.json`.
+2. The release manager has to tag, deposit, and paste the DOI back into
+   `release_metadata.json`. `tools/release/build_zenodo_deposit.py` does everything up to
+   that point: it refuses to run on a dirty tree, builds the archive from the exact
+   verified commit, hashes it, writes a Zenodo deposition record from `CITATION.cff`, and
+   prints the five remaining steps in order.
 
-Only after all four does `check_softwarex_release.py` exit 0, and it is written to stay
+Only after both does `check_softwarex_release.py` exit 0, and it is written to stay
 fail-closed until then.
+
+One wrinkle in that procedure is worth knowing before you hit it. `verification.json`
+records the commit its nine checks ran against, and it is a tracked file, so committing it
+always leaves it naming its own parent. The checker compares that field to HEAD and
+refuses the mismatch. In practice `verification.json` and `release_metadata.json` stay
+uncommitted at the point of deposit, and the deposit builder treats exactly those two as
+expected-dirty and everything else as a stop.
 
 ## Likely questions
 
 **Which length rule did you follow?** The stricter of the two. The Guide for Authors counts
-captions and caps figures at six, so the manuscript is measured that way: 2,989 words and 6
+captions and caps figures at six, so the manuscript is measured that way: 2,995 words and 6
 figures. The template's separate 6-page guidance has no equivalent in the Guide, and the
 page count is not a limit the Guide states.
 
