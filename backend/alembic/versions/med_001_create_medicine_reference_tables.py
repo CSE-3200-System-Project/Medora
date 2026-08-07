@@ -23,7 +23,22 @@ branch_labels = None
 depends_on = None
 
 
+def _table_exists(name: str) -> bool:
+    bind = op.get_bind()
+    return bind.dialect.has_table(bind, name)
+
+
 def upgrade() -> None:
+    # The three tables were loaded into the live database out of band, before this
+    # migration existed, so a straight create_table aborts the whole upgrade there and
+    # the indexes below never get created. That is why the deployed database was missing
+    # ix_medicine_search_index_drug_id and _brand_id while the table itself was present.
+    # Creating them only when absent lets the same revision run against a fresh database
+    # and against the one that was populated by hand.
+    if _table_exists("drugs"):
+        _upgrade_indexes_only()
+        return
+
     op.create_table(
         "drugs",
         sa.Column("id", postgresql.UUID(as_uuid=True), nullable=False),
@@ -74,6 +89,21 @@ def upgrade() -> None:
         "CREATE INDEX IF NOT EXISTS ix_medicine_search_index_term_trgm "
         "ON medicine_search_index USING gin (term gin_trgm_ops);"
     )
+
+
+def _upgrade_indexes_only() -> None:
+    """Bring an out-of-band medicine schema up to what this revision guarantees."""
+    for statement in (
+        "CREATE INDEX IF NOT EXISTS ix_drugs_generic_name ON drugs (generic_name)",
+        "CREATE INDEX IF NOT EXISTS ix_brands_drug_id ON brands (drug_id)",
+        "CREATE INDEX IF NOT EXISTS ix_brands_brand_name ON brands (brand_name)",
+        "CREATE INDEX IF NOT EXISTS ix_medicine_search_index_term ON medicine_search_index (term)",
+        "CREATE INDEX IF NOT EXISTS ix_medicine_search_index_drug_id ON medicine_search_index (drug_id)",
+        "CREATE INDEX IF NOT EXISTS ix_medicine_search_index_brand_id ON medicine_search_index (brand_id)",
+        "CREATE INDEX IF NOT EXISTS ix_medicine_search_index_term_trgm "
+        "ON medicine_search_index USING gin (term gin_trgm_ops)",
+    ):
+        op.execute(statement)
 
 
 def downgrade() -> None:

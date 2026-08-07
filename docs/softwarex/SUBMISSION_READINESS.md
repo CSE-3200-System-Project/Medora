@@ -679,6 +679,70 @@ be rotated first**, then stored as references. This has not been done: rotating 
 credentials is the account owner's call, not something to do to a running system
 unasked.
 
+## 19. Deposit metadata drift, and a database audit (2026-08-08)
+
+### CITATION.cff and codemeta.json still described the pre-reframe software
+
+The manuscript was retitled on 2026-08-04 and its keywords were rewritten, but the two
+machine-readable metadata files were never updated with it. They still carried the old
+title, an abstract about "human-reviewed prescription digitization", and
+`prescription OCR` as a keyword. `build_zenodo_deposit.py` reads `CITATION.cff`, so the
+deposition record inherited all of it and advertised a capability this release
+explicitly withdraws.
+
+Both files now match the manuscript exactly: the title from `\title`, the six keywords
+from `\begin{keyword}`, and a description condensed from the abstract that leads with
+the consent-gated assistive-AI layer and the 7,389-drug, 67,001-brand medicine
+reference. Zero OCR terms remain in the generated deposition. The manuscript's own
+self-citation (`\bibitem{medorasw}`) already used the new title, which is how the drift
+stayed invisible.
+
+### Database audit
+
+Run through the `postgres` role directly. The Supabase MCP server needs an interactive
+OAuth that a non-interactive session cannot complete; direct asyncpg access is a
+superset of what it offers anyway.
+
+**Security holds.** 51 tables, 0 without row-level security, 2 grants to
+`anon`/`authenticated` (the PHI-free slot feed). `sec_001` and `sec_002` are intact. No
+`SECURITY DEFINER` function has a mutable `search_path`.
+
+**The database was two migrations behind its own head.** Alembic reported `sec_002`
+while the head was `med_001`. The medicine tables existed anyway, because they were
+loaded out of band before that revision was written, so `med_001` would have aborted on
+`relation "drugs" already exists` and every index it also creates was silently absent.
+`med_001` now detects that case and creates only the indexes. `alembic upgrade head`
+runs clean, and the head is `perf_fk_001`.
+
+**Seventeen foreign keys had no supporting index.** An unindexed foreign key makes joins
+across it scan, and makes every parent DELETE scan the whole child table to prove
+nothing still references the row. Two belonged to `med_001`; the other fifteen are in a
+new revision, `perf_fk_001`. The count is now zero.
+
+**Statistics had never been collected on the medicine tables.** `pg_stat_user_tables`
+reported `n_live_tup = 0` and a null `last_analyze` for `drugs` (7,389 rows), `brands`
+(67,001), and `medicine_search_index` (74,390). `ANALYZE` fixed the estimates.
+
+It did **not** make the search faster, and the guess that it would was wrong. A
+representative brand lookup measured 152.0 ms before and 152.2 ms after, and `EXPLAIN
+ANALYZE` shows why: the query already used the trigram index and executed in 0.29 ms.
+The other 151 ms is the round trip to a database in ap-south-1. That is the constraint
+`CLAUDE.md` already names, now with a number against a real query. Correct statistics
+still matter for planning other queries; they were not the bottleneck here.
+
+**`medicine_staging` is dead weight.** 71,795 rows and 24 MB, referenced nowhere in the
+repository, no ORM model, no grants. It is the raw CSV load table left behind by the
+corpus build and is fully reproducible from
+`data/medicine_reference/Final_Medicine_Dataset.csv`, whose row count the release gate
+already pins at 71,795. Dropping it would halve the medicine footprint and remove a
+table that a fresh deployment would otherwise inherit from a schema dump. **Not
+dropped**: it holds data, and reproducibility from the CSV is an argument for dropping
+it, not authorisation to.
+
+`pg_trgm` is installed in `public` rather than a dedicated schema, which Supabase's
+linter flags. Moving it would invalidate the trigram index that the medicine search
+depends on, so it stays.
+
 ## 9. Open ethics decision — raw image redistribution
 
 The corpus mixes prescriptions collected directly from the authors, their families, and

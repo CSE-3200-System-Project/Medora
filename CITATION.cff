@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use Medora, please cite the archived v1.0.0 release and the SoftwareX article."
-title: "Medora: An open-source bilingual platform for consent-aware health-record management and appointment coordination"
+title: "Medora: a consent-gated assistive-AI layer over an open Bangladesh medicine reference for bilingual health-record software"
 type: software
 version: 1.0.0
 authors:
@@ -15,12 +15,21 @@ repository-code: "https://github.com/CSE-3200-System-Project/Medora"
 license: MIT
 keywords:
   - digital health
+  - assistive AI
+  - consent-gated processing
+  - medicine reference data
+  - deterministic intent routing
   - bilingual software
-  - prescription OCR
-  - consent
-  - appointment coordination
 abstract: >-
-  Medora is open-source research software for bilingual health-record
-  management, human-reviewed prescription digitization, specialty navigation,
-  and transactionally safe appointment coordination. It is not a clinically
-  validated medical device.
+  Medora is open-source research software that joins bilingual English and
+  Bengali patient-held records and appointment coordination to a consent-gated
+  assistive-AI layer of twenty-one endpoints. Its safety properties are
+  structural rather than prompt-dependent: external model calls need a
+  purpose-specific revocable grant and pass bilingual redaction and
+  pseudonymisation, assistant navigation resolves through an immutable
+  role-scoped registry that holds no administrative routes, and summary items
+  can cite only records the backend supplied. Routing, consent, and red-flag
+  detection involve no model. Underneath sits an open Bangladesh medicine
+  reference of 7,389 drugs and 67,001 brands, built from five published
+  datasets by a single script. Medora is not clinically validated and is not a
+  medical device.
