@@ -1,7 +1,7 @@
 # Medora SoftwareX pre-archive gate status
 
-Generated: 2026-08-07T21:38:55.597397+00:00
-Git HEAD: `6abb687f9bfa0177dcc231e801be67a717c4f675`
+Generated: 2026-08-07T22:28:01.302492+00:00
+Git HEAD: `01ead6ca8d618e26e56d1b386c7b5fc062b727d3`
 Dirty worktree: `true`
 Scope: pre-Zenodo evidence only; this is not a final release verification receipt.
 

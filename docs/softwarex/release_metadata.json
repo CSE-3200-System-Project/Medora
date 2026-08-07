@@ -1,10 +1,10 @@
 {
   "version": "v1.0.0",
   "release_date": "2026-08-08",
-  "git_commit": "f99079d1971756d7d47f94adb532fc689f64f1ad",
+  "git_commit": "01ead6ca8d618e26e56d1b386c7b5fc062b727d3",
   "zenodo_doi": "RELEASE_PENDING",
   "zenodo_url": "RELEASE_PENDING",
-  "archive_sha256": "RELEASE_PENDING",
+  "archive_sha256": "8e7fcf50e231d302021f604f3ba16e93bd16959e345bb34a5b0e716cb9075771",
   "source_repository": "https://github.com/CSE-3200-System-Project/Medora",
   "approval": {
     "authority": "Not applicable",
@@ -16,5 +16,6 @@
   "pending": [
     "zenodo_doi, zenodo_url, and archive_sha256 cannot be filled before the manual Zenodo deposit (M-C1).",
     "The licensed navigation review (M-C8) is outstanding, so safety_results.json reports passed=false while deterministic_passed is true."
-  ]
+  ],
+  "archive_path": "dist/medora-v1.0.0-01ead6ca.zip"
 }
