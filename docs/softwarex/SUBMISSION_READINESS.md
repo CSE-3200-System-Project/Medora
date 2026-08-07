@@ -743,6 +743,73 @@ it, not authorisation to.
 linter flags. Moving it would invalidate the trigram index that the medicine search
 depends on, so it stays.
 
+## 20. Enum drift, and the v1.0.0 deposit (2026-08-08)
+
+### v1.0.0 is deposited
+
+Version DOI `10.5281/zenodo.21844460`, concept DOI `10.5281/zenodo.21844459`, record at
+`https://zenodo.org/records/21844460`, from tag `v1.0.0` at commit `73a1cce`. The
+deposited file is GitHub's own `Medora-v1.0.0.zip`, SHA-256
+`5c32252edfc602cf85af265cac21446c48cf16478c72c4b38289286d5f5c31bc`, so the deposit came
+through the GitHub integration rather than `build_zenodo_deposit.py`.
+
+The published record's title is already correct. Its keyword list is a mix of the old
+and new sets and still carries `appointment coordination`. That archive's `CITATION.cff`
+also predates the metadata correction, which is why v1.0.1 exists.
+
+### Eleven enum members raised on write, and nothing caught it
+
+Comparing `app/db/models/enums.py` against `pg_enum` on the live database found members
+the code can produce that the type would reject:
+
+| Enum | Members the database rejected |
+|---|---|
+| `SurgeryUrgency` | `routine`, `urgent`, `emergency`, `elective` |
+| `DurationUnit` | `years`, `ongoing`, `as_needed` |
+| `TestUrgency` | `routine`, `emergency` |
+| `ConsultationStatus` | `cancelled` |
+| `MedicineType` | `patch` |
+
+`surgeryurgency` held only `immediate` and `scheduled`, so every surgery-urgency value
+the API accepts except `scheduled` would have failed at insert with
+`InvalidTextRepresentationError`, surfacing as a 500. Two labels also existed with no
+member able to read them: `medicinetype.powder` and `surgeryurgency.immediate`.
+
+Revision `enum_sync_001` adds the eleven labels; the two orphans are now members. The
+count in both directions is zero.
+
+**Why the test suite was green.** `tests/conftest.py` builds the integration schema with
+`Base.metadata.create_all`, which generates the enum types from the same models it is
+checking, so the types always match there by construction. Only a real database can see
+this. That is the same defect class as the vacuous grant test in §12 and D1 in §3.
+`tools/release/check_enum_sync.py` now performs the comparison against a real database
+and exits 2 on any mismatch.
+
+A related hazard worth knowing: this schema stores `userrole`, `accountstatus`,
+`verificationstatus`, and `reviewmoderationstatus` by member **name** (upper case), and
+every other enum by **value** (lower case). The checker accepts either, but anyone
+writing raw SQL has to know which convention a given type follows.
+
+### Two profiles have no `auth.users` row
+
+Referential integrity is otherwise clean: no invalid constraints, no orphaned foreign
+key values anywhere in the schema.
+
+- `51c2a39e-...` is an `active`, `verified`, BMDC-verified **doctor** whose auth user no
+  longer exists. It appears among the 20 doctors patients can browse. It has zero
+  availability rows and zero appointments, so nothing can actually be booked with it,
+  but a listed doctor who cannot sign in is still wrong. The email on it is an author's.
+- `admin` is a profile whose primary key is the literal string `admin` rather than a
+  UUID. It is the row that forced `sec_002` to widen `slot_change_events.doctor_id`. It
+  is an `active` ADMIN with no email and no auth user, and **308 unread notifications**
+  are addressed to it, which nobody can read.
+
+Neither is touched. One is an author's own account and the other is a sentinel the
+application may rely on; deleting either is a decision for the authors, not a cleanup.
+
+`medicine_staging` also remains: 71,795 rows and 24 MB, referenced nowhere in the
+repository, reproducible from the CSV whose row count the release gate already pins.
+
 ## 9. Open ethics decision — raw image redistribution
 
 The corpus mixes prescriptions collected directly from the authors, their families, and

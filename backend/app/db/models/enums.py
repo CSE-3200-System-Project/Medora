@@ -70,6 +70,9 @@ class TestUrgency(str, enum.Enum):
 
 class SurgeryUrgency(str, enum.Enum):
     SCHEDULED = "scheduled"
+    # `immediate` exists in the Postgres type and predates this class. Without a member
+    # for it, reading any row already carrying that value raises ValueError.
+    IMMEDIATE = "immediate"
     ROUTINE = "routine"
     URGENT = "urgent"
     EMERGENCY = "emergency"
@@ -87,6 +90,7 @@ class MedicineType(str, enum.Enum):
     OINTMENT = "ointment"
     GEL = "gel"
     PATCH = "patch"
+    POWDER = "powder"
     SUPPOSITORY = "suppository"
     OTHER = "other"
 

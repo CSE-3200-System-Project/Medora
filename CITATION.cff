@@ -1,8 +1,8 @@
 cff-version: 1.2.0
-message: "If you use Medora, please cite the archived v1.0.0 release and the SoftwareX article."
+message: "If you use Medora, please cite the archived v1.0.1 release and the SoftwareX article."
 title: "Medora: a consent-gated assistive-AI layer over an open Bangladesh medicine reference for bilingual health-record software"
 type: software
-version: 1.0.0
+version: 1.0.1
 authors:
   - family-names: Siddiqui
     given-names: Sarwad Hasan

@@ -6,10 +6,22 @@
   "identifier": "medora",
   "codeRepository": "https://github.com/CSE-3200-System-Project/Medora",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "1.0.0",
-  "programmingLanguage": ["Python", "TypeScript", "SQL"],
-  "runtimePlatform": ["Python 3.11", "Node.js 20", "PostgreSQL 16"],
-  "operatingSystem": ["Linux", "Windows", "macOS"],
+  "version": "1.0.1",
+  "programmingLanguage": [
+    "Python",
+    "TypeScript",
+    "SQL"
+  ],
+  "runtimePlatform": [
+    "Python 3.11",
+    "Node.js 20",
+    "PostgreSQL 16"
+  ],
+  "operatingSystem": [
+    "Linux",
+    "Windows",
+    "macOS"
+  ],
   "applicationCategory": "Health informatics",
   "keywords": [
     "digital health",
