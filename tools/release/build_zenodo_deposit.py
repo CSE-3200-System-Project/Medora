@@ -144,8 +144,10 @@ def main() -> int:
                 {"relation": "isSupplementTo", "identifier": citation.get("repository-code", ""), "scheme": "url"}
             ],
             "notes": (
-                "Research software. Not a clinically validated medical device. "
-                "The prescription image corpus is not included in this archive; see samples/DATA_USE_NOTICE.md."
+                "Research software. Not clinically validated, not a medical device, and not for "
+                "clinical use. The archive contains source, evaluation harnesses, and the build "
+                "script for the medicine reference. No patient images or records are included; "
+                "see samples/DATA_USE_NOTICE.md."
             ),
         }
     }

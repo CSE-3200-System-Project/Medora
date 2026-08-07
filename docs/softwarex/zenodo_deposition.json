@@ -1,7 +1,7 @@
 {
   "metadata": {
     "upload_type": "software",
-    "title": "Medora: An open-source bilingual platform for consent-aware health-record management and appointment coordination",
+    "title": "Medora: a consent-gated assistive-AI layer over an open Bangladesh medicine reference for bilingual health-record software",
     "creators": [
       {
         "name": "Siddiqui, Sarwad Hasan"
@@ -13,13 +13,14 @@
         "name": "Alam, Kazi Saeed"
       }
     ],
-    "description": "Medora is open-source research software for bilingual health-record management, human-reviewed prescription digitization, specialty navigation, and transactionally safe appointment coordination. It is not a clinically validated medical device.",
+    "description": "Medora is open-source research software that joins bilingual English and Bengali patient-held records and appointment coordination to a consent-gated assistive-AI layer of twenty-one endpoints. Its safety properties are structural rather than prompt-dependent: external model calls need a purpose-specific revocable grant and pass bilingual redaction and pseudonymisation, assistant navigation resolves through an immutable role-scoped registry that holds no administrative routes, and summary items can cite only records the backend supplied. Routing, consent, and red-flag detection involve no model. Underneath sits an open Bangladesh medicine reference of 7,389 drugs and 67,001 brands, built from five published datasets by a single script. Medora is not clinically validated and is not a medical device.",
     "keywords": [
       "digital health",
-      "bilingual software",
-      "prescription OCR",
-      "consent",
-      "appointment coordination"
+      "assistive AI",
+      "consent-gated processing",
+      "medicine reference data",
+      "deterministic intent routing",
+      "bilingual software"
     ],
     "license": "mit",
     "version": "v1.0.0",
@@ -31,6 +32,6 @@
         "scheme": "url"
       }
     ],
-    "notes": "Research software. Not a clinically validated medical device. The prescription image corpus is not included in this archive; see samples/DATA_USE_NOTICE.md."
+    "notes": "Research software. Not clinically validated, not a medical device, and not for clinical use. The archive contains source, evaluation harnesses, and the build script for the medicine reference. No patient images or records are included; see samples/DATA_USE_NOTICE.md."
   }
 }
