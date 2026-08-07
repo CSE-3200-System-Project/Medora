@@ -19,8 +19,8 @@ checklist suggested, and what is still open.
 | Keywords | 6 | maximum is 6 |
 
 The release gate still exits 2, but on three complaints rather than seventeen, and all
-three trace to the same two places: the Zenodo deposit has not happened and the licensed
-clinician review has not happened.
+three come back to the same two absences: nobody has deposited the archive, and no
+licensed clinician has reviewed the navigation fixtures.
 
 ```
 - release metadata contains RELEASE_PENDING           # no DOI, URL, or archive hash yet
@@ -104,7 +104,7 @@ permission matrix, M9 consent semantics, M10 related work, and M12 worked exampl
 implemented with a named evidence path in `response_to_revision.md`.
 
 M5, M7, and M11 were partial when this document was first written. All three are now
-closed, and closing them is where most of the work of this pass went.
+closed, and they took most of the work.
 
 **M5** asked for a reproducible benchmark protocol covering API latency and web vitals as
 well as booking. Booking was already frozen and executed. Lighthouse and the API latency
@@ -124,9 +124,9 @@ answered, is written down beside it.
 ### Presentation
 
 P1, P2, P3, P5, and P6 are done. P4 was the one that had been marked complete but was not,
-and this pass fixed it. Details in the next section.
+and the manuscript pass fixed it. Details in the next section.
 
-## What this pass found and fixed
+## What the manuscript pass found and fixed
 
 Three real defects, none of which had been caught before.
 
