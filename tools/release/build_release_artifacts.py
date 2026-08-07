@@ -171,20 +171,42 @@ def main() -> int:
     evidence_sources = [source for source in (args.ocr, args.booking, args.safety) if source is not None]
     if not evidence_sources:
         raise SystemExit("provide at least one of --ocr, --booking, or --safety")
-    if not args.pre_archive and len(evidence_sources) != 3:
-        raise SystemExit("final generation requires --ocr, --booking, and --safety")
+    # --ocr is no longer required for a final build. The OCR accuracy claim is withdrawn
+    # for this release, so demanding its report here made final generation impossible for
+    # exactly the release this repository ships. check_softwarex_release.py dropped the
+    # same requirement for the same reason; this file had been left behind.
+    if not args.pre_archive and not (args.booking and args.safety):
+        raise SystemExit("final generation requires --booking and --safety")
     required_sources = evidence_sources if args.pre_archive else [args.metadata, *evidence_sources]
     for source in required_sources:
         if not source.exists():
             raise SystemExit(f"missing required source: {source}")
     GENERATED.mkdir(parents=True, exist_ok=True)
 
-    if not args.pre_archive:
+    # The DOI macros describe the deposit, not the evaluation, so they are emitted as soon
+    # as the metadata is complete. Gating them behind the full evidence set meant the
+    # manuscript could not cite its own archive while the licensed clinical review was
+    # outstanding, even though the archive existed and had a DOI. The evaluation gate
+    # still lives in check_softwarex_release.py, which fails on the same safety report.
+    if args.metadata.exists():
         metadata = json.loads(args.metadata.read_text(encoding="utf-8"))
         if "RELEASE_PENDING" in json.dumps(metadata):
-            raise SystemExit("release metadata is incomplete")
-        macros = {"ReleaseVersion": metadata["version"], "ReleaseDOI": metadata["zenodo_doi"], "ReleaseCommit": metadata["git_commit"], "ReleaseDate": metadata["release_date"]}
-        (GENERATED / "release_metadata.tex").write_text("".join(f"\\newcommand{{\\{name}}}{{{tex_escape(value)}}}\n" for name, value in macros.items()), encoding="utf-8")
+            if not args.pre_archive:
+                raise SystemExit("release metadata is incomplete")
+        else:
+            # A 40-character hash in the code-metadata table overflows the column by
+            # 26pt and there is no break opportunity inside \url in a tabularx cell.
+            # Twelve characters resolve unambiguously on GitHub and in git; the full
+            # value stays in release_metadata.json, verification.json, and the deposit.
+            macros = {
+                "ReleaseVersion": metadata["version"],
+                "ReleaseDOI": metadata["zenodo_doi"],
+                "ReleaseCommit": str(metadata["git_commit"])[:12],
+                "ReleaseDate": metadata["release_date"],
+            }
+            (GENERATED / "release_metadata.tex").write_text("".join(f"\\newcommand{{\\{name}}}{{{tex_escape(value)}}}\n" for name, value in macros.items()), encoding="utf-8")
+    elif not args.pre_archive:
+        raise SystemExit(f"missing required source: {args.metadata}")
 
     if args.ocr:
         ocr = copy_json(args.ocr, GENERATED / "ocr_results.json")

@@ -1,10 +1,10 @@
 {
   "version": "v1.0.1",
   "release_date": "2026-08-08",
-  "git_commit": "cf03e790bc538fb208d4df0b71a0367dbc0776a5",
-  "zenodo_doi": "RELEASE_PENDING",
-  "zenodo_url": "RELEASE_PENDING",
-  "archive_sha256": "720de49c5e89f56856d48fb585af3eb52accbd854d94f638b1ddd137b9cb38be",
+  "git_commit": "25781dc51dd5aaded5b550f083ac56ddb03cd8ce",
+  "zenodo_doi": "10.5281/zenodo.21844743",
+  "zenodo_url": "https://zenodo.org/records/21844743",
+  "archive_sha256": "82059ab49206fa278c3a95d4236945e8df65267799944b1edb6c75ecee901e8d",
   "source_repository": "https://github.com/CSE-3200-System-Project/Medora",
   "approval": {
     "authority": "Not applicable",
@@ -14,10 +14,9 @@
   },
   "verification_artifact": "docs/softwarex/generated/verification.json",
   "pending": [
-    "zenodo_doi, zenodo_url, and archive_sha256 are filled once the v1.0.1 tag is deposited under the concept DOI above.",
     "The licensed navigation review (M-C8) is outstanding, so safety_results.json reports passed=false while deterministic_passed is true."
   ],
-  "archive_path": "dist/medora-v1.0.0-cf03e790.zip",
+  "archive_path": "dist/zenodo-v1.0.1-deposited.zip",
   "zenodo_concept_doi": "10.5281/zenodo.21844459",
   "superseded_release": {
     "version": "v1.0.0",
@@ -26,5 +25,6 @@
     "git_commit": "73a1cce26958f96ed6b28a0e16c5a7bdb09e6320",
     "archive_sha256": "5c32252edfc602cf85af265cac21446c48cf16478c72c4b38289286d5f5c31bc",
     "note": "Deposited from the GitHub tag v1.0.0. Its CITATION.cff still carried the pre-reframe title and keywords."
-  }
+  },
+  "archive_note": "Deposited by the GitHub integration from tag v1.0.1. archive_path is the file downloaded back from Zenodo, so the checksum describes exactly what is published."
 }

@@ -1,10 +1,22 @@
 # Medora SoftwareX — submission readiness ledger
 
-**Verdict as of 2026-08-08: everything closable without a licensed clinician or a
-Zenodo deposit is closed.** All nine verification receipts pass at commit `f99079d`,
-the gate matrix is 19 passed / 2 blocked / 1 deferred, and the release checker is down
-to three failures that all trace to M-C8 and M-C1. See §13 and §15–§18. The paragraph
-below is the 2026-08-04 verdict, kept for the history.
+**Verdict as of 2026-08-08: one gate remains, and it needs a licensed clinician.**
+
+`v1.0.1` is deposited: version DOI `10.5281/zenodo.21844743`, concept DOI
+`10.5281/zenodo.21844459`, from tag `v1.0.1` at commit `25781dc`. All nine verification
+receipts pass at that commit. The manuscript carries the real DOI and builds at 18
+pages, 2,995 words, 6 figures, zero overfull boxes, zero undefined references.
+
+`check_softwarex_release.py` now reports **exactly one failure**:
+
+```
+- generated report did not pass: safety_results.json
+```
+
+That is M-C8 and nothing else: `deterministic_passed` is true and
+`navigation.clinician_reviewed` is 0. Every other gate, including the DOI resolution
+check and the archive checksum, passes. M-C1 is closed. The paragraph below is the
+2026-08-04 verdict, kept for the history.
 
 **Verdict as of 2026-08-04: not submittable, but no blocker is scientific.** The OCR
 accuracy claim was withdrawn (see §1, superseding the framing below, which described a
@@ -69,7 +81,7 @@ Status column is what I verified in the repository, which is not always what
 
 | Code | Verified status | Evidence |
 |---|---|---|
-| M-C1 archived release + DOI | **Blocked (external)** | `CITATION.cff` and `CHANGELOG.md` exist; no DOI, no `release_metadata.json`. Correctly deferred |
+| M-C1 archived release + DOI | **Done, closed 2026-08-08** | `v1.0.1` deposited: DOI `10.5281/zenodo.21844743`, concept `10.5281/zenodo.21844459`, tag `v1.0.1` at `25781dc`, archive SHA-256 verified against the file downloaded back from Zenodo (§21) |
 | M-C2 separate text/image/audio paths | Done | `processing_consent.py`, `ai_service/app/pipeline.py`, `figures-src/trust_boundary.tex` |
 | M-C3 no absolute anonymity claims | Done | Zero absolute claims in the `.tex`; the three `anonym*` hits are all limiting |
 | M-C4 PII + consent guard evaluated | **Done, rebuilt 2026-08-03** | Was self-fulfilling; see §3. Now precision 0.947 / recall 0.755 over 134 hand-authored cases |
@@ -809,6 +821,50 @@ application may rely on; deleting either is a decision for the authors, not a cl
 
 `medicine_staging` also remains: 71,795 rows and 24 MB, referenced nowhere in the
 repository, reproducible from the CSV whose row count the release gate already pins.
+
+## 21. M-C1 closed (2026-08-08)
+
+`v1.0.1` is deposited and the manuscript cites it.
+
+| Field | Value |
+|---|---|
+| Version DOI | `10.5281/zenodo.21844743` |
+| Concept DOI | `10.5281/zenodo.21844459` |
+| Record | `https://zenodo.org/records/21844743` |
+| Tag / commit | `v1.0.1` at `25781dc` |
+| Archive | `CSE-3200-System-Project/Medora-v1.0.1.zip`, 50,423,885 bytes |
+| SHA-256 | `82059ab49206fa278c3a95d4236945e8df65267799944b1edb6c75ecee901e8d` |
+
+The checksum is of the file downloaded back from Zenodo, not of a locally built archive,
+so it describes exactly what is published. The record's keywords are now the six from the
+manuscript. `v1.0.0` (`10.5281/zenodo.21844460`) stays in `release_metadata.json` under
+`superseded_release`.
+
+Two release tools had to be corrected before this could work, and both were the same
+mistake in different files.
+
+**`check_softwarex_release.py` compared everything against HEAD.** That can never hold
+once a release exists: recording the nine receipts produces a commit of its own, so HEAD
+is always at least one commit past the tag that was archived. It now resolves the commit
+behind the tag named in `version` and requires the metadata and the receipts to agree
+with *that*. Stricter as well as satisfiable, because it ties the evidence to the
+artifact that carries the DOI rather than to whatever the branch has moved on to.
+
+**`build_release_artifacts.py` still required `--ocr` for a final build.** The OCR
+accuracy claim is withdrawn, so no such report exists and final generation was
+impossible for exactly the release this repository ships. The checker had already
+dropped that requirement on 2026-08-04; this file was left behind. It now requires
+booking and safety only, and emits `release_metadata.tex` as soon as the metadata is
+complete rather than after the full evidence set. The DOI macros describe the deposit,
+not the evaluation, and gating them behind the clinical review meant the manuscript
+could not cite an archive that already existed. The evaluation gate still lives in the
+checker, which still fails on the same safety report.
+
+One presentation detail: a 40-character commit hash inside `\url` in the code-metadata
+table overflows the column by 26pt with no break opportunity. `\ReleaseCommit` is
+emitted abbreviated to twelve characters, which resolves unambiguously on GitHub and in
+git. The full hash stays in `release_metadata.json`, `verification.json`, and the
+deposit.
 
 ## 9. Open ethics decision — raw image redistribution
 

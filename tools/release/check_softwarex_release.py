@@ -107,6 +107,30 @@ def manuscript_figure_count(path: Path) -> int:
     return len(re.findall(r"\\begin\{figure\*?\}", source))
 
 
+def resolve_release_commit(metadata: dict, errors: list[str]) -> str | None:
+    """The commit the release actually refers to, which is not necessarily HEAD.
+
+    This used to compare everything against HEAD. That can never hold once a release
+    exists: recording the nine verification receipts produces a commit of its own, so
+    HEAD is always at least one commit ahead of the tag that was archived and given a
+    DOI. Anchoring to the tag named in `version` is both satisfiable and stricter, since
+    it ties the evidence to the artifact that was deposited rather than to whatever the
+    working branch has moved on to.
+    """
+    version = str(metadata.get("version") or "").strip()
+    if version:
+        try:
+            return subprocess.check_output(["git", "rev-list", "-n", "1", version], cwd=ROOT, text=True).strip()
+        except (OSError, subprocess.CalledProcessError):
+            fail(errors, f"release metadata names version {version}, which is not a tag in this repository")
+            return None
+    try:
+        return subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+    except (OSError, subprocess.CalledProcessError) as exc:
+        fail(errors, f"cannot resolve release commit: {exc}")
+        return None
+
+
 def main() -> int:
     errors: list[str] = []
     metadata_path = DOCS / "release_metadata.json"
@@ -175,12 +199,9 @@ def main() -> int:
 
     verification = read_json(DOCS / "generated" / "verification.json", errors)
     required_checks = ("backend", "ai_service", "integration", "security", "benchmarks", "playwright", "frontend_lint", "frontend_build", "clean_docker")
-    try:
-        verification_commit = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
-        if verification.get("git_commit") != verification_commit:
-            fail(errors, "verification evidence does not refer to HEAD")
-    except (OSError, subprocess.CalledProcessError) as exc:
-        fail(errors, f"cannot resolve verification commit: {exc}")
+    release_commit = resolve_release_commit(metadata, errors)
+    if release_commit and verification.get("git_commit") != release_commit:
+        fail(errors, "verification evidence does not refer to the released commit")
     for check in required_checks:
         receipt = verification.get("checks", {}).get(check, {})
         if receipt.get("status") != "passed" or receipt.get("exit_code") != 0 or not receipt.get("command"):
@@ -198,10 +219,9 @@ def main() -> int:
         if report.get("passed") is False:
             fail(errors, f"generated report did not pass: {report_name}")
 
+    if release_commit and metadata.get("git_commit") != release_commit:
+        fail(errors, f"release metadata commit does not match the {metadata.get('version')} tag")
     try:
-        actual_commit = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
-        if metadata.get("git_commit") != actual_commit:
-            fail(errors, "release metadata commit does not match HEAD")
         tracked_files = subprocess.check_output(["git", "ls-files"], cwd=ROOT, text=True).splitlines()
         generated_python = [path for path in tracked_files if "/__pycache__/" in f"/{path}" or path.endswith((".pyc", ".pyo"))]
         if generated_python:
