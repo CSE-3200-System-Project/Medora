@@ -58,6 +58,8 @@ def main() -> int:
     frontend_audit = load_json(REPORTS / "frontend_npm_audit_final.json")
     e2e_audit = load_json(REPORTS / "e2e_npm_audit_final.json")
     provider_manifest = load_json(ROOT / "tests/benchmarks/provider_manifest.json")
+    playwright_receipt = load_json(GENERATED / "verification.json").get("checks", {}).get("playwright", {})
+    release_metadata = load_json(ROOT / "docs/softwarex/release_metadata.json")
     secret_audit = load_json(REPORTS / "generated_secret_audit.json")
     manuscript_path = ROOT / "docs/softwarex/medora_softwarex.tex"
     manuscript_text = read_log(manuscript_path)
@@ -80,7 +82,7 @@ def main() -> int:
         log_gate("AI-service unit tests", "ai_unit_final.out.log", r"16 passed", "Local OCR, annotation blinding, parser, provider-separation, grouped corpus-freeze, and AI-service tests."),
         log_gate("Frontend lint", "frontend_lint_final.out.log", r"MEDORA_GATE_PASSED", "Next.js lint completed with zero errors and zero warnings."),
         log_gate("Frontend production build", "frontend_build_final.log", r"MEDORA_GATE_PASSED|Compiled successfully", "Production Next.js build."),
-        log_gate("Provisional browser checks", "playwright_provisional_final.out.log", r"6 passed", "Six public/storage checks passed; six authenticated journeys were skipped because synthetic credentials were not supplied."),
+        log_gate("Full browser suite", "playwright_authenticated_20260808.out.log", r"12 passed", "All twelve specs pass across the English and Bangla projects, with no skipped authenticated journey."),
         log_gate("Clean container validation", "docker_validation_final.log", r"MEDORA_GATE_PASSED", "Pinned backend and AI images passed dependency checks and application imports."),
         log_gate("Manuscript compilation", "latex_pass2_final.log", r"Output written on medora_softwarex\.pdf \(\d+ pages", "Final LaTeX pass completed with zero overfull boxes and zero undefined references/citations."),
     ]
@@ -158,14 +160,22 @@ def main() -> int:
                 "status": "blocked" if "RELEASE_PENDING" in json.dumps(provider_manifest) or not provider_manifest.get("execution_date") else "passed",
                 "evidence": "tests/benchmarks/provider_manifest.json",
                 "evidence_sha256": sha256(ROOT / "tests/benchmarks/provider_manifest.json"),
-                "note": "Azure region and organization retention/ZDR facts must be verified by the account owner; execution date is set only for the frozen final run.",
+                "note": "Azure region resolved to eastus. Neither Groq nor Vapi exposes its organization zero-data-retention flag to an API, so the manifest records the documented worst-case retention as operative and claims no ZDR.",
             },
             {
                 "gate": "Approval citation and corpus freeze",
-                "status": "passed" if manifest.get("frozen") else "blocked",
-                "evidence": "samples/DATA_USE_NOTICE.md",
-                "evidence_sha256": sha256(ROOT / "samples/DATA_USE_NOTICE.md"),
-                "note": "Enter verified approval authority, date, reference, scope, and review grouping/language/image-quality metadata before freezing.",
+                # The prescription image corpus is not deposited in this release, which is
+                # what removes the approval-citation dependency (response_to_revision C9).
+                # Requiring a frozen OCR manifest here would gate the release on the claim
+                # that was withdrawn. A future deposit re-opens this: freeze the manifest
+                # and cite a real approval, and this gate goes back to reading it.
+                "status": "passed"
+                if manifest.get("frozen")
+                or (release_metadata.get("approval", {}).get("authority") == "Not applicable" and "no prescription images are archived" in release_metadata.get("approval", {}).get("scope", ""))
+                else "blocked",
+                "evidence": "docs/softwarex/release_metadata.json",
+                "evidence_sha256": sha256(ROOT / "docs/softwarex/release_metadata.json"),
+                "note": "No prescription image is archived in this release, so no image-redistribution approval is cited. Depositing images later requires a frozen manifest and a real approval citation.",
             },
             {
                 "gate": "Verified funding statement",
@@ -176,10 +186,14 @@ def main() -> int:
             },
             {
                 "gate": "Authenticated production-browser journeys",
-                "status": "blocked",
-                "evidence": "tests/e2e/playwright.config.ts",
-                "evidence_sha256": sha256(ROOT / "tests/e2e/playwright.config.ts"),
-                "note": "Requires a non-production synthetic patient/doctor/admin account set; no real account is created by this tool.",
+                # Derived from the recorded receipt rather than hard-coded. The gate was
+                # blocked for as long as no synthetic account set existed; it is closed by
+                # a Playwright run at HEAD that exits 0, which the config only permits when
+                # no credentialed spec was skipped.
+                "status": "passed" if playwright_receipt.get("status") == "passed" and playwright_receipt.get("exit_code") == 0 else "blocked",
+                "evidence": "docs/softwarex/generated/verification.json",
+                "evidence_sha256": sha256(GENERATED / "verification.json"),
+                "note": "Synthetic patient/doctor/admin accounts are provisioned by tests/e2e/provision_synthetic_accounts.py; the suite must exit 0 without E2E_ALLOW_SKIPS.",
             },
             {
                 "gate": "Final commit verification and Zenodo metadata",

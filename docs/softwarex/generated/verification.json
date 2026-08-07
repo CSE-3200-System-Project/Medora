@@ -1,0 +1,146 @@
+{
+  "schema_version": "1.0.0",
+  "git_commit": "f99079d1971756d7d47f94adb532fc689f64f1ad",
+  "checks": {
+    "backend": {
+      "status": "passed",
+      "command": [
+        "F:\\CODE\\System-Project\\Medora\\backend\\venv\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-c",
+        "tests/pytest.backend.ini",
+        "tests/unit/backend"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-08-07T20:31:38.237965+00:00",
+      "finished_at": "2026-08-07T20:31:43.450388+00:00",
+      "duration_seconds": 5.212,
+      "log": "docs/softwarex/generated/verification-logs/backend.log",
+      "log_sha256": "3768d4c8ba37d7d3adbab34f638f154d9425bdf5baea97339c51bca467eac4e4"
+    },
+    "ai_service": {
+      "status": "passed",
+      "command": [
+        "F:\\CODE\\System-Project\\Medora\\ai_service\\venv\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-c",
+        "tests/pytest.ai.ini",
+        "tests/unit/ai_service"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-08-07T20:31:51.705721+00:00",
+      "finished_at": "2026-08-07T20:32:05.475531+00:00",
+      "duration_seconds": 13.77,
+      "log": "docs/softwarex/generated/verification-logs/ai_service.log",
+      "log_sha256": "a0bcc781d9788fa94b0ce7d75d92c6c49b3e3bc15eca7a4f26d509a3e99960de"
+    },
+    "integration": {
+      "status": "passed",
+      "command": [
+        "F:\\CODE\\System-Project\\Medora\\backend\\venv\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-c",
+        "tests/pytest.backend.ini",
+        "tests/integration/backend"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-08-07T20:32:05.661852+00:00",
+      "finished_at": "2026-08-07T20:32:29.617518+00:00",
+      "duration_seconds": 23.956,
+      "log": "docs/softwarex/generated/verification-logs/integration.log",
+      "log_sha256": "6df4d9f2e67a206ccd491cca5eab9772b68739d11da7cbf11754944cbd522ee8"
+    },
+    "security": {
+      "status": "passed",
+      "command": [
+        "F:\\CODE\\System-Project\\Medora\\backend\\venv\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-c",
+        "tests/pytest.backend.ini",
+        "tests/security"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-08-07T20:32:29.852483+00:00",
+      "finished_at": "2026-08-07T20:33:11.637806+00:00",
+      "duration_seconds": 41.785,
+      "log": "docs/softwarex/generated/verification-logs/security.log",
+      "log_sha256": "96fdebbf2b47356da54eb0484174754a45bce02acbec3ada86679747fb842d0d"
+    },
+    "benchmarks": {
+      "status": "passed",
+      "command": [
+        "F:\\CODE\\System-Project\\Medora\\backend\\venv\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-c",
+        "tests/pytest.backend.ini",
+        "tests/performance/test_booking_contention_release.py"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-08-07T20:33:19.057657+00:00",
+      "finished_at": "2026-08-07T20:34:19.836731+00:00",
+      "duration_seconds": 60.779,
+      "log": "docs/softwarex/generated/verification-logs/benchmarks.log",
+      "log_sha256": "3f88b3278359a51d798264c1f12977c3246871b42893c649b7b512956395f908"
+    },
+    "clean_docker": {
+      "status": "passed",
+      "command": [
+        "bash",
+        "tools/release/validate_clean_containers.sh"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-08-07T20:34:20.017422+00:00",
+      "finished_at": "2026-08-07T20:34:34.040721+00:00",
+      "duration_seconds": 14.023,
+      "log": "docs/softwarex/generated/verification-logs/clean_docker.log",
+      "log_sha256": "779549a9e62cda929e33e40f797e0e325d888368de33b8e5bfd00bbe4a9726a8"
+    },
+    "frontend_lint": {
+      "status": "passed",
+      "command": [
+        "bash",
+        "-c",
+        "cd frontend && npm run lint"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-08-07T20:34:57.400147+00:00",
+      "finished_at": "2026-08-07T20:35:20.078764+00:00",
+      "duration_seconds": 22.679,
+      "log": "docs/softwarex/generated/verification-logs/frontend_lint.log",
+      "log_sha256": "d01776d4ac2a7d4982989bf22f7202b553b5aebe57369288095e747bec29a48f"
+    },
+    "frontend_build": {
+      "status": "passed",
+      "command": [
+        "bash",
+        "-c",
+        "cd frontend && npm run build"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-08-07T20:35:20.316361+00:00",
+      "finished_at": "2026-08-07T20:35:56.884545+00:00",
+      "duration_seconds": 36.568,
+      "log": "docs/softwarex/generated/verification-logs/frontend_build.log",
+      "log_sha256": "f881f8b7a4daa641f47110dad34dcc3aef17e2e965a4b9735f8494150683fb74"
+    },
+    "playwright": {
+      "status": "passed",
+      "command": [
+        "bash",
+        "-c",
+        "cd tests/e2e && set -a && . ./.env.e2e.local && set +a && E2E_BASE_URL=http://127.0.0.1:3000 npx playwright test --workers=1 --reporter=list"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-08-07T20:36:25.545910+00:00",
+      "finished_at": "2026-08-07T20:37:09.834563+00:00",
+      "duration_seconds": 44.289,
+      "log": "docs/softwarex/generated/verification-logs/playwright.log",
+      "log_sha256": "f49f48cbd08bbdb5b003c0d7dd450fd8373a77d784e278a0d3750021045f306b"
+    }
+  }
+}

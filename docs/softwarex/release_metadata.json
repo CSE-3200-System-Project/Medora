@@ -1,0 +1,20 @@
+{
+  "version": "v1.0.0",
+  "release_date": "2026-08-08",
+  "git_commit": "f99079d1971756d7d47f94adb532fc689f64f1ad",
+  "zenodo_doi": "RELEASE_PENDING",
+  "zenodo_url": "RELEASE_PENDING",
+  "archive_sha256": "RELEASE_PENDING",
+  "source_repository": "https://github.com/CSE-3200-System-Project/Medora",
+  "approval": {
+    "authority": "Not applicable",
+    "date": "2026-08-08",
+    "reference": "The prescription image corpus is not deposited in this release, so no image-redistribution approval is cited. See samples/DATA_USE_NOTICE.md and response_to_revision.md C9.",
+    "scope": "Source code and derived evaluation artifacts only; no prescription images are archived"
+  },
+  "verification_artifact": "docs/softwarex/generated/verification.json",
+  "pending": [
+    "zenodo_doi, zenodo_url, and archive_sha256 cannot be filled before the manual Zenodo deposit (M-C1).",
+    "The licensed navigation review (M-C8) is outstanding, so safety_results.json reports passed=false while deterministic_passed is true."
+  ]
+}
