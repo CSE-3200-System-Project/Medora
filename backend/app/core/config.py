@@ -29,6 +29,11 @@ class Settings(BaseSettings):
     CHORUI_ACTIVE_PATIENT_LOOKBACK_DAYS: int = 180
     AI_OCR_SERVICE_URL: str = "http://localhost:8001"
     AI_OCR_TIMEOUT_SECONDS: float = 180.0
+    # The OCR service is deployed with scale-to-zero, so the first request after an idle
+    # period waits for a container to start. That took about 24 s when measured, against
+    # a 5 s connect timeout, and every such request came back as a 502 even though the
+    # read timeout above was generous.
+    AI_OCR_CONNECT_TIMEOUT_SECONDS: float = 45.0
     DEFAULT_REMINDER_TIMEZONE: str = "Asia/Dhaka"
     REMINDER_DISPATCH_ENABLED: bool = True
     REMINDER_DISPATCH_INTERVAL_SECONDS: int = 300
