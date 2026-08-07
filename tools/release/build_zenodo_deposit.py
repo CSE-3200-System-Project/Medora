@@ -101,9 +101,12 @@ def main() -> int:
         "tests/benchmarks/reports/current/booking_results.json",
     }
 
+    # Not git(): its .strip() would eat the leading status column of the first line, and
+    # the path offset would then be wrong for exactly that entry.
+    porcelain = subprocess.check_output(["git", "status", "--porcelain"], cwd=ROOT, text=True)
     dirty = [
         line
-        for line in git("status", "--porcelain").splitlines()
+        for line in porcelain.splitlines()
         if line and not line.startswith("??") and line[3:].strip().strip('"') not in EXPECTED_DIRTY
     ]
     if dirty and not args.allow_dirty:
