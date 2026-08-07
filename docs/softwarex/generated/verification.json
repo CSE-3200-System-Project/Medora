@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "git_commit": "01ead6ca8d618e26e56d1b386c7b5fc062b727d3",
+  "git_commit": "25781dc51dd5aaded5b550f083ac56ddb03cd8ce",
   "checks": {
     "backend": {
       "status": "passed",
@@ -13,11 +13,11 @@
         "tests/unit/backend"
       ],
       "exit_code": 0,
-      "started_at": "2026-08-07T22:22:41.420656+00:00",
-      "finished_at": "2026-08-07T22:22:46.213757+00:00",
-      "duration_seconds": 4.793,
+      "started_at": "2026-08-07T23:17:36.651539+00:00",
+      "finished_at": "2026-08-07T23:17:42.686779+00:00",
+      "duration_seconds": 6.035,
       "log": "docs/softwarex/generated/verification-logs/backend.log",
-      "log_sha256": "e4c45cd738f469a5a3a5aa7e44d683409c9805dcb94b17c1c006591f0b79bb1f"
+      "log_sha256": "f5eb6f95f54bdd72043c1b78393a5ae68df632f9ac8de3295dc56c7091714bf7"
     },
     "ai_service": {
       "status": "passed",
@@ -30,11 +30,11 @@
         "tests/unit/ai_service"
       ],
       "exit_code": 0,
-      "started_at": "2026-08-07T22:22:46.419582+00:00",
-      "finished_at": "2026-08-07T22:22:59.169389+00:00",
-      "duration_seconds": 12.75,
+      "started_at": "2026-08-07T23:17:42.944323+00:00",
+      "finished_at": "2026-08-07T23:18:00.927983+00:00",
+      "duration_seconds": 17.984,
       "log": "docs/softwarex/generated/verification-logs/ai_service.log",
-      "log_sha256": "df3daf3bd1587bd883bddda2c2948d75c5698c901eaa65a33d6c915e50393a53"
+      "log_sha256": "a1ec5889310c06d3b6aec221efc36c4914e6020d207dc2f335d94019df4364e6"
     },
     "integration": {
       "status": "passed",
@@ -47,11 +47,11 @@
         "tests/integration/backend"
       ],
       "exit_code": 0,
-      "started_at": "2026-08-07T22:22:59.347460+00:00",
-      "finished_at": "2026-08-07T22:23:31.716021+00:00",
-      "duration_seconds": 32.369,
+      "started_at": "2026-08-07T23:18:01.217905+00:00",
+      "finished_at": "2026-08-07T23:18:31.851107+00:00",
+      "duration_seconds": 30.633,
       "log": "docs/softwarex/generated/verification-logs/integration.log",
-      "log_sha256": "3d0d259fdb6322e07835645dd68882bb06c861c3278d6a316b950f1f55fce50e"
+      "log_sha256": "6b33e8e7b36b0d76521b96566fd1e6a4710bcb445c0b5708c73c7299b6607b33"
     },
     "security": {
       "status": "passed",
@@ -64,11 +64,11 @@
         "tests/security"
       ],
       "exit_code": 0,
-      "started_at": "2026-08-07T22:23:31.929489+00:00",
-      "finished_at": "2026-08-07T22:24:14.436677+00:00",
-      "duration_seconds": 42.507,
+      "started_at": "2026-08-07T23:18:32.136566+00:00",
+      "finished_at": "2026-08-07T23:19:36.168117+00:00",
+      "duration_seconds": 64.032,
       "log": "docs/softwarex/generated/verification-logs/security.log",
-      "log_sha256": "8d6111f6deadf6c8a6aa2edc20d24fd5e77a091a897a44a84a38a89ebae1cfcf"
+      "log_sha256": "a2740d6e6ab041f3245e58a5beadf7aa264dd205ac5d07001dc8ec1b84c3b9ea"
     },
     "benchmarks": {
       "status": "passed",
@@ -81,11 +81,11 @@
         "tests/performance/test_booking_contention_release.py"
       ],
       "exit_code": 0,
-      "started_at": "2026-08-07T22:24:14.603104+00:00",
-      "finished_at": "2026-08-07T22:25:17.044532+00:00",
-      "duration_seconds": 62.441,
+      "started_at": "2026-08-07T23:19:36.463082+00:00",
+      "finished_at": "2026-08-07T23:21:09.802134+00:00",
+      "duration_seconds": 93.339,
       "log": "docs/softwarex/generated/verification-logs/benchmarks.log",
-      "log_sha256": "5a5488d6fd5dbc7d1b99a3a88c50c17df08425f1cad561eece18cb8396b3752d"
+      "log_sha256": "83e60497a9ea2e308e855cda8d63b030bb85d14dd50ffe951e83fdf10e675e4c"
     },
     "clean_docker": {
       "status": "passed",
@@ -94,11 +94,11 @@
         "tools/release/validate_clean_containers.sh"
       ],
       "exit_code": 0,
-      "started_at": "2026-08-07T22:25:17.251441+00:00",
-      "finished_at": "2026-08-07T22:25:35.881155+00:00",
-      "duration_seconds": 18.63,
+      "started_at": "2026-08-07T23:21:10.045228+00:00",
+      "finished_at": "2026-08-07T23:21:38.400464+00:00",
+      "duration_seconds": 28.355,
       "log": "docs/softwarex/generated/verification-logs/clean_docker.log",
-      "log_sha256": "c3ed685a00392ba57cf734189475b0aca91ea4eaacb5a6b8051cae027d3991fc"
+      "log_sha256": "779e44df00efd2f200911a93e45e3cae6b8b0fa4bde7a88625f896a1e5c1c4c4"
     },
     "frontend_lint": {
       "status": "passed",
@@ -108,9 +108,9 @@
         "cd frontend && npm run lint"
       ],
       "exit_code": 0,
-      "started_at": "2026-08-07T22:25:36.070633+00:00",
-      "finished_at": "2026-08-07T22:25:57.417849+00:00",
-      "duration_seconds": 21.347,
+      "started_at": "2026-08-07T23:21:38.655723+00:00",
+      "finished_at": "2026-08-07T23:22:08.714823+00:00",
+      "duration_seconds": 30.059,
       "log": "docs/softwarex/generated/verification-logs/frontend_lint.log",
       "log_sha256": "d01776d4ac2a7d4982989bf22f7202b553b5aebe57369288095e747bec29a48f"
     },
@@ -122,11 +122,11 @@
         "cd frontend && npm run build"
       ],
       "exit_code": 0,
-      "started_at": "2026-08-07T22:25:57.624554+00:00",
-      "finished_at": "2026-08-07T22:26:37.769725+00:00",
-      "duration_seconds": 40.145,
+      "started_at": "2026-08-07T23:22:09.030395+00:00",
+      "finished_at": "2026-08-07T23:22:59.910100+00:00",
+      "duration_seconds": 50.88,
       "log": "docs/softwarex/generated/verification-logs/frontend_build.log",
-      "log_sha256": "cedae213438a24588ab746c39371a280a1435ae570b63e924ca4895c04a4c192"
+      "log_sha256": "dbae526462a428ba8c831058e6e76ea0da53e2c26acfbc2364f7d094c799d451"
     },
     "playwright": {
       "status": "passed",
@@ -136,11 +136,11 @@
         "cd tests/e2e && set -a && . ./.env.e2e.local && set +a && E2E_BASE_URL=http://127.0.0.1:3000 npx playwright test --workers=1 --reporter=list"
       ],
       "exit_code": 0,
-      "started_at": "2026-08-07T22:27:02.499763+00:00",
-      "finished_at": "2026-08-07T22:27:47.089127+00:00",
-      "duration_seconds": 44.589,
+      "started_at": "2026-08-07T23:23:27.838562+00:00",
+      "finished_at": "2026-08-07T23:24:18.478354+00:00",
+      "duration_seconds": 50.64,
       "log": "docs/softwarex/generated/verification-logs/playwright.log",
-      "log_sha256": "4b62f0df3288527c1ab9e98b243aef6c5df7050359de0fa21e60040ca513b0f9"
+      "log_sha256": "1b35de94fddcde19f68a2d7b2e73a8051bb8d30bd67c91afa3da104290daef33"
     }
   }
 }

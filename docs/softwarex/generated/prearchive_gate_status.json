@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
-  "generated_at_utc": "2026-08-07T22:28:01.302492+00:00",
-  "git_head": "01ead6ca8d618e26e56d1b386c7b5fc062b727d3",
+  "generated_at_utc": "2026-08-07T23:24:29.958394+00:00",
+  "git_head": "25781dc51dd5aaded5b550f083ac56ddb03cd8ce",
   "worktree_dirty": true,
   "scope": "pre-Zenodo evidence; not a final release verification receipt",
   "counts": {
@@ -106,7 +106,7 @@
       "gate": "Booking contention benchmark",
       "status": "passed",
       "evidence": "tests/benchmarks/reports/current/booking_results.json",
-      "evidence_sha256": "9e642c3be2e34b057315d81895ad38d98f434e8f7f837db2d38bd7bb06f03adc",
+      "evidence_sha256": "c6d7186f7d827c20a0ded9f2c359f54a6bc655ae194510c4d9e40da4e25a9f3d",
       "note": "Concurrency 2, 10, and 50 with 30 fresh-slot repetitions each."
     },
     {
@@ -141,7 +141,7 @@
       "gate": "Approval citation and corpus freeze",
       "status": "passed",
       "evidence": "docs/softwarex/release_metadata.json",
-      "evidence_sha256": "87054c2813ce0ba73edb4b534fae3ee92ac8613ba237073b6221f23eee312f8b",
+      "evidence_sha256": "a38cdd3c4828297c8587ab7ea8594158d39715760504e82e3328b559b1484fc6",
       "note": "No prescription image is archived in this release, so no image-redistribution approval is cited. Depositing images later requires a frozen manifest and a real approval citation."
     },
     {
@@ -155,14 +155,14 @@
       "gate": "Authenticated production-browser journeys",
       "status": "passed",
       "evidence": "docs/softwarex/generated/verification.json",
-      "evidence_sha256": "675e417fe213a9c0ac056d8b7bc59587101f876eb41ce7e974cd23b758725851",
+      "evidence_sha256": "bf2322c498b6be7ef0795dc4a87c7d9f899fd0ef2a714a891476c3d288616ae2",
       "note": "Synthetic patient/doctor/admin accounts are provisioned by tests/e2e/provision_synthetic_accounts.py; the suite must exit 0 without E2E_ALLOW_SKIPS."
     },
     {
       "gate": "Final commit verification and Zenodo metadata",
       "status": "deferred_by_request",
       "evidence": "docs/softwarex/release_metadata.json",
-      "evidence_sha256": "87054c2813ce0ba73edb4b534fae3ee92ac8613ba237073b6221f23eee312f8b",
+      "evidence_sha256": "a38cdd3c4828297c8587ab7ea8594158d39715760504e82e3328b559b1484fc6",
       "note": "Intentionally stopped before tagging, archiving, DOI insertion, or deposit, as requested."
     }
   ]
