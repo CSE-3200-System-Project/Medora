@@ -1,5 +1,11 @@
 # Medora SoftwareX — submission readiness ledger
 
+**Verdict as of 2026-08-08: everything closable without a licensed clinician or a
+Zenodo deposit is closed.** All nine verification receipts pass at commit `f99079d`,
+the gate matrix is 19 passed / 2 blocked / 1 deferred, and the release checker is down
+to three failures that all trace to M-C8 and M-C1. See §13 and §15–§18. The paragraph
+below is the 2026-08-04 verdict, kept for the history.
+
 **Verdict as of 2026-08-04: not submittable, but no blocker is scientific.** The OCR
 accuracy claim was withdrawn (see §1, superseding the framing below, which described a
 now-resolved state as of 2026-08-03) rather than completed, which removed the one
@@ -165,7 +171,25 @@ disclosure flag → exit 2; omitting `--allow-unreviewed` → exit 2.
 | ~~6~~ | ~~Funding statement~~ | — | **Closed 2026-08-03.** Self-funded; the standard no-external-funding declaration is in the manuscript |
 | — | Zenodo deposit/DOI | release manager | Deferred by request until 1–5 clear |
 
-Gate matrix is now **16 passed, 5 blocked, 1 deferred**.
+Gate matrix is now **19 passed, 2 blocked, 1 deferred** (was 16/5/1). The two blocked
+gates are both the licensed-clinician ones; the deferred one is the Zenodo deposit.
+
+`tools/release/check_softwarex_release.py` is down from 17 failures to 3, and all three
+trace to those same two external gates:
+
+```
+- release metadata contains RELEASE_PENDING      # M-C1: no DOI, URL, or archive hash yet
+- missing generated artifact release_metadata.tex # M-C1: only written once metadata completes
+- generated report did not pass: safety_results.json # M-C8: clinician_reviewed = 0
+```
+
+Two gate definitions were corrected while doing this, because both were asserting
+something other than what they were named for. "Authenticated production-browser
+journeys" was hard-coded `blocked` and now reads the recorded Playwright receipt.
+"Approval citation and corpus freeze" was gated on the OCR manifest being frozen, which
+would hold the release hostage to the claim that was withdrawn; it now passes on the
+fact that no prescription image is archived, and reverts to requiring a real approval
+citation if images are ever deposited.
 
 ### Environment restored 2026-08-08
 
@@ -695,4 +719,8 @@ and cite a file path for every claim.
 | 2026-08-08 | Claude | Found `AI_OCR_SERVICE_URL` points at an Azure Container App that no longer resolves; the benchmark ran against the local `ai_service` instead | `backend/.env`, §15 |
 | 2026-08-08 | Claude | **M-M11 closed conservatively.** Vapi `GET /assistant` 200 with all three `compliancePlan`/`artifactPlan` null; org endpoints 401 for both keys; Groq has no such endpoint. Manifest now asserts documented worst-case retention and claims no ZDR | `provider_manifest.json`, §17 |
 | 2026-08-08 | Claude | Wrote down the clean-container procedure, which had only ever existed in a shell history | `tools/release/validate_clean_containers.sh` |
-| 2026-08-08 | Claude | Suites re-run on this checkout: backend unit 62 (was 55), ai\_service 16, integration+security 29 (was 19), booking 30/30 at 2/10/50, safety 0.947/0.755 unchanged, frontend lint and build clean, manuscript 18 pages / 0 overfull / 0 undefined | `reports/current/*_20260808.*` |
+| 2026-08-08 | Claude | Suites re-run on this checkout: backend unit 62 (was 55), ai\_service 16, integration+security 29 (was 19), booking 30/30 at 2/10/50, safety 0.947/0.755 unchanged, frontend lint and build clean, manuscript 18 pages / 2,995 words / 6 figures / 0 overfull / 0 undefined | `reports/current/*_20260808.*` |
+| 2026-08-08 | Claude | Committed `f99079d` and recorded **all nine verification receipts on that exact commit**, every one passing | `generated/verification.json` |
+| 2026-08-08 | Claude | Wrote `release_metadata.json` with the real commit and date, and recorded the approval citation as not applicable because no prescription image is archived | `docs/softwarex/release_metadata.json` |
+| 2026-08-08 | Claude | Corrected two gate definitions that asserted the wrong thing: the browser-journey gate was hard-coded blocked, and the approval gate was tied to the withdrawn OCR freeze | `build_prearchive_gate_status.py` |
+| 2026-08-08 | Claude | Gate matrix 16/5/1 → **19 passed, 2 blocked, 1 deferred**; release checker 17 failures → 3, all of them M-C8 or M-C1 | `prearchive_gate_status.json` |

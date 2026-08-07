@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0.0",
-  "generated_at_utc": "2026-08-03T18:56:32.246176+00:00",
-  "git_head": "5ec5c9c4f8ad20226befae6e9a98770585163e4c",
+  "generated_at_utc": "2026-08-07T20:39:00.405258+00:00",
+  "git_head": "f99079d1971756d7d47f94adb532fc689f64f1ad",
   "worktree_dirty": true,
   "scope": "pre-Zenodo evidence; not a final release verification receipt",
   "counts": {
-    "passed": 16,
-    "blocked": 5,
+    "passed": 19,
+    "blocked": 2,
     "not_passed": 0,
     "deferred_by_request": 1
   },
@@ -54,11 +54,11 @@
       "note": "Production Next.js build."
     },
     {
-      "gate": "Provisional browser checks",
+      "gate": "Full browser suite",
       "status": "passed",
-      "evidence": "tests/benchmarks/reports/current/playwright_provisional_final.out.log",
-      "evidence_sha256": "3fcec5ee7d67b50ed0b6718567d609a2b1b52570d6e5399471a4b2d73f89b98a",
-      "note": "Six public/storage checks passed; six authenticated journeys were skipped because synthetic credentials were not supplied."
+      "evidence": "tests/benchmarks/reports/current/playwright_authenticated_20260808.out.log",
+      "evidence_sha256": "be17b6cfff823c35e9d6fe1032861bdaeb64665da7a60b52191dec569344c4d3",
+      "note": "All twelve specs pass across the English and Bangla projects, with no skipped authenticated journey."
     },
     {
       "gate": "Clean container validation",
@@ -106,7 +106,7 @@
       "gate": "Booking contention benchmark",
       "status": "passed",
       "evidence": "tests/benchmarks/reports/current/booking_results.json",
-      "evidence_sha256": "d79b62276fd67fe4d4cf2f76b6013162f8fd051bd8ac44687a02eb4db7a2e755",
+      "evidence_sha256": "77db3623adf52582c21a54f6ff94226bf764f1bdb59a0b05ec1824772128cf00",
       "note": "Concurrency 2, 10, and 50 with 30 fresh-slot repetitions each."
     },
     {
@@ -132,37 +132,37 @@
     },
     {
       "gate": "Provider/account release metadata",
-      "status": "blocked",
+      "status": "passed",
       "evidence": "tests/benchmarks/provider_manifest.json",
-      "evidence_sha256": "17baaba9410e5eb09337cf7cad9a71fd61b93e0fccb0b0b521febd3ff439cdd2",
-      "note": "Azure region and organization retention/ZDR facts must be verified by the account owner; execution date is set only for the frozen final run."
+      "evidence_sha256": "d486ef6f138fda1c8181badb92c2fc5ccc0fe642a737677963d3bb9899a1849d",
+      "note": "Azure region resolved to eastus. Neither Groq nor Vapi exposes its organization zero-data-retention flag to an API, so the manifest records the documented worst-case retention as operative and claims no ZDR."
     },
     {
       "gate": "Approval citation and corpus freeze",
-      "status": "blocked",
-      "evidence": "samples/DATA_USE_NOTICE.md",
-      "evidence_sha256": "96106d9a67334b5aeb4937b8d1be3b1da72a0b01d232d4cf3bb8087c5ab68591",
-      "note": "Enter verified approval authority, date, reference, scope, and review grouping/language/image-quality metadata before freezing."
+      "status": "passed",
+      "evidence": "docs/softwarex/release_metadata.json",
+      "evidence_sha256": "3aca4bc6f25a56616112c68be6303433c20ebe959c0d57439866d8ca3ecc9ba4",
+      "note": "No prescription image is archived in this release, so no image-redistribution approval is cited. Depositing images later requires a frozen manifest and a real approval citation."
     },
     {
       "gate": "Verified funding statement",
       "status": "passed",
       "evidence": "docs/softwarex/medora_softwarex.tex",
-      "evidence_sha256": "fcaec4dae5539da65e15ac81a013e7af1d85c3242fe2f1c055392004a0e861fb",
+      "evidence_sha256": "0ea360eaea6de6d3b6c399e0f3e8e4a24992558113ab01f7393380cbeccb2330",
       "note": "An author must provide the verified funder and grant number or confirm that the work received no external funding."
     },
     {
       "gate": "Authenticated production-browser journeys",
-      "status": "blocked",
-      "evidence": "tests/e2e/playwright.config.ts",
-      "evidence_sha256": "efe022679bf36455748a89f9d29a2229560b02ddccc70c77400bbe40cd773c08",
-      "note": "Requires a non-production synthetic patient/doctor/admin account set; no real account is created by this tool."
+      "status": "passed",
+      "evidence": "docs/softwarex/generated/verification.json",
+      "evidence_sha256": "8bfe6328fcaca9016b82171bf319017458b2c5454309104ca09bf82d8dcd5dee",
+      "note": "Synthetic patient/doctor/admin accounts are provisioned by tests/e2e/provision_synthetic_accounts.py; the suite must exit 0 without E2E_ALLOW_SKIPS."
     },
     {
       "gate": "Final commit verification and Zenodo metadata",
       "status": "deferred_by_request",
       "evidence": "docs/softwarex/release_metadata.json",
-      "evidence_sha256": null,
+      "evidence_sha256": "3aca4bc6f25a56616112c68be6303433c20ebe959c0d57439866d8ca3ecc9ba4",
       "note": "Intentionally stopped before tagging, archiving, DOI insertion, or deposit, as requested."
     }
   ]
