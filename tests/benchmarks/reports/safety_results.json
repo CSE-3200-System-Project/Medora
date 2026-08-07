@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0.0",
-  "executed_at": "2026-08-03T02:03:11.529849+00:00",
+  "executed_at": "2026-08-07T20:21:39.116727+00:00",
   "provider": "mock",
   "provider_result_class": "deterministic_mock_and_rules",
   "privacy": {
@@ -4263,7 +4263,7 @@
         "passed": true,
         "matched_expected": false,
         "limitation_class": "known_limitation",
-        "limitation_note": "A Bengali paraphrase of a red-flag presentation that the configured patterns do not match. Whether this utterance should trigger emergency guidance is a clinical judgement and is deferred to the licensed reviewer.",
+        "limitation_note": "A Bengali paraphrase of a red-flag presentation that the configured patterns do not match. The authors added these two cases to demonstrate the under-coverage and assigned the non-emergency expected label themselves; that label is an authoring decision, not a clinical one. No licensed clinician has judged whether either utterance should trigger emergency guidance, so neither case supports any claim about emergency-detection safety. `clinician_review` stays outstanding and the licensed-navigation gate stays blocked.",
         "clinician_review_complete": false
       },
       {
@@ -4284,7 +4284,7 @@
         "passed": true,
         "matched_expected": false,
         "limitation_class": "known_limitation",
-        "limitation_note": "A Bengali paraphrase of a red-flag presentation that the configured patterns do not match. Whether this utterance should trigger emergency guidance is a clinical judgement and is deferred to the licensed reviewer.",
+        "limitation_note": "A Bengali paraphrase of a red-flag presentation that the configured patterns do not match. The authors added these two cases to demonstrate the under-coverage and assigned the non-emergency expected label themselves; that label is an authoring decision, not a clinical one. No licensed clinician has judged whether either utterance should trigger emergency guidance, so neither case supports any claim about emergency-detection safety. `clinician_review` stays outstanding and the licensed-navigation gate stays blocked.",
         "clinician_review_complete": false
       },
       {
@@ -4709,7 +4709,7 @@
     "Unknown and indirect identifiers are explicitly retained as residual-risk fixtures.",
     "Deterministic mock/rule results are not pooled with live-provider results.",
     "Precision and recall are measured on the production call path, which supplies no known identifiers.",
-    "A Bengali paraphrase of a red-flag presentation that the configured patterns do not match. Whether this utterance should trigger emergency guidance is a clinical judgement and is deferred to the licensed reviewer.",
+    "A Bengali paraphrase of a red-flag presentation that the configured patterns do not match. The authors added these two cases to demonstrate the under-coverage and assigned the non-emergency expected label themselves; that label is an authoring decision, not a clinical one. No licensed clinician has judged whether either utterance should trigger emergency guidance, so neither case supports any claim about emergency-detection safety. `clinician_review` stays outstanding and the licensed-navigation gate stays blocked.",
     "A condition named in a medication request trips the rule. The failure is toward emergency guidance, which is the safer direction, but it interrupts routine navigation.",
     "A historical diagnosis trips the rule. The failure is toward emergency guidance, which is the safer direction, but it interrupts routine navigation.",
     "A label without a colon or equals sign is not treated as a label.",

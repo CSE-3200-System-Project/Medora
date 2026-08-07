@@ -36,12 +36,23 @@ test.describe("Appointment Booking and Rescheduling", () => {
     await page.goto("/patient/find-doctor");
     await page.waitForLoadState("networkidle");
 
-    await page.getByRole("button", { name: /Try AI Search|Switch to Standard/i }).click();
-    const concernField = page.getByPlaceholder(/Bangla\/English|Describe your health concern/i).first();
+    // AI mode is on by default now, and the button that used to enter it is the button
+    // that leaves it. Clicking unconditionally toggled the mode off.
+    const enterAiMode = page.getByRole("button", { name: /Try AI Search/i });
+    if (await enterAiMode.isVisible().catch(() => false)) {
+      await enterAiMode.click();
+    }
+    await expect(page.getByRole("button", { name: /Switch to Standard/i })).toBeVisible();
+
+    const concernField = page
+      .getByPlaceholder(/Describe symptoms|Describe your health concern|Bangla\/English/i)
+      .first();
     await concernField.fill("আমার chest pain হচ্ছে তিন দিন ধরে");
     await expect(concernField).toHaveValue(/chest pain/);
 
     await page.getByRole("button", { name: /Find Doctors with AI/i }).click();
-    await expect(page.getByText(/Cardiology|Arefin/i)).toBeVisible({ timeout: 10000 });
+    // The mocked doctor's name, specialty, and match reason all match, so scope to one.
+    await expect(page.getByText(/Arefin/i).first()).toBeVisible({ timeout: 10000 });
+    await expect(page.getByText(/Cardiology/i).first()).toBeVisible();
   });
 });
