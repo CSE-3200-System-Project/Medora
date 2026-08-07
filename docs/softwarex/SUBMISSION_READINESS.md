@@ -629,6 +629,17 @@ absence went unnoticed.
 
 - `record_verification.py` resets all nine named receipts whenever HEAD changes, so every
   check must be re-recorded on the final release commit regardless of what passes now.
+  This bites immediately: committing `verification.json` itself advances HEAD and
+  invalidates what was just written. All nine were therefore re-recorded at `20cc7d3`
+  after that commit, and `verification.json` plus `release_metadata.json` are left
+  **modified in the working tree on purpose**. Committing them is the release manager's
+  last step, after which the nine must be recorded once more on that final commit.
+- Two synthetic accounts sets exist in the live project (`medora.e2e.*@example.com`).
+  They are what the Playwright receipt was recorded against, so they should outlive
+  this session and be removed with
+  `provision_synthetic_accounts.py --delete` once the release is deposited. The 120
+  appointments the two latency runs created have been deleted; the synthetic patient
+  holds zero appointments and zero consultations.
 - Integration and security were **re-run under Docker on 2026-08-03** against this
   session's backend changes: 14 passed. No longer stale.
 - `LICENSE.txt` was removed on 2026-08-03 and restored on 2026-08-07: the Guide for
