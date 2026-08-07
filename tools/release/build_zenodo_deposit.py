@@ -81,14 +81,24 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    # These two cannot be clean at this point and that is not a mistake.
-    # verification.json must name HEAD, so committing it always leaves it one commit
-    # behind itself; release_metadata.json is rewritten by this script a few lines
-    # below. Everything else has to be committed or the checksum describes a tree
-    # nobody verified.
+    # These four cannot be clean at this point and that is not a mistake: recording the
+    # nine checks is what rewrites each of them.
+    #
+    #   verification.json  must name HEAD, so committing it always leaves it one commit
+    #                      behind itself.
+    #   release_metadata.json  is rewritten by this script a few lines below.
+    #   sw.js              is Serwist output whose precache manifest carries a fresh
+    #                      revision token on every build, so two builds of identical
+    #                      source differ by one line. Consumers rebuild it anyway.
+    #   booking_results.json  carries the timings of the run that just happened.
+    #
+    # Everything else has to be committed or the checksum describes a tree nobody
+    # verified.
     EXPECTED_DIRTY = {
         "docs/softwarex/generated/verification.json",
         "docs/softwarex/release_metadata.json",
+        "frontend/public/sw.js",
+        "tests/benchmarks/reports/current/booking_results.json",
     }
 
     dirty = [
