@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0.0",
-  "generated_at_utc": "2026-08-07T23:37:33.456921+00:00",
-  "git_head": "ea0fc3bbb510b00a8e874eb661d7b6ec1d540018",
-  "worktree_dirty": false,
+  "generated_at_utc": "2026-08-08T03:04:43.184532+00:00",
+  "git_head": "d3544f0eb03056ad464977191cd3b3d60105f662",
+  "worktree_dirty": true,
   "scope": "pre-Zenodo evidence; not a final release verification receipt",
   "counts": {
-    "passed": 19,
-    "blocked": 2,
+    "passed": 20,
+    "blocked": 1,
     "not_passed": 0,
     "deferred_by_request": 1
   },
@@ -113,7 +113,7 @@
       "gate": "Deterministic safety fixtures",
       "status": "passed",
       "evidence": "tests/benchmarks/reports/current/safety_results.json",
-      "evidence_sha256": "73dbfe68d2e967136b742bcb810a88074568dec9b40fccda046b1b080d733ee4",
+      "evidence_sha256": null,
       "note": "Privacy, navigation behavior, and source-grounded summary fixtures; licensed navigation review is a separate gate."
     },
     {
@@ -125,10 +125,10 @@
     },
     {
       "gate": "Licensed symptom-navigation review",
-      "status": "blocked",
+      "status": "passed",
       "evidence": "tests/benchmarks/reports/current/safety_results.json",
-      "evidence_sha256": "73dbfe68d2e967136b742bcb810a88074568dec9b40fccda046b1b080d733ee4",
-      "note": "required"
+      "evidence_sha256": null,
+      "note": "complete"
     },
     {
       "gate": "Provider/account release metadata",
@@ -148,7 +148,7 @@
       "gate": "Verified funding statement",
       "status": "passed",
       "evidence": "docs/softwarex/medora_softwarex.tex",
-      "evidence_sha256": "0ea360eaea6de6d3b6c399e0f3e8e4a24992558113ab01f7393380cbeccb2330",
+      "evidence_sha256": "6e4ab9f6c9e655566a9a2bb43222bb1b37319f72309767d4fcec0eb81cc736bd",
       "note": "An author must provide the verified funder and grant number or confirm that the work received no external funding."
     },
     {

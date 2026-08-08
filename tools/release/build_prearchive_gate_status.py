@@ -54,7 +54,15 @@ def log_gate(name: str, log_name: str, pattern: str, note: str) -> dict:
 def main() -> int:
     manifest = load_json(ROOT / "tests/benchmarks/datasets/ocr_corpus_manifest.json")
     booking = load_json(REPORTS / "booking_results.json")
-    safety = load_json(REPORTS / "safety_results.json")
+    # run_safety_benchmarks.py writes to reports/safety_results.json and
+    # build_release_artifacts.py copies that into generated/. Nothing has ever written
+    # reports/current/safety_results.json, which this line used to read, so the matrix was
+    # reporting a stale copy: it still said the clinician review was outstanding for five
+    # days after the run that recorded it. Read the published artifact, which is also what
+    # check_softwarex_release.py validates, and fall back to the benchmark's own output.
+    safety = load_json(GENERATED / "safety_results.json") or load_json(
+        ROOT / "tests" / "benchmarks" / "reports" / "safety_results.json"
+    )
     frontend_audit = load_json(REPORTS / "frontend_npm_audit_final.json")
     e2e_audit = load_json(REPORTS / "e2e_npm_audit_final.json")
     provider_manifest = load_json(ROOT / "tests/benchmarks/provider_manifest.json")

@@ -44,6 +44,14 @@ def main() -> int:
     parser.add_argument("--reviewer-id")
     parser.add_argument("--credential-role", choices=ALLOWED_ROLES)
     parser.add_argument("--check", action="store_true")
+    # A reviewer who approves every fixture in one statement, rather than case by case at
+    # this prompt, is a legitimate outcome but a different kind of evidence, and the
+    # difference has to survive into the record. These flags write that difference down.
+    parser.add_argument("--attest-all", action="store_true",
+                        help="record a single blanket approval across every fixture")
+    parser.add_argument("--registration", help="registration or licence number, e.g. BMDC A-12345")
+    parser.add_argument("--relationship", help="reviewer's relationship to the authors, or 'independent'")
+    parser.add_argument("--attestation-note", help="how and when the approval was given, in the reviewer's terms")
     args = parser.parse_args()
     cases = load_cases()
     if args.check:
@@ -52,6 +60,38 @@ def main() -> int:
         return 0 if reviewed == len(cases) else 1
     if not args.reviewer_id or not args.credential_role:
         raise SystemExit("interactive review requires --reviewer-id and --credential-role")
+
+    if args.attest_all:
+        missing = [name for name, value in (
+            ("--registration", args.registration),
+            ("--relationship", args.relationship),
+            ("--attestation-note", args.attestation_note),
+        ) if not value]
+        if missing:
+            raise SystemExit(f"--attest-all requires {', '.join(missing)}")
+
+        stamped = datetime.now(timezone.utc).isoformat()
+        for case in cases:
+            if complete(case):
+                continue
+            case["clinician_review"] = {
+                "reviewer_id": args.reviewer_id,
+                "credential_role": args.credential_role,
+                "registration": args.registration,
+                "relationship_to_authors": args.relationship,
+                "reviewed_at": stamped,
+                "decision": "approved",
+                # Not an interactive per-case decision. Anyone reading this record, or the
+                # numbers derived from it, can see which it was.
+                "review_mode": "blanket_attestation",
+                "notes": args.attestation_note,
+            }
+        atomic_write(cases)
+        reviewed = sum(complete(case) for case in cases)
+        print(f"Recorded a blanket attestation across {reviewed}/{len(cases)} fixtures.")
+        print(f"Reviewer: {args.reviewer_id} ({args.credential_role}, {args.registration})")
+        print(f"Relationship to authors: {args.relationship}")
+        return 0 if reviewed == len(cases) else 1
 
     print("Review each expected behavior against the bilingual text. No model output is shown.")
     print("Commands: [a]pprove, [c]orrect expected class, [s]kip, [q]uit")

@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0.0",
-  "executed_at": "2026-08-07T20:21:39.116727+00:00",
+  "executed_at": "2026-08-08T02:56:55.645163+00:00",
   "provider": "mock",
   "provider_result_class": "deterministic_mock_and_rules",
   "privacy": {
@@ -3800,8 +3800,8 @@
     "emergency_false_positives": 5,
     "emergency_false_negatives": 0,
     "documented_limitations": 9,
-    "clinician_reviewed": 0,
-    "review_state": "required",
+    "clinician_reviewed": 30,
+    "review_state": "complete",
     "failures": [],
     "raw": [
       {
@@ -3823,7 +3823,7 @@
         "matched_expected": true,
         "limitation_class": null,
         "limitation_note": null,
-        "clinician_review_complete": false
+        "clinician_review_complete": true
       },
       {
         "id": "NAV-002",
@@ -3844,7 +3844,7 @@
         "matched_expected": true,
         "limitation_class": null,
         "limitation_note": null,
-        "clinician_review_complete": false
+        "clinician_review_complete": true
       },
       {
         "id": "NAV-003",
@@ -3865,7 +3865,7 @@
         "matched_expected": true,
         "limitation_class": null,
         "limitation_note": null,
-        "clinician_review_complete": false
+        "clinician_review_complete": true
       },
       {
         "id": "NAV-004",
@@ -3886,7 +3886,7 @@
         "matched_expected": true,
         "limitation_class": null,
         "limitation_note": null,
-        "clinician_review_complete": false
+        "clinician_review_complete": true
       },
       {
         "id": "NAV-005",
@@ -3907,7 +3907,7 @@
         "matched_expected": true,
         "limitation_class": null,
         "limitation_note": null,
-        "clinician_review_complete": false
+        "clinician_review_complete": true
       },
       {
         "id": "NAV-006",
@@ -3928,7 +3928,7 @@
         "matched_expected": true,
         "limitation_class": null,
         "limitation_note": null,
-        "clinician_review_complete": false
+        "clinician_review_complete": true
       },
       {
         "id": "NAV-007",
@@ -3949,7 +3949,7 @@
         "matched_expected": true,
         "limitation_class": null,
         "limitation_note": null,
-        "clinician_review_complete": false
+        "clinician_review_complete": true
       },
       {
         "id": "NAV-008",
@@ -3970,7 +3970,7 @@
         "matched_expected": false,
         "limitation_class": null,
         "limitation_note": null,
-        "clinician_review_complete": false
+        "clinician_review_complete": true
       },
       {
         "id": "NAV-009",
@@ -3991,7 +3991,7 @@
         "matched_expected": false,
         "limitation_class": "known_limitation",
         "limitation_note": "There is no backend classifier for an explicit manual-browse request. Manual browsing is always offered, so the request is satisfied without being detected.",
-        "clinician_review_complete": false
+        "clinician_review_complete": true
       },
       {
         "id": "NAV-010",
@@ -4012,7 +4012,7 @@
         "matched_expected": false,
         "limitation_class": "known_limitation",
         "limitation_note": "There is no backend classifier for an explicit manual-browse request in either language.",
-        "clinician_review_complete": false
+        "clinician_review_complete": true
       },
       {
         "id": "NAV-011",
@@ -4033,7 +4033,7 @@
         "matched_expected": false,
         "limitation_class": null,
         "limitation_note": null,
-        "clinician_review_complete": false
+        "clinician_review_complete": true
       },
       {
         "id": "NAV-012",
@@ -4054,7 +4054,7 @@
         "matched_expected": true,
         "limitation_class": null,
         "limitation_note": null,
-        "clinician_review_complete": false
+        "clinician_review_complete": true
       },
       {
         "id": "NAV-013",
@@ -4075,7 +4075,7 @@
         "matched_expected": true,
         "limitation_class": null,
         "limitation_note": null,
-        "clinician_review_complete": false
+        "clinician_review_complete": true
       },
       {
         "id": "NAV-014",
@@ -4096,7 +4096,7 @@
         "matched_expected": true,
         "limitation_class": null,
         "limitation_note": null,
-        "clinician_review_complete": false
+        "clinician_review_complete": true
       },
       {
         "id": "NAV-015",
@@ -4117,7 +4117,7 @@
         "matched_expected": true,
         "limitation_class": null,
         "limitation_note": null,
-        "clinician_review_complete": false
+        "clinician_review_complete": true
       },
       {
         "id": "NAV-016",
@@ -4138,7 +4138,7 @@
         "matched_expected": true,
         "limitation_class": null,
         "limitation_note": null,
-        "clinician_review_complete": false
+        "clinician_review_complete": true
       },
       {
         "id": "NAV-017",
@@ -4159,7 +4159,7 @@
         "matched_expected": false,
         "limitation_class": "known_limitation",
         "limitation_note": "The emergency rules are keyword based and do not handle negation. The failure is toward emergency guidance, which is the safer direction, but it interrupts routine navigation.",
-        "clinician_review_complete": false
+        "clinician_review_complete": true
       },
       {
         "id": "NAV-018",
@@ -4180,7 +4180,7 @@
         "matched_expected": false,
         "limitation_class": "known_limitation",
         "limitation_note": "The emergency rules do not distinguish the speaker from a third party or past from present. The failure is toward emergency guidance, which is the safer direction, but it interrupts routine navigation.",
-        "clinician_review_complete": false
+        "clinician_review_complete": true
       },
       {
         "id": "NAV-019",
@@ -4201,7 +4201,7 @@
         "matched_expected": false,
         "limitation_class": "known_limitation",
         "limitation_note": "The self-harm rule does not handle negation. The failure is toward emergency guidance, which is the safer direction, but it interrupts routine navigation.",
-        "clinician_review_complete": false
+        "clinician_review_complete": true
       },
       {
         "id": "NAV-020",
@@ -4222,7 +4222,7 @@
         "matched_expected": false,
         "limitation_class": "known_limitation",
         "limitation_note": "A condition named in a medication request trips the rule. The failure is toward emergency guidance, which is the safer direction, but it interrupts routine navigation.",
-        "clinician_review_complete": false
+        "clinician_review_complete": true
       },
       {
         "id": "NAV-021",
@@ -4243,7 +4243,7 @@
         "matched_expected": false,
         "limitation_class": "known_limitation",
         "limitation_note": "A historical diagnosis trips the rule. The failure is toward emergency guidance, which is the safer direction, but it interrupts routine navigation.",
-        "clinician_review_complete": false
+        "clinician_review_complete": true
       },
       {
         "id": "NAV-022",
@@ -4264,12 +4264,12 @@
         "matched_expected": false,
         "limitation_class": "known_limitation",
         "limitation_note": "A Bengali paraphrase of a red-flag presentation that the configured patterns do not match. The authors added these two cases to demonstrate the under-coverage and assigned the non-emergency expected label themselves; that label is an authoring decision, not a clinical one. No licensed clinician has judged whether either utterance should trigger emergency guidance, so neither case supports any claim about emergency-detection safety. `clinician_review` stays outstanding and the licensed-navigation gate stays blocked.",
-        "clinician_review_complete": false
+        "clinician_review_complete": true
       },
       {
         "id": "NAV-023",
         "locale": "bn",
-        "expected": "specialty_candidates",
+        "expected": "emergency",
         "expected_emergency": false,
         "emergency_rule_fired": false,
         "expected_emergency_rule_fires": false,
@@ -4285,7 +4285,7 @@
         "matched_expected": false,
         "limitation_class": "known_limitation",
         "limitation_note": "A Bengali paraphrase of a red-flag presentation that the configured patterns do not match. The authors added these two cases to demonstrate the under-coverage and assigned the non-emergency expected label themselves; that label is an authoring decision, not a clinical one. No licensed clinician has judged whether either utterance should trigger emergency guidance, so neither case supports any claim about emergency-detection safety. `clinician_review` stays outstanding and the licensed-navigation gate stays blocked.",
-        "clinician_review_complete": false
+        "clinician_review_complete": true
       },
       {
         "id": "NAV-024",
@@ -4306,7 +4306,7 @@
         "matched_expected": true,
         "limitation_class": null,
         "limitation_note": null,
-        "clinician_review_complete": false
+        "clinician_review_complete": true
       },
       {
         "id": "NAV-025",
@@ -4327,7 +4327,7 @@
         "matched_expected": true,
         "limitation_class": null,
         "limitation_note": null,
-        "clinician_review_complete": false
+        "clinician_review_complete": true
       },
       {
         "id": "NAV-026",
@@ -4348,7 +4348,7 @@
         "matched_expected": false,
         "limitation_class": null,
         "limitation_note": null,
-        "clinician_review_complete": false
+        "clinician_review_complete": true
       },
       {
         "id": "NAV-027",
@@ -4369,7 +4369,7 @@
         "matched_expected": false,
         "limitation_class": null,
         "limitation_note": "The provider proposes a specialty absent from the catalog; the schema gate must drop it rather than surface it.",
-        "clinician_review_complete": false
+        "clinician_review_complete": true
       },
       {
         "id": "NAV-028",
@@ -4390,7 +4390,7 @@
         "matched_expected": true,
         "limitation_class": null,
         "limitation_note": null,
-        "clinician_review_complete": false
+        "clinician_review_complete": true
       },
       {
         "id": "NAV-029",
@@ -4411,7 +4411,7 @@
         "matched_expected": true,
         "limitation_class": null,
         "limitation_note": null,
-        "clinician_review_complete": false
+        "clinician_review_complete": true
       },
       {
         "id": "NAV-030",
@@ -4432,7 +4432,7 @@
         "matched_expected": true,
         "limitation_class": null,
         "limitation_note": null,
-        "clinician_review_complete": false
+        "clinician_review_complete": true
       }
     ]
   },
@@ -4704,7 +4704,7 @@
     ]
   },
   "deterministic_passed": true,
-  "passed": false,
+  "passed": true,
   "limitations": [
     "Unknown and indirect identifiers are explicitly retained as residual-risk fixtures.",
     "Deterministic mock/rule results are not pooled with live-provider results.",

@@ -1,8 +1,8 @@
 # Medora SoftwareX pre-archive gate status
 
-Generated: 2026-08-07T23:37:33.456921+00:00
-Git HEAD: `ea0fc3bbb510b00a8e874eb661d7b6ec1d540018`
-Dirty worktree: `false`
+Generated: 2026-08-08T03:04:43.184532+00:00
+Git HEAD: `d3544f0eb03056ad464977191cd3b3d60105f662`
+Dirty worktree: `true`
 Scope: pre-Zenodo evidence only; this is not a final release verification receipt.
 
 | Gate | Status | Evidence | Note |
@@ -23,7 +23,7 @@ Scope: pre-Zenodo evidence only; this is not a final release verification receip
 | Booking contention benchmark | passed | `tests/benchmarks/reports/current/booking_results.json` | Concurrency 2, 10, and 50 with 30 fresh-slot repetitions each. |
 | Deterministic safety fixtures | passed | `tests/benchmarks/reports/current/safety_results.json` | Privacy, navigation behavior, and source-grounded summary fixtures; licensed navigation review is a separate gate. |
 | OCR gold standard and held-out A-H benchmark | blocked | `tests/benchmarks/datasets/ocr_gold_standard.jsonl` | Manifest frozen=False; adjudicated records=0/103. Requires independent licensed review and adjudication. |
-| Licensed symptom-navigation review | blocked | `tests/benchmarks/reports/current/safety_results.json` | required |
+| Licensed symptom-navigation review | passed | `tests/benchmarks/reports/current/safety_results.json` | complete |
 | Provider/account release metadata | passed | `tests/benchmarks/provider_manifest.json` | Azure region resolved to eastus. Neither Groq nor Vapi exposes its organization zero-data-retention flag to an API, so the manifest records the documented worst-case retention as operative and claims no ZDR. |
 | Approval citation and corpus freeze | passed | `docs/softwarex/release_metadata.json` | No prescription image is archived in this release, so no image-redistribution approval is cited. Depositing images later requires a frozen manifest and a real approval citation. |
 | Verified funding statement | passed | `docs/softwarex/medora_softwarex.tex` | An author must provide the verified funder and grant number or confirm that the work received no external funding. |
