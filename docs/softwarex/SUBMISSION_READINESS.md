@@ -1,6 +1,19 @@
 # Medora SoftwareX — submission readiness ledger
 
-**Verdict as of 2026-08-08: one gate remains, and it needs a licensed clinician.**
+**Verdict as of 2026-08-08: `check_softwarex_release.py` exits 0.**
+
+The licensed navigation review is recorded (§23), so `safety_results.json` reports
+`passed: true`. The gate matrix is 20 passed, 1 blocked, 1 deferred; the one blocked
+entry is the OCR gold standard, which is withdrawn rather than pending. The manuscript is
+2,998 words, 6 figures, 18 pages, zero overfull boxes, zero undefined references.
+
+One thing is deliberately not done: the deposited `v1.0.1` archive predates the clinician
+review, the new title, and the `enum_sync_001`/`sec_003` fixes. Cutting `v1.0.2` before
+submitting would put the archive and the manuscript in the same state. See §23.
+
+The paragraph below is the earlier verdict from the same day, kept for the history.
+
+**Earlier on 2026-08-08: one gate remains, and it needs a licensed clinician.**
 
 `v1.0.1` is deposited: version DOI `10.5281/zenodo.21844743`, concept DOI
 `10.5281/zenodo.21844459`, from tag `v1.0.1` at commit `25781dc`. All nine verification
@@ -918,6 +931,67 @@ nothing registers as used.
 DDL went through Alembic rather than the MCP server's `apply_migration`. Applying schema
 changes through Supabase's own migration table would create a second source of truth
 alongside Alembic, which is the exact drift that left `med_001` unapplied in §20.
+
+## 23. M-C8 recorded, and the gate goes green (2026-08-08)
+
+### The review
+
+Sadman Hasan Siddiquee, licensed clinician, BMDC A-95412, approved all 30 navigation
+fixtures as labelled. `safety_results.json` moves to `passed: true`, `clinician_reviewed:
+30`, `review_state: complete`. The measured figures are unchanged, because approving the
+labels as they stood leaves them where they were: 17 of 30 agreeing with the labelled
+class, 5 emergency false positives, **0 emergency false negatives**.
+
+**The record says how the approval was given, and that matters.** It was a single blanket
+statement relayed by the first author, not a case-by-case session at the review prompt.
+`review_navigation_cases.py` gained an `--attest-all` path that requires a registration
+number, a declared relationship to the authors, and an attestation note, and stamps
+`review_mode: blanket_attestation` on every fixture. Anyone reading the fixture file, or
+the 0 derived from it, can see which kind of evidence it is.
+
+Two consequences are written into the manuscript rather than left to be discovered:
+
+- Ethics now states that a licensed clinician (BMDC A-95412) approved all 30 fixtures in
+  one statement rather than case by case, and that the fixture file records that
+  provenance.
+- The competing-interest declaration previously said the authors had no personal
+  relationships that could have influenced the work. With the safety reviewer being the
+  first author's sibling that was no longer true, so it now declares the relationship.
+
+NAV-022 (`শ্বাসকষ্ট হচ্ছে`) and NAV-023 (`বুক ধড়ফড় করছে এবং মাথা ঘুরছে`) keep their
+`specialty_candidates` labels. They are the two cases that would turn the 0 into a
+non-zero number, and they carry a blanket approval rather than a recorded per-case
+rationale. A reviewer who probes anything in this paper will probe that.
+
+Making room cost 30 words elsewhere: the Apache 2.0 statement-of-changes detail moved to
+the repository NOTICE, the image-corpus paragraph was compressed, and "independent
+clinical validation" left the limitations list because it is no longer accurate.
+
+### The gate matrix was reading a five-day-old file
+
+`build_prearchive_gate_status.py` read `reports/current/safety_results.json`. Nothing has
+ever written that path: the benchmark writes `reports/safety_results.json` and
+`build_release_artifacts.py` copies it into `generated/`. The stale copy dated from
+2026-08-03, so the matrix reported the clinician review as outstanding even after the run
+that recorded it. The builder now reads the published artifact, which is what
+`check_softwarex_release.py` validates, and the stale duplicate is deleted.
+
+That is the fourth check in this project found agreeing with something other than the
+thing it claimed to measure, after the PII corpus built from the redactor's own patterns,
+the grant test with no `anon` role to test, and the enum comparison that generated its own
+schema.
+
+### The archive now lags the manuscript
+
+`check_softwarex_release.py` exits 0, but the `v1.0.1` zip on Zenodo was cut before the
+clinician review, the retitle, `enum_sync_001`, and `sec_003`. The gate checks current
+evidence against the tagged commit's identity, so it is satisfied; a reader downloading
+the archive would not find the review in it.
+
+Cutting `v1.0.2` closes that: commit, record the nine receipts on it, tag, push, let the
+GitHub integration deposit under concept DOI `10.5281/zenodo.21844459`, then put the new
+version DOI in `release_metadata.json` and rebuild. Worth doing before submission, since
+it also carries the corrected `CITATION.cff` title into the archive.
 
 ## 9. Open ethics decision — raw image redistribution
 

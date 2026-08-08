@@ -375,13 +375,13 @@ transfers to a deployment.
 
 Navigation fixtures are scored on two paths, a recorded provider intent and the
 deterministic mock, against the classifier the request path itself uses. Uncertainty is a
-flag next to the candidates, not a fourth exclusive class, and every path asserts that
-manual browsing stays available. The red-flag rules are keyword based and also match
+flag beside the candidates rather than a fourth exclusive class, and every path asserts
+that manual browsing stays available. The red-flag rules are keyword based and also match
 negated, third-person, and historical mentions, so they over-trigger toward emergency
 guidance; those cases are enumerated. Summary fixtures run the summarizer end to end under
-the mock provider and assert that no item cites a record the backend did not supply, that a
-request with no source record produces a not-found item, and that malformed output raises
-instead of degrading.
+the mock provider and assert that no item cites a record the backend did not supply, that
+an empty request produces a not-found item, and that malformed output raises instead of
+degrading.
 
 Booking contention runs at 2, 10, and 50 concurrent attempts for 30 fresh-slot repetitions
 per level after warm-up, each requiring one committed appointment, no duplicate row,
@@ -489,7 +489,7 @@ identifiers, emergency rules cannot cover every presentation, summaries and spec
 candidates may omit or distort facts, and prescription OCR does not work. Provider
 behavior, cost, and retention can change. The concurrency benchmark shows database behavior
 in its tested environment, not universal capacity. No clinical trial, regulatory
-assessment, penetration test, or independent clinical validation has been done.
+assessment, or penetration test has been done.
 
 \section{Conclusions}
 
@@ -509,27 +509,29 @@ test accounts.
 
 The medicine reference consolidates five sources licensed CC0 1.0 (two), Apache 2.0, MIT,
 and CC BY 4.0~\cite{bdmeds}, all of which permit redistribution. The corpus is offered under
-CC BY 4.0, the most restrictive term in that set, with a notice crediting every source.
-Apache 2.0's statement of changes records that generic names were normalized, only the
-generic-to-indication mapping kept, and pricing and URL fields dropped. Two sources are
-website scrapes whose uploaders did not author the material, which is why the corpus is
-called a consolidation and not a register.
+CC BY 4.0, the most restrictive term in that set, with a notice crediting every source and
+the Apache 2.0 statement of changes. Two sources are website scrapes whose uploaders did
+not author the material, which is why the corpus is called a consolidation and not a
+register.
 
-The prescription image corpus is not deposited. It is identifiable medical material, its
-consent basis is verbal agreement given for an undergraduate software project, no
-institutional review board reviewed the collection, and the evaluation it was assembled for
-is not part of this release. Consent for a student project is not informed consent for
-permanent worldwide publication. The images retain patient and clinician names,
-registration numbers, and clinic details, and handwriting is quasi-biometric, so redacting
-direct identifiers would reduce re-identification risk without removing it. Any future
-deposit needs documented consent or controlled access.
+The prescription image corpus is not deposited. It is identifiable medical material
+collected under verbal agreement for an undergraduate project, no institutional review
+board reviewed the collection, and the evaluation it was assembled for is not part of this
+release. Consent for a student project is not informed consent for permanent worldwide
+publication. The images retain names, registration numbers, and clinic details, and
+handwriting is quasi-biometric, so redacting direct identifiers would reduce
+re-identification risk without removing it. Any future deposit needs documented consent or
+controlled access.
+
+A licensed clinician (BMDC A-95412) approved all 30 navigation fixtures as labelled, in
+one statement rather than case by case. The fixture file records that provenance.
 
 \section*{CRediT authorship contribution statement}
 \textbf{Sarwad Hasan Siddiqui:} Conceptualization, Software, Data curation, Writing--original draft. \textbf{Adiba Tahsin:} Software, Data curation, Validation, Writing--original draft. \textbf{Kazi Saeed Alam:} Supervision, Resources, Writing--review and editing.
 
 \section*{Declaration of competing interest}
-The authors declare no competing financial interests or personal relationships that could
-have influenced this work.
+The clinician who reviewed the navigation fixtures is a sibling of the first author. The
+authors declare no competing financial interests.
 
 \section*{Funding}
 This research received no specific grant from funding agencies in the public, commercial,
