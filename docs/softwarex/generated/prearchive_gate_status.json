@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0.0",
-  "generated_at_utc": "2026-08-08T03:04:43.184532+00:00",
-  "git_head": "d3544f0eb03056ad464977191cd3b3d60105f662",
+  "generated_at_utc": "2026-08-08T03:47:28.563305+00:00",
+  "git_head": "c29c88e5c36c6a987a2c82c37df887e70fdc3a3c",
   "worktree_dirty": true,
   "scope": "pre-Zenodo evidence; not a final release verification receipt",
   "counts": {
-    "passed": 20,
-    "blocked": 1,
+    "passed": 19,
+    "blocked": 2,
     "not_passed": 0,
     "deferred_by_request": 1
   },
@@ -148,14 +148,14 @@
       "gate": "Verified funding statement",
       "status": "passed",
       "evidence": "docs/softwarex/medora_softwarex.tex",
-      "evidence_sha256": "6e4ab9f6c9e655566a9a2bb43222bb1b37319f72309767d4fcec0eb81cc736bd",
+      "evidence_sha256": "48bf6292f9389be1cb203a0b90c3e7ef8827cd6e50081dcb481f5bc213f40134",
       "note": "An author must provide the verified funder and grant number or confirm that the work received no external funding."
     },
     {
       "gate": "Authenticated production-browser journeys",
-      "status": "passed",
+      "status": "blocked",
       "evidence": "docs/softwarex/generated/verification.json",
-      "evidence_sha256": "bf2322c498b6be7ef0795dc4a87c7d9f899fd0ef2a714a891476c3d288616ae2",
+      "evidence_sha256": "2af5b1d6f76e6729fd0f5fd27f5e1b628bd9919ed184b2f73e4b8c7d7acde9e9",
       "note": "Synthetic patient/doctor/admin accounts are provisioned by tests/e2e/provision_synthetic_accounts.py; the suite must exit 0 without E2E_ALLOW_SKIPS."
     },
     {

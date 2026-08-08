@@ -934,38 +934,64 @@ alongside Alembic, which is the exact drift that left `med_001` unapplied in §2
 
 ## 23. M-C8 recorded, and the gate goes green (2026-08-08)
 
-### The review
+### The review, and the two corrections it produced
 
-Sadman Hasan Siddiquee, licensed clinician, BMDC A-95412, approved all 30 navigation
-fixtures as labelled. `safety_results.json` moves to `passed: true`, `clinician_reviewed:
-30`, `review_state: complete`. The measured figures are unchanged, because approving the
-labels as they stood leaves them where they were: 17 of 30 agreeing with the labelled
-class, 5 emergency false positives, **0 emergency false negatives**.
+Sadman Hasan Siddiquee, licensed clinician, BMDC A-95412, reviewed all 30 navigation
+fixtures case by case at the review prompt: 30 distinct timestamps, 28 approvals, 2
+corrections. `safety_results.json` reports `passed: true`, `clinician_reviewed: 30`,
+`review_state: complete`.
 
-**The record says how the approval was given, and that matters.** It was a single blanket
-statement relayed by the first author, not a case-by-case session at the review prompt.
-`review_navigation_cases.py` gained an `--attest-all` path that requires a registration
-number, a declared relationship to the authors, and an attestation note, and stamps
-`review_mode: blanket_attestation` on every fixture. Anyone reading the fixture file, or
-the 0 derived from it, can see which kind of evidence it is.
+**He corrected NAV-022 and NAV-023 from `specialty_candidates` to `emergency`**, with the
+note that both should be handled immediately. Those are the two cases the earlier
+"0 emergency false negatives" figure rested on, and the authors had labelled them
+themselves. The figure was resting on a wrong label.
 
-Two consequences are written into the manuscript rather than left to be discovered:
+| | before the review | after |
+|---|---|---|
+| emergency cases | 5 | **7** |
+| emergency, agreement on both scored paths | 5/5 | **7/7** |
+| emergency false negatives | 0, against an author label | **0, against a clinical label** |
+| emergency false positives | 5 | 5 |
+| agreement overall | 17/30 | **19/30** |
+| documented limitations | 9 | 7 |
 
-- Ethics now states that a licensed clinician (BMDC A-95412) approved all 30 fixtures in
-  one statement rather than case by case, and that the fixture file records that
-  provenance.
+An initial attempt recorded a blanket approval relayed by an author rather than a
+case-by-case session. It was reverted before it reached a commit that mattered, and the
+`--attest-all` path that produced it remains in the tool for cases where that genuinely is
+the evidence available. It stamps `review_mode: blanket_attestation` so the two kinds
+never look alike.
+
+### Two code changes followed from the corrections
+
+**`EMERGENCY_PATTERNS` gained `শ্বাসকষ্ট` and `ধড়ফড়`.** The Bengali branch previously
+matched only "cannot breathe" and "severe chest pain", so neither corrected presentation
+fired. Dizziness alone is deliberately absent: NAV-023 matches on `ধড়ফড়`, and adding
+`মাথা ঘোরা` on its own would trade a narrow rule for a broad one with no clinical
+instruction to do it. Checked against all 30 fixtures, the change adds no new false
+positive; the 5 that remain are the pre-existing negation, third-person, and history
+over-triggers.
+
+**`review_navigation_cases.py` now normalises a correction.** Writing `expected` alone
+left four dependent fields describing the class the case was moved out of, and the scorer
+reads those rather than `expected`. NAV-022 and NAV-023 kept
+`expected_candidate_source: matched`, so the table reported 7 emergency cases with only 5
+in agreement, on fixtures the classifier was handling correctly. `_apply_correction` sets
+the whole group, and the next reviewer's correction will not need cleaning up by hand.
+
+Two facts are written into the manuscript rather than left to be found:
+
+- Ethics states that a licensed clinician reviewed all 30 fixtures case by case,
+  corrected two Bengali red-flag presentations to emergency, and that the rules were
+  extended to match.
 - The competing-interest declaration previously said the authors had no personal
   relationships that could have influenced the work. With the safety reviewer being the
-  first author's sibling that was no longer true, so it now declares the relationship.
+  first author's sibling that stopped being true, so it now declares the relationship.
+  Disclosure here is not a judgement about his conduct; it is what the ICMJE standard
+  asks for regardless of conduct.
 
-NAV-022 (`শ্বাসকষ্ট হচ্ছে`) and NAV-023 (`বুক ধড়ফড় করছে এবং মাথা ঘুরছে`) keep their
-`specialty_candidates` labels. They are the two cases that would turn the 0 into a
-non-zero number, and they carry a blanket approval rather than a recorded per-case
-rationale. A reviewer who probes anything in this paper will probe that.
-
-Making room cost 30 words elsewhere: the Apache 2.0 statement-of-changes detail moved to
-the repository NOTICE, the image-corpus paragraph was compressed, and "independent
-clinical validation" left the limitations list because it is no longer accurate.
+Making room cost words elsewhere: the Apache 2.0 statement-of-changes detail moved to the
+repository NOTICE, the image-corpus paragraph was compressed, and "independent clinical
+validation" left the limitations list because it is no longer accurate.
 
 ### The gate matrix was reading a five-day-old file
 
