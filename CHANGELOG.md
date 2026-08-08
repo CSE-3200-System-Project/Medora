@@ -4,6 +4,38 @@ This project uses [Semantic Versioning](https://semver.org/). The release date,
 archival DOI, tested commit, and archive checksum are populated only after the
 release gates pass.
 
+## [1.0.2] - 2026-08-08
+
+Supersedes 1.0.1 under concept DOI 10.5281/zenodo.21844459.
+
+### Changed
+
+- Retitled: "Medora: A Bilingual, consent-gated AI-native healthcare management &
+  consultation platform for Bangladesh", in the manuscript, `CITATION.cff`,
+  `codemeta.json`, and the software self-citation.
+- A licensed clinician reviewed all 30 symptom-navigation fixtures case by case and
+  corrected two Bengali red-flag presentations, `শ্বাসকষ্ট হচ্ছে` and
+  `বুক ধড়ফড় করছে এবং মাথা ঘুরছে`, from specialty candidates to emergency. Emergency
+  agreement across the two scored paths goes from 5/5 to 7/7 and the false-negative count
+  is now measured against a clinical label rather than an authored one.
+
+### Fixed
+
+- `EMERGENCY_PATTERNS` did not match `শ্বাসকষ্ট` or `ধড়ফড়`, so neither corrected
+  presentation triggered emergency guidance. Both are now matched, with no new false
+  positive across the fixture set.
+- Correcting a fixture's expected class left four dependent fields describing the old
+  class, and the scorer reads those rather than the class itself.
+- `public.emit_slot_change_event`, which fires on every appointment write, had a mutable
+  `search_path` (`sec_003`).
+- The pre-archive gate matrix read a `safety_results.json` path that nothing writes, so
+  it reported a five-day-old result.
+- `check_softwarex_release.py` compared the release metadata and verification receipts
+  against HEAD, which no released repository can satisfy: recording the receipts produces
+  a commit of its own. It now anchors to the commit behind the tag named in `version`.
+- `build_release_artifacts.py` required an OCR report for a final build, which does not
+  exist because the accuracy claim is withdrawn.
+
 ## [1.0.1] - 2026-08-08
 
 Archived as Zenodo version DOI 10.5281/zenodo.21844460 for 1.0.0; 1.0.1 supersedes it

@@ -6,7 +6,7 @@
   "identifier": "medora",
   "codeRepository": "https://github.com/CSE-3200-System-Project/Medora",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "programmingLanguage": [
     "Python",
     "TypeScript",
