@@ -36,17 +36,16 @@ platform for Bangladesh}
 
 \begin{abstract}
 Assistive language models are reaching health software faster than the structures meant to
-contain them. Medora is open-source research software that makes those structures explicit,
-joining bilingual English/Bengali patient-held records and appointment coordination to an
-assistive-AI layer of twenty-one endpoints. Its safety properties are structural, not
-prompt-dependent. External calls need a purpose-specific revocable grant and pass bilingual
-redaction and pseudonymisation, assistant navigation resolves through an immutable
-role-scoped registry holding no administrative routes, and summary items can cite only
-records the backend supplied. Routing, consent, and red-flag detection involve no model.
-Under all of it sits an open Bangladesh medicine reference of
-7{,}389 drugs and 67{,}001 brands, built from five published datasets by one script. We
-report what was measured and name what was not. Medora is not clinically validated and is
-not a medical device.
+contain them. Medora makes those structures explicit, joining bilingual English/Bengali
+patient-held records and appointment coordination to an assistive-AI layer of twenty-one
+endpoints. The patient client installs to a phone home screen as a progressive web
+application. Safety is structural, not prompt-dependent: external calls need a
+purpose-specific revocable grant and pass bilingual redaction and pseudonymisation,
+assistant navigation resolves through a fixed role-scoped registry holding no
+administrative routes, and summary items cite only records the backend supplied. Routing,
+consent, and red-flag detection involve no model. Underneath sits an open Bangladesh
+medicine reference of 7{,}389 drugs and 67{,}001 brands. We report what was measured and
+name what was not. Medora is research software, not a validated medical device.
 \end{abstract}
 
 \begin{keyword}
@@ -108,28 +107,28 @@ assistive-AI containment, or concurrency.
 Bangladesh has a long-running national digital-health program, but studies describe uneven
 eHealth implementation and clinician concerns about electronic-record
 adoption~\cite{ahmed2014,khan2012}. That motivates an inspectable artifact for bilingual,
-patient-held workflows. It does not make Medora representative of Bangladesh or fit for
-deployment.
+patient-held workflows, though it does not make Medora representative of Bangladesh or fit
+for deployment.
 
 Two contributions carry most of the reuse value. The first is an open medicine reference
 for a market with none. Drug terminology services such as RxNorm underpin much clinical
-software, but their coverage is national and Bangladesh is not among the markets
-served~\cite{rxnorm}. Medora consolidates five published datasets into a normalized
-three-table reference and ships the script that builds it.
+software, but their coverage is national and Bangladesh is not among them~\cite{rxnorm}.
+Medora consolidates five published datasets into a normalized three-table reference and
+ships its build script.
 
 The second is a containment pattern for assistive AI. Consent is checked before a call
-leaves the deployment. Assistant navigation resolves against a fixed registry, so the set
-of destinations a model can reach is readable from one file and cannot grow at inference
-time. The backend attaches summary source references after schema validation, which makes
-a fabricated citation structurally impossible rather than unlikely. Most safety-critical
+leaves the deployment, and assistant navigation resolves against a fixed registry, so the
+set of destinations a model can reach is readable from one file and cannot grow at inference
+time. The backend attaches summary source references after schema validation, making a
+fabricated citation structurally impossible rather than unlikely. Most safety-critical
 logic is deterministic (Table~\ref{tab:components}).
 
-Established open-source systems cover a wider institutional scope. OpenMRS, Bahmni, and GNU
-Health provide modular medical-record, hospital, laboratory, and Fast Healthcare
+Established open-source systems cover a wider, institution-facing scope: OpenMRS, Bahmni,
+and GNU Health provide modular medical-record, hospital, laboratory, and Fast Healthcare
 Interoperability Resources (FHIR) capabilities~\cite{openmrs,bahmni,gnuhealth}. Medora is a
-smaller mobile-oriented implementation linking patient-held records and booking to an
+smaller installable mobile-first client linking patient-held records and booking to an
 inspectable assistive-AI layer (Table~\ref{tab:related-work}). They are complements, not
-performance baselines.
+baselines.
 
 \begin{table}[!ht]
 \scriptsize
@@ -156,8 +155,8 @@ Open source and validation & Open source; mature community deployments & Open so
 Clinical summarization work shows that fluency is not enough, and that faithfulness and
 traceability need separate evaluation~\cite{shing2021,tracsum}. Symptom-checker studies
 report wide variation in diagnostic and urgency recommendations~\cite{wallace2022}. Medora
-therefore avoids diagnosis and triage. It offers specialty candidates for navigation, keeps
-manual browsing, and runs deterministic emergency rules before any model call.
+therefore avoids diagnosis and triage: it offers specialty candidates, keeps manual
+browsing, and runs deterministic emergency rules before any model call.
 
 \section{Software description}
 
@@ -342,11 +341,15 @@ inferred for them.
 Summaries are drafts, prescription suggestions pre-fill fields a prescriber edits and signs,
 and specialty search returns candidates with manual browse controls. Recognised prescription
 images return a draft flagged \texttt{authoritative\_writeback=false} that a person verifies
-row by row. A patient's later action is
-\texttt{receipt\_acknowledged} or \texttt{discrepancy\_reported}, and neither says a
-medicine is appropriate. The service worker caches only versioned static and public
-resources, health-data writes are never background-synchronized, and logout clears caches,
-IndexedDB, session and sensitive local storage.
+row by row. A patient's later action is \texttt{receipt\_acknowledged} or
+\texttt{discrepancy\_reported}, neither of which says a medicine is appropriate.
+
+\textbf{Installable patient client.} The patient interface is a progressive web
+application: a manifest declaring standalone display and maskable icons installs it to a
+phone home screen, and the browser suite asserts the service worker activates and controls
+the page. Caching is scoped, not general. Only versioned static and public resources are
+cached, health writes never background-synchronize, and logout clears caches, IndexedDB,
+session and sensitive local storage.
 
 \textbf{Appointment transaction and delivery.} Creating an appointment requires an
 \texttt{Idempotency-Key}. The backend locks the key and slot, validates availability, and
@@ -394,24 +397,24 @@ The provider manifest records provider, model, interface version, region, temper
 context limit, timeout, retries, fallback policy, execution date, retention assumption, and
 paid-service requirement. Installation commands, checksums, raw output, and
 table-generation instructions ship with the archive.
+%
 
 \textbf{Prescription image OCR: a negative result.} An experimental pipeline recognises
 photographed prescriptions and matches them against the medicine reference, combining
 region detection, a local or cloud recognition backend, a dosage grammar, Bengali numeral
 normalization, and fuzzy catalog matching~\cite{du2020,prescriptionocr}. On handwritten
-Bangladeshi prescriptions the output is not usable even as a draft. Recognition on cursive
-prescriber handwriting is the binding constraint, and fuzzy matching against 67{,}001 brands
-turns a partly recognised token into a confident wrong match about as often as a correct
-one. Raising the threshold trades those errors for empty results.
-Review gating keeps bad extractions out of the medication record, so the cost is wasted
-reviewer time rather than clinical risk, but a draft a reviewer has to rewrite is not a
-working feature. We make no accuracy claim and publish no benchmark; labelling,
-adjudication, and a held-out evaluation would come first.
+Bangladeshi prescriptions the output is not usable even as a draft. Cursive prescriber
+handwriting is the binding constraint, and fuzzy matching against 67{,}001 brands turns a
+partly recognised token into a confident wrong match about as often as a correct one;
+raising the threshold trades those errors for empty results. Review gating keeps bad
+extractions out of the medication record, so the cost is wasted reviewer time rather than
+clinical risk, but a draft a reviewer must rewrite is not a working feature. We make no
+accuracy claim and publish no benchmark.
 
 \section{Illustrative examples}
 
-Figures~\ref{fig:ui-bilingual} to \ref{fig:ui-ai} show the interfaces the fixtures below run
-against, captured from the demonstration deployment described under Ethics.
+Figures~\ref{fig:ui-bilingual} to \ref{fig:ui-ai} show the interfaces these fixtures run
+against, from the demonstration deployment in Ethics.
 
 \begin{figure}[!ht]
 \centering
@@ -457,13 +460,12 @@ built from records the request supplied. Neither surface writes to a record.}
 phone: [redacted-phone]'' before the schema-gated request. The response offers Dermatology
 as an uncertain candidate, says it is not a diagnosis, and keeps manual browsing. Asking
 next for a diagnosis and prescription returns a safe refusal. Inputs, authorization state,
-schema, intermediate values, and outputs are archived in
-\texttt{tests/benchmarks/datasets/worked\_examples.json}.
+schema, and outputs are archived in \texttt{worked\_examples.json}.
 
 \textit{Registry containment.} A patient asks the assistant to open the admin dashboard.
 The registry holds no administrative route, so resolution yields no destination and the
-engine returns its fallback. Nothing depends on the model declining, and a prompt-injected
-attempt to name the route directly ends the same way.
+engine falls back. Nothing depends on the model declining, and naming the route directly
+by prompt injection ends the same way.
 
 \textit{Consent restriction.} A doctor requests a summary for a patient who shared
 conditions and medications but not test results (Fig.~\ref{fig:ui-consent}a). The guard
@@ -474,30 +476,29 @@ patient-visible audit table.
 \section{Impact}
 
 Medora is a compact test bed for assistive-AI containment, consent state machines, source
-traceability, and transaction/event boundaries. The medicine reference
-and its build script are reusable away from the platform, and the deterministic mock
-provider makes interface and failure tests reproducible without paid credentials. The
-registry pattern transfers to any role-scoped application.
+traceability, and transaction/event boundaries. The medicine reference and its build script
+are reusable away from the platform, the deterministic mock provider makes interface and
+failure tests reproducible without paid credentials, and the registry pattern transfers to
+any role-scoped application.
 
 The limitations are substantial. Six of the nine groups in Table~\ref{tab:ai-surface} carry
 no accuracy or faithfulness measurement, and the structural controls covering them are not
-evidence that their outputs are good. The medicine reference is a consolidation of
-third-party datasets, two of them website scrapes: it has not been checked against any
-regulatory source, its indication text has had no clinical review, and its coverage reflects
-when its sources were collected. Structured redaction misses unknown and indirect
+evidence that their outputs are good. The medicine reference consolidates third-party
+datasets, two of them website scrapes: no regulatory source has checked it, its indication
+text has had no clinical review, and its coverage reflects when its sources were collected. Structured redaction misses unknown and indirect
 identifiers, emergency rules cannot cover every presentation, summaries and specialty
 candidates may omit or distort facts, and prescription OCR does not work. Provider
-behavior, cost, and retention change. The concurrency benchmark shows database behavior
-in its tested environment, not universal capacity. No clinical trial, regulatory
+behavior, cost, and retention change. The concurrency benchmark shows database behavior in
+its tested environment, not universal capacity, and no clinical trial, regulatory
 assessment, or penetration test has been done.
 
 \section{Conclusions}
 
 Medora is research software for bilingual patient-held records, appointment coordination,
-and assistive AI bounded by construction rather than by instruction~\cite{medorasw}. Its
-two reusable parts are the open Bangladesh medicine reference with its published build and
-the containment pattern above. Judge it as an inspectable platform for software research,
-not as a clinically validated medical system.
+and assistive AI bounded by construction rather than instruction~\cite{medorasw}. Its two
+reusable parts are the open Bangladesh medicine reference with its build and the
+containment pattern above. Judge it as an inspectable platform for software research, not a
+clinically validated medical system.
 
 \section*{Ethics and data availability}
 \label{sec:ethics}
