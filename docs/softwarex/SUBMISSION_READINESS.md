@@ -1019,6 +1019,52 @@ GitHub integration deposit under concept DOI `10.5281/zenodo.21844459`, then put
 version DOI in `release_metadata.json` and rebuild. Worth doing before submission, since
 it also carries the corrected `CITATION.cff` title into the archive.
 
+## 24. The PWA was underplayed, and v1.0.2 is deposited (2026-08-08)
+
+### v1.0.2
+
+Version DOI `10.5281/zenodo.21846125`, concept DOI `10.5281/zenodo.21844459`, record at
+`https://zenodo.org/records/21846125`, from tag `v1.0.2` at `7a7dae6`. Archive SHA-256
+`608002bfae65004db01ac45d0512c0e80b6b117e68f4c24dfd7efdeaf6850a73`, hashed from the file
+downloaded back off Zenodo. `check_softwarex_release.py` exits 0.
+
+### The installable client had almost no prose
+
+The manuscript mentioned the PWA in one related-work table row, one adjective in
+Motivation, and a service-worker sentence framed entirely as a privacy control. A reader
+could finish the paper without learning that the patient client installs to a phone.
+
+What is now stated, and what backs it:
+
+| Claim | Evidence |
+|---|---|
+| Installs to a phone home screen | `frontend/public/manifest.json`: `display: standalone`, `start_url: /`, `scope: /`, portrait orientation, icons at 72 through 512 pixels including maskable 192 and 512, linked from `app/layout.tsx` |
+| The service worker activates and controls the page | `sensitive-browser-storage.spec.ts` polls `serviceWorker.controller` and fails when it stays null, which is how the stale `sw.js` was caught earlier |
+| Renders at phone width | Panels (c) of Figures 4 and 5, phone viewports of the same screens |
+
+**What is deliberately not claimed.** Nothing says the patient side is trouble-free on
+phones. The Playwright projects run Desktop Chrome at English and Bangla locales, so the
+authenticated journeys have never executed at a phone viewport, and the Lighthouse mobile
+figures (0.91 landing, 0.98 login, 0.96 selection) are public routes rather than the
+signed-in application. Adding a mobile Playwright project would close that and is the
+obvious next measurement; it would also require another release, since it changes code.
+
+The abstract now names the PWA in its third sentence, which is where a reader deciding
+whether to read on will see it. Paying for that took the manuscript through a full pass:
+the abstract came down from 147 words at its worst to 131, and roughly 50 words came out
+of the motivation, related work, worked examples, OCR negative result, impact, and
+conclusions without dropping a claim, a number, or a limitation. Final state is 2,999
+words against the 3,000 cap, 6 figures, 18 pages, zero overfull boxes, zero undefined
+references.
+
+### The archived `.tex` is one revision behind
+
+`v1.0.2` was deposited before this manuscript pass, so the `.tex` inside that archive
+lacks the PWA prose. The software is identical; only a file under `docs/` differs. The
+submission is the PDF, and it cites the archive for the code rather than for its own
+source, so this is cosmetic. Folding it in means a `v1.0.3` deposit, worth doing only if
+another release happens anyway.
+
 ## 9. Open ethics decision — raw image redistribution
 
 The corpus mixes prescriptions collected directly from the authors, their families, and
