@@ -25,6 +25,35 @@ def complete(case: dict) -> bool:
     return isinstance(review, dict) and review.get("credential_role") in ALLOWED_ROLES and bool(review.get("reviewed_at"))
 
 
+def _apply_correction(case: dict, corrected: str) -> None:
+    """Move a case to a new expected class, including the fields that follow from it.
+
+    Writing `expected` alone leaves four dependent fields describing the old class, and
+    the scorer reads those rather than `expected`. When NAV-022 and NAV-023 were
+    corrected to emergency they kept `expected_candidate_source: matched`, so the
+    results table reported 7 emergency cases with only 5 in agreement, on fixtures the
+    classifier was in fact handling correctly.
+
+    An emergency outcome pre-empts specialty matching by construction: it returns no
+    candidates and flags uncertainty. Anything the reviewer moves out of emergency gets
+    the inverse, and the label basis records that a clinician made the call.
+    """
+    case["expected"] = corrected
+    case["expected_label_basis"] = "clinician_corrected"
+    if corrected == "emergency":
+        case["expected_emergency"] = True
+        case["expected_emergency_rule_fires"] = True
+        case["expected_uncertain"] = True
+        case["expected_candidate_source"] = "none"
+        # A limitation describing the old class no longer holds; a genuinely new one is
+        # the scorer's job to surface as an undisclosed failure.
+        case["limitation_class"] = None
+        case["limitation_note"] = None
+    else:
+        case["expected_emergency"] = False
+        case["expected_emergency_rule_fires"] = False
+
+
 def atomic_write(cases: list[dict]) -> None:
     rendered = "".join(json.dumps(case, ensure_ascii=False) + "\n" for case in cases)
     descriptor, temporary = tempfile.mkstemp(prefix="navigation-review-", suffix=".jsonl", dir=DATASET.parent)
@@ -111,7 +140,7 @@ def main() -> int:
             if corrected not in ALLOWED_EXPECTED:
                 print("Invalid class; case left unreviewed.")
                 continue
-            case["expected"] = corrected
+            _apply_correction(case, corrected)
             decision = "corrected"
         elif command == "a":
             decision = "approved"

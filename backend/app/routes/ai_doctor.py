@@ -62,6 +62,16 @@ EMERGENCY_PATTERNS = (
     re.compile(r"\b(?:unconscious|not\s+breathing|(?:severe|heavy)\s+bleeding|seizure|stroke|fainting)\b", re.IGNORECASE),
     re.compile(r"\b(?:suicid(?:e|al)|kill\s+myself|(?:hurt|harm)\s+myself)\b", re.IGNORECASE),
     re.compile(r"(?:শ্বাস\s*নিতে\s*পারছি\s*না|বুকে\s*তীব্র\s*ব্যথা|অজ্ঞান|খিঁচুনি|প্রচুর\s*রক্তপাত|আত্মহত্যা|নিজেকে\s*আঘাত)"),
+    # Added after the licensed review of the navigation fixtures. The reviewer judged
+    # শ্বাসকষ্ট (dyspnoea) and বুক ধড়ফড় (palpitations) to need immediate handling rather
+    # than a specialty suggestion, and corrected NAV-022 and NAV-023 accordingly. The
+    # earlier Bengali branch only matched "cannot breathe" and "severe chest pain", so
+    # neither phrasing fired.
+    #
+    # Dizziness on its own is deliberately absent. NAV-023 pairs it with palpitations and
+    # matches on ধড়ফড়; মাথা ঘোরা alone is common enough in routine complaints that adding
+    # it would trade a narrow rule for a broad one on no clinical instruction.
+    re.compile(r"(?:শ্বাসকষ্ট|ধড়ফড়)"),
 )
 
 
