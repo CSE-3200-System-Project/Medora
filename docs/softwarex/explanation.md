@@ -18,19 +18,19 @@ checklist suggested, and what is still open.
 | Abstract | 133 words | guideline is "ca. 100" |
 | Keywords | 6 | maximum is 6 |
 
-The release gate still exits 2, but on three complaints rather than seventeen, and all
-three come back to the same two absences: nobody has deposited the archive, and no
-licensed clinician has reviewed the navigation fixtures.
+The release gate exits 2 on one complaint, down from seventeen:
 
 ```
-- release metadata contains RELEASE_PENDING           # no DOI, URL, or archive hash yet
-- missing generated artifact release_metadata.tex     # written only once the DOI exists
 - generated report did not pass: safety_results.json  # clinician_reviewed = 0
 ```
 
-The pre-archive gate matrix reads 19 passed, 2 blocked, 1 deferred. All nine verification
-receipts pass on the commit they name. Neither open item is a scientific claim, and the
-manuscript asserts nothing that depends on either.
+That is the licensed navigation review and nothing else. The archive is deposited, the
+manuscript cites its own DOI, and all nine verification receipts pass on the commit the
+tag points at. The pre-archive matrix reads 19 passed, 2 blocked, 1 deferred; both
+blocked entries need the same clinician.
+
+The one open item is not a scientific claim, and the manuscript asserts nothing that
+depends on it.
 
 ## The length rules, and why the earlier answer was wrong
 
@@ -85,7 +85,7 @@ of `SUBMISSION_READINESS.md`. This table is the short version.
 
 | Code | Status | Evidence |
 |---|---|---|
-| C1 fixed archived release and DOI | Blocked, external | `CITATION.cff`, `CHANGELOG.md`, `codemeta.json` exist and the software self-citation carries `\ReleaseDOI`. `tools/release/build_zenodo_deposit.py` builds the archive, hashes it, and writes the deposition record; the authenticated upload is the only remaining step |
+| C1 fixed archived release and DOI | Done | `v1.0.1` is archived at `10.5281/zenodo.21844743` under concept DOI `10.5281/zenodo.21844459`, from tag `v1.0.1`. The recorded checksum is of the file downloaded back from Zenodo, so it describes what is published rather than a local rebuild. The self-citation resolves through `\ReleaseDOI` |
 | C2 separate text, image, audio paths | Done | `figures-src/trust_boundary.tex`; `processing_consent.py`; `ai_service/app/pipeline.py` |
 | C3 no absolute anonymity claims | Done | Every remaining use of an anonymity word in the `.tex` is a limiting one |
 | C4 evaluate PII and consent guard | Done | 134 production-path cases, precision 0.947, recall 0.755, false redaction 0.032, 43 written limitations, 0 undisclosed failures |
@@ -278,28 +278,55 @@ masked it, every authenticated spec would have run as an anonymous visitor and p
 carries a moderate cross-site-scripting advisory and reaches the bundle through
 `html2pdf.js`. The gate matrix claimed zero production vulnerabilities. It is pinned now.
 
+## What the database audit turned up
+
+Running Supabase's own linter and comparing the models against the live schema found two
+things worth reporting to a supervisor, because both are the kind of defect a test suite
+is structurally unable to see.
+
+**Eleven enum members were usable in code and rejected by the database.** Writing any of
+them raised at insert time and surfaced as a 500. `surgeryurgency` in Postgres held only
+`immediate` and `scheduled`, so every surgery-urgency value the API accepts except
+`scheduled` would have failed. `ConsultationStatus.CANCELLED` and the `years`, `ongoing`,
+and `as_needed` prescription durations were in the same state. Two labels also existed in
+the database with no member able to read them.
+
+The test suite could not have caught this. `tests/conftest.py` builds its schema with
+`Base.metadata.create_all`, which generates the enum types from the same models it is
+checking, so the two always agree there by construction. This is the third instance of
+the same shape in this project, after the PII corpus generated from the redactor's own
+patterns and the grant test that ran against a fixture with no `anon` role.
+`tools/release/check_enum_sync.py` now compares against a real database.
+
+**The trigger on every appointment write had a mutable `search_path`.** An earlier audit
+missed it because that audit only inspected `SECURITY DEFINER` functions. Revision
+`sec_003` pins it.
+
+Fifteen foreign keys also had no supporting index, and the database was two Alembic
+revisions behind its own head because the medicine tables had been loaded outside the
+migration that describes them.
+
+Supabase's linter also reports fifty tables with row-level security enabled and no
+policy. That one is deliberate: `sec_001` enables RLS with no policies precisely so the
+default is deny, as a second barrier behind the revoked grants. The backend connects as
+`postgres`, which bypasses RLS, so adding policies would grant access the design removed.
+
 ## Still open, and who has to close it
 
-Two gates, neither of which an agent or a script can close honestly.
+One gate, and no agent or script can close it honestly. A licensed clinician has to
+review the 30 navigation fixtures. Two of them, NAV-022 and NAV-023, are Bengali
+paraphrases of red-flag presentations that the current patterns do not match, and they
+need a clinical decision rather than a yes or no sign-off.
 
-1. A licensed clinician has to review the 30 navigation fixtures. Two of them, NAV-022 and
-   NAV-023, are Bengali paraphrases of red-flag presentations that the current patterns do
-   not match, and they need a clinical decision rather than a yes or no sign-off.
-2. The release manager has to tag, deposit, and paste the DOI back into
-   `release_metadata.json`. `tools/release/build_zenodo_deposit.py` does everything up to
-   that point: it refuses to run on a dirty tree, builds the archive from the exact
-   verified commit, hashes it, writes a Zenodo deposition record from `CITATION.cff`, and
-   prints the five remaining steps in order.
-
-Only after both does `check_softwarex_release.py` exit 0, and it is written to stay
+Only after that does `check_softwarex_release.py` exit 0, and it is written to stay
 fail-closed until then.
 
-One wrinkle in that procedure is worth knowing before you hit it. `verification.json`
+One wrinkle in the release procedure is worth knowing before you hit it. `verification.json`
 records the commit its nine checks ran against, and it is a tracked file, so committing it
-always leaves it naming its own parent. The checker compares that field to HEAD and
-refuses the mismatch. In practice `verification.json` and `release_metadata.json` stay
-uncommitted at the point of deposit, and the deposit builder treats exactly those two as
-expected-dirty and everything else as a stop.
+always leaves it naming its own parent. The checker used to compare that field to HEAD,
+which no released repository can ever satisfy, since recording the receipts produces a
+commit of its own. It now resolves the commit behind the tag named in `version` and
+requires the metadata and the receipts to agree with that instead.
 
 ## Likely questions
 
