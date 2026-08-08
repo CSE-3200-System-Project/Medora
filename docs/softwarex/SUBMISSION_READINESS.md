@@ -866,6 +866,59 @@ emitted abbreviated to twelve characters, which resolves unambiguously on GitHub
 git. The full hash stays in `release_metadata.json`, `verification.json`, and the
 deposit.
 
+## 22. Title, and the Supabase linter (2026-08-08)
+
+### New title
+
+At the authors' direction:
+
+> Medora: A Bilingual, consent-gated AI-native healthcare management & consultation
+> platform for Bangladesh
+
+Propagated to `medora_softwarex.tex`, the software self-citation, `CITATION.cff`,
+`codemeta.json`, and the generated deposition record. The manuscript rebuilds at 18
+pages, 2,995 words, 6 figures, zero overfull boxes, zero undefined references.
+
+**This one needs an action on Zenodo.** The title lives in two places: the record's
+metadata, which is editable in place with the DOI unchanged, and the `CITATION.cff`
+inside the archived zip, which is fixed once deposited. Editing the record metadata is
+what a reader and a reviewer see, and it is enough. Bringing the archived file into line
+needs a v1.0.2 deposit, which is only worth doing alongside another release.
+
+A stray `title` key had also been added to `codemeta.json`. CodeMeta 2.0 has no such
+field and Zenodo maps `name`, so the title now lives in `name` and the stray key is gone.
+
+### What Supabase's own linter found
+
+Two of its findings were real and one of them was new.
+
+**`function_search_path_mutable` on `public.emit_slot_change_event`.** This fires on
+every insert, update, and delete against `appointments`. It is SECURITY INVOKER and
+already qualifies `public.slot_change_events`, so it is not the classic escalation case,
+but `now()`, the casts, and the ON CONFLICT arbiter still resolved through whatever
+`search_path` the caller had. §20's audit missed it because that audit only inspected
+SECURITY DEFINER functions; mutable search_path matters for invoker functions too.
+Revision `sec_003` pins it to `pg_catalog, public`. Verified by firing the trigger inside
+a transaction that was then rolled back: `slot_change_events` went 60 to 61 and back to
+60, with nothing persisted.
+
+**Two warnings stay open by decision.** `pg_trgm` is in `public`; moving it invalidates
+the trigram index the medicine search depends on. Leaked-password protection is disabled
+in Supabase Auth, which is a dashboard toggle rather than a schema change and is worth
+enabling: it checks new passwords against HaveIBeenPwned.
+
+**Fifty `rls_enabled_no_policy` notices are correct and should stay.** `sec_001` enables
+row-level security with no policies on purpose, so that the default is deny and a future
+`GRANT` cannot quietly reopen the data plane. The backend connects as `postgres`, which
+holds `rolbypassrls`, so it is unaffected. Adding policies to satisfy the linter would
+grant back the access that revision removed. The performance advisor's `unused_index`
+notices are the same kind of false positive: this database serves almost no traffic, so
+nothing registers as used.
+
+DDL went through Alembic rather than the MCP server's `apply_migration`. Applying schema
+changes through Supabase's own migration table would create a second source of truth
+alongside Alembic, which is the exact drift that left `med_001` unapplied in §20.
+
 ## 9. Open ethics decision — raw image redistribution
 
 The corpus mixes prescriptions collected directly from the authors, their families, and

@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0.0",
-  "generated_at_utc": "2026-08-07T23:24:29.958394+00:00",
-  "git_head": "25781dc51dd5aaded5b550f083ac56ddb03cd8ce",
-  "worktree_dirty": true,
+  "generated_at_utc": "2026-08-07T23:37:33.456921+00:00",
+  "git_head": "ea0fc3bbb510b00a8e874eb661d7b6ec1d540018",
+  "worktree_dirty": false,
   "scope": "pre-Zenodo evidence; not a final release verification receipt",
   "counts": {
     "passed": 19,
@@ -141,7 +141,7 @@
       "gate": "Approval citation and corpus freeze",
       "status": "passed",
       "evidence": "docs/softwarex/release_metadata.json",
-      "evidence_sha256": "a38cdd3c4828297c8587ab7ea8594158d39715760504e82e3328b559b1484fc6",
+      "evidence_sha256": "ad97da6b4e16babe20f4db6451e98decc34d909345315935cdde3c70bc7b0d08",
       "note": "No prescription image is archived in this release, so no image-redistribution approval is cited. Depositing images later requires a frozen manifest and a real approval citation."
     },
     {
@@ -162,7 +162,7 @@
       "gate": "Final commit verification and Zenodo metadata",
       "status": "deferred_by_request",
       "evidence": "docs/softwarex/release_metadata.json",
-      "evidence_sha256": "a38cdd3c4828297c8587ab7ea8594158d39715760504e82e3328b559b1484fc6",
+      "evidence_sha256": "ad97da6b4e16babe20f4db6451e98decc34d909345315935cdde3c70bc7b0d08",
       "note": "Intentionally stopped before tagging, archiving, DOI insertion, or deposit, as requested."
     }
   ]
