@@ -1,7 +1,7 @@
 # Medora SoftwareX pre-archive gate status
 
-Generated: 2026-08-08T03:47:28.563305+00:00
-Git HEAD: `c29c88e5c36c6a987a2c82c37df887e70fdc3a3c`
+Generated: 2026-08-08T03:56:12.205719+00:00
+Git HEAD: `48692aad6632e03c1c77b4c2fda82fd15c0dc409`
 Dirty worktree: `true`
 Scope: pre-Zenodo evidence only; this is not a final release verification receipt.
 
@@ -27,7 +27,7 @@ Scope: pre-Zenodo evidence only; this is not a final release verification receip
 | Provider/account release metadata | passed | `tests/benchmarks/provider_manifest.json` | Azure region resolved to eastus. Neither Groq nor Vapi exposes its organization zero-data-retention flag to an API, so the manifest records the documented worst-case retention as operative and claims no ZDR. |
 | Approval citation and corpus freeze | passed | `docs/softwarex/release_metadata.json` | No prescription image is archived in this release, so no image-redistribution approval is cited. Depositing images later requires a frozen manifest and a real approval citation. |
 | Verified funding statement | passed | `docs/softwarex/medora_softwarex.tex` | An author must provide the verified funder and grant number or confirm that the work received no external funding. |
-| Authenticated production-browser journeys | blocked | `docs/softwarex/generated/verification.json` | Synthetic patient/doctor/admin accounts are provisioned by tests/e2e/provision_synthetic_accounts.py; the suite must exit 0 without E2E_ALLOW_SKIPS. |
+| Authenticated production-browser journeys | passed | `docs/softwarex/generated/verification.json` | Synthetic patient/doctor/admin accounts are provisioned by tests/e2e/provision_synthetic_accounts.py; the suite must exit 0 without E2E_ALLOW_SKIPS. |
 | Final commit verification and Zenodo metadata | deferred_by_request | `docs/softwarex/release_metadata.json` | Intentionally stopped before tagging, archiving, DOI insertion, or deposit, as requested. |
 
 A blocked gate is intentionally not converted into a pass by automation.

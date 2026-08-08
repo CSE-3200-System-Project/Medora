@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0.0",
-  "generated_at_utc": "2026-08-08T03:47:28.563305+00:00",
-  "git_head": "c29c88e5c36c6a987a2c82c37df887e70fdc3a3c",
+  "generated_at_utc": "2026-08-08T03:56:12.205719+00:00",
+  "git_head": "48692aad6632e03c1c77b4c2fda82fd15c0dc409",
   "worktree_dirty": true,
   "scope": "pre-Zenodo evidence; not a final release verification receipt",
   "counts": {
-    "passed": 19,
-    "blocked": 2,
+    "passed": 20,
+    "blocked": 1,
     "not_passed": 0,
     "deferred_by_request": 1
   },
@@ -106,7 +106,7 @@
       "gate": "Booking contention benchmark",
       "status": "passed",
       "evidence": "tests/benchmarks/reports/current/booking_results.json",
-      "evidence_sha256": "c6d7186f7d827c20a0ded9f2c359f54a6bc655ae194510c4d9e40da4e25a9f3d",
+      "evidence_sha256": "22ce03ac0818d16dda0f799a6bd03b5c96728b6519f39ac29596cd37929e535b",
       "note": "Concurrency 2, 10, and 50 with 30 fresh-slot repetitions each."
     },
     {
@@ -153,9 +153,9 @@
     },
     {
       "gate": "Authenticated production-browser journeys",
-      "status": "blocked",
+      "status": "passed",
       "evidence": "docs/softwarex/generated/verification.json",
-      "evidence_sha256": "2af5b1d6f76e6729fd0f5fd27f5e1b628bd9919ed184b2f73e4b8c7d7acde9e9",
+      "evidence_sha256": "04885a99f0d9065aadd2cf2ac96353ac7d6e7b5370d30cfe3bff78d66425e108",
       "note": "Synthetic patient/doctor/admin accounts are provisioned by tests/e2e/provision_synthetic_accounts.py; the suite must exit 0 without E2E_ALLOW_SKIPS."
     },
     {
