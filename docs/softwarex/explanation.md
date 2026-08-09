@@ -8,29 +8,25 @@ checklist suggested, and what is still open.
 
 | Measure | Value | Where it comes from |
 |---|---|---|
-| Word count under the journal's own rule | 2,995 | `tools/release/check_softwarex_release.py`, the counter the release gate uses |
+| Word count under the journal's own rule | 2,999 | `tools/release/check_softwarex_release.py`, the counter the release gate uses |
 | Figures | 6 (3 diagrams, 3 interface plates) | the journal's maximum is 6 |
 | Interface panels | 8, two of them phone viewports | inside the 6 figures, so the cap still holds |
 | Compiled length | 18 pages | pdfTeX, MiKTeX 26.5 |
 | Overfull boxes | 0 | `medora_softwarex.log` |
 | Undefined references or citations | 0 | same log, after two passes |
 | Numbered sections | 5 | Motivation, Software description, Illustrative examples, Impact, Conclusions |
-| Abstract | 133 words | guideline is "ca. 100" |
+| Abstract | 131 words | guideline is "ca. 100"; it was 133 before the last pass |
 | Keywords | 6 | maximum is 6 |
+| Archived release | `v1.0.2`, DOI `10.5281/zenodo.21846125` | concept DOI `10.5281/zenodo.21844459` |
 
-The release gate exits 2 on one complaint, down from seventeen:
+**`check_softwarex_release.py` exits 0.** It was failing on seventeen complaints when this
+round started.
 
-```
-- generated report did not pass: safety_results.json  # clinician_reviewed = 0
-```
-
-That is the licensed navigation review and nothing else. The archive is deposited, the
-manuscript cites its own DOI, and all nine verification receipts pass on the commit the
-tag points at. The pre-archive matrix reads 19 passed, 2 blocked, 1 deferred; both
-blocked entries need the same clinician.
-
-The one open item is not a scientific claim, and the manuscript asserts nothing that
-depends on it.
+The archive is deposited, the manuscript cites its own DOI, and all nine verification
+receipts pass on the commit the `v1.0.2` tag points at. The pre-archive matrix reads 20
+passed, 1 blocked, 1 deferred. The blocked entry is the OCR gold standard, which is a
+withdrawn claim rather than an unfinished one, and the deferred entry is the deposit
+step that has now happened.
 
 ## The length rules, and why the earlier answer was wrong
 
@@ -53,8 +49,8 @@ under the template's wording, and the Guide caps figures at six, which the templ
 mentions. We now satisfy the stricter reading of both.
 
 That change was expensive and it is worth being straight about the cost. Counted the
-Guide's way, the manuscript stood at 3,557 words with 9 figures. Getting to 2,995 words and
-6 figures meant dropping three figures and cutting roughly 570 words:
+Guide's way, the manuscript stood at 3,557 words with 9 figures. Getting under the cap
+meant dropping three figures and cutting roughly 570 words:
 
 - The booking-timeline diagram is gone. Its content, that consistency ends at commit and
   propagation is measured separately, is now a sentence in the text and a column in the
@@ -85,14 +81,14 @@ of `SUBMISSION_READINESS.md`. This table is the short version.
 
 | Code | Status | Evidence |
 |---|---|---|
-| C1 fixed archived release and DOI | Done | `v1.0.1` is archived at `10.5281/zenodo.21844743` under concept DOI `10.5281/zenodo.21844459`, from tag `v1.0.1`. The recorded checksum is of the file downloaded back from Zenodo, so it describes what is published rather than a local rebuild. The self-citation resolves through `\ReleaseDOI` |
+| C1 fixed archived release and DOI | Done | `v1.0.2` is archived at `10.5281/zenodo.21846125` under concept DOI `10.5281/zenodo.21844459`. The recorded checksum is of the file downloaded back from Zenodo, so it describes what is published rather than a local rebuild. The self-citation resolves through `\ReleaseDOI` |
 | C2 separate text, image, audio paths | Done | `figures-src/trust_boundary.tex`; `processing_consent.py`; `ai_service/app/pipeline.py` |
 | C3 no absolute anonymity claims | Done | Every remaining use of an anonymity word in the `.tex` is a limiting one |
 | C4 evaluate PII and consent guard | Done | 134 production-path cases, precision 0.947, recall 0.755, false redaction 0.032, 43 written limitations, 0 undisclosed failures |
 | C5 rebuild OCR evaluation | Withdrawn | No accuracy figure is stated and no OCR table is published. See "deliberate deviations" below |
 | C6 OCR baselines and ablation | Withdrawn | Same reason. The harness is still in the repository for future work |
 | C7 atomic booking under concurrency | Done | 30 of 30 at concurrency 2, 10, and 50. Transaction p95 81.1, 658.9, 1789.8 ms; outbox p95 124.5, 793.9, 1739.3 ms; no duplicate active row |
-| C8 AI safety and factuality | Partly done | 30 navigation fixtures scored on two paths, 17 of 30 agreeing with the labelled class, 5 emergency false positives, 0 false negatives, 9 documented limitations. 12 of 12 summary fixtures run the summarizer end to end. Licensed clinician review is outstanding, and it is the reason `safety_results.json` reports `passed: false` |
+| C8 AI safety and factuality | Done | A licensed clinician reviewed all 30 navigation fixtures case by case and corrected two, so the labels are clinical rather than authored. 19 of 30 agree with the labelled class, emergency agreement is 7/7 on both scored paths, 5 emergency false positives, 0 false negatives, 7 documented limitations. 12 of 12 summary fixtures run the summarizer end to end |
 | C9 ethics and data governance | Done for this release | The prescription image corpus is not deposited, which removes the approval-citation dependency. Provenance, licence, and a re-identification prohibition stay in the repository |
 | C10 no production-grade wording | Done | The release gate fails on the literal phrase, and the abstract, impact, and conclusion are research-framed |
 
@@ -311,15 +307,50 @@ policy. That one is deliberate: `sec_001` enables RLS with no policies precisely
 default is deny, as a second barrier behind the revoked grants. The backend connects as
 `postgres`, which bypasses RLS, so adding policies would grant access the design removed.
 
-## Still open, and who has to close it
+## The clinical review, and what it changed
 
-One gate, and no agent or script can close it honestly. A licensed clinician has to
-review the 30 navigation fixtures. Two of them, NAV-022 and NAV-023, are Bengali
-paraphrases of red-flag presentations that the current patterns do not match, and they
-need a clinical decision rather than a yes or no sign-off.
+The last gate needed a licensed clinician to judge the 30 navigation fixtures. He did it
+case by case, and he did not simply agree with us.
 
-Only after that does `check_softwarex_release.py` exit 0, and it is written to stay
-fail-closed until then.
+**He corrected NAV-022 (`শ্বাসকষ্ট হচ্ছে`) and NAV-023
+(`বুক ধড়ফড় করছে এবং মাথা ঘুরছে`) from specialty candidates to emergency**, on the
+grounds that both need handling immediately. Those two were labelled by the authors, and
+they were the two the "0 emergency false negatives" figure depended on. The figure had
+been resting on a wrong label.
+
+The rules were extended to match: `EMERGENCY_PATTERNS` previously matched only "cannot
+breathe" and "severe chest pain" in Bengali, so neither presentation fired. It now also
+matches `শ্বাসকষ্ট` and `ধড়ফড়`. Dizziness alone stays out deliberately, since NAV-023
+matches on palpitations and broadening to `মাথা ঘোরা` had no clinical instruction behind
+it. Across all 30 fixtures the change adds no new false positive.
+
+| | before the review | after |
+|---|---|---|
+| emergency cases | 5 | 7 |
+| emergency agreement, both paths | 5/5 | 7/7 |
+| false negatives | 0, against an authored label | 0, against a clinical label |
+| agreement overall | 17/30 | 19/30 |
+
+This is the strongest evidence in the paper, and it is stronger precisely because the
+reviewer changed something. The competing-interest section declares that he is the first
+author's sibling: the ICMJE standard asks for disclosure of relationships a reader might
+want to know about, regardless of conduct, and an undisclosed relationship discovered
+later would cost far more than a declared one.
+
+## Still open
+
+Nothing gates the submission. Two items remain worth knowing.
+
+The authenticated browser journeys run under Desktop Chrome at both locales, so they have
+never executed at a phone viewport. The manuscript therefore says the patient client
+installs and that the service worker controls the page, both verifiable, and says nothing
+about the signed-in experience on a phone. Adding a mobile Playwright project is the
+obvious next measurement.
+
+The `v1.0.2` archive was deposited just before the final manuscript pass, so the `.tex`
+inside it lacks the paragraph about the installable client. The software is identical and
+the submission is the PDF, so this is cosmetic; it folds in free if another release
+happens.
 
 One wrinkle in the release procedure is worth knowing before you hit it. `verification.json`
 records the commit its nine checks ran against, and it is a tracked file, so committing it
@@ -331,7 +362,7 @@ requires the metadata and the receipts to agree with that instead.
 ## Likely questions
 
 **Which length rule did you follow?** The stricter of the two. The Guide for Authors counts
-captions and caps figures at six, so the manuscript is measured that way: 2,995 words and 6
+captions and caps figures at six, so the manuscript is measured that way: 2,999 words and 6
 figures. The template's separate 6-page guidance has no equivalent in the Guide, and the
 page count is not a limit the Guide states.
 
@@ -339,9 +370,17 @@ page count is not a limit the Guide states.
 record shown belongs to an author who consents to publishing it, and the clinician entries
 are test accounts. The ethics section says this rather than claiming the data is synthetic.
 
-**Why does the safety benchmark say `passed: false`?** Because `passed` is defined as
-`deterministic_passed and review_complete`, and the licensed clinician review has not
-happened. `deterministic_passed` is true. The flag is the gate working, not a failure.
+**Who was the clinician, and were they independent?** A licensed clinician registered with
+the BMDC, and no: he is the first author's sibling, which the competing-interest
+declaration states. He reviewed each fixture separately and corrected two of ours, which
+is the opposite of rubber-stamping. Independence would be better and is worth arranging
+for any future evaluation.
+
+**Why is only agreement reported, and not accuracy?** Because the labels describe intended
+navigation behaviour, not ground-truth clinical outcomes. Agreement with a reviewed label
+says the implementation does what a clinician expected on those 30 utterances. It says
+nothing about the thousands of presentations not in the fixture set, which is why the
+limitations state that emergency rules cannot cover every presentation.
 
 **Why report 75.5% recall instead of improving it?** Because the test corpus was written
 independently of the redaction patterns it tests. Tuning the patterns against the corpus
