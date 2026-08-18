@@ -1,0 +1,49 @@
+\begin{tikzpicture}[x=1cm,y=1cm,>=Latex]
+  % Explicit text width on every top-row node (instead of only minimum width) so
+  % each box has a fixed, predictable footprint and cannot auto-grow into its
+  % neighbour; node centres are spaced with a clear margin beyond each half-width.
+  \node[sys,fill=medoraBlue!10,text width=2.35cm,align=center] (pwa) at (-6.75,1.25)
+       {Next.js PWA\\patient $\cdot$ doctor};
+  \node[sys,fill=medoraNavy,text=white,text width=2.95cm,align=center,minimum height=1.45cm]
+       (policy) at (-3.05,1.25)
+       {\textbf{POLICY}\\[-1pt]\footnotesize auth $\rightarrow$ relation\\consent $\rightarrow$ redaction};
+  \node[sys,fill=medoraTeal!12,text width=2.35cm,align=center] (api) at (.55,1.25)
+       {FastAPI core\\schema validation};
+  \node[sys,fill=medoraGreen!12,text width=2.30cm,align=center] (db) at (3.85,1.25)
+       {PostgreSQL\\authoritative};
+
+  \draw[flow] (pwa) -- (policy);
+  \draw[flow] (policy) -- (api);
+  \draw[flow] (api) -- (db);
+  \draw[flow] (db.north) -- ++(0,.62) -| node[pos=.28,above,font=\scriptsize]{audited result} (policy.north);
+
+  \node[sys,fill=medoraGreen!8,text width=2.15cm,minimum height=1.55cm] (local) at (-3.25,-1.45)
+       {Local execution\\\footnotesize Whisper $\cdot$ YOLO\\PaddleOCR};
+  \node[sys,dashed,fill=medoraAmber!10,text width=1.95cm,minimum height=1.55cm] (text) at (-.05,-1.45)
+       {Hosted text\\\footnotesize named provider};
+  \node[sys,dashed,fill=medoraRed!8,text width=1.85cm,minimum height=1.55cm] (audio) at (2.85,-1.45)
+       {Vapi audio\\\footnotesize separate grant};
+  \node[sys,dashed,fill=medoraViolet!8,text width=1.85cm,minimum height=1.55cm] (ocr) at (5.70,-1.45)
+       {Azure OCR\\\footnotesize separate grant};
+
+  \draw[flow] ([xshift=-.72cm]policy.south) -- (local.north);
+  \draw[flow] ([xshift=-.24cm]policy.south) -- (text.north);
+  \draw[flow] ([xshift=.24cm]policy.south) -- (audio.north);
+  \draw[flow] ([xshift=.72cm]policy.south) -- (ocr.north);
+
+  \begin{pgfonlayer}{background}
+    \node[draw=medoraNavy!45,rounded corners=3pt,fit=(pwa)(policy)(api)(db),
+          inner sep=8pt,label={[font=\footnotesize,text=medoraNavy]above left:Medora trust boundary}] {};
+  \end{pgfonlayer}
+  \begin{pgfonlayer}{background}
+    \node[draw=medoraNavy!45,dashed,rounded corners=3pt,fit=(text)(audio)(ocr),inner sep=6pt,
+          label={[font=\scriptsize,text=medoraNavy]below:external recipients use purpose- and provider-specific grants}] (external) {};
+  \end{pgfonlayer}
+  \draw[dashed,very thick,medoraNavy!60] (-1.55,-.45) -- (-1.55,-2.28);
+  \node[font=\scriptsize,text=medoraNavy,rotate=90] at (-1.72,-1.45)
+       {consent boundary};
+  \node[font=\bfseries,text=medoraNavy,anchor=west] at (-7.15,-3.35)
+       {Learned tasks; deterministic authority};
+  \node[font=\footnotesize,anchor=east] at (7.15,-3.35)
+       {Local execution remains within the deployment.};
+\end{tikzpicture}

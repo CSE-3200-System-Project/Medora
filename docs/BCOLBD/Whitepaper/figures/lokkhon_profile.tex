@@ -1,0 +1,19 @@
+\begin{tikzpicture}[x=1cm,y=.7cm]
+  \def\bar#1#2#3#4#5{%
+    \node[anchor=east,font=\footnotesize] at (0,#1) {#2};
+    \fill[medoraGray!18,rounded corners=1pt] (0.2,#1-.25) rectangle (7.2,#1+.25);
+    \fill[#4!72,rounded corners=1pt] (0.2,#1-.25) rectangle ({0.2+7*#3/100},#1+.25);
+    \node[anchor=west,font=\footnotesize] at (7.35,#1) {#5};
+  }
+  \bar{5}{A Emergency recall}{100}{medoraRed}{7/7; $n=30$}
+  \bar{4}{B Injection removal}{100}{medoraViolet}{$n=10$}
+  \bar{3}{C PHI recall}{75.5}{medoraBlue}{$n=134$}
+  \bar{2}{C PHI precision}{94.7}{medoraTeal}{$n=134$}
+  \bar{1}{D Mixed script}{100}{medoraGreen}{$n=4$}
+  \bar{0}{E Abstention}{0}{medoraAmber}{planned}
+  \draw[->,medoraNavy] (.2,-.6) -- (7.35,-.6);
+  \foreach \x/\t in {.2/0,1.95/25,3.7/50,5.45/75,7.2/100}{
+    \draw[medoraNavy] (\x,-.52)--(\x,-.68);
+    \node[font=\footnotesize,anchor=north] at (\x,-.72) {\t\%};
+  }
+\end{tikzpicture}

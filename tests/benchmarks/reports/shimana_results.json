@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0.0",
+  "executed_at": "2026-08-16T15:44:46.388564+00:00",
+  "provider": "groq",
+  "patients": 24,
+  "seeds": 1,
+  "task": "grounded_patient_summary",
+  "configs": [
+    {
+      "config": "L",
+      "note": "local only, no patient records",
+      "categories": [],
+      "redact": true,
+      "utility_mean": 0.0,
+      "utility_ci95": [
+        0.0,
+        0.0
+      ],
+      "term_coverage_mean": 0.0,
+      "exposure_spans_per_request": 0.0,
+      "exposure_spans_per_1000": 0.0
+    },
+    {
+      "config": "L+K",
+      "note": "local + knowledge base only",
+      "categories": [],
+      "redact": true,
+      "utility_mean": 0.0,
+      "utility_ci95": [
+        0.0,
+        0.0
+      ],
+      "term_coverage_mean": 0.0,
+      "exposure_spans_per_request": 0.0,
+      "exposure_spans_per_1000": 0.0
+    },
+    {
+      "config": "L+K+R",
+      "note": "redacted record subset (3 categories)",
+      "categories": [
+        "can_view_allergies",
+        "can_view_medications",
+        "can_view_conditions"
+      ],
+      "redact": true,
+      "utility_mean": 0.3333,
+      "utility_ci95": [
+        0.1667,
+        0.5417
+      ],
+      "term_coverage_mean": 0.1667,
+      "exposure_spans_per_request": 0.9583,
+      "exposure_spans_per_1000": 958.3
+    },
+    {
+      "config": "L+K+R+H",
+      "note": "hosted model, full redacted record",
+      "categories": [
+        "can_view_allergies",
+        "can_view_medications",
+        "can_view_conditions",
+        "can_view_prescriptions",
+        "can_view_medical_history",
+        "can_view_lifestyle"
+      ],
+      "redact": true,
+      "utility_mean": 0.125,
+      "utility_ci95": [
+        0.0,
+        0.2917
+      ],
+      "term_coverage_mean": 0.125,
+      "exposure_spans_per_request": 1.9583,
+      "exposure_spans_per_1000": 1958.3
+    },
+    {
+      "config": "U",
+      "note": "unrestricted disclosure, no redaction (offline counterfactual)",
+      "categories": [
+        "can_view_allergies",
+        "can_view_medications",
+        "can_view_conditions",
+        "can_view_prescriptions",
+        "can_view_medical_history",
+        "can_view_lifestyle"
+      ],
+      "redact": false,
+      "utility_mean": 0.0833,
+      "utility_ci95": [
+        0.0,
+        0.2083
+      ],
+      "term_coverage_mean": 0.0833,
+      "exposure_spans_per_request": 6.0,
+      "exposure_spans_per_1000": 6000.0
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+\begin{tikzpicture}[x=1cm,y=1cm,>=Latex]
+  \node[font=\bfseries,text=medoraNavy,anchor=west] at (-1.0,2.75) {Consent configurations};
+  \node[draw=medoraGreen!70,fill=medoraGreen!10,rounded corners=2pt,text width=1.75cm,
+        minimum height=1.05cm,align=center,font=\footnotesize] (cfgL) at (0,1.55)
+        {\textbf{L}\\local only};
+  \node[draw=medoraTeal!70,fill=medoraTeal!10,rounded corners=2pt,text width=1.75cm,
+        minimum height=1.05cm,align=center,font=\footnotesize] (cfgK) at (2.35,1.55)
+        {\textbf{L+K}\\+ Akkhor};
+  \node[draw=medoraBlue!70,fill=medoraBlue!10,rounded corners=2pt,text width=1.75cm,
+        minimum height=1.05cm,align=center,font=\footnotesize] (cfgR) at (4.70,1.55)
+        {\textbf{L+K+R}\\+ redacted record};
+  \node[draw=medoraViolet!70,fill=medoraViolet!10,rounded corners=2pt,text width=1.75cm,
+        minimum height=1.05cm,align=center,font=\footnotesize] (cfgH) at (7.05,1.55)
+        {\textbf{L+K+R+H}\\hosted under grant};
+  \node[draw=medoraRed!65,fill=medoraRed!8,rounded corners=2pt,text width=1.75cm,
+        minimum height=1.05cm,align=center,font=\footnotesize] (cfgU) at (9.40,1.55)
+        {\textbf{U}\\offline control};
+  \foreach \a/\b in {cfgL/cfgK,cfgK/cfgR,cfgR/cfgH,cfgH/cfgU}{\draw[flow] (\a)--(\b);}
+  \draw[->,line width=.8pt,medoraNavy!75] (0,.68) -- (9.40,.68)
+       node[midway,below,font=\scriptsize,fill=white,inner sep=1pt]{broader consent scope};
+
+  \node[measure,fill=medoraTeal!8,text width=1.9cm,minimum height=.62cm,font=\footnotesize]
+       (sweep) at (4.70,-.05) {Paired sweep};
+  \node[measure,fill=medoraBlue!8,text width=2.6cm] (utility) at (2.75,-1.35)
+       {Utility\\\footnotesize three task metrics};
+  \node[measure,fill=medoraRed!6,text width=3.4cm] (privacy) at (6.65,-1.35)
+       {Privacy exposure\\\footnotesize missed-PHI rate};
+  \node[measure,fill=medoraGray!8,text width=5.5cm,minimum height=.82cm] (report) at (4.70,-2.80)
+       {Pareto reporter\\\footnotesize frontier $\cdot$ knee $\cdot$ bootstrap CI};
+  \draw[flow] (cfgR.south) -- (sweep.north);
+  \draw[flow] (sweep.south west) -- (utility.north);
+  \draw[flow] (sweep.south east) -- (privacy.north);
+  \draw[flow] (utility.south) -- ++(0,-.30) -| ([xshift=-.70cm]report.north);
+  \draw[flow] (privacy.south) -- ++(0,-.30) -| ([xshift=.70cm]report.north);
+  \node[draw=medoraNavy!60,fill=medoraBlue!6,rounded corners=2pt,
+        minimum width=9.2cm,minimum height=.55cm,font=\footnotesize\bfseries,
+        text=medoraNavy] at (4.70,-3.85)
+       {REGISTERED PROTOCOL $\cdot$ measurement scheduled after submission};
+\end{tikzpicture}

@@ -1,0 +1,20 @@
+\begin{tikzpicture}[x=1cm,y=1cm,>=Latex]
+  \node[draw=none,fill=medoraNavy,rounded corners=3pt,text=white,
+        minimum width=5.0cm,minimum height=1.05cm,align=center,font=\bfseries] (core) at (0,0)
+        {CONSENT ENGINE\\[-1pt]\normalfont\footnotesize deny by default $\cdot$ purpose $\cdot$ provider $\cdot$ scope};
+
+  \node[artifact,fill=medoraBlue!9] (aro) at (-5.4,1.65)
+        {\textbf{Arohon} (\bn{আরোহণ})\\[-1pt]\footnotesize \textbf{SPECIFIED} $\cdot$ authority tiers};
+  \node[artifact,fill=medoraTeal!10,double] (lok) at (0,2.45)
+        {\textbf{Lokkhon} (\bn{লক্ষণ})\\[-1pt]\footnotesize \textbf{MEASURED} $\cdot$ safety axes};
+  \node[artifact,dashed,fill=medoraViolet!8] (shi) at (5.4,1.65)
+        {\textbf{Shimana} (\bn{সীমানা})\\[-1pt]\footnotesize \textbf{PLANNED} $\cdot$ consent frontier};
+  \node[artifact,dashed,fill=medoraAmber!13] (may) at (-3.25,-2.2)
+        {\textbf{Maya} (\bn{মায়া})\\[-1pt]\footnotesize \textbf{PLANNED} $\cdot$ admission gate};
+  \node[artifact,very thick,fill=medoraGreen!11] (uts) at (3.25,-2.2)
+        {\textbf{Akkhor} (\bn{অক্ষর})\\[-1pt]\footnotesize \textbf{DEPLOYED} $\cdot$ drug identity};
+
+  \foreach \n in {aro,lok,shi,may,uts}{\draw[->,semithick,medoraNavy!72] (core) -- (\n);}
+  \node[font=\footnotesize,align=center,text=medoraGray] at (0,-3.25)
+       {Status is written inside every node; border styles reinforce, but do not replace, the label.};
+\end{tikzpicture}

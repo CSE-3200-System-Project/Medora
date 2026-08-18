@@ -1,0 +1,10 @@
+\begin{tikzpicture}[x=1cm,y=1cm,>=Latex]
+  \node[pipe,fill=medoraGray!8] (src) at (0,0) {5 published\\datasets};
+  \node[pipe,fill=medoraAmber!10] (rows) at (2.4,0) {71,795\\source rows};
+  \node[pipe,fill=medoraBlue!9] (norm) at (4.8,0) {normalize +\\reconcile};
+  \node[pipe,fill=medoraTeal!10] (tables) at (7.2,0) {3-table\\identity model};
+  \node[pipe,fill=medoraGreen!11] (api) at (9.6,0) {deployed\\search layer};
+  \foreach \a/\b in {src/rows,rows/norm,norm/tables,tables/api}{\draw[flow] (\a)--(\b);}
+  \node[font=\footnotesize,align=center] at (7.2,-1.15)
+       {7,389 canonical drugs\\67,001 brands $\cdot$ 74,390 search terms};
+\end{tikzpicture}

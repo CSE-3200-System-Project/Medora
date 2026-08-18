@@ -1,0 +1,379 @@
+This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex.fmt)
+ restricted \write18 enabled.
+entering extended mode
+(medora_bcolbd_whitepaper.tex
+LaTeX2e <2026-06-01>
+L3 programming layer <2026-06-18>
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/base\article.cls
+Document Class: article 2025/01/22 v1.4n Standard LaTeX document class
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/base\size12.clo))
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.sty
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifvtex.sty
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty))
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.cfg))
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/fontspec\fontspec.sty
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/l3packages/xparse\xpars
+e.sty
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/l3kernel\expl3.sty
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-xet
+ex.def)))
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/fontspec\fontspec-xetex
+.sty (C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.sty)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/fontspec\fontspec.cfg))
+) (C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/setspace\setspace.sty
+)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/microtype\microtype.sty
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoolbox.sty)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/microtype\microtype-xet
+ex.def)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/microtype\microtype.cfg
+))
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.c
+fg)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\xetex.def)
+))
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/booktabs\booktabs.sty)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/tools\tabularx.sty
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/tools\array.sty))
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/enumitem\enumitem.sty)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/xcolor\xcolor.sty
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cfg)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx)
+) (C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/colortbl\colortbl.sty
+new hooks used!!
+)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/pgf/frontendlayer\tikz.
+sty
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/pgf/basiclayer\pgf.sty
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgfrcs.st
+y
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfutil
+-common.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfutil
+-latex.def)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfrcs.
+code.tex
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf\pgf.revision.tex)
+))
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/pgf/basiclayer\pgfcore.
+sty
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/pgf/systemlayer\pgfsys.
+sty
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+s.code.tex
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys
+.code.tex
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys
+libraryfiltered.code.tex))
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgf.c
+fg)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+s-xetex.def
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+s-dvipdfmx.def
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+s-common-pdf.def))))
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+ssoftpath.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+sprotocol.code.tex))
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+e.code.tex
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmath.code
+.tex
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathutil.
+code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathparse
+r.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.basic.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.trigonometric.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.random.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.comparison.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.base.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.round.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.misc.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.integerarithmetics.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathcalc.
+code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfloat
+.code.tex))
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfint.code.
+tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epoints.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epathconstruct.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epathusage.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+escopes.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+egraphicstate.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+etransformations.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+equick.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+eobjects.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epathprocessing.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+earrows.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+eshade.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+eimage.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+eexternal.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+elayers.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+etransparency.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epatterns.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+erdf.code.tex)))
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodule
+shapes.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodule
+plot.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/pgf/compatibility\pgfco
+mp-version-0-65.sty)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/pgf/compatibility\pgfco
+mp-version-1-18.sty))
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgffor.st
+y
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgfkeys.s
+ty
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys
+.code.tex))
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/pgf/math\pgfmath.sty
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmath.code
+.tex))
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgffor.
+code.tex))
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z\tikz.code.tex
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibr
+aryplothandlers.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodule
+matrix.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibrarytopaths.code.tex)))
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibr
+aryarrows.meta.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibrarypositioning.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryfit.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibrarycalc.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibrarybackgrounds.code.tex)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption.sty
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption3.sty))
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/titlesec\titlesec.sty)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hyperref.sty
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/kvsetkeys\kvsetkeys.sty
+)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/kvdefinekeys\kvdefine
+keys.sty)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pdfescape\pdfescape.s
+ty
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/ltxcmds\ltxcmds.sty)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/pdftexcmds\pdftexcmds
+.sty
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/infwarerr\infwarerr.s
+ty)))
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/hycolor\hycolor.sty)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\nameref.sty
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/refcount\refcount.sty)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/gettitlestring\gettit
+lestring.sty
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/kvoptions\kvoptions.sty
+)))
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/stringenc\stringenc.s
+ty) (C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\pd1enc.def
+) (C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/intcalc\intcalc.sty
+) (C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\puenc.def)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/bitset\bitset.sty
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/bigintcalc\bigintcalc
+.sty)))
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hxetex.def
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/rerunfilecheck\rerunfil
+echeck.sty
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/generic/uniquecounter\uniquec
+ounter.sty)))
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/xurl\xurl.sty)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/placeins\placeins.sty)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/preprint\balance.sty)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/float\float.sty)
+(medora_bcolbd_whitepaper.aux)
+*geometry* driver: auto-detecting
+*geometry* detected driver: xetex
+(medora_bcolbd_whitepaper.out) (medora_bcolbd_whitepaper.out)
+(C:\Users\sarwa\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-cmr.cfg)
+Underfull \hbox (badness 2173) in paragraph at lines 86--100
+\TU/TimesNewRoman(0)/m/n/12 a fine-tuned model stays safe enough to de-
+
+Underfull \hbox (badness 1755) in paragraph at lines 104--111
+\TU/TimesNewRoman(0)/m/n/12 current health expenditure in 2022. WHO’s
+
+Underfull \hbox (badness 2050) in paragraph at lines 104--111
+\TU/TimesNewRoman(0)/m/n/12 ical products accounted for 69.4% of out-of-
+
+Underfull \vbox (badness 10000) has occurred while \output is active
+Underfull \vbox (badness 10000) has occurred while \output is active [1]
+Underfull \hbox (badness 1102) in paragraph at lines 145--151
+\TU/TimesNewRoman(0)/m/n/12 bilingual client to hold records, manage shar-
+
+Underfull \hbox (badness 1454) in paragraph at lines 145--151
+\TU/TimesNewRoman(0)/m/n/12 ing, inspect access history, find doctors, and
+
+Underfull \hbox (badness 2310) in paragraph at lines 145--151
+\TU/TimesNewRoman(0)/m/n/12 book appointments. Doctors receive source-
+
+Underfull \hbox (badness 10000) in paragraph at lines 172--172
+[]|\TU/TimesNewRoman(0)/m/n/12 Bangladesh
+
+Underfull \hbox (badness 10000) in paragraph at lines 172--172
+[]|\TU/TimesNewRoman(0)/m/n/12 DocTime /
+
+Underfull \hbox (badness 1189) in paragraph at lines 175--179
+\TU/TimesNewRoman(0)/m/n/12 Bahmni, GNU Health, and the national SHR
+(figures/constellation.tex)
+Underfull \hbox (badness 1960) in paragraph at lines 204--212
+\TU/TimesNewRoman(0)/m/n/12 “frontier”) will measure utility against disclo-
+
+Underfull \vbox (badness 10000) has occurred while \output is active
+(figures/arohon_ladder.tex) [2]
+
+LaTeX Warning: Text page 3 contains only floats.
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active
+
+LaTeX Warning: Text page 3 contains only floats.
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active [3]
+Underfull \hbox (badness 2189) in paragraph at lines 259--265
+[]\TU/TimesNewRoman(0)/b/n/12 Two traces make the specification testable.
+
+Underfull \hbox (badness 1303) in paragraph at lines 268--274
+\TU/TimesNewRoman(0)/b/n/12 point. \TU/TimesNewRoman(0)/m/n/12 Medora comprises
+ a Next.js PWA, a
+(figures/architecture.tex)
+Underfull \hbox (badness 1515) in paragraph at lines 284--294
+\TU/TimesNewRoman(0)/b/n/12 terministic code decides authority. \TU/TimesNewRom
+an(0)/m/n/12 Speech
+
+Underfull \hbox (badness 2495) in paragraph at lines 284--294
+\TU/TimesNewRoman(0)/m/n/12 and hosted text generation use learned mod-
+
+Underfull \hbox (badness 1237) in paragraph at lines 284--294
+\TU/TimesNewRoman(0)/m/n/12 sation, intent normalisation, role-scoped route
+
+Underfull \hbox (badness 1137) in paragraph at lines 323--329
+[]\TU/TimesNewRoman(0)/b/n/12 Human authority is structural. \TU/TimesNewRoman(
+0)/m/n/12 Summaries
+
+Underfull \hbox (badness 5217) in paragraph at lines 323--329
+\TU/TimesNewRoman(0)/m/n/12 are read-only and receive source references
+
+Underfull \hbox (badness 2269) in paragraph at lines 323--329
+\TU/TimesNewRoman(0)/m/n/12 a doctor edits and signs. OCR rows carry
+
+Underfull \vbox (badness 10000) has occurred while \output is active [4]
+Underfull \vbox (badness 10000) has occurred while \output is active
+Underfull \vbox (badness 10000) has occurred while \output is active [5]
+Underfull \hbox (badness 1237) in paragraph at lines 364--370
+\TU/TimesNewRoman(0)/m/n/12 der five configurations: local only (L), local
+
+Underfull \hbox (badness 1308) in paragraph at lines 364--370
+\TU/TimesNewRoman(0)/m/n/12 plus Akkhor (L+K), a redacted record subset
+
+Underfull \hbox (badness 2922) in paragraph at lines 364--370
+\TU/TimesNewRoman(0)/m/n/12 requests. The reporter will emit paired re-
+
+Underfull \hbox (badness 1412) in paragraph at lines 364--370
+\TU/TimesNewRoman(0)/m/n/12 sults, bootstrap confidence intervals, the non-
+(figures/shimana_protocol.tex)
+Underfull \hbox (badness 1237) in paragraph at lines 381--387
+\TU/TimesNewRoman(0)/m/n/12 injection; C tests identifier leakage and over-
+(figures/lokkhon_profile.tex)
+Underfull \vbox (badness 10000) has occurred while \output is active
+Underfull \vbox (badness 10000) has occurred while \output is active [6]
+Underfull \vbox (badness 10000) has occurred while \output is active
+Underfull \hbox (badness 10000) in paragraph at lines 513--513
+[]|\TU/TimesNewRoman(0)/m/n/8 OCR: local container +
+(figures/akkhor_pipeline.tex)
+Underfull \hbox (badness 2277) in paragraph at lines 534--545
+\TU/TimesNewRoman(0)/b/n/12 the open assets. \TU/TimesNewRoman(0)/m/n/12 Applic
+ation code is MIT-
+
+Underfull \hbox (badness 1077) in paragraph at lines 534--545
+\TU/TimesNewRoman(0)/m/n/12 dling. This reuses the benchmark and never
+
+Underfull \vbox (badness 10000) has occurred while \output is active [7]
+Underfull \vbox (badness 10000) has occurred while \output is active
+Underfull \vbox (badness 10000) has occurred while \output is active [8]
+Underfull \vbox (badness 10000) has occurred while \output is active
+Underfull \hbox (badness 10000) in paragraph at lines 562--562
+[]\TU/TimesNewRoman(0)/b/n/12 Table 6. |\TU/TimesNewRoman(0)/m/n/12 Pilot subsc
+ription hypotheses;
+
+Underfull \hbox (badness 10000) in paragraph at lines 579--579
+[]|\TU/TimesNewRoman(0)/m/n/10 BDT 1,200
+
+Underfull \hbox (badness 10000) in paragraph at lines 579--579
+[]|\TU/TimesNewRoman(0)/m/n/10 BDT 900
+
+Underfull \hbox (badness 10000) in paragraph at lines 579--579
+[]|\TU/TimesNewRoman(0)/m/n/10 engagement
+
+Underfull \hbox (badness 1371) in paragraph at lines 582--590
+[]\TU/TimesNewRoman(0)/b/n/12 The cost model identifies its next measure-
+
+Underfull \hbox (badness 1509) in paragraph at lines 582--590
+\TU/TimesNewRoman(0)/b/n/12 ment variables. \TU/TimesNewRoman(0)/m/n/12 Azure C
+ontainer Apps can
+
+Underfull \hbox (badness 1776) in paragraph at lines 593--600
+\TU/TimesNewRoman(0)/b/n/12 The finalist plan starts with the measured
+
+Underfull \hbox (badness 2662) in paragraph at lines 593--600
+\TU/TimesNewRoman(0)/b/n/12 redaction baseline. \TU/TimesNewRoman(0)/m/n/12 Fir
+st, build and evalu-
+
+Underfull \hbox (badness 2495) in paragraph at lines 593--600
+\TU/TimesNewRoman(0)/m/n/12 ate the planned PHI span recogniser against
+
+Underfull \vbox (badness 10000) has occurred while \output is active [9]
+Underfull \hbox (badness 1533) in paragraph at lines 601--604
+\TU/TimesNewRoman(0)/m/n/12 Shimana and Maya planned, and Akkhor de-
+
+Underfull \hbox (badness 10000) in paragraph at lines 643--645
+[]\TU/TimesNewRoman(0)/m/n/8 DocTime, “Online doctor consultation and telemedic
+ine in
+
+Overfull \vbox (1.23018pt too high) has occurred while \output is active
+[10] (medora_bcolbd_whitepaper.aux) )
+(see the transcript file for additional information)
+Output written on medora_bcolbd_whitepaper.pdf (10 pages).
+Transcript written on medora_bcolbd_whitepaper.log.
