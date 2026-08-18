@@ -1,0 +1,24 @@
+\begin{tikzpicture}[x=1cm,y=.82cm,>=Latex]
+  \foreach \y/\tier/\name/\desc/\col in {
+    0/L0/Abstain/supported claims only/medoraGray,
+    1/L1/Inform/retrieval-grounded statement/medoraBlue,
+    2/L2/Suggest/draft; human confirms/medoraTeal,
+    3/L3/Escalate/urgent human action/medoraAmber,
+    4/L4/Break glass/pre-consented notification/medoraRed}{
+      \fill[\col!14] (0,\y) rectangle (7.55,\y+.78);
+      \draw[\col!70,line width=.55pt] (0,\y) rectangle (7.55,\y+.78);
+      \node[font=\bfseries,anchor=west] at (.18,\y+.39) {\tier};
+      \node[font=\bfseries,anchor=west] at (1.0,\y+.39) {\name};
+      \node[font=\scriptsize,anchor=west] at (3.35,\y+.39) {\desc};
+  }
+  \draw[very thick,medoraRed] (-.15,2.90) -- (7.72,2.90);
+  \node[font=\scriptsize,fill=white,inner sep=1pt,anchor=west,text=medoraRed] at (7.88,2.90)
+       {routine ceiling: L2};
+  \draw[very thick,medoraViolet] (-.15,3.90) -- (7.72,3.90);
+  \node[font=\scriptsize,fill=white,inner sep=1pt,anchor=west,text=medoraViolet] at (7.88,3.90)
+       {emergency ceiling: L3};
+  \node[font=\scriptsize,anchor=west,text=medoraViolet] at (7.88,4.48)
+       {L4 requires prior grant};
+  \draw[->,line width=1.1pt,medoraNavy] (-.55,.1) -- (-.55,4.72);
+  \node[rotate=90,font=\scriptsize,text=medoraNavy] at (-.88,2.45) {increasing system authority};
+\end{tikzpicture}

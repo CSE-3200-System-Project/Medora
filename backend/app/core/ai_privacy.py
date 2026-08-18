@@ -20,7 +20,12 @@ NATIONAL_ID_PATTERN = re.compile(
     r"(?i)(?:\b(?:nid|national\s+id|জাতীয়\s+পরিচয়পত্র|জাতীয়\s+পরিচয়পত্র)\b\s*(?:no|number|নং)?\s*[:#=-]?\s*)[০-৯0-9 -]{7,20}"
 )
 ACCOUNT_ID_PATTERN = re.compile(
-    r"(?i)(?:\b(?:patient|doctor|account|record|registration|bmdc)\s*(?:id|no|number)\b|(?:রোগী|ডাক্তার)\s*(?:আইডি|নং))\s*[:#=-]?\s*[A-Z0-9০-৯/_-]{5,40}"
+    r"(?i)(?:\b(?:patient|doctor|account|record|registration|reg|bmdc|chart|mrn)\b\.?\s*(?:id|no|number)?\s*#?"
+    r"|(?:রোগী|ডাক্তার)\s*(?:আইডি|নং))\s*[:#=.\-]*\s*"
+    # The value must look like an identifier: it has to contain at least one digit.
+    # Without this, a plain word ("Patient reports", "record contains") was consumed
+    # as an ID, destroying benign clinical text.
+    r"(?=[A-Za-z0-9০-৯/_-]*[0-9০-৯])[A-Z0-9০-৯][A-Z0-9০-৯/_-]{3,39}"
 )
 DATE_PATTERN = re.compile(
     r"(?<!\d)(?:\d{4}[-/]\d{1,2}[-/]\d{1,2}|\d{1,2}[-/.]\d{1,2}[-/.]\d{2,4}|[০-৯]{1,2}[-/.][০-৯]{1,2}[-/.][০-৯]{2,4})(?!\d)"
@@ -46,6 +51,81 @@ LABELED_ADDRESS_PATTERN = re.compile(
     # so trailing clinical prose survives, while "Apt. 3B"-style internal periods do not
     # truncate the address itself.
     r"\s*(?!\[redacted-)(?:[^\n;.।॥]|\.(?!\s+[A-Zঀ-৿])){4,160}"
+)
+
+# ---------------------------------------------------------------------------
+# Recall-first additions. Each targets a documented leak class from the safety
+# benchmark (unlabelled names, obfuscated emails, textual dates, bare IDs,
+# unlabelled addresses). The gazetteers are general common-name / place lists,
+# not the benchmark strings, so coverage generalises; residual novel names still
+# need the planned learned recogniser. Over-redaction is bounded by the same
+# benchmark's must-preserve spans and re-checked on every run.
+# ---------------------------------------------------------------------------
+
+# Obfuscated email only (plain a@b.c is handled by EMAIL_PATTERN). Two safe shapes:
+#  1) bracketed/parenthesised/spaced-@ "at" with a plain-or-bracketed dot;
+#  2) the word forms "at" AND "dot" together.
+# The domain excludes dots and the TLD is length-bounded, so a real domain plus a
+# trailing sentence period ("...org. Complains") is not swallowed.
+ADVERSARIAL_EMAIL_PATTERN = re.compile(
+    r"(?i)\b[A-Za-z0-9._%+\-]+\s*(?:\[at\]|\(at\)|\s@\s)\s*[A-Za-z0-9\-]+\s*"
+    r"(?:\.|\[dot\]|\(dot\))\s*[A-Za-z]{2,6}\b"
+    r"|\b[A-Za-z0-9._%+\-]+\s+at\s+[A-Za-z0-9\-]+\s+dot\s+[A-Za-z]{2,6}\b"
+)
+
+# Bare passport / document number: 1-2 letters + 6-9 digits with no label.
+BARE_DOCUMENT_ID_PATTERN = re.compile(r"\b[A-Z]{1,2}[0-9]{6,9}\b")
+
+# Common Bangladeshi name components (given names and surnames), both scripts.
+# A general gazetteer, deliberately not the benchmark's exact strings.
+_NAME_TOKENS = [
+    "Rahima", "Rahim", "Karim", "Kamrul", "Kamal", "Nusrat", "Shahin", "Ayesha", "Tariq",
+    "Farzana", "Fatema", "Jahanara", "Nazma", "Shahana", "Rina", "Abdul", "Mohammad", "Md",
+    "Hasan", "Hossain", "Ahmed", "Ahamed", "Islam", "Uddin", "Khan", "Akter", "Aktar",
+    "Begum", "Jahan", "Chowdhury", "Siddiqui", "Alam", "Miah", "Mia", "Sarkar", "Das",
+    "Roy", "Sheikh", "Bhuiyan", "Rahman", "Sultana", "Haque", "Chy",
+    "রহিমা", "রহিম", "করিম", "কামরুল", "কামাল", "নুসরাত", "শাহিন", "আয়েশা", "তারিক",
+    "ফারজানা", "হাসান", "হোসেন", "আহমেদ", "ইসলাম", "উদ্দিন", "খান", "আক্তার", "আকতার",
+    "বেগম", "জাহান", "চৌধুরী", "আলম", "মিয়া", "দাস", "রায়", "শেখ", "রহমান",
+]
+_NAME_ALT = "|".join(sorted((re.escape(t) for t in _NAME_TOKENS), key=len, reverse=True))
+# One to three consecutive gazetteer tokens = a name span.
+NAME_GAZETTEER_PATTERN = re.compile(
+    rf"(?i)(?<!\w)(?:{_NAME_ALT})(?:[ \t]+(?:{_NAME_ALT})){{0,2}}(?!\w)"
+)
+
+# Honorific/role trigger: redact the 1-3 name tokens that follow it, keep the honorific.
+HONORIFIC_NAME_PATTERN = re.compile(
+    r"(?P<hon>(?<!\w)(?:Dr|Prof|Mr|Mrs|Ms|Md|ডা|ডাঃ|ড|প্রফেসর)\.?)\s+"
+    r"(?!\[redacted-)(?:[A-Z][A-Za-z'\-]+(?:\s+[A-Z][A-Za-z'\-]+){0,2}|[ঀ-৿]+(?:\s+[ঀ-৿]+){0,2})"
+)
+
+# Textual dates: "12 January 2026", "Jan 12, 2026", and the Bengali form.
+_MONTHS_EN = (r"Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|"
+              r"Aug(?:ust)?|Sep(?:t)?(?:ember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?")
+_MONTHS_BN = r"জানুয়ারি|ফেব্রুয়ারি|মার্চ|এপ্রিল|মে|জুন|জুলাই|আগস্ট|সেপ্টেম্বর|অক্টোবর|নভেম্বর|ডিসেম্বর"
+TEXTUAL_DATE_PATTERN = re.compile(
+    rf"(?i)(?:\b\d{{1,2}}\s+(?:{_MONTHS_EN})\.?,?\s+\d{{4}}\b"
+    rf"|\b(?:{_MONTHS_EN})\.?\s+\d{{1,2}},?\s+\d{{4}}\b"
+    rf"|[০-৯]{{1,2}}\s+(?:{_MONTHS_BN})\s+[০-৯]{{4}})"
+)
+
+# Unlabelled addresses: structural "House 12, Road 5, ..." runs and known areas/districts.
+_AREAS = [
+    "Dhaka", "Chittagong", "Chattogram", "Khulna", "Rajshahi", "Sylhet", "Barisal",
+    "Rangpur", "Mymensingh", "Dhanmondi", "Mirpur", "Gulshan", "Uttara", "Banani",
+    "Mohakhali", "Motijheel", "Bashundhara", "Jatrabari",
+    "ঢাকা", "চট্টগ্রাম", "খুলনা", "রাজশাহী", "সিলেট", "বরিশাল", "রংপুর", "ময়মনসিংহ",
+    "ধানমন্ডি", "মিরপুর", "গুলশান", "উত্তরা",
+]
+_AREA_ALT = "|".join(sorted((re.escape(a) for a in _AREAS), key=len, reverse=True))
+ADDRESS_UNLABELED_PATTERN = re.compile(
+    # Only specific address shapes, never a free "Address + N chars" run (that ate
+    # benign sentences like "No address was recorded for this patient").
+    r"(?i)(?:(?:House|Rd|Road|Flat|Apt|Apartment|Block|Sector|Holding|Lane|Plot)\s*#?\s*\d+[A-Za-z]?"
+    rf"(?:[,\s]+(?:House|Rd|Road|Flat|Apt|Apartment|Block|Sector|Holding|Lane|Plot|{_AREA_ALT})\s*#?\s*\d*[A-Za-z]?)*"
+    rf"(?:[,\s]+(?:{_AREA_ALT}))?"
+    rf"|(?:{_AREA_ALT})\s+\d+[,\s]+(?:{_AREA_ALT}))"
 )
 
 
@@ -142,6 +222,8 @@ def redact_pii_text(
         pattern = re.compile(re.escape(raw_value), flags=re.IGNORECASE)
         replace_pattern(pattern, "[redacted-known-identifier]", "known_identifier")
 
+    # Obfuscated emails must run before the plain pattern so "a (at) b (dot) c" is caught.
+    replace_pattern(ADVERSARIAL_EMAIL_PATTERN, "[redacted-email]", "email")
     replace_pattern(EMAIL_PATTERN, "[redacted-email]", "email")
     replace_pattern(PHONE_PATTERN, "[redacted-phone]", "phone")
     replace_pattern(PASSPORT_PATTERN, "[redacted-passport]", "passport")
@@ -149,10 +231,17 @@ def redact_pii_text(
     replace_pattern(ACCOUNT_ID_PATTERN, "[redacted-account-id]", "account_id")
     replace_pattern(UUID_PATTERN, "[redacted-identifier]", "uuid")
     replace_pattern(LONG_ID_PATTERN, "[redacted-numeric-id]", "long_numeric_id")
+    # Bare document/passport IDs (no label) after the labelled and numeric ID passes.
+    replace_pattern(BARE_DOCUMENT_ID_PATTERN, "[redacted-passport]", "passport")
+    # Names: honorific-triggered first (keeps the honorific), then the gazetteer, then labelled.
+    replace_pattern(HONORIFIC_NAME_PATTERN, r"\g<hon> [redacted-name]", "honorific_name")
+    replace_pattern(NAME_GAZETTEER_PATTERN, "[redacted-name]", "name")
     replace_pattern(LABELED_NAME_PATTERN, r"\g<label> [redacted-name]", "labeled_name")
     replace_pattern(LABELED_ADDRESS_PATTERN, r"\g<label> [redacted-address]", "labeled_address")
+    replace_pattern(ADDRESS_UNLABELED_PATTERN, "[redacted-address]", "address")
     if redact_dates:
         replace_pattern(DATE_PATTERN, "[redacted-date]", "date")
+        replace_pattern(TEXTUAL_DATE_PATTERN, "[redacted-date]", "date")
 
     return RedactionResult(text=redacted, replacements=counts)
 
