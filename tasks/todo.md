@@ -73,9 +73,9 @@ Blast radius is stated per phase. No phase bundles a refactor.
 - [x] Emit `lokkhon_v0.1.json` with n printed beside every metric.
 - **Touches:** new top-level `benchmark/` tree; `tests/benchmarks/` scripts imported, not moved.
 
-### Phase 6 — Shimana reporter and frontier output
-- [ ] Reporter emitting paired results, bootstrap CIs, non-dominated set, knee estimate (whitepaper §Shimana names all four).
-- [ ] Regenerate `shimana_results.json` and a figure-ready CSV that reproduces the paper's frontier.
+### Phase 6 — Shimana reporter and frontier output — DONE
+- [x] Reporter emitting paired results, bootstrap CIs, non-dominated set, knee estimate (whitepaper §Shimana names all four).
+- [x] Regenerate `shimana_results.json` and a figure-ready CSV that reproduces the paper's frontier.
 - **Touches:** 1 new reporter script under `tests/benchmarks/`.
 
 ### Phase 7 — Learned PHI span recogniser (build + gate; training is a separate run)

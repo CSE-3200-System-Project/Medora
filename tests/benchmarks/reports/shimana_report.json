@@ -1,0 +1,136 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-08-21T20:34:20.277892+00:00",
+  "source": {
+    "provider": "groq",
+    "patients": 24,
+    "seeds": 1,
+    "task": "grounded_patient_summary",
+    "executed_at": "2026-08-16T15:44:46.388564+00:00"
+  },
+  "bootstrap": {
+    "iterations": 2000,
+    "seed": 20260821,
+    "method": "percentile over resampled patients"
+  },
+  "points": [
+    {
+      "config": "L",
+      "note": "local only, no patient records",
+      "utility": 0.0,
+      "exposure_per_1000": 0.0,
+      "non_dominated": true
+    },
+    {
+      "config": "L+K",
+      "note": "local + knowledge base only",
+      "utility": 0.0,
+      "exposure_per_1000": 0.0,
+      "non_dominated": true
+    },
+    {
+      "config": "L+K+R",
+      "note": "redacted record subset (3 categories)",
+      "utility": 0.3333,
+      "exposure_per_1000": 958.3,
+      "non_dominated": true
+    },
+    {
+      "config": "L+K+R+H",
+      "note": "hosted model, full redacted record",
+      "utility": 0.125,
+      "exposure_per_1000": 1958.3,
+      "non_dominated": false
+    },
+    {
+      "config": "U",
+      "note": "unrestricted disclosure, no redaction (offline counterfactual)",
+      "utility": 0.0833,
+      "exposure_per_1000": 6000.0,
+      "non_dominated": false
+    }
+  ],
+  "non_dominated_set": [
+    "L",
+    "L+K",
+    "L+K+R"
+  ],
+  "non_dominated_with_utility": [
+    "L+K+R"
+  ],
+  "dominated": [
+    {
+      "config": "L+K+R+H",
+      "utility": 0.125,
+      "exposure_per_1000": 1958.3,
+      "dominated_by": [
+        "L+K+R"
+      ]
+    },
+    {
+      "config": "U",
+      "utility": 0.0833,
+      "exposure_per_1000": 6000.0,
+      "dominated_by": [
+        "L+K+R",
+        "L+K+R+H"
+      ]
+    }
+  ],
+  "knee": {
+    "config": "L+K",
+    "utility": 0.0,
+    "exposure_per_1000": 0.0,
+    "normalised_distance_from_chord": 0.0,
+    "method": "max perpendicular distance to the chord between front extremes, min-max normalised axes",
+    "degenerate": true,
+    "caveat": "This knee sits on a configuration with zero utility. It is the mechanical answer to the geometry and not a deployable operating point: disclosing nothing trivially minimises exposure. Read productive_knee instead."
+  },
+  "productive_knee": null,
+  "paired": {
+    "available": false,
+    "note": "This sweep stored aggregates only, so configurations cannot be compared on the same patients. Re-run run_shimana_sweep.py to record per-patient values. An unpaired comparison is not substituted here, because reporting one under the paired heading would misdescribe what was measured.",
+    "comparisons": []
+  },
+  "utility_recovery_vs_unrestricted": {
+    "reference": "U",
+    "note": "The registered framing asks what fraction of unrestricted utility a narrower configuration recovers, which presumes unrestricted is the ceiling. A fraction above 1.0 says it is not: the narrower configuration completed the task more often than full disclosure did. That is reported as measured; it is not renormalised to keep the fraction under one.",
+    "rows": [
+      {
+        "config": "L",
+        "utility_fraction_of_unrestricted": 0.0,
+        "exposure_fraction_of_unrestricted": 0.0
+      },
+      {
+        "config": "L+K",
+        "utility_fraction_of_unrestricted": 0.0,
+        "exposure_fraction_of_unrestricted": 0.0
+      },
+      {
+        "config": "L+K+R",
+        "utility_fraction_of_unrestricted": 4.0012,
+        "exposure_fraction_of_unrestricted": 0.1597
+      },
+      {
+        "config": "L+K+R+H",
+        "utility_fraction_of_unrestricted": 1.5006,
+        "exposure_fraction_of_unrestricted": 0.3264
+      },
+      {
+        "config": "U",
+        "utility_fraction_of_unrestricted": 1.0,
+        "exposure_fraction_of_unrestricted": 1.0
+      }
+    ]
+  },
+  "shape": {
+    "utility_monotone_in_disclosure": false,
+    "note": "The registered hypothesis is that utility rises with disclosure. Where it does not, the frontier is not a trade-off curve over that range and the wider configuration is simply dominated: it disclosed more and achieved no more. That is reported as measured rather than smoothed."
+  },
+  "limitations": [
+    "n=24 synthetic patients. Intervals are wide.",
+    "Utility is source-accounting on a grounded summary: whether the task could be completed at all under the configuration, not how good the summary reads.",
+    "Exposure is counted offline from the redaction policy. The unrestricted configuration is a counterfactual and is never sent to a provider.",
+    "Configurations differ in both the record subset and the redaction policy, so a single delta cannot attribute the change to one of them."
+  ]
+}

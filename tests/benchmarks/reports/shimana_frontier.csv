@@ -1,0 +1,6 @@
+config,exposure_per_1000,utility,non_dominated,is_knee,note
+L,0.0,0.0,1,0,"local only, no patient records"
+L+K,0.0,0.0,1,1,local + knowledge base only
+L+K+R,958.3,0.3333,1,0,redacted record subset (3 categories)
+L+K+R+H,1958.3,0.125,0,0,"hosted model, full redacted record"
+U,6000.0,0.0833,0,0,"unrestricted disclosure, no redaction (offline counterfactual)"
