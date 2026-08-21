@@ -4,7 +4,8 @@ from datetime import datetime, timedelta, timezone
 
 import pytest
 
-from app.db.models.enums import UserRole
+from app.db.models.admin_governance import AdminRole
+from app.db.models.enums import AdminTier, Permission, UserRole
 from app.db.models.patient import PatientProfile
 from app.db.models.profile import Profile
 from tests.helpers.backend_factories import DoctorProfileFactory, PatientProfileFactory, ProfileFactory
@@ -18,11 +19,20 @@ async def test_auth_booking_consultation_prescription_lifecycle(backend_client, 
     patient_account: Profile = ProfileFactory(role=UserRole.PATIENT, first_name="Rahim", last_name="Uddin")
     doctor_account: Profile = ProfileFactory(role=UserRole.DOCTOR, first_name="Farhana", last_name="Islam")
     admin_account: Profile = ProfileFactory(role=UserRole.ADMIN, first_name="Release", last_name="Admin")
-
     patient_medical: PatientProfile = PatientProfileFactory(profile_id=patient_account.id)
     doctor_profile = DoctorProfileFactory(profile_id=doctor_account.id, day_time_slots={"Friday": ["8:00 PM - 10:00 PM"]})
 
-    db_session.add_all([patient_account, doctor_account, admin_account, patient_medical, doctor_profile])
+    db_session.add_all(
+        [patient_account, doctor_account, admin_account, patient_medical, doctor_profile]
+    )
+    await db_session.flush()
+    db_session.add(
+        AdminRole(
+            profile_id=admin_account.id,
+            tier=AdminTier.SUPER_ADMIN.value,
+            permission_set=[permission.value for permission in Permission],
+        )
+    )
     await db_session.commit()
 
     auth_token_map["patient-token"] = {"sub": patient_account.id, "email": patient_account.email}

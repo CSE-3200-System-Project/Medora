@@ -10,11 +10,17 @@
   ],
   "AIDoctorSearchResponse": [
     "ambiguity",
+    "autonomous_notification",
+    "autonomy_tier",
+    "correlation_id",
     "doctors",
+    "escalation_mode",
+    "helplines",
     "manual_browse_available",
     "medical_intent",
     "patient_context_factors",
     "requires_immediate_care",
+    "risk_class",
     "safety_message",
     "uncertain"
   ],

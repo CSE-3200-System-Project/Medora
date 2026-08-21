@@ -33,6 +33,7 @@ from app.db.models import (
     oauth_token, ai_interaction, chorui_chat, health_metric, doctor_action, medical_report,
     doctor_location, doctor_review, processing_consent, appointment_delivery,
     slot_change_event, arohon_escalation,
+    admin_governance,
 )
 target_metadata = Base.metadata
 

@@ -1,0 +1,137 @@
+{
+  "generator": "phi-corpus-1.0",
+  "generated_at": "2026-08-21T21:01:24+00:00",
+  "seed": 20260822,
+  "labels": [
+    "NAME",
+    "DOCTOR",
+    "PHONE",
+    "NID",
+    "ADDRESS",
+    "DATE",
+    "AGE",
+    "HOSPITAL",
+    "EMAIL",
+    "MRN"
+  ],
+  "scripts": [
+    "bn",
+    "en",
+    "rom"
+  ],
+  "frames": {
+    "phi": 35,
+    "clean": 14,
+    "realised_total": 147
+  },
+  "splits": {
+    "train": {
+      "rows": 10560,
+      "rejected_for_holdout_overlap": 5,
+      "by_script": {
+        "bn": 3524,
+        "en": 3631,
+        "rom": 3405
+      },
+      "by_frame_kind": {
+        "clean": 2112,
+        "phi": 8448
+      },
+      "by_tag": {
+        "ADDRESS": 1663,
+        "AGE": 728,
+        "DATE": 2672,
+        "DOCTOR": 1695,
+        "EMAIL": 694,
+        "HOSPITAL": 2679,
+        "MRN": 974,
+        "NAME": 4800,
+        "NID": 727,
+        "PHONE": 1934
+      },
+      "phi_density": {
+        "0": 2112,
+        "1": 1439,
+        "2": 4382,
+        "3": 2386,
+        "5": 241
+      },
+      "zero_phi_rows": 2112
+    },
+    "dev": {
+      "rows": 1440,
+      "rejected_for_holdout_overlap": 1,
+      "by_script": {
+        "bn": 489,
+        "en": 490,
+        "rom": 461
+      },
+      "by_frame_kind": {
+        "clean": 288,
+        "phi": 1152
+      },
+      "by_tag": {
+        "ADDRESS": 189,
+        "AGE": 115,
+        "DATE": 335,
+        "DOCTOR": 235,
+        "EMAIL": 94,
+        "HOSPITAL": 371,
+        "MRN": 158,
+        "NAME": 660,
+        "NID": 85,
+        "PHONE": 265
+      },
+      "phi_density": {
+        "0": 288,
+        "1": 210,
+        "2": 607,
+        "3": 296,
+        "5": 39
+      },
+      "zero_phi_rows": 288
+    }
+  },
+  "pools": {
+    "train": {
+      "given_names": 95,
+      "surnames": 47,
+      "distinct_full_names": 4465,
+      "facilities": 459,
+      "districts": 56,
+      "upazilas": 66,
+      "city_areas": 17,
+      "drug_hard_negatives": 528
+    },
+    "dev": {
+      "given_names": 31,
+      "surnames": 15,
+      "distinct_full_names": 465,
+      "facilities": 63,
+      "districts": 8,
+      "upazilas": 10,
+      "city_areas": 3,
+      "drug_hard_negatives": 72
+    },
+    "disjoint": true,
+    "note": "Train and dev draw from split filler pools; a dev sentence never reuses a training name, facility, district or drug."
+  },
+  "geography_coverage": {
+    "divisions": 8,
+    "districts": 64,
+    "upazilas": 76,
+    "upazila_note": "named subset (not the full 495 upazilas)"
+  },
+  "holdout_exclusion": {
+    "sources": [
+      "tests/benchmarks/datasets/pii_safety_cases.jsonl",
+      "tests/benchmarks/datasets/pii_holdout_cases.jsonl"
+    ],
+    "identifier_strings": 259,
+    "rejected_train": 5,
+    "rejected_dev": 1,
+    "note": "Any sentence containing a holdout identifier is discarded at generation time, so the 134-case test set cannot be trained on."
+  },
+  "synthetic": true,
+  "contains_real_patient_data": false
+}

@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-21T20:34:20.277892+00:00",
+  "generated_at": "2026-08-21T21:36:00.146849+00:00",
   "source": {
     "provider": "groq",
     "patients": 24,

@@ -22,8 +22,20 @@ class Settings(BaseSettings):
     GROQ_MODEL: str = "openai/gpt-oss-120b"
     GEMINI_MODEL: str = "gemini-2.5-flash"
     CEREBRAS_CLOUD_MODEL: str = "gpt-oss-120b"
+    # Maya admission evidence. The deployed provider/model defaults above are incumbents;
+    # changing any live model makes it a candidate and requires a passing report here.
+    MAYA_ADMISSION_REPORT: str | None = None
     AI_ID_HASH_SECRET: str | None = None
     PATIENT_REF_HASH_SECRET: str | None = None
+    # Learned PHI span recogniser (see app/core/phi_ner.py). Off by default: with the flag
+    # clear the redactor is byte-for-byte the rule-based one whose numbers are published.
+    # Turning it on adds a union pass — redact if either the rules or the model fire — and
+    # requires an exported ONNX bundle; a missing or broken bundle falls back to rules only.
+    PHI_NER_ENABLED: bool = False
+    PHI_NER_MODEL_DIR: str | None = None
+    # Optional emergency override. Normal deployment uses the threshold recorded in the
+    # admitted bundle; any override must match that admission evidence exactly.
+    PHI_NER_THRESHOLD: float | None = None
     CHORUI_PRIVACY_MODE: str = "record_augmented"
     CHORUI_REQUIRE_PATIENT_ID_FOR_DOCTOR: bool = False
     CHORUI_ACTIVE_PATIENT_LOOKBACK_DAYS: int = 180

@@ -1,0 +1,6 @@
+# The full corpus is a build artifact: `python tools/phi_ner/generate_corpus.py`
+# reproduces it byte-for-byte from the committed generator and the recorded seed.
+# The manifest and the review sample are committed; the multi-megabyte splits are not.
+phi_corpus_train.jsonl
+phi_corpus_dev.jsonl
+*.conll

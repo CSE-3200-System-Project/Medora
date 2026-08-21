@@ -5,6 +5,31 @@ class UserRole(str, enum.Enum):
     DOCTOR = "doctor"
     PATIENT = "patient"
 
+
+# ========== Stewardship: scoped human administration ==========
+
+class AdminTier(str, enum.Enum):
+    """Administrative authority tier; scope remains a separate attribute."""
+
+    SUPER_ADMIN = "super_admin"
+    ORG_ADMIN = "org_admin"
+    FACILITY_ADMIN = "facility_admin"
+    FUNCTION_ADMIN = "function_admin"
+
+
+class Permission(str, enum.Enum):
+    """Stable permission vocabulary stored in ``admin_roles.permission_set``."""
+
+    PLATFORM_ADMIN = "platform_admin"
+    VIEW_DASHBOARD = "view_dashboard"
+    MANAGE_DOCTORS = "manage_doctors"
+    MANAGE_PATIENTS = "manage_patients"
+    MANAGE_APPOINTMENTS = "manage_appointments"
+    MODERATE_REVIEWS = "moderate_reviews"
+    VIEW_AUDIT = "view_audit"
+    MANAGE_ADMINS = "manage_admins"
+    BREAK_GLASS = "break_glass"
+
 class VerificationStatus(enum.Enum):
     unverified = "unverified"
     pending = "pending"

@@ -2,11 +2,20 @@ from __future__ import annotations
 
 import hashlib
 import hmac
+import logging
 import re
 from dataclasses import dataclass
 from typing import Iterable
 
 from app.core.config import settings
+from app.core.phi_ner import SpanRecognizer, apply_spans, get_recognizer
+
+logger = logging.getLogger(__name__)
+
+# Distinguishes "caller said no recogniser" from "caller said nothing". `evaluate.py`
+# needs the first to measure the rules alone while the flag is on; the AI path uses the
+# second and gets whatever is configured.
+_USE_CONFIGURED_RECOGNIZER = object()
 
 UUID_PATTERN = re.compile(
     r"\b[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\b",
@@ -198,12 +207,21 @@ def redact_pii_text(
     *,
     known_identifiers: Iterable[str] | None = None,
     redact_dates: bool = True,
+    recognizer: SpanRecognizer | None | object = _USE_CONFIGURED_RECOGNIZER,
 ) -> RedactionResult:
     """Remove common English/Bengali identifiers without claiming anonymization.
 
     Known values are replaced first, then conservative category patterns are
     applied. The function deliberately reports replacement counts so callers
     can test coverage and disclose residual risk for identifiers it cannot know.
+
+    When `PHI_NER_ENABLED` is set and a model bundle is present, a learned span pass runs
+    between the known-identifier pass and the rules, making the whole function a union
+    ensemble: a span is redacted if either system claims it. The learned pass runs *before*
+    the rules because its character offsets are computed against the incoming text, and a
+    rule substitution would invalidate them. Pass `recognizer=None` to force rules-only
+    behaviour regardless of configuration — `tools/phi_ner/evaluate.py` scores all three
+    configurations through this one function rather than reimplementing two of them.
     """
     redacted = str(text or "")
     counts: dict[str, int] = {}
@@ -221,6 +239,23 @@ def redact_pii_text(
     ):
         pattern = re.compile(re.escape(raw_value), flags=re.IGNORECASE)
         replace_pattern(pattern, "[redacted-known-identifier]", "known_identifier")
+
+    active_recognizer = (
+        get_recognizer() if recognizer is _USE_CONFIGURED_RECOGNIZER else recognizer
+    )
+    if active_recognizer is not None:
+        try:
+            spans = active_recognizer.predict(redacted)
+        except Exception:  # noqa: BLE001
+            # The rules below still run, so a model failure degrades to today's shipped
+            # behaviour rather than to no redaction at all. Never re-raise here: the
+            # alternative is an AI endpoint that 500s instead of redacting conservatively.
+            logger.warning("Learned PHI recogniser failed; using rule-based redaction only.",
+                           exc_info=True)
+        else:
+            redacted, learned_counts = apply_spans(redacted, spans, redact_dates=redact_dates)
+            for category, count in learned_counts.items():
+                counts[category] = counts.get(category, 0) + count
 
     # Obfuscated emails must run before the plain pattern so "a (at) b (dot) c" is caught.
     replace_pattern(ADVERSARIAL_EMAIL_PATTERN, "[redacted-email]", "email")

@@ -1365,5 +1365,31 @@
         "viewFullRecord": "Viewed Full Record"
       }
     }
+  },
+  "adminAudit": {
+    "subtitle": "Review appointment events and privileged administrator actions",
+    "appointmentEvents": "Appointment events",
+    "privilegedActions": "Privileged actions",
+    "filterAppointment": "Filter by appointment ID...",
+    "filterAction": "Filter by action...",
+    "actions": {
+      "banPatient": "Ban patient",
+      "deletePatient": "Delete patient",
+      "breakGlass": "Emergency access",
+      "unknown": "Administrative action"
+    },
+    "statuses": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "completed": "Completed",
+      "expired": "Expired",
+      "unknown": "Unknown status"
+    },
+    "targets": {
+      "patient": "Patient",
+      "doctor": "Doctor",
+      "appointment": "Appointment",
+      "unknown": "Resource"
+    }
   }
 }

@@ -140,15 +140,16 @@ retrieved.
 ## Medora 2.0 research framework
 
 The competition whitepaper extends the deployed v1 foundation into five separately
-testable artifacts. A dashed or planned item is not reported as a completed result.
+testable artifacts. Build status and measurement status are kept separate: a runnable
+gate is not presented as an experimental result until its required run exists.
 
 ```mermaid
 flowchart TB
     ENGINE["Consent engine<br/>deny by default"]
     ENGINE --> A["Arohon<br/>graded authority"]
     ENGINE --> L["Lokkhon<br/>bilingual safety benchmark"]
-    ENGINE -.-> S["Shimana<br/>consent–utility protocol"]
-    ENGINE -.-> M["Maya<br/>reassurance-drift ablation"]
+    ENGINE --> S["Shimana<br/>consent–utility frontier"]
+    ENGINE -.-> M["Maya<br/>admission harness; run pending"]
     ENGINE --> U["Akkhor<br/>Bangladesh drug identity"]
 
     classDef built fill:#EAF2FF,stroke:#2D6CDF,color:#17365D;
@@ -157,9 +158,19 @@ flowchart TB
     classDef engine fill:#17365D,stroke:#17365D,color:#FFFFFF;
     class ENGINE engine;
     class A,U built;
-    class L measured;
-    class S,M planned;
+    class L,S measured;
+    class M planned;
 ```
+
+| Layer | Repository status | Evidence boundary |
+|---|---|---|
+| Arohon | Deployed policy core, 21 endpoint declarations, tier/risk logging, L3 emergency/crisis surfaces | Assistive only; no autonomous dispatch |
+| Lokkhon | Versioned v0.1 five-axis benchmark release | Constructed fixtures, not population-level clinical performance |
+| Shimana | Reporter and 24-case sweep complete | Binary grounded-contract utility; paired rows unavailable on the archived aggregate sweep |
+| Maya | Admission harness and hard candidate-model check complete | No base-vs-tuned response run; no performance result claimed |
+| Akkhor | Versioned `/v1/akkhor` API and package documentation complete | Repository API exists; separately hosted availability is not claimed |
+| Learned PHI span recognition | Corpus, train/evaluate code, ONNX union runtime and regression gate complete | No weights; model and union metrics remain unavailable |
+| Administrative stewardship | Fail-closed scoped-role thin slice, two-person destructive actions, notifying L4 break-glass and destructive/break-glass evidence explorer complete | Canonical organizations, affiliations, DSAR, delegated grants, comprehensive legacy-action audit coverage and combined cross-table compliance exploration remain proposed |
 
 Read the [eight-page whitepaper](docs/BCOLBD/Whitepaper/medora_bcolbd_whitepaper.pdf),
 its [claim–evidence map](docs/BCOLBD/Whitepaper/claim-evidence-map.md), and the
@@ -173,6 +184,9 @@ population-level clinical-performance claims.
 | Evidence artifact | Current result | Source |
 |---|---:|---|
 | Privacy/redaction suite | 134 cases; 94.7% span precision; 75.5% recall; 3.2% false redaction; 43 limitations | [`safety_results.json`](docs/softwarex/generated/safety_results.json) |
+| Current rule regression (development set) | 134 cases; 96.9% precision; 100% recall; the set is saturated, not a generalization estimate | [`safety_results.json`](tests/benchmarks/reports/safety_results.json) |
+| Novel-identifier PHI probe | 36 spans; rules precision 100%, recall 75%; all nine misses are unseen unlabelled names | [`phi_ner_eval.json`](tools/phi_ner/reports/phi_ner_eval.json) |
+| Shimana consent sweep | `L+K+R` non-dominated at utility 0.333 and exposure 958/1k; utility is non-monotone | [`shimana_report.json`](tests/benchmarks/reports/shimana_report.json) |
 | Clinician-reviewed navigation fixtures | 30 fixtures; 0 emergency false negatives; 5 false positives | [`safety_results.json`](docs/softwarex/generated/safety_results.json) |
 | Source-grounded summaries | 12 deterministic-mock fixtures with source accounting | [`safety_results.json`](docs/softwarex/generated/safety_results.json) |
 | Booking contention | 30/30 unique commits at concurrency 2, 10, and 50 | [`booking_results.json`](docs/softwarex/generated/booking_results.json) |
