@@ -17,6 +17,10 @@ import { getPreviouslyVisitedDoctors } from "@/lib/appointment-actions";
 import { MedoraLoader } from "@/components/ui/medora-loader";
 import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 import { useAppI18n, useT } from "@/i18n/client";
+import { EmergencyTakeover } from "@/components/safety/emergency-takeover";
+import { CrisisSupport } from "@/components/safety/crisis-support";
+import { toArohonEscalation, type ArohonEscalation, type ArohonResponseFields } from "@/components/safety/arohon-types";
+import { recordEscalationOutcome } from "@/lib/arohon-actions";
 
 const MapView = dynamic(
   () => import("@/components/doctor/map-view").then((module) => module.MapView),
@@ -134,7 +138,7 @@ type DoctorSearchResponse = {
   safety_message?: string | null;
   uncertain?: boolean;
   manual_browse_available?: boolean;
-};
+} & ArohonResponseFields;
 
 function isUserLocation(value: unknown): value is UserLocation {
   if (!value || typeof value !== "object") {
@@ -341,6 +345,7 @@ export default function FindDoctorPage() {
   const router = useRouter();
   const { locale } = useAppI18n();
   const tCommon = useT("common");
+  const tSafety = useT("safety");
 
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [loading, setLoading] = useState(true);
@@ -350,6 +355,7 @@ export default function FindDoctorPage() {
   const [patientContextFactors, setPatientContextFactors] = useState<PatientContextFactor[]>([]);
   const [showAmbiguityPrompt, setShowAmbiguityPrompt] = useState(false);
   const [safetyMessage, setSafetyMessage] = useState<string | null>(null);
+  const [escalation, setEscalation] = useState<ArohonEscalation | null>(null);
   const [userLocation, setUserLocation] = useState<{ latitude: number; longitude: number } | null>(null);
   const [showMap, setShowMap] = useState(false); // Mobile map toggle
   const [previouslyVisited, setPreviouslyVisited] = useState<PreviouslyVisitedDoctor[]>([]);
@@ -379,6 +385,7 @@ export default function FindDoctorPage() {
     setAiAnalysis(null);
     setShowAmbiguityPrompt(false);
     setSafetyMessage(null);
+    setEscalation(null);
     
     try {
       const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
@@ -430,6 +437,10 @@ export default function FindDoctorPage() {
           if (data.requires_immediate_care) {
             setSafetyMessage(data.safety_message || "Seek immediate in-person emergency care.");
             setShowAmbiguityPrompt(false);
+            // The banner stays as the fallback. The takeover only replaces it when the
+            // backend supplied a correlation ID, because an escalation whose outcome
+            // cannot be joined back to it is one Lokkhon axis A could never score.
+            setEscalation(toArohonEscalation(data));
           }
           if (data.medical_intent) {
             setAiAnalysis(data.medical_intent);
@@ -491,6 +502,29 @@ export default function FindDoctorPage() {
     setHasFilters(hasActiveFilters);
   };
 
+  const handleEscalationResolved = (outcome: "dismissed" | "acted") => {
+    if (!escalation) return;
+    // Fire and forget. A measurement write must never block someone reaching help, and
+    // the action already swallows its own failures.
+    void recordEscalationOutcome({
+      correlationId: escalation.correlationId,
+      riskClass: escalation.riskClass,
+      autonomyTier: escalation.autonomyTier,
+      escalationMode: escalation.escalationMode,
+      outcome,
+      locale,
+      surfacedAt: escalation.surfacedAt,
+    });
+    if (outcome === "dismissed") {
+      setEscalation(null);
+    }
+  };
+
+  const handleEscalationBrowse = () => {
+    handleEscalationResolved("dismissed");
+    setEscalation(null);
+  };
+
   const handleClearFilters = () => {
     setHasFilters(false);
     setAiAnalysis(null);
@@ -502,6 +536,24 @@ export default function FindDoctorPage() {
 
   return (
     <AppBackground>
+      {escalation?.escalationMode === "emergency_takeover" ? (
+        <EmergencyTakeover
+          escalation={escalation}
+          locale={locale}
+          t={tSafety}
+          onResolve={handleEscalationResolved}
+          onBrowse={handleEscalationBrowse}
+        />
+      ) : null}
+      {escalation?.escalationMode === "crisis_support" ? (
+        <CrisisSupport
+          escalation={escalation}
+          locale={locale}
+          t={tSafety}
+          onResolve={handleEscalationResolved}
+          onBrowse={handleEscalationBrowse}
+        />
+      ) : null}
       <Navbar />
       
       <main className="max-w-6xl mx-auto container-padding py-8 pt-[var(--nav-content-offset)] animate-page-enter">

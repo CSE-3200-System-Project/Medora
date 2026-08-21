@@ -1,4 +1,5 @@
 import json
+import secrets
 import math
 import asyncio
 import time
@@ -45,6 +46,9 @@ from app.schemas.processing_consent import ProcessingPurpose
 from app.services.processing_consent import require_processing_consent
 from app.services.ai_orchestrator import AIOrchestratorError, ai_orchestrator
 from app.services.risk_classifier import classify_risk, is_emergency_text
+from app.services.helpline_registry import resolve_helplines
+from app.core.arohon import resolve_tier
+from app.db.models.enums import AutonomyTier, RiskClass
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -74,6 +78,21 @@ EMERGENCY_SAFETY_MESSAGE = (
     "or go to the nearest emergency department now."
 )
 
+# The self-harm path deliberately reads differently. Telling someone who has disclosed
+# suicidal ideation to go to an emergency department is both the wrong first bridge and
+# coercive in tone; the specification caps this path at L3 precisely so the person keeps
+# the choice. Clinician-authored supportive copy and time-aware human options go on the
+# screen, no method content appears anywhere, and nothing is dispatched on their behalf.
+CRISIS_SUPPORT_MESSAGE = (
+    "This search cannot help with what you are going through, but a person can. "
+    "You choose whether to reach out, and nothing is sent on your behalf."
+)
+
+#: How an L3 surface should be presented. Same tier, different interface, because the
+#: ceiling asymmetry is only real if the screen the user sees is also different.
+ESCALATION_TAKEOVER = "emergency_takeover"
+ESCALATION_CRISIS_SUPPORT = "crisis_support"
+
 
 def classify_navigation_outcome(
     *,
@@ -93,15 +112,30 @@ def classify_navigation_outcome(
     This never assigns urgency, severity, or a triage level, and manual browsing
     always stays available.
     """
-    if detect_emergency_red_flags(user_text):
+    assessment = classify_risk(user_text)
+    if assessment.is_emergency:
+        # Same tier for both, different screen. Self-harm surfaces support and keeps the
+        # choice with the person; a physical red flag surfaces the takeover. `risk_class`
+        # is what the frontend branches on, so the asymmetry is visible to the user and
+        # not just recorded in a log.
+        is_crisis = assessment.risk_class is RiskClass.SELF_HARM
+        decision = resolve_tier(AutonomyTier.L3_ESCALATE, assessment.risk_class)
         return {
             "outcome": "emergency",
             "requires_immediate_care": True,
             "uncertain": True,
             "manual_browse_available": True,
             "ambiguity": "high",
-            "safety_message": EMERGENCY_SAFETY_MESSAGE,
+            "safety_message": CRISIS_SUPPORT_MESSAGE if is_crisis else EMERGENCY_SAFETY_MESSAGE,
             "medical_intent": {"navigation_bypassed": "emergency_red_flag"},
+            "risk_class": assessment.risk_class.value,
+            "matched_risk_classes": [item.value for item in assessment.matched_classes],
+            "autonomy_tier": decision.granted_tier.value,
+            "escalation_mode": ESCALATION_CRISIS_SUPPORT if is_crisis else ESCALATION_TAKEOVER,
+            # L4 would mean notifying someone without the person in the loop. It is
+            # unreachable for self-harm by construction, and for the physical classes it
+            # needs a prior, still-valid grant that this route does not resolve.
+            "autonomous_notification": False,
             "candidate_source": "none",
             "matched_specialties": [],
             "primary_specialties": [],
@@ -118,6 +152,11 @@ def classify_navigation_outcome(
             "manual_browse_available": True,
             "ambiguity": "high",
             "safety_message": None,
+            "risk_class": assessment.risk_class.value,
+            "matched_risk_classes": [],
+            "autonomy_tier": AutonomyTier.L1_INFORM.value,
+            "escalation_mode": None,
+            "autonomous_notification": False,
             "medical_intent": {"error": "llm_unavailable", "fallback": "manual_search"},
             "candidate_source": "none",
             "matched_specialties": [],
@@ -178,6 +217,13 @@ def classify_navigation_outcome(
         "manual_browse_available": True,
         "ambiguity": ambiguity,
         "safety_message": None,
+        "risk_class": assessment.risk_class.value,
+        "matched_risk_classes": [],
+        # Navigation reads the catalog and names candidates. It writes nothing and
+        # decides nothing, so L1 is the whole of its authority.
+        "autonomy_tier": AutonomyTier.L1_INFORM.value,
+        "escalation_mode": None,
+        "autonomous_notification": False,
         "medical_intent": {
             **public_intent,
             "matched_specialties": matched_specialties,
@@ -193,6 +239,32 @@ def classify_navigation_outcome(
         "secondary_specialties": secondary_specialties,
         "extracted_specialties": extracted_specialties,
         "fallback_reason": fallback_reason,
+    }
+
+
+def _arohon_response_fields(outcome: dict, *, correlation_id: str | None = None) -> dict:
+    """Copy the Arohon decision out of a navigation outcome onto the wire.
+
+    Helplines are resolved here rather than inside ``classify_navigation_outcome``
+    because the registry reads the clock, and that function is deliberately pure so the
+    safety benchmark can score the real rules without pinning a time.
+    """
+    risk_class = outcome.get("risk_class")
+    escalating = bool(risk_class and outcome.get("escalation_mode"))
+    helplines = resolve_helplines(RiskClass(risk_class)) if escalating else []
+    if escalating and correlation_id is None:
+        # A random token minted per surface. The client echoes it back when the takeover
+        # resolves, which is what ties a dismissal to the escalation that produced it —
+        # without the utterance, the patient ID, or anything else re-identifying being
+        # stored alongside the outcome.
+        correlation_id = f"esc_{secrets.token_hex(10)}"
+    return {
+        "risk_class": risk_class,
+        "autonomy_tier": outcome.get("autonomy_tier"),
+        "escalation_mode": outcome.get("escalation_mode"),
+        "autonomous_notification": bool(outcome.get("autonomous_notification", False)),
+        "helplines": helplines,
+        "correlation_id": correlation_id,
     }
 
 
@@ -608,6 +680,7 @@ async def ai_doctor_search(
             safety_message=emergency_outcome["safety_message"],
             uncertain=emergency_outcome["uncertain"],
             manual_browse_available=emergency_outcome["manual_browse_available"],
+            **_arohon_response_fields(emergency_outcome),
         )
 
     if actor_id is None:
@@ -694,6 +767,7 @@ RULES:
             patient_context_factors=patient_context_factors if patient_context_factors else None,
             uncertain=unavailable["uncertain"],
             manual_browse_available=unavailable["manual_browse_available"],
+            **_arohon_response_fields(unavailable),
         )
 
     # 4. Get specialties that have actual doctors available
@@ -843,6 +917,7 @@ RULES:
         patient_context_factors=patient_context_factors if patient_context_factors else None,
         uncertain=outcome["uncertain"],
         manual_browse_available=outcome["manual_browse_available"],
+        **_arohon_response_fields(outcome),
     )
 
 

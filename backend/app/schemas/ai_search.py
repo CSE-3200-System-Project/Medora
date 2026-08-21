@@ -26,6 +26,22 @@ class PatientContextFactor(BaseModel):
     value: str  # e.g., "Diabetes", "Hypertension", "Chest surgery"
     influence: str  # Brief explanation of why this matters for the search
 
+class Helpline(BaseModel):
+    """One reachable human service, resolved against the current time in Asia/Dhaka."""
+
+    key: str
+    name_en: str
+    name_bn: str
+    number: str
+    always_available: bool = False
+    open_now: bool = True
+    opens_at: Optional[str] = None
+    closes_at: Optional[str] = None
+    reliability: str = "operational"
+    note_en: Optional[str] = None
+    note_bn: Optional[str] = None
+
+
 class AIDoctorSearchResponse(BaseModel):
     doctors: List[AIDoctorResult]
     ambiguity: str
@@ -42,3 +58,15 @@ class AIDoctorSearchResponse(BaseModel):
     safety_message: Optional[str] = None
     uncertain: bool = False
     manual_browse_available: bool = True
+
+    # Arohon. The tier and its risk class travel to the client because the ceiling
+    # asymmetry is only real if the screen changes with it: a physical red flag gets the
+    # takeover, a self-harm disclosure gets support and keeps the choice. Both are L3.
+    risk_class: Optional[str] = None
+    autonomy_tier: Optional[str] = None
+    escalation_mode: Optional[str] = None  # "emergency_takeover" | "crisis_support" | None
+    # Always false on this route. Stated rather than omitted so the client can show the
+    # user that nothing is being sent on their behalf.
+    autonomous_notification: bool = False
+    helplines: List[Helpline] = []
+    correlation_id: Optional[str] = None

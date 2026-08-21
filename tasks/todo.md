@@ -33,29 +33,29 @@ backend → database → frontend, with tests and machine-readable evidence. Cla
 Each phase is independently shippable, ends green, and is committed separately.
 Blast radius is stated per phase. No phase bundles a refactor.
 
-### Phase 1 — Arohon policy core (backend, no behaviour change)
-- [ ] `enums.py`: add `AutonomyTier` (L0–L4) and `RiskClass` (cardiac, stroke, anaphylaxis, obstetric, self_harm, routine, out_of_scope). Single-source rule, per convention.
-- [ ] New `backend/app/core/arohon.py`: immutable ceiling table (risk class → max tier), `TierDecision` dataclass, `resolve_tier(requested, risk_class, consent_ok, correlation_id)`. Self-harm ceiling L3, L4 structurally unreachable (not a config value).
-- [ ] New `backend/app/services/risk_classifier.py`: split the existing red-flag patterns into labelled classes. `detect_emergency_red_flags()` keeps its exact current truth table (delegates to the classifier) so the measured 30-fixture navigation result cannot move.
-- [ ] Unit tests: ceiling matrix, self-harm L4 refusal, classifier class assignment, byte-identical boolean parity with today's detector on all 30 navigation fixtures.
+### Phase 1 — Arohon policy core (backend, no behaviour change) — DONE (7f32cd7)
+- [x] `enums.py`: add `AutonomyTier` (L0–L4) and `RiskClass` (cardiac, stroke, anaphylaxis, obstetric, self_harm, routine, out_of_scope). Single-source rule, per convention.
+- [x] New `backend/app/core/arohon.py`: immutable ceiling table (risk class → max tier), `TierDecision` dataclass, `resolve_tier(requested, risk_class, consent_ok, correlation_id)`. Self-harm ceiling L3, L4 structurally unreachable (not a config value).
+- [x] New `backend/app/services/risk_classifier.py`: split the existing red-flag patterns into labelled classes. `detect_emergency_red_flags()` keeps its exact current truth table (delegates to the classifier) so the measured 30-fixture navigation result cannot move.
+- [x] Unit tests: ceiling matrix, self-harm L4 refusal, classifier class assignment, byte-identical boolean parity with today's detector on all 30 navigation fixtures.
 - **Touches:** 2 new files, `enums.py`, `ai_doctor.py` (one function body). No DB, no API shape change.
 
-### Phase 2 — Arohon instrumentation (backend + DB + Alembic)
-- [ ] Alembic revision: `ai_interactions.autonomy_tier`, `.risk_class`, `.correlation_id`, `.tier_ceiling_applied` (all nullable, `server_default` where needed) + index on `correlation_id`.
-- [ ] Mirror in `app/db/models/ai_interaction.py`. Apply via Alembic; verify with supabase MCP.
-- [ ] `ai_orchestrator._execute`: accept a declared tier + risk class, return the resolved decision in `AIExecutionResult`, log it.
-- [ ] Every one of the 21 AI endpoints declares its intended tier (constant per endpoint; a table in `arohon.py`, not branching in routes).
-- [ ] Startup self-heal block in `main.py` gets the matching `ALTER TABLE IF EXISTS` lines (repo convention for drifted dev DBs).
-- [ ] Fixtures asserting tier selection per endpoint; contract test that no endpoint ships without a declared tier.
+### Phase 2 — Arohon instrumentation (backend + DB + Alembic) — DONE (9f02eb0)
+- [x] Alembic revision: `ai_interactions.autonomy_tier`, `.risk_class`, `.correlation_id`, `.tier_ceiling_applied` (all nullable, `server_default` where needed) + index on `correlation_id`.
+- [x] Mirror in `app/db/models/ai_interaction.py`. Apply via Alembic; verify with supabase MCP.
+- [x] `ai_orchestrator._execute`: accept a declared tier + risk class, return the resolved decision in `AIExecutionResult`, log it.
+- [x] Every one of the 21 AI endpoints declares its intended tier (constant per endpoint; a table in `arohon.py`, not branching in routes).
+- [x] Startup self-heal block in `main.py` gets the matching `ALTER TABLE IF EXISTS` lines (repo convention for drifted dev DBs).
+- [x] Fixtures asserting tier selection per endpoint; contract test that no endpoint ships without a declared tier.
 - **Touches:** 1 migration, 1 model, orchestrator, a tier map, 21 one-line route declarations.
 
-### Phase 3 — Arohon L3 emergency + crisis UI (frontend + i18n + backend)
-- [ ] Backend returns `risk_class` + `autonomy_tier` + `helplines[]` on the navigation/consultation emergency path.
-- [ ] New `backend/app/services/helpline_registry.py`: time-aware registry (Kaan Pete Roi 09612-119911 15:00–03:00; 999; Shastho Batayon 16263 flagged unreliable), health-check field, no single hard dependency.
-- [ ] Frontend `components/safety/emergency-takeover.tsx`: full-screen bilingual takeover, one-tap emergency action, 10s cancellable countdown, no autodial, mock number in demo mode.
-- [ ] Frontend `components/safety/crisis-support.tsx`: self-harm path — clinician-authored supportive copy, time-aware helplines, explicit on-screen "will not act without you", no method content, no autonomous notification.
-- [ ] Dismissal posts a labelled false-positive event to the backend, stored for Lokkhon axis A.
-- [ ] All strings in `frontend/i18n/messages/{en,bn}/*.json`. lucide-react icons only. 44×44 targets. CSS-variable Tailwind only.
+### Phase 3 — Arohon L3 emergency + crisis UI (frontend + i18n + backend) — DONE
+- [x] Backend returns `risk_class` + `autonomy_tier` + `helplines[]` on the navigation/consultation emergency path.
+- [x] New `backend/app/services/helpline_registry.py`: time-aware registry (Kaan Pete Roi 09612-119911 15:00–03:00; 999; Shastho Batayon 16263 flagged unreliable), health-check field, no single hard dependency.
+- [x] Frontend `components/safety/emergency-takeover.tsx`: full-screen bilingual takeover, one-tap emergency action, 10s cancellable countdown, no autodial, mock number in demo mode.
+- [x] Frontend `components/safety/crisis-support.tsx`: self-harm path — clinician-authored supportive copy, time-aware helplines, explicit on-screen "will not act without you", no method content, no autonomous notification.
+- [x] Dismissal posts a labelled false-positive event to the backend, stored for Lokkhon axis A.
+- [x] All strings in `frontend/i18n/messages/{en,bn}/*.json`. lucide-react icons only. 44×44 targets. CSS-variable Tailwind only.
 - **Touches:** 2 new frontend components + 1 server action, 1 new backend service, 1 route response extension, i18n files.
 
 ### Phase 4 — Akkhor public API + versioned release

@@ -291,3 +291,148 @@ def test_decision_log_fields_are_flat_and_complete():
     assert fields["tier_ceiling_applied"] is True
     assert fields["correlation_id"] == "req_deadbeef"
     assert all(not isinstance(value, (dict, list)) for value in fields.values())
+
+
+# ---------------------------------------------------------------------------
+# The two worked traces: same tier, different screen
+# ---------------------------------------------------------------------------
+
+def _navigate(text: str) -> dict:
+    from app.routes.ai_doctor import classify_navigation_outcome
+
+    return classify_navigation_outcome(
+        user_text=text,
+        intent=None,
+        available_specialties=[],
+        specialties_with_doctors=[],
+    )
+
+
+def test_cardiac_trace_surfaces_the_takeover_at_l3():
+    outcome = _navigate("chest pain and difficulty breathing")
+    assert outcome["outcome"] == "emergency"
+    assert outcome["autonomy_tier"] == "L3_escalate"
+    assert outcome["escalation_mode"] == "emergency_takeover"
+    assert outcome["autonomous_notification"] is False
+    assert outcome["manual_browse_available"] is True
+
+
+def test_self_harm_trace_surfaces_support_and_refuses_to_act():
+    outcome = _navigate("I want to kill myself")
+    assert outcome["outcome"] == "emergency"
+    assert outcome["risk_class"] == "self_harm"
+    # Same rung of the ladder as the cardiac trace...
+    assert outcome["autonomy_tier"] == "L3_escalate"
+    # ...and a different screen, which is the whole contribution.
+    assert outcome["escalation_mode"] == "crisis_support"
+    assert outcome["autonomous_notification"] is False
+
+
+def test_the_two_traces_share_a_tier_and_differ_in_presentation():
+    cardiac = _navigate("severe chest pain")
+    crisis = _navigate("আমি আত্মহত্যা করতে চাই")
+    assert cardiac["autonomy_tier"] == crisis["autonomy_tier"] == "L3_escalate"
+    assert cardiac["escalation_mode"] != crisis["escalation_mode"]
+    assert cardiac["safety_message"] != crisis["safety_message"]
+
+
+def test_the_crisis_message_does_not_direct_the_person_to_an_emergency_department():
+    from app.routes.ai_doctor import CRISIS_SUPPORT_MESSAGE
+
+    lowered = CRISIS_SUPPORT_MESSAGE.lower()
+    for phrase in ("emergency department", "999", "ambulance", "call now"):
+        assert phrase not in lowered, phrase
+
+
+def test_routine_navigation_stays_at_inform_with_no_escalation():
+    outcome = _navigate("I need a dermatologist for a skin rash")
+    assert outcome["autonomy_tier"] == "L1_inform"
+    assert outcome["escalation_mode"] is None
+    assert outcome["risk_class"] == "routine"
+
+
+# ---------------------------------------------------------------------------
+# Helpline registry
+# ---------------------------------------------------------------------------
+
+def _at(hour: int, minute: int = 0):
+    from datetime import datetime
+
+    from app.services.helpline_registry import BANGLADESH_TIMEZONE
+
+    return datetime(2026, 8, 21, hour, minute, tzinfo=BANGLADESH_TIMEZONE)
+
+
+def test_kaan_pete_roi_is_closed_in_the_morning_and_open_in_the_evening():
+    """A line that operates 3 PM to 3 AM must not be shown as reachable at 6 AM."""
+    from app.services.helpline_registry import is_open_at
+
+    assert is_open_at("kaan_pete_roi", _at(6)) is False
+    assert is_open_at("kaan_pete_roi", _at(14, 59)) is False
+    assert is_open_at("kaan_pete_roi", _at(15, 0)) is True
+    assert is_open_at("kaan_pete_roi", _at(23)) is True
+    # The window wraps past midnight.
+    assert is_open_at("kaan_pete_roi", _at(2, 59)) is True
+    assert is_open_at("kaan_pete_roi", _at(3, 0)) is False
+
+
+def test_the_national_emergency_line_is_always_available():
+    from app.services.helpline_registry import is_open_at
+
+    for hour in range(24):
+        assert is_open_at("national_emergency", _at(hour)) is True
+
+
+def test_self_harm_always_gets_at_least_one_open_option():
+    """No hour of the day may leave the crisis screen with nothing reachable on it."""
+    from app.db.models.enums import RiskClass
+    from app.services.helpline_registry import resolve_helplines
+
+    for hour in range(24):
+        resolved = resolve_helplines(RiskClass.SELF_HARM, now=_at(hour))
+        assert any(item["open_now"] for item in resolved), hour
+
+
+def test_closed_lines_are_returned_with_their_hours_rather_than_hidden():
+    from app.db.models.enums import RiskClass
+    from app.services.helpline_registry import resolve_helplines
+
+    resolved = resolve_helplines(RiskClass.SELF_HARM, now=_at(6))
+    kaan = next(item for item in resolved if item["key"] == "kaan_pete_roi")
+    assert kaan["open_now"] is False
+    assert kaan["opens_at"] == "15:00"
+
+
+def test_a_line_reported_unreliable_is_ranked_below_working_ones():
+    from app.db.models.enums import RiskClass
+    from app.services.helpline_registry import resolve_helplines
+
+    resolved = resolve_helplines(RiskClass.CARDIAC, now=_at(20))
+    keys = [item["key"] for item in resolved]
+    assert keys.index("national_emergency") < keys.index("shastho_batayon")
+    degraded = next(item for item in resolved if item["key"] == "shastho_batayon")
+    assert degraded["reliability"] == "reported_degraded"
+
+
+def test_the_crisis_registry_offers_no_clinical_or_method_content():
+    """The screen is a bridge to a person. It must not read as advice."""
+    from app.services.helpline_registry import HELPLINES
+
+    banned = ("dose", "pill", "method", "overdose", "diagnos", "prescrib")
+    for helpline in HELPLINES:
+        blob = " ".join(
+            str(part).lower()
+            for part in (helpline.name_en, helpline.name_bn, helpline.note_en, helpline.note_bn)
+            if part
+        )
+        for word in banned:
+            assert word not in blob, (helpline.key, word)
+
+
+def test_every_helpline_carries_both_languages():
+    from app.services.helpline_registry import HELPLINES
+
+    for helpline in HELPLINES:
+        assert helpline.name_en.strip()
+        assert helpline.name_bn.strip()
+        assert (helpline.note_en is None) == (helpline.note_bn is None), helpline.key
