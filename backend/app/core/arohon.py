@@ -37,10 +37,12 @@ __all__ = [
     "RISK_CEILINGS",
     "L4_ELIGIBLE_RISK_CLASSES",
     "EMERGENCY_RISK_CLASSES",
+    "FEATURE_TIERS",
     "TierDecision",
     "tier_rank",
     "min_tier",
     "ceiling_for",
+    "requested_tier_for_feature",
     "resolve_tier",
 ]
 
@@ -127,6 +129,55 @@ def ceiling_for(risk_class: RiskClass, *, break_glass_grant_active: bool = False
     if break_glass_grant_active and risk_class in L4_ELIGIBLE_RISK_CLASSES:
         return AutonomyTier.L4_BREAK_GLASS
     return base
+
+
+# ---------------------------------------------------------------------------
+# Declared tiers
+# ---------------------------------------------------------------------------
+
+#: The tier each AI feature declares it intends to operate at, keyed by the orchestrator
+#: `feature` string. This is a registry rather than a branch in the orchestrator, for the
+#: same reason Chorui's navigable destinations are a registry: adding a feature should be
+#: adding a row, and a feature with no row should fail loudly instead of defaulting to
+#: something permissive.
+#:
+#: Every entry today is L1 or L2, which is the honest state of the platform. Nothing in
+#: the deployed stack drafts at L3; L3 is reached by the deterministic red-flag path
+#: pre-empting the model entirely, and L4 by a prior grant. A feature is never listed
+#: above the authority its own route actually exercises.
+FEATURE_TIERS: Mapping[str, AutonomyTier] = MappingProxyType(
+    {
+        # Read-only, source-linked, shown to a clinician. Nothing is written back.
+        "generate_patient_summary": AutonomyTier.L1_INFORM,
+        "clinical_info_query": AutonomyTier.L1_INFORM,
+        "extract_navigation_intent": AutonomyTier.L1_INFORM,
+        # Produces a draft that pre-fills a form the human edits and signs before it
+        # takes effect. `authoritative_writeback` is false on all of these.
+        "structure_intake": AutonomyTier.L2_SUGGEST,
+        "generate_soap_notes": AutonomyTier.L2_SUGGEST,
+        "prescription_suggestions": AutonomyTier.L2_SUGGEST,
+    }
+)
+
+
+class UndeclaredFeatureError(KeyError):
+    """Raised when an AI feature runs without a declared tier.
+
+    Failing here is deliberate. A feature that reaches the provider without appearing in
+    `FEATURE_TIERS` has no ceiling and no tier to log, which is the exact condition the
+    specification exists to make impossible.
+    """
+
+
+def requested_tier_for_feature(feature: str) -> AutonomyTier:
+    """The tier `feature` declares. Raises rather than guessing."""
+    try:
+        return FEATURE_TIERS[feature]
+    except KeyError as exc:
+        raise UndeclaredFeatureError(
+            f"AI feature {feature!r} has no declared Arohon tier. "
+            f"Add it to FEATURE_TIERS in app/core/arohon.py."
+        ) from exc
 
 
 # ---------------------------------------------------------------------------

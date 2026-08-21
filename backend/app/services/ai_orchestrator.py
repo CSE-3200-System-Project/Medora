@@ -20,7 +20,9 @@ import httpx
 from pydantic import BaseModel, Field, ValidationError
 
 from app.core.ai_privacy import redact_pii_text
+from app.core.arohon import requested_tier_for_feature, resolve_tier
 from app.core.config import settings
+from app.db.models.enums import RiskClass
 
 logger = logging.getLogger(__name__)
 
@@ -45,6 +47,15 @@ class AIValidationError(AIOrchestratorError):
     """Raised when output validation fails."""
 
 
+class AIAuthorityError(AIOrchestratorError):
+    """Raised when Arohon resolves the call to L0 abstention.
+
+    This fires before the provider is contacted. It is not a failure of the model; it is
+    the policy declining to spend an inference on output nobody would be permitted to act
+    on.
+    """
+
+
 # ---------------------------------------------------------------------------
 # Output schemas
 # ---------------------------------------------------------------------------
@@ -58,6 +69,15 @@ class AIExecutionResult(BaseModel):
     validation_status: str
     latency_ms: int
     provider: str
+    # Arohon. `correlation_id` is the per-request random token that already stood in for
+    # the subject when talking to a provider; it is now also the key the tier decision is
+    # logged under, so one request's authority can be audited without a stable patient ID
+    # ever entering the AI logs.
+    correlation_id: str | None = None
+    requested_tier: str | None = None
+    autonomy_tier: str | None = None
+    risk_class: str | None = None
+    tier_ceiling_applied: bool = False
 
 
 class SummarySourceRef(BaseModel):
@@ -242,12 +262,14 @@ class AIOrchestrator:
         data: Mapping[str, Any],
         include_meta: bool = False,
         prompt_version: str = "v1",
+        risk_class: RiskClass = RiskClass.ROUTINE,
     ) -> dict[str, Any] | AIExecutionResult:
         source_refs = self._collect_source_refs(data)
         sanitized_data = self._sanitize_structured_input(data)
         result = await self._execute(
             feature="generate_patient_summary",
             prompt_version=prompt_version,
+            risk_class=risk_class,
             payload=sanitized_data,
             output_model=PatientSummaryOutput,
             task_instruction=(
@@ -303,10 +325,12 @@ class AIOrchestrator:
         data: Mapping[str, Any],
         include_meta: bool = False,
         prompt_version: str = "v1",
+        risk_class: RiskClass = RiskClass.ROUTINE,
     ) -> dict[str, Any] | AIExecutionResult:
         result = await self._execute(
             feature="structure_intake",
             prompt_version=prompt_version,
+            risk_class=risk_class,
             payload=self._sanitize_structured_input(data),
             output_model=StructuredIntakeOutput,
             task_instruction=(
@@ -324,6 +348,7 @@ class AIOrchestrator:
         patient_context: str = "",
         include_meta: bool = False,
         prompt_version: str = "softwarex-v1",
+        risk_class: RiskClass = RiskClass.ROUTINE,
     ) -> dict[str, Any] | AIExecutionResult:
         cleaned = self._sanitize_text(user_text)
         if not cleaned:
@@ -331,6 +356,7 @@ class AIOrchestrator:
         result = await self._execute(
             feature="extract_navigation_intent",
             prompt_version=prompt_version,
+            risk_class=risk_class,
             payload={
                 "user_text": cleaned,
                 "available_specialties": available_specialties,
@@ -350,6 +376,7 @@ class AIOrchestrator:
         transcript: str,
         include_meta: bool = False,
         prompt_version: str = "v1",
+        risk_class: RiskClass = RiskClass.ROUTINE,
     ) -> dict[str, Any] | AIExecutionResult:
         cleaned = self._sanitize_text(transcript)
         if not cleaned:
@@ -358,6 +385,7 @@ class AIOrchestrator:
         result = await self._execute(
             feature="generate_soap_notes",
             prompt_version=prompt_version,
+            risk_class=risk_class,
             payload={"transcript": cleaned},
             output_model=SOAPNotesOutput,
             task_instruction=(
@@ -372,6 +400,7 @@ class AIOrchestrator:
         query: str,
         include_meta: bool = False,
         prompt_version: str = "v1",
+        risk_class: RiskClass = RiskClass.ROUTINE,
     ) -> dict[str, Any] | AIExecutionResult:
         cleaned = self._sanitize_text(query)
         if not cleaned:
@@ -380,6 +409,7 @@ class AIOrchestrator:
         result = await self._execute(
             feature="clinical_info_query",
             prompt_version=prompt_version,
+            risk_class=risk_class,
             payload={"query": cleaned},
             output_model=ClinicalInfoOutput,
             task_instruction=(
@@ -397,10 +427,12 @@ class AIOrchestrator:
         data: Mapping[str, Any],
         include_meta: bool = False,
         prompt_version: str = "v1",
+        risk_class: RiskClass = RiskClass.ROUTINE,
     ) -> dict[str, Any] | AIExecutionResult:
         result = await self._execute(
             feature="prescription_suggestions",
             prompt_version=prompt_version,
+            risk_class=risk_class,
             payload=self._sanitize_structured_input(data),
             output_model=PrescriptionSuggestionsOutput,
             task_instruction=(
@@ -503,10 +535,30 @@ class AIOrchestrator:
         payload: dict[str, Any],
         output_model: Type[BaseModel],
         task_instruction: str,
+        risk_class: RiskClass = RiskClass.ROUTINE,
+        break_glass_grant_active: bool = False,
+        consent_ok: bool = True,
     ) -> AIExecutionResult:
         # Correlation IDs are random per request and are never sent as stable
         # subject identifiers to an external provider.
         subject_token = f"req_{secrets.token_hex(10)}"
+
+        # Arohon runs before the provider, not after it. A feature with no declared tier
+        # raises here rather than reaching the model with unbounded authority, and a
+        # decision that collapses to L0 short-circuits the call entirely — there is no
+        # point spending an inference on output the policy will not let anyone act on.
+        decision = resolve_tier(
+            requested_tier_for_feature(feature),
+            risk_class,
+            break_glass_grant_active=break_glass_grant_active,
+            consent_ok=consent_ok,
+            correlation_id=subject_token,
+        )
+        if decision.abstained:
+            raise AIAuthorityError(
+                f"Arohon refused {feature} at L0 ({decision.reason})."
+            )
+
         schema_hint = output_model.model_json_schema()
         system_prompt = (
             "You are Chorui, a research workflow assistant for the Medora platform, serving doctors and patients. "
@@ -543,6 +595,10 @@ class AIOrchestrator:
                 )
                 validated = output_model.model_validate(raw_output).model_dump()
                 latency_ms = int((perf_counter() - started) * 1000)
+                logger.info(
+                    "arohon.tier_resolved",
+                    extra={"feature": feature, **decision.as_log_fields()},
+                )
                 return AIExecutionResult(
                     feature=feature,
                     prompt_version=prompt_version,
@@ -552,6 +608,11 @@ class AIOrchestrator:
                     validation_status="valid",
                     latency_ms=latency_ms,
                     provider=provider_used,
+                    correlation_id=decision.correlation_id,
+                    requested_tier=decision.requested_tier.value,
+                    autonomy_tier=decision.granted_tier.value,
+                    risk_class=decision.risk_class.value,
+                    tier_ceiling_applied=decision.ceiling_applied,
                 )
             except (ValidationError, ValueError, httpx.HTTPError, httpx.TimeoutException, AIProviderError) as exc:
                 last_error = exc

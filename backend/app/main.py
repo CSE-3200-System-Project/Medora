@@ -164,6 +164,42 @@ async def _ensure_health_data_consent_schema_compatibility() -> None:
         logger.warning("Health data consent schema compatibility check failed: %s", exc)
 
 
+async def _ensure_arohon_tier_schema_compatibility() -> None:
+    """Repair Arohon tier-log drift in databases that missed the ar0h0n_001 migration.
+
+    Same band-aid as the blocks above and with the same caveat: the Alembic revision is
+    still the real fix. This exists so a long-lived dev database does not start throwing
+    UndefinedColumn on every AI call after a pull.
+    """
+    try:
+        async with AsyncSessionLocal() as db:
+            table_exists = (
+                await db.execute(text("SELECT to_regclass('public.ai_interactions')"))
+            ).scalar_one_or_none() is not None
+
+            if not table_exists:
+                return
+
+            for statement in (
+                "ALTER TABLE IF EXISTS ai_interactions ADD COLUMN IF NOT EXISTS correlation_id VARCHAR(64)",
+                "ALTER TABLE IF EXISTS ai_interactions ADD COLUMN IF NOT EXISTS requested_tier VARCHAR(24)",
+                "ALTER TABLE IF EXISTS ai_interactions ADD COLUMN IF NOT EXISTS autonomy_tier VARCHAR(24)",
+                "ALTER TABLE IF EXISTS ai_interactions ADD COLUMN IF NOT EXISTS risk_class VARCHAR(24)",
+                "ALTER TABLE IF EXISTS ai_interactions "
+                "ADD COLUMN IF NOT EXISTS tier_ceiling_applied BOOLEAN NOT NULL DEFAULT FALSE",
+                "CREATE INDEX IF NOT EXISTS ix_ai_interactions_correlation_id "
+                "ON ai_interactions (correlation_id)",
+                "CREATE INDEX IF NOT EXISTS ix_ai_interactions_autonomy_tier "
+                "ON ai_interactions (autonomy_tier)",
+                "CREATE INDEX IF NOT EXISTS ix_ai_interactions_risk_class "
+                "ON ai_interactions (risk_class)",
+            ):
+                await db.execute(text(statement))
+            await db.commit()
+    except Exception as exc:
+        logger.warning("Arohon tier schema compatibility check failed: %s", exc)
+
+
 async def _run_hold_expiry_loop(stop_event: asyncio.Event) -> None:
     """Periodically expire stale pending soft-holds."""
     interval_seconds = int(os.getenv("APPOINTMENT_HOLD_SWEEP_INTERVAL_SECONDS", "60"))
@@ -251,6 +287,7 @@ async def lifespan(app: FastAPI):
     # Startup: self-heal known scheduling drift (kept idempotent)
     await _ensure_scheduling_schema_compatibility()
     await _ensure_health_data_consent_schema_compatibility()
+    await _ensure_arohon_tier_schema_compatibility()
 
     # Startup: backfill missing avatar URLs once. Previously ran on first login
     # which blocked the user; hoisting to startup keeps request paths clean.
