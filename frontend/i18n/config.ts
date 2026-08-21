@@ -20,6 +20,7 @@ export const I18N_NAMESPACES = [
   "consultation",
   "prescription",
   "onboarding",
+  "safety",
 ] as const;
 export type I18nNamespace = (typeof I18N_NAMESPACES)[number];
 
@@ -66,6 +67,12 @@ export function getNamespacesForPath(pathname: string | null | undefined): I18nN
 
   if (normalized.includes("/chorui-ai")) {
     return ["common", "nav", "notifications", "errors", "chorui"];
+  }
+
+  // The find-doctor search is the one patient surface where a deterministic red flag
+  // can pre-empt the request, so it is the only one that needs the safety strings.
+  if (normalized.includes("/find-doctor")) {
+    return ["common", "nav", "notifications", "errors", "safety"];
   }
 
   if (normalized.startsWith("/patient") || normalized.startsWith("/doctor") || normalized.startsWith("/notifications")) {

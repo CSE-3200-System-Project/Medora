@@ -16,7 +16,7 @@ from sqlalchemy import text
 from app.core.config import settings
 from app.core.performance_metrics import begin_request_metrics, end_request_metrics
 from app.core.rate_limit import RateLimitMiddleware
-from app.routes import health, auth, profile, upload, admin, doctor, speciality, appointment, ai_doctor, ai_consultation, medicine, medical_test, notification, patient_access, reminder, consultation, consultation_ai, availability, reschedule, oauth, health_metrics, doctor_actions, patient_dashboard, health_data_consent, medical_report, patient_data_sharing, processing_consent, review
+from app.routes import health, auth, profile, upload, admin, doctor, speciality, appointment, ai_doctor, ai_consultation, medicine, medical_test, notification, patient_access, reminder, consultation, consultation_ai, availability, reschedule, oauth, health_metrics, doctor_actions, patient_dashboard, health_data_consent, medical_report, patient_data_sharing, processing_consent, review, arohon
 from app.services.reminder_dispatcher import start_reminder_dispatcher, stop_reminder_dispatcher
 from app.db.session import AsyncSessionLocal
 from app.services import appointment_service
@@ -435,3 +435,4 @@ app.include_router(medical_report.router, prefix="/medical-reports", tags=["Medi
 app.include_router(patient_data_sharing.router, prefix="/patient-data-sharing", tags=["Patient Data Sharing"])
 app.include_router(processing_consent.router, prefix="/privacy", tags=["Processing Consent"])
 app.include_router(review.router, prefix="/reviews", tags=["Doctor Reviews"])
+app.include_router(arohon.router, prefix="/arohon", tags=["Arohon Authority"])

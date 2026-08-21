@@ -1,0 +1,51 @@
+{
+  "takeover": {
+    "title": "This looks like an emergency",
+    "subtitle": "Medora cannot assess this. Reach a person now.",
+    "tierBadge": "Authority L3 · escalate",
+    "riskLabel": "Detected as",
+    "callAction": "Call {number}",
+    "openingDialer": "Opening your dialer in {seconds}s",
+    "cancelCountdown": "Cancel",
+    "countdownCancelled": "Countdown stopped. The call button is still here.",
+    "dialerFailed": "Could not open the dialer. Use the call button above.",
+    "copyLocation": "Copy my location",
+    "locationCopied": "Location copied",
+    "locationUnavailable": "Location unavailable on this device",
+    "dismiss": "This is not an emergency",
+    "dismissHint": "Dismissing tells us the detection was wrong. It is recorded to improve the rules.",
+    "browse": "Browse specialties instead",
+    "notADiagnosis": "This is a keyword rule, not a diagnosis. It runs before any AI model."
+  },
+  "crisis": {
+    "title": "You do not have to handle this alone",
+    "subtitle": "This search cannot help with what you are going through, but a person can.",
+    "tierBadge": "Authority L3 · support only",
+    "agency": "Nothing is sent on your behalf. Reaching out is your choice, and you can close this at any time.",
+    "noAutonomousAction": "Medora will not contact anyone for you.",
+    "talkToSomeone": "Talk to someone",
+    "call": "Call {number}",
+    "openNow": "Open now",
+    "closedNow": "Closed now",
+    "opensAt": "Opens at {time}",
+    "reportedDegraded": "Calls have been reported to go unanswered",
+    "close": "Close",
+    "browse": "Browse specialties instead"
+  },
+  "common": {
+    "helplines": "Human help",
+    "manualAlternative": "You can also browse doctors by specialty yourself.",
+    "riskClass": {
+      "cardiac": "possible cardiac symptoms",
+      "respiratory": "possible breathing difficulty",
+      "stroke": "possible stroke symptoms",
+      "neurologic": "possible neurological symptoms",
+      "hemorrhage": "possible severe bleeding",
+      "anaphylaxis": "possible severe allergic reaction",
+      "obstetric": "possible pregnancy emergency",
+      "self_harm": "a disclosure of self-harm",
+      "routine": "a routine request",
+      "out_of_scope": "outside what Medora covers"
+    }
+  }
+}
