@@ -177,3 +177,39 @@ class DayOfWeek(int, enum.Enum):
     FRIDAY = 4
     SATURDAY = 5
     SUNDAY = 6
+
+
+# ========== Arohon: graded autonomy ==========
+# Arohon (আরোহণ, "ascent") is the authority ladder specified in the BCOLBD whitepaper.
+# The tier says how far an assistive AI path may go; the risk class caps how far it is
+# allowed to go regardless of what the model produced. Policy lives in
+# `app/core/arohon.py` — these are only the labels, kept here per the single-source rule.
+
+class AutonomyTier(str, enum.Enum):
+    """How far an AI path may act. Ordering is defined in `app.core.arohon.TIER_ORDER`."""
+    L0_ABSTAIN = "L0_abstain"
+    L1_INFORM = "L1_inform"
+    L2_SUGGEST = "L2_suggest"
+    L3_ESCALATE = "L3_escalate"
+    L4_BREAK_GLASS = "L4_break_glass"
+
+
+class RiskClass(str, enum.Enum):
+    """What kind of case this is. Determines the ceiling, never the model's confidence.
+
+    The whitepaper names cardiac, stroke, anaphylaxis, and obstetric as the emergency
+    classes and self-harm as the separately capped one. The additional physiological
+    classes exist because the deployed red-flag rules already match seizure, syncope,
+    haemorrhage, and respiratory distress; folding those into `cardiac` would make the
+    tier log say something clinically untrue.
+    """
+    CARDIAC = "cardiac"
+    RESPIRATORY = "respiratory"
+    STROKE = "stroke"
+    NEUROLOGIC = "neurologic"
+    HEMORRHAGE = "hemorrhage"
+    ANAPHYLAXIS = "anaphylaxis"
+    OBSTETRIC = "obstetric"
+    SELF_HARM = "self_harm"
+    ROUTINE = "routine"
+    OUT_OF_SCOPE = "out_of_scope"
