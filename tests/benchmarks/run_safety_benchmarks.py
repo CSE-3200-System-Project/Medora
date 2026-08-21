@@ -99,59 +99,71 @@ def privacy_span_metrics(rows: list[dict]) -> dict:
     }
 
 
+def score_privacy_case(case: dict) -> dict:
+    """Score one privacy case.
+
+    Extracted from `score_privacy` so the Lokkhon release runner can score its derived
+    axis D corpus through this exact function instead of a second copy of it. Two copies
+    of scoring logic drift, and the released axis D number would then be measuring the
+    copy rather than the redactor.
+    """
+    # Production parity: no call site supplies known identifiers, so the metric
+    # path must not either. The documented API group opts in explicitly.
+    known = case.get("known_identifiers", []) if case.get("uses_known_identifier_api") else []
+    result = redact_pii_text(case["text"], known_identifiers=known)
+
+    missed = [value for value in case.get("must_not_contain", []) if value.casefold() in result.text.casefold()]
+    lost = [value for value in case.get("must_preserve", []) if value not in result.text]
+    residual_expected = bool(case.get("expected_residual_risk"))
+    over_expected = bool(case.get("expected_over_redaction"))
+
+    undisclosed_misses = [] if residual_expected else missed
+    undisclosed_losses = [] if over_expected else lost
+    # A flag is only stale if the case actually declares the kind of span the flag
+    # is about. Cases that document a limitation purely through `must_preserve`
+    # (an identifier the redactor is not expected to find at all) declare no
+    # `must_not_contain` span and can never go stale on the residual-risk axis.
+    stale = (residual_expected and bool(case.get("must_not_contain")) and not missed) or (
+        over_expected and bool(case.get("must_preserve")) and not lost
+    )
+
+    consent_ok = case.get("category") != "consent_state" or case.get("external_processing_allowed") is (
+        case.get("consent_state") == "active"
+    )
+    # A redactor that re-redacts its own placeholders is broken; nothing else checks this.
+    idempotent = redact_pii_text(result.text, known_identifiers=known).text == result.text
+
+    passed = not undisclosed_misses and not undisclosed_losses and consent_ok and idempotent
+    row = {
+        "id": case["id"],
+        "category": case["category"],
+        "report_group": case["report_group"],
+        "passed": passed,
+        "matched_expected": not missed and not lost and consent_ok,
+        "expected_identifier_spans": len(case.get("must_not_contain", [])),
+        "benign_spans": len(case.get("must_preserve", [])),
+        "missed_identifiers": missed,
+        "lost_benign_text": lost,
+        "undisclosed_misses": undisclosed_misses,
+        "undisclosed_losses": undisclosed_losses,
+        "expected_residual_risk": residual_expected,
+        "expected_over_redaction": over_expected,
+        "limitation_class": case.get("limitation_class"),
+        "limitation_note": case.get("limitation_note"),
+        "stale_limitation": stale,
+        "idempotent": idempotent,
+        "uses_known_identifier_api": bool(case.get("uses_known_identifier_api")),
+    }
+    return row
+
+
 def score_privacy() -> tuple[list[dict], list[dict]]:
     rows: list[dict] = []
     failures: list[dict] = []
     for case in load("pii_safety_cases.jsonl"):
-        # Production parity: no call site supplies known identifiers, so the metric
-        # path must not either. The documented API group opts in explicitly.
-        known = case.get("known_identifiers", []) if case.get("uses_known_identifier_api") else []
-        result = redact_pii_text(case["text"], known_identifiers=known)
-
-        missed = [value for value in case.get("must_not_contain", []) if value.casefold() in result.text.casefold()]
-        lost = [value for value in case.get("must_preserve", []) if value not in result.text]
-        residual_expected = bool(case.get("expected_residual_risk"))
-        over_expected = bool(case.get("expected_over_redaction"))
-
-        undisclosed_misses = [] if residual_expected else missed
-        undisclosed_losses = [] if over_expected else lost
-        # A flag is only stale if the case actually declares the kind of span the flag
-        # is about. Cases that document a limitation purely through `must_preserve`
-        # (an identifier the redactor is not expected to find at all) declare no
-        # `must_not_contain` span and can never go stale on the residual-risk axis.
-        stale = (residual_expected and bool(case.get("must_not_contain")) and not missed) or (
-            over_expected and bool(case.get("must_preserve")) and not lost
-        )
-
-        consent_ok = case.get("category") != "consent_state" or case.get("external_processing_allowed") is (
-            case.get("consent_state") == "active"
-        )
-        # A redactor that re-redacts its own placeholders is broken; nothing else checks this.
-        idempotent = redact_pii_text(result.text, known_identifiers=known).text == result.text
-
-        passed = not undisclosed_misses and not undisclosed_losses and consent_ok and idempotent
-        row = {
-            "id": case["id"],
-            "category": case["category"],
-            "report_group": case["report_group"],
-            "passed": passed,
-            "matched_expected": not missed and not lost and consent_ok,
-            "expected_identifier_spans": len(case.get("must_not_contain", [])),
-            "benign_spans": len(case.get("must_preserve", [])),
-            "missed_identifiers": missed,
-            "lost_benign_text": lost,
-            "undisclosed_misses": undisclosed_misses,
-            "undisclosed_losses": undisclosed_losses,
-            "expected_residual_risk": residual_expected,
-            "expected_over_redaction": over_expected,
-            "limitation_class": case.get("limitation_class"),
-            "limitation_note": case.get("limitation_note"),
-            "stale_limitation": stale,
-            "idempotent": idempotent,
-            "uses_known_identifier_api": bool(case.get("uses_known_identifier_api")),
-        }
+        row = score_privacy_case(case)
         rows.append(row)
-        if not passed:
+        if not row["passed"]:
             failures.append(row)
     return rows, failures
 
