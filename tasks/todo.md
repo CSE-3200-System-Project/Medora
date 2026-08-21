@@ -58,12 +58,12 @@ Blast radius is stated per phase. No phase bundles a refactor.
 - [x] All strings in `frontend/i18n/messages/{en,bn}/*.json`. lucide-react icons only. 44×44 targets. CSS-variable Tailwind only.
 - **Touches:** 2 new frontend components + 1 server action, 1 new backend service, 1 route response extension, i18n files.
 
-### Phase 4 — Akkhor public API + versioned release
-- [ ] `backend/app/routes/akkhor.py` mounted at `/v1/akkhor`: `GET /drugs`, `/drugs/{id}`, `/brands`, `/search`, `/resolve`. Uses the canonical `PaginationParams`/`Page[T]` contract — no hand-rolled skip/take.
-- [ ] Provenance fields surfaced per row (source dataset), release id `akkhor-2026.08`, `GET /v1/akkhor/version` returning the six counts regenerated from the DB, not transcribed.
-- [ ] Rate limit via existing `core/rate_limit.py`. Public/unauthenticated read, no PHI in scope.
-- [ ] `packages/akkhor/README.md` + schema doc + CC BY 4.0 restatement.
-- [ ] Contract tests: counts match the live tables; pagination envelope conformance.
+### Phase 4 — Akkhor public API + versioned release — DONE
+- [x] `backend/app/routes/akkhor.py` mounted at `/v1/akkhor`: `GET /drugs`, `/drugs/{id}`, `/brands`, `/search`, `/resolve`. Uses the canonical `PaginationParams`/`Page[T]` contract — no hand-rolled skip/take.
+- [x] Provenance fields surfaced per row (source dataset), release id `akkhor-2026.08`, `GET /v1/akkhor/version` returning the six counts regenerated from the DB, not transcribed.
+- [x] Rate limit via existing `core/rate_limit.py`. Public/unauthenticated read, no PHI in scope.
+- [x] `packages/akkhor/README.md` + schema doc + CC BY 4.0 restatement.
+- [x] Contract tests: counts match the live tables; pagination envelope conformance.
 - **Touches:** 1 new route module, 1 schema module, main.py router include, docs.
 
 ### Phase 5 — Lokkhon as a versioned benchmark package
