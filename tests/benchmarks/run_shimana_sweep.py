@@ -212,6 +212,22 @@ async def run(provider: str, seeds: int) -> dict:
             "term_coverage_mean": round(t_mean, 4),
             "exposure_spans_per_request": round(e_per_req, 4),
             "exposure_spans_per_1000": round(e_per_req * 1000, 1),
+            # Per-patient values, kept so the reporter can compare configurations on the
+            # same patients rather than through two independent aggregates. Widening
+            # consent changes what one patient's summary can contain; a paired comparison
+            # measures that, an unpaired one mostly measures how much patients differ from
+            # each other.
+            "per_patient": [
+                {
+                    "patient_token": patient["patient_token"],
+                    "utility": round(utility, 4),
+                    "term_coverage": round(term, 4),
+                    "exposure_spans": exposure,
+                }
+                for patient, utility, term, exposure in zip(
+                    patients, util_values, term_values, expo_values
+                )
+            ],
         })
     return {
         "schema_version": "1.0.0",
