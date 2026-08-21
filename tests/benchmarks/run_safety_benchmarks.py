@@ -99,18 +99,23 @@ def privacy_span_metrics(rows: list[dict]) -> dict:
     }
 
 
-def score_privacy_case(case: dict) -> dict:
+def score_privacy_case(case: dict, *, redactor=None) -> dict:
     """Score one privacy case.
 
     Extracted from `score_privacy` so the Lokkhon release runner can score its derived
     axis D corpus through this exact function instead of a second copy of it. Two copies
     of scoring logic drift, and the released axis D number would then be measuring the
     copy rather than the redactor.
+
+    `redactor` overrides the function under test and defaults to the shipped one, so the
+    rules / model / union comparison in `tools/phi_ner/evaluate.py` is three calls to this
+    same scorer rather than three implementations of it.
     """
+    redact = redactor or redact_pii_text
     # Production parity: no call site supplies known identifiers, so the metric
     # path must not either. The documented API group opts in explicitly.
     known = case.get("known_identifiers", []) if case.get("uses_known_identifier_api") else []
-    result = redact_pii_text(case["text"], known_identifiers=known)
+    result = redact(case["text"], known_identifiers=known)
 
     missed = [value for value in case.get("must_not_contain", []) if value.casefold() in result.text.casefold()]
     lost = [value for value in case.get("must_preserve", []) if value not in result.text]
@@ -131,7 +136,7 @@ def score_privacy_case(case: dict) -> dict:
         case.get("consent_state") == "active"
     )
     # A redactor that re-redacts its own placeholders is broken; nothing else checks this.
-    idempotent = redact_pii_text(result.text, known_identifiers=known).text == result.text
+    idempotent = redact(result.text, known_identifiers=known).text == result.text
 
     passed = not undisclosed_misses and not undisclosed_losses and consent_ok and idempotent
     row = {

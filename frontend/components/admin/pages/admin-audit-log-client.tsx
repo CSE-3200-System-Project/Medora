@@ -19,12 +19,18 @@ import {
 } from "@/components/ui/table";
 import {
   ClipboardList,
+  ShieldCheck,
   ChevronLeft,
   ChevronRight,
   ArrowRight,
 } from "lucide-react";
-import { getAuditLogs } from "@/lib/admin-actions";
+import {
+  getAuditLogs,
+  getGovernanceAudit,
+  type GovernanceAuditLog,
+} from "@/lib/admin-actions";
 import { formatMeridiemTime, formatShortDateTime } from "@/lib/utils";
+import { useT } from "@/i18n/client";
 
 export type AuditLog = {
   id: string;
@@ -41,6 +47,8 @@ export type AuditLog = {
 type AdminAuditLogClientProps = {
   initialLogs: AuditLog[];
   initialTotal: number;
+  initialGovernanceLogs: GovernanceAuditLog[];
+  initialGovernanceTotal: number;
 };
 
 function getActionBadge(action: string) {
@@ -137,31 +145,49 @@ function getRoleBadge(role: string) {
 export function AdminAuditLogClient({
   initialLogs,
   initialTotal,
+  initialGovernanceLogs,
+  initialGovernanceTotal,
 }: AdminAuditLogClientProps) {
+  const t = useT("common");
+  const [view, setView] = useState<"appointments" | "governance">("appointments");
   const [logs, setLogs] = useState<AuditLog[]>(initialLogs);
+  const [governanceLogs, setGovernanceLogs] = useState<GovernanceAuditLog[]>(initialGovernanceLogs);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [total, setTotal] = useState(initialTotal);
+  const [governanceTotal, setGovernanceTotal] = useState(initialGovernanceTotal);
   const [appointmentFilter, setAppointmentFilter] = useState("");
+  const [actionFilter, setActionFilter] = useState("");
   const hasMounted = useRef(false);
   const limit = 25;
 
   const fetchLogs = useCallback(async () => {
     setLoading(true);
     try {
-      const data = await getAuditLogs(
-        appointmentFilter || undefined,
-        limit,
-        page * limit
-      );
-      setLogs(data.logs || []);
-      setTotal(data.total || 0);
+      if (view === "appointments") {
+        const data = await getAuditLogs(
+          appointmentFilter || undefined,
+          limit,
+          page * limit
+        );
+        setLogs(data.logs || []);
+        setTotal(data.total || 0);
+      } else {
+        const data = await getGovernanceAudit(
+          actionFilter || undefined,
+          undefined,
+          limit,
+          page * limit
+        );
+        setGovernanceLogs(data.items || []);
+        setGovernanceTotal(data.total || 0);
+      }
     } catch (error) {
       console.error("Failed to fetch audit logs:", error);
     } finally {
       setLoading(false);
     }
-  }, [page, appointmentFilter]);
+  }, [page, appointmentFilter, actionFilter, view]);
 
   useEffect(() => {
     if (!hasMounted.current) {
@@ -171,7 +197,33 @@ export function AdminAuditLogClient({
     void fetchLogs();
   }, [fetchLogs]);
 
-  const totalPages = Math.ceil(total / limit);
+  const activeTotal = view === "appointments" ? total : governanceTotal;
+  const totalPages = Math.ceil(activeTotal / limit);
+  const governanceActionLabel = (action: string) => {
+    const key = {
+      ban_patient: "banPatient",
+      delete_patient: "deletePatient",
+      break_glass: "breakGlass",
+    }[action];
+    return t(`adminAudit.actions.${key || "unknown"}`);
+  };
+  const governanceStatusLabel = (status: string) => {
+    const key = {
+      pending: "pending",
+      approved: "approved",
+      completed: "completed",
+      expired: "expired",
+    }[status];
+    return t(`adminAudit.statuses.${key || "unknown"}`);
+  };
+  const governanceTargetLabel = (targetType: string) => {
+    const key = {
+      patient: "patient",
+      doctor: "doctor",
+      appointment: "appointment",
+    }[targetType];
+    return t(`adminAudit.targets.${key || "unknown"}`);
+  };
 
   return (
     <>
@@ -184,17 +236,35 @@ export function AdminAuditLogClient({
             Audit Log
           </h1>
           <p className="text-muted-foreground">
-            Track all appointment status changes and actions
+            {t("adminAudit.subtitle")}
           </p>
+        </div>
+
+        <div className="mb-4 flex flex-wrap gap-2">
+          <Button
+            variant={view === "appointments" ? "default" : "outline"}
+            onClick={() => { setView("appointments"); setPage(0); }}
+          >
+            <ClipboardList className="mr-2 h-4 w-4" />
+            {t("adminAudit.appointmentEvents")}
+          </Button>
+          <Button
+            variant={view === "governance" ? "default" : "outline"}
+            onClick={() => { setView("governance"); setPage(0); }}
+          >
+            <ShieldCheck className="mr-2 h-4 w-4" />
+            {t("adminAudit.privilegedActions")}
+          </Button>
         </div>
 
         <div className="mb-4 sm:mb-6">
           <div className="w-full sm:w-96">
             <Input
-              placeholder="Filter by appointment ID..."
-              value={appointmentFilter}
+              placeholder={view === "appointments" ? t("adminAudit.filterAppointment") : t("adminAudit.filterAction")}
+              value={view === "appointments" ? appointmentFilter : actionFilter}
               onChange={(e) => {
-                setAppointmentFilter(e.target.value);
+                if (view === "appointments") setAppointmentFilter(e.target.value);
+                else setActionFilter(e.target.value);
                 setPage(0);
               }}
               className="bg-card/80 border-border text-foreground placeholder:text-muted-foreground"
@@ -212,7 +282,7 @@ export function AdminAuditLogClient({
               <CardSkeleton />
             </CardContent>
           </Card>
-        ) : logs.length === 0 ? (
+        ) : (view === "appointments" ? logs.length : governanceLogs.length) === 0 ? (
           <Card className="bg-card/60 border-border/50">
             <CardContent className="p-12 text-center">
               <p className="text-muted-foreground">No audit logs found</p>
@@ -222,7 +292,7 @@ export function AdminAuditLogClient({
           <>
             {/* Mobile cards */}
             <div className="space-y-3 mb-6 lg:hidden">
-              {logs.map((log) => (
+              {view === "appointments" ? logs.map((log) => (
                 <Card
                   key={log.id}
                   className="bg-card/60 border-border/50"
@@ -253,6 +323,22 @@ export function AdminAuditLogClient({
                     </p>
                   </CardContent>
                 </Card>
+              )) : governanceLogs.map((log) => (
+                <Card key={log.id} className="bg-card/60 border-border/50">
+                  <CardContent className="p-4 space-y-2">
+                    <div className="flex items-center justify-between gap-2">
+                      {getActionBadge(governanceActionLabel(log.action))}
+                      <Badge variant="outline">{governanceStatusLabel(log.status)}</Badge>
+                    </div>
+                    <p className="text-sm text-foreground">
+                      {governanceTargetLabel(log.targetType)}: {log.targetId}
+                    </p>
+                    <p className="text-xs text-muted-foreground">{log.reason}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {formatShortDateTime(log.createdAt)}
+                    </p>
+                  </CardContent>
+                </Card>
               ))}
             </div>
 
@@ -276,7 +362,7 @@ export function AdminAuditLogClient({
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {logs.map((log) => (
+                    {view === "appointments" ? logs.map((log) => (
                       <TableRow
                         key={log.id}
                         className="border-border/30 hover:bg-card/40"
@@ -310,6 +396,30 @@ export function AdminAuditLogClient({
                         </TableCell>
                         <TableCell className="text-muted-foreground max-w-[200px] truncate">
                           {log.notes || "—"}
+                        </TableCell>
+                      </TableRow>
+                    )) : governanceLogs.map((log) => (
+                      <TableRow key={log.id} className="border-border/30 hover:bg-card/40">
+                        <TableCell>
+                          <p className="text-foreground text-sm">
+                            {new Date(log.createdAt).toLocaleDateString()}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {formatMeridiemTime(log.createdAt)}
+                          </p>
+                        </TableCell>
+                        <TableCell>{getActionBadge(governanceActionLabel(log.action))}</TableCell>
+                        <TableCell className="text-xs text-muted-foreground max-w-[180px] truncate">
+                          {log.actorProfileId}
+                        </TableCell>
+                        <TableCell>
+                          <Badge variant="outline">{governanceStatusLabel(log.status)}</Badge>
+                        </TableCell>
+                        <TableCell className="text-muted-foreground max-w-[240px]">
+                          <p className="truncate">{log.reason}</p>
+                          <p className="text-xs truncate">
+                            {governanceTargetLabel(log.targetType)}: {log.targetId}
+                          </p>
                         </TableCell>
                       </TableRow>
                     ))}

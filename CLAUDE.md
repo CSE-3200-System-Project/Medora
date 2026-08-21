@@ -179,7 +179,7 @@ Set `DB_ECHO=true` to log SQL. `X-Response-Time` and `Server-Timing` headers are
 - **UI primitives**: `frontend/components/ui/` — Radix + `cva` variants + `data-slot` attributes + `cn()` merging. Button carries custom `medical` / `transaction` / `emergency` variants.
 - **i18n**: all user-facing strings live in `frontend/i18n/messages/{en,bn}/*.json`. No hardcoded copy — Bangla must not break layout.
 - **Enums**: `backend/app/db/models/enums.py` is the single source (12 appointment statuses, roles, verification states).
-- **Admin bootstrap**: `UPDATE profiles SET role = 'ADMIN' WHERE email = '...'`.
+- **Admin bootstrap**: after `alembic upgrade head`, run `venv/Scripts/python.exe scripts/provision_admin.py --email <address> --tier super_admin` from `backend/`. This atomically updates the profile and creates its active role; a bare `profiles.role=admin` row fails closed.
 
 ## Docs
 

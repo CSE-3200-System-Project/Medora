@@ -66,7 +66,19 @@ def upgrade() -> None:
     # RLS. A new table must join that posture rather than quietly opting out of it; the
     # backend connects as the owner and is unaffected.
     op.execute("ALTER TABLE arohon_escalation_events ENABLE ROW LEVEL SECURITY")
-    op.execute("REVOKE ALL ON TABLE arohon_escalation_events FROM anon, authenticated")
+    op.execute(
+        """
+        DO $$
+        BEGIN
+            IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'anon') THEN
+                REVOKE ALL ON TABLE arohon_escalation_events FROM anon;
+            END IF;
+            IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'authenticated') THEN
+                REVOKE ALL ON TABLE arohon_escalation_events FROM authenticated;
+            END IF;
+        END $$
+        """
+    )
 
 
 def downgrade() -> None:

@@ -15,6 +15,9 @@ These docs are verified against actual code and reflect the current implementati
 | [architecture/backend.md](./architecture/backend.md) | FastAPI routes, services, auth flow, startup lifecycle |
 | [architecture/database.md](./architecture/database.md) | All models, relationships, enums, indexes |
 | [architecture/ai-system.md](./architecture/ai-system.md) | AI orchestrator, Chorui assistant, OCR microservice pipeline |
+| [../tools/phi_ner/README.md](../tools/phi_ner/README.md) | Learned PHI corpus/training/evaluation and ONNX union runtime |
+| [../experiments/maya/README.md](../experiments/maya/README.md) | Candidate-model escalation admission gate |
+| [BCOLBD/Plan/phase-7-10-operational-runbook.md](./BCOLBD/Plan/phase-7-10-operational-runbook.md) | End-to-end PHI training, Maya experiment, staging rollout, sign-off, and rollback plan |
 
 ### Workflows (End-to-End Flows)
 | Document | What it covers |
@@ -71,9 +74,9 @@ history rather than reference: [docs/archive/](./archive/).
 ```
 
 **Key numbers (verified from code):**
-- 26 backend route modules, ~220 endpoints
-- 25 SQLAlchemy model files, 40+ mapped classes
-- 58 Alembic migrations
+- 30 backend route modules, 224 documented OpenAPI paths
+- 31 SQLAlchemy model files
+- 82 Alembic migrations
 - 20 Server Action modules
 - 2 OCR endpoints (prescription + medical report)
 - 3 AI providers (Groq, Gemini, Cerebras) — switched via `AI_PROVIDER` env var

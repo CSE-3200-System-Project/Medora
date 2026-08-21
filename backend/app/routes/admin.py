@@ -1,37 +1,51 @@
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query
 from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import func, select, update, desc
+from sqlalchemy import and_, false, func, or_, select, update, desc
 from sqlalchemy.orm import aliased
-from app.core.dependencies import get_db, resolve_profile
+from app.core.dependencies import get_db
+from app.core.admin_authorization import ScopedAdminContext, require_admin
 from app.core.auth_profile_cache import invalidate_auth_profile
-from app.routes.auth import get_current_user_token
 from app.db.models.profile import Profile
 from app.db.models.doctor import DoctorProfile
 from app.db.models.doctor_review import DoctorReview
-from app.db.models.enums import VerificationStatus, UserRole, AccountStatus, ReviewModerationStatus
+from app.db.models.enums import (
+    AutonomyTier,
+    Permission,
+    VerificationStatus,
+    UserRole,
+    AccountStatus,
+    ReviewModerationStatus,
+)
+from app.db.models.admin_governance import AdminActionAudit
 from app.schemas.review import AdminReviewDecision, AdminReviewItem, AdminReviewListResponse, ReviewAuthor, ReviewResponse
 from datetime import datetime, timedelta, timezone
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Any, Optional
 import re
 import uuid
 import logging
 from app.services.email_service import send_account_suspension_email
 from app.services import notification_service, review_service
+from app.services.admin_governance import (
+    complete_admin_action,
+    request_or_approve_destructive_action,
+)
+from app.core.pagination import PaginationParams, make_page, pagination_params
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
 
-async def require_admin_access(
-    user: Any = Depends(get_current_user_token),
-    db: AsyncSession = Depends(get_db)
-)-> Profile:
-    """Require an authenticated, active profile with the administrator role."""
-    profile = await resolve_profile(db, user)
-    if not profile or profile.role != UserRole.ADMIN:
-        raise HTTPException(status_code=403, detail="Admin access required")
-    return profile
+# Unannotated legacy surfaces remain super-admin-only for scoped-role callers. Flat admin
+# profiles created before the stewardship tables are treated as unbounded super-admins by
+# the central dependency, so today's administrators retain byte-for-byte access.
+require_admin_access = require_admin(Permission.PLATFORM_ADMIN)
+require_review_admin = require_admin(Permission.MODERATE_REVIEWS)
+require_doctor_admin = require_admin(Permission.MANAGE_DOCTORS)
+require_patient_admin = require_admin(Permission.MANAGE_PATIENTS)
+require_appointment_admin = require_admin(Permission.MANAGE_APPOINTMENTS)
+require_audit_admin = require_admin(Permission.VIEW_AUDIT)
+require_break_glass_admin = require_admin(Permission.BREAK_GLASS)
 
 # Test endpoint
 @router.get("/test")
@@ -184,7 +198,7 @@ async def list_admin_reviews(
     offset: int = Query(0, ge=0),
     # backward-compat alias
     page: Optional[int] = Query(None, ge=1),
-    admin_access = Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_review_admin),
     db: AsyncSession = Depends(get_db),
 ):
     safe_limit = limit
@@ -196,10 +210,15 @@ async def list_admin_reviews(
         safe_offset = offset
         safe_page = (offset // safe_limit) + 1 if safe_limit > 0 else 1
 
+    review_filters = [DoctorReview.status == status]
+    review_scope = _scope_filter(admin_access, "doctor", DoctorReview.doctor_id)
+    if review_scope is not None:
+        review_filters.append(review_scope)
+
     total = int(
         (
             await db.execute(
-                select(func.count(DoctorReview.id)).where(DoctorReview.status == status)
+                select(func.count(DoctorReview.id)).where(*review_filters)
             )
         ).scalar()
         or 0
@@ -208,7 +227,7 @@ async def list_admin_reviews(
     rows = (
         await db.execute(
             select(DoctorReview)
-            .where(DoctorReview.status == status)
+            .where(*review_filters)
             .order_by(desc(DoctorReview.created_at))
             .limit(safe_limit)
             .offset(safe_offset)
@@ -252,7 +271,7 @@ async def list_admin_reviews(
 @router.post("/reviews/{review_id}/approve", response_model=ReviewResponse)
 async def approve_review(
     review_id: str,
-    admin_access = Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_review_admin),
     db: AsyncSession = Depends(get_db),
 ):
     review = (
@@ -260,6 +279,7 @@ async def approve_review(
     ).scalar_one_or_none()
     if not review:
         raise HTTPException(status_code=404, detail="Review not found")
+    admin_access.require_scope("doctor", review.doctor_id)
 
     if review.status != ReviewModerationStatus.APPROVED:
         review.status = ReviewModerationStatus.APPROVED
@@ -284,7 +304,7 @@ async def approve_review(
 async def reject_review(
     review_id: str,
     payload: AdminReviewDecision,
-    admin_access = Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_review_admin),
     db: AsyncSession = Depends(get_db),
 ):
     review = (
@@ -292,6 +312,7 @@ async def reject_review(
     ).scalar_one_or_none()
     if not review:
         raise HTTPException(status_code=404, detail="Review not found")
+    admin_access.require_scope("doctor", review.doctor_id)
 
     feedback = (payload.admin_feedback or "").strip() or None
     if review.status != ReviewModerationStatus.REJECTED or review.admin_feedback != feedback:
@@ -331,6 +352,7 @@ class UpdatePatientRequest(BaseModel):
     city: str | None = None
     blood_group: str | None = None
     onboarding_completed: bool | None = None
+    approval_id: str | None = None
 
 
 class PatientBulkActionRequest(BaseModel):
@@ -338,16 +360,19 @@ class PatientBulkActionRequest(BaseModel):
     patient_ids: list[str]
     reason: str | None = None
     severity: str | None = None
+    approval_id: str | None = None
 
 
 class BanPatientRequest(BaseModel):
     reason: str
     severity: str | None = None
+    approval_id: str | None = None
 
 
 class DeletePatientRequest(BaseModel):
     reason: str
     severity: str | None = None
+    approval_id: str | None = None
 
 
 def _sanitize_reason(reason: str | None) -> str:
@@ -356,6 +381,24 @@ def _sanitize_reason(reason: str | None) -> str:
     sanitized = re.sub(r"[\x00-\x1f\x7f]+", " ", raw)
     sanitized = re.sub(r"\s+", " ", sanitized).strip()
     return sanitized[:1000]
+
+
+def _scope_filter(admin: ScopedAdminContext, scope_type: str, column):
+    """Return a SQL scope predicate, or ``None`` for an unbounded super-admin."""
+    allowed = admin.accessible_ids(scope_type)
+    return None if allowed is None else column.in_(allowed)
+
+
+def _scope_filter_any(admin: ScopedAdminContext, bindings: list[tuple[str, Any]]):
+    """Build an OR predicate across resource types, failing closed on no bindings."""
+    clauses = []
+    for scope_type, column in bindings:
+        allowed = admin.accessible_ids(scope_type)
+        if allowed is None:
+            return None
+        if allowed:
+            clauses.append(column.in_(allowed))
+    return or_(*clauses) if clauses else false()
 
 
 def _to_utc(dt: datetime | None) -> datetime | None:
@@ -379,13 +422,17 @@ async def get_pending_doctors(
     limit: int = Query(50, ge=1, le=200),
     offset: int = Query(0, ge=0),
     db: AsyncSession = Depends(get_db),
-    admin_access = Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_doctor_admin),
 ):
     """Get all doctors pending verification"""
-    where_clause = (
+    where_parts = [
         Profile.role == UserRole.DOCTOR,
         Profile.verification_status == VerificationStatus.pending,
-    )
+    ]
+    doctor_scope = _scope_filter(admin_access, "doctor", Profile.id)
+    if doctor_scope is not None:
+        where_parts.append(doctor_scope)
+    where_clause = tuple(where_parts)
     total = (
         await db.execute(
             select(func.count(Profile.id))
@@ -432,9 +479,10 @@ async def verify_doctor(
     doctor_id: str,
     request: VerifyDoctorRequest,
     db: AsyncSession = Depends(get_db),
-    admin_access = Depends(require_admin_access)
+    admin_access: ScopedAdminContext = Depends(require_doctor_admin)
 ):
     """Verify or reject a doctor"""
+    admin_access.require_scope("doctor", doctor_id)
     async with db.begin():
         # Get profile and doctor
         profile_result = await db.execute(
@@ -477,10 +525,14 @@ async def get_all_doctors(
     limit: int = Query(50, ge=1, le=200),
     offset: int = Query(0, ge=0),
     db: AsyncSession = Depends(get_db),
-    admin_access = Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_doctor_admin),
 ):
     """Get all doctors with their verification status"""
-    where_clause = (Profile.role == UserRole.DOCTOR,)
+    where_parts = [Profile.role == UserRole.DOCTOR]
+    doctor_scope = _scope_filter(admin_access, "doctor", Profile.id)
+    if doctor_scope is not None:
+        where_parts.append(doctor_scope)
+    where_clause = tuple(where_parts)
     total = (
         await db.execute(
             select(func.count(Profile.id))
@@ -641,7 +693,7 @@ async def get_admin_stats(
 @router.get("/patients")
 async def get_all_patients(
     db: AsyncSession = Depends(get_db),
-    admin_access = Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_patient_admin),
     limit: int = Query(50, ge=1, le=200),
     offset: int = Query(0, ge=0),
     page: Optional[int] = Query(None, ge=1),
@@ -652,7 +704,11 @@ async def get_all_patients(
         safe_offset = (page - 1) * safe_limit if page is not None and offset == 0 else offset
         safe_page = page or (safe_offset // safe_limit) + 1 if safe_limit > 0 else 1
 
-        where_clause = (Profile.role == UserRole.PATIENT, Profile.status != AccountStatus.deleted)
+        where_parts = [Profile.role == UserRole.PATIENT, Profile.status != AccountStatus.deleted]
+        scope_clause = _scope_filter(admin_access, "patient", Profile.id)
+        if scope_clause is not None:
+            where_parts.append(scope_clause)
+        where_clause = tuple(where_parts)
 
         result = await db.execute(
             select(Profile)
@@ -720,9 +776,12 @@ async def get_all_patients(
 async def create_patient(
     payload: CreatePatientRequest,
     db: AsyncSession = Depends(get_db),
-    admin_access = Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_patient_admin),
 ):
     from app.db.models.patient import PatientProfile
+
+    if not admin_access.unbounded:
+        raise HTTPException(status_code=403, detail="Only an unbounded admin may create a new patient")
 
     full_name = payload.name.strip()
     if not full_name:
@@ -794,10 +853,11 @@ async def create_patient(
 async def get_patient_by_id(
     patient_id: uuid.UUID,
     db: AsyncSession = Depends(get_db),
-    admin_access = Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_patient_admin),
 ):
     from app.db.models.patient import PatientProfile
     patient_id_str = str(patient_id)
+    admin_access.require_scope("patient", patient_id_str)
 
     result = await db.execute(
         select(Profile, PatientProfile)
@@ -848,10 +908,11 @@ async def replace_patient_data(
     patient_id: uuid.UUID,
     payload: dict[str, Any],
     db: AsyncSession = Depends(get_db),
-    admin_access = Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_patient_admin),
 ):
     from app.db.models.patient import PatientProfile
     patient_id_str = str(patient_id)
+    admin_access.require_scope("patient", patient_id_str)
 
     result = await db.execute(
         select(Profile, PatientProfile)
@@ -871,8 +932,29 @@ async def replace_patient_data(
 
     profile_fields = {column.name for column in Profile.__table__.columns}
     patient_fields = {column.name for column in PatientProfile.__table__.columns}
-    readonly_profile_fields = {"id", "role", "verification_status", "created_at"}
-    readonly_patient_fields = {"profile_id", "created_at"}
+    readonly_profile_fields = {
+        "id",
+        "role",
+        "status",
+        "verification_status",
+        "ban_reason",
+        "banned_at",
+        "banned_by",
+        "delete_reason",
+        "created_at",
+        "updated_at",
+    }
+    readonly_patient_fields = {"profile_id", "created_at", "updated_at"}
+    protected = sorted(
+        key
+        for key in payload
+        if key in readonly_profile_fields or key in readonly_patient_fields
+    )
+    if protected:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Protected fields must use their dedicated workflow: {', '.join(protected)}",
+        )
 
     for key, value in payload.items():
         if key in profile_fields and key not in readonly_profile_fields:
@@ -890,8 +972,12 @@ async def replace_patient_data(
 @router.get("/patients/stats")
 async def get_patient_stats(
     db: AsyncSession = Depends(get_db),
-    admin_access = Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_patient_admin),
 ):
+    scope_clause = _scope_filter(admin_access, "patient", Profile.id)
+    scope_where = [Profile.role == UserRole.PATIENT]
+    if scope_clause is not None:
+        scope_where.append(scope_clause)
     stats = (
         await db.execute(
             select(
@@ -913,7 +999,7 @@ async def get_patient_stats(
                 func.count(Profile.id)
                 .filter(Profile.status == AccountStatus.banned)
                 .label("banned"),
-            ).where(Profile.role == UserRole.PATIENT)
+            ).where(*scope_where)
         )
     ).one()
 
@@ -928,7 +1014,7 @@ async def get_patient_stats(
 @router.get("/patients/charts")
 async def get_patient_charts(
     db: AsyncSession = Depends(get_db),
-    admin_access = Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_patient_admin),
 ):
     now = datetime.utcnow()
     month_cursor = datetime(now.year, now.month, 1)
@@ -941,12 +1027,14 @@ async def get_patient_charts(
         month_keys.append(key)
         month_labels.append(dt.strftime("%b"))
 
-    created_rows = await db.execute(
-        select(Profile.created_at).where(
-            Profile.role == UserRole.PATIENT,
-            Profile.created_at >= datetime.strptime(month_keys[0] + "-01", "%Y-%m-%d"),
-        )
-    )
+    chart_where = [
+        Profile.role == UserRole.PATIENT,
+        Profile.created_at >= datetime.strptime(month_keys[0] + "-01", "%Y-%m-%d"),
+    ]
+    scope_clause = _scope_filter(admin_access, "patient", Profile.id)
+    if scope_clause is not None:
+        chart_where.append(scope_clause)
+    created_rows = await db.execute(select(Profile.created_at).where(*chart_where))
 
     growth_map = {key: 0 for key in month_keys}
     for (created_at,) in created_rows.all():
@@ -956,7 +1044,7 @@ async def get_patient_charts(
         if key in growth_map:
             growth_map[key] += 1
 
-    stats = await get_patient_stats(db=db, admin_access=True)
+    stats = await get_patient_stats(db=db, admin_access=admin_access)
 
     growth = []
     for index, key in enumerate(month_keys):
@@ -981,11 +1069,15 @@ async def get_patient_charts(
 @router.get("/patients/insights")
 async def get_patient_insights(
     db: AsyncSession = Depends(get_db),
-    admin_access = Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_patient_admin),
 ):
     now = datetime.now(timezone.utc)
     day_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
 
+    insight_where = [Profile.role == UserRole.PATIENT]
+    scope_clause = _scope_filter(admin_access, "patient", Profile.id)
+    if scope_clause is not None:
+        insight_where.append(scope_clause)
     insight_counts = (
         await db.execute(
             select(
@@ -998,13 +1090,13 @@ async def get_patient_insights(
                     Profile.onboarding_completed.is_(False),
                 )
                 .label("pending"),
-            ).where(Profile.role == UserRole.PATIENT)
+            ).where(*insight_where)
         )
     ).one()
 
     recent_result = await db.execute(
         select(Profile)
-        .where(Profile.role == UserRole.PATIENT)
+        .where(*insight_where)
         .order_by(Profile.updated_at.desc())
         .limit(10)
     )
@@ -1044,10 +1136,11 @@ async def update_patient(
     patient_id: uuid.UUID,
     data: UpdatePatientRequest,
     db: AsyncSession = Depends(get_db),
-    admin_access = Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_patient_admin),
 ):
     from app.db.models.patient import PatientProfile
     patient_id_str = str(patient_id)
+    admin_access.require_scope("patient", patient_id_str)
 
     result = await db.execute(
         select(Profile, PatientProfile)
@@ -1060,6 +1153,7 @@ async def update_patient(
 
     profile, patient = row
     now = datetime.utcnow()
+    destructive_audit = None
 
     if data.action:
         action = data.action.lower()
@@ -1074,6 +1168,25 @@ async def update_patient(
         elif action == "ban":
             if not reason:
                 raise HTTPException(status_code=400, detail="Reason is required for ban action")
+            before_status = profile.status.value
+            decision = await request_or_approve_destructive_action(
+                db,
+                admin_access,
+                permission=Permission.MANAGE_PATIENTS,
+                action="ban_patient",
+                target_type="patient",
+                target_id=patient_id_str,
+                reason=reason,
+                approval_id=data.approval_id,
+                request_payload={"source": "patient_patch"},
+            )
+            if not decision.approved:
+                await db.commit()
+                return JSONResponse(
+                    status_code=202,
+                    content={"status": "pending_approval", "approval_id": decision.audit.id},
+                )
+            destructive_audit = decision.audit
             profile.status = AccountStatus.banned
             profile.ban_reason = reason
             profile.banned_at = now
@@ -1100,6 +1213,12 @@ async def update_patient(
         patient.updated_at = now
 
     profile.updated_at = now
+    if destructive_audit:
+        complete_admin_action(
+            destructive_audit,
+            before_state={"status": before_status},
+            after_state={"status": AccountStatus.banned.value},
+        )
     await db.commit()
 
     return {"status": "success", "patient_id": patient_id_str}
@@ -1111,9 +1230,10 @@ async def ban_patient(
     payload: BanPatientRequest,
     background_tasks: BackgroundTasks,
     db: AsyncSession = Depends(get_db),
-    admin_access = Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_patient_admin),
 ):
     patient_id_str = str(patient_id)
+    admin_access.require_scope("patient", patient_id_str)
     result = await db.execute(
         select(Profile).where(Profile.id == patient_id_str, Profile.role == UserRole.PATIENT)
     )
@@ -1125,13 +1245,35 @@ async def ban_patient(
     if not reason:
         raise HTTPException(status_code=400, detail="Reason is required")
 
+    decision = await request_or_approve_destructive_action(
+        db,
+        admin_access,
+        permission=Permission.MANAGE_PATIENTS,
+        action="ban_patient",
+        target_type="patient",
+        target_id=patient_id_str,
+        reason=reason,
+        approval_id=payload.approval_id,
+    )
+    if not decision.approved:
+        await db.commit()
+        return JSONResponse(
+            status_code=202,
+            content={"status": "pending_approval", "approval_id": decision.audit.id},
+        )
+
+    before_status = profile.status.value
     now = datetime.utcnow()
     profile.status = AccountStatus.banned
     profile.ban_reason = reason
     profile.banned_at = now
     profile.banned_by = admin_access.id
     profile.updated_at = now
-
+    complete_admin_action(
+        decision.audit,
+        before_state={"status": before_status},
+        after_state={"status": AccountStatus.banned.value},
+    )
     await db.commit()
 
     full_name = f"{profile.first_name or ''} {profile.last_name or ''}".strip() or "Patient"
@@ -1152,9 +1294,10 @@ async def delete_patient(
     patient_id: uuid.UUID,
     payload: DeletePatientRequest,
     db: AsyncSession = Depends(get_db),
-    admin_access = Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_patient_admin),
 ):
     patient_id_str = str(patient_id)
+    admin_access.require_scope("patient", patient_id_str)
     result = await db.execute(
         select(Profile).where(Profile.id == patient_id_str, Profile.role == UserRole.PATIENT)
     )
@@ -1166,6 +1309,24 @@ async def delete_patient(
     if not reason:
         raise HTTPException(status_code=400, detail="Reason is required for delete action")
 
+    decision = await request_or_approve_destructive_action(
+        db,
+        admin_access,
+        permission=Permission.MANAGE_PATIENTS,
+        action="delete_patient",
+        target_type="patient",
+        target_id=patient_id_str,
+        reason=reason,
+        approval_id=payload.approval_id,
+    )
+    if not decision.approved:
+        await db.commit()
+        return JSONResponse(
+            status_code=202,
+            content={"status": "pending_approval", "approval_id": decision.audit.id},
+        )
+
+    before_status = profile.status.value
     # Safe soft-delete/anonymize to avoid foreign key breakage with historical records.
     profile.status = AccountStatus.deleted
     profile.first_name = "Deleted"
@@ -1175,6 +1336,11 @@ async def delete_patient(
     profile.onboarding_completed = False
     profile.delete_reason = reason
     profile.updated_at = datetime.utcnow()
+    complete_admin_action(
+        decision.audit,
+        before_state={"status": before_status},
+        after_state={"status": AccountStatus.deleted.value, "anonymized": True},
+    )
     await db.commit()
 
     return {"status": "deleted", "patient_id": patient_id_str, "reason": reason}
@@ -1184,7 +1350,7 @@ async def delete_patient(
 async def bulk_patient_action(
     payload: PatientBulkActionRequest,
     db: AsyncSession = Depends(get_db),
-    admin_access = Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_patient_admin),
 ):
     if not payload.patient_ids:
         raise HTTPException(status_code=400, detail="No patient IDs provided")
@@ -1197,6 +1363,9 @@ async def bulk_patient_action(
             detail=f"Bulk action limited to {MAX_BULK_PATIENTS} patients per request",
         )
 
+    for patient_id in payload.patient_ids:
+        admin_access.require_scope("patient", patient_id)
+
     result = await db.execute(
         select(Profile)
         .where(Profile.role == UserRole.PATIENT, Profile.id.in_(payload.patient_ids))
@@ -1208,6 +1377,31 @@ async def bulk_patient_action(
     now = datetime.utcnow()
     action = payload.action.lower()
     updated = 0
+    destructive_audit = None
+    if action in {"ban", "delete"}:
+        reason = _sanitize_reason(payload.reason)
+        if not reason:
+            raise HTTPException(status_code=400, detail=f"Reason is required for bulk {action}")
+        batch_id = str(uuid.uuid5(uuid.NAMESPACE_URL, "|".join(sorted(payload.patient_ids))))
+        decision = await request_or_approve_destructive_action(
+            db,
+            admin_access,
+            permission=Permission.MANAGE_PATIENTS,
+            action=f"bulk_{action}_patients",
+            target_type="patient_batch",
+            target_id=batch_id,
+            reason=reason,
+            approval_id=payload.approval_id,
+            request_payload={"patient_ids": sorted(payload.patient_ids)},
+            scope_already_checked=True,
+        )
+        if not decision.approved:
+            await db.commit()
+            return JSONResponse(
+                status_code=202,
+                content={"status": "pending_approval", "approval_id": decision.audit.id},
+            )
+        destructive_audit = decision.audit
 
     for profile in profiles:
         reason = _sanitize_reason(payload.reason)
@@ -1241,6 +1435,12 @@ async def bulk_patient_action(
         profile.updated_at = now
         updated += 1
 
+    if destructive_audit:
+        complete_admin_action(
+            destructive_audit,
+            before_state={"patient_count": len(profiles)},
+            after_state={"patient_count": updated, "status": action},
+        )
     await db.commit()
     return {"status": "success", "updated": updated, "action": payload.action}
 
@@ -1248,7 +1448,7 @@ async def bulk_patient_action(
 @router.get("/appointments")
 async def get_all_appointments(
     db: AsyncSession = Depends(get_db),
-    admin_access = Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_appointment_admin),
     limit: int = 50,
     offset: int = 0,
     status: str | None = None,
@@ -1267,6 +1467,9 @@ async def get_all_appointments(
         .join(doctor_alias, doctor_alias.id == Appointment.doctor_id, isouter=True)
         .join(patient_alias, patient_alias.id == Appointment.patient_id, isouter=True)
     )
+    appointment_scope = _scope_filter(admin_access, "appointment", Appointment.id)
+    if appointment_scope is not None:
+        base = base.where(appointment_scope)
 
     # --- filters ---
     if status and status != "all":
@@ -1349,7 +1552,7 @@ async def get_all_appointments(
 @router.get("/appointments/summary")
 async def get_appointment_summary(
     db: AsyncSession = Depends(get_db),
-    admin_access = Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_appointment_admin),
 ):
     """Aggregated appointment stats for the admin dashboard header cards."""
     from app.db.models.appointment import Appointment, AppointmentStatus as ApptStatus
@@ -1366,8 +1569,7 @@ async def get_appointment_summary(
         ApptStatus.CANCELLED_BY_DOCTOR,
     ]
 
-    result = await db.execute(
-        select(
+    summary_query = select(
             func.count(Appointment.id).label("total"),
             func.count(Appointment.id).filter(
                 Appointment.status.in_([
@@ -1392,7 +1594,10 @@ async def get_appointment_summary(
             func.count(Appointment.id).filter(Appointment.status.in_(cancellation_statuses)).label("cancelled"),
             func.count(Appointment.id).filter(Appointment.status == ApptStatus.NO_SHOW).label("no_show"),
         )
-    )
+    appointment_scope = _scope_filter(admin_access, "appointment", Appointment.id)
+    if appointment_scope is not None:
+        summary_query = summary_query.where(appointment_scope)
+    result = await db.execute(summary_query)
     row = result.one()
 
     return {
@@ -1412,19 +1617,21 @@ async def get_appointment_summary(
 @router.get("/schedule-review")
 async def get_schedules_needing_review(
     db: AsyncSession = Depends(get_db),
-    admin_access = Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_doctor_admin),
     limit: int = 100,
     offset: int = 0
 ):
     """List doctors whose time slots need review"""
-    result = await db.execute(
+    query = (
         select(Profile, DoctorProfile)
         .join(DoctorProfile, Profile.id == DoctorProfile.profile_id)
         .where(Profile.role == UserRole.DOCTOR)
         .where(DoctorProfile.time_slots_needs_review == True)
-        .limit(limit)
-        .offset(offset)
     )
+    doctor_scope = _scope_filter(admin_access, "doctor", Profile.id)
+    if doctor_scope is not None:
+        query = query.where(doctor_scope)
+    result = await db.execute(query.limit(limit).offset(offset))
 
     rows = result.all()
     doctors = []
@@ -1449,9 +1656,10 @@ class ScheduleFixRequest(BaseModel):
 async def fix_schedule_row(
     data: ScheduleFixRequest,
     db: AsyncSession = Depends(get_db),
-    admin_access = Depends(require_admin_access)
+    admin_access: ScopedAdminContext = Depends(require_doctor_admin)
 ):
     """Apply a normalized time_slots for a doctor's profile and clear the review flag"""
+    admin_access.require_scope("doctor", data.profile_id)
     # Ensure doctor exists
     result = await db.execute(select(DoctorProfile).where(DoctorProfile.profile_id == data.profile_id))
     doctor = result.scalar_one_or_none()
@@ -1474,12 +1682,13 @@ async def fix_schedule_row(
 # Ban/Unban User
 class BanUserRequest(BaseModel):
     reason: str | None = None
+    approval_id: str | None = None
 
 @router.post("/users/{user_id}/ban")
 async def ban_user(
     user_id: str,
     request: BanUserRequest,
-    admin_access = Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_admin_access),
     db: AsyncSession = Depends(get_db)
 ):
     """Ban a user by setting their account status to banned"""
@@ -1496,12 +1705,38 @@ async def ban_user(
         # Prevent banning admins
         if profile.role == UserRole.ADMIN:
             raise HTTPException(status_code=403, detail="Cannot ban admin users")
-        
+
+        reason = _sanitize_reason(request.reason)
+        if not reason:
+            raise HTTPException(status_code=400, detail="Reason is required")
+        decision = await request_or_approve_destructive_action(
+            db,
+            admin_access,
+            permission=Permission.PLATFORM_ADMIN,
+            action="ban_user",
+            target_type="profile",
+            target_id=user_id,
+            reason=reason,
+            approval_id=request.approval_id,
+        )
+        if not decision.approved:
+            await db.commit()
+            return JSONResponse(
+                status_code=202,
+                content={"status": "pending_approval", "approval_id": decision.audit.id},
+            )
+
         # Update status to banned
+        before_status = profile.status.value
         await db.execute(
             update(Profile)
             .where(Profile.id == user_id)
             .values(status=AccountStatus.banned, updated_at=datetime.utcnow())
+        )
+        complete_admin_action(
+            decision.audit,
+            before_state={"status": before_status},
+            after_state={"status": AccountStatus.banned.value},
         )
         await db.commit()
         invalidate_auth_profile(user_id)
@@ -1520,7 +1755,7 @@ async def ban_user(
 @router.post("/users/{user_id}/unban")
 async def unban_user(
     user_id: str,
-    admin_access = Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_admin_access),
     db: AsyncSession = Depends(get_db)
 ):
     """Unban a user by setting their account status back to active"""
@@ -1561,7 +1796,7 @@ async def unban_user(
 @router.get("/appointments/pending-review")
 async def get_pending_admin_review_appointments(
     db: AsyncSession = Depends(get_db),
-    admin_access=Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_appointment_admin),
     limit: int = 50,
     offset: int = 0,
 ):
@@ -1571,11 +1806,15 @@ async def get_pending_admin_review_appointments(
     doctor_alias = aliased(Profile)
     patient_alias = aliased(Profile)
 
+    pending_filters = [Appointment.status == ApptStatus.PENDING_ADMIN_REVIEW]
+    appointment_scope = _scope_filter(admin_access, "appointment", Appointment.id)
+    if appointment_scope is not None:
+        pending_filters.append(appointment_scope)
     query = (
         select(Appointment, doctor_alias, patient_alias)
         .join(doctor_alias, doctor_alias.id == Appointment.doctor_id, isouter=True)
         .join(patient_alias, patient_alias.id == Appointment.patient_id, isouter=True)
-        .where(Appointment.status == ApptStatus.PENDING_ADMIN_REVIEW)
+        .where(*pending_filters)
         .order_by(Appointment.created_at.desc())
         .limit(limit)
         .offset(offset)
@@ -1604,7 +1843,7 @@ async def get_pending_admin_review_appointments(
         })
 
     count_result = await db.execute(
-        select(func.count(Appointment.id)).where(Appointment.status == ApptStatus.PENDING_ADMIN_REVIEW)
+        select(func.count(Appointment.id)).where(*pending_filters)
     )
     total = count_result.scalar() or 0
 
@@ -1620,9 +1859,10 @@ async def admin_approve_appointment(
     appointment_id: str,
     data: AdminAppointmentDecision,
     db: AsyncSession = Depends(get_db),
-    admin_access=Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_appointment_admin),
 ):
     """Admin approves a pending appointment booking."""
+    admin_access.require_scope("appointment", appointment_id)
     from app.db.models.appointment import Appointment, AppointmentStatus as ApptStatus
     from app.services import appointment_service, notification_service
     from app.db.models.notification import NotificationType, NotificationPriority
@@ -1694,9 +1934,10 @@ async def admin_reject_appointment(
     appointment_id: str,
     data: AdminAppointmentDecision,
     db: AsyncSession = Depends(get_db),
-    admin_access=Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_appointment_admin),
 ):
     """Admin rejects a pending appointment booking."""
+    admin_access.require_scope("appointment", appointment_id)
     from app.db.models.appointment import Appointment, AppointmentStatus as ApptStatus
     from app.services import appointment_service
 
@@ -1731,16 +1972,26 @@ async def admin_reject_appointment(
 @router.get("/appointment-requests")
 async def get_pending_appointment_requests(
     db: AsyncSession = Depends(get_db),
-    admin_access=Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_appointment_admin),
     limit: int = 50,
     offset: int = 0,
 ):
     """Get all pending appointment requests for admin review."""
     from app.db.models.appointment_request import AppointmentRequest, AppointmentRequestStatus
 
+    request_filters = [AppointmentRequest.status == AppointmentRequestStatus.PENDING]
+    request_scope = _scope_filter_any(
+        admin_access,
+        [
+            ("doctor", AppointmentRequest.doctor_id),
+            ("patient", AppointmentRequest.patient_id),
+        ],
+    )
+    if request_scope is not None:
+        request_filters.append(request_scope)
     result = await db.execute(
         select(AppointmentRequest)
-        .where(AppointmentRequest.status == AppointmentRequestStatus.PENDING)
+        .where(*request_filters)
         .order_by(AppointmentRequest.created_at.desc())
         .limit(limit)
         .offset(offset)
@@ -1761,9 +2012,7 @@ async def get_pending_appointment_requests(
         profiles_by_id = {p.id: p for p in profile_rows.scalars().all()}
 
     count_result = await db.execute(
-        select(func.count(AppointmentRequest.id)).where(
-            AppointmentRequest.status == AppointmentRequestStatus.PENDING
-        )
+        select(func.count(AppointmentRequest.id)).where(*request_filters)
     )
     total = count_result.scalar() or 0
 
@@ -1794,7 +2043,7 @@ async def get_pending_appointment_requests(
 async def approve_appointment_request(
     request_id: str,
     db: AsyncSession = Depends(get_db),
-    admin_access=Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_appointment_admin),
 ):
     """Admin approves a booking request, creating the actual appointment."""
     from app.db.models.appointment_request import AppointmentRequest, AppointmentRequestStatus
@@ -1809,6 +2058,10 @@ async def approve_appointment_request(
     request = result.scalar_one_or_none()
     if not request:
         raise HTTPException(status_code=404, detail="Request not found")
+    admin_access.require_any_scope(
+        ("doctor", request.doctor_id),
+        ("patient", request.patient_id),
+    )
     if request.status != AppointmentRequestStatus.PENDING:
         raise HTTPException(status_code=400, detail="Request is no longer pending")
 
@@ -1890,7 +2143,7 @@ async def reject_appointment_request(
     request_id: str,
     data: RejectRequest,
     db: AsyncSession = Depends(get_db),
-    admin_access=Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_appointment_admin),
 ):
     """Admin rejects a booking request with optional notes."""
     from app.db.models.appointment_request import AppointmentRequest, AppointmentRequestStatus
@@ -1901,6 +2154,10 @@ async def reject_appointment_request(
     request = result.scalar_one_or_none()
     if not request:
         raise HTTPException(status_code=404, detail="Request not found")
+    admin_access.require_any_scope(
+        ("doctor", request.doctor_id),
+        ("patient", request.patient_id),
+    )
     if request.status != AppointmentRequestStatus.PENDING:
         raise HTTPException(status_code=400, detail="Request is no longer pending")
 
@@ -1914,7 +2171,7 @@ async def reject_appointment_request(
 @router.get("/reschedule-requests")
 async def get_pending_reschedule_requests(
     db: AsyncSession = Depends(get_db),
-    admin_access=Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_appointment_admin),
     limit: int = 50,
     offset: int = 0,
 ):
@@ -1926,13 +2183,17 @@ async def get_pending_reschedule_requests(
     )
     from app.db.models.appointment import Appointment
 
+    reschedule_filters = [
+        AppointmentRescheduleRequest.admin_approval_status == AdminApprovalStatus.PENDING,
+        AppointmentRescheduleRequest.status == RescheduleRequestStatus.PENDING,
+    ]
+    appointment_scope = _scope_filter(admin_access, "appointment", Appointment.id)
+    if appointment_scope is not None:
+        reschedule_filters.append(appointment_scope)
     query = (
         select(AppointmentRescheduleRequest, Appointment)
         .join(Appointment, Appointment.id == AppointmentRescheduleRequest.appointment_id)
-        .where(
-            AppointmentRescheduleRequest.admin_approval_status == AdminApprovalStatus.PENDING,
-            AppointmentRescheduleRequest.status == RescheduleRequestStatus.PENDING,
-        )
+        .where(*reschedule_filters)
         .order_by(AppointmentRescheduleRequest.created_at.desc())
         .limit(limit)
         .offset(offset)
@@ -1978,10 +2239,9 @@ async def get_pending_reschedule_requests(
         })
 
     count_result = await db.execute(
-        select(func.count(AppointmentRescheduleRequest.id)).where(
-            AppointmentRescheduleRequest.admin_approval_status == AdminApprovalStatus.PENDING,
-            AppointmentRescheduleRequest.status == RescheduleRequestStatus.PENDING,
-        )
+        select(func.count(AppointmentRescheduleRequest.id))
+        .join(Appointment, Appointment.id == AppointmentRescheduleRequest.appointment_id)
+        .where(*reschedule_filters)
     )
     total = count_result.scalar() or 0
     return {"requests": items, "total": total, "limit": limit, "offset": offset}
@@ -1992,10 +2252,21 @@ async def admin_approve_reschedule(
     request_id: str,
     data: AdminAppointmentDecision,
     db: AsyncSession = Depends(get_db),
-    admin_access=Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_appointment_admin),
 ):
     """Admin approves a reschedule request so the other party can respond."""
+    from app.db.models.appointment_request import AppointmentRescheduleRequest
     from app.services import appointment_service
+    appointment_id = (
+        await db.execute(
+            select(AppointmentRescheduleRequest.appointment_id).where(
+                AppointmentRescheduleRequest.id == request_id
+            )
+        )
+    ).scalar_one_or_none()
+    if not appointment_id:
+        raise HTTPException(status_code=404, detail="Reschedule request not found")
+    admin_access.require_scope("appointment", appointment_id)
     admin_actor_id = admin_access.id
     try:
         await appointment_service.admin_approve_reschedule_request(
@@ -2016,10 +2287,21 @@ async def admin_reject_reschedule(
     request_id: str,
     data: AdminAppointmentDecision,
     db: AsyncSession = Depends(get_db),
-    admin_access=Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_appointment_admin),
 ):
     """Admin rejects a reschedule request; appointment returns to confirmed."""
+    from app.db.models.appointment_request import AppointmentRescheduleRequest
     from app.services import appointment_service
+    appointment_id = (
+        await db.execute(
+            select(AppointmentRescheduleRequest.appointment_id).where(
+                AppointmentRescheduleRequest.id == request_id
+            )
+        )
+    ).scalar_one_or_none()
+    if not appointment_id:
+        raise HTTPException(status_code=404, detail="Reschedule request not found")
+    admin_access.require_scope("appointment", appointment_id)
     admin_actor_id = admin_access.id
     try:
         await appointment_service.admin_reject_reschedule_request(
@@ -2038,7 +2320,7 @@ async def admin_reject_reschedule(
 @router.get("/cancellation-requests")
 async def get_pending_cancellation_requests(
     db: AsyncSession = Depends(get_db),
-    admin_access=Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_appointment_admin),
     limit: int = 50,
     offset: int = 0,
 ):
@@ -2049,10 +2331,16 @@ async def get_pending_cancellation_requests(
     )
     from app.db.models.appointment import Appointment
 
+    cancellation_filters = [
+        AppointmentCancellationRequest.admin_approval_status == AdminApprovalStatus.PENDING
+    ]
+    appointment_scope = _scope_filter(admin_access, "appointment", Appointment.id)
+    if appointment_scope is not None:
+        cancellation_filters.append(appointment_scope)
     query = (
         select(AppointmentCancellationRequest, Appointment)
         .join(Appointment, Appointment.id == AppointmentCancellationRequest.appointment_id)
-        .where(AppointmentCancellationRequest.admin_approval_status == AdminApprovalStatus.PENDING)
+        .where(*cancellation_filters)
         .order_by(AppointmentCancellationRequest.created_at.desc())
         .limit(limit)
         .offset(offset)
@@ -2096,9 +2384,9 @@ async def get_pending_cancellation_requests(
         })
 
     count_result = await db.execute(
-        select(func.count(AppointmentCancellationRequest.id)).where(
-            AppointmentCancellationRequest.admin_approval_status == AdminApprovalStatus.PENDING,
-        )
+        select(func.count(AppointmentCancellationRequest.id))
+        .join(Appointment, Appointment.id == AppointmentCancellationRequest.appointment_id)
+        .where(*cancellation_filters)
     )
     total = count_result.scalar() or 0
     return {"requests": items, "total": total, "limit": limit, "offset": offset}
@@ -2109,10 +2397,21 @@ async def admin_approve_cancellation(
     request_id: str,
     data: AdminAppointmentDecision,
     db: AsyncSession = Depends(get_db),
-    admin_access=Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_appointment_admin),
 ):
     """Admin approves cancellation; slot is freed."""
+    from app.db.models.appointment_request import AppointmentCancellationRequest
     from app.services import appointment_service
+    appointment_id = (
+        await db.execute(
+            select(AppointmentCancellationRequest.appointment_id).where(
+                AppointmentCancellationRequest.id == request_id
+            )
+        )
+    ).scalar_one_or_none()
+    if not appointment_id:
+        raise HTTPException(status_code=404, detail="Cancellation request not found")
+    admin_access.require_scope("appointment", appointment_id)
     admin_actor_id = admin_access.id
     try:
         await appointment_service.admin_approve_cancellation_request(
@@ -2133,10 +2432,21 @@ async def admin_reject_cancellation(
     request_id: str,
     data: AdminAppointmentDecision,
     db: AsyncSession = Depends(get_db),
-    admin_access=Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_appointment_admin),
 ):
     """Admin rejects cancellation; appointment returns to confirmed."""
+    from app.db.models.appointment_request import AppointmentCancellationRequest
     from app.services import appointment_service
+    appointment_id = (
+        await db.execute(
+            select(AppointmentCancellationRequest.appointment_id).where(
+                AppointmentCancellationRequest.id == request_id
+            )
+        )
+    ).scalar_one_or_none()
+    if not appointment_id:
+        raise HTTPException(status_code=404, detail="Cancellation request not found")
+    admin_access.require_scope("appointment", appointment_id)
     admin_actor_id = admin_access.id
     try:
         await appointment_service.admin_reject_cancellation_request(
@@ -2152,16 +2462,191 @@ async def admin_reject_cancellation(
         raise HTTPException(status_code=400, detail=str(e))
 
 
+class BreakGlassRequest(BaseModel):
+    target_type: str
+    target_id: str
+    reason: str = Field(min_length=10, max_length=1000)
+    duration_minutes: int = Field(default=15, ge=1, le=60)
+
+
+@router.post("/governance/break-glass", status_code=201)
+async def create_break_glass_grant(
+    payload: BreakGlassRequest,
+    db: AsyncSession = Depends(get_db),
+    admin_access: ScopedAdminContext = Depends(require_break_glass_admin),
+):
+    target_type = payload.target_type.strip().lower()
+    if target_type not in {"patient", "doctor", "appointment"}:
+        raise HTTPException(status_code=400, detail="Unsupported break-glass target type")
+    target_id = payload.target_id.strip()
+    if not target_id:
+        raise HTTPException(status_code=400, detail="target_id is required")
+    notification_user_ids: set[str] = set()
+    if target_type in {"patient", "doctor"}:
+        expected_role = UserRole.PATIENT if target_type == "patient" else UserRole.DOCTOR
+        exists = (
+            await db.execute(
+                select(Profile.id).where(Profile.id == target_id, Profile.role == expected_role)
+            )
+        ).scalar_one_or_none()
+        if exists:
+            notification_user_ids.add(target_id)
+    else:
+        from app.db.models.appointment import Appointment
+
+        appointment = (
+            await db.execute(select(Appointment).where(Appointment.id == target_id))
+        ).scalar_one_or_none()
+        exists = appointment.id if appointment else None
+        if appointment:
+            notification_user_ids.update({appointment.patient_id, appointment.doctor_id})
+    if not exists:
+        raise HTTPException(status_code=404, detail="Break-glass target not found")
+    reason = _sanitize_reason(payload.reason)
+    now = datetime.now(timezone.utc)
+    expires_at = now + timedelta(minutes=payload.duration_minutes)
+    audit = AdminActionAudit(
+        actor_profile_id=admin_access.id,
+        permission=Permission.BREAK_GLASS.value,
+        action="break_glass",
+        target_type=target_type,
+        target_id=target_id,
+        scope_type=target_type,
+        scope_id=target_id,
+        status="completed",
+        reason=reason,
+        before_state={"elevated": False},
+        after_state={"elevated": True, "expires_at": expires_at.isoformat()},
+        autonomy_tier=AutonomyTier.L4_BREAK_GLASS.value,
+        break_glass_expires_at=expires_at,
+        completed_at=now,
+    )
+    db.add(audit)
+    await db.flush()
+    from app.db.models.notification import NotificationPriority, NotificationType
+    from app.services.admin_governance import break_glass_notification_copy
+
+    notification_title, notification_message = break_glass_notification_copy(expires_at)
+
+    for user_id in sorted(notification_user_ids):
+        await notification_service.create_notification(
+            db=db,
+            user_id=user_id,
+            notification_type=NotificationType.SYSTEM_ANNOUNCEMENT,
+            title=notification_title,
+            message=notification_message,
+            action_url="/patient/privacy" if target_type != "doctor" else "/settings",
+            metadata={
+                "event": "admin_break_glass",
+                "grant_id": audit.id,
+                "target_type": target_type,
+                "target_id": target_id,
+                "expires_at": expires_at.isoformat(),
+            },
+            priority=NotificationPriority.URGENT,
+        )
+    await db.commit()
+    return {
+        "grant_id": audit.id,
+        "target_type": target_type,
+        "target_id": target_id,
+        "autonomy_tier": AutonomyTier.L4_BREAK_GLASS.value,
+        "expires_at": expires_at.isoformat(),
+    }
+
+
+@router.get("/governance/audit")
+async def explore_admin_action_audit(
+    db: AsyncSession = Depends(get_db),
+    admin_access: ScopedAdminContext = Depends(require_audit_admin),
+    params: PaginationParams = Depends(pagination_params(default_limit=50, max_limit=100)),
+    action: str | None = None,
+    status: str | None = None,
+):
+    """Read-only, scope-filtered privileged-action evidence."""
+    filters = []
+    if action:
+        filters.append(AdminActionAudit.action == action.strip())
+    if status:
+        filters.append(AdminActionAudit.status == status.strip())
+    platform_scoped = ("platform", "*") in (
+        admin_access.scopes | admin_access.break_glass_scopes
+    )
+    if not admin_access.unbounded and not platform_scoped:
+        allowed = admin_access.scopes | admin_access.break_glass_scopes
+        own_actions = or_(
+            AdminActionAudit.actor_profile_id == admin_access.id,
+            AdminActionAudit.approved_by_profile_id == admin_access.id,
+        )
+        scoped_actions = [
+            and_(
+                AdminActionAudit.scope_type == scope_type,
+                AdminActionAudit.scope_id == scope_id,
+            )
+            for scope_type, scope_id in sorted(allowed)
+        ]
+        filters.append(or_(own_actions, *scoped_actions))
+
+    total = int(
+        (await db.execute(select(func.count(AdminActionAudit.id)).where(*filters))).scalar() or 0
+    )
+    rows = list(
+        (
+            await db.execute(
+                select(AdminActionAudit)
+                .where(*filters)
+                .order_by(AdminActionAudit.created_at.desc())
+                .limit(params.limit)
+                .offset(params.offset)
+            )
+        ).scalars().all()
+    )
+    items = [
+        {
+            "id": row.id,
+            "actor_profile_id": row.actor_profile_id,
+            "approved_by_profile_id": row.approved_by_profile_id,
+            "permission": row.permission,
+            "action": row.action,
+            "target_type": row.target_type,
+            "target_id": row.target_id,
+            "scope_type": row.scope_type,
+            "scope_id": row.scope_id,
+            "status": row.status,
+            "reason": row.reason,
+            "before_state": row.before_state,
+            "after_state": row.after_state,
+            "autonomy_tier": row.autonomy_tier,
+            "break_glass_expires_at": row.break_glass_expires_at.isoformat()
+            if row.break_glass_expires_at else None,
+            "created_at": row.created_at.isoformat() if row.created_at else None,
+            "approved_at": row.approved_at.isoformat() if row.approved_at else None,
+            "completed_at": row.completed_at.isoformat() if row.completed_at else None,
+        }
+        for row in rows
+    ]
+    return make_page(items, total, params)
+
+
 @router.get("/audit-logs")
 async def get_audit_logs(
     db: AsyncSession = Depends(get_db),
-    admin_access=Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_audit_admin),
     appointment_id: str | None = None,
     limit: int = 50,
     offset: int = 0,
 ):
     """Get appointment audit logs with optional filters."""
     from app.services import appointment_service
+
+    allowed_appointments = admin_access.accessible_ids("appointment")
+    if allowed_appointments is not None:
+        if not appointment_id:
+            raise HTTPException(
+                status_code=400,
+                detail="Scoped audit queries require appointment_id",
+            )
+        admin_access.require_scope("appointment", appointment_id)
 
     logs, total = await appointment_service.get_audit_logs(
         db, appointment_id=appointment_id, limit=limit, offset=offset
@@ -2208,9 +2693,10 @@ async def admin_override_appointment_status(
     appointment_id: str,
     data: OverrideStatusRequest,
     db: AsyncSession = Depends(get_db),
-    admin_access=Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_appointment_admin),
 ):
     """Admin force-sets an appointment status with audit trail."""
+    admin_access.require_scope("appointment", appointment_id)
     from app.db.models.appointment import Appointment, AppointmentStatus as ApptStatus
     from app.db.models.appointment_request import (
         AdminApprovalStatus,
@@ -2324,7 +2810,7 @@ async def admin_approve_new_appointment(
     appointment_id: str,
     data: AdminApproveAppointmentRequest,
     db: AsyncSession = Depends(get_db),
-    admin_access=Depends(require_admin_access),
+    admin_access: ScopedAdminContext = Depends(require_appointment_admin),
 ):
     """Admin approves a new appointment request.
 
@@ -2332,6 +2818,7 @@ async def admin_approve_new_appointment(
     PENDING_DOCTOR_CONFIRMATION so the doctor still has a chance to opt in.
     The doctor and patient each confirm separately through their own endpoints.
     """
+    admin_access.require_scope("appointment", appointment_id)
     from app.db.models.appointment import AppointmentStatus as ApptStatus
     from app.services import appointment_service
 

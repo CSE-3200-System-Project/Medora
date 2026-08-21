@@ -1,0 +1,309 @@
+{
+  "component": "phi-span-recogniser",
+  "evaluated_at": "2026-08-21T21:35:48+00:00",
+  "selection": "production-path cases only (known-identifier group excluded)",
+  "held_out": "Neither population is trained or tuned on; the corpus generator rejects any synthetic sentence containing an identifier from either file.",
+  "bootstrap": {
+    "iterations": 2000,
+    "seed": 20260821,
+    "note": "Populations are small. Intervals are wide; they are reported, not narrowed."
+  },
+  "published_baseline": {
+    "precision": 0.947,
+    "recall": 0.755,
+    "false_redaction_rate": 0.032,
+    "source": "Medora v1.0.2 archived safety benchmark"
+  },
+  "headline_population": "novel_identifier_probe",
+  "populations": {
+    "pii_safety_134": {
+      "path": "tests/benchmarks/datasets/pii_safety_cases.jsonl",
+      "role": "continuity with the published v1.0.2 baseline",
+      "caveat": "The rules were extended against this set, so their recall here is a development figure. Check the reported recall before drawing from it: at 1.000 the population is saturated and cannot separate the three systems.",
+      "cases": 134,
+      "identifier_spans": 94,
+      "benign_spans": 124,
+      "saturated_by_rules": true,
+      "systems": {
+        "rules": {
+          "status": "measured",
+          "metrics": {
+            "cases": 134,
+            "passed": 134,
+            "matched_expected": 131,
+            "expected_identifier_spans": 94,
+            "benign_spans": 124,
+            "true_positives": 94,
+            "false_positives": 3,
+            "false_negatives": 0,
+            "precision": 0.9690721649484536,
+            "recall": 1.0,
+            "false_redaction_rate": 0.024193548387096774,
+            "residual_known_identifier_rate": 0.0,
+            "expected_residual_risk_cases": 10,
+            "documented_limitations": 20,
+            "undisclosed_misses": 0,
+            "undisclosed_over_redactions": 0,
+            "stale_limitations": 0,
+            "recall_ci": {
+              "n": 94,
+              "estimate": 1.0,
+              "ci_low": 1.0,
+              "ci_high": 1.0
+            },
+            "precision_ci": {
+              "n": 97,
+              "estimate": 0.9690721649484536,
+              "ci_low": 0.9278350515463918,
+              "ci_high": 1.0
+            },
+            "false_redaction_rate_ci": {
+              "n": 124,
+              "estimate": 0.024193548387096774,
+              "ci_low": 0.0,
+              "ci_high": 0.056451612903225805
+            },
+            "f1": 0.9842931937172774
+          },
+          "latency": {
+            "n": 134,
+            "mean_ms": 0.132,
+            "median_ms": 0.134,
+            "p95_ms": 0.204,
+            "max_ms": 0.228,
+            "note": "Wall clock for the whole redaction call on this machine's CPU, not GPU inference time. The component runs locally, so this is the number that matters."
+          },
+          "per_script": {
+            "bengali": {
+              "cases": 27,
+              "passed": 27,
+              "matched_expected": 27,
+              "expected_identifier_spans": 24,
+              "benign_spans": 27,
+              "true_positives": 24,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "false_redaction_rate": 0.0,
+              "residual_known_identifier_rate": 0.0,
+              "expected_residual_risk_cases": 0,
+              "documented_limitations": 1,
+              "undisclosed_misses": 0,
+              "undisclosed_over_redactions": 0,
+              "stale_limitations": 0,
+              "recall_ci": {
+                "n": 24,
+                "estimate": 1.0,
+                "ci_low": 1.0,
+                "ci_high": 1.0
+              },
+              "precision_ci": {
+                "n": 24,
+                "estimate": 1.0,
+                "ci_low": 1.0,
+                "ci_high": 1.0
+              },
+              "false_redaction_rate_ci": {
+                "n": 27,
+                "estimate": 0.0,
+                "ci_low": 0.0,
+                "ci_high": 0.0
+              },
+              "f1": 1.0
+            },
+            "english": {
+              "cases": 107,
+              "passed": 107,
+              "matched_expected": 104,
+              "expected_identifier_spans": 70,
+              "benign_spans": 97,
+              "true_positives": 70,
+              "false_positives": 3,
+              "false_negatives": 0,
+              "precision": 0.958904109589041,
+              "recall": 1.0,
+              "false_redaction_rate": 0.030927835051546393,
+              "residual_known_identifier_rate": 0.0,
+              "expected_residual_risk_cases": 10,
+              "documented_limitations": 19,
+              "undisclosed_misses": 0,
+              "undisclosed_over_redactions": 0,
+              "stale_limitations": 0,
+              "recall_ci": {
+                "n": 70,
+                "estimate": 1.0,
+                "ci_low": 1.0,
+                "ci_high": 1.0
+              },
+              "precision_ci": {
+                "n": 73,
+                "estimate": 0.958904109589041,
+                "ci_low": 0.9041095890410958,
+                "ci_high": 1.0
+              },
+              "false_redaction_rate_ci": {
+                "n": 97,
+                "estimate": 0.030927835051546393,
+                "ci_low": 0.0,
+                "ci_high": 0.07216494845360824
+              },
+              "f1": 0.9790209790209791
+            }
+          }
+        },
+        "model": {
+          "status": "unavailable",
+          "reason": "No model bundle at F:\\CODE\\System-Project\\Medora\\tools\\phi_ner\\artifacts\\deploy (missing: model.onnx, tokenizer.json, labels.json). Train and export with tools/phi_ner/train.py; that run needs a GPU session and is deliberately out of band from this repository's test suite."
+        },
+        "union": {
+          "status": "unavailable",
+          "reason": "No model bundle at F:\\CODE\\System-Project\\Medora\\tools\\phi_ner\\artifacts\\deploy (missing: model.onnx, tokenizer.json, labels.json). Train and export with tools/phi_ner/train.py; that run needs a GPU session and is deliberately out of band from this repository's test suite."
+        }
+      }
+    },
+    "novel_identifier_probe": {
+      "path": "tests/benchmarks/datasets/pii_holdout_cases.jsonl",
+      "role": "generalisation to identifiers the rules were never written against",
+      "caveat": "Small (n is printed beside every metric) and synthetic in construction, but disjoint from the rules by design. This is the discriminating population.",
+      "cases": 36,
+      "identifier_spans": 36,
+      "benign_spans": 36,
+      "saturated_by_rules": false,
+      "systems": {
+        "rules": {
+          "status": "measured",
+          "metrics": {
+            "cases": 36,
+            "passed": 36,
+            "matched_expected": 27,
+            "expected_identifier_spans": 36,
+            "benign_spans": 36,
+            "true_positives": 27,
+            "false_positives": 0,
+            "false_negatives": 9,
+            "precision": 1.0,
+            "recall": 0.75,
+            "false_redaction_rate": 0.0,
+            "residual_known_identifier_rate": 0.25,
+            "expected_residual_risk_cases": 9,
+            "documented_limitations": 9,
+            "undisclosed_misses": 0,
+            "undisclosed_over_redactions": 0,
+            "stale_limitations": 0,
+            "recall_ci": {
+              "n": 36,
+              "estimate": 0.75,
+              "ci_low": 0.5833333333333334,
+              "ci_high": 0.8888888888888888
+            },
+            "precision_ci": {
+              "n": 27,
+              "estimate": 1.0,
+              "ci_low": 1.0,
+              "ci_high": 1.0
+            },
+            "false_redaction_rate_ci": {
+              "n": 36,
+              "estimate": 0.0,
+              "ci_low": 0.0,
+              "ci_high": 0.0
+            },
+            "f1": 0.8571428571428571
+          },
+          "latency": {
+            "n": 36,
+            "mean_ms": 0.124,
+            "median_ms": 0.121,
+            "p95_ms": 0.173,
+            "max_ms": 0.173,
+            "note": "Wall clock for the whole redaction call on this machine's CPU, not GPU inference time. The component runs locally, so this is the number that matters."
+          },
+          "per_script": {
+            "bengali": {
+              "cases": 3,
+              "passed": 3,
+              "matched_expected": 0,
+              "expected_identifier_spans": 3,
+              "benign_spans": 3,
+              "true_positives": 0,
+              "false_positives": 0,
+              "false_negatives": 3,
+              "precision": null,
+              "recall": 0.0,
+              "false_redaction_rate": 0.0,
+              "residual_known_identifier_rate": 1.0,
+              "expected_residual_risk_cases": 3,
+              "documented_limitations": 3,
+              "undisclosed_misses": 0,
+              "undisclosed_over_redactions": 0,
+              "stale_limitations": 0,
+              "recall_ci": {
+                "n": 3,
+                "estimate": 0.0,
+                "ci_low": 0.0,
+                "ci_high": 0.0
+              },
+              "precision_ci": null,
+              "false_redaction_rate_ci": {
+                "n": 3,
+                "estimate": 0.0,
+                "ci_low": 0.0,
+                "ci_high": 0.0
+              },
+              "f1": null
+            },
+            "english": {
+              "cases": 33,
+              "passed": 33,
+              "matched_expected": 27,
+              "expected_identifier_spans": 33,
+              "benign_spans": 33,
+              "true_positives": 27,
+              "false_positives": 0,
+              "false_negatives": 6,
+              "precision": 1.0,
+              "recall": 0.8181818181818182,
+              "false_redaction_rate": 0.0,
+              "residual_known_identifier_rate": 0.18181818181818182,
+              "expected_residual_risk_cases": 6,
+              "documented_limitations": 6,
+              "undisclosed_misses": 0,
+              "undisclosed_over_redactions": 0,
+              "stale_limitations": 0,
+              "recall_ci": {
+                "n": 33,
+                "estimate": 0.8181818181818182,
+                "ci_low": 0.6666666666666666,
+                "ci_high": 0.9393939393939394
+              },
+              "precision_ci": {
+                "n": 27,
+                "estimate": 1.0,
+                "ci_low": 1.0,
+                "ci_high": 1.0
+              },
+              "false_redaction_rate_ci": {
+                "n": 33,
+                "estimate": 0.0,
+                "ci_low": 0.0,
+                "ci_high": 0.0
+              },
+              "f1": 0.9
+            }
+          }
+        },
+        "model": {
+          "status": "unavailable",
+          "reason": "No model bundle at F:\\CODE\\System-Project\\Medora\\tools\\phi_ner\\artifacts\\deploy (missing: model.onnx, tokenizer.json, labels.json). Train and export with tools/phi_ner/train.py; that run needs a GPU session and is deliberately out of band from this repository's test suite."
+        },
+        "union": {
+          "status": "unavailable",
+          "reason": "No model bundle at F:\\CODE\\System-Project\\Medora\\tools\\phi_ner\\artifacts\\deploy (missing: model.onnx, tokenizer.json, labels.json). Train and export with tools/phi_ner/train.py; that run needs a GPU session and is deliberately out of band from this repository's test suite."
+        }
+      }
+    }
+  },
+  "bundle": "F:/CODE/System-Project/Medora/tools/phi_ner/artifacts/deploy",
+  "bundle_status": "No model bundle at F:\\CODE\\System-Project\\Medora\\tools\\phi_ner\\artifacts\\deploy (missing: model.onnx, tokenizer.json, labels.json). Train and export with tools/phi_ner/train.py; that run needs a GPU session and is deliberately out of band from this repository's test suite."
+}

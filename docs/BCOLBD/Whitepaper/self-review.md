@@ -4,6 +4,16 @@ This review applies the `research-paper-writing` rejection-risk checklist to the
 BCOLBD whitepaper. The status vocabulary is intentionally strict: **Pass**,
 **Needs revision**, or **Needs new experiment**.
 
+## Post-whitepaper implementation addendum (22 Aug 2026)
+
+The compiled competition whitepaper remains a point-in-time artifact. Since that review,
+Arohon, Akkhor's versioned API, Lokkhon v0.1, the Shimana reporter/sweep, the learned-PHI
+build and runtime gate, the Maya admission harness, and the stewardship thin slice have
+landed in the repository. Status changes below distinguish code/harness completion from an
+experimental result: learned-PHI weights and Maya base-versus-tuned responses still do not
+exist, and no result is inferred for either. Shimana did run, but its binary utility is
+non-monotone and its archived sweep lacks per-patient rows for the promised paired analysis.
+
 ## Review-triggered revisions
 
 - Replaced the abstract's ambiguous “four artifacts build on” phrasing with a
@@ -57,14 +67,14 @@ BCOLBD whitepaper. The status vocabulary is intentionally strict: **Pass**,
 | What new knowledge does the paper give? | Pass | It frames model authority, consent scope, and disclosure cost as separate testable objects and composes Arohon, Lokkhon, Shimana, Maya, and Akkhor around one policy chokepoint. |
 | Is the failure case meaningful? | Pass | Disclosure, emergency false negatives, unsupported source references, and non-authoritative writes are consequential clinical-AI failure modes. |
 | Is the idea non-obvious beyond common practice? | Pass | The novelty is the executable composition and conformance plan, not any single familiar safeguard. The paper avoids claiming that consent or redaction alone is novel. |
-| Is there a surprising empirical gain? | Needs new experiment | The whitepaper makes no SOTA claim. Shimana and Maya must be run before an empirical gain or new causal finding can be asserted. |
+| Is there a surprising empirical gain? | Needs new experiment | No SOTA/model gain is claimed. Shimana produced a contrary non-monotone frontier under binary contract utility; Maya and the learned PHI model still require their out-of-band runs. |
 | Is a novelty type clear? | Pass | New framework/design task, Bangladesh medicine identity artifact, consent--utility protocol, and reassurance-drift ablation. |
 
 ## 2. Writing clarity
 
 | Question | Status | Evidence or required action |
 |---|---|---|
-| Can a knowledgeable reader reproduce the method? | Pass for current system; planned work needs execution artifacts | The paper defines tiers, policy order, five Shimana configurations, PHI tag/data/evaluation plan, benchmark axes, and the Maya gate. Planned corpora, training scripts, seeds, and frozen outputs do not yet exist. |
+| Can a knowledgeable reader reproduce the method? | Pass for shipped code; model runs pending | Shimana and Lokkhon ship frozen machine-readable outputs. The PHI corpus generator, training/evaluation scripts and frozen rules report exist; Maya ships its fixed prompt/evaluation harness. GPU weights and recorded Maya responses remain absent. |
 | Is each module technically specified? | Pass | Each named artifact has a purpose, mechanism, measurement boundary, and one of four explicit statuses. The AI inventory separately exposes task, model, data, train/infer, evaluation, and authority boundary. |
 | Is every module motivated? | Pass | Arohon addresses authority, Lokkhon failure evidence, Shimana disclosure cost, Maya domain-fluency risk, and Akkhor local drug identity. |
 | Are terms consistent? | Pass | Latin-first artifact names, Arohon levels, Lokkhon axes, Shimana configurations, and deployed/measured/specified/planned terminology are stable across prose and figures. |
@@ -74,8 +84,8 @@ BCOLBD whitepaper. The status vocabulary is intentionally strict: **Pass**,
 
 | Question | Status | Evidence or required action |
 |---|---|---|
-| Are improvements over strong baselines meaningful? | Needs new experiment | No model-performance improvement is claimed. Shimana needs paired baselines; Maya needs base-versus-tuned comparison. |
-| Is absolute performance sufficient? | Needs new experiment | Current privacy recall is 75.5% and explicitly cannot support anonymity; OCR accuracy is withdrawn. Learned PHI recognition is prioritised because this is the weakest measured control. |
+| Are improvements over strong baselines meaningful? | Needs new experiment | No model-performance improvement is claimed. Shimana's archived aggregate run cannot supply its paired analysis; Maya and learned PHI need base-versus-candidate/model comparisons. |
+| Is absolute performance sufficient? | Needs new experiment | The archived 75.5% privacy recall remains the publication baseline. The extended-rule development set is saturated, while a disjoint 36-span probe measures 75% recall with nine unseen-name misses. OCR accuracy remains withdrawn. |
 | Are gains consistent across settings? | Needs new experiment | Existing fixtures are small and constructed. Larger bilingual, code-mixed, and independently adjudicated sets are required. |
 | Are strengths and failures reported? | Pass | Sample sizes accompany metrics; 43 redaction limitations, five emergency false positives, four code-mix cases, and the OCR negative result are explicit. |
 
@@ -83,7 +93,7 @@ BCOLBD whitepaper. The status vocabulary is intentionally strict: **Pass**,
 
 | Question | Status | Evidence or required action |
 |---|---|---|
-| Are key ablations included? | Needs new experiment | Maya is the planned base-versus-LoRA admission comparison; Shimana isolates consent configurations; PHI compares rules/model/union. None has a completed result. |
+| Are key ablations included? | Needs new experiment | Shimana now isolates all five consent configurations, but paired rows are unavailable on the archived sweep. Maya still needs base-versus-LoRA responses; PHI model and union rows remain unavailable until weights exist. |
 | Are strong baselines fair and current? | Needs new experiment | The systems table is a scope comparison, not a performance benchmark. Model baselines must be frozen with identical fixtures and inference settings. |
 | Are metrics sufficient? | Pass for protocol | Privacy span precision/recall, emergency FN/FP, source accounting, risk--coverage, medicine precision, paired CIs, and Pareto reporting cover the stated containment questions. |
 | Are scenarios challenging enough? | Needs new experiment | Thirty navigation fixtures, 134 privacy cases, and four code-mix cases do not establish population-level safety. |
@@ -103,6 +113,6 @@ BCOLBD whitepaper. The status vocabulary is intentionally strict: **Pass**,
 
 **Pass as an evidence-bounded competition whitepaper, not as a completed empirical
 research paper.** No unsupported result remains in the abstract. The highest reject risks
-are still evaluation scale, 75.5% redaction recall, absent PHI/Maya training artifacts,
+are still evaluation scale, held-out unseen-name recall, absent PHI weights and Maya responses,
 unvalidated clinician adoption, and unpriced support labour. Those gaps are named in the
 risk register and roadmap rather than hidden behind stronger wording.

@@ -3,7 +3,10 @@
 
 # Database Design (Full Structured Version)
 
-Medora uses PostgreSQL via Supabase with async SQLAlchemy 2.x. Row-Level Security is enforced using JWT context injection .
+Medora uses PostgreSQL via Supabase with async SQLAlchemy 2.x. The backend connects with a
+direct database role and enforces authorization in application dependencies and services;
+it does not inject request JWT claims into PostgreSQL. Newly created governance tables have
+RLS enabled and anonymous/authenticated grants revoked as defense in depth.
 
 All tables belong to a single logical schema and are grouped into layers.
 
@@ -130,6 +133,28 @@ Base identity table.
 * access_token
 * refresh_token
 * expires_at
+
+---
+
+### `admin_roles`
+
+An administrator's tier and JSON permission set. Migration `steward_001` backfills every
+pre-existing `profiles.role=admin` row as an explicit super-admin. Any later admin profile with no
+active matching role fails closed; bounded roles opt into permission and resource-scope checks.
+
+### `admin_scopes`
+
+Direct resource bindings `(admin_role_id, scope_type, scope_id)`. Organization and facility
+types are reserved, but canonical organization entities and affiliation backfill remain
+post-competition work.
+
+### `admin_action_audit`
+
+Durable lifecycle evidence for privileged operations: actor, second approver, permission, action,
+target/scope, reason, before/after JSON, status, timestamps, optional Arohon tier, and
+break-glass expiry. Pending rows implement the 24-hour two-person rule for ban/delete;
+completed `break_glass` rows grant one exact scope until expiry and trigger urgent notifications
+to the affected patient/doctor subjects.
 
 ---
 

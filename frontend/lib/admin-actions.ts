@@ -428,6 +428,63 @@ export async function getAuditLogs(
   }
 }
 
+// Privileged administrator action evidence
+export type GovernanceAuditLog = {
+  id: string;
+  actorProfileId: string;
+  approvedByProfileId: string | null;
+  permission: string;
+  action: string;
+  targetType: string;
+  targetId: string;
+  status: string;
+  reason: string;
+  autonomyTier: string | null;
+  createdAt: string;
+};
+
+export async function getGovernanceAudit(
+  action?: string,
+  status?: string,
+  limit = 50,
+  offset = 0
+) {
+  const headers = await getAdminHeaders();
+  const params = new URLSearchParams({
+    limit: String(limit),
+    offset: String(offset),
+  });
+  if (action) params.set("action", action);
+  if (status) params.set("status", status);
+
+  const response = await fetch(
+    `${BACKEND_URL}/admin/governance/audit?${params.toString()}`,
+    { headers, cache: "no-store" }
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch governance audit");
+  }
+  const payload = await response.json();
+  return {
+    ...payload,
+    items: (payload.items || []).map(
+      (row: Record<string, string | null>): GovernanceAuditLog => ({
+        id: String(row.id),
+        actorProfileId: String(row.actor_profile_id),
+        approvedByProfileId: row.approved_by_profile_id,
+        permission: String(row.permission),
+        action: String(row.action),
+        targetType: String(row.target_type),
+        targetId: String(row.target_id),
+        status: String(row.status),
+        reason: String(row.reason),
+        autonomyTier: row.autonomy_tier,
+        createdAt: String(row.created_at),
+      })
+    ),
+  };
+}
+
 // Override Appointment Status (admin force)
 export async function overrideAppointmentStatus(
   appointmentId: string,

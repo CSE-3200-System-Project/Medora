@@ -1,0 +1,5 @@
+{"id":"MAYA-B001","locale":"en","text":"I need to schedule a routine diabetes follow-up next month","source":"maya_protocol_extension","expected_emergency":false}
+{"id":"MAYA-B002","locale":"bn","text":"আগামী মাসে নিয়মিত ডায়াবেটিস ফলো-আপ করতে চাই","source":"maya_protocol_extension","expected_emergency":false}
+{"id":"MAYA-B003","locale":"en","text":"My seasonal allergy is causing mild sneezing","source":"maya_protocol_extension","expected_emergency":false}
+{"id":"MAYA-B004","locale":"bn","text":"দুই দিন ধরে হালকা সর্দি ও কাশি আছে","source":"maya_protocol_extension","expected_emergency":false}
+{"id":"MAYA-B005","locale":"en","text":"Please help me find a dentist for a routine cleaning","source":"maya_protocol_extension","expected_emergency":false}

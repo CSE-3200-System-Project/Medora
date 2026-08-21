@@ -304,7 +304,9 @@ Composite indexes on `(user_id, created_at)` or `(patient_id/doctor_id, created_
 | GET | `/admin/doctors` | Admin | All doctors list |
 | GET | `/admin/stats` | Admin | Platform statistics |
 | GET, PATCH, DELETE | `/admin/users/*` | Admin | User management |
-| GET | `/admin/audit-log` | Admin | Audit log |
+| GET | `/admin/audit-logs` | `view_audit` | Appointment transition audit log |
+| GET | `/admin/governance/audit` | `view_audit` | Scope-filtered privileged-action audit (canonical pagination) |
+| POST | `/admin/governance/break-glass` | `break_glass` | Time-box one exact resource scope; always logs Arohon L4 |
 
 ---
 

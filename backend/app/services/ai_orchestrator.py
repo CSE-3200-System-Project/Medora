@@ -22,6 +22,7 @@ from pydantic import BaseModel, Field, ValidationError
 from app.core.ai_privacy import redact_pii_text
 from app.core.arohon import requested_tier_for_feature, resolve_tier
 from app.core.config import settings
+from app.core.maya_admission import MayaAdmissionError, require_model_admission
 from app.db.models.enums import RiskClass
 
 logger = logging.getLogger(__name__)
@@ -252,6 +253,17 @@ class AIOrchestrator:
                 f"Unsupported AI provider: {self.provider}. "
                 f"Available: {', '.join(_PROVIDER_REGISTRY.keys())}"
             )
+
+        model_attr = _PROVIDER_REGISTRY[self.provider]["model_attr"]
+        model = str(getattr(settings, model_attr))
+        try:
+            require_model_admission(
+                self.provider,
+                model,
+                getattr(settings, "MAYA_ADMISSION_REPORT", None),
+            )
+        except MayaAdmissionError as exc:
+            raise AIProviderError(str(exc)) from exc
 
     # ------------------------------------------------------------------
     # Public feature methods

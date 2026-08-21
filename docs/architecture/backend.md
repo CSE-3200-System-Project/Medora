@@ -10,7 +10,7 @@ Medora's backend is a **FastAPI** application using **async SQLAlchemy 2.x** wit
 
 | Tool | Purpose |
 |---|---|
-| FastAPI 0.95+ | HTTP framework, async routing |
+| FastAPI 0.126 | HTTP framework, async routing |
 | SQLAlchemy 2.x (asyncpg) | Async ORM + raw query execution |
 | Alembic | Schema migrations (58 files) |
 | Supabase | Hosted PostgreSQL + Auth |
@@ -39,7 +39,7 @@ On startup the app runs three initialization steps, then launches two background
 
 ## Route Modules
 
-26 route files, registered in `main.py` with prefixes. All under `/backend/app/routes/`.
+30 route files, registered in `main.py` with prefixes. All under `/backend/app/routes/`.
 
 | Prefix | Module | Responsibility |
 |---|---|---|
@@ -114,7 +114,13 @@ require_doctor(profile)
 
 - Most routes use `Depends(get_current_user)` — any authenticated user.
 - Doctor-only endpoints use `Depends(require_doctor)` — verified doctors only.
-- Admin endpoints define their own `require_admin` check inside `admin.py`.
+- Admin endpoints use `core/admin_authorization.py::require_admin(permission)`. The stewardship
+  migration provisions pre-existing admins as explicit super-admins. Newly created admin profiles
+  without an active `admin_roles` row fail closed; bounded roles require both permission and a
+  matching direct-resource scope.
+- Bootstrap or change an administrator atomically with `backend/scripts/provision_admin.py`; the
+  command provisions the account role, one active admin tier, permission set, and exact scopes in
+  one transaction.
 - Chorui/AI endpoints use `get_current_user_token` from `auth.py` (returns raw JWT payload alongside profile).
 
 ---
@@ -128,6 +134,7 @@ require_doctor(profile)
 | Service | Responsibility |
 |---|---|
 | `ai_orchestrator.py` | Central LLM interface: provider-agnostic (Groq/Gemini/Cerebras), PII sanitization, Pydantic output validation, latency logging. Exposes: `generate_patient_summary`, `structure_intake`, `generate_soap_notes`, `clinical_info_query`, `prescription_suggestions` |
+| `admin_governance.py` | Two-person approval for ban/delete and durable completion evidence |
 | `asr.py` | Faster-Whisper wrapper for voice transcription. Model preloaded on startup. |
 | `chorui_intent_normalizer.py` | Maps raw user utterances to canonical intent strings |
 | `chorui_navigation_engine.py` | Resolves canonical intents to frontend routes, handles missing params, role-aware routing, fallback suggestions |
@@ -165,6 +172,10 @@ require_doctor(profile)
 | `security.py` | JWT verification with JWKS cache + Supabase fallback |
 | `dependencies.py` | `get_db`, `get_current_user`, `require_doctor` FastAPI dependencies |
 | `ai_privacy.py` | Bilingual known-identifier redaction; lowers exposure but does not guarantee anonymity |
+| `phi_ner.py` | Feature-flagged ONNX CPU span recognizer composed as a union with privacy rules |
+| `arohon.py` | Endpoint tier declarations, risk ceilings, and resolved authority decisions |
+| `admin_authorization.py` | Admin permission and direct-resource scope resolution, including active break-glass scopes |
+| `maya_admission.py` | Refuses candidate provider/model identities without a matching passing gate report |
 | `data_sharing_guard.py` | Reads patient consent records and filters data sent to AI based on sharing permissions |
 | `patient_reference.py` | Stable patient ID obfuscation for AI logs (no raw UUIDs in AI input) |
 | `http_cache.py` | HTTP cache-control header helpers |
@@ -237,4 +248,21 @@ backend at 50 persistent pooler clients. `pool_pre_ping` is disabled because it
 adds a cross-region round trip to every checkout; a five-minute recycle window
 provides optimistic stale-connection handling.
 
-**Migrations:** 58 Alembic files in `backend/alembic/versions/`. Schema evolution covers initial schema, onboarding fields, specialties, AI tables, health data consent, consultation drafts, doctor actions, admin approval, Chorui permissions, and performance indexes.
+**Migrations:** 82 Alembic files in `backend/alembic/versions/`. Recent additions cover
+Arohon decisions/escalation outcomes and the stewardship tables (`admin_roles`,
+`admin_scopes`, `admin_action_audit`) alongside the existing consent, scheduling,
+security, and performance history.
+
+## Administrative stewardship
+
+The stewardship thin slice separates permission from scope. `AdminTier` describes the
+kind of administrator; `Permission` describes the operation; `admin_scopes` binds a role
+to exact patient, doctor, appointment, organization, or facility identifiers. The current
+patient administration paths enforce direct patient scopes. Organization/facility entity
+resolution is intentionally deferred until canonical organization tables exist.
+
+Ban and soft-delete requests return HTTP 202 with an approval ID on the first request.
+The same operation, target, and reason must then be submitted by a different admin within
+24 hours. Break-glass grants last at most 60 minutes, add only one exact resource scope,
+and are stored as `L4_break_glass`. `/admin/governance/audit` exposes those records through
+the canonical pagination envelope and filters them to the caller's scopes.

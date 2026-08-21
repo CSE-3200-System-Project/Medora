@@ -7,8 +7,9 @@ import pytest
 from sqlalchemy import select
 
 from app.db.models.appointment import Appointment, AppointmentStatus
+from app.db.models.admin_governance import AdminRole
 from app.db.models.doctor import DoctorProfile
-from app.db.models.enums import AccountStatus, UserRole, VerificationStatus
+from app.db.models.enums import AdminTier, AccountStatus, Permission, UserRole, VerificationStatus
 from app.db.models.notification import Notification, NotificationType
 from app.db.models.patient import PatientProfile
 from app.db.models.profile import Profile
@@ -84,6 +85,14 @@ async def test_review_moderation_flow(db_session, backend_client, auth_token_map
     )
 
     db_session.add_all([patient_profile, doctor_profile, admin_profile, patient, doctor, appointment])
+    await db_session.flush()
+    db_session.add(
+        AdminRole(
+            profile_id=admin_profile.id,
+            tier=AdminTier.SUPER_ADMIN.value,
+            permission_set=[permission.value for permission in Permission],
+        )
+    )
     await db_session.commit()
 
     auth_token_map["patient-token"] = {"sub": patient_profile.id, "email": patient_profile.email}
