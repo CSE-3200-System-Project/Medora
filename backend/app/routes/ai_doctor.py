@@ -44,6 +44,7 @@ from app.services.medical_knowledge import (
 from app.schemas.processing_consent import ProcessingPurpose
 from app.services.processing_consent import require_processing_consent
 from app.services.ai_orchestrator import AIOrchestratorError, ai_orchestrator
+from app.services.risk_classifier import classify_risk, is_emergency_text
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -56,28 +57,16 @@ VAPI_DOCTOR_SEARCH_TOOL_NAMES = {"search_doctors_ai", "find_doctor", "ai_doctor_
 # tool-call deadline with headroom.
 VAPI_DOCTOR_SEARCH_TIMEOUT_SECONDS = 12.0
 
-EMERGENCY_PATTERNS = (
-    re.compile(r"\b(?:cannot|can't|unable to)\s+breathe\b", re.IGNORECASE),
-    re.compile(r"\b(?:severe\s+)?chest\s+pain\b", re.IGNORECASE),
-    re.compile(r"\b(?:unconscious|not\s+breathing|(?:severe|heavy)\s+bleeding|seizure|stroke|fainting)\b", re.IGNORECASE),
-    re.compile(r"\b(?:suicid(?:e|al)|kill\s+myself|(?:hurt|harm)\s+myself)\b", re.IGNORECASE),
-    re.compile(r"(?:শ্বাস\s*নিতে\s*পারছি\s*না|বুকে\s*তীব্র\s*ব্যথা|অজ্ঞান|খিঁচুনি|প্রচুর\s*রক্তপাত|আত্মহত্যা|নিজেকে\s*আঘাত)"),
-    # Added after the licensed review of the navigation fixtures. The reviewer judged
-    # শ্বাসকষ্ট (dyspnoea) and বুক ধড়ফড় (palpitations) to need immediate handling rather
-    # than a specialty suggestion, and corrected NAV-022 and NAV-023 accordingly. The
-    # earlier Bengali branch only matched "cannot breathe" and "severe chest pain", so
-    # neither phrasing fired.
-    #
-    # Dizziness on its own is deliberately absent. NAV-023 pairs it with palpitations and
-    # matches on ধড়ফড়; মাথা ঘোরা alone is common enough in routine complaints that adding
-    # it would trade a narrow rule for a broad one on no clinical instruction.
-    re.compile(r"(?:শ্বাসকষ্ট|ধড়ফড়)"),
-)
-
 
 def detect_emergency_red_flags(text: str) -> bool:
-    normalized = str(text or "").strip()
-    return any(pattern.search(normalized) for pattern in EMERGENCY_PATTERNS)
+    """Deployed red-flag screen. Now a thin view over the risk classifier.
+
+    The patterns moved to `app/services/risk_classifier.py` so Arohon can read the risk
+    *class*, not just a boolean, and give self-harm a different ceiling from cardiac.
+    The answer this returns is unchanged; parity over all 30 navigation fixtures is
+    asserted in `tests/unit/backend/test_arohon.py`.
+    """
+    return is_emergency_text(text)
 
 
 EMERGENCY_SAFETY_MESSAGE = (

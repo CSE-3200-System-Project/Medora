@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0.0",
-  "executed_at": "2026-08-16T19:06:14.073835+00:00",
+  "executed_at": "2026-08-21T16:27:49.739724+00:00",
   "provider": "mock",
   "provider_result_class": "deterministic_mock_and_rules",
   "privacy": {
@@ -17,10 +17,10 @@
     "false_redaction_rate": 0.024193548387096774,
     "residual_known_identifier_rate": 0.0,
     "expected_residual_risk_cases": 10,
-    "documented_limitations": 21,
+    "documented_limitations": 20,
     "undisclosed_misses": 0,
     "undisclosed_over_redactions": 0,
-    "stale_limitations": 1,
+    "stale_limitations": 0,
     "total_cases_including_api_group": 137,
     "known_identifier_leakage": 0,
     "by_report_group": {
@@ -228,10 +228,10 @@
         "false_redaction_rate": 0.0,
         "residual_known_identifier_rate": 0.0,
         "expected_residual_risk_cases": 0,
-        "documented_limitations": 2,
+        "documented_limitations": 1,
         "undisclosed_misses": 0,
         "undisclosed_over_redactions": 0,
-        "stale_limitations": 1
+        "stale_limitations": 0
       },
       "name_unlabeled": {
         "cases": 5,
@@ -667,10 +667,10 @@
         "false_redaction_rate": 0.0,
         "residual_known_identifier_rate": 0.0,
         "expected_residual_risk_cases": 0,
-        "documented_limitations": 2,
+        "documented_limitations": 1,
         "undisclosed_misses": 0,
         "undisclosed_over_redactions": 0,
-        "stale_limitations": 1
+        "stale_limitations": 0
       },
       "long_numeric_id": {
         "cases": 2,
@@ -2051,10 +2051,10 @@
         "undisclosed_misses": [],
         "undisclosed_losses": [],
         "expected_residual_risk": false,
-        "expected_over_redaction": true,
-        "limitation_class": "known_limitation",
-        "limitation_note": "A labelled name is bounded to three tokens, so one clinical word immediately following an unpunctuated name is still absorbed. The previous 80-character run absorbed the rest of the line.",
-        "stale_limitation": true,
+        "expected_over_redaction": false,
+        "limitation_class": null,
+        "limitation_note": null,
+        "stale_limitation": false,
         "idempotent": true,
         "uses_known_identifier_api": false
       },
@@ -4664,7 +4664,6 @@
     "Precision and recall are measured on the production call path, which supplies no known identifiers.",
     "A condition named in a medication request trips the rule. The failure is toward emergency guidance, which is the safer direction, but it interrupts routine navigation.",
     "A historical diagnosis trips the rule. The failure is toward emergency guidance, which is the safer direction, but it interrupts routine navigation.",
-    "A labelled name is bounded to three tokens, so one clinical word immediately following an unpunctuated name is still absorbed. The previous 80-character run absorbed the rest of the line.",
     "A misspelled label still matches when the misspelling leaves the trailing keyword intact; other misspellings would not.",
     "A space-separated numeric series of phone-number length is matched by the phone rule.",
     "An unlabelled NID is removed only because it is a long digit run, and is reported as a numeric identifier rather than a national ID.",
