@@ -47,6 +47,13 @@ DEFAULT_RATE_LIMIT_RULES: tuple[RateLimitRule, ...] = (
     RateLimitRule("POST", "/ai/clinical-info", 20, 60.0),
     RateLimitRule("POST", "/ai/voice-to-notes", 10, 60.0),
     RateLimitRule("POST", "/ai/search", 20, 60.0),
+    # Akkhor is public and unauthenticated, so the limit is what bounds its cost.
+    # Lookup is cheap and cached hard; the count endpoint aggregates 74k rows, so it
+    # gets a tighter bucket.
+    RateLimitRule("GET", "/v1/akkhor/version", 10, 60.0),
+    RateLimitRule("GET", "/v1/akkhor/search", 120, 60.0),
+    RateLimitRule("GET", "/v1/akkhor/resolve", 120, 60.0),
+    RateLimitRule("GET", "/v1/akkhor/", 240, 60.0),
     RateLimitRule("GET", "/medicine/search", 60, 60.0),
     RateLimitRule("GET", "/medical-test/search", 60, 60.0),
     RateLimitRule("GET", "/doctor/search", 60, 60.0),
