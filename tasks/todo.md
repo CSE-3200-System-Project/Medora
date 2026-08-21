@@ -66,11 +66,11 @@ Blast radius is stated per phase. No phase bundles a refactor.
 - [x] Contract tests: counts match the live tables; pagination envelope conformance.
 - **Touches:** 1 new route module, 1 schema module, main.py router include, docs.
 
-### Phase 5 — Lokkhon as a versioned benchmark package
-- [ ] `benchmark/lokkhon/`: case JSON schema, runner entry point wrapping the existing harness (no re-implementation), bootstrap CI reporter, `RELEASE.md`, `CITATION.cff`, `v0.1` tag of results.
-- [ ] Axis D expansion: transliterate existing Bengali fixtures to romanised form via a scripted, reviewable generator (raises n from 4).
-- [ ] Axis E: calibrated abstention — risk–coverage curve over the summary/navigation fixtures, emitted machine-readable.
-- [ ] Emit `lokkhon_v0.1.json` with n printed beside every metric.
+### Phase 5 — Lokkhon as a versioned benchmark package — DONE
+- [x] `benchmark/lokkhon/`: case JSON schema, runner entry point wrapping the existing harness (no re-implementation), bootstrap CI reporter, `RELEASE.md`, `CITATION.cff`, `v0.1` tag of results.
+- [x] Axis D expansion: transliterate existing Bengali fixtures to romanised form via a scripted, reviewable generator (raises n from 4).
+- [x] Axis E: calibrated abstention — risk–coverage curve over the summary/navigation fixtures, emitted machine-readable.
+- [x] Emit `lokkhon_v0.1.json` with n printed beside every metric.
 - **Touches:** new top-level `benchmark/` tree; `tests/benchmarks/` scripts imported, not moved.
 
 ### Phase 6 — Shimana reporter and frontier output

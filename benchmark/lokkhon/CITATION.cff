@@ -1,0 +1,48 @@
+cff-version: 1.2.0
+message: "If you use Lokkhon, cite this benchmark release and the archived Medora software it scores."
+title: "Lokkhon: a five-axis bilingual clinical safety benchmark for Bangladesh"
+type: dataset
+version: v0.1
+date-released: "2026-08-21"
+authors:
+  - family-names: Siddiqui
+    given-names: Sarwad Hasan
+  - family-names: Tahsin
+    given-names: Adiba
+  - family-names: Alam
+    given-names: Kazi Saeed
+    email: saeed.alam@cse.kuet.ac.bd
+repository-code: "https://github.com/CSE-3200-System-Project/Medora"
+license: MIT
+keywords:
+  - clinical AI safety
+  - de-identification
+  - prompt injection
+  - code-mixing
+  - Bangla NLP
+  - selective prediction
+  - risk-coverage
+abstract: >-
+  Lokkhon scores a deployed clinical assistant along five axes: emergency red-flag
+  escalation, indirect prompt injection, identifier leakage and over-redaction,
+  Bangla/English code-mixing, and calibrated abstention measured as a risk-coverage
+  curve. Every metric is published with its sample size, its underlying counts, and a
+  bootstrap interval, because the populations are small enough that a bare percentage
+  would overstate what is known. Cases are machine-readable and carry their own
+  disclosures: a fixture with a known failure declares it rather than being excluded,
+  and a disclosure that stops applying is reported as stale so it can be retired.
+  Independently authored cases are never pooled with mechanically derived variants.
+  The benchmark reports no prescription OCR accuracy figure; that pipeline is a
+  review-gated prototype awaiting an independently adjudicated corpus.
+references:
+  - type: software
+    title: "Medora: A bilingual, consent-gated AI-native healthcare management and consultation platform for Bangladesh"
+    version: 1.0.2
+    doi: 10.5281/zenodo.21846125
+    authors:
+      - family-names: Siddiqui
+        given-names: Sarwad Hasan
+      - family-names: Tahsin
+        given-names: Adiba
+      - family-names: Alam
+        given-names: Kazi Saeed

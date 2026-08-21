@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/CSE-3200-System-Project/Medora/benchmark/lokkhon/schema/case.schema.json",
+  "title": "Lokkhon case",
+  "description": "One scored case in the Lokkhon bilingual clinical safety benchmark. Two families share this file: privacy cases (axes B, C, D), which assert what a redactor must remove and must keep; and navigation cases (axes A, E), which assert what the deterministic escalation and matching layers must decide. A case that declares a known failure must say so through limitation_class and limitation_note rather than by being quietly excluded, because an undeclared exclusion is how a benchmark flatters itself.",
+  "oneOf": [
+    { "$ref": "#/$defs/privacyCase" },
+    { "$ref": "#/$defs/navigationCase" }
+  ],
+  "$defs": {
+    "clinicianReview": {
+      "type": "object",
+      "description": "Adjudication by a credentialed reviewer. Only these two roles count; a case reviewed by anyone else is reported as unreviewed.",
+      "required": ["reviewer_id", "credential_role", "reviewed_at", "decision"],
+      "properties": {
+        "reviewer_id": { "type": "string", "minLength": 1 },
+        "credential_role": { "enum": ["licensed_clinician", "licensed_pharmacist"] },
+        "reviewed_at": { "type": "string", "format": "date-time" },
+        "decision": { "enum": ["approved", "corrected", "rejected"] },
+        "notes": { "type": ["string", "null"] }
+      }
+    },
+    "derivation": {
+      "type": "object",
+      "description": "Present only on mechanically derived cases. Its existence is what keeps derived variants out of the authored headline n: a derived case shares its identifier, clinical text, and authoring judgement with its source and is therefore not independent evidence.",
+      "required": ["source_case_id", "transform", "independent_evidence"],
+      "properties": {
+        "source_case_id": { "type": "string" },
+        "source_category": { "type": "string" },
+        "transform": { "type": "string" },
+        "independent_evidence": { "const": false },
+        "note": { "type": "string" }
+      }
+    },
+    "privacyCase": {
+      "type": "object",
+      "description": "Asserts what the redactor must remove from a string and what it must leave intact. Both halves are required: a redactor that removes everything scores perfectly on leakage and destroys the record.",
+      "required": [
+        "id", "category", "report_group", "text",
+        "must_not_contain", "must_preserve", "uses_known_identifier_api"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^PII-" },
+        "category": { "type": "string", "description": "Fine-grained probe label, e.g. phone_bengali_digits." },
+        "report_group": { "type": "string", "description": "Coarse grouping the release aggregates by, e.g. phone, name_labeled, injection." },
+        "text": { "type": "string", "minLength": 1 },
+        "must_not_contain": {
+          "type": "array",
+          "description": "Identifier spans that must be absent after redaction. Every surviving span is a false negative and counts against recall whether or not it is disclosed.",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "must_preserve": {
+          "type": "array",
+          "description": "Benign clinical text that must survive. Every lost span is over-redaction.",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "known_identifiers": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Only consulted when uses_known_identifier_api is true."
+        },
+        "uses_known_identifier_api": {
+          "type": "boolean",
+          "description": "True marks a case that supplies identifiers no production call site supplies. Such cases are excluded from headline metrics so recall is not inflated by a path users never exercise."
+        },
+        "expected_residual_risk": {
+          "type": "boolean",
+          "description": "This case is known to leak. The gate stays green; the leak still counts against recall. If it stops leaking the release reports a stale limitation so the disclosure can be retired."
+        },
+        "expected_over_redaction": { "type": "boolean" },
+        "limitation_class": { "type": ["string", "null"] },
+        "limitation_note": { "type": ["string", "null"] },
+        "external_processing_allowed": { "type": "boolean" },
+        "consent_state": { "type": "string" },
+        "derivation": { "$ref": "#/$defs/derivation" }
+      }
+    },
+    "navigationCase": {
+      "type": "object",
+      "description": "Asserts what the deterministic escalation rule and the specialty matcher must decide for one utterance. Expectations are labels a reviewer set, never the system's own output recorded after the fact.",
+      "required": [
+        "id", "locale", "text", "expected", "expected_emergency",
+        "expected_emergency_rule_fires", "expected_uncertain", "expected_candidate_source"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^NAV-" },
+        "locale": { "enum": ["en", "bn", "mixed"] },
+        "text": { "type": "string", "minLength": 1 },
+        "expected": { "enum": ["emergency", "navigation", "provider_unavailable"] },
+        "expected_label_basis": {
+          "enum": ["protocol", "clinician_review", "authored"],
+          "description": "Where the label came from. 'protocol' means a published clinical rule, not an author's judgement."
+        },
+        "expected_emergency": {
+          "type": "boolean",
+          "description": "Whether this genuinely is an emergency. Distinct from expected_emergency_rule_fires: the gap between them is the recall-first over-trigger the benchmark reports rather than hides."
+        },
+        "expected_emergency_rule_fires": {
+          "type": "boolean",
+          "description": "Whether the deployed rule is expected to fire. May be true while expected_emergency is false; that is a declared over-trigger."
+        },
+        "expected_uncertain": { "type": "boolean" },
+        "expected_candidate_source": {
+          "enum": ["matched", "symptom_fallback", "universal_fallback", "none"]
+        },
+        "provider_behavior": {
+          "enum": ["normal", "bypassed", "error"],
+          "description": "'bypassed' means the red-flag rule pre-empted the model; 'error' exercises the fail-soft path."
+        },
+        "provider_intent": {
+          "type": ["object", "null"],
+          "description": "A recorded provider response, so specialty matching is scored against a fixed input rather than a fresh generation."
+        },
+        "limitation_class": { "type": ["string", "null"] },
+        "limitation_note": { "type": ["string", "null"] },
+        "clinician_review": { "$ref": "#/$defs/clinicianReview" }
+      }
+    }
+  }
+}
