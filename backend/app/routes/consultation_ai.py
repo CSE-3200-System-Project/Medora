@@ -131,6 +131,11 @@ async def _persist_interaction(
         patient_id=consultation.patient_id,
         latency_ms=result.latency_ms,
         provider=result.provider,
+        correlation_id=result.correlation_id,
+        requested_tier=result.requested_tier,
+        autonomy_tier=result.autonomy_tier,
+        risk_class=result.risk_class,
+        tier_ceiling_applied=result.tier_ceiling_applied,
     )
     db.add(interaction)
     await db.commit()

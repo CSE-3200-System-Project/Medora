@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 
-from sqlalchemy import DateTime, ForeignKey, Integer, JSON, String, Text, CheckConstraint
+from sqlalchemy import Boolean, DateTime, ForeignKey, Integer, JSON, String, Text, CheckConstraint, text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
 
@@ -33,6 +33,20 @@ class AIInteraction(Base):
     )
     latency_ms: Mapped[int | None] = mapped_column(Integer, nullable=True)
     provider: Mapped[str] = mapped_column(String(32), nullable=False)
+
+    # Arohon. Nullable because rows written before the tier layer existed have no
+    # decision to record, and backfilling one would be inventing an audit entry.
+    # `correlation_id` is the orchestrator's per-request random token, never a stable
+    # subject identifier, so it joins a tier decision to one request without becoming a
+    # way to re-identify a patient across requests.
+    correlation_id: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
+    requested_tier: Mapped[str | None] = mapped_column(String(24), nullable=True)
+    autonomy_tier: Mapped[str | None] = mapped_column(String(24), nullable=True, index=True)
+    risk_class: Mapped[str | None] = mapped_column(String(24), nullable=True, index=True)
+    tier_ceiling_applied: Mapped[bool] = mapped_column(
+        Boolean, nullable=False, server_default=text("false"), default=False
+    )
+
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
     doctor = relationship("DoctorProfile", back_populates="ai_interactions")
