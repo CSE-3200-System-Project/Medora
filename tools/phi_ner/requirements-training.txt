@@ -1,6 +1,6 @@
 # GPU/Colab-only dependencies. The backend intentionally does not install these.
 transformers>=4.44,<5
-accelerate>=0.34,<2
+accelerate>=1.1,<2
 onnx>=1.16,<2
 onnxruntime>=1.20,<2
 tokenizers>=0.20,<1

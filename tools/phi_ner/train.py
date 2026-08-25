@@ -32,6 +32,7 @@ a result.
 from __future__ import annotations
 
 import argparse
+import inspect
 import json
 import sys
 from dataclasses import dataclass, field
@@ -238,6 +239,7 @@ def sweep_threshold(
 
 def _require_training_stack():
     try:
+        import accelerate  # noqa: F401
         import numpy  # noqa: F401
         import torch  # noqa: F401
         from transformers import (  # noqa: F401
@@ -251,9 +253,50 @@ def _require_training_stack():
         raise SystemExit(
             "Training requires torch + transformers, which are not part of the backend "
             "runtime by design.\n"
-            "    pip install 'torch' 'transformers>=4.44' 'accelerate'\n"
+            "    python -m pip install -r tools/phi_ner/requirements-training.txt\n"
             f"(import failed: {exc})"
         ) from exc
+
+
+def build_training_arguments(
+    training_arguments_cls,
+    *,
+    output_dir: str,
+    learning_rate: float,
+    batch_size: int,
+    epochs: float,
+    seed: int,
+):
+    """Build Trainer arguments across the Transformers 4/5 warmup API change.
+
+    Transformers 4 accepts ``warmup_ratio``. Current Transformers 5 represents the same
+    value as a float in ``warmup_steps``: values below one are interpreted as a fraction of
+    the total training steps. Inspecting the installed constructor keeps Colab's preinstalled
+    package from turning a long GPU run into an immediate, opaque ``CalledProcessError``.
+    """
+    parameters = inspect.signature(training_arguments_cls).parameters
+    kwargs = {
+        "output_dir": output_dir,
+        "learning_rate": learning_rate,
+        "per_device_train_batch_size": batch_size,
+        "per_device_eval_batch_size": batch_size,
+        "num_train_epochs": epochs,
+        "seed": seed,
+        "eval_strategy": "epoch",
+        "save_strategy": "no",
+        "logging_steps": 100,
+        "report_to": [],
+    }
+    if "warmup_ratio" in parameters:
+        kwargs["warmup_ratio"] = 0.1
+    elif "warmup_steps" in parameters:
+        kwargs["warmup_steps"] = 0.1
+    else:  # pragma: no cover - guards a future incompatible Transformers release
+        raise RuntimeError(
+            "This Transformers version exposes neither warmup_ratio nor warmup_steps in "
+            "TrainingArguments. Install tools/phi_ner/requirements-training.txt."
+        )
+    return training_arguments_cls(**kwargs)
 
 
 def train_one(spec: ModelSpec, seed: int, args) -> dict:  # pragma: no cover - needs a GPU host
@@ -298,18 +341,13 @@ def train_one(spec: ModelSpec, seed: int, args) -> dict:  # pragma: no cover - n
     run_dir = ARTIFACT_DIR / f"{spec.key}-seed{seed}"
     trainer = Trainer(
         model=model,
-        args=TrainingArguments(
+        args=build_training_arguments(
+            TrainingArguments,
             output_dir=str(run_dir / "checkpoints"),
             learning_rate=spec.learning_rate,
-            per_device_train_batch_size=args.batch_size,
-            per_device_eval_batch_size=args.batch_size,
-            num_train_epochs=args.epochs,
-            warmup_ratio=0.1,
+            batch_size=args.batch_size,
+            epochs=args.epochs,
             seed=seed,
-            eval_strategy="epoch",
-            save_strategy="no",
-            logging_steps=100,
-            report_to=[],
         ),
         train_dataset=ListDataset(train_encoded),
         eval_dataset=ListDataset(dev_encoded),

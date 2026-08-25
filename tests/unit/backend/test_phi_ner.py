@@ -400,6 +400,34 @@ def test_deployable_models_pass_the_licence_gate(train_module) -> None:
 
 
 @pytest.mark.backend
+@pytest.mark.parametrize(
+    ("constructor", "expected_warmup"),
+    [
+        (lambda warmup_ratio=None, **kwargs: {"warmup_ratio": warmup_ratio, **kwargs},
+         {"warmup_ratio": 0.1}),
+        (lambda warmup_steps=0, **kwargs: {"warmup_steps": warmup_steps, **kwargs},
+         {"warmup_steps": 0.1}),
+    ],
+)
+def test_training_arguments_support_transformers_4_and_5(
+    train_module, constructor, expected_warmup
+) -> None:
+    """Transformers 5 expresses a warmup ratio through ``warmup_steps``."""
+    result = train_module.build_training_arguments(
+        constructor,
+        output_dir="checkpoints",
+        learning_rate=2e-5,
+        batch_size=16,
+        epochs=4,
+        seed=3,
+    )
+
+    for key, value in expected_warmup.items():
+        assert result[key] == value
+    assert result["eval_strategy"] == "epoch"
+
+
+@pytest.mark.backend
 def test_training_a_non_commercial_model_requires_an_explicit_flag(train_module) -> None:
     with pytest.raises(SystemExit):
         train_module.main(["--model", "banglabert"])
