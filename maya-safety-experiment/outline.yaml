@@ -1,0 +1,15 @@
+topic: "Maya Bengali clinical-navigation safety experiment"
+items:
+  - name: "Protocol models and training corpus"
+    category: "Protocol models and data"
+    description: "Audit the frozen Medora gate and registered reassurance-drift hypothesis; compare the gpt-oss incumbent, TigerLLM, Qwen, Gemma, MedGemma, and gpt-oss references; and determine a legally and clinically defensible training-corpus strategy."
+  - name: "Evaluation statistics and clinical governance"
+    category: "Evaluation and method"
+    description: "Separate the frozen gate, a larger hidden Bengali navigation set, HealthBench, knowledge benchmarks, self-harm cases, language perturbations, and operational faults; define paired analyses, sample-size limits, clinician adjudication, and governance."
+  - name: "PC and Google Colab execution package"
+    category: "Execution"
+    description: "Specify reproducible base, tuned, and incumbent generation; QLoRA settings and seeds; dependency and revision pinning; resource checks; artifact hashes; local scoring; sign-off; and deployment replay."
+execution:
+  batch_size: 3
+  items_per_agent: 1
+  output_dir: "./maya-safety-experiment/results"
