@@ -1,6 +1,15 @@
 {
-  "generator": "phi-corpus-1.0",
-  "generated_at": "2026-08-21T21:01:24+00:00",
+  "generator": "phi-corpus-1.1",
+  "generator_provenance": {
+    "git_commit": "14549492315b81f9cb95e036fbb9c3876acd8d96",
+    "working_tree_dirty_for_generator_files": false,
+    "file_sha256": {
+      "tools/phi_ner/generate_corpus.py": "83febabc30797835d5cec94d133a191130cdff067981c2e5d671554771f61c05",
+      "tools/phi_ner/fillers.py": "3ac770d024f7d3c34b3cbbfec83acdb07e2e935e43609efbcc6d3769c23f1294",
+      "tools/phi_ner/templates.py": "d05275795cb23c6970e8f865af05495e3da61eee304d8f7d37efba23b52754f0"
+    }
+  },
+  "generated_at": "2026-08-25T12:10:28+00:00",
   "seed": 20260822,
   "labels": [
     "NAME",
@@ -20,96 +29,104 @@
     "rom"
   ],
   "frames": {
-    "phi": 35,
+    "phi": 46,
     "clean": 14,
-    "realised_total": 147
+    "realised_total": 180
   },
   "splits": {
     "train": {
       "rows": 10560,
-      "rejected_for_holdout_overlap": 5,
+      "rejected_for_holdout_overlap": 15,
       "by_script": {
-        "bn": 3524,
-        "en": 3631,
-        "rom": 3405
+        "bn": 3555,
+        "en": 3566,
+        "rom": 3439
       },
       "by_frame_kind": {
         "clean": 2112,
         "phi": 8448
       },
       "by_tag": {
-        "ADDRESS": 1663,
-        "AGE": 728,
-        "DATE": 2672,
-        "DOCTOR": 1695,
-        "EMAIL": 694,
-        "HOSPITAL": 2679,
-        "MRN": 974,
-        "NAME": 4800,
-        "NID": 727,
-        "PHONE": 1934
+        "ADDRESS": 1482,
+        "AGE": 581,
+        "DATE": 3093,
+        "DOCTOR": 1656,
+        "EMAIL": 894,
+        "HOSPITAL": 2549,
+        "MRN": 1801,
+        "NAME": 5644,
+        "NID": 765,
+        "PHONE": 2038
       },
       "phi_density": {
         "0": 2112,
-        "1": 1439,
-        "2": 4382,
-        "3": 2386,
-        "5": 241
+        "1": 1139,
+        "2": 3315,
+        "3": 3437,
+        "4": 362,
+        "5": 195
       },
       "zero_phi_rows": 2112
     },
     "dev": {
       "rows": 1440,
-      "rejected_for_holdout_overlap": 1,
+      "rejected_for_holdout_overlap": 2,
       "by_script": {
-        "bn": 489,
-        "en": 490,
-        "rom": 461
+        "bn": 474,
+        "en": 493,
+        "rom": 473
       },
       "by_frame_kind": {
         "clean": 288,
         "phi": 1152
       },
       "by_tag": {
-        "ADDRESS": 189,
-        "AGE": 115,
-        "DATE": 335,
-        "DOCTOR": 235,
-        "EMAIL": 94,
-        "HOSPITAL": 371,
-        "MRN": 158,
-        "NAME": 660,
-        "NID": 85,
-        "PHONE": 265
+        "ADDRESS": 181,
+        "AGE": 84,
+        "DATE": 429,
+        "DOCTOR": 219,
+        "EMAIL": 135,
+        "HOSPITAL": 346,
+        "MRN": 273,
+        "NAME": 782,
+        "NID": 97,
+        "PHONE": 273
       },
       "phi_density": {
         "0": 288,
-        "1": 210,
-        "2": 607,
-        "3": 296,
-        "5": 39
+        "1": 136,
+        "2": 479,
+        "3": 452,
+        "4": 56,
+        "5": 29
       },
       "zero_phi_rows": 288
     }
   },
   "pools": {
+    "source_totals": {
+      "given_name_forms": 755,
+      "family_name_forms": 611,
+      "name_pool_sha256": "ea527524c4627230ce37dce394384d0140d4194055c6fed829df276f1aecac42",
+      "name_generation_method": "Deterministic fictional combinations of manually reviewed common Bangladeshi name components; no person-linked directory was scraped. A fictional combination may coincidentally match a real person."
+    },
     "train": {
-      "given_names": 95,
-      "surnames": 47,
-      "distinct_full_names": 4465,
+      "given_names": 573,
+      "surnames": 464,
+      "distinct_full_names": 265872,
       "facilities": 459,
       "districts": 56,
-      "upazilas": 66,
+      "upazilas": 442,
       "city_areas": 17,
       "drug_hard_negatives": 528
     },
     "dev": {
-      "given_names": 31,
-      "surnames": 15,
-      "distinct_full_names": 465,
+      "given_names": 182,
+      "surnames": 147,
+      "distinct_full_names": 26754,
       "facilities": 63,
       "districts": 8,
-      "upazilas": 10,
+      "upazilas": 61,
       "city_areas": 3,
       "drug_hard_negatives": 72
     },
@@ -119,8 +136,36 @@
   "geography_coverage": {
     "divisions": 8,
     "districts": 64,
-    "upazilas": 76,
-    "upazila_note": "named subset (not the full 495 upazilas)"
+    "upazilas": 503,
+    "upazila_note": "495 BBS/census-baseline entries plus 8 Government Press gazetted extensions (503 total); the original build-plan target was 495",
+    "source": {
+      "publisher": "Government of Bangladesh",
+      "url": "https://bangladesh.gov.bd/views/upazila-list",
+      "retrieved_at": "2026-08-25T12:05:05+00:00",
+      "sources": [
+        {
+          "role": "portal_hierarchy",
+          "url": "https://bangladesh.gov.bd/views/upazila-list",
+          "sha256": "512f0764f1188e6879e2ac8d24044a5297dcc8f7390801690956e441446c407f"
+        },
+        {
+          "role": "may_2026_gazettes",
+          "url": "https://www.dpp.gov.bd/bgpress/index.php/document/extraordinary_gazettes_monthly/2026-05-18",
+          "sha256": "3dc3ec109238cee6e46b4a9b076accd0ba83c93fbeec22617bda5995f1990d94"
+        },
+        {
+          "role": "july_2026_gazettes",
+          "url": "https://dpp.gov.bd/bgpress/index.php/document/extraordinary_gazettes_monthly/2026-07-01",
+          "sha256": "93f234739412cb4087ecdeccb2cfe8beae97dca89544e8762d50a93f2369da24"
+        }
+      ],
+      "build_plan_target": 495,
+      "bd_admin_2022": 495,
+      "bd_admin_2026_extension": 8,
+      "current_portal_count": 499,
+      "current_gazetted_count": 503,
+      "note": "The build plan's 495-unit BBS/census baseline is preserved. Eight units gazetted in May and July 2026 form a separate extension. The National Portal listed only 499 on retrieval, so four gazetted entries are sourced directly from Government Press notices. English portal forms are deterministic readings of official .gov.bd hostnames; extension spellings are conservative translations."
+    }
   },
   "holdout_exclusion": {
     "sources": [
@@ -128,8 +173,8 @@
       "tests/benchmarks/datasets/pii_holdout_cases.jsonl"
     ],
     "identifier_strings": 259,
-    "rejected_train": 5,
-    "rejected_dev": 1,
+    "rejected_train": 15,
+    "rejected_dev": 2,
     "note": "Any sentence containing a holdout identifier is discarded at generation time, so the 134-case test set cannot be trained on."
   },
   "synthetic": true,
