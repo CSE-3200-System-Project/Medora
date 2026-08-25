@@ -335,7 +335,34 @@ def test_train_and_dev_filler_pools_are_disjoint(corpus_module) -> None:
     assert not set(train_pool.given) & set(dev_pool.given)
     assert not set(train_pool.surnames) & set(dev_pool.surnames)
     assert not set(train_pool.hospitals) & set(dev_pool.hospitals)
+    assert not set(train_pool.upazilas) & set(dev_pool.upazilas)
     assert not set(train_pool.drugs) & set(dev_pool.drugs)
+
+
+@pytest.mark.backend
+def test_corpus_source_pools_meet_the_registered_coverage(corpus_module) -> None:
+    """The generated data must satisfy the Day 1 targets, not just document them."""
+    fillers = corpus_module.F
+    templates = corpus_module.T
+    assert len(fillers.GIVEN_NAMES) >= 500
+    assert len(fillers.SURNAMES) >= 500
+    assert len(fillers.UPAZILAS) >= 495
+    assert len(fillers.DIVISIONS) == 8
+    assert len(fillers.DISTRICTS) == 64
+    assert 60 <= len(templates.PHI_FRAMES) + len(templates.CLEAN_FRAMES) <= 100
+
+
+@pytest.mark.backend
+def test_upazila_snapshot_preserves_the_official_hierarchy(corpus_module) -> None:
+    fillers = corpus_module.F
+    assert all(len(entry) == 6 for entry in fillers.UPAZILAS)
+    assert all(all(part.strip() for part in entry) for entry in fillers.UPAZILAS)
+    assert len({(entry[4], entry[5]) for entry in fillers.UPAZILAS}) == 8
+    assert len({(entry[2], entry[3]) for entry in fillers.UPAZILAS}) == 64
+    assert fillers.UPAZILA_SOURCE["url"] == "https://bangladesh.gov.bd/views/upazila-list"
+    assert fillers.UPAZILA_SOURCE["bd_admin_2022"] == 495
+    assert fillers.UPAZILA_SOURCE["bd_admin_2026_extension"] == 8
+    assert fillers.UPAZILA_SOURCE["current_gazetted_count"] == len(fillers.UPAZILAS)
 
 
 # ---------------------------------------------------------------------------

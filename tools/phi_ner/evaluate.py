@@ -65,7 +65,7 @@ for key, value in {
     os.environ.setdefault(key, value)
 
 from bootstrap import BOOTSTRAP_ITERATIONS, BOOTSTRAP_SEED, proportion_ci  # noqa: E402
-from run_safety_benchmarks import privacy_span_metrics, score_privacy_case  # noqa: E402
+from privacy_scoring import privacy_span_metrics, score_privacy_case  # noqa: E402
 
 from app.core.ai_privacy import redact_pii_text  # noqa: E402
 from app.core import phi_ner  # noqa: E402

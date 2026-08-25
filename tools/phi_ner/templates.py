@@ -241,6 +241,61 @@ PHI_FRAMES: list[dict[str, str]] = [
         "en": "{DOCTOR}, {dept}, {HOSPITAL} — {advice}.",
         "rom": "{DOCTOR}, {dept}, {HOSPITAL} — {advice}.",
     },
+    {
+        "bn": "{NAME} এর {DATE} তারিখের অ্যাপয়েন্টমেন্ট বদলাতে {PHONE} নম্বরে ফোন করুন।",
+        "en": "Call {PHONE} to reschedule {NAME}'s appointment on {DATE}.",
+        "rom": "{NAME} er {DATE} tarikher appointment bodlate {PHONE} number e phone korun.",
+    },
+    {
+        "bn": "ল্যাব নমুনা {MRN}, রোগী {NAME}, সংগ্রহের তারিখ {DATE}।",
+        "en": "Lab specimen {MRN}, patient {NAME}, collected on {DATE}.",
+        "rom": "Lab specimen {MRN}, patient {NAME}, collect kora hoyeche {DATE}.",
+    },
+    {
+        "bn": "রেডিওলজি রিপোর্ট: {NAME}, {HOSPITAL}, রিপোর্ট আইডি {MRN}।",
+        "en": "Radiology report: {NAME}, {HOSPITAL}, report ID {MRN}.",
+        "rom": "Radiology report: {NAME}, {HOSPITAL}, report ID {MRN}.",
+    },
+    {
+        "bn": "{NAME} কে {HOSPITAL} থেকে {DATE} তারিখে ছাড়পত্র দেওয়া হয়েছে; {advice}।",
+        "en": "{NAME} was discharged from {HOSPITAL} on {DATE}; {advice}.",
+        "rom": "{NAME} ke {HOSPITAL} theke {DATE} e discharge deoa hoyeche; {advice}.",
+    },
+    {
+        "bn": "বিলের রসিদ {MRN} {EMAIL} ঠিকানায় পাঠান; রোগী {NAME}।",
+        "en": "Send billing receipt {MRN} to {EMAIL}; patient {NAME}.",
+        "rom": "Billing receipt {MRN} {EMAIL} e pathan; patient {NAME}.",
+    },
+    {
+        "bn": "টেলিমেডিসিন ভিজিটে {DOCTOR} {NAME} কে {DATE} তারিখে দেখবেন।",
+        "en": "{DOCTOR} will see {NAME} by telemedicine on {DATE}.",
+        "rom": "Telemedicine visit e {DOCTOR} {NAME} ke {DATE} e dekhben.",
+    },
+    {
+        "bn": "টিকার কার্ড {MRN}: {NAME}, জন্মতারিখ {DATE}, যোগাযোগ {PHONE}।",
+        "en": "Vaccination card {MRN}: {NAME}, date of birth {DATE}, contact {PHONE}.",
+        "rom": "Vaccination card {MRN}: {NAME}, jonmo tarikh {DATE}, contact {PHONE}.",
+    },
+    {
+        "bn": "সম্মতিপত্রে {NAME} স্বাক্ষর করেছেন; এনআইডি {NID}, তারিখ {DATE}।",
+        "en": "Consent form signed by {NAME}; NID {NID}, date {DATE}.",
+        "rom": "Consent form e {NAME} sign korechen; NID {NID}, tarikh {DATE}.",
+    },
+    {
+        "bn": "জরুরি যোগাযোগ {NAME}, ফোন {PHONE}; রোগীর ঠিকানা {ADDRESS}।",
+        "en": "Emergency contact {NAME}, phone {PHONE}; patient address {ADDRESS}.",
+        "rom": "Emergency contact {NAME}, phone {PHONE}; rogir thikana {ADDRESS}.",
+    },
+    {
+        "bn": "রেফারেল চিঠি {MRN}: {DOCTOR} {NAME} কে {HOSPITAL} এ পাঠিয়েছেন।",
+        "en": "Referral letter {MRN}: {DOCTOR} referred {NAME} to {HOSPITAL}.",
+        "rom": "Referral letter {MRN}: {DOCTOR} {NAME} ke {HOSPITAL} e pathiyechen.",
+    },
+    {
+        "bn": "প্যাথলজি ফলাফল {EMAIL} এ পাঠানো হয়েছে; রোগী {NAME}, নমুনা {MRN}।",
+        "en": "Pathology result sent to {EMAIL}; patient {NAME}, specimen {MRN}.",
+        "rom": "Pathology result {EMAIL} e pathano hoyeche; patient {NAME}, specimen {MRN}.",
+    },
 ]
 
 # ---------------------------------------------------------------------------
