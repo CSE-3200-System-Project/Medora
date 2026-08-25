@@ -1,5 +1,9 @@
 # GPU/Colab-only dependencies. The backend intentionally does not install these.
-transformers>=4.44,<5
+# Colab ships Gradio 6, which requires huggingface-hub>=1.16. Transformers 4 forces Hub
+# below 1, leaving the runtime in a conflicted state. This is the Transformers 5 release
+# exercised by the training compatibility test and Colab preflight.
+transformers==5.15.0
+huggingface-hub>=1.16,<2
 accelerate>=1.1,<2
 onnx>=1.16,<2
 onnxruntime>=1.20,<2
