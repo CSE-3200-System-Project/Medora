@@ -258,6 +258,19 @@ def _require_training_stack():
         ) from exc
 
 
+def _require_export_stack():
+    try:
+        import onnx  # noqa: F401
+        import onnxscript  # noqa: F401
+    except ImportError as exc:  # pragma: no cover - exercised only on a training host
+        raise SystemExit(
+            "ONNX export requires onnx + onnxscript. Install the complete training stack "
+            "before starting GPU training:\n"
+            "    python -m pip install -r tools/phi_ner/requirements-training.txt\n"
+            f"(import failed: {exc})"
+        ) from exc
+
+
 def build_training_arguments(
     training_arguments_cls,
     *,
@@ -466,6 +479,40 @@ def select_export_run(runs: list[dict]) -> dict | None:
     return max(eligible, key=lambda run: (run["dev_recall"] or 0.0)) if eligible else None
 
 
+def load_existing_runs(spec: ModelSpec, seed_count: int) -> list[dict]:
+    """Recover completed seed metadata after a packaging-only failure.
+
+    Each seed writes its model, tokenizer and threshold report before ONNX export starts.
+    Reading those reports lets Colab retry packaging without repeating GPU training.
+    """
+    runs = []
+    for seed in range(1, seed_count + 1):
+        run_dir = ARTIFACT_DIR / f"{spec.key}-seed{seed}"
+        threshold_path = run_dir / "threshold.json"
+        if not threshold_path.exists():
+            raise FileNotFoundError(
+                f"Cannot reuse seed {seed}: {threshold_path} is missing. "
+                "Run training normally, without --export-existing."
+            )
+        try:
+            report = json.loads(threshold_path.read_text(encoding="utf-8"))
+            chosen = report["chosen"]
+            runs.append({
+                "seed": seed,
+                "run_dir": str(run_dir.relative_to(ROOT)).replace("\\", "/"),
+                "threshold": chosen["threshold"],
+                "dev_recall": chosen["recall"],
+                "dev_over_redaction": chosen["over_redaction_rate"],
+                "cap_met": report["cap_met"],
+                "recovered_for_export": True,
+            })
+        except (KeyError, TypeError, json.JSONDecodeError) as exc:
+            raise ValueError(
+                f"Cannot reuse seed {seed}: {threshold_path} is invalid ({exc})."
+            ) from exc
+    return runs
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--model", choices=sorted(MODELS), default="muril")
@@ -478,8 +525,16 @@ def main(argv: list[str] | None = None) -> int:
                         help="permit training a non-commercially licensed comparator; export "
                              "stays blocked regardless")
     parser.add_argument("--no-export", action="store_true")
+    parser.add_argument(
+        "--export-existing",
+        action="store_true",
+        help="reuse completed seed directories and retry ONNX export without retraining",
+    )
     parser.add_argument("--list-models", action="store_true")
     args = parser.parse_args(argv)
+
+    if args.export_existing and args.no_export:
+        parser.error("--export-existing cannot be combined with --no-export")
 
     if args.list_models:
         for spec in MODELS.values():
@@ -497,7 +552,13 @@ def main(argv: list[str] | None = None) -> int:
         )
 
     _require_training_stack()
-    runs = [train_one(spec, seed, args) for seed in range(1, args.seeds + 1)]
+    if not args.no_export and spec.deployable:
+        _require_export_stack()
+    if args.export_existing:
+        runs = load_existing_runs(spec, args.seeds)
+        print(f"Reusing {len(runs)} completed {spec.key} seed runs; training is skipped.")
+    else:
+        runs = [train_one(spec, seed, args) for seed in range(1, args.seeds + 1)]
 
     ARTIFACT_DIR.mkdir(parents=True, exist_ok=True)
     manifest = build_manifest(spec, runs, args)

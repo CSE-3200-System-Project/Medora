@@ -465,6 +465,68 @@ def test_export_selection_refuses_seeds_that_miss_the_training_cap(train_module)
 
 
 @pytest.mark.backend
+def test_training_requirements_include_the_pytorch_onnx_exporter(train_module) -> None:
+    requirements = (TOOLS / "requirements-training.txt").read_text(encoding="utf-8")
+    assert any(
+        line.strip().startswith("onnxscript") for line in requirements.splitlines()
+    ), "torch.onnx.export requires ONNX Script, but Colab will not install it implicitly"
+
+
+@pytest.mark.backend
+def test_existing_seed_runs_can_be_recovered_without_retraining(
+    train_module, tmp_path: Path, monkeypatch
+) -> None:
+    artifacts = tmp_path / "tools" / "phi_ner" / "artifacts"
+    monkeypatch.setattr(train_module, "ROOT", tmp_path)
+    monkeypatch.setattr(train_module, "ARTIFACT_DIR", artifacts)
+
+    for seed, recall in ((1, 0.91), (2, 0.95), (3, 0.93)):
+        run_dir = artifacts / f"muril-seed{seed}"
+        run_dir.mkdir(parents=True)
+        (run_dir / "threshold.json").write_text(
+            json.dumps(
+                {
+                    "chosen": {
+                        "threshold": 0.35,
+                        "recall": recall,
+                        "over_redaction_rate": 0.04,
+                    },
+                    "cap_met": True,
+                }
+            ),
+            encoding="utf-8",
+        )
+
+    runs = train_module.load_existing_runs(train_module.MODELS["muril"], 3)
+
+    assert [run["seed"] for run in runs] == [1, 2, 3]
+    assert train_module.select_export_run(runs)["seed"] == 2
+    assert all(run["cap_met"] for run in runs)
+
+
+@pytest.mark.backend
+def test_export_stack_is_checked_before_gpu_training(train_module, monkeypatch) -> None:
+    events = []
+    monkeypatch.setattr(train_module, "_require_training_stack", lambda: events.append("train"))
+
+    def reject_export_stack():
+        events.append("export")
+        raise SystemExit("missing ONNX dependency")
+
+    monkeypatch.setattr(train_module, "_require_export_stack", reject_export_stack)
+    monkeypatch.setattr(
+        train_module,
+        "train_one",
+        lambda *args, **kwargs: events.append("gpu-training"),
+    )
+
+    with pytest.raises(SystemExit, match="missing ONNX dependency"):
+        train_module.main(["--model", "muril", "--seeds", "1"])
+
+    assert events == ["train", "export"]
+
+
+@pytest.mark.backend
 def test_bundle_admission_binds_weights_threshold_datasets_and_metrics(tmp_path: Path) -> None:
     bundle = tmp_path / "bundle"
     bundle.mkdir()

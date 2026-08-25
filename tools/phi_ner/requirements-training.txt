@@ -6,6 +6,8 @@ transformers==5.15.0
 huggingface-hub>=1.16,<2
 accelerate>=1.1,<2
 onnx>=1.16,<2
+# Required separately by torch.onnx.export's current torch.export-based exporter.
+onnxscript==0.7.1
 onnxruntime>=1.20,<2
 tokenizers>=0.20,<1
 pydantic-settings>=2.6,<3

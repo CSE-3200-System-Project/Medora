@@ -78,6 +78,14 @@ python tools/phi_ner/train.py --list-models
 python tools/phi_ner/train.py --model muril --seeds 3     # ~20-40 min per seed on a T4
 ```
 
+If training finishes but ONNX packaging fails, keep the runtime and seed directories. After
+fixing the exporter dependency, retry packaging without training the seeds again:
+
+```powershell
+python tools/phi_ner/train.py --model muril --seeds 3 --epochs 4 --batch-size 16 `
+  --max-length 256 --over-redaction-cap 0.06 --export-existing
+```
+
 For Google Colab, open `Medora_PHI_NER_Colab.ipynb`, select a T4 GPU runtime, set the Git
 branch in the first code cell, and run all cells. It rebuilds the ignored full JSONL splits,
 trains three MuRIL seeds, runs admission, and downloads the admitted ONNX bundle.
