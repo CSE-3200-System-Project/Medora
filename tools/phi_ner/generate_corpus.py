@@ -42,9 +42,11 @@ other way round, so span scoring stays exact regardless of a tokeniser's choices
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import random
 import re
+import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -56,7 +58,7 @@ sys.path.insert(0, str(HERE))
 import fillers as F  # noqa: E402
 import templates as T  # noqa: E402
 
-GENERATOR_VERSION = "phi-corpus-1.0"
+GENERATOR_VERSION = "phi-corpus-1.1"
 DEFAULT_SEED = 20260822
 DEFAULT_SIZE = 12000
 DEV_FRACTION = 0.12
@@ -72,6 +74,33 @@ HOLDOUT_SETS = (
 )
 
 SLOT_RE = re.compile(r"\{(\w+)\}")
+
+
+def _sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _generator_provenance() -> dict:
+    files = [HERE / "generate_corpus.py", HERE / "fillers.py", HERE / "templates.py"]
+    try:
+        commit = subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True, stderr=subprocess.DEVNULL
+        ).strip()
+        dirty = bool(subprocess.check_output(
+            ["git", "status", "--porcelain", "--", *[str(path) for path in files]],
+            cwd=ROOT,
+            text=True,
+            stderr=subprocess.DEVNULL,
+        ).strip())
+    except (OSError, subprocess.CalledProcessError):
+        commit, dirty = None, None
+    return {
+        "git_commit": commit,
+        "working_tree_dirty_for_generator_files": dirty,
+        "file_sha256": {
+            str(path.relative_to(ROOT)).replace("\\", "/"): _sha256(path) for path in files
+        },
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -92,7 +121,7 @@ class Pools:
         surnames: list[tuple[str, str, str | None]],
         hospitals: list[tuple[str, str]],
         districts: list[tuple[str, str]],
-        upazilas: list[tuple[str, str]],
+        upazilas: list[tuple[str, str, str, str, str, str]],
         areas: list[tuple[str, str]],
         drugs: list[str],
     ) -> None:
@@ -207,11 +236,14 @@ def fill_address(rng: random.Random, pool: Pools, script: str) -> Filled:
         pieces.append(
             f"{F.VILLAGE_WORD[0]} {village[0]}" if bengali else f"{F.VILLAGE_WORD[1]} {village[1]}"
         )
+        pieces.append(village[2] if bengali else village[3])
     else:
         upazila = rng.choice(pool.upazilas)
         pieces.append(upazila[0] if bengali else upazila[1])
-    district = rng.choice(pool.districts)
-    pieces.append(district[0] if bengali else district[1])
+        pieces.append(upazila[2] if bengali else upazila[3])
+    if shape in (0, 1):
+        district = rng.choice(pool.districts)
+        pieces.append(district[0] if bengali else district[1])
     surface = ", ".join(pieces)
     return surface, [(0, len(surface))]
 
@@ -493,6 +525,7 @@ def main(argv: list[str] | None = None) -> int:
 
     manifest = {
         "generator": GENERATOR_VERSION,
+        "generator_provenance": _generator_provenance(),
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "seed": args.seed,
         "labels": list(T.TAGGED_SLOTS),
@@ -501,6 +534,22 @@ def main(argv: list[str] | None = None) -> int:
                    "realised_total": (len(T.PHI_FRAMES) + len(T.CLEAN_FRAMES)) * 3},
         "splits": {"train": train_stats, "dev": dev_stats},
         "pools": {
+            "source_totals": {
+                "given_name_forms": len(F.GIVEN_NAMES),
+                "family_name_forms": len(F.SURNAMES),
+                "name_pool_sha256": hashlib.sha256(
+                    json.dumps(
+                        {"given": F.GIVEN_NAMES, "family": F.SURNAMES},
+                        ensure_ascii=False,
+                        separators=(",", ":"),
+                    ).encode("utf-8")
+                ).hexdigest(),
+                "name_generation_method": (
+                    "Deterministic fictional combinations of manually reviewed common "
+                    "Bangladeshi name components; no person-linked directory was scraped. "
+                    "A fictional combination may coincidentally match a real person."
+                ),
+            },
             "train": train_pool.describe(),
             "dev": dev_pool.describe(),
             "disjoint": True,
@@ -512,6 +561,7 @@ def main(argv: list[str] | None = None) -> int:
             "districts": len(F.DISTRICTS),
             "upazilas": len(F.UPAZILAS),
             "upazila_note": F.UPAZILA_COVERAGE,
+            "source": F.UPAZILA_SOURCE,
         },
         "holdout_exclusion": {
             "sources": [str(p.relative_to(ROOT)).replace("\\", "/") for p in HOLDOUT_SETS],

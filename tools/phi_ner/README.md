@@ -15,9 +15,12 @@ and union rows as `unavailable` rather than inventing them.
 | File | Role |
 |---|---|
 | `fillers.py` | Slot material — names, geography, facilities, generated identifiers, hard negatives |
-| `templates.py` | 49 sentence meanings (35 PHI-bearing, 14 clean), each realised in three scripts |
+| `templates.py` | 60 sentence meanings (46 PHI-bearing, 14 clean), each realised in three scripts |
 | `generate_corpus.py` | Builds the labelled corpus; enforces holdout exclusion and pool disjointness |
+| `data/bangladesh_upazilas.json` | 495-unit BBS/census baseline plus 8 gazetted 2026 extensions, with provenance |
+| `update_upazilas.py` | Reviewable importer for the official Portal and Government Press sources |
 | `train.py` | MuRIL / XLM-R / BanglaBERT fine-tuning, recall-first threshold, ONNX export |
+| `Medora_PHI_NER_Colab.ipynb` | Colab GPU run from corpus rebuild through bundle admission and download |
 | `evaluate.py` | Rules vs model vs union over two held-out populations, with bootstrap intervals |
 | `corpus/manifest.json` | Counts, seed, coverage and exclusion statistics for the last build |
 | `corpus/phi_corpus_sample.jsonl` | A committed 300-row head of the corpus, for reading |
@@ -37,10 +40,21 @@ The full splits are build artifacts and are not committed — the generator plus
 seed reproduce them byte-for-byte. `corpus/manifest.json` and a 300-row sample are committed
 so a reviewer can see what the generator emits without running it.
 
-Last build: **12,000 sentences** — 10,560 train (18,566 tagged spans, 2,112 with no PHI at
-all) and 1,440 dev (2,507 spans, 288 with none), across ten labels and 147 realised frames
-(49 meanings × 3 scripts). Six sentences were discarded for colliding with a held-out
-identifier.
+Last build: **12,000 sentences** — 10,560 train (20,503 tagged spans, 2,112 with no PHI at
+all) and 1,440 dev (2,819 spans, 288 with none), across ten labels and 180 realised frames
+(60 meanings × 3 scripts). Seventeen generated sentences were discarded for colliding with
+a held-out identifier.
+
+The source pools contain 755 given-name forms and 611 family-name forms in Bangla, Latin,
+and romanised variants. These are deterministic fictional combinations of manually reviewed
+common components, not scraped person records. A fictional combination can still happen to
+match a real person, so do not describe the entries as guaranteed non-existent people.
+
+Geography preserves the registered 495-unit BBS/census baseline and records the eight
+upazilas gazetted in May and July 2026 as a separate extension (503 total). The National
+Portal directory showed only 499 at retrieval time; the four missing gazetted entries are
+therefore sourced directly from Bangladesh Government Press notices. The manifest records
+source URLs, retrieval time, and SHA-256 hashes.
 
 Ten labels: `NAME`, `DOCTOR`, `PHONE`, `NID`, `ADDRESS`, `DATE`, `AGE`, `HOSPITAL`, `EMAIL`,
 `MRN`. Character offsets are the gold standard; the BIO view is derived from them.
@@ -64,6 +78,10 @@ python tools/phi_ner/train.py --list-models
 python tools/phi_ner/train.py --model muril --seeds 3     # ~20-40 min per seed on a T4
 ```
 
+For Google Colab, open `Medora_PHI_NER_Colab.ipynb`, select a T4 GPU runtime, set the Git
+branch in the first code cell, and run all cells. It rebuilds the ignored full JSONL splits,
+trains three MuRIL seeds, runs admission, and downloads the admitted ONNX bundle.
+
 Requires `torch` and `transformers`, which are deliberately absent from
 `backend/requirements.txt`: the service never trains. The smaller inference-only runtime,
 `onnxruntime` plus the Rust `tokenizers` library, is pinned in both backend requirement files
@@ -73,7 +91,7 @@ the service image.
 | Model | Licence | Status |
 |---|---|---|
 | `google/muril-base-cased` | Apache-2.0 | Deployable. Pretrained on transliterated Indic text — the romanised case. |
-| `xlm-roberta-base` | MIT | Deployable. Multilingual control; if it matches MuRIL, Indic pretraining is not what carried the result. |
+| `FacebookAI/xlm-roberta-base` | MIT | Deployable. Multilingual control; if it matches MuRIL, Indic pretraining is not what carried the result. |
 | `csebuetnlp/banglabert` | CC BY-NC-SA 4.0 | **Research comparator only.** `assert_export_allowed` refuses to export it. |
 
 The threshold is tuned for **recall, not F1**. Under-redaction is a disclosure;
@@ -166,6 +184,12 @@ sent anywhere to find out what to remove.
 - **Synthetic-to-real gap.** The corpus is templated. Frames are drawn from Medora's actual
   traffic shapes and hard negatives are aggressive, but the honest test remains the held-out
   real-shaped cases, which is why they are held out.
-- **Upazila coverage is partial** — a named subset, not all 495. Stated in the manifest.
+- **Administrative licensing needs review.** The corpus transcribes government facts with
+  attribution, but the National Portal does not present the page as an explicitly licensed
+  open-data release. Obtain BBS/a2i or legal confirmation before public or commercial
+  redistribution of the complete derived corpus.
+- **Human language review remains required.** Two Bangla-speaking reviewers should check the
+  synthetic name combinations for plausibility, spelling, demographic balance, accidental
+  insults, and suspicious public-figure matches before external upload or publication.
 - **Romanised coverage is the weakest axis** by construction. `--per-script` reports the
   breakdown so the weakness stays visible rather than averaging away.

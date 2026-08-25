@@ -36,7 +36,6 @@ os.environ.setdefault("SUPABASE_STORAGE_BUCKET", "benchmark-placeholder")
 # own limitations field states that mock and live results are never pooled.
 os.environ["AI_PROVIDER"] = "mock"
 
-from app.core.ai_privacy import redact_pii_text  # noqa: E402
 from app.routes.ai_doctor import (  # noqa: E402
     classify_navigation_outcome,
     detect_emergency_red_flags,
@@ -47,6 +46,7 @@ from app.services.ai_orchestrator import (  # noqa: E402
     AIProviderError,
     AIValidationError,
 )
+from privacy_scoring import privacy_span_metrics, score_privacy_case  # noqa: E402
 
 DATASETS = ROOT / "tests" / "benchmarks" / "datasets"
 
@@ -58,108 +58,6 @@ def load(name: str) -> list[dict]:
 def clinician_review_complete(case: dict) -> bool:
     review = case.get("clinician_review")
     return isinstance(review, dict) and review.get("credential_role") in {"licensed_clinician", "licensed_pharmacist"} and bool(review.get("reviewed_at"))
-
-
-def safe_ratio(numerator: int, denominator: int) -> float | None:
-    return numerator / denominator if denominator else None
-
-
-def privacy_span_metrics(rows: list[dict]) -> dict:
-    expected_identifiers = sum(row["expected_identifier_spans"] for row in rows)
-    # Every miss counts against recall, disclosed or not. Disclosure changes whether
-    # the gate goes red, never whether the number is reported honestly.
-    false_negatives = sum(len(row["missed_identifiers"]) for row in rows)
-    true_positives = expected_identifiers - false_negatives
-    benign_spans = sum(row["benign_spans"] for row in rows)
-    false_positives = sum(len(row["lost_benign_text"]) for row in rows)
-    return {
-        "cases": len(rows),
-        "passed": sum(row["passed"] for row in rows),
-        "matched_expected": sum(row["matched_expected"] for row in rows),
-        "expected_identifier_spans": expected_identifiers,
-        "benign_spans": benign_spans,
-        "true_positives": true_positives,
-        "false_positives": false_positives,
-        "false_negatives": false_negatives,
-        # Precision is undefined when a group annotates no identifier spans at all;
-        # reporting 0.0 there would read as a detection failure rather than "not applicable".
-        "precision": (
-            safe_ratio(true_positives, true_positives + false_positives)
-            if expected_identifiers
-            else None
-        ),
-        "recall": safe_ratio(true_positives, true_positives + false_negatives),
-        "false_redaction_rate": safe_ratio(false_positives, benign_spans),
-        "residual_known_identifier_rate": safe_ratio(false_negatives, expected_identifiers),
-        "expected_residual_risk_cases": sum(row["expected_residual_risk"] for row in rows),
-        "documented_limitations": sum(bool(row["limitation_class"]) for row in rows),
-        "undisclosed_misses": sum(len(row["undisclosed_misses"]) for row in rows),
-        "undisclosed_over_redactions": sum(len(row["undisclosed_losses"]) for row in rows),
-        "stale_limitations": sum(row["stale_limitation"] for row in rows),
-    }
-
-
-def score_privacy_case(case: dict, *, redactor=None) -> dict:
-    """Score one privacy case.
-
-    Extracted from `score_privacy` so the Lokkhon release runner can score its derived
-    axis D corpus through this exact function instead of a second copy of it. Two copies
-    of scoring logic drift, and the released axis D number would then be measuring the
-    copy rather than the redactor.
-
-    `redactor` overrides the function under test and defaults to the shipped one, so the
-    rules / model / union comparison in `tools/phi_ner/evaluate.py` is three calls to this
-    same scorer rather than three implementations of it.
-    """
-    redact = redactor or redact_pii_text
-    # Production parity: no call site supplies known identifiers, so the metric
-    # path must not either. The documented API group opts in explicitly.
-    known = case.get("known_identifiers", []) if case.get("uses_known_identifier_api") else []
-    result = redact(case["text"], known_identifiers=known)
-
-    missed = [value for value in case.get("must_not_contain", []) if value.casefold() in result.text.casefold()]
-    lost = [value for value in case.get("must_preserve", []) if value not in result.text]
-    residual_expected = bool(case.get("expected_residual_risk"))
-    over_expected = bool(case.get("expected_over_redaction"))
-
-    undisclosed_misses = [] if residual_expected else missed
-    undisclosed_losses = [] if over_expected else lost
-    # A flag is only stale if the case actually declares the kind of span the flag
-    # is about. Cases that document a limitation purely through `must_preserve`
-    # (an identifier the redactor is not expected to find at all) declare no
-    # `must_not_contain` span and can never go stale on the residual-risk axis.
-    stale = (residual_expected and bool(case.get("must_not_contain")) and not missed) or (
-        over_expected and bool(case.get("must_preserve")) and not lost
-    )
-
-    consent_ok = case.get("category") != "consent_state" or case.get("external_processing_allowed") is (
-        case.get("consent_state") == "active"
-    )
-    # A redactor that re-redacts its own placeholders is broken; nothing else checks this.
-    idempotent = redact(result.text, known_identifiers=known).text == result.text
-
-    passed = not undisclosed_misses and not undisclosed_losses and consent_ok and idempotent
-    row = {
-        "id": case["id"],
-        "category": case["category"],
-        "report_group": case["report_group"],
-        "passed": passed,
-        "matched_expected": not missed and not lost and consent_ok,
-        "expected_identifier_spans": len(case.get("must_not_contain", [])),
-        "benign_spans": len(case.get("must_preserve", [])),
-        "missed_identifiers": missed,
-        "lost_benign_text": lost,
-        "undisclosed_misses": undisclosed_misses,
-        "undisclosed_losses": undisclosed_losses,
-        "expected_residual_risk": residual_expected,
-        "expected_over_redaction": over_expected,
-        "limitation_class": case.get("limitation_class"),
-        "limitation_note": case.get("limitation_note"),
-        "stale_limitation": stale,
-        "idempotent": idempotent,
-        "uses_known_identifier_api": bool(case.get("uses_known_identifier_api")),
-    }
-    return row
 
 
 def score_privacy() -> tuple[list[dict], list[dict]]:

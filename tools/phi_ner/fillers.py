@@ -3,16 +3,14 @@
 Everything a template can substitute lives here, as reviewable data rather than as a
 scraped table nobody reads. Two rules govern this file:
 
-1. **Nothing here is a real person, phone number, NID, email address or record number.**
-   Names are common Bangladeshi given names and surnames — the shared vocabulary of a
-   population, not identifiers of anyone. Numbers are generated from published operator
-   prefixes and length rules, never sampled from traffic. The corpus is publishable for
-   exactly this reason: rebuilding it never requires touching patient data.
+1. **Nothing here is sourced from a person-linked record.** Names are deterministic
+   fictional combinations of common Bangladeshi components. A combination can coincidentally
+   match a real person, but it was not obtained from them. Phone numbers, NIDs, email addresses
+   and record numbers are generated from format rules, never sampled from traffic.
 
-2. **Administrative geography is stated at the coverage it actually has.** All eight
-   divisions and all sixty-four districts are present. Upazilas are a named subset, not
-   the full 495, and `UPAZILA_COVERAGE` says so rather than implying completeness. A
-   generator that quietly claims national coverage manufactures a property of the corpus.
+2. **Administrative geography is versioned.** All eight divisions and sixty-four districts
+   are present. The registered 495-upazila BBS/census baseline is retained, and eight units
+   gazetted in 2026 are a separate extension rather than silently changing the baseline.
 
 Name entries are authored as `(bengali, latin, latin_variant)` triples so the same person
 slot can be realised in all three scripts without a general transliterator guessing. The
@@ -28,6 +26,7 @@ the shipped medicine reference rather than a stale snapshot of it.
 from __future__ import annotations
 
 import csv
+import json
 import random
 import re
 from pathlib import Path
@@ -48,7 +47,7 @@ def to_bengali_digits(value: str) -> str:
 # (bengali, latin, latin_variant_or_None). Common given names, both Muslim- and
 # Hindu-majority Bangladeshi naming traditions, plus the honorific-prone forms.
 
-GIVEN_NAMES: list[tuple[str, str, str | None]] = [
+BASE_GIVEN_NAMES: list[tuple[str, str, str | None]] = [
     ("রহিম", "Rahim", None), ("করিম", "Karim", "Kareem"),
     ("রহিমা", "Rahima", None), ("সালমা", "Salma", None),
     ("কামরুল", "Kamrul", None), ("কামাল", "Kamal", None),
@@ -114,7 +113,7 @@ GIVEN_NAMES: list[tuple[str, str, str | None]] = [
     ("আনজুমান", "Anjuman", None), ("মোরশেদা", "Morsheda", None),
 ]
 
-SURNAMES: list[tuple[str, str, str | None]] = [
+BASE_SURNAMES: list[tuple[str, str, str | None]] = [
     ("হাসান", "Hasan", "Hassan"), ("হোসেন", "Hossain", "Hussain"),
     ("আহমেদ", "Ahmed", "Ahamed"), ("ইসলাম", "Islam", None),
     ("উদ্দিন", "Uddin", "Uddeen"), ("খান", "Khan", None),
@@ -147,6 +146,76 @@ SURNAMES: list[tuple[str, str, str | None]] = [
     ("শিকদার", "Shikdar", None), ("চাকমা", "Chakma", None),
     ("মারমা", "Marma", None), ("ত্রিপুরা", "Tripura", None),
 ]
+
+
+def _unique_name_forms(
+    entries: list[tuple[str, str, str | None]],
+) -> list[tuple[str, str, str | None]]:
+    """Keep the first spelling of each bilingual surface form."""
+    seen: set[tuple[str, str]] = set()
+    result: list[tuple[str, str, str | None]] = []
+    for bengali, latin, variant in entries:
+        key = (bengali.casefold(), latin.casefold())
+        if key not in seen:
+            seen.add(key)
+            result.append((bengali, latin, variant))
+    return result
+
+
+def _compound_name_forms(
+    prefixes: list[tuple[str, str, str | None]],
+    cores: list[tuple[str, str, str | None]],
+) -> list[tuple[str, str, str | None]]:
+    """Create reviewable synthetic multi-token forms without inventing people.
+
+    The components are common name vocabulary. Their Cartesian composition is used only
+    to teach span boundaries and spelling variation; it is not a directory of people.
+    """
+    forms: list[tuple[str, str, str | None]] = []
+    for prefix_bn, prefix_en, prefix_variant in prefixes:
+        for core_bn, core_en, core_variant in cores:
+            if prefix_bn == core_bn or prefix_en.casefold() == core_en.casefold():
+                continue
+            variant_parts = (prefix_variant or prefix_en, core_variant or core_en)
+            variant = " ".join(variant_parts)
+            canonical = f"{prefix_en} {core_en}"
+            forms.append((f"{prefix_bn} {core_bn}", canonical,
+                          variant if variant != canonical else None))
+    return forms
+
+
+# The build plan calls for at least 500 given-name and 500 family-name forms in each
+# script. Publishing or scraping a person registry would be inappropriate for PHI work,
+# so the larger pools are deterministic compositions of the reviewed common components
+# above. They are synthetic surface forms, not records about real people.
+_GIVEN_PREFIXES = [
+    ("মোহাম্মদ", "Mohammad", "Muhammad"),
+    ("মোঃ", "Md.", "Md"),
+    ("সৈয়দ", "Syed", "Sayed"),
+    ("আবু", "Abu", None),
+    ("নূর", "Nur", "Noor"),
+]
+_FAMILY_PREFIXES = [
+    ("আহমেদ", "Ahmed", "Ahamed"),
+    ("হোসেন", "Hossain", "Hussain"),
+    ("রহমান", "Rahman", "Rehman"),
+    ("হাসান", "Hasan", "Hassan"),
+    ("ইসলাম", "Islam", None),
+    ("খান", "Khan", None),
+    ("আক্তার", "Akter", "Aktar"),
+    ("জাহান", "Jahan", "Jahaan"),
+    ("আলম", "Alam", None),
+]
+
+GIVEN_NAMES = _unique_name_forms(
+    BASE_GIVEN_NAMES + _compound_name_forms(_GIVEN_PREFIXES, BASE_GIVEN_NAMES)
+)
+SURNAMES = _unique_name_forms(
+    BASE_SURNAMES + _compound_name_forms(_FAMILY_PREFIXES, BASE_SURNAMES)
+)
+
+assert len(GIVEN_NAMES) >= 500
+assert len(SURNAMES) >= 500
 
 HONORIFICS_BN = ["ডাঃ", "ডা.", "ড.", "অধ্যাপক", "প্রফেসর"]
 HONORIFICS_EN = ["Dr.", "Dr", "Prof.", "Professor", "Assoc. Prof."]
@@ -197,36 +266,34 @@ DISTRICTS: list[tuple[str, str]] = [
     ("নেত্রকোণা", "Netrokona"),
 ]
 
-# A named subset, not the full 495. Stated in the manifest so the corpus never
-# implies national upazila coverage it does not have.
-UPAZILAS: list[tuple[str, str]] = [
-    ("সাভার", "Savar"), ("ধামরাই", "Dhamrai"), ("কেরানীগঞ্জ", "Keraniganj"),
-    ("দোহার", "Dohar"), ("নবাবগঞ্জ", "Nawabganj"), ("শ্রীপুর", "Sreepur"),
-    ("কালীগঞ্জ", "Kaliganj"), ("কালিয়াকৈর", "Kaliakair"), ("রূপগঞ্জ", "Rupganj"),
-    ("সোনারগাঁও", "Sonargaon"), ("আড়াইহাজার", "Araihazar"), ("সিদ্ধিরগঞ্জ", "Siddhirganj"),
-    ("মির্জাপুর", "Mirzapur"), ("ঘাটাইল", "Ghatail"), ("সখিপুর", "Sakhipur"),
-    ("ভৈরব", "Bhairab"), ("কটিয়াদী", "Katiadi"), ("পাকুন্দিয়া", "Pakundia"),
-    ("সীতাকুণ্ড", "Sitakunda"), ("হাটহাজারী", "Hathazari"), ("পটিয়া", "Patiya"),
-    ("রাউজান", "Raozan", ), ("ফটিকছড়ি", "Fatikchhari"), ("বাঁশখালী", "Banshkhali"),
-    ("রামু", "Ramu"), ("টেকনাফ", "Teknaf"), ("উখিয়া", "Ukhiya"), ("চকরিয়া", "Chakaria"),
-    ("বেগমগঞ্জ", "Begumganj"), ("সোনাইমুড়ী", "Sonaimuri"), ("চাটখিল", "Chatkhil"),
-    ("দাউদকান্দি", "Daudkandi"), ("চান্দিনা", "Chandina"), ("লাকসাম", "Laksam"),
-    ("পুঠিয়া", "Puthia"), ("বাগমারা", "Bagmara"), ("দুর্গাপুর", "Durgapur"),
-    ("শাহজাদপুর", "Shahjadpur"), ("উল্লাপাড়া", "Ullapara"), ("বেড়া", "Bera"),
-    ("শেরপুর", "Sherpur"), ("শিবগঞ্জ", "Shibganj"), ("গাবতলী", "Gabtali"),
-    ("ডুমুরিয়া", "Dumuria"), ("বটিয়াঘাটা", "Batiaghata"), ("পাইকগাছা", "Paikgacha"),
-    ("অভয়নগর", "Abhaynagar"), ("ঝিকরগাছা", "Jhikargacha"), ("কেশবপুর", "Keshabpur"),
-    ("মোরেলগঞ্জ", "Morrelganj"), ("মোংলা", "Mongla"), ("শরণখোলা", "Sharankhola"),
-    ("বাউফল", "Bauphal"), ("কলাপাড়া", "Kalapara"), ("গলাচিপা", "Galachipa"),
-    ("গৌরনদী", "Gournadi"), ("বাকেরগঞ্জ", "Bakerganj"), ("বানারীপাড়া", "Banaripara"),
-    ("বিয়ানীবাজার", "Beanibazar"), ("গোলাপগঞ্জ", "Golapganj"), ("জৈন্তাপুর", "Jaintiapur"),
-    ("শ্রীমঙ্গল", "Sreemangal"), ("কমলগঞ্জ", "Kamalganj"), ("চুনারুঘাট", "Chunarughat"),
-    ("পীরগঞ্জ", "Pirganj"), ("বদরগঞ্জ", "Badarganj"), ("মিঠাপুকুর", "Mithapukur"),
-    ("পার্বতীপুর", "Parbatipur"), ("বিরামপুর", "Birampur"), ("চিরিরবন্দর", "Chirirbandar"),
-    ("ত্রিশাল", "Trishal"), ("ভালুকা", "Bhaluka"), ("মুক্তাগাছা", "Muktagacha"),
-    ("সরিষাবাড়ী", "Sarishabari"), ("মাদারগঞ্জ", "Madarganj"), ("নালিতাবাড়ী", "Nalitabari"),
-]
-UPAZILA_COVERAGE = "named subset (not the full 495 upazilas)"
+ADMIN_DATA_PATH = Path(__file__).with_name("data") / "bangladesh_upazilas.json"
+
+
+def _load_upazilas() -> tuple[list[tuple[str, str, str, str, str, str]], dict]:
+    if not ADMIN_DATA_PATH.exists():
+        raise FileNotFoundError(
+            f"Administrative source snapshot not found at {ADMIN_DATA_PATH}; run "
+            "tools/phi_ner/update_upazilas.py while online."
+        )
+    payload = json.loads(ADMIN_DATA_PATH.read_text(encoding="utf-8"))
+    entries = [
+        (
+            row["name_bn"], row["name_en"], row["district_bn"], row["district_en"],
+            row["division_bn"], row["division_en"],
+        )
+        for row in payload["upazilas"]
+    ]
+    if len(entries) < 495:
+        raise ValueError(f"administrative snapshot has only {len(entries)} upazilas")
+    return entries, payload["source"]
+
+
+UPAZILAS, UPAZILA_SOURCE = _load_upazilas()
+UPAZILA_COVERAGE = (
+    f"{UPAZILA_SOURCE['bd_admin_2022']} BBS/census-baseline entries plus "
+    f"{UPAZILA_SOURCE['bd_admin_2026_extension']} Government Press gazetted extensions "
+    f"({len(UPAZILAS)} total); the original build-plan target was 495"
+)
 
 # Thana / neighbourhood names used inside metropolitan addresses.
 CITY_AREAS: list[tuple[str, str]] = [

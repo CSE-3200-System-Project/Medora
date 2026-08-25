@@ -57,6 +57,7 @@ class LicenceViolation(RuntimeError):
 class ModelSpec:
     key: str
     hf_id: str
+    revision: str
     licence: str
     commercial_use: bool
     learning_rate: float
@@ -71,6 +72,7 @@ MODELS: dict[str, ModelSpec] = {
     "muril": ModelSpec(
         key="muril",
         hf_id="google/muril-base-cased",
+        revision="afd9f36c7923d54e97903922ff1b260d091d202f",
         licence="Apache-2.0",
         commercial_use=True,
         learning_rate=2e-5,
@@ -79,7 +81,8 @@ MODELS: dict[str, ModelSpec] = {
     ),
     "xlmr": ModelSpec(
         key="xlmr",
-        hf_id="xlm-roberta-base",
+        hf_id="FacebookAI/xlm-roberta-base",
+        revision="e73636d4f797dec63c3081bb6ed5c7b0bb3f2089",
         licence="MIT",
         commercial_use=True,
         learning_rate=2e-5,
@@ -89,6 +92,7 @@ MODELS: dict[str, ModelSpec] = {
     "banglabert": ModelSpec(
         key="banglabert",
         hf_id="csebuetnlp/banglabert",
+        revision="9ce791f330578f50da6bc52b54205166fb5d1c8c",
         licence="CC BY-NC-SA 4.0 (non-commercial)",
         commercial_use=False,
         learning_rate=3e-5,
@@ -266,7 +270,9 @@ def train_one(spec: ModelSpec, seed: int, args) -> dict:  # pragma: no cover - n
     torch.manual_seed(seed)
     np.random.seed(seed)
 
-    tokenizer = AutoTokenizer.from_pretrained(spec.hf_id, use_fast=True)
+    tokenizer = AutoTokenizer.from_pretrained(
+        spec.hf_id, revision=spec.revision, use_fast=True
+    )
     train_examples = load_split("train")
     dev_examples = load_split("dev")
     train_encoded = encode(train_examples, tokenizer, args.max_length)
@@ -284,6 +290,7 @@ def train_one(spec: ModelSpec, seed: int, args) -> dict:  # pragma: no cover - n
 
     model = AutoModelForTokenClassification.from_pretrained(
         spec.hf_id,
+        revision=spec.revision,
         num_labels=len(BIO_LABELS),
         id2label={i: name for i, name in enumerate(BIO_LABELS)},
         label2id={name: i for i, name in enumerate(BIO_LABELS)},
@@ -373,6 +380,7 @@ def export_onnx(
                 "selected_threshold": selected_threshold,
                 "training_over_redaction_cap": over_redaction_cap,
                 "model": spec.hf_id,
+                "model_revision": spec.revision,
                 "licence": spec.licence,
                 "commercial_use_permitted": spec.commercial_use and spec.deployable,
             },
@@ -386,6 +394,7 @@ def build_manifest(spec: ModelSpec, runs: list[dict], args) -> dict:
     return {
         "component": "phi-span-recogniser",
         "model": spec.hf_id,
+        "model_revision": spec.revision,
         "model_key": spec.key,
         "licence": spec.licence,
         "commercial_use_permitted": spec.commercial_use,
@@ -393,7 +402,7 @@ def build_manifest(spec: ModelSpec, runs: list[dict], args) -> dict:
         "rationale": spec.why,
         "labels": LABELS,
         "bio_labels": BIO_LABELS,
-        "corpus": "phi-corpus-1.0 (synthetic; see tools/phi_ner/corpus/manifest.json)",
+        "corpus": "phi-corpus-1.1 (synthetic; see tools/phi_ner/corpus/manifest.json)",
         "trained_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "hyperparameters": {
             "learning_rate": spec.learning_rate,
@@ -438,6 +447,7 @@ def main(argv: list[str] | None = None) -> int:
         for spec in MODELS.values():
             flag = "deployable" if spec.deployable else "RESEARCH COMPARATOR ONLY"
             print(f"{spec.key:12} {spec.hf_id:32} {spec.licence:32} {flag}")
+            print(f"{'':12} revision {spec.revision}")
             print(f"{'':12} {spec.why}")
         return 0
 
