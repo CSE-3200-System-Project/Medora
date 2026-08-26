@@ -216,6 +216,10 @@ REVIEWER_ID=""
 if [[ "$ROLE" != "progress" ]]; then
   ask REVIEWER_ID "Stable internal reviewer code (not a patient name):"
   [[ -n "$REVIEWER_ID" ]] || { warn "Reviewer code is required."; exit 1; }
+  [[ "$REVIEWER_ID" =~ [[:alpha:]] ]] || {
+    warn "Reviewer code must include letters, for example clinician-a; do not enter the role number."
+    exit 1
+  }
 fi
 
 stage "Review and save"

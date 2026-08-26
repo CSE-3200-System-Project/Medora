@@ -128,6 +128,14 @@ def _working_store(tmp_path: Path):
 
 
 @pytest.mark.backend
+def test_reviewer_code_cannot_be_the_role_number() -> None:
+    wizard = _module("maya_review_wizard_reviewer_id", WIZARD_PATH)
+    with pytest.raises(ValueError, match="must include letters"):
+        wizard._validate_reviewer_id("1")
+    assert wizard._validate_reviewer_id("clinician-a") == "clinician-a"
+
+
+@pytest.mark.backend
 def test_interactive_review_saves_immediately_and_resumes_without_unblinding(tmp_path: Path) -> None:
     wizard, store = _working_store(tmp_path)
     reviewer_1_inputs = iter(["a", "English notes are allowed for this Bangla case", "q"])

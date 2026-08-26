@@ -170,5 +170,7 @@ Blast radius is stated per phase. No phase bundles a refactor.
   after both decisions exist, and the adjudicator must use a third reviewer code.
 - Notes accept English or Bangla. Revisions enforce Bengali script for `bn` and Latin script for
   `banglish`/`en`; semantic and clinical correctness remain human-review responsibilities.
+- The wizard switches Windows consoles to UTF-8, separates role numbers from letter-based reviewer
+  codes, and documents a Bengali-capable Windows Terminal font for crowded glyphs.
 - The Python CLI progress smoke test, Bash syntax validation, and reviewer persistence/blinding/
   adjudication tests pass.

@@ -98,6 +98,11 @@ example language: Bengali script for `bn`, Latin-script Banglish for `banglish`,
 `en`. The wizard enforces the Bengali-versus-Latin script boundary and reminds the adjudicator of
 the exact language.
 
+On Windows, use Windows Terminal (rather than the legacy console) and choose a Bengali-capable
+font such as **Nirmala UI** if Bengali glyphs look crowded or disconnected. The Python wizard
+switches the attached console to UTF-8 automatically. A reviewer code must contain letters (for
+example `clinician-a`); the role number (`1`, `2`, or `3`) is not a reviewer code.
+
 Useful direct commands are:
 
 ```powershell

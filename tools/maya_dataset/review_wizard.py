@@ -43,11 +43,15 @@ def parse_args() -> argparse.Namespace:
 
 
 def configure_utf8_console() -> None:
+    if os.name == "nt":
+        # PowerShell's legacy console can start on an OEM code page. This changes
+        # only the attached console; it does not modify files or global settings.
+        os.system("chcp 65001 > nul")
     for stream in (sys.stdin, sys.stdout, sys.stderr):
         reconfigure = getattr(stream, "reconfigure", None)
         if reconfigure is not None:
             try:
-                reconfigure(encoding="utf-8")
+                reconfigure(encoding="utf-8", errors="replace")
             except (AttributeError, OSError):
                 pass
 
@@ -169,6 +173,8 @@ def _validate_reviewer_id(reviewer_id: str) -> str:
     reviewer_id = reviewer_id.strip()
     if not reviewer_id or any(character in reviewer_id for character in "|\r\n"):
         raise ValueError("Reviewer ID must be non-empty and cannot contain | or a newline")
+    if len(reviewer_id) < 2 or not any(character.isalpha() for character in reviewer_id):
+        raise ValueError("Reviewer ID must include letters (for example clinician-a), not only a number")
     return reviewer_id
 
 
@@ -429,6 +435,10 @@ def print_progress(store: ReviewStore, output: TextIO = sys.stdout) -> dict[str,
 
 
 def choose_role(input_fn: Callable[[str], str], output: TextIO) -> str:
+    _line(output, "=")
+    print("Maya clinical-review wizard", file=output)
+    print("Choose your role. The role number is not your reviewer code.", file=output)
+    _line(output)
     print("1. Reviewer 1 (independent review)", file=output)
     print("2. Reviewer 2 (independent review)", file=output)
     print("3. Adjudicator", file=output)
@@ -446,6 +456,11 @@ def main() -> None:
         if backup:
             print(f"Session backup: {backup}")
     role = args.role or choose_role(input, sys.stdout)
+    if role != "progress" and not args.reviewer_id:
+        print(
+            f"You chose {role}. Your reviewer code is a stable code such as clinician-a; "
+            "do not enter the role number.",
+        )
     print_progress(store)
     if role == "progress":
         return
