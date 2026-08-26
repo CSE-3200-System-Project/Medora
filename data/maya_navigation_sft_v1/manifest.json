@@ -1,0 +1,47 @@
+{
+  "dataset_id": "medora/maya-navigation-sft-v1-draft",
+  "generated_by": "tools/maya_dataset/build_synthetic_navigation_dataset.py",
+  "status": "pending_clinical_review_not_training_ready",
+  "summary": {
+    "rows": 120,
+    "splits": {
+      "train": 100,
+      "validation": 20
+    },
+    "languages": {
+      "bn": 60,
+      "banglish": 30,
+      "en": 30
+    },
+    "scenario_families": 30,
+    "maya_overlap": 0
+  },
+  "sources": {
+    "BD_999": "https://telecom-police.portal.gov.bd/pages/static-pages/695e3b0cc4774958d7b72321",
+    "WHO_TRIAGE": "https://www.who.int/tools/triage",
+    "WHO_BASIC_EMERGENCY": "https://www.who.int/publications/i/item/basic-emergency-care-approach-to-the-acutely-ill-and-injured",
+    "WHO_MATERNAL": "https://www.who.int/campaigns/world-health-day/2025/key-messages",
+    "WHO_SELF_HARM": "https://www.emro.who.int/mhps/suicide.html",
+    "WHO_SEPSIS": "https://www.who.int/news-room/fact-sheets/detail/sepsis",
+    "NHS_CHILD": "https://www.nhs.uk/baby/health/is-your-baby-or-toddler-seriously-ill/",
+    "NHS_POISONING": "https://www.nhs.uk/conditions/poisoning/"
+  },
+  "files": {
+    "draft_combined.jsonl": {
+      "rows": 120,
+      "sha256": "2374a9ad3eb4549fb99db2679d31cc72ab4b8a2adb2b737bbcf773207982b10f"
+    },
+    "draft_train.jsonl": {
+      "rows": 100,
+      "sha256": "d950b0514d47182e5658ddb10674987846164c4551e98230b1d08b7024779723"
+    },
+    "draft_validation.jsonl": {
+      "rows": 20,
+      "sha256": "77c1066b39e06f4cf46fc624e2165a87eca69b4be95851e1e25f1c36bf43baa9"
+    },
+    "clinical_review.csv": {
+      "rows": 120,
+      "sha256": "cfa57e6a63c0ef17c488e86bdce3e0e0c4c9e68c1b075e53a93f704b1396d724"
+    }
+  }
+}

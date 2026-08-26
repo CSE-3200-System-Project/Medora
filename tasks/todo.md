@@ -127,3 +127,26 @@ Blast radius is stated per phase. No phase bundles a refactor.
 - Phase 8 ships the Maya recorded-response gate and blocks unmeasured candidate model identities. It does not claim a Maya pass until licensed training and provider generations produce a current, dataset-bound report.
 - Phase 9 delivers the finalist-feasible thin slice: explicit fail-closed admin provisioning, scoped permissions across patient/doctor/review/appointment operations, two-person destructive actions, notifying bounded break-glass, and privileged-action audit exploration. Organization membership, fuzzy backfill, DSAR workflow, delegated grants, and a combined patient-access/AI-interaction compliance explorer remain proposed.
 - Phase 10 synchronizes the claim map, architecture/API indexes, README status, and regenerated machine-readable safety, PHI, and Shimana reports. Lokkhon v0.2 remains withheld until learned PHI metrics exist rather than rewriting the released v0.1 artifact.
+
+---
+
+## Maya synthetic navigation SFT corpus — DONE
+
+- [x] Define a fixed 120-row schema and coverage plan with 100 train / 20 validation rows.
+- [x] Keep every scenario family in one split and exclude every frozen Maya evaluation prompt.
+- [x] Generate PHI-free Bengali, Banglish, and English non-urgent navigation dialogues.
+- [x] Mark generated content `pending_clinical_review`; never manufacture clinician approval.
+- [x] Provide a two-reviewer promotion workflow that emits the notebook-ready approved JSONL.
+- [x] Add deterministic validation tests, a source/data card, and checksums.
+
+### Review
+
+- The deterministic corpus contains 120 rows across 30 scenario families: 100 train and 20
+  validation, with no family crossing the split boundary and no exact or >=0.80 Jaccard match to
+  frozen Maya prompts.
+- Script/language coverage is 60 Bengali, 30 Banglish, and 30 English rows. With the pinned
+  Qwen3.5-2B tokenizer, all rows preserve the assistant-prefix mask and fit within 337 tokens.
+- Draft rows remain `pending_clinical_review`; the training notebook rejects them. Promotion
+  requires two distinct reviewer approvals, with independent adjudication for any revision or
+  disagreement. No approval or reviewer identity was fabricated.
+- Dataset/unit/Maya tests pass, including deterministic SHA-256 regeneration.

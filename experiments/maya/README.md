@@ -24,6 +24,10 @@ Maya generation, and exports one gate-ready response JSONL per seed. The noteboo
 generate the incumbent production model's responses; record those independently so the gate
 compares two systems under the same frozen prompts and decoding policy.
 
+The complete 100-train/20-validation synthetic draft and two-reviewer promotion workflow are in
+`data/maya_navigation_sft_v1/`. The draft intentionally fails the notebook's approval check. Upload
+only the `approved_combined.jsonl` produced after clinical review.
+
 Generate the fixed prompt sheet, record outputs from the incumbent and candidate, then run:
 
 ```powershell
