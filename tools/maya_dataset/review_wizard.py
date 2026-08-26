@@ -169,6 +169,17 @@ def _ask_required(prompt: str, input_fn: Callable[[str], str], output: TextIO) -
         print("This value is required.", file=output)
 
 
+def _ask_reviewer_id(input_fn: Callable[[str], str], output: TextIO) -> str:
+    while True:
+        reviewer_id = _ask_required(
+            "Enter your stable reviewer code (not a patient name): ", input_fn, output
+        )
+        try:
+            return _validate_reviewer_id(reviewer_id)
+        except ValueError as exc:
+            print(f"Invalid reviewer code: {exc}", file=output)
+
+
 def _validate_reviewer_id(reviewer_id: str) -> str:
     reviewer_id = reviewer_id.strip()
     if not reviewer_id or any(character in reviewer_id for character in "|\r\n"):
@@ -464,9 +475,7 @@ def main() -> None:
     print_progress(store)
     if role == "progress":
         return
-    reviewer_id = args.reviewer_id or _ask_required(
-        "Enter your stable reviewer code (not a patient name): ", input, sys.stdout
-    )
+    reviewer_id = args.reviewer_id or _ask_reviewer_id(input, sys.stdout)
     if role in ROLE_FIELDS:
         saved = run_primary_review(store, role, reviewer_id, args.case_id)
     else:

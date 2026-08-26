@@ -133,6 +133,11 @@ def test_reviewer_code_cannot_be_the_role_number() -> None:
     with pytest.raises(ValueError, match="must include letters"):
         wizard._validate_reviewer_id("1")
     assert wizard._validate_reviewer_id("clinician-a") == "clinician-a"
+    output = io.StringIO()
+    inputs = iter(["1", "clinician-a"])
+    reviewer_id = wizard._ask_reviewer_id(lambda _prompt: next(inputs), output)
+    assert reviewer_id == "clinician-a"
+    assert "Invalid reviewer code" in output.getvalue()
 
 
 @pytest.mark.backend
