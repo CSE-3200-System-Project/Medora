@@ -3,7 +3,9 @@ from __future__ import annotations
 import csv
 import hashlib
 import importlib.util
+import io
 import json
+import shutil
 import sys
 from pathlib import Path
 
@@ -14,6 +16,7 @@ ROOT = Path(__file__).resolve().parents[3]
 DATA_DIR = ROOT / "data" / "maya_navigation_sft_v1"
 BUILDER_PATH = ROOT / "tools" / "maya_dataset" / "build_synthetic_navigation_dataset.py"
 PROMOTER_PATH = ROOT / "tools" / "maya_dataset" / "promote_clinical_review.py"
+WIZARD_PATH = ROOT / "tools" / "maya_dataset" / "review_wizard.py"
 
 
 def _module(name: str, path: Path):
@@ -115,3 +118,98 @@ def test_promotion_refuses_missing_review_and_accepts_two_distinct_approvals() -
     assert len(promoted) == 120
     assert all(row["review_status"] == "clinician_approved" for row in promoted)
     assert all(row["reviewer_id"] == "test-reviewer-a|test-reviewer-b" for row in promoted)
+
+
+def _working_store(tmp_path: Path):
+    wizard = _module(f"maya_review_wizard_{tmp_path.name}", WIZARD_PATH)
+    reviews = tmp_path / "clinical_review_working.csv"
+    shutil.copy2(DATA_DIR / "clinical_review.csv", reviews)
+    return wizard, wizard.ReviewStore(DATA_DIR / "draft_combined.jsonl", reviews)
+
+
+@pytest.mark.backend
+def test_interactive_review_saves_immediately_and_resumes_without_unblinding(tmp_path: Path) -> None:
+    wizard, store = _working_store(tmp_path)
+    reviewer_1_inputs = iter(["a", "English notes are allowed for this Bangla case", "q"])
+    saved = wizard.run_primary_review(
+        store,
+        "reviewer1",
+        "clinician-a",
+        input_fn=lambda _prompt: next(reviewer_1_inputs),
+        output=io.StringIO(),
+    )
+    assert saved == 1
+
+    _, persisted = wizard.load_review_rows(store.reviews_path)
+    assert persisted[0]["reviewer_1_decision"] == "approve"
+    assert persisted[0]["reviewer_1_notes"] == "English notes are allowed for this Bangla case"
+    assert persisted[1]["reviewer_1_decision"] == ""
+
+    reloaded = wizard.ReviewStore(DATA_DIR / "draft_combined.jsonl", store.reviews_path)
+    assert len(wizard.primary_pending(reloaded, "reviewer1")) == 119
+    reviewer_2_output = io.StringIO()
+    reviewer_2_inputs = iter(["a", "বাংলা নোটও গ্রহণযোগ্য", "q"])
+    wizard.run_primary_review(
+        reloaded,
+        "reviewer2",
+        "clinician-b",
+        input_fn=lambda _prompt: next(reviewer_2_inputs),
+        output=reviewer_2_output,
+    )
+    assert "English notes are allowed" not in reviewer_2_output.getvalue()
+
+
+@pytest.mark.backend
+def test_adjudication_requires_independent_reviewer_and_matching_revision_script(tmp_path: Path) -> None:
+    wizard, store = _working_store(tmp_path)
+    first = store.review_rows[0]
+    first.update(
+        {
+            "reviewer_1_id": "clinician-a",
+            "reviewer_1_decision": "revise",
+            "reviewer_1_notes": "Clarify the next action.",
+            "reviewer_2_id": "clinician-b",
+            "reviewer_2_decision": "approve",
+            "reviewer_2_notes": "",
+        }
+    )
+    store.save()
+    with pytest.raises(ValueError, match="independent"):
+        wizard.run_adjudication(store, "clinician-a", output=io.StringIO())
+
+    inputs = iter(
+        [
+            "v",
+            "This is English and must be rejected for a Bangla row.",
+            "বাংলায় সংশোধিত নিরাপদ নেভিগেশন উত্তর।",
+            "Resolved wording.",
+        ]
+    )
+    output = io.StringIO()
+    saved = wizard.run_adjudication(
+        store,
+        "clinician-c",
+        input_fn=lambda _prompt: next(inputs),
+        output=output,
+    )
+    assert saved == 1
+    assert "does not match the required bn script" in output.getvalue()
+    _, persisted = wizard.load_review_rows(store.reviews_path)
+    assert persisted[0]["final_decision"] == "approve"
+    assert persisted[0]["revised_response"] == "বাংলায় সংশোধিত নিরাপদ নেভিগেশন উত্তর।"
+    assert persisted[0]["adjudicator_id"] == "clinician-c"
+
+
+@pytest.mark.backend
+def test_review_progress_requires_every_row_to_be_resolved(tmp_path: Path) -> None:
+    wizard, store = _working_store(tmp_path)
+    assert wizard.progress(store)["promotion_ready"] is False
+    for row in store.review_rows:
+        row["reviewer_1_id"] = "clinician-a"
+        row["reviewer_1_decision"] = "approve"
+        row["reviewer_2_id"] = "clinician-b"
+        row["reviewer_2_decision"] = "approve"
+    status = wizard.progress(store)
+    assert status["reviewer_1_complete"] == 120
+    assert status["reviewer_2_complete"] == 120
+    assert status["promotion_ready"] is True

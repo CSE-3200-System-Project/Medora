@@ -150,3 +150,25 @@ Blast radius is stated per phase. No phase bundles a refactor.
   requires two distinct reviewer approvals, with independent adjudication for any revision or
   disagreement. No approval or reviewer identity was fabricated.
 - Dataset/unit/Maya tests pass, including deterministic SHA-256 regeneration.
+
+---
+
+## Maya clinical-review terminal wizard — DONE
+
+- [x] Add a cross-platform interactive reviewer for reviewer 1, reviewer 2, and adjudication.
+- [x] Save each decision atomically to a working CSV and support safe resume.
+- [x] Keep the two primary reviews blinded from one another.
+- [x] Allow English or Bangla audit notes while requiring revisions to match the example language.
+- [x] Add progress reporting, backups, tests, and reviewer documentation.
+
+### Review
+
+- `review_wizard.py` creates an ignored working CSV from the immutable template, writes through a
+  same-directory temporary file plus `os.replace`, flushes and fsyncs every accepted decision, and
+  skips completed rows on resume.
+- Reviewer 1 and reviewer 2 cannot see each other's decisions or notes. Adjudication unlocks only
+  after both decisions exist, and the adjudicator must use a third reviewer code.
+- Notes accept English or Bangla. Revisions enforce Bengali script for `bn` and Latin script for
+  `banglish`/`en`; semantic and clinical correctness remain human-review responsibilities.
+- The Python CLI progress smoke test, Bash syntax validation, and reviewer persistence/blinding/
+  adjudication tests pass.

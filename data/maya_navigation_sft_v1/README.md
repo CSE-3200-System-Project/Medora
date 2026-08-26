@@ -22,6 +22,8 @@ and an approved revised response. The promotion tool fails closed unless every f
 - `draft_train.jsonl`: the same 100 train rows for inspection.
 - `draft_validation.jsonl`: the same 20 validation rows for inspection.
 - `clinical_review.csv`: UTF-8 review worksheet for two blinded reviewers and adjudication.
+- `clinical_review_working.csv`: created and updated by the terminal wizard; ignored by Git so the
+  immutable blank template and manifest remain unchanged.
 - `manifest.json`: counts, source links, and SHA-256 hashes.
 - `approved_combined.jsonl`: created only by the promotion command after completed review; not
   committed as a fabricated placeholder.
@@ -74,18 +76,44 @@ high-overlap matches against the frozen Maya red-flag and benign prompt sets.
 
 ## Clinical review and promotion
 
-1. Give separate copies of `clinical_review.csv` to two qualified clinicians. Keep reviewer
-   identities and credentials in the controlled study record; use stable reviewer codes in the CSV.
-2. For every row, each reviewer enters `approve`, `revise`, or `reject` and their reviewer code.
-3. Merge their fields into one sheet without changing row IDs or proposed content.
-4. If either decision is not `approve`, an independent adjudicator must complete
-   `adjudicator_id`, set `final_decision=approve`, and provide `revised_response`.
-5. Run:
+Run the interactive terminal wizard from the repository root:
+
+```powershell
+backend/venv/Scripts/python.exe tools/maya_dataset/review_wizard.py
+```
+
+The first clinician chooses **Reviewer 1** and completes or pauses the review. The second clinician
+later chooses **Reviewer 2** with a different stable reviewer code. Completed rows are skipped when
+the wizard resumes. Each decision is atomically saved to `clinical_review_working.csv`; a timestamped
+backup is created at the beginning of later sessions. Do not have two reviewers write the same CSV
+concurrently.
+
+The primary reviews are blinded: neither reviewer sees the other's decision or notes. After both
+have completed all 120 rows, an independent clinician chooses **Adjudicator** and resolves every
+revision, rejection, or disagreement. The adjudicator cannot use either primary reviewer's code.
+
+Reviewer and adjudicator notes are internal audit text and may be written in English or Bangla.
+For `revise` or `reject`, a note is required. A final revised assistant response must match the
+example language: Bengali script for `bn`, Latin-script Banglish for `banglish`, and English for
+`en`. The wizard enforces the Bengali-versus-Latin script boundary and reminds the adjudicator of
+the exact language.
+
+Useful direct commands are:
+
+```powershell
+backend/venv/Scripts/python.exe tools/maya_dataset/review_wizard.py --role reviewer1 --reviewer-id clinician-a
+backend/venv/Scripts/python.exe tools/maya_dataset/review_wizard.py --role reviewer2 --reviewer-id clinician-b
+backend/venv/Scripts/python.exe tools/maya_dataset/review_wizard.py --role adjudicator --reviewer-id clinician-c
+backend/venv/Scripts/python.exe tools/maya_dataset/review_wizard.py --role progress
+```
+
+To correct one previously reviewed row, add `--case-id MAYA-SFT-001-1`. When the wizard reports
+`Promotion ready: YES`, run:
 
 ```powershell
 backend/venv/Scripts/python.exe tools/maya_dataset/promote_clinical_review.py `
   --draft data/maya_navigation_sft_v1/draft_combined.jsonl `
-  --reviews data/maya_navigation_sft_v1/clinical_review.csv `
+  --reviews data/maya_navigation_sft_v1/clinical_review_working.csv `
   --out data/maya_navigation_sft_v1/approved_combined.jsonl
 ```
 

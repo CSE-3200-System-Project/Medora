@@ -26,7 +26,8 @@ compares two systems under the same frozen prompts and decoding policy.
 
 The complete 100-train/20-validation synthetic draft and two-reviewer promotion workflow are in
 `data/maya_navigation_sft_v1/`. The draft intentionally fails the notebook's approval check. Upload
-only the `approved_combined.jsonl` produced after clinical review.
+only the `approved_combined.jsonl` produced after clinical review. Start the resumable terminal
+review with `backend/venv/Scripts/python.exe tools/maya_dataset/review_wizard.py`.
 
 Generate the fixed prompt sheet, record outputs from the incumbent and candidate, then run:
 
