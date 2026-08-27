@@ -301,7 +301,7 @@ def main(argv: list[str] | None = None) -> int:
             "threshold": recognizer.threshold,
             "bundle_files": {
                 name: phi_ner.sha256_file(args.bundle / name)
-                for name in ("model.onnx", "tokenizer.json", "labels.json")
+                for name in phi_ner.bundle_artifact_names(args.bundle)
             },
             "datasets": {
                 name: phi_ner.sha256_file(path)

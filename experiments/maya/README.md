@@ -29,6 +29,12 @@ The complete 100-train/20-validation synthetic draft and two-reviewer promotion 
 only the `approved_combined.jsonl` produced after clinical review. Start the resumable terminal
 review with `backend/venv/Scripts/python.exe tools/maya_dataset/review_wizard.py`.
 
+The experiment is preregistered in `qwen35_2b_protocol.json`, which freezes the exact Qwen
+revision, TigerLLM-to-Qwen amendment, prompt hash, three seeds, QLoRA settings, dataset hashes,
+gate thresholds, and remaining human approvals. `qwen35_2b_responses_template.jsonl` is the
+immutable 35-row blank prompt sheet. The protocol status remains
+`frozen_blocked_pending_clinical_review`; it is not a model result.
+
 Generate the fixed prompt sheet, record outputs from the incumbent and candidate, then run:
 
 ```powershell

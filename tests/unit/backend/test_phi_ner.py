@@ -531,6 +531,7 @@ def test_bundle_admission_binds_weights_threshold_datasets_and_metrics(tmp_path:
     bundle = tmp_path / "bundle"
     bundle.mkdir()
     (bundle / "model.onnx").write_bytes(b"model-v1")
+    (bundle / "model.onnx.data").write_bytes(b"external-weights-v1")
     (bundle / "tokenizer.json").write_text("{}", encoding="utf-8")
     (bundle / "labels.json").write_text(
         json.dumps(
@@ -549,7 +550,7 @@ def test_bundle_admission_binds_weights_threshold_datasets_and_metrics(tmp_path:
         "threshold": 0.35,
         "bundle_files": {
             name: phi_ner.sha256_file(bundle / name)
-            for name in ("model.onnx", "tokenizer.json", "labels.json")
+            for name in phi_ner.bundle_artifact_names(bundle)
         },
         "datasets": {
             name: phi_ner.sha256_file(path)
@@ -568,6 +569,12 @@ def test_bundle_admission_binds_weights_threshold_datasets_and_metrics(tmp_path:
         phi_ner.validate_bundle_admission(bundle, threshold_override=0.4)
     (bundle / "model.onnx").write_bytes(b"tampered")
     with pytest.raises(ValueError, match="stale"):
+        phi_ner.validate_bundle_admission(bundle)
+
+    (bundle / "model.onnx").write_bytes(b"model-v1")
+    admission["bundle_files"].pop("model.onnx.data")
+    (bundle / "admission.json").write_text(json.dumps(admission), encoding="utf-8")
+    with pytest.raises(ValueError, match="exact bundle artifact set"):
         phi_ner.validate_bundle_admission(bundle)
 
 

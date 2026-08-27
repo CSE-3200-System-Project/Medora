@@ -4,11 +4,11 @@ A learned token-classification model that finds personal identifiers in Bangla, 
 romanised Banglish clinical text, deployed as the second half of a union ensemble with
 Medora's existing rule-based redactor.
 
-This directory ships the corpus generator, the training script, the evaluator, and the
-feature-flagged runtime integration. **It does not ship weights.** Training needs a GPU
-session and a licence review that are out of band from this repository; the code, the
-corpus and the gate are complete and runnable today, and `evaluate.py` reports the model
-and union rows as `unavailable` rather than inventing them.
+This directory ships the corpus generator, training script, evaluator, and feature-flagged
+runtime integration. **The Git repository does not ship weights.** A controlled local MuRIL
+bundle has now been evaluated, and the checksummed machine-readable report records the model and
+union results. The bundle remains an ignored release artifact pending administrative licence,
+privacy, and deployment review.
 
 ## What is here
 
@@ -40,8 +40,8 @@ The full splits are build artifacts and are not committed — the generator plus
 seed reproduce them byte-for-byte. `corpus/manifest.json` and a 300-row sample are committed
 so a reviewer can see what the generator emits without running it.
 
-Last build: **12,000 sentences** — 10,560 train (20,503 tagged spans, 2,112 with no PHI at
-all) and 1,440 dev (2,819 spans, 288 with none), across ten labels and 180 realised frames
+Last build: **12,000 sentences** — 10,560 train (18,566 tagged spans, 2,112 with no PHI at
+all) and 1,440 dev (2,507 spans, 288 with none), across ten labels and 180 realised frames
 (60 meanings × 3 scripts). Seventeen generated sentences were discarded for colliding with
 a held-out identifier.
 
@@ -138,12 +138,14 @@ never written against.
 | system | precision | recall | F1 | over-redaction |
 |---|---|---|---|---|
 | rules | 1.000 | **0.750** | 0.857 | 0.000 |
+| MuRIL model | 1.000 | **0.972** | 0.986 | 0.000 |
+| rules + MuRIL union | 1.000 | **1.000** | 1.000 | 0.000 |
 
-Every one of the nine misses is an unlabelled, previously-unseen personal name — six English,
-three Bangla. Structured, labelled, honorific-cued and obfuscated identifiers all generalise
-at 100%. That residual is exactly what a learned span recogniser addresses and exactly what a
-gazetteer cannot, which is the argument for building this component, now stated as a
-measurement instead of an expectation.
+Every one of the rule baseline's nine misses is an unlabelled, previously-unseen personal name —
+six English and three Bangla. MuRIL recovers eight of those nine; the rule union recovers the
+remaining miss. Structured, labelled, honorific-cued and obfuscated identifiers all generalise at
+100%. That residual is exactly what a learned span recogniser addresses and what a gazetteer
+cannot, now stated as a measurement rather than an expectation.
 
 Note that 0.750 and the published 0.755 are close enough to be mistaken for each other. They
 are different populations measuring different things and should never be compared directly.
@@ -164,8 +166,8 @@ PHI_NER_THRESHOLD=              # leave blank; use the admitted bundle threshold
 
 An exported bundle is not deployable until `evaluate.py --admit-bundle` writes an
 `admission.json` that binds its threshold, commercial-use licence, model/tokenizer/label hashes,
-dataset hashes, and passing novel-probe metrics. Runtime revalidates that evidence and falls back
-to rules if it is missing, stale, overridden, or corrupt.
+every ONNX external-weight file, dataset hashes, and passing novel-probe metrics. Runtime
+revalidates that evidence and falls back to rules if it is missing, stale, overridden, or corrupt.
 
 With the flag clear, `redact_pii_text` is byte-for-byte the function whose numbers are
 published — asserted over both scored populations in
@@ -184,8 +186,12 @@ sent anywhere to find out what to remove.
 
 ## Limitations
 
-- **No weights yet.** Every number above is the rule baseline. The model and union columns
-  are empty and marked `unavailable`, not estimated.
+- **Weights are controlled, not shipped.** The measured MuRIL bundle is deliberately ignored by
+  Git. Admission v1.1 hashes the graph, 948 MB external-weight file, tokenizer, labels, and both
+  evaluation populations; the committed report is the reviewable evidence.
+- **The registered comparison matrix is incomplete.** The selected MuRIL bundle is measured, but
+  the repository does not contain auditable per-seed curves or an XLM-R control result. Do not
+  present the current result as a three-seed comparative model study.
 - **n is small.** 36 identifier spans in the discriminating population. Bootstrap intervals
   are reported next to every rate and they are wide; the fix is clinician time to expand the
   set, not narrower rounding.

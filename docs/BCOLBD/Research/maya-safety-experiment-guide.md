@@ -5,6 +5,12 @@ Scope: offline Bengali/Banglish health-navigation safety evaluation. This is not
 accuracy study, a suicide-risk prediction study, or evidence that a model is safe for autonomous
 clinical use.
 
+> Implementation amendment, 27 Aug 2026: the executable notebooks and frozen protocol now use
+> `Qwen/Qwen3.5-2B` at revision `15852e8c16360a2fea060d615a32b45270f8a8fc`, with seeds 17, 42,
+> and 73. `experiments/maya/qwen35_2b_protocol.json` is authoritative for the run. The earlier
+> Qwen3-4B recommendation below is retained as research history and must not be mixed with the
+> Qwen3.5-2B response files.
+
 ## Decision
 
 Run the first reproducible experiment with `Qwen/Qwen3-4B-Instruct-2507` as the open-weight

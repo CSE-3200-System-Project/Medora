@@ -23,9 +23,9 @@ The English body uses Times New Roman at 12 pt. Bengali wordmarks use Kalpurush.
 - Repository-generated JSON/TeX and executable tests are the evidence of record.
 - The SoftwareX manuscript supplies reusable descriptions but not new results.
 - A result is never inferred from a proposed experiment.
-- `Shimana`, `Maya`, and learned PHI recognition are labelled as planned until
-  archived result files exist; Arohon is specified, Lokkhon is measured, and
-  Akkhor is deployed.
+- The compiled competition PDF remains a point-in-time submission artifact. The post-whitepaper
+  claim map now records Shimana and a controlled MuRIL PHI bundle as measured; Maya remains a
+  frozen protocol with no result. Arohon, Lokkhon, and Akkhor retain their stated boundaries.
 - Prescription-OCR accuracy is not claimed.
 
 See `claim-evidence-map.md` for the provenance and status of each major claim,

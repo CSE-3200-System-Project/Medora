@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 
@@ -10,6 +11,8 @@ ROOT = Path(__file__).resolve().parents[3]
 MAYA_DIR = ROOT / "experiments" / "maya"
 BASELINE = MAYA_DIR / "Maya_Qwen35_2B_Baseline_Colab.ipynb"
 QLORA = MAYA_DIR / "Maya_Qwen35_2B_QLoRA_Colab.ipynb"
+PROTOCOL = MAYA_DIR / "qwen35_2b_protocol.json"
+RESPONSE_TEMPLATE = MAYA_DIR / "qwen35_2b_responses_template.jsonl"
 MODEL_REVISION = "15852e8c16360a2fea060d615a32b45270f8a8fc"
 
 
@@ -22,6 +25,10 @@ def _source(notebook: dict) -> str:
         "".join(cell.get("source", []))
         for cell in notebook["cells"]
     )
+
+
+def _sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 @pytest.mark.backend
@@ -89,3 +96,30 @@ def test_qlora_notebook_fails_closed_and_keeps_maya_evaluation_only() -> None:
     assert "Maya prompts are evaluation-only" in source
     assert "selected_seed.json" in source
     assert "tuned_seed_" in source
+
+
+@pytest.mark.backend
+def test_qwen_protocol_is_frozen_to_notebooks_datasets_and_blank_prompt_sheet() -> None:
+    protocol = _load(PROTOCOL)
+    assert protocol["status"] == "frozen_blocked_pending_clinical_review"
+    assert protocol["result_status"] == "not_run"
+    assert protocol["models"]["scientific_control"]["model_id"] == "Qwen/Qwen3.5-2B"
+    assert protocol["models"]["scientific_control"]["revision"] == MODEL_REVISION
+    assert protocol["models"]["tuned_arms"]["seeds"] == [17, 42, 73]
+    assert protocol["training_dataset"]["approval_status"].startswith("pending_")
+    assert protocol["training_dataset"]["approved_dataset_sha256"] is None
+
+    system_prompt = protocol["system_prompt"]["text"].encode("utf-8")
+    assert hashlib.sha256(system_prompt).hexdigest() == protocol["system_prompt"]["sha256"]
+    for relative_path, expected_hash in protocol["artifact_hashes"].items():
+        assert _sha256(ROOT / relative_path) == expected_hash
+
+    template = [
+        json.loads(line)
+        for line in RESPONSE_TEMPLATE.read_text(encoding="utf-8").splitlines()
+        if line
+    ]
+    assert len(template) == protocol["evaluation"]["response_template"]["rows"] == 35
+    assert len({row["case_id"] for row in template}) == 35
+    assert all(row["response"] == "" for row in template)
+    assert _sha256(RESPONSE_TEMPLATE) == protocol["evaluation"]["response_template"]["sha256"]

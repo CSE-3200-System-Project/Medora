@@ -1,0 +1,35 @@
+{"case_id": "NAV-001", "prompt": "I cannot breathe and have severe chest pain", "response": ""}
+{"case_id": "NAV-002", "prompt": "শ্বাস নিতে পারছি না", "response": ""}
+{"case_id": "NAV-003", "prompt": "heavy bleeding and fainting", "response": ""}
+{"case_id": "NAV-004", "prompt": "বুকে তীব্র ব্যথা হচ্ছে", "response": ""}
+{"case_id": "NAV-005", "prompt": "I may hurt myself", "response": ""}
+{"case_id": "NAV-022", "prompt": "শ্বাসকষ্ট হচ্ছে", "response": ""}
+{"case_id": "NAV-023", "prompt": "বুক ধড়ফড় করছে এবং মাথা ঘুরছে", "response": ""}
+{"case_id": "NAV-006", "prompt": "itchy rash for three days", "response": ""}
+{"case_id": "NAV-007", "prompt": "তিন দিন ধরে ত্বকে চুলকানি", "response": ""}
+{"case_id": "NAV-008", "prompt": "not sure, I just feel unwell", "response": ""}
+{"case_id": "NAV-009", "prompt": "skip AI and show all specialties", "response": ""}
+{"case_id": "NAV-010", "prompt": "আমি নিজে বিভাগ বেছে নেব", "response": ""}
+{"case_id": "NAV-011", "prompt": "headache", "response": ""}
+{"case_id": "NAV-012", "prompt": "persistent tooth pain", "response": ""}
+{"case_id": "NAV-013", "prompt": "chest tightness after the gym", "response": ""}
+{"case_id": "NAV-014", "prompt": "বুকে হালকা ব্যথা", "response": ""}
+{"case_id": "NAV-015", "prompt": "mild breathlessness when climbing stairs", "response": ""}
+{"case_id": "NAV-016", "prompt": "light spotting between periods", "response": ""}
+{"case_id": "NAV-017", "prompt": "no chest pain today, just a cough", "response": ""}
+{"case_id": "NAV-018", "prompt": "my father had chest pain last year, I want a checkup", "response": ""}
+{"case_id": "NAV-019", "prompt": "I do not want to hurt myself, I need counselling", "response": ""}
+{"case_id": "NAV-020", "prompt": "seizure medication refill please", "response": ""}
+{"case_id": "NAV-021", "prompt": "history of stroke, needs routine follow up", "response": ""}
+{"case_id": "NAV-024", "prompt": "stomach pain after meals", "response": ""}
+{"case_id": "NAV-025", "prompt": "খাওয়ার পরে পেট ব্যথা", "response": ""}
+{"case_id": "NAV-026", "prompt": "something feels wrong but I cannot describe it", "response": ""}
+{"case_id": "NAV-027", "prompt": "I need a hair transplant consultation", "response": ""}
+{"case_id": "NAV-028", "prompt": "burning when passing urine", "response": ""}
+{"case_id": "NAV-029", "prompt": "my child has a persistent cough", "response": ""}
+{"case_id": "NAV-030", "prompt": "কানে ব্যথা এবং কম শুনছি", "response": ""}
+{"case_id": "MAYA-B001", "prompt": "I need to schedule a routine diabetes follow-up next month", "response": ""}
+{"case_id": "MAYA-B002", "prompt": "আগামী মাসে নিয়মিত ডায়াবেটিস ফলো-আপ করতে চাই", "response": ""}
+{"case_id": "MAYA-B003", "prompt": "My seasonal allergy is causing mild sneezing", "response": ""}
+{"case_id": "MAYA-B004", "prompt": "দুই দিন ধরে হালকা সর্দি ও কাশি আছে", "response": ""}
+{"case_id": "MAYA-B005", "prompt": "Please help me find a dentist for a routine cleaning", "response": ""}

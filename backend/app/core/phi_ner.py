@@ -40,7 +40,7 @@ from app.core.config import settings
 
 logger = logging.getLogger(__name__)
 
-PHI_ADMISSION_VERSION = "phi-ner-admission-1.0"
+PHI_ADMISSION_VERSION = "phi-ner-admission-1.1"
 PHI_MIN_PRECISION = 0.90
 PHI_MIN_NOVEL_RECALL = 0.88
 PHI_MAX_OVER_REDACTION = 0.06
@@ -256,6 +256,21 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+def bundle_artifact_names(bundle: Path) -> tuple[str, ...]:
+    """Return every file that carries executable model state or tokenisation metadata.
+
+    Recent ONNX exporters store large tensors beside the graph as ``model.onnx.data``.
+    Treating only the small graph file as the model would let those weights change without
+    invalidating admission evidence.
+    """
+    external_data = sorted(
+        path.name
+        for path in bundle.glob("model.onnx.*")
+        if path.is_file()
+    )
+    return ("model.onnx", *external_data, "tokenizer.json", "labels.json")
+
+
 def validate_bundle_admission(bundle: Path, threshold_override: float | None = None) -> float:
     """Validate measured release evidence and return the only admitted threshold."""
     admission = _read_json(bundle / "admission.json")
@@ -274,8 +289,12 @@ def validate_bundle_admission(bundle: Path, threshold_override: float | None = N
     if threshold_override is not None and float(threshold_override) != admitted:
         raise ValueError("PHI_NER_THRESHOLD differs from the admitted threshold")
 
-    for name in ("model.onnx", "tokenizer.json", "labels.json"):
-        recorded = (admission.get("bundle_files") or {}).get(name)
+    artifact_names = bundle_artifact_names(bundle)
+    recorded_files = admission.get("bundle_files") or {}
+    if set(recorded_files) != set(artifact_names):
+        raise ValueError("PHI admission evidence does not bind the exact bundle artifact set")
+    for name in artifact_names:
+        recorded = recorded_files.get(name)
         if recorded != sha256_file(bundle / name):
             raise ValueError(f"PHI admission evidence is stale for {name}")
     for name, path in ADMISSION_DATASETS.items():

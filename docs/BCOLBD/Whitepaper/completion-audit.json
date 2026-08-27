@@ -1,0 +1,180 @@
+{
+  "schema_version": "whitepaper-completion-audit-1.0",
+  "generated_on": "2026-08-27",
+  "method": "Conservative weighted checklist of the phase 7-10 operational runbook and post-whitepaper evidence commitments. A file counts only when its machine-readable status also passes the registered check.",
+  "completed_weight": 75,
+  "total_weight": 100,
+  "completion_percentage": 75.0,
+  "items": [
+    {
+      "id": "arohon",
+      "title": "Arohon implementation",
+      "weight": 7,
+      "status": "complete",
+      "owner": "automated",
+      "evidence": [
+        "backend/app/core/arohon.py"
+      ],
+      "remaining_action": null,
+      "check_error": null
+    },
+    {
+      "id": "akkhor",
+      "title": "Akkhor implementation",
+      "weight": 7,
+      "status": "complete",
+      "owner": "automated",
+      "evidence": [
+        "backend/app/routes/akkhor.py"
+      ],
+      "remaining_action": null,
+      "check_error": null
+    },
+    {
+      "id": "lokkhon",
+      "title": "Lokkhon v0.1 measurement",
+      "weight": 7,
+      "status": "complete",
+      "owner": "automated",
+      "evidence": [
+        "benchmark/lokkhon/results/lokkhon_v0.1.json"
+      ],
+      "remaining_action": null,
+      "check_error": null
+    },
+    {
+      "id": "shimana",
+      "title": "Shimana measured sweep",
+      "weight": 7,
+      "status": "complete",
+      "owner": "automated",
+      "evidence": [
+        "tests/benchmarks/reports/shimana_report.json"
+      ],
+      "remaining_action": null,
+      "check_error": null
+    },
+    {
+      "id": "stewardship_code",
+      "title": "Stewardship implementation",
+      "weight": 7,
+      "status": "complete",
+      "owner": "automated",
+      "evidence": [
+        "backend/alembic/versions/steward_001_admin_governance.py"
+      ],
+      "remaining_action": null,
+      "check_error": null
+    },
+    {
+      "id": "phi_corpus",
+      "title": "Registered PHI corpus coverage",
+      "weight": 10,
+      "status": "complete",
+      "owner": "automated",
+      "evidence": [
+        "tools/phi_ner/corpus/manifest.json"
+      ],
+      "remaining_action": null,
+      "check_error": null
+    },
+    {
+      "id": "phi_admission",
+      "title": "Measured PHI union admission",
+      "weight": 15,
+      "status": "complete",
+      "owner": "automated",
+      "evidence": [
+        "tools/phi_ner/reports/phi_ner_eval.json"
+      ],
+      "remaining_action": null,
+      "check_error": null
+    },
+    {
+      "id": "maya_automated",
+      "title": "Frozen Maya harness and Qwen protocol",
+      "weight": 10,
+      "status": "complete",
+      "owner": "automated",
+      "evidence": [
+        "experiments/maya/qwen35_2b_protocol.json"
+      ],
+      "remaining_action": null,
+      "check_error": null
+    },
+    {
+      "id": "maya_clinical_review",
+      "title": "Maya training-corpus clinical approval",
+      "weight": 6,
+      "status": "remaining",
+      "owner": "human_clinical",
+      "evidence": [
+        "data/maya_navigation_sft_v1/approved_combined.jsonl"
+      ],
+      "remaining_action": "Complete two independent reviews and adjudication for all 120 rows.",
+      "check_error": null
+    },
+    {
+      "id": "maya_training",
+      "title": "Three-seed Qwen QLoRA run",
+      "weight": 6,
+      "status": "remaining",
+      "owner": "gpu_and_human_gated",
+      "evidence": [
+        "experiments/maya/reports/qwen35_2b_training_summary.json"
+      ],
+      "remaining_action": "Train seeds 17, 42, and 73 only after corpus approval.",
+      "check_error": null
+    },
+    {
+      "id": "maya_admission",
+      "title": "Paired Maya admission experiment",
+      "weight": 4,
+      "status": "remaining",
+      "owner": "gpu_provider_and_clinical",
+      "evidence": [
+        "experiments/maya/reports/maya_admission.json"
+      ],
+      "remaining_action": "Capture paired responses, run the gate, and obtain output review.",
+      "check_error": null
+    },
+    {
+      "id": "staging",
+      "title": "Signed staging rollout",
+      "weight": 4,
+      "status": "remaining",
+      "owner": "external_staging",
+      "evidence": [
+        "evidence/releases/staging.json"
+      ],
+      "remaining_action": "Snapshot and migrate the identified staging database, then record smoke evidence.",
+      "check_error": null
+    },
+    {
+      "id": "canary",
+      "title": "Signed canary decision",
+      "weight": 5,
+      "status": "remaining",
+      "owner": "external_canary",
+      "evidence": [
+        "evidence/releases/canary.json"
+      ],
+      "remaining_action": "Measure latency/fallbacks and obtain privacy, clinical, and engineering sign-offs.",
+      "check_error": null
+    },
+    {
+      "id": "paper_sync",
+      "title": "Post-whitepaper evidence synchronization",
+      "weight": 5,
+      "status": "complete",
+      "owner": "automated",
+      "evidence": [
+        "docs/BCOLBD/Whitepaper/claim-evidence-map.md",
+        "docs/BCOLBD/Whitepaper/self-review.md"
+      ],
+      "remaining_action": null,
+      "check_error": null
+    }
+  ],
+  "scope_note": "This score is roadmap completion, not clinical safety, model accuracy, regulatory approval, or production readiness."
+}

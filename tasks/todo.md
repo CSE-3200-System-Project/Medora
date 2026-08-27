@@ -174,3 +174,39 @@ Blast radius is stated per phase. No phase bundles a refactor.
   codes, and documents a Bengali-capable Windows Terminal font for crowded glyphs.
 - The Python CLI progress smoke test, Bash syntax validation, and reviewer persistence/blinding/
   adjudication tests pass.
+
+---
+
+## Post-whitepaper automated evidence closure — DONE
+
+- [x] Bind every ONNX external-data file into PHI admission evidence and runtime validation.
+- [x] Evaluate the existing admitted MuRIL bundle and regenerate the machine-readable PHI report.
+- [x] Update PHI documentation and the claim-evidence addendum only from regenerated results.
+- [x] Freeze a Qwen3.5-2B Maya protocol amendment and generate the immutable gate response template.
+- [x] Add a machine-readable completion audit that distinguishes automated evidence from required
+  clinical, privacy, staging, and canary sign-offs.
+- [x] Run focused tests, full backend/AI suites, repository test runner where available, and the
+  production frontend build.
+- [x] Commit only repository code/evidence files; keep the user-owned PHI bundle and ZIP untracked.
+
+### Scope boundary
+
+- No synthetic clinician approval, privacy/licence sign-off, model response, staging migration,
+  canary observation, or production deployment will be manufactured or inferred.
+
+### Review
+
+- PHI admission v1.1 binds `model.onnx.data` as well as the ONNX graph, tokenizer, labels,
+  threshold, and both evaluation populations. Runtime validation accepts the controlled bundle at
+  threshold 0.3.
+- Regenerated evidence measures MuRIL recall at 0.972 on the 36-span novel-identifier probe; the
+  rules-plus-model union reaches 1.000 recall/precision and 0.000 over-redaction. The sample is
+  small, the bundle remains untracked, and XLM-R/per-seed comparison evidence remains outstanding.
+- The Qwen3.5-2B protocol freezes revision, prompt, decoding, three seeds, QLoRA settings, dataset
+  and gate hashes before generation. Its 35 response rows remain blank and training remains blocked
+  on two independent clinical reviews plus adjudication.
+- The reproducible completion audit reports 75/100. The remaining 25 points require clinical
+  review, GPU/provider runs, an identified staging environment, canary observations, and sign-offs.
+- Verification: 565 backend unit tests, 34 backend internal tests, and 16 AI-service tests passed;
+  Docker-backed and Playwright suites were not selected. Frontend production build, ESLint, and
+  the client-bundle budget passed.
