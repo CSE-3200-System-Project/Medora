@@ -15,8 +15,10 @@ def test_overleaf_and_release_sources_remain_aligned():
 
 def test_teacher_authors_and_workflows_are_preserved():
     source = (DOCS / "medora_softwarex.tex").read_text(encoding="utf-8")
+    capsule_metadata = (ROOT / "codeocean/metadata/metadata.yml").read_text(encoding="utf-8")
     for name in ("Sarwad Hasan Siddiqui", "Adiba Tahsin", "Kazi Saeed Alam", "Sk. Imran Hossain"):
         assert name in source
+        assert name in capsule_metadata
     for description in ("https://medorahealth.vercel.app/", "Vapi", "11 patient, 11", "Condition-to-doctor discovery"):
         assert description in source
 
