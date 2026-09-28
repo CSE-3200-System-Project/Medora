@@ -96,3 +96,5 @@ dist/
 samples_redacted/
 medora_softwarex/
 medora_softwarex.zip
+
+*.zip

@@ -6,6 +6,29 @@
   "english": "English",
   "bangla": "Bangla",
   "patientHome": {
+    "recordCoverage": {
+      "title": "Today's record coverage",
+      "summary": "{recorded} of {total} displayed measurement groups have records today (UTC).",
+      "unavailable": "Record coverage unavailable",
+      "recorded": "Recorded",
+      "notRecorded": "No record",
+      "recordedGroups": "Groups with records",
+      "missingGroups": "Groups without records",
+      "details": "See inputs and calculation",
+      "formula": "Coverage = 100 × recorded groups ÷ 4. The displayed groups are steps, sleep hours, heart rate, and blood pressure. Blood pressure requires both systolic and diastolic records. Zero counts as a recorded value. Non-finite values and records outside today's UTC window are excluded.",
+      "scope": "Stored-data coverage only, not a health score. There is no recommendation to record all four groups.",
+      "quality": "Stored readings may be manually entered or device-sourced. Coverage does not verify their accuracy, clinical meaning, or whether a reading was newly measured.",
+      "window": "UTC date range (end date excluded)",
+      "asOf": "Snapshot (Bangladesh time)",
+      "groupStatus": "Today's measurement groups",
+      "groupStatusDescription": "Stored records in today's UTC window",
+      "none": "None",
+      "steps": "Steps",
+      "sleep": "Sleep hours",
+      "heartRate": "Heart rate",
+      "bloodPressure": "Blood pressure",
+      "recordSummary": "Record summary"
+    },
     "title": "Patient Health Overview",
     "defaultUserName": "Patient",
     "greeting": "Good day, {name}. Here's your live summary for today.",
@@ -13,45 +36,9 @@
     "healthReport": "Health Report",
     "sections": {
       "upcomingAppointments": "Upcoming Appointments",
-      "aiHealthInsights": "AI Health Insights",
       "quickHealthStats": "Quick Health Stats",
       "seeAll": "See all",
-      "fullAnalytics": "Full Analytics",
       "viewDetails": "View Details"
-    },
-    "healthScoreCard": {
-      "title": "Overall Health Score",
-      "improvementMessage": "Your health score has improved by {delta} since last month. Keep up the good work.",
-      "activity": "Activity",
-      "nutrition": "Nutrition",
-      "viewDetails": "View details",
-      "status": {
-        "excellent": "Excellent",
-        "improving": "Improving",
-        "needsAttention": "Needs Attention"
-      },
-      "activityLevels": {
-        "high": "High",
-        "moderate": "Moderate",
-        "low": "Low"
-      },
-      "nutritionLevels": {
-        "balanced": "Balanced",
-        "needsReview": "Needs Review"
-      }
-    },
-    "medicationTrend": {
-      "title": "Medication Trend",
-      "subtitle": "Last 7 days adherence",
-      "weekdayShort": {
-        "mon": "MON",
-        "tue": "TUE",
-        "wed": "WED",
-        "thu": "THU",
-        "fri": "FRI",
-        "sat": "SAT",
-        "sun": "SUN"
-      }
     },
     "appointmentCard": {
       "dateTime": "Date & Time",
@@ -71,26 +58,21 @@
       "noUpcomingAppointments": "No upcoming appointments",
       "scheduleClear": "Your schedule is clear",
       "bookNow": "Book Now",
-      "noInsights": "No insights yet",
-      "startLogging": "Start logging health metrics and reminders to unlock personalized insights.",
       "notAvailable": "N/A"
     },
     "quickStats": {
       "stepsToday": "Steps Today",
-      "avgSleep": "Avg Sleep",
-      "bpmResting": "BPM (Resting)",
-      "bloodPressure": "Blood Pressure"
+      "sleepHours": "Sleep hours",
+      "heartRate": "Heart rate",
+      "bloodPressure": "Blood Pressure",
+      "recordedToday": "Recorded today",
+      "noRecord": "No record"
     },
     "deviceSync": {
       "title": "Health Device Sync",
       "lastSynced": "Last synced",
       "noSyncYet": "No sync yet",
       "manageDevices": "Manage Devices"
-    },
-    "insightTitles": {
-      "medicationAdherence": "Medication Adherence",
-      "sleepMonitoring": "Sleep Monitoring",
-      "bloodPressureTracking": "Blood Pressure Tracking"
     }
   },
   "patientAppointments": {
@@ -757,7 +739,7 @@
     "header": {
       "breadcrumb": "Patient / Reminders",
       "title": "Health & Medication Analytics",
-      "subtitle": "Real-time health tracking, adherence summary, and trend insights."
+      "subtitle": "Review recorded health metrics and today's reminder schedule."
     },
     "dateRanges": {
       "sevenDays": "7 Days",
@@ -821,41 +803,12 @@
         "dia": "Dia"
       }
     },
-    "adherenceStats": {
-      "adherenceScore": "Adherence Score",
-      "fromLastWeek": "from last week",
-      "perfectDays": "Perfect Days",
-      "last30Days": "last 30 days",
-      "activeMedications": "Active Medications",
-      "scheduledForToday": "scheduled for today",
-      "currentStreak": "Current Streak",
-      "currentStreakDays": "{count} days",
-      "keepMomentum": "Keep momentum"
-    },
-    "adherenceHeatmap": {
-      "title": "Adherence Heatmap",
-      "legend": {
-        "perfect": "Perfect",
-        "partial": "Partial",
-        "missed": "Missed",
-        "future": "Future"
-      },
-      "levelLabels": {
-        "perfect": "Perfect adherence",
-        "partial": "Partial adherence",
-        "missed": "Missed doses",
-        "future": "Upcoming"
-      }
-    },
     "todaySchedule": {
       "title": "Today's Schedule",
+      "scopeNote": "Reminder times and your selections are tracking aids; they do not confirm that a medicine was taken.",
       "previousDay": "Previous day",
       "today": "Today",
       "nextDay": "Next day"
-    },
-    "smartInsight": {
-      "title": "Smart Insight",
-      "setupReminder": "Setup Reminder"
     },
     "medicationItem": {
       "taken": "Taken",
@@ -868,10 +821,6 @@
       "snoozed": "Snoozed for a short delay",
       "skippedDose": "Skipped dose",
       "upcoming": "Upcoming"
-    },
-    "missedDoseChart": {
-      "title": "Missed Dose Trend",
-      "last30Days": "Last 30 days"
     },
     "details": {
       "title": "Detailed Health Metrics",
@@ -901,12 +850,6 @@
       "title": "Medication Due",
       "takeNow": "Take now",
       "snooze": "Snooze"
-    },
-    "insight": {
-      "empty": "No active medication reminders for today yet. Add reminders from Medical History to start live analytics tracking.",
-      "skipped": "{count} reminder(s) already missed today. Consider adjusting reminder times for better adherence.",
-      "due": "{count} dose(s) are due right now. Complete them to improve today's adherence score.",
-      "onTrack": "Great progress. All upcoming reminders are on track for today."
     }
   },
   "patientProfile": {

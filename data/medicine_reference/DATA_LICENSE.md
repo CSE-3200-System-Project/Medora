@@ -1,84 +1,74 @@
 # Medicine corpus licence and redistribution scope
 
-The `LICENSE` file at the root of this repository is the MIT License. **It applies to the
-code in this repository and to nothing else.** It does not apply to the data in this
-directory, which is third-party material held under five separate licences. A blanket MIT
-grant over datasets this project did not create was the defect this file corrects.
+The root MIT licence applies to project-authored code, not automatically to the third-party
+medicine data in this directory. The source-platform licence labels and upstream website
+terms do not establish a complete permission chain for the consolidated CSV.
 
-## Source licences
+**Redistribution clearance is unresolved. Do not include the medicine corpus in a public
+capsule or release until the authors/institution document applicable permissions or remove
+the affected source-derived material.** This is a provenance and rights-review hold, not a
+legal opinion.
 
-All five sources carry a licence permitting redistribution. Licence tags for sources 1–4
-were read from their Kaggle dataset pages; source 5 is verified from its Mendeley record.
+## Source declarations and current evidence
 
-| # | Source | Licence | Obligation on redistribution |
+The following records describe platform declarations and uploader statements. They do not
+independently confirm that an uploader had authority to license material extracted from
+another service.
+
+| # | Source | Platform declaration | Current release status |
 |---|---|---|---|
-| 1 | *Assorted Medicine Dataset of Bangladesh* — ahmedshahriarsakib, Kaggle | CC0 1.0 (public domain dedication) | None required; credited here as good practice |
-| 2 | *All medicine and drug price data (20k) Bangladesh* — toriqulstu, Kaggle | CC0 1.0 (public domain dedication) | None required; not emitted into the corpus in any case |
-| 3 | *Medicines Dataset* — drowsyng, Kaggle | Apache License 2.0 | Retain the licence notice, attribute, and state that changes were made |
-| 4 | *Drug Pharma New Dataset* — shuvokumarbasak2030, Kaggle | MIT License | Retain the copyright and permission notice |
-| 5 | *Medicinal Products in Bangladesh* — Rahman & Khan, University of Dhaka, Mendeley Data, DOI [10.17632/zhtvkny53n.1](https://doi.org/10.17632/zhtvkny53n.1) | CC BY 4.0 | Attribute the authors and the licence |
+| 1 | *Assorted Medicine Dataset of Bangladesh* — ahmedshahriarsakib, Kaggle | CC0 1.0 | Uploader identifies MedEx scraping. MedEx terms restrict extraction/reuse absent permission; permission evidence is not in this repository. |
+| 2 | *All medicine and drug price data (20k) Bangladesh* — toriqulstu, Kaggle | CC0 1.0 | Kaggle description identifies MedEasy; method, source snapshot and upstream permission are undocumented. |
+| 3 | *Medicines Dataset* — drowsyng, Kaggle | Apache 2.0 | Uploader identifies Netmeds scraping. Netmeds terms restrict extraction/database reuse; permission evidence is not in this repository. |
+| 4 | *Drug Pharma New Dataset* — shuvokumarbasak2030, Kaggle | MIT | Uploader asserts DGDA origin, but an official versioned export, row-level validation and upstream redistribution permission are undocumented. |
+| 5 | *Medicinal Products in Bangladesh* — Rahman & Khan, Mendeley Data, DOI [10.17632/zhtvkny53n.1](https://doi.org/10.17632/zhtvkny53n.1) | CC BY 4.0 | Preserve attribution and changes; this does not establish rights for the other contributions. |
 
-## Licence of the consolidated corpus
+The supplied OpenDataBay listing identifies itself as derived from source 1 and is not an
+independent source. The supplied prescription word-segment dataset is not an input to this
+five-source corpus build and does not establish the detector's training-data rights.
 
-`Final_Medicine_Dataset.csv` is a collective work derived from all five sources. It is
-offered under **CC BY 4.0**, which is the most restrictive term in the set and therefore
-satisfies the others: CC0 imposes no condition, and the Apache-2.0 and MIT obligations are
-attribution-and-notice requirements discharged by the `NOTICE` section below travelling
-with any copy. Each source continues to be governed by its own licence for anyone
-extracting that source's contribution separately.
+## Consolidated corpus and source limitations
 
-`consolidate_datasets.py`, the schema, and the normalization and matching logic are
-project-authored and remain **MIT**.
+### Revision rebuild decision (28 September 2026)
 
-Changes were made to source 3 material, as Apache 2.0 requires stating: generic names were
-normalized and matched against the Bangladesh backbone, and only the resulting
-generic-to-indication mapping was retained. Source 3's pricing and URL columns were
-discarded.
+The author selects multi-source public distribution **after documenting source
+permissions**. The prepared v2 build uses identity fields from sources 1, 2, 4 and 5;
+source 3 is inventoried but excluded. It emits no MedEx/Netmeds monograph or indication
+prose and no prices. This reduces the distribution scope but does not manufacture
+missing upstream authorization. See SOURCE_PERMISSION_RECORD.json and the request draft
+in docs/softwarex/revisions/MEDICINE_PERMISSION_REQUEST.md. Netmeds permission is not a
+task for this new output because no source-3 record or prose is emitted.
 
-## NOTICE — carry this with any redistribution
+The separately prepared Mendeley-only alternative preserves its CC BY 4.0 attribution
+and records changes; it is not the author's selected replacement. Do not label the full
+multi-source candidate CC BY 4.0 solely because source 5 uses that licence.
 
-> This work incorporates data from:
->
-> - *Medicinal Products in Bangladesh: A Dataset of Generic and Brand Names, Dosage
->   Strengths, and Manufacturers* by Md Mahmudur Rahman and Md M. Khan, University of
->   Dhaka, Mendeley Data V1, DOI 10.17632/zhtvkny53n.1, licensed under CC BY 4.0.
-> - *Drug Pharma New Dataset* by Shuvo Kumar Basak, Kaggle, licensed under the MIT License.
-> - *Medicines Dataset* by drowsyng, Kaggle, licensed under the Apache License 2.0.
->   Modified: generic names normalized and mapped to the Bangladesh backbone; pricing and
->   URL fields removed.
-> - *Assorted Medicine Dataset of Bangladesh* by Ahmed Shahriar Sakib, Kaggle, CC0 1.0.
-> - *All medicine and drug price data (20k) Bangladesh* by toriqulstu, Kaggle, CC0 1.0.
+`Final_Medicine_Dataset.csv` combines contributions from all five sources. Do not assume
+that labelling the aggregate CC BY 4.0 clears each contribution: source-level terms and
+rights may impose separate conditions, and a platform licence label is not proof of
+permission from a scraped-site operator. Resolve upstream permission before redistribution.
 
-## Provenance caveats that a licence does not resolve
+The MedEx and Netmeds lineages require specific author/institution review and any required
+permission before their derived records are included in a public artifact. Source 2's exact
+collection method/upstream permission and source 4's claimed DGDA provenance also need
+documentary confirmation. Preserve the Mendeley attribution and record changes for source 5.
 
-Two caveats survive the licensing question and belong in any scientific use of this corpus.
-They are limitations to disclose, not barriers to redistribution.
+Source 3 is Indian pharmacy data used in a Bangladesh reference. Its indication text is not
+Bangladesh regulatory validation. Keep `common_uses` described as non-authoritative search
+metadata, not treatment or indication advice.
 
-**Sources 1 and 3 are website scrapes.** Source 1's uploader states this directly, and
-1,199 rows of its `generic.csv` carry `medex.com.bd` monograph links. Source 3 carries
-8,002 rows of `www.netmeds.com` URLs. Both uploaders applied their chosen licence tags to
-material they gathered from third-party sites rather than authored. The practical exposure
-is low: what this corpus retains from them is short factual strings — a generic name and an
-indication phrase such as "Hypertension" — and facts of that kind attract thin protection
-at most. The original scraping may nonetheless have breached those sites' terms of use.
-That is a matter between the uploaders and the site operators; it does not transfer to
-downstream users of a published dataset, but it is why the corpus should not be described
-as authoritative or officially sourced.
+`consolidate_datasets.py`, the schema, and project-authored normalization/matching logic
+remain project code under the root code licence. That does not license the source-derived
+records.
 
-**Source 3 is Indian data used in a Bangladesh reference.** Netmeds serves the Indian
-market. Its indication text was written for a different regulatory and clinical context,
-and it reaches this corpus through generic-name matching. This is a validity problem, not a
-legal one, and it is the stronger reason for caution: the `common_uses` column is search
-metadata, carries a disclaimer on every row, and must not be presented or reused as
-indication guidance.
+## Evidence required before distribution
 
-## Deposit checklist
-
-- [x] Licence recorded for all five sources.
-- [x] Aggregate licence determined (CC BY 4.0) and compatibility with CC0 / Apache-2.0 /
-      MIT stated.
-- [x] `NOTICE` text prepared for redistribution.
-- [x] Apache-2.0 statement-of-changes recorded.
-- [ ] Carry the `NOTICE` into the deposit metadata, not only into this file.
-- [ ] Confirm the deposited README repeats the `common_uses` limitation, so a downstream
-      user cannot reach the column without meeting the caveat.
+- Archive exact source versions, URLs, retrieval dates, file lists and SHA-256 hashes.
+- Preserve source-page licence/terms snapshots, attribution/change notices, and permission
+  correspondence; obtain institutional/legal review where needed.
+- Confirm the distribution decision for the consolidated CSV and any source-derived data in
+  the Code Ocean capsule/archive.
+- Keep any medicine-domain review record separate: a qualified doctor's review may support
+  content-validity claims only to the extent its date, qualification/role, dataset versions,
+  fields, sample/coverage, method, discrepancies and conclusions are documented. It does
+  not by itself establish upstream redistribution rights.

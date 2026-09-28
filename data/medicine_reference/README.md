@@ -1,61 +1,56 @@
-# Medicine reference corpus
+# Medicine reference: historical snapshot and revision rebuild
 
-`Final_Medicine_Dataset.csv` (71,795 rows) is the consolidated Bangladesh medicine
-reference described in the SoftwareX manuscript (`tab:corpus`) and loaded into the
-`drugs`, `brands`, and `medicine_search_index` tables by
-`backend/scripts/seed_medicine_reference.py`. See
-[`../../samples/MEDICINE_CORPUS_NOTICE.md`](../../samples/MEDICINE_CORPUS_NOTICE.md) for
-the corpus-level summary and [`PROVENANCE.md`](PROVENANCE.md) for exactly what each of the
-five source datasets contributes to which output column.
+The root `Final_Medicine_Dataset.csv` is the historical application snapshot, not
+the output of the revision builder. It has 71,795 rows, SHA-256
+`476a0acfc76c4722a164c309937331c9e2bbb7f3a88babedc1628343ad59b0cc`, and projects to
+7,389 drugs, 67,001 brands and 74,390 search terms. Its original source-to-row lineage
+cannot be recovered by rerunning the incompatible old script. It is preserved for
+historical evidence; it has not been silently replaced or reseeded into Supabase.
 
-## What is and isn't vendored here
+## Verified prospective rebuild
 
-`consolidate_datasets.py` is the deterministic build script that produces
-`Final_Medicine_Dataset.csv` from five source datasets. The five raw source datasets
-themselves (~280 MB combined) are **not** vendored in this repository — they are third-party
-material, publicly available at the locations below, and running `consolidate_datasets.py`
-requires downloading them into the sibling directories it expects
-(`1_Assorted_Medicine_Dataset_of_Bangladesh/`, `2_All_medicine_data(20k)_Bangladesh/`,
-`3_Medicines_Dataset/`, `4_Drug_Pharma_New_Dataset/`, `5_Medicinal_Products_in_Bangladesh/`).
+`rebuild_corpus.py` produces `medicine-reference-v2` in a new, empty directory.
+The eleven seed columns are retained, with stable `record_id` and `source_refs` appended.
+Every row has JSONL provenance identifying the hashed input file, one-based CSV record,
+original field value and transformation. Exact normalized identities are deduplicated
+without stripping substance names or guessing manufacturer equivalence.
 
-| # | Source | Location | Licence |
-|---|---|---|---|
-| 1 | *Assorted Medicine Dataset of Bangladesh* — Ahmed Shahriar Sakib | [Kaggle](https://www.kaggle.com/discussions/general/311821) | CC0 1.0 |
-| 2 | *All medicine and drug price data (20k) Bangladesh* — toriqulstu | [Kaggle](https://www.kaggle.com/datasets/toriqulstu/all-medicine-and-drug-price-data20k-bangladesh) | CC0 1.0 |
-| 3 | *Medicines Dataset* — drowsyng | [Kaggle](https://www.kaggle.com/datasets/drowsyng/medicines-dataset) | Apache 2.0 |
-| 4 | *Drug Pharma New Dataset* — Shuvo Kumar Basak | [Kaggle](https://www.kaggle.com/datasets/shuvokumarbasak2030/drug-pharma-new-dataset) | MIT |
-| 5 | *Medicinal Products in Bangladesh* — M. M. Rahman, M. M. Khan, University of Dhaka | [Mendeley Data, DOI 10.17632/zhtvkny53n.1](https://doi.org/10.17632/zhtvkny53n.1) | CC BY 4.0 |
+Two profiles are prepared:
 
-`Final_Medicine_Dataset.csv` — the deterministic *output* of that build — is vendored in
-full, since it is what the platform actually loads and what the manuscript's counts refer
-to.
+- `full-local`: Bangladesh identity fields from S5, S1, S2 and conservatively parsed S4.
+  S3 is inventoried but excluded: Indian indications do not validate Bangladesh products.
+  Multi-source redistribution rights are not cleared by the build.
+- `mendeley-public`: Rahman and Khan's Mendeley Data V1, DOI
+  [10.17632/zhtvkny53n.1](https://data.mendeley.com/datasets/zhtvkny53n/1), CC BY 4.0,
+  with attribution and explicit changes. This is the prepared public-data alternative.
 
-## Reproducing the build
+Neither profile emits prices, invented common uses, or unvalidated clinical indications.
+Missing medicine type is not inferred. Contradictory brand/manufacturer mappings,
+conflicting types and ambiguous S4 generic/strength strings are quarantined. Unknown
+strengths remain flagged. Exclusion does not prove a product is invalid or obsolete.
 
-```bash
-# after downloading the five source datasets into place (see table above)
-python consolidate_datasets.py
+```powershell
+backend/venv/Scripts/python.exe data/medicine_reference/rebuild_corpus.py --source-root F:/CODE/System-Project/Medora-Datasets/Medicine --output dist/my-new-medicine-build --profile full-local --previous data/medicine_reference/Final_Medicine_Dataset.csv
+backend/venv/Scripts/python.exe tools/softwarex/verify_medicine_build.py dist/my-new-medicine-build --source-root F:/CODE/System-Project/Medora-Datasets/Medicine
 ```
 
-The script is deterministic: the same five inputs always produce the same
-`Final_Medicine_Dataset.csv`. See [`PROVENANCE.md`](PROVENANCE.md) for the full field-level
-mapping from source to output column.
+Use `--profile mendeley-public` for the public alternative. Raw sources remain in
+author-controlled storage. Unsupplied historical download dates are unknown, not today's
+inspection date. Outputs include CSV, row provenance, quarantine, manifests, quality/change
+reports and a frozen 30-case doctor spot-check bundle/CSV/protocol. Large local/private
+outputs live in ignored `dist/`; approved aggregate manifests live in
+`docs/softwarex/generated/`.
 
-## Loading into the platform database
+See [PROVENANCE.md](PROVENANCE.md), [DATA_LICENSE.md](DATA_LICENSE.md),
+[UPDATE_POLICY.md](UPDATE_POLICY.md) and the
+[revision handoff](../../docs/softwarex/revisions/MEDICINE_REVISION_REBUILD.md).
 
-```bash
-cd backend
-venv\Scripts\python.exe -m alembic upgrade head
-venv\Scripts\python.exe scripts\seed_medicine_reference.py
+## Seed compatibility without changing the live database
+
+```powershell
+backend/venv/Scripts/python.exe backend/scripts/seed_medicine_reference.py --csv dist/my-new-medicine-build/Final_Medicine_Dataset.csv --dry-run
 ```
 
-This resolves the 71,795 CSV rows into 7,389 `drugs` rows (keyed on generic name +
-strength + dosage form), 67,001 `brands` rows, and 74,390 `medicine_search_index` terms —
-see `PROVENANCE.md` for why the row counts differ from the CSV.
-
-## Licence
-
-`Final_Medicine_Dataset.csv` and this directory's data files are governed by
-[`DATA_LICENSE.md`](DATA_LICENSE.md) (CC BY 4.0, consolidating five source licences), not
-by the repository's root MIT `LICENSE`. `consolidate_datasets.py` itself — the
-consolidation logic — is project-authored and remains MIT.
+Use only the dry-run before final selection and migration planning. The existing seed
+writer deletes reference tables. Do not run it against a shared database with patient/
+clinician links. A live update needs a reference-preserving migration, not blind replacement.

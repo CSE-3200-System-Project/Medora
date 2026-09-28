@@ -284,6 +284,16 @@ async def lifespan(app: FastAPI):
     else:
         logger.info("Skipping Whisper preload (PRELOAD_WHISPER_ON_STARTUP=false)")
 
+    # A local UI-capture process may point at the shared demo database. Do not
+    # migrate/backfill it or run appointment/reminder workers from that process.
+    # Authentication and request handlers remain unchanged. Production defaults
+    # are unchanged; this opt-in flag is used only by the screenshot compose file.
+    if os.getenv("LOCAL_SCREENSHOT_MODE", "false").lower() == "true":
+        logger.info("Local screenshot mode: startup maintenance and background workers disabled")
+        yield
+        logger.info("Local screenshot backend stopped")
+        return
+
     # Startup: self-heal known scheduling drift (kept idempotent)
     await _ensure_scheduling_schema_compatibility()
     await _ensure_health_data_consent_schema_compatibility()

@@ -44,6 +44,9 @@ jobs:
       - name: Run backend unit tests
         run: MEDORA_TEST_TARGET=backend pytest -c tests/pytest.backend.ini tests/unit/backend
 
+      - name: Run SoftwareX release-identity regression tests
+        run: pytest -c tests/pytest.backend.ini tests/unit/release
+
       - name: Run backend integration and security tests
         run: MEDORA_TEST_TARGET=backend pytest -c tests/pytest.backend.ini tests/integration/backend tests/security
 

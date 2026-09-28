@@ -1,0 +1,111 @@
+{
+  "builder_sha256": "019795df6696f36e37c1532325c1c5e85a78ee4788bc6c501d7d38fc3c6759a1",
+  "counts": {
+    "brand_names": 31651,
+    "brands": 46614,
+    "drugs": 6153,
+    "generic_names": 2268,
+    "rows": 46614,
+    "search_terms": 52767
+  },
+  "distribution": "controlled local use; source redistribution decisions unresolved",
+  "outputs": {
+    "Final_Medicine_Dataset.csv": {
+      "sha256": "84539c102b313833e10108576e5b346611882d796f2e562db61226d63e1a548d",
+      "size_bytes": 10233462
+    },
+    "change_report.json": {
+      "sha256": "79f0d3f0cd99cf0259b6fc70b912fd8180d1c38c9493396704c117d79a659b0f",
+      "size_bytes": 1515
+    },
+    "quality_report.json": {
+      "sha256": "54873f7933cb30cb784937b8aa532ec0ee53cb32a2b2edba8266b81760b9e681",
+      "size_bytes": 1108
+    },
+    "quarantine.jsonl": {
+      "sha256": "876cdda1c47a7f04308de2ed204a65912a15bb8f8b864d726d65f6bcd3d13b33",
+      "size_bytes": 42140856
+    },
+    "row_provenance.jsonl": {
+      "sha256": "e32bf876d5b4b110f43872366b5b900ece9ef217ee414932b83e6f8ea895fd51",
+      "size_bytes": 185433570
+    }
+  },
+  "profile": "full-local",
+  "schema": [
+    "drug_key",
+    "generic_name",
+    "strength",
+    "dosage_form",
+    "brand_name",
+    "manufacturer",
+    "usage_type",
+    "country_code",
+    "common_uses",
+    "medicine_type",
+    "common_uses_disclaimer",
+    "record_id",
+    "source_refs"
+  ],
+  "source_record_number": "one-based CSV data record, excluding header; not physical line number",
+  "sources": {
+    "S1": {
+      "file": "1_Assorted_Medicine_Dataset_of_Bangladesh/medicine.csv",
+      "licence": "uploader-declared CC0; upstream MedEx permissions unresolved",
+      "locally_recorded_on": "2026-09-28",
+      "records": 21714,
+      "retrieval_date": null,
+      "sha256": "fa0767285719e093b124a2e68958e86afab9619e499a79e466024f095b0b8791",
+      "size_bytes": 3843823,
+      "url": "https://www.kaggle.com/datasets/ahmedshahriarsakib/assorted-medicine-dataset-of-bangladesh",
+      "version": "local bytes identified by SHA-256; historical download version/date unknown"
+    },
+    "S2": {
+      "file": "2_All_medicine_data(20k)_Bangladesh/all_medicine_and_drug_price_data(20k)_Bangladesh.csv",
+      "licence": "uploader-declared CC0; upstream collection permissions unresolved",
+      "locally_recorded_on": "2026-09-28",
+      "records": 19957,
+      "retrieval_date": null,
+      "sha256": "14a6743b607516105870c52925f06f1d54ec12b72c169fcc3eb754b143da0b0c",
+      "size_bytes": 2321177,
+      "url": "https://www.kaggle.com/datasets/toriqulstu/all-medicine-and-drug-price-data20k-bangladesh",
+      "version": "local bytes identified by SHA-256; historical download version/date unknown"
+    },
+    "S3": {
+      "excluded_reason": "Indian-market disease/indication dataset is not used to infer Bangladesh identities or clinical indications",
+      "file": "3_Medicines_Dataset/medicines.csv",
+      "licence": "uploader-declared Apache-2.0; upstream Netmeds permissions unresolved",
+      "locally_recorded_on": "2026-09-28",
+      "records": 23939,
+      "retrieval_date": null,
+      "sha256": "d2efadab6cfba2b5f713126c7b5dbccffd4698dee8fd2ffb795bbe7ba28c433e",
+      "size_bytes": 240232659,
+      "url": "https://www.kaggle.com/datasets/drowsyng/medicines-dataset",
+      "version": "local bytes identified by SHA-256; historical download version/date unknown"
+    },
+    "S4": {
+      "file": "4_Drug_Pharma_New_Dataset/Drug_Database_5_Data Concatenation.csv",
+      "licence": "uploader-declared MIT; upstream provenance/permissions unresolved",
+      "locally_recorded_on": "2026-09-28",
+      "records": 53584,
+      "retrieval_date": null,
+      "sha256": "81e3257da9e3735fefbb39ee0c12dbb516826e9b6dc4866d0d14e567acbc4613",
+      "size_bytes": 5371449,
+      "url": "https://www.kaggle.com/datasets/shuvokumarbasak2030/drug-pharma-new-dataset",
+      "version": "local bytes identified by SHA-256; official DGDA export version unverified"
+    },
+    "S5": {
+      "attribution": "Md Mahmudur Rahman and Md M KHAN (2024), DOI 10.17632/zhtvkny53n.1",
+      "file": "5_Medicinal_Products_in_Bangladesh/Medicinal Products in Bangladesh A Dataset of Generic and Brand Names, Dosages, and Manufacturers.csv",
+      "licence": "CC BY 4.0",
+      "locally_recorded_on": "2026-09-28",
+      "records": 21361,
+      "retrieval_date": null,
+      "sha256": "293036d5c24268c6526df4ae9ba59e3d80f40380b79bdf40859c83419b52a8fd",
+      "size_bytes": 2177882,
+      "url": "https://data.mendeley.com/datasets/zhtvkny53n/1",
+      "version": "1"
+    }
+  },
+  "version": "medicine-reference-v2"
+}

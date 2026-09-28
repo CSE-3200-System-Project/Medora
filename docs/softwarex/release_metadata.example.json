@@ -6,12 +6,35 @@
   "zenodo_url": "RELEASE_PENDING",
   "archive_sha256": "RELEASE_PENDING",
   "source_repository": "https://github.com/CSE-3200-System-Project/Medora",
-  "approval": {
-    "authority": "RELEASE_PENDING",
-    "date": "RELEASE_PENDING",
-    "reference": "RELEASE_PENDING",
-    "scope": "Permanent public download and inclusion in the Zenodo software archive"
+  "code_ocean": {
+    "capsule_url": "RELEASE_PENDING",
+    "doi": null,
+    "version": "RELEASE_PENDING",
+    "run_id": "RELEASE_PENDING",
+    "source_commit": "RELEASE_PENDING",
+    "manifest_path": "RELEASE_PENDING",
+    "manifest_sha256": "RELEASE_PENDING"
   },
-  "verification_artifact": "docs/softwarex/generated/verification.json"
+  "author_decisions": {
+    "medicine_content_review": {
+      "status": "RELEASE_PENDING",
+      "evidence": "RELEASE_PENDING"
+    },
+    "medicine_corpus_distribution": {
+      "decision": "RELEASE_PENDING",
+      "evidence": "RELEASE_PENDING"
+    },
+    "detector_distribution": {
+      "decision": "cleared",
+      "evidence": "ai_service/models/Yolo26s/AUTHOR_DISTRIBUTION_DECISION.md",
+      "sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+    },
+    "prescription_image_ethics": {
+      "status": "documented",
+      "evidence": "ai_service/models/Yolo26s/AUTHOR_DISTRIBUTION_DECISION.md",
+      "scope": "Author-reported research consent and author/institution weight-release decision; images excluded; no ethics-committee reference invented"
+    }
+  },
+  "verification_artifact": "docs/softwarex/generated/verification.json",
+  "distribution_license": "AGPL-3.0-only"
 }
-

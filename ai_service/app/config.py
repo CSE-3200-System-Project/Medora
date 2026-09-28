@@ -26,7 +26,8 @@ class Settings(BaseSettings):
     YOLO_IOU_THRESHOLD: float = 0.45
     YOLO_ORT_INTRA_THREADS: int = 2
     YOLO_ORT_INTER_THREADS: int = 1
-    YOLO_CLASS_NAMES: str = "Medication,Lines,Frequency,Quantity"
+    # Keep this index order synchronized with the exported ONNX model metadata.
+    YOLO_CLASS_NAMES: str = "Date,Frequency,Lines,Medication,Passport-as2v,Pilgrim,Quantity"
     YOLO_MAX_REGIONS: int = 0
     YOLO_MIN_AREA_RATIO: float = 0.01
     YOLO_PARENT_CLASSES: str = "Medication"

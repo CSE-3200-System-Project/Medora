@@ -1,0 +1,35 @@
+{
+  "clinical_validation": false,
+  "counts": {
+    "brand_names": 31651,
+    "brands": 46614,
+    "drugs": 6153,
+    "generic_names": 2268,
+    "rows": 46614,
+    "search_terms": 52767
+  },
+  "currency": "Not established from historical snapshots; absence of an exact current official match is not proof of obsolescence",
+  "duplicate_identity_rows": 0,
+  "flags": {
+    "missing_strength": 934,
+    "possible_strength_embedded_in_generic": 7
+  },
+  "human_review": "pending; machine flags are not clinical decisions",
+  "indications_emitted": 0,
+  "input_disposition": {
+    "S1:duplicate_contribution": 21362,
+    "S1:new_identity": 350,
+    "S1:quarantined": 2,
+    "S2:duplicate_contribution": 10615,
+    "S2:new_identity": 9342,
+    "S3:excluded_market_and_indications": 23939,
+    "S4:duplicate_contribution": 1082,
+    "S4:new_identity": 26509,
+    "S4:quarantined": 25993,
+    "S5:duplicate_contribution": 60,
+    "S5:new_identity": 21301,
+    "merged:conflicting_mapping_quarantined": 10888
+  },
+  "provenance_coverage": 46614,
+  "regulator_concordance": false
+}

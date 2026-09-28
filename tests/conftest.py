@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import AsyncGenerator
 
 import pytest
+import pytest_asyncio
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -114,7 +115,8 @@ def postgres_container():
     PostgresContainer = testcontainers.PostgresContainer
 
     try:
-        container = PostgresContainer("postgres:16-alpine")
+        postgres_image = os.getenv("MEDORA_TEST_POSTGRES_IMAGE", "postgres:16-alpine")
+        container = PostgresContainer(postgres_image)
         container.start()
     except Exception as exc:  # pragma: no cover - environment dependent
         pytest.skip(f"Docker/Postgres is unavailable: {exc}")
@@ -135,7 +137,7 @@ def postgres_async_url(postgres_container) -> str:
     )
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def backend_engine(postgres_async_url: str, backend_models_loaded):
     if TARGET != "backend":
         pytest.skip("Backend engine fixture is backend-only.")
@@ -149,7 +151,7 @@ async def backend_engine(postgres_async_url: str, backend_models_loaded):
         await engine.dispose()
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def db_session(backend_engine):
     if TARGET != "backend":
         pytest.skip("DB session fixture is backend-only.")
@@ -168,7 +170,7 @@ async def db_session(backend_engine):
         await session.rollback()
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def backend_client(db_session) -> AsyncGenerator:
     if TARGET != "backend":
         pytest.skip("Backend API client is backend-only.")

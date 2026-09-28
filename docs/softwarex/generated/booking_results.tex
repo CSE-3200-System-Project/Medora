@@ -1,16 +1,16 @@
 \begin{table}[!h]
 \centering\small
 \resizebox{\linewidth}{!}{%
-\begin{tabular}{@{}rrrrr@{}}
+\begin{tabular}{@{}rrrll@{}}
 \toprule
-Concurrency & Passed / 30 & Transaction p95 (ms) & Outbox p95 (ms) & Unique commit \\
+Attempts & Passed trials & HTTP n & Transaction p50/p95/p99 (ms) & Outbox n; p50/p95/p99 (ms) \\
 \midrule
-2 & 30 / 30 & 38.8 & 67.7 & yes \\
-10 & 30 / 30 & 580.8 & 696.0 & yes \\
-50 & 30 / 30 & 1571.5 & 1520.9 & yes \\
+2 & 30 / 30 & 60 & 24.6 / 26.8 / 31.4 & 30; 44.2 / 51.7 / 54.2 \\
+10 & 30 / 30 & 300 & 246.1 / 380.5 / 396.2 & 30; 377.8 / 428.4 / 452.0 \\
+50 & 30 / 30 & 1500 & 860.2 / 1028.8 / 1094.0 & 30; 897.0 / 1003.4 / 1035.0 \\
 \bottomrule
 \end{tabular}%
 }
-\caption{Booking contention. Transaction and post-commit outbox propagation latency are distinct measurements.}
+\caption{Each independent fresh-slot trial sends N simultaneous attempts; one warm-up trial per level is excluded. Pass requires one persisted winner, correct conflicts, idempotent replay, mismatch rejection, and processed outbox. Transaction and post-commit propagation latency are distinct; nearest-rank p50/p95/p99 are descriptive and topology-specific.}
 \label{tab:booking-results}
 \end{table}

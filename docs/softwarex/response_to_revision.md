@@ -1,133 +1,83 @@
-# Point-by-point SoftwareX revision response
+# Draft point-by-point response to SoftwareX reviewers
 
-Status meanings: **implemented** means code or curated source exists and has a named
-test/evidence path; **evidence pending** means the implementation exists but a frozen
-run or human review is still required; **external gate** means completion needs an
-authorized person or archive service and cannot be truthfully automated.
+This is a working revision record, not a final submission letter. A row marked
+Implemented names a completed repository/manuscript change. A row marked Pending evidence
+needs a frozen run, data audit, or independent review. A row marked External decision needs
+an authorized human or publication service. No row should be presented as closed until the
+replacement immutable release is published.
 
-## Critical items C1–C10
+The revised manuscript now uses the actual teacher-revised Overleaf submission as its
+narrative baseline. Both working TeX sources agree; the submitted original is preserved
+under `submission-history/`. The four-author list, CRediT roles, deployment information,
+patient/clinician workflows and research reuse discussion are retained.
 
-| Item | Response | Code or document | Evidence/release artifact | Status |
-|---|---|---|---|---|
-| C1 | Fixed `v1.0.0` archive, DOI, and checksum | `CITATION.cff`; `tools/release/check_softwarex_release.py` | `release_metadata.json`, Zenodo record, archive SHA-256 | External gate: created only from the final tested commit |
-| C2 | Text, image, and live-audio flows are separated | `backend/app/services/processing_consent.py`; `ai_service/app/pipeline.py` | Trust-boundary figure; provider-separation tests | Implemented |
-| C3 | Removed anonymity claims; documented unknown/indirect identifier risk | `backend/app/core/ai_privacy.py`; `docs/DATA_GOVERNANCE.md` | PII case-level output and leakage report | Deterministic evidence generated: 134 production-path cases, zero *undisclosed* leaks, and 43 cases carrying a written limitation. Measured recall is 0.755, so identifiable text demonstrably survives in named classes; the residual risk is reported, not claimed away |
-| C4 | Bilingual redaction, consent state, over-redaction, prompt-injection fixtures | `tests/benchmarks/datasets/pii_safety_cases.jsonl` | `generated/safety_results.json/.tex` | Rebuilt as a hand-authored corpus that is not derived from the redaction patterns it tests. 134 production-path cases: TP=71, FP=4, FN=23, precision=0.947, recall=0.755, false-redaction rate=0.032, 43 documented limitations, 0 undisclosed failures. Coverage now includes unlabelled names, clinician details, addresses, dates, misspelled and spaced labels, obfuscated formats, and mixed-script records |
-| C5 | Adjudicated OCR labels, grouped split, denominators, failures, exclusions, raw scores, CIs | `tools/ocr_annotation`; `freeze_ocr_manifest.py`; `build_ocr_gold_standard.py`; `ocr_accuracy_benchmark.py` | Not claimed in this release | **Withdrawn as a claim.** The manuscript now reports prescription OCR as a negative result: the pipeline did not reach usable accuracy on handwritten Bangladeshi prescriptions, no accuracy figure is stated, and no OCR table is published. The annotation and adjudication workflow remains in the repository for future work, but this release makes no assertion that C5's evidence would support, so there is nothing left to under-report |
-| C6 | Frozen A–H ablation with immutable provider caches | `generate_prelabels.py`; `import_gpt_vision_drafts.py`; `ocr_accuracy_benchmark.py` | Not claimed in this release | **Withdrawn as a claim**, for the same reason as C5. The eight-configuration ablation was designed to attribute accuracy across pipeline stages; with no accuracy claim there is no attribution to make. The scripts and immutable-cache mechanism remain available for a future evaluation |
-| C7 | Transactional idempotency, uniqueness, and post-commit outbox; 2/10/50 contention protocol | `appointment_service.py`; `test_booking_contention_release.py` | `generated/booking_results.json/.tex`; 90 raw repetitions | Passed 30/30 at each concurrency on fresh PostgreSQL 16 after excluded warm-ups |
-| C8 | Deterministic navigation red flags, source-linked summaries, failure fixtures; mock/live separation | `ai_doctor.py`; `ai_orchestrator.py`; safety datasets; `review_navigation_cases.py` | Clinician-reviewed navigation and summary report | 30 navigation fixtures scored against the extracted `classify_navigation_outcome` on two paths (recorded intent and mock provider): 30/30 with no undisclosed failure, 17/30 agreeing with the labelled class, 5 emergency false positives from negated/third-person/historical mentions, 0 false negatives, 9 documented limitations. 12 summary fixtures now invoke the summarizer end to end. Licensed review and live-provider report pending |
-| C9 | Public-image approval scope and separate image/derived-data notice | `samples/DATA_USE_NOTICE.md`; `samples/MEDICINE_CORPUS_NOTICE.md`; `tests/benchmarks/DATA_LICENSE.md` | Data-use notices; medicine-corpus provenance and licence records | Resolved for this release. The prescription image corpus is **not deposited**, which removes the approval-citation dependency: its notice, per-record provenance classification, and re-identification prohibition remain in the repository, and any future deposit requires documented consent or controlled access. Separately, the medicine reference now carries a full provenance and licence record — five sources under CC0 1.0 (two), Apache 2.0, MIT, and CC BY 4.0, aggregate offered under CC BY 4.0 with a NOTICE crediting each source and an Apache-2.0 statement of changes. Two sources are website scrapes, disclosed as a provenance limitation rather than a redistribution barrier |
-| C10 | Reframed as research software, with no clinical or production-readiness claim | Manuscript abstract, limitations, conclusion; README | Manuscript word/claim gate | Implemented |
+## Reviewer 1
 
-## Manuscript items M1–M12
+| ID | Response and evidence | Status |
+| --- | --- | --- |
+| R1-01 | The release gate now reads archived metadata and an evidence-manifest hash inventory, comparing version, commit, and DOI to the release record. It exposes the existing v1.0.2 archive inconsistency rather than masking it. A consistent replacement archive is still required. | External decision |
+| R1-02 | The manuscript now labels unmeasured endpoint groups as capability only and explicitly disclaims their accuracy or content validity; no task score is inferred from contract tests. | Addressed by narrowing the claims; no additional endpoint evaluation is claimed |
+| R1-03 | The manuscript and threat model identify 23/94 misses in the frozen v1.0.2 report, name residual identifier types that may reach an authorized provider, and call the operation redaction/pseudonymisation rather than anonymisation. Later source changes are not presented as independently evaluated on the saturated fixture set. The optional expansion requested "if possible" is not claimed as completed; the 216-case candidate is excluded from validated performance evidence. | Limited fixture interpretation and residual-risk wording implemented; expanded bilingual evaluation is optional for these limited claims, not a mandatory two-reviewer gate; final editorial assessment remains |
+| R1-04 | The generated tables separate the deterministic emergency screen from recorded-provider/mock specialty outcomes and report TP=7, FN=0, FP=5, TN=18 with sensitivity, specificity, PPV, and NPV plus two-sided Wilson 95% fixture intervals. The manuscript calls the 30-case, one-reviewer sample preliminary software validation, using the reviewer's expressly permitted limited-scope route. | Statistical reporting and preliminary-fixture qualification implemented; an additional clinical reviewer/larger set is optional for these limited claims, not a mandatory gate; final editorial assessment remains |
+| R1-05 | A new non-overwriting, versioned rebuild now links all 46,614 emitted rows to hashed source files and 72,969 original contributor records, with per-field transformations, deterministic deduplication, conflict quarantine and change reports. It omits inferred/Indian indication prose. The historical 71,795-row runtime snapshot remains separately identified; its missing original lineage is not invented. A 30-case descriptive clinician spot-check tool/packet is ready. The author selects multi-source publication after documenting source permissions. | Automated rebuild/linkage/seed checks completed; actual prior doctor-review scope or new spot-check results, source permissions and final corpus promotion remain human-gated; no national completeness/currentness claim |
+| R1-06 | YOLO26s architecture, seven labels, input/output schema, author-reported v2 origin/split/preprocessing and observed checkpoint parameters are documented. PT 8.4.21 agrees with notebook settings; all 204 matched named ONNX parameter tensors agree exactly after fusion, despite ONNX export metadata 8.4.19. Historical dataset/date/metric discrepancies and nonmatching raw top-k rows are disclosed; no accuracy/full-equivalence claim is made. Output-free recipe, PT/ONNX and AGPL/corresponding-source bundle are prepared under the recorded author/institution weight-release decision. | Experimental-pipeline documentation and current-artifact verification completed; final immutable packaging remains, not private-image publication or mandatory new accuracy evaluation |
+| R1-07 | Dashboard/API now show stored-record coverage and group status, not a clinical score, AI advice or reminder-derived adherence. Formula, inputs, finite-value/UTC-window rules and readable date/snapshot labels are exposed in both locales. Matching authentic English/Bengali frontend views replace Figure 4, retaining navigation, dashboard heading and both feature panels; separate open-disclosure captures are archived. The consenting author account header is visible, while unrelated records remain outside the frame. Capture receipt is archived. | UI/API and authentic Figure 4 replacements implemented and inspected in the compiled PDF; final submission approval remains |
+| R1-08 | docs/THREAT_MODEL.md now records assets, boundaries, controls, residual risks, and unverified deployment responsibilities. | Implemented; deployment verification remains pending |
+| R1-09 | Authors report friend/family research-use consent, not image redistribution. Their stated author/institution decision permits derived-weight distribution and is recorded without inventing an ethics-committee reference. Raw images, private exports, consent forms and notebook imagery stay private. Public Roboflow attribution and the model's AGPL/corresponding-source distribution route are documented. | Author-supplied scope/decision recorded; no public prescription-image upload task; authors verify the final ethics wording matches their actual determination |
+| R1-10 | The manuscript and docs/INTEROPERABILITY.md state the private JSON/REST boundary, export limitation, and absence of FHIR/IHE conformance. Related work now includes recent clinical summarization, clinician-AI workflow, Bengali medical NLP, clinical text privacy, and prompt-injection studies. | Manuscript/document changes implemented; final bibliography/layout check remains |
+| R1-11 | The booking protocol was rerun with 30 independent trials at 2/10/50 simultaneous attempts after a per-level warm-up. The archived JSON records Windows 11 host/kernel/build, CPU/RAM, Python 3.13.14, Docker and PostgreSQL 16.15, database settings, client/app/database locality, monotonic request timer and event-timestamp definitions, source commit/dirty state, raw latencies, and correctness assertions. The manuscript limits interpretation to in-process ASGI/PostgreSQL component timing. A clean immutable-release rerun remains pending. | Host-run evidence recorded; final release-bound run pending |
+| R1-12 | AI-native was replaced with assistive-AI terminology in the manuscript. | Implemented |
+| R1-13 | The generated safety summary now uses conventional measurements and explicitly says fixture assertions do not establish correctness. | Implemented |
+| R1-14 | Redaction, pseudonymisation, residual risk, prospective revocation, and clinical-validation limits were harmonised in the manuscript and governance docs. | Implemented; final global release audit pending |
+| R1-15 | The provider manifest identifies the archived configurations and the manuscript now states that other configured adapters are not evaluated. The manifest still needs binding to the replacement release commit and final evidence. | Scope clarification implemented; final release binding remains |
+| R1-16 | The figures have been rebuilt at journal widths and inspected in the compiled PDF. Figure 4 uses authentic bilingual frontend views with navigation and both feature panels; existing consent and assistant panels retain their wider interface context. | Layout/readability pass implemented; final author approval remains |
 
-| Item | Response | Location | Status |
-|---|---|---|---|
-| M1 | Concrete bilingual, mobile/patient-held-record motivation and research audience | Manuscript “Motivation and significance” | Implemented |
-| M2 | Replaced triage/urgency with specialty navigation, manual browse, and deterministic emergency rules | `ai_doctor.py`; manuscript software description | Implemented |
-| M3 | Summary items carry source type, record ID, timestamp, and conflict/missing state; no writeback | consultation schemas/orchestrator; manuscript | Implemented; 12/12 summary fixtures invoke the summarizer under the mock provider and assert no invented record identifier, an explicit not-found item when no source record is supplied, and raising rather than degrading on malformed or schema-invalid output. Two limitations are now reported rather than asserted away: prompt sanitization removes record timestamps, and source references are attached per request rather than per item |
-| M4 | Receipt acknowledgment and discrepancy semantics replace accept/reject | consultation model/routes/UI; migration `softwarex_002` | Implemented with one-release aliases |
-| M5 | Exact splits, cache policy, metrics, bootstrap unit, failures and exclusions documented | `docs/REPRODUCING.md`; benchmark scripts | Implemented; booking evidence generated, held-out OCR execution pending frozen gold |
-| M6 | Database consistency separated from realtime/outbox propagation | booking timeline; contention report schema | Implemented |
-| M7 | Static/public-only cache, no queued health writes, logout purge | `frontend/app/sw.ts`; `use-offline.ts`; session cleanup; `sensitive-browser-storage.spec.ts` | Production-browser storage assertions passed 4/4; complete provisional run passed 6 public/storage checks and skipped 6 credentialed journeys; final authenticated receipt still needs synthetic credentials |
-| M8 | Backend role/ownership/care/consent matrix; frontend explicitly non-authoritative | `docs/ROLE_PERMISSION_MATRIX.md` | Implemented; 3x3 role/resource denial matrix plus cross-subject and care/consent tests pass |
-| M9 | Versioned grants, list/update/revoke APIs, typed denials, expiry and revocation limitations | processing-consent model/service/routes/migration | Implemented |
-| M10 | Balanced OpenMRS, Bahmni, GNU Health, OCR, summarization, and symptom-system discussion | Manuscript related work | Implemented |
-| M11 | Provider/model/API/region/temperature/context/timeout/retry/retention/payment manifest | `tests/benchmarks/provider_manifest.json` | Actual Paddle/Groq/Vapi configuration and documented retention added; Azure region and organization ZDR/retention settings pending operator confirmation |
-| M12 | Deterministic synthetic prescription-review and consent-gated assistant examples show input, intermediate output, confidence, review action, redacted prompt, output schema, uncertainty, manual fallback, and safe refusal | `tests/benchmarks/datasets/worked_examples.json`; manuscript “Illustrative examples” | Implemented and protected by `test_softwarex_worked_examples.py` |
+## Reviewer 2
 
-## Presentation items P1–P6
+| ID | Response and evidence | Status |
+| --- | --- | --- |
+| R2-00 | Figures 4–6 were inspected in the compiled teacher-first revision; screenshot legibility is coupled to R1-16. | Layout/readability pass implemented; final author approval remains |
+| R2-01 | The manuscript and interoperability document provide bounded GDPR, MDR, and German AMG applicability text, explicitly without compliance or legal-advice claims. | Implemented; legal review remains optional/external |
+| R2-02 | The Wallace et al. reference now includes DOI 10.1038/s41746-022-00667-w. | Implemented |
+| R2-03 | docs/INTEROPERABILITY.md documents purpose/provider/scope/versioned grants, enforcement, denial, revocation, and post-disclosure limitation. | Implemented |
+| R2-04 | The same document traces the patient sharing decision to stored fields, policy check, payload authorization, and patient-visible receipt, with a non-production JSON example. | Implemented |
+| R2-05 | The manuscript and document map the local grant conceptually to FHIR Consent and state the IHE PCF/FHIR non-conformance boundary. | Implemented; adapter/conformance testing is not claimed |
 
-| Item | Response | Location | Status |
-|---|---|---|---|
-| P1 | New title and claim-bounded abstract | Manuscript front matter | Implemented |
-| P2 | New trust-boundary, consent-flow, and booking/outbox diagrams | `docs/softwarex/figures-src/*.tex` | Implemented; LaTeX build passes with no overfull boxes or unresolved citations, and all diagram pages were visually checked for overlap |
-| P3 | Body rewritten below 3,000 words | `medora_softwarex.tex` | Implemented; release checker counts 2,998 words after the reframe. The AI component and endpoint inventories are carried in tables rather than prose, so breadth is documented without consuming the budget |
-| P4 | Abbreviations expanded; navigation, acknowledgment, draft, and propagation terms corrected | Entire manuscript and captions | Implemented |
-| P5 | All measured numbers enter through generated result files; approximate/manual result phrases are gated | manuscript `generated/*.tex` inputs; release checker | Booking and provisional safety tables generated directly; OCR table pending gold-standard gate |
-| P6 | Ethics, consent, public data, deployment maturity, and residual limitations stated | Manuscript ethics/limitations; data-use notice | Implemented; approval citation pending |
+## Reviewer 3
 
-## Evidence-integrity correction (2026-08-03)
+| ID | Response and evidence | Status |
+| --- | --- | --- |
+| R3-01 | The paper explicitly narrows the measured contribution to the fixture-backed behaviors, labels unmeasured groups as capabilities, and disclaims clinical/content-performance evidence for them. | Addressed by claim narrowing |
+| R3-02 | A headless Code Ocean entry point, setup instructions, pinned direct requirements, output hashes, and table renderer are prepared. The capsule runs current boundary tests and regenerates tables from frozen reports; it does not rescore the development privacy fixtures or rerun host-specific booking timings. | Repository preparation implemented; authors must create/run/publish the capsule, and independent reevaluation remains a separate evidence decision |
+| R3-03 | Privacy recall and the emergency screen include denominator-specific two-sided Wilson 95% intervals; the emergency table reports the full confusion matrix and derived rates. Booking reports sample counts and descriptive nearest-rank p50/p95/p99 for request-through-commit and outbox propagation separately. Its JSON includes 95% percentile cluster-bootstrap intervals resampling the 30 independent fresh-slot trials (fixed seed; simultaneous requests remain clustered), plus every raw observation and environment detail. No deployed-capacity inference is made. A clean immutable-release rerun remains pending. | Fixture uncertainty and host-run booking summaries recorded; final release-bound run pending |
+| R3-04 | Residual provider disclosure is now stated plainly in the abstract, software description, evaluation, and threat model. | Implemented |
+| R3-05 | Global safety wording was replaced with control-specific claims, and navigation fixtures are not presented as clinical triage validation. | Implemented |
+| R3-06 | No controlled LLM-only/deterministic-only/hybrid ablation is claimed. The paper now says consent, redaction, route allowlisting, and schema checks are authorization/validation invariants, not comparative performance components. | Limitation and rationale stated; no ablation result is claimed |
+| R3-07 | The Motivation section now cites and distinguishes clinical summarization, clinician-AI workflow evaluation, Bengali medical NLP, residual re-identification risk, and medical prompt-injection studies. Each citation has a DOI or stable article URL. | Manuscript writing implemented; final bibliography/layout check remains |
+| R3-08 | The v2 build inventories five sources and uses four for attributed identity fields; every emitted row and original contributor field has been verified, with explicit conflict quarantine, excluded indication prose and change records. Authors report a qualified-doctor source review, whose actual scope needs a dated note; no current DGDA completeness/concordance is claimed. The selected multi-source release still needs its upstream permission records. | Documentation boundary implemented; audit and rights evidence pending |
+| R3-09 | docs/REPRODUCING.md and docs/softwarex/CODE_OCEAN_CAPSULE.md give the Code Ocean path, commands, outputs, hashes, and explicit limits of table regeneration from frozen reports. The final capsule execution record is not yet available. | Preparation implemented; final Code Ocean run and clean-release execution remain |
+| R3-10 | The manuscript was compacted while retaining the reviewer-requested caveats; the current gate count is below 3,000 words including captions. | Implemented |
 
-An internal audit found that the earlier deterministic figures — 130/130 with
-precision and recall of 1.00, navigation 12/12, and summaries 10/10 — were largely
-self-fulfilling and have been rebuilt:
+## Current manuscript locations
 
-- The PII corpus was generated from label-prefixed templates that mirrored the
-  redactor's own regexes, and no identifier-bearing case carried a benign span, so
-  precision could not fall below 1.00 by construction. It is now hand-authored,
-  covers the formats M-C4 asked for, and reports precision 0.947 / recall 0.755.
-- The navigation scorer collapsed four declared classes into emergency versus
-  non-emergency, so the `uncertain` path was never asserted. It now scores against the
-  extracted `classify_navigation_outcome` on two paths.
-- The summary scorer never invoked a summarizer; it validated fixture well-formedness.
-  It now calls `generate_patient_summary` end to end under the mock provider.
+These refer to the checked 21-page revision draft, not the eventual frozen submission.
+Recheck them after inserting capsule/release metadata and approved corpus evidence.
 
-Rebuilding the corpora surfaced four production defects, all fixed: the Bengali
-`ঠিকানা` address label was unreachable because a trailing `\b` cannot match after a
-vowel sign; labelled name and address redaction consumed the clinical remainder of the
-line; the Bengali danda was not treated as a sentence terminator, which made redaction
-non-idempotent (each pass consumed another clinical word); and `generate_patient_summary`
-fabricated a `request_context` source when no record was supplied, contradicting the
-grounding claim in this manuscript.
+| Review topics | Current location |
+| --- | --- |
+| Recent related work and system positioning | Section 1, pp. 2–4; Table 2 |
+| Consent, database boundaries, FHIR/IHE and EU applicability | Section 2.1, pp. 4–5; Figures 1–2 |
+| Historical corpus and attributed rebuild | Section 2.2, p. 6; Table 3; ethics, p. 18 |
+| Endpoint scope and deterministic/model distinction | Section 2.2, pp. 6–10; Tables 4–5 |
+| Privacy, navigation, summaries, booking and reproduction scope | Section 2.3, pp. 10–13; Tables 6–10 |
+| Detector artifacts and experimental OCR scope | Section 2.3, p. 13; model card and verification reports |
+| Record coverage and authentic interface figures | Section 3, pp. 13–17; Figures 4–6 on pp. 14–16 |
+| Ethics, private images, clinician review and competing interest | Unnumbered statements, pp. 18–19 |
 
-## Final audit
+## Release blockers
 
-Frontend release health was raised from 192 ESLint warnings to zero without disabling
-rules. The cleanup removed explicit `any` from the reported paths, repaired hook
-dependencies, removed dead clinical-flow code, replaced hard-coded chart data with
-record-derived counts, added semantic keyboard controls and 44-pixel touch targets,
-and replaced unbounded preview images with explicitly sized Next.js images. Both
-`npm run lint` and the Next.js production build are release gates.
-
-The final audit is executable, not a declaration. `check_softwarex_release.py` fails
-until all curated metadata, 103 adjudicated labels, A–H output, booking and safety
-reports, provider execution fields, a verified funding/no-funding statement,
-test/lint/build evidence, exact commit, archive
-checksum, and resolving DOI are present. As of this response, those external and
-execution gates remain open and the repository must not be tagged or deposited as a
-completed `v1.0.0` release.
-
-## Reframe (2026-08-04): assistive-AI layer and medicine reference lead the paper
-
-An internal review found the manuscript described the system it was easiest to evaluate
-rather than the system that was built. The word "Chorui" appeared zero times; "drug" and
-"brand" zero; "voice" zero. A 74,390-term medicine reference and a twenty-one-endpoint
-assistive-AI layer were visible only as OCR sub-stages. The paper has been restructured:
-
-- **Title and abstract** now lead with the consent-gated assistive-AI layer over the
-  medicine reference.
-- **New Section 2.2** documents the medicine reference: three-table schema, deterministic
-  published build, 7,389 drugs / 67,001 brands / 74,390 index terms from five sources.
-- **New Section 2.3** documents the AI layer, with two new tables. `tab:components`
-  enumerates all nineteen AI/ML components and records that fifteen are deterministic —
-  routing, consent, redaction, red-flag detection, specialty fallback, and grammar parsing
-  involve no model. `tab:ai-surface` enumerates all twenty-one endpoints in nine groups,
-  with their human-in-the-loop control and, in the final column, whether each carries a
-  reproducible evaluation. Six of nine do not, and the manuscript says so in the body.
-- **Chorui is named, figured, and quantified**: 24 registry entries over 23 canonical
-  intents, 11 patient-scoped, 11 doctor-scoped, 2 shared, administrative routes never
-  registered.
-- **OCR** moved to a clearly labelled negative result (see C5/C6 above).
-
-The evaluation position is stated rather than implied: structural controls apply uniformly
-across all twenty-one endpoints, empirical evidence does not, and capability is not
-presented as validated performance.
-
-## Gate status after the reframe
-
-Withdrawing the OCR accuracy claim and the image deposit removes three previously blocked
-gates from the release path (OCR gold standard / A–H benchmark; approval citation and
-corpus freeze; and the OCR-label dependency in the navigation review). Three external
-gates remain open and cannot be closed by automation:
-
-| Gate | Needs |
-|---|---|
-| Licensed symptom-navigation review | A licensed clinician to review the 30 navigation fixtures |
-| Provider/account release metadata | The Azure account owner to confirm region and organisation retention/ZDR settings |
-| Authenticated production-browser journeys | A non-production synthetic patient/doctor/admin credential set |
-| Final commit verification and Zenodo metadata | Tag, archive, DOI — intentionally deferred |
-
-None of these is a scientific claim; each is an authorisation or credential an author must
-supply. The manuscript makes no assertion that depends on them.
+The final response must be updated with page numbers, the Code Ocean capsule link, final
+DOI/version, archive checksum, and links to frozen evidence. It cannot close items requiring
+actual source permissions/review-scope records, author approval, the Code Ocean run, and
+a consistent immutable release. The author-supplied weight-release decision and authentic
+Figure 4 replacement are already recorded; private-image publication is not required.

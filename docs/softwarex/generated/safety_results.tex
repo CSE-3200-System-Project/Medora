@@ -1,16 +1,33 @@
 \begin{table}[!h]
 \centering\small
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{@{}lrll@{}}
+\toprule
+Suite & Cases & Reported measurement & Scope \\
+\midrule
+Bilingual privacy & 134 & recall 75.5\% (95\% CI 66.0--83.1\%); TP=71, FP=4, FN=23 & synthetic \\
+Symptom navigation & 30 & emergency sensitivity 7/7 (95\% CI 64.6--100.0\%); FP=5 & complete \\
+Source-grounded summaries & 12 & 12/12 fixture assertions & deterministic mock \\
+\bottomrule
+\end{tabular}%
+}
+\caption{Fixture measurements. Privacy counts are span-level; intervals are two-sided Wilson 95\% intervals on fixture denominators, not population or clinical-performance estimates. Fixture assertions and documented limitations are release-audit properties, not evidence that all cases were correct. Detection rates are in Table~\ref{tab:privacy-span-results}.}
+\label{tab:safety-results}
+\end{table}
+\begin{table}[!h]
+\centering\small
 \begin{tabular}{@{}lrrl@{}}
 \toprule
-Suite & Cases & No undisclosed failure & Review state \\
+Measure & n & N & Estimate (95\% Wilson CI) \\
 \midrule
-Bilingual privacy & 134 & 134 & synthetic \\
-Symptom navigation & 30 & 30 & complete \\
-Source-grounded summaries & 12 & 12 & fixtures \\
+Sensitivity & 7 & 7 & 100.0\% (64.6--100.0\%) \\
+Specificity & 18 & 23 & 78.3\% (58.1--90.3\%) \\
+Positive predictive value & 7 & 12 & 58.3\% (32.0--80.7\%) \\
+Negative predictive value & 18 & 18 & 100.0\% (82.4--100.0\%) \\
 \bottomrule
 \end{tabular}
-\caption{Safety fixture results. A case passes when it exposes no \emph{undisclosed} failure. Detection rates are in Table~\ref{tab:privacy-span-results}.}
-\label{tab:safety-results}
+\caption{Deterministic emergency screen on 30 clinician-reviewed fixtures: TP=7, FN=0, FP=5, TN=18. Wilson intervals describe fixtures only, not clinical triage performance.}
+\label{tab:navigation-emergency-results}
 \end{table}
 \begin{table}[!h]
 \centering\small
@@ -22,13 +39,10 @@ emergency & 7 & 7 & 7 & 0 \\
 manual\_browse & 2 & 0 & 0 & 2 \\
 specialty\_candidates & 16 & 10 & 6 & 5 \\
 uncertain & 5 & 2 & 2 & 0 \\
-\midrule
-Emergency false positives & 5 & -- & -- & -- \\
-Emergency false negatives & 0 & -- & -- & -- \\
 \bottomrule
 \end{tabular}
-\caption{Symptom-navigation fixtures. \emph{Recorded} and \emph{Mock} count agreement with the labelled class on the two scored paths, and are measurements, not pass/fail.}
-\label{tab:navigation-results}
+\caption{Provider-dependent specialty outcomes are separated from the deterministic emergency screen. Recorded and Mock are fixture paths and do not represent a live-provider comparison.}
+\label{tab:navigation-agreement-results}
 \end{table}
 \begin{table*}[!ht]
 \centering\scriptsize

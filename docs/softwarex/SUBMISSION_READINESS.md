@@ -1,5 +1,11 @@
 # Medora SoftwareX — submission readiness ledger
 
+> Historical ledger, not the current action list. Its dated status and older gate details
+> below record work from 2026-08-08 and earlier. For the present SoftwareX revision, use
+> [`FINAL_HUMAN_GATES.md`](FINAL_HUMAN_GATES.md); in particular, the linked
+> `PRE_ZENODO_HANDOFF.md` is superseded and its OCR/provider steps are not active revision
+> requirements.
+
 **Verdict as of 2026-08-08: `check_softwarex_release.py` exits 0.**
 
 The licensed navigation review is recorded (§23), so `safety_results.json` reports
@@ -45,7 +51,7 @@ stands. It is deliberately separate from two neighbours:
 | File | Who writes it | What it is |
 |---|---|---|
 | `generated/prearchive_gate_status.md` | `build_prearchive_gate_status.py` | Machine-generated gate matrix. **Never hand-edit.** |
-| `PRE_ZENODO_HANDOFF.md` | humans | The ordered 7-step release procedure |
+| `PRE_ZENODO_HANDOFF.md` | historical | Superseded; see `FINAL_HUMAN_GATES.md` for the active revision-only release handoff |
 | **this file** | humans and agents | Verified status, findings, and an append-only work log |
 
 ---

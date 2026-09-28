@@ -1,4 +1,10 @@
-# Pre-Zenodo release handoff
+# Pre-Zenodo release handoff (superseded)
+
+> Historical checklist only. Do not follow its OCR gold-standard, new clinical labeling,
+> or provider-account steps for the current SoftwareX revision: those are not prerequisites
+> for the narrowed claims now in the manuscript. Use [`FINAL_HUMAN_GATES.md`](FINAL_HUMAN_GATES.md)
+> as the single active, review-only handoff. It documents the current Code Ocean, authentic
+> screenshot, source-rights/ethics, and new release-identity gates.
 
 The code and deterministic evidence are prepared, but the repository is not yet a
 valid SoftwareX release. Complete these gates in order. Do not tag or deposit while

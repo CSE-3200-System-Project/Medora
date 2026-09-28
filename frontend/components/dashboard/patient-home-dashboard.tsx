@@ -1,15 +1,14 @@
 import Link from "next/link"
-import { CalendarCheck, ShieldPlus } from "lucide-react"
+import { CalendarCheck, CircleCheck, CircleDashed, ShieldPlus } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
-  AIInsightCard,
   AppointmentCard,
   DeviceConnectionCard,
-  HealthScoreCard,
   HealthStatCard,
-  MedicationTrendChart,
+  RecordCoverageCard,
 } from "@/components/dashboard"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { resolveServerLocale } from "@/i18n/locale"
 import { loadNamespacedMessages } from "@/i18n/message-loader"
 import { getPatientDashboard } from "@/lib/patient-dashboard-actions"
@@ -18,57 +17,16 @@ type MessageTree = Record<string, unknown>
 
 const iconNameByStatLabel: Record<string, string> = {
   "Steps Today": "Footprints",
-  "Avg Sleep": "MoonStar",
-  "BPM (Resting)": "Heart",
+  "Sleep hours": "MoonStar",
+  "Heart rate": "Heart",
   "Blood Pressure": "Waves",
-}
-
-const insightIconNameByTitle: Record<string, string> = {
-  "Medication Adherence": "Pill",
-  "Sleep Monitoring": "MoonStar",
-  "Sleep Tracking": "MoonStar",
-  "Blood Pressure Tracking": "Activity",
-  "Blood Pressure": "Activity",
-  "Daily Movement": "Footprints",
-  "Resting Heart Rate": "Heart",
-  "Body Mass Index": "Scale",
-  "Chronic Care": "HeartPulse",
-  "Active Medications": "Pill",
-  "Hydration": "Droplets",
-  "Lifestyle": "Activity",
-  "Smoking": "AlertTriangle",
-  "Vaccinations": "Syringe",
-  "Next Appointment": "CalendarClock",
-}
-
-const insightTitleKeyByTitle: Record<string, string> = {
-  "Medication Adherence": "patientHome.insightTitles.medicationAdherence",
-  "Sleep Monitoring": "patientHome.insightTitles.sleepMonitoring",
-  "Blood Pressure Tracking": "patientHome.insightTitles.bloodPressureTracking",
 }
 
 const quickStatKeyByLabel: Record<string, string> = {
   "steps today": "patientHome.quickStats.stepsToday",
-  "avg sleep": "patientHome.quickStats.avgSleep",
-  "bpm (resting)": "patientHome.quickStats.bpmResting",
+  "sleep hours": "patientHome.quickStats.sleepHours",
+  "heart rate": "patientHome.quickStats.heartRate",
   "blood pressure": "patientHome.quickStats.bloodPressure",
-}
-
-const weekdayKeyByLabel: Record<string, string> = {
-  MON: "mon",
-  MONDAY: "mon",
-  TUE: "tue",
-  TUESDAY: "tue",
-  WED: "wed",
-  WEDNESDAY: "wed",
-  THU: "thu",
-  THURSDAY: "thu",
-  FRI: "fri",
-  FRIDAY: "fri",
-  SAT: "sat",
-  SATURDAY: "sat",
-  SUN: "sun",
-  SUNDAY: "sun",
 }
 
 const appointmentStatusKeyByStatus: Record<string, string> = {
@@ -125,15 +83,6 @@ function formatDateTime(value: string, locale: string) {
   })
 }
 
-function translateWeekdayLabel(label: string, t: ReturnType<typeof createTranslator>) {
-  const weekdayKey = weekdayKeyByLabel[label.trim().toUpperCase()]
-  if (!weekdayKey) {
-    return label
-  }
-
-  return t(`patientHome.medicationTrend.weekdayShort.${weekdayKey}`, label)
-}
-
 function translateQuickStatLabel(label: string, t: ReturnType<typeof createTranslator>) {
   const key = quickStatKeyByLabel[label.trim().toLowerCase()]
   if (!key) {
@@ -141,15 +90,6 @@ function translateQuickStatLabel(label: string, t: ReturnType<typeof createTrans
   }
 
   return t(key, label)
-}
-
-function translateInsightTitle(title: string, t: ReturnType<typeof createTranslator>) {
-  const key = insightTitleKeyByTitle[title]
-  if (!key) {
-    return title
-  }
-
-  return t(key, title)
 }
 
 function translateAppointmentStatus(status: string, t: ReturnType<typeof createTranslator>) {
@@ -174,15 +114,6 @@ export async function PatientHomeDashboard() {
     dashboard = null
   }
 
-  const medicationTrend = dashboard?.medication_adherence_trend ?? {
-    labels: ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"],
-    values: [0, 0, 0, 0, 0, 0, 0],
-    adherence_rate: 0,
-    delta_percent: 0,
-  }
-
-  const medicationLabels = medicationTrend.labels.map((label) => translateWeekdayLabel(label, t))
-
   const appointments = (dashboard?.upcoming_appointments ?? []).map((item) => ({
     appointmentKey: item.id || `${item.doctor_name}-${item.appointment_date}-${item.status}`,
     doctorName: item.doctor_name,
@@ -198,48 +129,42 @@ export async function PatientHomeDashboard() {
     actionVariant: item.status.toUpperCase() === "CONFIRMED" ? ("default" as const) : ("outline" as const),
   }))
 
-  const insights = (dashboard?.ai_insights ?? []).map((item) => ({
-    iconName: item.icon || insightIconNameByTitle[item.title] || "Activity",
-    title: translateInsightTitle(item.title, t),
-    description: item.description,
-    tone: item.tone,
-  }))
-
   const quickStats = (dashboard?.today_health_stats ?? []).map((item) => ({
     iconName: iconNameByStatLabel[item.label] ?? "Heart",
     value: item.value,
     label: translateQuickStatLabel(item.label, t),
-    trend: item.trend,
-    trendType: item.trend_type,
+    trend: item.value === "N/A"
+      ? t("patientHome.quickStats.noRecord", "No record")
+      : t("patientHome.quickStats.recordedToday", "Recorded today"),
+    trendType: "neutral" as const,
   }))
 
-  const healthScore = dashboard?.health_score ?? 0
-  const scoreStatus =
-    healthScore >= 80
-      ? t("patientHome.healthScoreCard.status.excellent", "Excellent")
-      : healthScore >= 60
-      ? t("patientHome.healthScoreCard.status.improving", "Improving")
-      : t("patientHome.healthScoreCard.status.needsAttention", "Needs Attention")
-  const activityLabel =
-    healthScore >= 75
-      ? t("patientHome.healthScoreCard.activityLevels.high", "High")
-      : healthScore >= 50
-      ? t("patientHome.healthScoreCard.activityLevels.moderate", "Moderate")
-      : t("patientHome.healthScoreCard.activityLevels.low", "Low")
-  const nutritionLabel =
-    healthScore >= 70
-      ? t("patientHome.healthScoreCard.nutritionLevels.balanced", "Balanced")
-      : t("patientHome.healthScoreCard.nutritionLevels.needsReview", "Needs Review")
   const defaultUserName = t("patientHome.defaultUserName", "Patient")
-  const adherenceDelta = medicationTrend.delta_percent
-  const adherenceDeltaLabel = `${adherenceDelta >= 0 ? "+" : ""}${adherenceDelta.toFixed(1)}%`
-  const scoreImprovementLabel =
-    dashboard?.score_breakdown?.summary ||
-    t(
-      "patientHome.healthScoreCard.improvementMessage",
-      "Adherence trend {delta} over the last week.",
-      { delta: adherenceDeltaLabel },
-    )
+  const coverage = dashboard?.record_coverage ?? null
+  const coverageLabels = {
+    title: t("patientHome.recordCoverage.title", "Today's record coverage"),
+    summary: t("patientHome.recordCoverage.summary", "{recorded} of {total} displayed measurement groups have records today (UTC).", {
+      recorded: coverage?.recorded_groups ?? "—", total: coverage?.total_groups ?? "—",
+    }),
+    unavailable: t("patientHome.recordCoverage.unavailable", "Record coverage unavailable"),
+    recorded: t("patientHome.recordCoverage.recorded", "Recorded"),
+    notRecorded: t("patientHome.recordCoverage.notRecorded", "No record"),
+    recordedGroups: t("patientHome.recordCoverage.recordedGroups", "Groups with records"),
+    missingGroups: t("patientHome.recordCoverage.missingGroups", "Groups without records"),
+    details: t("patientHome.recordCoverage.details", "See inputs and calculation"),
+    formula: t("patientHome.recordCoverage.formula", "Coverage = 100 × recorded groups ÷ 4. The displayed groups are steps, sleep hours, heart rate, and blood pressure. Blood pressure requires both systolic and diastolic records. Zero counts as a recorded value. Non-finite values and records outside today's UTC window are excluded."),
+    scope: t("patientHome.recordCoverage.scope", "Stored-data coverage only, not a health score. There is no recommendation to record all four groups."),
+    quality: t("patientHome.recordCoverage.quality", "Stored readings may be manually entered or device-sourced. Coverage does not verify their accuracy, clinical meaning, or whether a reading was newly measured."),
+    window: t("patientHome.recordCoverage.window", "Record timestamp window (UTC; end exclusive)"),
+    asOf: t("patientHome.recordCoverage.asOf", "Snapshot (Bangladesh time)"),
+    none: t("patientHome.recordCoverage.none", "None"),
+    groups: {
+      steps: t("patientHome.recordCoverage.steps", "Steps"),
+      sleep: t("patientHome.recordCoverage.sleep", "Sleep hours"),
+      heart_rate: t("patientHome.recordCoverage.heartRate", "Heart rate"),
+      blood_pressure: t("patientHome.recordCoverage.bloodPressure", "Blood pressure"),
+    },
+  }
   const deviceSyncTitle = dashboard?.device_connection_status.title
     ? t("patientHome.deviceSync.title", dashboard.device_connection_status.title)
     : t("patientHome.deviceSync.title", "Health Device Sync")
@@ -275,37 +200,35 @@ export async function PatientHomeDashboard() {
       </section>
 
       <section className="grid grid-cols-1 gap-6 xl:grid-cols-12">
-        <div className="xl:col-span-7">
-          <HealthScoreCard
-            score={healthScore}
-            maxScore={100}
-            title={t("patientHome.healthScoreCard.title", "Overall Health Score")}
-            improvementMessage={scoreImprovementLabel}
-            activityTitle={t("patientHome.healthScoreCard.activity", "Activity")}
-            nutritionTitle={t("patientHome.healthScoreCard.nutrition", "Nutrition")}
-            viewDetailsLabel={t("patientHome.healthScoreCard.viewDetails", "View details")}
-            activityLabel={activityLabel}
-            nutritionLabel={nutritionLabel}
-            statusLabel={scoreStatus}
-            breakdown={dashboard?.score_breakdown ?? null}
-            bmi={dashboard?.bmi ?? null}
-            chronicConditions={dashboard?.chronic_conditions ?? []}
-            activeMedicationsCount={dashboard?.active_medications_count ?? 0}
-          />
-        </div>
+        <div className="xl:col-span-7"><RecordCoverageCard coverage={coverage} labels={coverageLabels} locale={localeResolution.locale} /></div>
+        <Card className="h-full border-border/70 bg-card/95 shadow-sm xl:col-span-5">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-xl">{t("patientHome.recordCoverage.groupStatus", "Today's measurement groups")}</CardTitle>
+            <p className="text-sm text-muted-foreground">{t("patientHome.recordCoverage.groupStatusDescription", "Stored records in today's UTC window")}</p>
+          </CardHeader>
+          <CardContent>
+            {coverage ? (
+              <ul className="space-y-3">
+                {coverage.groups.map((group) => {
+                  const Icon = group.recorded ? CircleCheck : CircleDashed
+                  return (
+                    <li key={group.key} className="flex items-center justify-between rounded-lg border border-border/60 bg-muted/20 px-3 py-3">
+                      <span className="text-sm font-medium">{coverageLabels.groups[group.key as keyof typeof coverageLabels.groups] ?? group.key}</span>
+                      <span className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <Icon className="h-4 w-4 text-primary" aria-hidden="true" />
+                        {group.recorded ? coverageLabels.recorded : coverageLabels.notRecorded}
+                      </span>
+                    </li>
+                  )
+                })}
+              </ul>
+            ) : (
+              <p className="text-sm text-muted-foreground">{coverageLabels.unavailable}</p>
+            )}
+          </CardContent>
+        </Card>
 
-        <Link href="/patient/analytics" className="xl:col-span-5 block transition-transform hover:scale-[1.01]">
-          <MedicationTrendChart
-            values={medicationTrend.values}
-            labels={medicationLabels}
-            adherenceRate={medicationTrend.adherence_rate}
-            deltaPercent={medicationTrend.delta_percent}
-            title={t("patientHome.medicationTrend.title", "Medication Trend")}
-            subtitle={t("patientHome.medicationTrend.subtitle", "Last 7 days adherence")}
-          />
-        </Link>
-
-        <div className="xl:col-span-4">
+        <div className="xl:col-span-6">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-2xl font-semibold text-foreground">
               {t("patientHome.sections.upcomingAppointments", "Upcoming Appointments")}
@@ -341,30 +264,7 @@ export async function PatientHomeDashboard() {
           </div>
         </div>
 
-        <div className="xl:col-span-4">
-          <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-2xl font-semibold text-foreground">
-              {t("patientHome.sections.aiHealthInsights", "AI Health Insights")}
-            </h2>
-            <Link href="/patient/analytics" className="text-sm font-semibold text-primary hover:text-primary/80">
-              {t("patientHome.sections.fullAnalytics", "Full Analytics")}
-            </Link>
-          </div>
-          <div className="scrollbar-themed max-h-130 space-y-4 overflow-y-auto pr-1">
-            {(insights.length > 0 ? insights : [
-              {
-                iconName: "Pill",
-                title: t("patientHome.emptyStates.noInsights", "No insights yet"),
-                description: t("patientHome.emptyStates.startLogging", "Start logging health metrics and reminders to unlock personalized insights."),
-                tone: "info" as const,
-              },
-            ]).map((insight) => (
-              <AIInsightCard key={insight.title} {...insight} />
-            ))}
-          </div>
-        </div>
-
-        <div className="xl:col-span-4">
+        <div className="xl:col-span-6">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-2xl font-semibold text-foreground">
               {t("patientHome.sections.quickHealthStats", "Quick Health Stats")}

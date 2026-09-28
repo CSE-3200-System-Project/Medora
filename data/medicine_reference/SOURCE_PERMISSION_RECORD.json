@@ -1,0 +1,42 @@
+{
+  "recorded_on": "2026-09-28",
+  "author_selected_release": "retain multi-source public corpus after documenting source permissions",
+  "candidate_profile": "full-local",
+  "candidate_sha256": "84539c102b313833e10108576e5b346611882d796f2e562db61226d63e1a548d",
+  "release_clearance": "pending for S1/S2/S4; do not equate an uploader licence label with upstream approval",
+  "scope": "generic, brand, strength, dosage form, manufacturer, explicit medicine type and source attribution; no prices, indication prose or prescription images",
+  "sources": {
+    "S1": {
+      "platform_licence": "CC0 as uploader-declared",
+      "upstream": "MedEx",
+      "terms_url": "https://medex.com.bd/terms-of-use",
+      "observed_terms": "Current terms require approval for distribution and express written consent for extraction",
+      "status": "permission evidence not supplied",
+      "needed_record": "Applicable authorization/permission basis for publishing the derived identity-only data; retain correspondence privately and publish an approved summary"
+    },
+    "S2": {
+      "platform_licence": "CC0 as uploader-declared",
+      "upstream": "Uploader describes MedEasy; exact collection/permission chain not supplied",
+      "status": "collection/redistribution basis not documented",
+      "needed_record": "Uploader/source statement establishing collection origin and applicable onward distribution authorization"
+    },
+    "S4": {
+      "platform_licence": "MIT as uploader-declared",
+      "upstream": "Uploader claims DGDA; local file has DAR identifiers",
+      "status": "official export identity and upstream reuse basis not documented",
+      "needed_record": "Applicable official reuse terms or source authorization/provenance; do not treat DAR-looking identifiers as independent register verification"
+    },
+    "S5": {
+      "platform_licence": "CC BY 4.0",
+      "version": "Mendeley Data V1",
+      "url": "https://data.mendeley.com/datasets/zhtvkny53n/1",
+      "attribution": "Md Mahmudur Rahman and Md M KHAN (2024), DOI 10.17632/zhtvkny53n.1",
+      "status": "publisher licence and attribution/change notice documented",
+      "changes": "Whitespace normalization, identity deduplication, conservative conflict exclusions, missing fields kept unknown, row attribution added; no endorsement claimed"
+    },
+    "S3": {
+      "status": "excluded from new output",
+      "reason": "Indian-market indication text not used; no Netmeds-derived records or prose emitted by this rebuild"
+    }
+  }
+}

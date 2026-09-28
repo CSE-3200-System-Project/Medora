@@ -11,10 +11,11 @@ This reproduces the counts reported in the SoftwareX manuscript (tab:corpus):
 Usage (from backend/, after `alembic upgrade head`):
     venv\\Scripts\\python.exe scripts\\seed_medicine_reference.py
 
-Safe to re-run: it truncates the three tables before reloading, so it never
-duplicates rows.
+WARNING: the writer deletes reference tables. Do not run it against a shared DB
+with existing medicine links. Use --csv <candidate> --dry-run for counts only.
 """
 import asyncio
+import argparse
 import csv
 import sys
 import uuid
@@ -26,7 +27,6 @@ sys.path.insert(0, str(backend_dir))
 from sqlalchemy import delete
 
 from app.db.models.medicine import Brand, Drug, MedicineSearchIndex
-from app.db.session import AsyncSessionLocal
 
 CSV_PATH = backend_dir.parent / "data" / "medicine_reference" / "Final_Medicine_Dataset.csv"
 BATCH_SIZE = 2000
@@ -36,8 +36,8 @@ def _normalize_term(value: str | None) -> str:
     return (value or "").strip().lower()
 
 
-def _load_rows() -> list[dict]:
-    with CSV_PATH.open(encoding="utf-8-sig", newline="") as f:
+def _load_rows(csv_path: Path = CSV_PATH) -> list[dict]:
+    with csv_path.open(encoding="utf-8-sig", newline="") as f:
         return list(csv.DictReader(f))
 
 
@@ -101,11 +101,13 @@ async def _bulk_insert(session, model, records: list[dict]) -> None:
         await session.execute(model.__table__.insert(), batch)
 
 
-async def seed_medicine_reference() -> None:
-    if not CSV_PATH.exists():
-        raise SystemExit(f"Medicine corpus CSV not found at {CSV_PATH}")
+async def seed_medicine_reference(csv_path: Path = CSV_PATH) -> None:
+    from app.db.session import AsyncSessionLocal
 
-    rows = _load_rows()
+    if not csv_path.exists():
+        raise SystemExit(f"Medicine corpus CSV not found at {csv_path}")
+
+    rows = _load_rows(csv_path)
     drugs, brands, search_index = _build_records(rows)
 
     async with AsyncSessionLocal() as session:
@@ -129,4 +131,13 @@ async def seed_medicine_reference() -> None:
 
 
 if __name__ == "__main__":
-    asyncio.run(seed_medicine_reference())
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--csv', type=Path, default=CSV_PATH)
+    parser.add_argument('--dry-run', action='store_true')
+    args = parser.parse_args()
+    if args.dry_run:
+        rows = _load_rows(args.csv)
+        drugs, brands, search = _build_records(rows)
+        print(f'DRY RUN (no DB queries/writes): {len(rows)} rows, {len(drugs)} drugs, {len(brands)} brands, {len(search)} search terms.')
+    else:
+        asyncio.run(seed_medicine_reference(args.csv))

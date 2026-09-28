@@ -2,8 +2,8 @@
   "schema_version": "1.0.0",
   "files": {
     "backend/requirements-release.txt": {
-      "sha256": "b0f210301a0e081fe8dc32c826215093967350e32b91054bdd72ef33d941ee8b",
-      "bytes": 710
+      "sha256": "64d7bbf3b843fcc5fa45c59e7741f2b4377da39cb66a8658dd5d1311946b6f63",
+      "bytes": 747
     },
     "ai_service/requirements-release.txt": {
       "sha256": "5dfbd4366419e72c8b37a451887f91c0b62eaaa769a1c3935b9e0fbc8bdfddfa",
@@ -14,8 +14,8 @@
       "bytes": 200
     },
     "frontend/package-lock.json": {
-      "sha256": "354ecf7f5367b5a2a05972df1b3d141222da910be1fc0ab794026ca4f25fff51",
-      "bytes": 515657
+      "sha256": "973c78c5f1f370beea29aa96d2de656cb591be35ef8e78cbc29a35daf8b867be",
+      "bytes": 613410
     },
     "tests/e2e/package-lock.json": {
       "sha256": "0b3ac6cea6b67e91419310f7fed8e15b5f3a9ec2d98b130b97f2a8b96738848f",
@@ -30,16 +30,40 @@
       "bytes": 2255
     },
     "tests/benchmarks/provider_manifest.json": {
-      "sha256": "d486ef6f138fda1c8181badb92c2fc5ccc0fe642a737677963d3bb9899a1849d",
-      "bytes": 5381
+      "sha256": "4b74c6e80f2c07db69cc6ea3f2fcee996414357520c233c83da66f872671a071",
+      "bytes": 5380
     },
     "tests/benchmarks/datasets/ocr_corpus_manifest.json": {
       "sha256": "307727be59970ba8c74f181e369a665ba010660ae51b41bcf097ae912c394aa8",
       "bytes": 111590
     },
+    "ai_service/models/Yolo26s/AUTHOR_DISTRIBUTION_DECISION.md": {
+      "sha256": "b075f706b9edcf4a4c698627a405a0a44c44a340a13f25697992ede3446ff941",
+      "bytes": 1946
+    },
+    "ai_service/models/Yolo26s/COPYING.AGPL-3.0": {
+      "sha256": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0",
+      "bytes": 34523
+    },
+    "ai_service/models/Yolo26s/DISTRIBUTION.md": {
+      "sha256": "5ce893571bd282c126c7da6bd5fec65bc79a228aa805054dff8bbd8999a20a42",
+      "bytes": 1866
+    },
+    "ai_service/models/Yolo26s/MODEL_CARD.md": {
+      "sha256": "4d71724288dcf750b7c41a3f89e59f0a4b2340f19e63301524bc4cf55569ae5b",
+      "bytes": 5668
+    },
+    "ai_service/models/Yolo26s/training_recipe.sanitized.ipynb": {
+      "sha256": "ae33f19121e386543609cabf633055c2f0b9745b9838d6b7d10e830cab46fe03",
+      "bytes": 17853
+    },
     "ai_service/models/Yolo26s/Yolo26s-prescription-5.onnx": {
       "sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8",
       "bytes": 38176529
+    },
+    "ai_service/models/Yolo26s/Yolo26s-prescription-5.pt": {
+      "sha256": "5976dfe367bc4586b9c4c908570b03af17bfbacd1240ae52b8a615e9292f33a2",
+      "bytes": 20319045
     }
   },
   "external_model_artifacts": {

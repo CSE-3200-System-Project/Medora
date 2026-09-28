@@ -8,6 +8,8 @@ test catches the drift before the manuscript's numbers silently go stale.
 from __future__ import annotations
 
 import sys
+import hashlib
+import json
 from pathlib import Path
 
 import pytest
@@ -18,6 +20,9 @@ sys.path.insert(0, str(BACKEND_DIR))
 from scripts.seed_medicine_reference import CSV_PATH, _build_records, _load_rows, _normalize_term
 
 pytestmark = [pytest.mark.backend]
+MANIFEST_PATH = CSV_PATH.parent / 'build_manifest.json'
+MANIFEST = json.loads(MANIFEST_PATH.read_text(encoding='utf-8')) if MANIFEST_PATH.is_file() else None
+EXPECTED = MANIFEST['counts'] if MANIFEST else dict(rows=71795, drugs=7389, brands=67001, search_terms=74390, generic_names=5242, brand_names=52117)
 
 
 @pytest.fixture(scope="module")
@@ -30,22 +35,24 @@ def corpus_records():
 
 def test_source_row_count(corpus_records):
     rows, drugs, brands, search_index = corpus_records
-    assert len(rows) == 71795
+    assert len(rows) == EXPECTED['rows']
+    if MANIFEST:
+        assert hashlib.sha256(CSV_PATH.read_bytes()).hexdigest() == MANIFEST['outputs']['Final_Medicine_Dataset.csv']['sha256']
 
 
 def test_drug_count(corpus_records):
     rows, drugs, brands, search_index = corpus_records
-    assert len(drugs) == 7389
+    assert len(drugs) == EXPECTED['drugs']
 
 
 def test_brand_count(corpus_records):
     rows, drugs, brands, search_index = corpus_records
-    assert len(brands) == 67001
+    assert len(brands) == EXPECTED['brands']
 
 
 def test_search_index_count(corpus_records):
     rows, drugs, brands, search_index = corpus_records
-    assert len(search_index) == 74390
+    assert len(search_index) == EXPECTED['search_terms']
     # One term per drug (generic name) plus one term per brand (brand name).
     assert len(search_index) == len(drugs) + len(brands)
 
@@ -54,8 +61,8 @@ def test_distinct_generic_and_brand_name_counts(corpus_records):
     rows, drugs, brands, search_index = corpus_records
     distinct_generics = {_normalize_term(d["generic_name"]) for d in drugs}
     distinct_brands = {_normalize_term(b["brand_name"]) for b in brands}
-    assert len(distinct_generics) == 5242
-    assert len(distinct_brands) == 52117
+    assert len(distinct_generics) == EXPECTED['generic_names']
+    assert len(distinct_brands) == EXPECTED['brand_names']
 
 
 def test_every_brand_references_a_known_drug(corpus_records):

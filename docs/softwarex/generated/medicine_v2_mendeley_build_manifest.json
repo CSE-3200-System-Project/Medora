@@ -1,0 +1,66 @@
+{
+  "builder_sha256": "019795df6696f36e37c1532325c1c5e85a78ee4788bc6c501d7d38fc3c6759a1",
+  "counts": {
+    "brand_names": 13363,
+    "brands": 20445,
+    "drugs": 2875,
+    "generic_names": 1473,
+    "rows": 20445,
+    "search_terms": 23320
+  },
+  "distribution": "CC BY 4.0 with source attribution",
+  "outputs": {
+    "Final_Medicine_Dataset.csv": {
+      "sha256": "97974876185062aa94242d806c79a6940544220f1575a23b522f7be86d9eb072",
+      "size_bytes": 4420863
+    },
+    "change_report.json": {
+      "sha256": "4fde6040b5418a910bb240d097847f7aa0abf9f7ba0405419bf937688cddb75a",
+      "size_bytes": 1519
+    },
+    "quality_report.json": {
+      "sha256": "652a36d39698951d1b8fce57da296f5e499614be9558d4c2d4e2a1846718fb03",
+      "size_bytes": 789
+    },
+    "quarantine.jsonl": {
+      "sha256": "7d07696b9f60c407349fa72ffd2455320e62a3ebc7323f20de967a601079ada3",
+      "size_bytes": 1797241
+    },
+    "row_provenance.jsonl": {
+      "sha256": "c784c262f4129b85851c1555ed17a0959877a27827d150c82f1aacd600ae7c31",
+      "size_bytes": 61527665
+    }
+  },
+  "profile": "mendeley-public",
+  "schema": [
+    "drug_key",
+    "generic_name",
+    "strength",
+    "dosage_form",
+    "brand_name",
+    "manufacturer",
+    "usage_type",
+    "country_code",
+    "common_uses",
+    "medicine_type",
+    "common_uses_disclaimer",
+    "record_id",
+    "source_refs"
+  ],
+  "source_record_number": "one-based CSV data record, excluding header; not physical line number",
+  "sources": {
+    "S5": {
+      "attribution": "Md Mahmudur Rahman and Md M KHAN (2024), DOI 10.17632/zhtvkny53n.1",
+      "file": "5_Medicinal_Products_in_Bangladesh/Medicinal Products in Bangladesh A Dataset of Generic and Brand Names, Dosages, and Manufacturers.csv",
+      "licence": "CC BY 4.0",
+      "locally_recorded_on": "2026-09-28",
+      "records": 21361,
+      "retrieval_date": null,
+      "sha256": "293036d5c24268c6526df4ae9ba59e3d80f40380b79bdf40859c83419b52a8fd",
+      "size_bytes": 2177882,
+      "url": "https://data.mendeley.com/datasets/zhtvkny53n/1",
+      "version": "1"
+    }
+  },
+  "version": "medicine-reference-v2"
+}
