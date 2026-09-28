@@ -2,6 +2,31 @@
 
 Checked 28 September 2026. This is an internal revision note, not manuscript content.
 
+## Teacher-first source merge
+
+The author identified `Medora-Overleaf-First-Submission.tex` as the submitted, teacher-revised
+source. It is the narrative baseline, not the previously edited three-author draft.
+The two working TeX files now agree; the untouched submitted source is preserved under
+`submission-history/`. This distinction prevents historical claims from being mistaken
+for the revised paper's current evidence.
+
+| Submitted material retained | Necessary review/artifact update |
+| --- | --- |
+| Four authors, affiliation, correspondence and teacher's CRediT roles | Restored Sk. Imran Hossain; final release citation metadata must follow the approved author list |
+| Five-section structure, straightforward function-first explanations | Removed unsupported independence and all-endpoint-evaluation assertions |
+| Condition-driven discovery, Chorui registry and clinician workflows | Task evidence distinguished from capabilities; worked examples illustrate contracts, not an extra accuracy test |
+| Vercel/Azure reference deployment and text/local speech/Vapi entry paths | Deployment demonstration distinguished from component timing and focused capsule reproduction |
+| Medicine identity layer and historical count table | Separately identified attributed v2 rebuild, exact row/contributor counts, quarantines and permission gate |
+| Prescription region-to-catalog prototype | Corrected notebook, exact current model parameters, historical linkage discrepancy and private-image exclusion |
+| Patient/clinician benefits, reuse questions and modular Impact discussion | Neutral evidence scope instead of claimed clinical effectiveness or adoption |
+| Bilingual frontend illustrations | Figure 4 retains navigation, heading and both feature panels; captions describe record coverage |
+
+The academic-writing and humanizer passes keep the teacher's direct language, remove repeated
+or promotional claims, and preserve measured errors and reviewer-requested qualifications.
+The checked merge has **2,990 words including captions and six figures**, using the existing
+release checker. Figures 4–6 were inspected in the compiled PDF; the figure barrier prevents
+Impact paragraphs being interrupted by late screenshots. Both TeX entry points are buildable.
+
 ## Section outline and paragraph roles
 
 1. Motivation: identify researchers/users, Bangladesh context and the reusable reference

@@ -21,6 +21,7 @@ from zipfile import ZIP_DEFLATED, ZipFile, ZipInfo
 
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_EXCLUSIONS: tuple[tuple[str, str], ...] = (
+    ("docs/softwarex/submission-history/", "historical submission text, not current reproducibility evidence"),
     ("ai_service/models/", "approved detector has a separate AGPL/source bundle; this focused fixture/table run does not consume model assets"),
     ("data/medicine_reference/Final_Medicine_Dataset.csv", "medicine corpus redistribution rights pending"),
     ("data/maya_navigation_sft_v1/", "not required for the SoftwareX reproduction scope"),

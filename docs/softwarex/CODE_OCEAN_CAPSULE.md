@@ -88,7 +88,7 @@ uses that stamp instead of borrowing an unrelated commit from the old release me
    Omit `--doi` if Code Ocean has not minted one. This stores the manifest hash and run
    identity in the detached release receipt; it does not alter the candidate source commit.
 
-The manuscript C3/S3 field uses the stable capsule URL. A capsule DOI is minted only after
+The manuscript C3 field uses the stable capsule URL. A capsule DOI is minted only after
 publication, so the URL/DOI choice must be coordinated with the editor before freezing
 the paper. If the DOI is only known after publication and the manuscript is changed to add
 it, freeze and rerun the final capsule from the resulting source snapshot.
@@ -126,7 +126,7 @@ run is useful preparation but does not replace the Code Ocean Reproducible Run.
 When the capsule run is complete, provide the public capsule/version URL (or the
 editor-approved review link), DOI if minted, capsule version, run ID, source commit, and
 the saved `/results/reproduction_manifest.json`. Do not send credentials. The manuscript
-and response can then replace the C3/S3 placeholder and cite only the exact capsule version
+and response can then replace the C3 placeholder and cite only the exact capsule version
 that passed.
 
 The current platform behavior and the repo-specific folder/metadata constraints are

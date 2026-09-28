@@ -6,6 +6,9 @@ The paper uses limited fixture/experimental claims rather than claiming clinical
 
 ## Prepared and checked
 
+- Both working TeX files contain the teacher-first merge, retaining all four authors,
+  the teacher's workflow/Impact descriptions and latest review artifacts. The unchanged
+  submitted text is preserved under `submission-history/`. See `README.md` for entry points.
 - Local Docker frontend/backend run at http://localhost:3000 and http://localhost:8000.
   The database is shared Supabase, not disposable; startup maintenance/workers are disabled.
 - Figure 4 now uses authentic English/Bengali frontend views, retaining navigation,
@@ -78,6 +81,8 @@ See `CODE_OCEAN_CAPSULE.md` for platform layout and the bounded reproduction cla
 After corpus decisions/promotion, manuscript/response, version, reserved Zenodo version DOI
 and capsule citation are final, align `CITATION.cff`, `codemeta.json` and
 `release_metadata.json`, commit the clean candidate and record verification receipts.
+Match the approved manuscript title, four-author list and contributions in new-release
+citation/capsule metadata; do not rewrite historical release identities or author records.
 
 ```powershell
 python tools/release/package_softwarex_capsule.py --dry-run
