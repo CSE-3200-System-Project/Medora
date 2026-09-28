@@ -1,0 +1,26 @@
+metadata_version: 1
+name: Medora SoftwareX revision reproducibility
+research_field: Computer Science
+description: >-
+  Reproduces Medora's focused SoftwareX revision checks using deterministic synthetic
+  fixtures and regenerates the published safety and booking summary tables from their
+  frozen machine-readable reports. The capsule does not run hosted providers, rescore
+  development data as held-out evidence, rerun host-specific booking timings, or establish
+  clinical validity. No patient or provider credentials are required.
+authors:
+  - name: Sarwad Hasan Siddiqui
+    affiliations:
+      - Department of Computer Science and Engineering, Khulna University of Engineering & Technology
+  - name: Adiba Tahsin
+    affiliations:
+      - Department of Computer Science and Engineering, Khulna University of Engineering & Technology
+  - name: Kazi Saeed Alam
+    affiliations:
+      - Department of Computer Science and Engineering, Khulna University of Engineering & Technology
+corresponding_contributor:
+  name: Kazi Saeed Alam
+tags:
+  - software reproducibility
+  - digital health
+  - consent-aware software
+  - Bengali

@@ -1,0 +1,16 @@
+{
+  "corpus_sha256": "97974876185062aa94242d806c79a6940544220f1575a23b522f7be86d9eb072",
+  "profile": "mendeley-public",
+  "projected_seed_counts": {
+    "brand_names": 13363,
+    "brands": 20445,
+    "drugs": 2875,
+    "generic_names": 1473,
+    "rows": 20445,
+    "search_terms": 23320
+  },
+  "rows_verified": 20445,
+  "scope": "Structural/provenance checks only; no database writes, clinical correctness, completeness or currentness attestation",
+  "source_contributor_links_verified": 20500,
+  "status": "pass"
+}

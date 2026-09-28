@@ -210,7 +210,7 @@ function LoginPageContent({ initiallyVerified = false }: { initiallyVerified?: b
                 </div>
               )}
 
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form method="post" onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="email">{tAuth("emailAddress")}</Label>
                   <Input name="email" id="email" type="email" placeholder="name@example.com" required className="w-full" />

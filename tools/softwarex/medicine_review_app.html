@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Medora medicine-reference spot-check</title>
+<style>
+body{font:17px/1.5 system-ui,sans-serif;background:#f4f6fa;color:#17283e;margin:0}main{max-width:900px;margin:30px auto;background:white;padding:28px;border-radius:14px}h1{font-size:24px}h2{font-size:21px}button,input,select,textarea{font:inherit;padding:10px;margin:4px;border:1px solid #afbdce;border-radius:7px}button{cursor:pointer;background:#eef5ff}button.selected{background:#145bb0;color:white}button:disabled{opacity:.5;cursor:default}dl{display:grid;grid-template-columns:160px 1fr;gap:8px}dt{font-weight:600}dd{margin:0;overflow-wrap:anywhere}small,.muted{color:#516079}textarea{width:95%;height:90px}pre{white-space:pre-wrap;font-size:13px;overflow-wrap:anywhere}details{margin:16px 0}#notice{background:#fff2d7;padding:12px}progress{width:100%}a{color:#145bb0}
+</style><main>
+<h1>Medicine-reference spot-check</h1>
+<p>One medicine at a time. Check whether the generic–brand mapping, strength and dosage form are acceptable <em>against a trusted reference</em>. Choose a verdict; add a short explanation only for a discrepancy or uncertainty. This is not approval of the entire corpus.</p>
+<p id="notice">Runs locally in your browser. No server, account or uploads. Progress is saved on this browser only. Export your results when finished. Do not enter patient details.</p>
+<label>Load <code>doctor_review_bundle.json</code> <input id="file" type="file" accept=".json"></label>
+<section id="review" hidden>
+<p><label>Reviewer code (not a public name): <input id="reviewer" maxlength="80" placeholder="e.g. clinician-A"></label></p>
+<p id="scope" class="muted"></p><progress id="progress" value="0" max="30"></progress>
+<p id="position"></p><h2 id="brand"></h2><dl id="values"></dl>
+<details><summary>Original source values and build flags</summary><pre id="evidence"></pre></details>
+<p>Generic–brand mapping, strength and form:</p>
+<div id="verdict"><button data-value="acceptable">Acceptable</button><button data-value="discrepancy">Discrepancy</button><button data-value="cannot_assess">Cannot assess</button></div>
+<p><label>Reference URL (if consulted) <input id="url" type="url" style="width:75%"></label></p>
+<p><label>Currentness <select id="currentness"><option value="not_checked">Not checked</option><option value="current_reference_match">Current reference match</option><option value="contradictory_reference">Contradictory reference</option><option value="not_found">Not found — not proof of obsolescence</option></select></label></p>
+<label>Correction / reason / uncertainty <textarea id="notes" placeholder="Required only for a discrepancy or cannot-assess verdict"></textarea></label>
+<p><button id="previous">Previous</button><button id="next">Save and next</button><button id="export">Export review</button></p><p id="message" role="status"></p>
+</section></main>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);let bundle,index=0,answers={},key='',verdict='';
+function stored(){return {corpus_sha256:bundle.corpus_sha256,version:bundle.version,profile:bundle.profile,reviewer_code:$('reviewer').value,answers};}
+function persist(){try{localStorage.setItem(key,JSON.stringify(stored()));}catch{$('message').textContent='Browser storage unavailable. Export before closing.';}}
+function render(){const c=bundle.cases[index],a=answers[c.record_id]||{};verdict=a.mapping_strength_form||'';$('position').textContent=`Case ${index+1} of ${bundle.cases.length}; ${Object.keys(answers).length} saved verdicts`;$('brand').textContent=c.brand_name;$('values').replaceChildren();for(const [label,field] of [['Generic','generic_name'],['Strength','strength'],['Dosage form','dosage_form'],['Manufacturer','manufacturer'],['Medicine type','medicine_type']]){const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=label;dd.textContent=c[field]||'Not supplied — do not infer';$('values').append(dt,dd);}$('evidence').textContent=JSON.stringify({source_refs:c.source_refs,selection:c.selection,flags:c.flags,contributors:JSON.parse(c.source_evidence)},null,2);$('url').value=a.reference_url||'';$('currentness').value=a.currentness_status||'not_checked';$('notes').value=a.notes||'';$('previous').disabled=index===0;$('progress').value=Object.keys(answers).length;$('progress').max=bundle.cases.length;mark();}
+function mark(){document.querySelectorAll('#verdict button').forEach(b=>b.classList.toggle('selected',b.dataset.value===verdict));}
+function save(){if(!verdict){$('message').textContent='Choose a verdict before saving.';return false;}if(verdict!=='acceptable'&&!$('notes').value.trim()){$('message').textContent='Please state the discrepancy or uncertainty briefly.';return false;}const c=bundle.cases[index];answers[c.record_id]={record_id:c.record_id,mapping_strength_form:verdict,reference_url:$('url').value.trim(),currentness_status:$('currentness').value,notes:$('notes').value.trim(),reviewed_at:new Date().toISOString()};persist();$('message').textContent='Saved locally.';return true;}
+$('file').onchange=async e=>{try{const parsed=JSON.parse(await e.target.files[0].text());if(!/^[0-9a-f]{64}$/.test(parsed.corpus_sha256)||!Array.isArray(parsed.cases)||!parsed.cases.length)throw Error('Not a medicine review bundle');if(new Set(parsed.cases.map(c=>c.record_id)).size!==parsed.cases.length)throw Error('Duplicate case identifiers');bundle=parsed;key='medora-medicine-review-v2:'+bundle.profile+':'+bundle.corpus_sha256;const old=JSON.parse(localStorage.getItem(key)||'{}');answers=old.answers||{};$('reviewer').value=old.reviewer_code||'';index=0;$('scope').textContent=`${bundle.version} / ${bundle.profile}. Corpus SHA-256: ${bundle.corpus_sha256}. Descriptive spot-check only; not a population accuracy estimate.`;$('review').hidden=false;render();}catch(error){$('message').textContent=error.message;alert(error.message);}};
+document.querySelectorAll('#verdict button').forEach(b=>b.onclick=()=>{verdict=b.dataset.value;mark();});
+$('next').onclick=()=>{if(save()){if(index<bundle.cases.length-1)index++;render();}};$('previous').onclick=()=>{index--;render();};$('reviewer').oninput=persist;
+$('export').onclick=()=>{if(verdict&&!save())return;const data={...stored(),selected_cases:bundle.cases.length,completed_cases:Object.keys(answers).length,exported_at:new Date().toISOString(),interpretation:'Descriptive risk/source spot-check, not full-corpus clinical or currentness validation'};const a=document.createElement('a'),url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));a.href=url;a.download='medicine-review-'+bundle.profile+'-'+bundle.corpus_sha256.slice(0,12)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);$('message').textContent='Exported. Send the JSON privately to the authors.';};
+</script></html>

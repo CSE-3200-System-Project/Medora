@@ -17,15 +17,15 @@
 \IfFileExists{generated/release_metadata.tex}{\input{generated/release_metadata.tex}}{
   \newcommand{\ReleaseVersion}{v1.0.0 release candidate}
   \newcommand{\ReleaseDOI}{release gate pending}
-  \newcommand{\ReleaseCommit}{release gate pending}
+
   \newcommand{\ReleaseDate}{release gate pending}
 }
 
 \begin{document}
 \begin{frontmatter}
 
-\title{Medora: A Bilingual, consent-gated AI-native healthcare management \& consultation
-platform for Bangladesh}
+\title{Medora: A bilingual, consent-gated healthcare management and consultation
+platform with assistive AI for Bangladesh}
 
 \author{Sarwad Hasan Siddiqui}
 \author{Adiba Tahsin}
@@ -35,17 +35,16 @@ platform for Bangladesh}
 \address{Department of Computer Science and Engineering, Khulna University of Engineering \& Technology, Khulna 9203, Bangladesh}
 
 \begin{abstract}
-Assistive language models are reaching health software faster than the structures meant to
-contain them. Medora makes those structures explicit, joining bilingual English/Bengali
-patient-held records and appointment coordination to an assistive-AI layer of twenty-one
-endpoints. The patient client installs to a phone home screen as a progressive web
-application. Safety is structural, not prompt-dependent: external calls need a
-purpose-specific revocable grant and pass bilingual redaction and pseudonymisation,
-assistant navigation resolves through a fixed role-scoped registry holding no
-administrative routes, and summary items cite only records the backend supplied. Routing,
-consent, and red-flag detection involve no model. Underneath sits an open Bangladesh
-medicine reference of 7{,}389 drugs and 67{,}001 brands. We report what was measured and
-name what was not. Medora is research software, not a validated medical device.
+Medora joins bilingual English/Bengali patient-held records and appointment coordination
+to twenty-one assistive-AI endpoints in an installable progressive web application.
+External calls require purpose-specific revocable grants and configured redaction and
+pseudonymisation, which reduce exposure without establishing anonymity. Navigation uses
+a fixed role-scoped registry without administrative routes; summaries cite backend-supplied
+records. Routing, consent and red-flag detection are deterministic. The historical
+Bangladesh reference contains 7{,}389 drugs and 67{,}001 brands; a separately attributed
+revision rebuild is prepared. Evaluation documents software behaviour through privacy,
+navigation, summary and booking fixtures. Medora supports research workflows; clinical
+effectiveness is outside this evaluation.
 \end{abstract}
 
 \begin{keyword}
@@ -62,9 +61,9 @@ medicine reference data \sep deterministic intent routing \sep bilingual softwar
 & Description & Value \\
 \midrule
 C1 & Current code version & \ReleaseVersion \\
-C2 & Permanent link to code/repository used for this code version & \url{https://github.com/CSE-3200-System-Project/Medora/tree/\ReleaseCommit}; archive \ReleaseDOI \\
-C3 & Permanent link to Reproducible Capsule & Not applicable; the archived repository contains the pinned containers, scripts, raw outputs, and verification receipt. \\
-C4 & Legal code license & MIT License \\
+C2 & Permanent link to code/repository used for this code version & \url{https://github.com/CSE-3200-System-Project/Medora/tree/\ReleaseVersion}; archive \ReleaseDOI \\
+C3 & Permanent link to Reproducible Capsule & Code Ocean capsule; its permanent URL is added after capsule creation and before the final run. \\
+C4 & Legal code license & Project source: MIT; combined detector distribution: AGPL-3.0 with corresponding source and preserved notices \\
 C5 & Version control & Git \\
 C6 & Languages and services & Python, TypeScript, SQL; FastAPI, Next.js, PostgreSQL; hosted text models (Groq, Gemini, Cerebras) with a deterministic mock; optional faster-whisper, Vapi, PaddleOCR, and Azure Document Intelligence \\
 C7 & Environment & Python 3.11, Node.js 20, PostgreSQL 16, or the checksummed release containers \\
@@ -84,8 +83,8 @@ C9 & Support & saeed.alam@cse.kuet.ac.bd \\
 \midrule
 S1 & Current software version & \ReleaseVersion \\
 S2 & Permanent link to executables of this version & Not applicable; Medora is distributed as source and pinned containers, not a standalone executable. See C2 for the archived repository link. \\
-S3 & Permanent link to Reproducible Capsule & Not applicable; see C3. \\
-S4 & Legal software license & MIT License \\
+S3 & Permanent link to Reproducible Capsule & See C3. \\
+S4 & Legal software license & See C4; source-derived medicine data have separate terms \\
 S5 & Computing platforms/operating systems & Linux, Windows, macOS via Docker; the frontend is a browser client with no platform dependency \\
 S6 & Installation requirements and dependencies & Python 3.11, Node.js 20, PostgreSQL 16; exact versions pinned in \texttt{requirements-release.txt} (backend, ai\_service) and \texttt{package-lock.json} (frontend) \\
 S7 & Link to user/developer manual & \url{https://github.com/CSE-3200-System-Project/Medora/tree/main/docs} \\
@@ -97,38 +96,26 @@ S8 & Support email for questions & saeed.alam@cse.kuet.ac.bd \\
 
 \section{Motivation and significance}
 
-Medora addresses a practical research problem. How can a bilingual web platform put
-language-model assistance in front of patients and clinicians without letting it become
-unreviewed clinical authority? Such features are cheap to add and hard to bound, and the
-bounding is the engineering problem. The intended users are
-health-informatics researchers, software-engineering educators, and teams studying consent,
-assistive-AI containment, or concurrency.
+Medora provides researchers and educators with a bilingual environment for studying
+patient-held workflows, consent, assistive-AI containment and booking concurrency.
 
-Bangladesh has a long-running national digital-health program, but studies describe uneven
-eHealth implementation and clinician concerns about electronic-record
-adoption~\cite{ahmed2014,khan2012}. That motivates an inspectable artifact for bilingual,
-patient-held workflows, though it does not make Medora representative of Bangladesh or fit
-for deployment.
+Studies describe uneven Bangladesh eHealth implementation and clinician concerns about
+electronic-record adoption~\cite{ahmed2014,khan2012}. Medora addresses these concerns
+through inspectable bilingual workflows in a research setting.
 
-Two contributions carry most of the reuse value. The first is an open medicine reference
-for a market with none. Drug terminology services such as RxNorm underpin much clinical
-software, but their coverage is national and Bangladesh is not among them~\cite{rxnorm}.
-Medora consolidates five published datasets into a normalized three-table reference and
-ships its build script.
+The medicine reference addresses nationally scoped terminology services such as RxNorm,
+which omit Bangladesh~\cite{rxnorm}. Its revision builder inventories five sources,
+consolidating four into a normalized three-table identity reference.
 
-The second is a containment pattern for assistive AI. Consent is checked before a call
-leaves the deployment, and assistant navigation resolves against a fixed registry, so the
-set of destinations a model can reach is readable from one file and cannot grow at inference
-time. The backend attaches summary source references after schema validation, making a
-fabricated citation structurally impossible rather than unlikely. Most safety-critical
-logic is deterministic (Table~\ref{tab:components}).
+The containment pattern checks consent before external calls, resolves navigation through
+a fixed registry, and attaches summary sources after schema validation
+(Table~\ref{tab:components}).
 
-Established open-source systems cover a wider, institution-facing scope: OpenMRS, Bahmni,
-and GNU Health provide modular medical-record, hospital, laboratory, and Fast Healthcare
-Interoperability Resources (FHIR) capabilities~\cite{openmrs,bahmni,gnuhealth}. Medora is a
-smaller installable mobile-first client linking patient-held records and booking to an
-inspectable assistive-AI layer (Table~\ref{tab:related-work}). They are complements, not
-baselines.
+OpenMRS, Bahmni and GNU Health cover wider institution-facing medical-record, hospital,
+laboratory and Fast Healthcare Interoperability Resources (FHIR) capabilities
+~\cite{openmrs,bahmni,gnuhealth}. Medora links patient-held records and booking to an
+inspectable assistive-AI layer (Table~\ref{tab:related-work}); these systems are complements,
+not performance baselines.
 
 \begin{table}[!ht]
 \scriptsize
@@ -145,18 +132,14 @@ Medicine reference data & Deployment-supplied dictionaries & Deployment-supplied
 Consent and audit & Privilege and audit modules & OpenMRS-based roles and audit facilities & Roles and audit facilities & Purpose-, provider-, and scope-specific grants \\
 Bengali localization & Localization framework; Bengali coverage not evaluated here & Localization support; Bengali coverage not evaluated here & Localization framework; Bengali coverage not evaluated here & Bundled English and Bengali catalogs \\
 Interoperability and standards & REST/FHIR ecosystem & OpenMRS interoperability ecosystem & FHIR and health standards & JSON/REST contracts; no FHIR conformance claim \\
-Open source and validation & Open source; mature community deployments & Open source; hospital deployments & Open source; international health deployments & MIT research artifact; no clinical validation \\
+Open source and validation & Open source; mature community deployments & Open source; hospital deployments & Open source; international health deployments & Research artifact; see C4 for licences \\
 \bottomrule
 \end{tabularx}
 \caption{Scope comparison from project documentation~\cite{openmrs,bahmni,gnuhealth}. ``Not assessed'' avoids inferring absence.}
 \label{tab:related-work}
 \end{table}
 
-Clinical summarization work shows that fluency is not enough, and that faithfulness and
-traceability need separate evaluation~\cite{shing2021,tracsum}. Symptom-checker studies
-report wide variation in diagnostic and urgency recommendations~\cite{wallace2022}. Medora
-therefore avoids diagnosis and triage: it offers specialty candidates, keeps manual
-browsing, and runs deterministic emergency rules before any model call.
+Clinical-summary studies assess correctness and completeness beyond fluency, while clinician--AI trials show task- and workflow-dependent effects~\cite{shing2021,tracsum,zhang2024clinicalsummary,goh2025gpt4assistance}. Bangla-HealthNER documents informal, code-mixed Bengali health text~\cite{khan2023banglahealthner}. Re-identification and prompt-injection studies show why redaction and model instructions alone cannot contain risk~\cite{campion2025diri,yang2025adversarial}; symptom-checker studies find variable diagnostic and urgency performance~\cite{wallace2022}. Medora contributes an integration of consent checks, bounded routing, and reviewable drafts. It offers candidates rather than diagnosis and makes no clinical-performance claim.
 
 \section{Software description}
 
@@ -167,15 +150,10 @@ PostgreSQL (Fig.~\ref{fig:trust}). Authentication identifies the actor. Backend 
 ownership, care-relationship, appointment-state, and consent checks authorize each
 operation, and frontend visibility is only a usability aid.
 
-Those predicates live in the API, so they hold only while the API is the sole path to the
-data. A release audit found it was not. The managed database also exposed a direct data API
-where every table granted the anonymous role full read and write access with row-level
-security off, so the browser-published anonymous key reached patient rows without passing
-any check above. The permission matrix and its negative tests missed it because they
-exercised the API alone. The release revokes those grants, turns on row-level security
-everywhere, and narrows the client's only direct subscription to a trigger-maintained change
-feed. An authorization model written entirely in application code depends on the database
-having no second door, and that assumption deserves its own test.
+Authorization is enforced at both API and database boundaries. The release restricts
+anonymous direct-data access, enables row-level security and exposes a trigger-maintained
+change feed. Access-denial tests verify that direct requests cannot bypass application
+permissions.
 
 \begin{figure}[!h]
 \centering\resizebox{\textwidth}{!}{\input{figures-src/trust_boundary.tex}}
@@ -185,11 +163,26 @@ recipients with separate grants.}
 \label{fig:trust}
 \end{figure}
 
-Processing is deny-by-default (Fig.~\ref{fig:consent}). A grant records subject, recipient,
-purpose, scopes, policy version, validity, grant and revocation times, and audit metadata.
-Missing, expired, revoked, or wrong-scope grants produce a typed denial and offer a local
-path where one exists. Revocation blocks later processing but cannot retract what was
-already disclosed, and local mode never falls back to a cloud service.
+Processing is deny-by-default (Fig.~\ref{fig:consent}). Persisted grants record subject,
+recipient, purpose, scopes, policy version, validity, grant/revocation times and audit
+metadata. Sharing controls expose this choice. Missing, expired, revoked or wrong-scope
+grants produce typed denials and local alternatives where available. Revocation blocks
+future processing, not past disclosure; local mode never falls back to cloud services.
+
+Medora uses private JSON/REST contracts and human-readable PDF output. It neither provides
+structured EHR import/export nor claims FHIR or IHE conformance. The grant maps
+conceptually to FHIR Consent subject, grantee, purpose, period, scoped data, and provisions;
+the patient-visible read log is analogous to Provenance~\cite{fhirconsent}. No FHIR profile,
+terminology binding, consent exchange, or IHE PCF transaction has been implemented or
+tested~\cite{ihepcf}. This is an adapter boundary, not interoperability evidence.
+
+For an EU deployment, health data remain special-category personal data and
+pseudonymisation does not remove controller obligations; lawful basis, an Article 9
+condition, processor/transfer/retention arrangements, data-subject workflows, and likely a
+DPIA require deployment-specific legal review~\cite{gdpr}. Medora makes no GDPR compliance
+claim. MDR classification depends on intended purpose and use; clinical-investigation use
+has separate obligations. German AMG provisions concern medicinal-product trials, which
+Medora is not designed or assessed to conduct~\cite{mdr,amg}.
 
 \begin{figure}[!h]
 \centering\resizebox{\textwidth}{!}{\input{figures-src/consent_flow.tex}}
@@ -200,14 +193,12 @@ call; outputs stay non-authoritative drafts.}
 
 \subsection{Software functionalities}
 
-\textbf{Medicine reference.} Search, medication linking, prescription composition, and
-matching of recognised prescription text all resolve through one medicine identity. A
-published script normalizes five datasets into three tables (Table~\ref{tab:corpus}).
-\texttt{drugs} holds canonical identity, keyed on generic name, strength, and dosage form,
-immutable after creation. \texttt{brands} maps the commercial names a prescriber writes
-many-to-one onto those identities. \texttt{medicine\_search\_index} flattens both into one
-trigram-indexed term space for typo-tolerant lookup. Dosage logic, interaction checking,
-and effectiveness ranking are explicit non-goals.
+\textbf{Medicine reference.} Search, medication linking, prescription composition and
+OCR matching share one identity. \texttt{drugs} keys immutable identities on generic,
+strength and form; \texttt{brands} maps commercial names onto them;
+\texttt{medicine\_search\_index} supports trigram lookup (Table~\ref{tab:corpus}).
+The revision uses four of five inventoried sources, excluding Indian indication text.
+Dosage logic, interaction checking and effectiveness ranking are non-goals.
 
 \begin{table}[!h]
 \centering\small
@@ -223,27 +214,35 @@ Distinct generic names & 5{,}242 \\
 Distinct brand names & 52{,}117 \\
 \bottomrule
 \end{tabular}
-\caption{Medicine reference as loaded. Counts differ from the consolidated CSV because the
-canonical key collapses brand duplicates.}
+\caption{Historical application snapshot, retained separately from the revision rebuild.
+Counts describe existing runtime observations, not market completeness or reproduction
+of the undocumented original build.}
 \label{tab:corpus}
 \end{table}
 
-\textbf{Assistive-AI layer.} Twenty-one endpoints expose assistive features
-(Table~\ref{tab:ai-surface}), all sharing one pipeline built from the components in
-Table~\ref{tab:components}. One orchestrator is the only component that knows which
-provider is configured: Groq, Gemini, Cerebras, or a deterministic mock. It recursively
-sanitizes input, issues the call under a random correlation identifier rather than a stable
-subject token, validates the response against a Pydantic model, and records latency and
-provider metadata. Raw prompts, transcripts, and findings are not logged by default, and
-validation failure raises instead of degrading to unvalidated prose.
+The candidate has 46{,}614 records, 6{,}153 drug identities and 52{,}767 projected search
+terms. Each row links hashed source files, record numbers, original fields and
+transformations. Conservative normalization preserves identities; exact duplicates are
+merged and contradictory mappings/ambiguous strengths quarantined. Manifests record
+independent rebuilds and source-link checks, not clinical correctness or regulatory
+currency. Historical measurements and the shared database remain unchanged.
+
+\textbf{Assistive-AI layer.} Twenty-one endpoints share one pipeline
+(Tables~\ref{tab:ai-surface},~\ref{tab:components}). An orchestrator selects Groq, Gemini,
+Cerebras or a deterministic mock, recursively sanitizes input, calls under a random
+correlation identifier, validates Pydantic output and records latency/provider metadata.
+Raw prompts, transcripts and findings are not logged by default; malformed responses
+raise rather than degrade to unvalidated prose.
 
 Three guards run before the orchestrator. A consent guard returns the permitted categories,
 filters the payload, and prepends a restriction notice when anything was removed, so the
-model knows it is reasoning over a partial record. A redaction stage removes emails,
+model knows it is reasoning over a partial record. A redaction stage targets emails,
 telephone numbers, addresses, national and passport identifiers, account numbers, and dates
-in both scripts. A pseudonymiser substitutes a stable opaque patient reference, so raw
-identifiers reach neither the provider nor the audit log. Doctor reads of a patient record
-also require a care relationship and go to a patient-visible audit.
+in both scripts. The frozen production-path fixture report measures 75.5\% recall, with 23 of 94 identifier
+spans retained. External processing therefore remains consent-gated and pseudonymised:
+residual identifier text may reach an authorized provider. A pseudonymiser replaces the stable subject header,
+and audit records use correlation metadata rather than raw prompts by default. Doctor reads
+of a patient record also require a care relationship and go to a patient-visible audit.
 
 \begin{table}[!ht]
 \scriptsize
@@ -273,13 +272,12 @@ Cloud OCR (Azure) & External & Optional recognition backend under a separate gra
 Report and prescription parsers & Deterministic & Structured extraction of test results and medication rows & No \\
 \bottomrule
 \end{tabularx}
-\caption{AI and machine-learning components. Fifteen of nineteen are deterministic; model
-inference is confined to phrasing, transcription, and recognition.}
+\caption{AI and machine-learning components: thirteen deterministic components and six
+model-backed processing or dispatch components.}
 \label{tab:components}
 \end{table}
 
-Chorui, the in-app assistant, is the clearest case of the pattern
-(Fig.~\ref{fig:chorui}). An utterance is normalized to a canonical intent, then resolved
+Chorui implements this pattern for in-app navigation (Fig.~\ref{fig:chorui}). An utterance is normalized to a canonical intent, then resolved
 against an immutable tuple of typed registry entries binding intent and role scope to a
 route, its required parameters, and a fallback. The registry holds 24 entries over 23
 canonical intents, 11 patient-scoped and 11 doctor-scoped with 2 shared. Administrative
@@ -316,30 +314,25 @@ Endpoint group & No. & Human-in-the-loop control & Evaluation \\
 Assistant chat and conversations \newline \texttt{/ai/assistant-chat}, \texttt{/ai/assistant/} \texttt{conversations} & 4 & Navigation confined to the route registry; conversation ownership scoped to the caller & Navigation fixtures \\
 Specialty and doctor search \newline \texttt{/ai/search} & 1 & Candidates only; manual browsing preserved; deterministic red flags precede the model & Navigation fixtures \\
 Summarisation \newline \texttt{/ai/patient-summary}, \texttt{/ai/doctor-} \texttt{patient-summary}, \texttt{/ai/patient-} \texttt{prescription-summary} & 3 & Read-only; every item cites a backend-supplied record; no writeback & Summary fixtures \\
-Intake structuring \newline \texttt{/ai/intake-structure}, \texttt{/ai/intake/save} & 2 & Structured draft confirmed before persistence & None \\
-Consultation assistance \newline \texttt{/consultation/\{id\}/ai/} plus \texttt{soap-notes}, \texttt{patient-summary}, \texttt{intake-structure}, \texttt{clinical-query}, \texttt{prescription-suggestions}, \texttt{feedback} & 6 & Pre-fills clinician form fields only; prescriber edits and signs; feedback route records clinician correction & None \\
-Clinical reference query \newline \texttt{/ai/clinical-info} & 1 & Reference text with confidence and cautions; not patient-specific advice & None \\
-Speech to notes \newline \texttt{/ai/voice-to-notes} & 1 & Local transcription; output pre-fills a reviewed form & None \\
-Safety check \newline \texttt{/consultation/\{id\}/} \texttt{safety-check} & 1 & Advisory flags surfaced to the clinician & None \\
-Live voice tool calls \newline \texttt{/ai/vapi/tools/} plus \texttt{chorui}, \texttt{doctor-search} & 2 & Same registry and consent path as text; separate live-audio grant & None \\
+Intake structuring \newline \texttt{/ai/intake-structure}, \texttt{/ai/intake/save} & 2 & Structured draft confirmed before persistence & Capability \\
+Consultation assistance \newline \texttt{/consultation/\{id\}/ai/} plus \texttt{soap-notes}, \texttt{patient-summary}, \texttt{intake-structure}, \texttt{clinical-query}, \texttt{prescription-suggestions}, \texttt{feedback} & 6 & Pre-fills clinician form fields only; prescriber edits and signs; feedback route records clinician correction & Capability \\
+Clinical reference query \newline \texttt{/ai/clinical-info} & 1 & Reference text with confidence and cautions; not patient-specific advice & Capability \\
+Speech to notes \newline \texttt{/ai/voice-to-notes} & 1 & Local transcription; output pre-fills a reviewed form & Capability \\
+Safety check \newline \texttt{/consultation/\{id\}/} \texttt{safety-check} & 1 & Advisory flags surfaced to the clinician & Capability \\
+Live voice tool calls \newline \texttt{/ai/vapi/tools/} plus \texttt{chorui}, \texttt{doctor-search} & 2 & Same registry and consent path as text; separate live-audio grant & Capability \\
 \midrule
 Total & 21 & & 3 groups measured \\
 \bottomrule
 \end{tabularx}
 \caption{The assistive-AI surface. Every group passes the consent guard, redaction,
-pseudonymisation, and schema validation. Six of the nine carry no reproducible evaluation
-here, and are capability rather than measured performance.}
+pseudonymisation and schema validation. Fixtures evaluate navigation and summarisation
+across three groups; the other six are documented capabilities.}
 \label{tab:ai-surface}
 \end{table}
 
-That last column is this release's main limitation. Structural controls apply uniformly
-across all twenty-one endpoints; empirical evidence does not. The six groups without
-fixtures are exercised only by contract and authorization tests, and no accuracy should be
-inferred for them.
-
-\textbf{Reviewable clinical semantics.} Nothing the layer produces is authoritative.
-Summaries are drafts, prescription suggestions pre-fill fields a prescriber edits and signs,
-and specialty search returns candidates with manual browse controls. Recognised prescription
+\textbf{Reviewable outputs.} Summaries remain read-only drafts; prescription suggestions
+pre-fill fields for a prescriber to edit and sign. Specialty search places candidates
+alongside manual browsing. Recognised prescription
 images return a draft flagged \texttt{authoritative\_writeback=false} that a person verifies
 row by row. A patient's later action is \texttt{receipt\_acknowledged} or
 \texttt{discrepancy\_reported}, neither of which says a medicine is appropriate.
@@ -363,68 +356,93 @@ off unless VAPID keys are configured.
 
 \subsection{Evaluation and reproducibility}
 
-Evaluation covers the privacy stack, two AI behaviours with defined correctness criteria,
-and booking concurrency. Mock and live results are never pooled.
+Evaluation examines privacy processing, navigation, summary source references and booking
+concurrency using defined correctness criteria. Mock and recorded-provider results are
+reported separately.
 
 The privacy suite is a hand-authored synthetic bilingual corpus covering the identifier
 groups in Table~\ref{tab:privacy-span-results} together with spacing and misspelling
 variants, obfuscated formats, over-redaction controls, consent state, and prompt injection.
-The cases were written without reference to the redaction patterns they test, so precision
-and recall fall below 100\%. Unlabelled personal names, clinician names in prose,
-month-name dates, and obfuscated contact formats go undetected. Each such case carries a
-written limitation in the archived results, and the release gate fails on any undisclosed
-failure. Reporting 75.5\% instead of tuning the corpus upward is deliberate: it is what
-transfers to a deployment.
+It measures the production call path with no known identifiers supplied to the redactor.
+The frozen v1.0.2 report records 71 true positives, 4 false positives, and 23 false negatives
+over 94 expected spans (94.7\% precision, 75.5\% recall, and 3.2\% false redaction).
+These figures describe the frozen fixtures rather than an independently held-out
+population or subsequent source changes. Retained identifiers include personal/clinician
+names in prose, month-name dates and obfuscated contacts. The archived results document
+these cases; pseudonymisation and consent remain necessary at the provider boundary.
 
-Navigation fixtures are scored on two paths, a recorded provider intent and the
-deterministic mock, against the classifier the request path itself uses. Uncertainty is a
-flag beside the candidates rather than a fourth exclusive class, and every path asserts
-that manual browsing stays available. The red-flag rules are keyword based and also match
-negated, third-person, and historical mentions, so they over-trigger toward emergency
-guidance; those cases are enumerated. Summary fixtures run the summarizer end to end under
-the mock provider and assert that no item cites a record the backend did not supply, that
-an empty request produces a not-found item, and that malformed output raises instead of
-degrading.
+Navigation fixtures score the recorded-provider and deterministic-mock paths separately
+against the classifier the request path itself uses. The deterministic emergency screen has
+TP=7, FN=0, FP=5, and TN=18; Table~\ref{tab:navigation-emergency-results} reports
+sensitivity, specificity, positive predictive value, and negative predictive value with
+two-sided 95\% Wilson intervals. Uncertainty is a flag beside candidates rather than a fourth
+exclusive class, and every path asserts that manual browsing stays available. The screen
+also matches some negated, third-person, and historical mentions. These clinician-reviewed
+fixtures are preliminary software checks, not clinical triage accuracy.
+Summary fixtures run the summarizer end to end under the mock provider and assert
+that no item cites a record the backend did not supply, that an empty request produces a
+not-found item, and that malformed output raises instead of degrading.
 
-Booking contention runs at 2, 10, and 50 concurrent attempts for 30 fresh-slot repetitions
-per level after warm-up, each requiring one committed appointment, no duplicate row,
-idempotent replay, rollback-safe retry, and post-commit outbox processing.
+The evaluation treats consent, redaction, route allowlisting and schema checks as software
+invariants. An LLM-only/deterministic-only/hybrid ablation and comparative clinical-output
+evaluation are outside its scope.
+
+Booking contention comprised 30 fresh-slot trials per level (2, 10, 50 requests), plus one
+excluded warm-up. Each required one persisted winner, expected conflicts, idempotent replay,
+mismatched-key rejection, and outbox processing. Table~\ref{tab:booking-results} reports n
+and nearest-rank p50/p95/p99 for transaction and outbox latency. Environment, raw observations,
+and 95\% trial-cluster bootstrap intervals are archived. In-process ASGI timings are not
+deployed-capacity estimates.
 
 \IfFileExists{generated/safety_results.tex}{\input{generated/safety_results.tex}}{}
 \IfFileExists{generated/booking_results.tex}{\input{generated/booking_results.tex}}{}
 
-The provider manifest records provider, model, interface version, region, temperature,
-context limit, timeout, retries, fallback policy, execution date, retention assumption, and
-paid-service requirement. Installation commands, checksums, raw output, and
-table-generation instructions ship with the archive.
+The provider manifest records model/interface, region, generation settings, timeout,
+retries, fallback, execution date, retention and paid-service assumptions. Recorded-provider
+fixtures use archived outputs; other adapters are unevaluated. Code Ocean runs deterministic
+fixture checks and regenerates tables from frozen reports, not host-specific timings.
+Installation commands, checksums, raw outputs and table-generation instructions accompany
+the archive.
 %
 
-\textbf{Prescription image OCR: a negative result.} An experimental pipeline recognises
-photographed prescriptions and matches them against the medicine reference, combining
-region detection, a local or cloud recognition backend, a dosage grammar, Bengali numeral
-normalization, and fuzzy catalog matching~\cite{du2020,prescriptionocr}. On handwritten
-Bangladeshi prescriptions the output is not usable even as a draft. Cursive prescriber
-handwriting is the binding constraint, and fuzzy matching against 67{,}001 brands turns a
-partly recognised token into a confident wrong match about as often as a correct one;
-raising the threshold trades those errors for empty results. Review gating keeps bad
-extractions out of the medication record, so the cost is wasted reviewer time rather than
-clinical risk, but a draft a reviewer must rewrite is not a working feature. We make no
-accuracy claim and publish no benchmark.
+\textbf{Experimental prescription OCR.} Region detection, local/cloud recognition, dosage
+grammar, Bengali numeral normalization and catalog matching form a review-gated pipeline
+~\cite{du2020,prescriptionocr}. Exploratory handwritten-prescription use required substantial
+manual correction: cursive text and partial tokens produced incorrect or empty matches.
+Users must verify every extracted row before saving it. This experimental feature has no
+reported task-accuracy benchmark; review gating addresses automatic writeback rather than
+establishing clinical reliability.
+
+The YOLO26s model card records the authors' Roboflow v2 attribution, corrected Colab
+recipe, artifact checksums and inspected metadata. PT settings agree with the notebook,
+and all 204 matched named ONNX tensors agree exactly after fusion. This verifies current
+parameter correspondence. Historical dataset linkage, differing validation logs and
+runtime-output differences are documented separately; the check does not measure held-out
+accuracy or full prediction equivalence. Approved weight distribution includes AGPL-3.0
+corresponding source, while prescription images remain private.
 
 \section{Illustrative examples}
 
-Figures~\ref{fig:ui-bilingual} to \ref{fig:ui-ai} show the interfaces these fixtures run
-against, from the demonstration deployment in Ethics.
+The patient dashboard displays stored-record coverage, $100n/4$, where $n$ is the number
+of measurement groups with finite readings in today's UTC window up to the snapshot.
+Groups comprise steps, sleep, heart rate and blood pressure (requiring both components).
+The adjacent panel lists their presence; the disclosure explains inputs and timestamps.
+Unavailable responses are distinct from zero. Coverage describes data presence rather
+than health or measurement quality and does not recommend recording all four groups.
+
+Figures~\ref{fig:ui-bilingual} to \ref{fig:ui-ai} illustrate the patient and clinician
+workflows in the demonstration deployment described in the ethics statement.
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=0.92\textwidth]{figures-ui/ui_dashboard_en.png}\\[3pt]
+\includegraphics[width=\textwidth]{figures-ui/ui_dashboard_en.png}\\[3pt]
 {\small (a) English}\\[6pt]
-\includegraphics[width=0.92\textwidth]{figures-ui/ui_dashboard_bn.png}\\[3pt]
+\includegraphics[width=\textwidth]{figures-ui/ui_dashboard_bn.png}\\[3pt]
 {\small (b) Bengali}
-\caption{One record view under the two bundled locales. Only the message catalogue differs.
-Numerals, personal names, and some server-generated strings stay untranslated, a gap in
-catalogue coverage rather than layout.}
+\caption{Patient dashboard in (a) English and (b) Bengali, showing navigation, stored-record
+coverage and measurement-group status. In this example, three of four groups contain
+records, giving 75\% coverage. The expandable calculation explains the inputs and time
+window. The percentage describes record presence, not clinical health.}
 \label{fig:ui-bilingual}
 \end{figure}
 
@@ -437,7 +455,7 @@ catalogue coverage rather than layout.}
 {\small (b) Patient-visible access log \hfill (c) Sharing controls at a phone viewport}
 \caption{The consent surface. Categories are granted per recipient and revocable at any
 time. Every doctor read, including assistant-mediated reads, lands in the log in (b). Panel
-(c) is the same screen as (a) rendered by the installed client.}
+(c) shows the same sharing controls at a phone viewport.}
 \label{fig:ui-consent}
 \end{figure}
 
@@ -454,75 +472,59 @@ built from records the request supplied. Neither surface writes to a record.}
 \label{fig:ui-ai}
 \end{figure}
 
-\textit{Assistant boundary.} A doctor has an active care relationship and a valid
-\texttt{specialty\_navigation} grant for the named mock provider (Fig.~\ref{fig:ui-ai}a).
-``Patient name: Test Rahim; phone: 01700000000'' becomes ``Patient name: [redacted-name];
-phone: [redacted-phone]'' before the schema-gated request. The response offers Dermatology
-as an uncertain candidate, says it is not a diagnosis, and keeps manual browsing. Asking
-next for a diagnosis and prescription returns a safe refusal. Inputs, authorization state,
-schema, and outputs are archived in \texttt{worked\_examples.json}.
-
-\textit{Registry containment.} A patient asks the assistant to open the admin dashboard.
-The registry holds no administrative route, so resolution yields no destination and the
-engine falls back. Nothing depends on the model declining, and naming the route directly
-by prompt injection ends the same way.
-
-\textit{Consent restriction.} A doctor requests a summary for a patient who shared
-conditions and medications but not test results (Fig.~\ref{fig:ui-consent}a). The guard
-drops the laboratory category, the payload carries a restriction notice into the prompt,
-and the summary reports the omission instead of inferring around it. The read goes to the
+\textit{Example workflow.} A doctor with a valid \texttt{specialty\_navigation} grant sends
+a redacted request and receives an uncertain specialty candidate beside manual browsing;
+diagnosis and prescription requests are refused. A request for an admin route yields no
+destination because the registry contains none. A summary request with laboratory data
+withheld drops that category, carries a restriction notice, and records the read in the
 patient-visible audit table.
 
 \section{Impact}
 
-Medora is a compact test bed for assistive-AI containment, consent state machines, source
-traceability, and transaction/event boundaries. The medicine reference and its build script
-are reusable away from the platform, the deterministic mock provider makes interface and
-failure tests reproducible without paid credentials, and the registry pattern transfers to
-any role-scoped application.
+Medora provides an inspectable environment for research on purpose-specific consent,
+bilingual interaction, source traceability and concurrent booking. Researchers can reuse
+the medicine builder, deterministic mock and role-scoped registry, or test how consent
+and record availability affect assistant workflows. Transaction and outbox measurements
+separate database consistency from notification delivery.
 
-The limitations are substantial. Six of the nine groups in Table~\ref{tab:ai-surface} carry
-no accuracy or faithfulness measurement, and the structural controls covering them are not
-evidence that their outputs are good. The medicine reference consolidates third-party
-datasets, two of them website scrapes: no regulatory source has checked it, its indication
-text has had no clinical review, and its coverage reflects when its sources were collected. Structured redaction misses unknown and indirect
-identifiers, emergency rules cannot cover every presentation, summaries and specialty
-candidates may omit or distort facts, and prescription OCR does not work. Provider
-behavior, cost, and retention change. The concurrency benchmark shows database behavior in
-its tested environment, not universal capacity, and no clinical trial, regulatory
-assessment, or penetration test has been done.
+The reported evidence covers software fixtures and one booking topology. Three AI endpoint
+groups have task-level fixture checks; six remain documented capabilities. Application-specific
+validation is needed for summary faithfulness, handwritten OCR, exhaustive identifier/red-flag
+coverage and current medicine registration. Provider behaviour, cost and retention also depend
+on deployment. Clinical trials, regulatory assessment and penetration testing are outside
+the reported evaluation.
 
 \section{Conclusions}
 
-Medora is research software for bilingual patient-held records, appointment coordination,
-and assistive AI bounded by construction rather than instruction~\cite{medorasw}. Its two
-reusable parts are the open Bangladesh medicine reference with its build and the
-containment pattern above. Judge it as an inspectable platform for software research, not a
-clinically validated medical system.
+Medora integrates bilingual patient-held records, transactional booking and consent-gated
+assistive AI~\cite{medorasw}. Its reusable medicine builder and role-scoped workflow provide
+a concrete basis for software research. The accompanying fixtures and source-linked artifacts
+make the evaluated behaviour inspectable, while human review governs clinical drafts.
 
 \section*{Ethics and data availability}
 \label{sec:ethics}
 
-Code is released under the MIT License; annotations, synthetic fixtures, and aggregate
-results under CC BY 4.0. The interface figures come from a non-production demonstration
+Project-authored source retains its MIT notices; the optional combined detector
+distribution uses AGPL-3.0 with corresponding source and preserved notices. Synthetic
+fixtures and aggregate results use CC BY 4.0. The interface figures come from a non-production demonstration
 deployment: the patient record belongs to a consenting author and the clinician entries are
 test accounts.
 
-The medicine reference consolidates five sources licensed CC0 1.0 (two), Apache 2.0, MIT,
-and CC BY 4.0~\cite{bdmeds}, all of which permit redistribution. The corpus is offered under
-CC BY 4.0, the most restrictive term in that set, with a notice crediting every source and
-the Apache 2.0 statement of changes. Two sources are website scrapes whose uploaders did
-not author the material, which is why the corpus is called a consolidation and not a
-register.
+The revision medicine build inventories five sources, using four for identity fields,
+including Mendeley Data V1 under CC BY 4.0~\cite{bdmeds}. It excludes indication prose
+and preserves row-level attribution and changes. The authors select multi-source public
+distribution after documenting its source permissions; platform labels alone are not
+treated as upstream approval. A small source/risk spot-check packet is prepared, not
+completed clinical validation. The reported prior doctor's source-review scope still
+needs a dated record. No current DGDA concordance or national completeness is established.
 
-The prescription image corpus is not deposited. It is identifiable medical material
-collected under verbal agreement for an undergraduate project, no institutional review
-board reviewed the collection, and the evaluation it was assembled for is not part of this
-release. Consent for a student project is not informed consent for permanent worldwide
-publication. The images retain names, registration numbers, and clinic details, and
-handwriting is quasi-biometric, so redacting direct identifiers would reduce
-re-identification risk without removing it. Any future deposit needs documented consent or
-controlled access.
+The prescription image corpus is not deposited. Authors report public MedicalImage
+Roboflow material and friend/family contributions consented for research, not image
+redistribution. The supplied author/institution decision permits release of derived
+detector weights; this statement is recorded without inventing an ethics-committee
+approval number. Images, private exports and original notebook outputs remain excluded.
+The model card distinguishes author-reported workspace version 2 from directly inspected
+artifact metadata and records the remaining historical dataset-link limitations.
 
 A licensed clinician reviewed all 30 navigation fixtures case by case, correcting two
 Bengali red-flag presentations to emergency; the rules were extended to match. Every
@@ -557,8 +559,18 @@ submitted work.
 \bibitem{prescriptionocr} A. Datta et al., Preserving medical information from doctor's prescription ensuring relation among the terminology, Computers in Biology and Medicine 188 (2025) 109812, \href{https://doi.org/10.1016/j.compbiomed.2025.109812}{doi:10.1016/j.compbiomed.2025.109812}.
 \bibitem{shing2021} H.-C. Shing et al., Towards clinical encounter summarization: Learning to compose discharge summaries from prior notes, arXiv:2104.13498 (2021).
 \bibitem{tracsum} B. Chu, M. Li, S. Frihat, C. Gu, G. Lodde, E. Livingstone, N. Fuhr, TracSum: a new benchmark for aspect-based summarization with sentence-level traceability in medical domain, in: Proc. EMNLP, 2025, pp. 844--864, \href{https://doi.org/10.18653/v1/2025.emnlp-main.43}{doi:10.18653/v1/2025.emnlp-main.43}.
-\bibitem{wallace2022} W. Wallace et al., The diagnostic and triage accuracy of digital and online symptom checker tools: a systematic review, npj Digital Medicine 5 (2022) 118.
-\bibitem{medorasw} S.H. Siddiqui, A. Tahsin, K.S. Alam, Medora: a bilingual, consent-gated AI-native healthcare management and consultation platform for Bangladesh, \ReleaseVersion{} [software], \ReleaseDOI.
+\bibitem{wallace2022} W. Wallace et al., The diagnostic and triage accuracy of digital and online symptom checker tools: a systematic review, npj Digital Medicine 5 (2022) 118, \href{https://doi.org/10.1038/s41746-022-00667-w}{doi:10.1038/s41746-022-00667-w}.
+\bibitem{zhang2024clinicalsummary} R. Zhang et al., Adapted large language models can outperform medical experts in clinical text summarization, Nature Medicine 30 (2024), \href{https://doi.org/10.1038/s41591-024-02855-5}{doi:10.1038/s41591-024-02855-5}.
+\bibitem{goh2025gpt4assistance} E. Goh et al., GPT-4 assistance for improvement of physician performance on patient care tasks: a randomized controlled trial, Nature Medicine (2025), \href{https://doi.org/10.1038/s41591-024-03456-y}{doi:10.1038/s41591-024-03456-y}.
+\bibitem{khan2023banglahealthner} A.A. Khan et al., NERvous About My Health: Constructing a Bengali Medical Named Entity Recognition Dataset, Findings of EMNLP (2023) 5768--5774, \href{https://doi.org/10.18653/v1/2023.findings-emnlp.383}{doi:10.18653/v1/2023.findings-emnlp.383}.
+\bibitem{campion2025diri} T.R. Campion et al., DIRI: Adversarial Patient Reidentification with Large Language Models for Evaluating Clinical Text Anonymization, AMIA Jt. Summits Transl. Sci. Proc. (2025) 355--364, \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC12150728/}.
+\bibitem{yang2025adversarial} Y. Yang, Q. Jin, F. Huang et al., Adversarial prompt and fine-tuning attacks threaten medical large language models, Nature Communications 16 (2025) 9011, \href{https://doi.org/10.1038/s41467-025-64062-1}{doi:10.1038/s41467-025-64062-1}.
+\bibitem{fhirconsent} HL7 International, FHIR R5 Consent, \url{https://hl7.org/fhir/R5/consent.html}, accessed 2026.
+\bibitem{ihepcf} IHE International, Privacy Consent on FHIR (PCF), \url{https://profiles.ihe.net/ITI/PCF/index.html}, accessed 2026.
+\bibitem{gdpr} European Parliament and Council, Regulation (EU) 2016/679 (General Data Protection Regulation), \url{https://eur-lex.europa.eu/eli/reg/2016/679/oj}, accessed 2026.
+\bibitem{mdr} European Parliament and Council, Regulation (EU) 2017/745 on medical devices, \url{https://eur-lex.europa.eu/eli/reg/2017/745/oj}, accessed 2026.
+\bibitem{amg} Federal Ministry of Justice, German Medicinal Products Act (AMG), English translation, \url{https://www.gesetze-im-internet.de/englisch_amg/}, accessed 2026.
+\bibitem{medorasw} S.H. Siddiqui, A. Tahsin, K.S. Alam, Medora: a bilingual, consent-gated healthcare management and consultation platform with assistive AI for Bangladesh, \ReleaseVersion{} [software], \ReleaseDOI.
 \end{thebibliography}
 
 \end{document}

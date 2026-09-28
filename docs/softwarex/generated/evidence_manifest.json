@@ -1,0 +1,135 @@
+{
+  "schema_version": "1.0.0",
+  "release_identity": {
+    "version": "v1.0.2",
+    "git_commit": "7a7dae6c7fd4924aab6be5f93980e441c0b3aa78",
+    "zenodo_doi": "10.5281/zenodo.21846125",
+    "archive_sha256": "608002bfae65004db01ac45d0512c0e80b6b117e68f4c24dfd7efdeaf6850a73"
+  },
+  "artifacts": {
+    "docs/softwarex/release_metadata.json": {
+      "sha256": "90ab56a6b77269e04e6d4f3c8257ec2aeb85fb723409690260fd049ac6eb8025",
+      "bytes": 1576
+    },
+    "tests/benchmarks/provider_manifest.json": {
+      "sha256": "4b74c6e80f2c07db69cc6ea3f2fcee996414357520c233c83da66f872671a071",
+      "bytes": 5380
+    },
+    "docs/softwarex/generated/safety_results.json": {
+      "sha256": "0db1695b2661a4e7e4717bb1f0639b2c1a3cfb0d865bda5bf38b77010f82caf7",
+      "bytes": 164128
+    },
+    "docs/softwarex/generated/safety_results.tex": {
+      "sha256": "753e16d4c00e275b9a1c105ed39bbc77834589edb2eb58719947ea4c8c1ea205",
+      "bytes": 3399
+    },
+    "docs/softwarex/generated/booking_results.json": {
+      "sha256": "e0ae90c2d1ad38c9ad86ee24382bb21ee967a24c4c2ef39f25c64d10e8529908",
+      "bytes": 113938
+    },
+    "docs/softwarex/generated/booking_results.tex": {
+      "sha256": "51a05a47780cea894ba6eccbb79b668314068e844a94f9640ef10e118b0a8e19",
+      "bytes": 869
+    },
+    "docs/softwarex/generated/dependency_container_model_checksums.json": {
+      "sha256": "b0aa48fefbba2750bfc738f9b104eb628e7dd150b5097fc855169c586bdf00d3",
+      "bytes": 4708
+    },
+    "docs/softwarex/medora_softwarex.tex": {
+      "sha256": "b46ee9dbf0d2d8afe23f2b44347d2b59b27dc1e1ede261dca59f47d54ddbe862",
+      "bytes": 39909
+    },
+    "docs/REPRODUCING.md": {
+      "sha256": "b15766a356a2832145a34d1423ceb8100835432c98b53023ec112ebc3a532892",
+      "bytes": 6780
+    },
+    "docs/softwarex/response_to_revision.md": {
+      "sha256": "09ed9f81e294e77b4cd2aeb7f4da99bec8d365b7eb1f102a2dbd0d2d0895b110",
+      "bytes": 12213
+    },
+    "docs/softwarex/CODE_OCEAN_CAPSULE.md": {
+      "sha256": "9ca175c2adb413377e9a3318427d7f22752bf21e70f049ff26c36d1bd7160e47",
+      "bytes": 7601
+    },
+    "docs/softwarex/FINAL_HUMAN_GATES.md": {
+      "sha256": "c97a062b81b13d83c934246eb82369ffbbeca1eaf3e7ea4ebf48f5e53c430567",
+      "bytes": 8316
+    },
+    "docs/INTEROPERABILITY.md": {
+      "sha256": "5a89c3b9ebc38e6d37729c0f90253f690365378fa06f7656a914784bf5832bd4",
+      "bytes": 3386
+    },
+    "docs/THREAT_MODEL.md": {
+      "sha256": "aa7ceb51e590a2e2a32180f38be33de074da4ea5fefc398700081ddd5b7c2321",
+      "bytes": 3515
+    },
+    "tools/release/render_softwarex_tables.py": {
+      "sha256": "cb44a4a87f4be7252774c001db59d099a1f8b71ca2a7558a6694cb3c785ffd6d",
+      "bytes": 1345
+    },
+    "tools/release/run_softwarex_capsule.sh": {
+      "sha256": "afaef90ca7e55d43c8badf511a9f319c8f58952507a49efb2967f7ba3427b34c",
+      "bytes": 3501
+    },
+    "run": {
+      "sha256": "584872bf29029b4ab31d6549861a0d92b3ed313fa945eb88ceedf0b2ff97c501",
+      "bytes": 87
+    },
+    "data/medicine_reference/PROVENANCE.md": {
+      "sha256": "c1742015a9d0173291c850bbe25808799fdff9879df8a2e5834945b8e6cd055a",
+      "bytes": 3578
+    },
+    "data/medicine_reference/UPDATE_POLICY.md": {
+      "sha256": "acc9116a6c6d46716b0271ce4c4a0d6e4ba27d0c5747b24fafc3a5ccf0fae4e6",
+      "bytes": 1616
+    },
+    "data/medicine_reference/SOURCE_PERMISSION_RECORD.json": {
+      "sha256": "45005d5de00fa14dadbe27ecec38fe918599eb7bd0bb8f3daa7a14a259fd0a70",
+      "bytes": 2514
+    },
+    "THIRD_PARTY_NOTICES.md": {
+      "sha256": "2234afd3ab2be9decf744153dcbe38d5ca29b3a9fd72e7b6ae0898f235b433fd",
+      "bytes": 2928
+    },
+    "docs/softwarex/generated/dashboard_capture_receipt.json": {
+      "sha256": "7435c1cd7e3f7d3cd54ebd493db5f3803b1126d841e08ac0f47cd3816a8f321f",
+      "bytes": 2837
+    },
+    "docs/softwarex/generated/detector_metadata_inspection.json": {
+      "sha256": "bcddd6426dab0549802ccfbbb3aa38ce1caaef3baec4150a3b96093b1780cf1b",
+      "bytes": 4756
+    },
+    "docs/softwarex/generated/detector_pair_verification.json": {
+      "sha256": "b4231f865a67c302d4b81c7aa1ee25c4fe8a2881f742b65dce22230f76ac056c",
+      "bytes": 32447
+    },
+    "docs/softwarex/generated/medicine_v2_full_build_manifest.json": {
+      "sha256": "0998d7e1abcb06a311f550bfb1e49b973205b57b50ebbf252d0c22a5dcc00e5b",
+      "bytes": 4716
+    },
+    "docs/softwarex/generated/medicine_v2_full_quality_report.json": {
+      "sha256": "54873f7933cb30cb784937b8aa532ec0ee53cb32a2b2edba8266b81760b9e681",
+      "bytes": 1108
+    },
+    "docs/softwarex/generated/medicine_v2_full_change_report.json": {
+      "sha256": "79f0d3f0cd99cf0259b6fc70b912fd8180d1c38c9493396704c117d79a659b0f",
+      "bytes": 1515
+    },
+    "docs/softwarex/generated/medicine_v2_full_verification.json": {
+      "sha256": "aad53c0535dc884ebc766b0811c388a7de740e2fa78d6705b12410e1f1bae4fb",
+      "bytes": 528
+    },
+    "ai_service/models/Yolo26s/AUTHOR_DISTRIBUTION_DECISION.md": {
+      "sha256": "b075f706b9edcf4a4c698627a405a0a44c44a340a13f25697992ede3446ff941",
+      "bytes": 1946
+    },
+    "ai_service/models/Yolo26s/MODEL_CARD.md": {
+      "sha256": "4d71724288dcf750b7c41a3f89e59f0a4b2340f19e63301524bc4cf55569ae5b",
+      "bytes": 5668
+    },
+    "ai_service/models/Yolo26s/DISTRIBUTION.md": {
+      "sha256": "5ce893571bd282c126c7da6bd5fec65bc79a228aa805054dff8bbd8999a20a42",
+      "bytes": 1866
+    }
+  }
+}

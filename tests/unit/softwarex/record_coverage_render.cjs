@@ -1,0 +1,31 @@
+'use strict';
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const fromFrontend = name => require(require.resolve(name, { paths: [path.resolve('frontend')] }));
+const ts = fromFrontend('typescript'), React = fromFrontend('react');
+const { renderToStaticMarkup } = fromFrontend('react-dom/server');
+const source = fs.readFileSync('frontend/components/dashboard/record-coverage-card.tsx', 'utf8');
+const compiled = ts.transpileModule(source, { compilerOptions: { jsx: ts.JsxEmit.ReactJSX, module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 } }).outputText;
+const result = { exports: {} };
+const card = ({ children, ...props }) => React.createElement('div', props, children);
+new Function('require', 'module', 'exports', compiled)(name => name === '@/components/ui/card' ? { Card: card, CardContent: card, CardHeader: card, CardTitle: card } : fromFrontend(name), result, result.exports);
+const labels = { title: "Today's record coverage", summary: '2 of 4 groups recorded', unavailable: 'Record coverage unavailable', recorded: 'Recorded', notRecorded: 'No record', recordedGroups: 'Groups with records', missingGroups: 'Groups without records', details: 'Inputs and calculation', formula: 'Coverage = 100 × recorded groups ÷ 4.', scope: 'Stored-data coverage only, not a health score.', quality: 'Not a measurement-quality check.', window: 'Window UTC', asOf: 'Snapshot UTC', none: 'None', groups: { steps: 'Steps', sleep: 'Sleep hours', heart_rate: 'Heart rate', blood_pressure: 'Blood pressure' } };
+const coverage = { recorded_groups: 2, total_groups: 4, coverage_percent: 50, groups: [{ key: 'steps', recorded: true }, { key: 'sleep', recorded: true }, { key: 'heart_rate', recorded: false }, { key: 'blood_pressure', recorded: false }], window_start_utc: '2026-09-28T00:00:00+00:00', window_end_utc: '2026-09-29T00:00:00+00:00', as_of_utc: '2026-09-28T12:00:00+00:00' };
+const render = (coverage, locale = 'en') => renderToStaticMarkup(React.createElement(result.exports.RecordCoverageCard, { coverage, labels, locale }));
+const available = render(coverage), missing = render(null), zero = render({ ...coverage, recorded_groups: 0, coverage_percent: 0 });
+assert(available.includes('50%') && available.includes('2 / 4'));
+assert(available.includes('Blood pressure') && available.includes('No record'));
+assert(available.includes('Sep 28, 2026') && available.includes('Sep 29, 2026'));
+assert(available.includes('6:00 PM') && !available.includes('2026-09-28T12:00:00'));
+assert(render(coverage, 'bn').includes(new Intl.DateTimeFormat('bn-BD', { dateStyle: 'medium', timeZone: 'UTC' }).format(new Date(coverage.window_start_utc))));
+assert(render({ ...coverage, as_of_utc: 'invalid timestamp' }).includes('invalid timestamp'));
+assert(missing.includes('Record coverage unavailable') && !missing.includes('0%'));
+assert(zero.includes('0%') && zero.includes('0 / 4'));
+assert(available.includes('not a health score') && available.includes('Inputs and calculation'));
+assert(!available.includes('Excellent') && !available.includes('Needs Attention'));
+for (const locale of ['en', 'bn']) {
+  const messages = JSON.parse(fs.readFileSync(`frontend/i18n/messages/${locale}/common.json`, 'utf8')).patientHome.recordCoverage;
+  for (const key of ['title', 'formula', 'scope', 'quality', 'unavailable']) assert.equal(typeof messages[key], 'string');
+}
+console.log('PASS: record-coverage render, formula/inputs, 0% vs unavailable, no health grades, and English/Bengali labels.');

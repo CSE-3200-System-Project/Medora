@@ -29,6 +29,9 @@ export function TodaySchedule({ medications, onTake, onSkip, onRemind }: TodaySc
         </div>
       </CardHeader>
       <CardContent className="space-y-3">
+        <p className="text-xs text-muted-foreground">
+          {tCommon("analytics.todaySchedule.scopeNote")}
+        </p>
         {medications.map((medication) => (
           <MedicationTimelineItem
             key={medication.id}

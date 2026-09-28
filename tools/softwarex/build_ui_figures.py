@@ -5,15 +5,15 @@ The manuscript embeds raw product screenshots. Hand-cropping them would make the
 figures unreproducible, so this script derives every published figure
 deterministically from the archived source image:
 
-1. cover contact details belonging to a real person with opaque fill,
-2. trim the browser scrollbar gutter on desktop captures,
-3. trim uniform blank bands from each edge,
-4. downscale to a fixed width so the embedded PNG is not carrying pixels the page
+1. trim the browser scrollbar gutter on desktop captures,
+2. trim uniform blank bands from each edge,
+3. downscale to a fixed width so the embedded PNG is not carrying pixels the page
    cannot show,
-5. write to ``docs/softwarex/figures-ui/`` under the name the manuscript uses.
+4. write to ``docs/softwarex/figures-ui/`` under the name the manuscript uses.
 
-Step 1 uses opaque fill rather than blur for the reason ``tools/redaction`` gives:
-blur is linear and partially invertible, so it is not a de-identification control.
+Privacy protection must happen before a capture enters the repository: use synthetic
+records and inspect every source image for identifying content. This script does not
+redact or de-identify screenshots.
 
 Re-running it reproduces byte-comparable output from the same inputs.
 
@@ -38,15 +38,13 @@ PHONE_WIDTH = 460
 # (source, output name, kind). Kind selects the target width and whether the
 # right-hand scrollbar gutter is removed.
 FIGURES: tuple[tuple[str, str, str], ...] = (
-    ("patient/dashboard.png", "ui_dashboard_en.png", "desktop"),
-    ("patient/dashboard_bangla.png", "ui_dashboard_bn.png", "desktop"),
+    ("patient/dashboard_frontend.png", "ui_dashboard_en.png", "framed"),
+    ("patient/dashboard_frontend_bangla.png", "ui_dashboard_bn.png", "framed"),
     ("patient/data_sharing.png", "ui_consent_sharing.png", "desktop"),
     ("patient/history_access.png", "ui_consent_audit.png", "desktop"),
     ("patient/Find_doc_ai.png", "ui_ai_navigation.png", "desktop"),
     ("doctor/ai_summarizer_for_patient.png", "ui_ai_summary.png", "desktop"),
-    ("doctor/consultation.png", "ui_prescription.png", "desktop"),
     ("patient/chorui_ai_mob.png", "ui_mobile_assistant.png", "phone"),
-    ("patient/medical_history_mob.png", "ui_mobile_history.png", "phone"),
     ("patient/datasharing_mob.png", "ui_mobile_consent.png", "phone"),
 )
 
@@ -61,15 +59,6 @@ SCROLLBAR_GUTTER = 24
 # gradient does not.
 CONTENT_VARIATION = 18
 CONTENT_PADDING = 12
-
-# Regions covered before any other processing, in source pixels. These are the
-# telephone number and email address of a real person shown in the demonstration
-# account; the pseudonymous patient reference beside them is deliberately kept,
-# because it is what the manuscript describes reaching the model.
-REDACTIONS: dict[str, tuple[tuple[int, int, int, int], ...]] = {
-    "doctor/consultation.png": ((330, 526, 575, 586),),
-}
-
 
 def _line_is_flat(pixels: list[tuple[int, int, int]]) -> bool:
     for channel in range(3):
@@ -132,19 +121,17 @@ def trim_gradient_border(image: Image.Image) -> Image.Image:
     return image.crop((left, top, right, bottom))
 
 
-def build(source: Path, destination: Path, kind: str, key: str) -> tuple[int, int]:
+def build(source: Path, destination: Path, kind: str) -> tuple[int, int]:
     image = Image.open(source).convert("RGB")
-
-    for box in REDACTIONS.get(key, ()):  # opaque fill, never blur
-        image.paste((0, 0, 0), box)
 
     if kind == "desktop" and image.width > 2 * SCROLLBAR_GUTTER:
         image = image.crop((0, 0, image.width - SCROLLBAR_GUTTER, image.height))
 
-    image = trim_flat_border(image)
-    image = trim_gradient_border(image)
+    if kind != "framed":
+        image = trim_flat_border(image)
+        image = trim_gradient_border(image)
 
-    target_width = DESKTOP_WIDTH if kind == "desktop" else PHONE_WIDTH
+    target_width = PHONE_WIDTH if kind == "phone" else DESKTOP_WIDTH
     if image.width > target_width:
         target_height = round(image.height * target_width / image.width)
         image = image.resize((target_width, target_height), Image.LANCZOS)
@@ -161,7 +148,7 @@ def main() -> int:
         return 2
 
     for name, output_name, kind in FIGURES:
-        size = build(SOURCE_DIR / name, OUTPUT_DIR / output_name, kind, name)
+        size = build(SOURCE_DIR / name, OUTPUT_DIR / output_name, kind)
         print(f"{output_name}: {size[0]}x{size[1]} from {name}")
     return 0
 

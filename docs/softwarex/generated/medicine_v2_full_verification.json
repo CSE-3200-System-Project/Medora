@@ -1,0 +1,16 @@
+{
+  "corpus_sha256": "84539c102b313833e10108576e5b346611882d796f2e562db61226d63e1a548d",
+  "profile": "full-local",
+  "projected_seed_counts": {
+    "brand_names": 31651,
+    "brands": 46614,
+    "drugs": 6153,
+    "generic_names": 2268,
+    "rows": 46614,
+    "search_terms": 52767
+  },
+  "rows_verified": 46614,
+  "scope": "Structural/provenance checks only; no database writes, clinical correctness, completeness or currentness attestation",
+  "source_contributor_links_verified": 72969,
+  "status": "pass"
+}

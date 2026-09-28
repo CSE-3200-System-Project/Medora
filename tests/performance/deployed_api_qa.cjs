@@ -34,7 +34,8 @@ function loadPublicFrontendEnv() {
 function percentile(values, ratio) {
   if (!values.length) return 0;
   const sorted = [...values].sort((a, b) => a - b);
-  return Math.round(sorted[Math.min(sorted.length - 1, Math.floor(sorted.length * ratio))]);
+  const rank = Math.ceil(sorted.length * ratio);
+  return Math.round(sorted[Math.max(0, Math.min(sorted.length - 1, rank - 1))]);
 }
 
 const endpoints = {

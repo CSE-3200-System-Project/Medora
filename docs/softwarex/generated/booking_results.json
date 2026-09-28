@@ -1,6 +1,40 @@
 {
-  "schema_version": "1.0.0",
-  "executed_at": "2026-08-08T04:00:44.225669+00:00",
+  "schema_version": "1.1.0",
+  "executed_at": "2026-09-23T10:21:52.623698+00:00",
+  "environment": {
+    "host": {
+      "os": "Windows-11-10.0.26200-SP0",
+      "os_release": "11",
+      "os_version": "10.0.26200",
+      "machine": "AMD64",
+      "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD",
+      "logical_cpu_count": 12,
+      "total_memory_bytes": 17101836288,
+      "python_version": "3.13.14"
+    },
+    "database": {
+      "database_name": "test",
+      "server_version": "16.15",
+      "max_connections": "100",
+      "shared_buffers": "128MB",
+      "work_mem": "4MB",
+      "synchronous_commit": "on",
+      "fsync": "on"
+    },
+    "postgres_container_image": "postgres:16-alpine",
+    "docker_server_version": "29.6.2",
+    "topology": "Pytest client and FastAPI ASGI app run in-process on the recorded host; PostgreSQL runs in an isolated local Testcontainers container reached through its mapped port. Client, app, and database are colocated on one workstation. This is not deployed capacity.",
+    "measurement": {
+      "request_clock": "time.perf_counter (monotonic); starts immediately before ASGI POST and ends after response JSON decoding; includes application processing and database commit, excludes external network/TLS.",
+      "outbox_clock": "processed_at minus created_at; PostgreSQL server timestamp to application UTC timestamp on the same workstation; measured after the request in a separate session; not user-visible delivery latency.",
+      "timer_resolution_seconds": 1e-07,
+      "locality": "test client and FastAPI process on host; PostgreSQL in a local Docker container on the same workstation."
+    },
+    "source": {
+      "git_head": "88eacb3b10d0b50ddb43f6084a1657065c818599",
+      "working_tree_dirty": true
+    }
+  },
   "protocol": {
     "concurrency": [
       2,
@@ -8,7 +42,14 @@
       50
     ],
     "repetitions_per_level": 30,
-    "warmup_per_level": 1
+    "warmup_per_level": 1,
+    "latency_uncertainty": {
+      "method": "percentile cluster bootstrap",
+      "confidence_level": 0.95,
+      "replicates": 2000,
+      "resampling_unit": "independent fresh-slot repetition; all simultaneous request latencies within a trial stay together",
+      "seed": 20260923
+    }
   },
   "warmup_excluded": {
     "2": {
@@ -22,11 +63,11 @@
       "idempotency_mismatch_rejected": true,
       "outbox": {
         "processed": true,
-        "provider_propagation_ms": 177.258
+        "provider_propagation_ms": 136.298
       },
       "request_latencies_ms": [
-        210.85680001124274,
-        192.56930000847206
+        108.29430000012508,
+        130.97220000054222
       ],
       "passed": true
     },
@@ -41,19 +82,19 @@
       "idempotency_mismatch_rejected": true,
       "outbox": {
         "processed": true,
-        "provider_propagation_ms": 836.544
+        "provider_propagation_ms": 577.658
       },
       "request_latencies_ms": [
-        440.6433000112884,
-        439.6202999923844,
-        488.81100000289734,
-        540.3196999977808,
-        589.3914000043878,
-        792.9315000073984,
-        739.6963999926811,
-        638.5021000023698,
-        839.0038999932585,
-        689.9728999997023
+        318.4084000004077,
+        317.6673000016308,
+        378.6841999990429,
+        411.6020000001299,
+        347.46959999938554,
+        537.1624999988853,
+        568.519299999025,
+        477.07829999853857,
+        447.1001999991131,
+        505.75709999975516
       ],
       "passed": true
     },
@@ -68,59 +109,59 @@
       "idempotency_mismatch_rejected": true,
       "outbox": {
         "processed": true,
-        "provider_propagation_ms": 1589.82
+        "provider_propagation_ms": 985.3499999999999
       },
       "request_latencies_ms": [
-        869.318100012606,
-        885.366200003773,
-        867.1121999941533,
-        876.331300009042,
-        888.0975999927614,
-        941.7856000072788,
-        1089.0329999965616,
-        985.5414000048768,
-        1032.5115000014193,
-        1286.7515999969328,
-        1237.9236000124365,
-        1150.8013999991817,
-        1337.1882999927038,
-        1382.3837999952957,
-        1432.464199999231,
-        1705.9874999977183,
-        1442.0670999970753,
-        1450.0757999921916,
-        1456.365600010031,
-        1463.1659000006039,
-        1469.0718000056222,
-        1476.208600011887,
-        1484.3910000054166,
-        1492.0764000125928,
-        1500.586000009207,
-        1510.0854999909643,
-        1518.4215000044787,
-        1526.143900002353,
-        1534.770500002196,
-        1541.228999994928,
-        1549.0171999990707,
-        1553.517099993769,
-        1561.4443000085885,
-        1569.3355000112206,
-        1577.3117000062484,
-        1582.0366000116337,
-        1589.7592999972403,
-        1595.732500005397,
-        1604.046799999196,
-        1611.429099997622,
-        1617.1985999972094,
-        1629.987100008293,
-        1637.5603000051342,
-        1645.6057999894256,
-        1654.0238999878056,
-        1662.4197000055574,
-        1670.333700007177,
-        1676.4604000054533,
-        1684.5582999958424,
-        1689.3429000047036
+        584.5889000011084,
+        598.3164000008401,
+        581.7918000011559,
+        594.1681000003882,
+        588.7949000007211,
+        626.9916000001103,
+        657.5587000006635,
+        718.473200000517,
+        687.9576999999699,
+        748.3348999994632,
+        810.7607000001735,
+        778.3400999996957,
+        847.8900000009162,
+        896.1791999990965,
+        950.1470000013796,
+        1180.7423999998719,
+        959.6257000011974,
+        968.9046000003145,
+        976.9176999998308,
+        983.098599999721,
+        997.404000001552,
+        1003.5780999987765,
+        1020.0332000003982,
+        1028.8106000007247,
+        1037.0542000000569,
+        1042.590699998982,
+        1048.8158000007388,
+        1054.6573999999964,
+        1060.6166000015946,
+        1066.6369000009581,
+        1072.8146000001288,
+        1077.0234999999957,
+        1083.0597999993188,
+        1087.8856999988784,
+        1092.458400000396,
+        1097.1603999987565,
+        1102.29149999941,
+        1105.804500000886,
+        1111.0490000010032,
+        1115.4678000002605,
+        1120.4125000003842,
+        1129.2695000011008,
+        1134.9147000000812,
+        1139.952000001358,
+        1144.610500001363,
+        1150.506399999358,
+        1155.4748999988078,
+        1161.726099999214,
+        1165.1641000007658,
+        1170.6566000011662
       ],
       "passed": true
     }
@@ -134,18 +175,46 @@
       "transaction_latency_ms": {
         "scope": "HTTP request through committed transaction",
         "n": 60,
-        "mean": 35.79605333313035,
-        "p50": 35.717699996894225,
-        "p95": 38.826300005894154,
-        "p99": 41.37479999917559
+        "mean": 24.972496666638715,
+        "p50": 24.61340000081691,
+        "p95": 26.753699999972014,
+        "p99": 31.449699999939185,
+        "cluster_bootstrap_ci95_ms": {
+          "p50": {
+            "lower_95": 24.33960000053048,
+            "upper_95": 25.074799999856623
+          },
+          "p95": {
+            "lower_95": 25.591800000256626,
+            "upper_95": 31.006299999717157
+          },
+          "p99": {
+            "lower_95": 25.850599999102997,
+            "upper_95": 31.449699999939185
+          }
+        }
       },
       "notification_propagation_latency_ms": {
         "scope": "outbox creation to processed_at; not database consistency",
         "n": 30,
-        "mean": 64.3762,
-        "p50": 64.269,
-        "p95": 67.74900000000001,
-        "p99": 71.41300000000001
+        "mean": 44.690733333333334,
+        "p50": 44.176,
+        "p95": 51.696,
+        "p99": 54.172,
+        "cluster_bootstrap_ci95_ms": {
+          "p50": {
+            "lower_95": 43.306999999999995,
+            "upper_95": 44.572
+          },
+          "p95": {
+            "lower_95": 44.939,
+            "upper_95": 54.172
+          },
+          "p99": {
+            "lower_95": 46.392,
+            "upper_95": 54.172
+          }
+        }
       },
       "raw": [
         {
@@ -159,8 +228,12 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 71.41300000000001
+            "provider_propagation_ms": 51.696
           },
+          "request_latencies_ms": [
+            31.006299999717157,
+            31.449699999939185
+          ],
           "passed": true
         },
         {
@@ -174,8 +247,12 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 65.103
+            "provider_propagation_ms": 44.862
           },
+          "request_latencies_ms": [
+            25.085900000703987,
+            25.591800000256626
+          ],
           "passed": true
         },
         {
@@ -189,8 +266,12 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 63.4
+            "provider_propagation_ms": 44.098
           },
+          "request_latencies_ms": [
+            24.694899999303743,
+            25.145100000372622
+          ],
           "passed": true
         },
         {
@@ -204,8 +285,12 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 66.496
+            "provider_propagation_ms": 44.448
           },
+          "request_latencies_ms": [
+            24.593300000560703,
+            25.061600001208717
+          ],
           "passed": true
         },
         {
@@ -219,8 +304,12 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 59.966
+            "provider_propagation_ms": 44.32
           },
+          "request_latencies_ms": [
+            24.150699999154313,
+            24.57959999992454
+          ],
           "passed": true
         },
         {
@@ -234,8 +323,12 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 65.64200000000001
+            "provider_propagation_ms": 44.176
           },
+          "request_latencies_ms": [
+            26.409300000523217,
+            26.388099999167025
+          ],
           "passed": true
         },
         {
@@ -249,8 +342,12 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 62.88399999999999
+            "provider_propagation_ms": 44.939
           },
+          "request_latencies_ms": [
+            25.001699999847915,
+            25.405799999134615
+          ],
           "passed": true
         },
         {
@@ -264,8 +361,12 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 64.535
+            "provider_propagation_ms": 43.071
           },
+          "request_latencies_ms": [
+            24.164700000255834,
+            24.07660000062606
+          ],
           "passed": true
         },
         {
@@ -279,8 +380,12 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 67.74900000000001
+            "provider_propagation_ms": 44.699999999999996
           },
+          "request_latencies_ms": [
+            24.314599999343045,
+            24.23329999874113
+          ],
           "passed": true
         },
         {
@@ -294,8 +399,12 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 65.261
+            "provider_propagation_ms": 44.78
           },
+          "request_latencies_ms": [
+            25.850599999102997,
+            25.350300000354764
+          ],
           "passed": true
         },
         {
@@ -309,8 +418,12 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 64.055
+            "provider_propagation_ms": 43.246
           },
+          "request_latencies_ms": [
+            24.368200000026263,
+            24.188100000174018
+          ],
           "passed": true
         },
         {
@@ -324,8 +437,12 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 64.887
+            "provider_propagation_ms": 43.406
           },
+          "request_latencies_ms": [
+            24.384299998928327,
+            23.95020000039949
+          ],
           "passed": true
         },
         {
@@ -339,8 +456,12 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 63.81399999999999
+            "provider_propagation_ms": 43.999
           },
+          "request_latencies_ms": [
+            24.69799999926181,
+            24.134799999956158
+          ],
           "passed": true
         },
         {
@@ -354,8 +475,12 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 62.283
+            "provider_propagation_ms": 43.901
           },
+          "request_latencies_ms": [
+            25.22060000046622,
+            24.552299999413663
+          ],
           "passed": true
         },
         {
@@ -369,8 +494,12 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 65.709
+            "provider_propagation_ms": 44.518
           },
+          "request_latencies_ms": [
+            23.95549999891955,
+            23.983200000657234
+          ],
           "passed": true
         },
         {
@@ -384,8 +513,12 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 63.054
+            "provider_propagation_ms": 46.392
           },
+          "request_latencies_ms": [
+            26.77410000069358,
+            26.753699999972014
+          ],
           "passed": true
         },
         {
@@ -399,8 +532,12 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 59.699000000000005
+            "provider_propagation_ms": 44.572
           },
+          "request_latencies_ms": [
+            25.285100000473903,
+            25.154499999189284
+          ],
           "passed": true
         },
         {
@@ -414,8 +551,12 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 64.626
+            "provider_propagation_ms": 43.128
           },
+          "request_latencies_ms": [
+            25.705100000777747,
+            25.24989999983518
+          ],
           "passed": true
         },
         {
@@ -429,8 +570,12 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 63.238
+            "provider_propagation_ms": 43.062000000000005
           },
+          "request_latencies_ms": [
+            23.7500999992335,
+            23.808100000678678
+          ],
           "passed": true
         },
         {
@@ -444,8 +589,12 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 63.54899999999999
+            "provider_propagation_ms": 43.134
           },
+          "request_latencies_ms": [
+            24.501299998519244,
+            24.61340000081691
+          ],
           "passed": true
         },
         {
@@ -459,8 +608,12 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 65.214
+            "provider_propagation_ms": 43.306999999999995
           },
+          "request_latencies_ms": [
+            23.82489999945392,
+            23.37699999952747
+          ],
           "passed": true
         },
         {
@@ -474,8 +627,12 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 62.92100000000001
+            "provider_propagation_ms": 44.725
           },
+          "request_latencies_ms": [
+            25.528800000756746,
+            25.659200000518467
+          ],
           "passed": true
         },
         {
@@ -489,8 +646,12 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 63.03
+            "provider_propagation_ms": 44.242999999999995
           },
+          "request_latencies_ms": [
+            24.730499999350286,
+            24.74640000036743
+          ],
           "passed": true
         },
         {
@@ -504,8 +665,12 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 65.749
+            "provider_propagation_ms": 42.937000000000005
           },
+          "request_latencies_ms": [
+            24.0881999998237,
+            24.164500000551925
+          ],
           "passed": true
         },
         {
@@ -519,8 +684,12 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 65.403
+            "provider_propagation_ms": 42.851
           },
+          "request_latencies_ms": [
+            24.33960000053048,
+            23.835500000132015
+          ],
           "passed": true
         },
         {
@@ -534,8 +703,12 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 64.269
+            "provider_propagation_ms": 45.099000000000004
           },
+          "request_latencies_ms": [
+            25.236100000256556,
+            24.77299999918614
+          ],
           "passed": true
         },
         {
@@ -549,8 +722,12 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 62.399
+            "provider_propagation_ms": 42.839
           },
+          "request_latencies_ms": [
+            24.60150000115391,
+            24.539600000935025
+          ],
           "passed": true
         },
         {
@@ -564,8 +741,12 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 64.119
+            "provider_propagation_ms": 42.840999999999994
           },
+          "request_latencies_ms": [
+            24.130600000717095,
+            23.997599999347585
+          ],
           "passed": true
         },
         {
@@ -579,8 +760,12 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 64.916
+            "provider_propagation_ms": 47.260000000000005
           },
+          "request_latencies_ms": [
+            25.074799999856623,
+            25.02029999959632
+          ],
           "passed": true
         },
         {
@@ -594,8 +779,12 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 65.903
+            "provider_propagation_ms": 54.172
           },
+          "request_latencies_ms": [
+            25.280100000600214,
+            23.81719999902998
+          ],
           "passed": true
         }
       ]
@@ -608,18 +797,46 @@
       "transaction_latency_ms": {
         "scope": "HTTP request through committed transaction",
         "n": 300,
-        "mean": 403.1457283333293,
-        "p50": 369.13199999253266,
-        "p95": 580.8340999938082,
-        "p99": 646.2166999990586
+        "mean": 269.8904340000263,
+        "p50": 246.11899999945308,
+        "p95": 380.4536999996344,
+        "p99": 396.18719999998575,
+        "cluster_bootstrap_ci95_ms": {
+          "p50": {
+            "lower_95": 232.18439999982365,
+            "upper_95": 246.11899999945308
+          },
+          "p95": {
+            "lower_95": 377.1840000008524,
+            "upper_95": 384.073700000954
+          },
+          "p99": {
+            "lower_95": 386.22680000116816,
+            "upper_95": 425.4528000001301
+          }
+        }
       },
       "notification_propagation_latency_ms": {
         "scope": "outbox creation to processed_at; not database consistency",
         "n": 30,
-        "mean": 578.9838666666667,
-        "p50": 561.851,
-        "p95": 695.973,
-        "p99": 702.434
+        "mean": 382.9542333333333,
+        "p50": 377.84299999999996,
+        "p95": 428.45,
+        "p99": 452.031,
+        "cluster_bootstrap_ci95_ms": {
+          "p50": {
+            "lower_95": 374.25,
+            "upper_95": 379.575
+          },
+          "p95": {
+            "lower_95": 385.293,
+            "upper_95": 452.031
+          },
+          "p99": {
+            "lower_95": 393.29900000000004,
+            "upper_95": 452.031
+          }
+        }
       },
       "raw": [
         {
@@ -633,8 +850,20 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 695.973
+            "provider_propagation_ms": 385.621
           },
+          "request_latencies_ms": [
+            232.18439999982365,
+            222.2727999997005,
+            218.79659999831347,
+            227.0741000011185,
+            218.13420000034967,
+            263.6636000006547,
+            325.9816999998293,
+            357.98240000076476,
+            294.55980000057025,
+            388.67690000006405
+          ],
           "passed": true
         },
         {
@@ -648,8 +877,20 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 572.505
+            "provider_propagation_ms": 411.053
           },
+          "request_latencies_ms": [
+            222.4201000008179,
+            208.56930000081775,
+            208.24849999917205,
+            216.42869999959657,
+            211.48900000116555,
+            256.63450000138255,
+            302.9349000007642,
+            381.6626999996515,
+            411.81759999926726,
+            343.92379999917466
+          ],
           "passed": true
         },
         {
@@ -663,8 +904,20 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 571.998
+            "provider_propagation_ms": 377.84299999999996
           },
+          "request_latencies_ms": [
+            217.15799999947194,
+            214.5278000007238,
+            214.11170000101265,
+            221.77499999997963,
+            226.44819999914034,
+            260.31850000072154,
+            290.52750000118976,
+            320.522300000448,
+            350.7415000003675,
+            379.07280000035826
+          ],
           "passed": true
         },
         {
@@ -678,8 +931,20 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 566.48
+            "provider_propagation_ms": 428.45
           },
+          "request_latencies_ms": [
+            231.173399999534,
+            226.71749999972235,
+            233.8326999997662,
+            246.11899999945308,
+            240.0631999989855,
+            285.6517000000167,
+            356.79370000070776,
+            392.34339999893564,
+            321.89800000014657,
+            425.4528000001301
+          ],
           "passed": true
         },
         {
@@ -693,8 +958,20 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 702.434
+            "provider_propagation_ms": 379.575
           },
+          "request_latencies_ms": [
+            224.16509999857226,
+            225.2980999983265,
+            227.02559999925143,
+            237.29370000000927,
+            232.07430000002205,
+            274.31309999883524,
+            336.180800000875,
+            305.007699998896,
+            394.8153999990609,
+            365.8011000006809
+          ],
           "passed": true
         },
         {
@@ -708,8 +985,20 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 587.379
+            "provider_propagation_ms": 376.134
           },
+          "request_latencies_ms": [
+            210.9258000000409,
+            212.64919999885024,
+            220.95059999992372,
+            216.59019999970042,
+            209.80280000003404,
+            257.8573000009783,
+            348.70779999982915,
+            287.83300000031886,
+            317.9506999986188,
+            377.5683999992907
+          ],
           "passed": true
         },
         {
@@ -723,8 +1012,20 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 602.649
+            "provider_propagation_ms": 372.373
           },
+          "request_latencies_ms": [
+            211.85250000053202,
+            211.78999999938242,
+            217.8656999985833,
+            222.5293999999849,
+            214.39049999935378,
+            255.74389999928826,
+            284.6552999999403,
+            346.3449999999284,
+            315.6180999994831,
+            376.5370000000985
+          ],
           "passed": true
         },
         {
@@ -738,8 +1039,20 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 604.9440000000001
+            "provider_propagation_ms": 379.20500000000004
           },
+          "request_latencies_ms": [
+            218.18920000077924,
+            220.51120000105584,
+            216.6471000000456,
+            224.55140000056417,
+            228.58349999842176,
+            262.69020000108867,
+            325.39989999895624,
+            293.497099999513,
+            354.17380000035337,
+            384.073700000954
+          ],
           "passed": true
         },
         {
@@ -753,8 +1066,20 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 557.5609999999999
+            "provider_propagation_ms": 452.031
           },
+          "request_latencies_ms": [
+            219.55659999912314,
+            213.41469999970286,
+            224.28609999951732,
+            212.50639999925625,
+            215.36890000061248,
+            292.00090000085765,
+            258.29410000005737,
+            330.1203999999416,
+            378.6479000009422,
+            431.33529999977327
+          ],
           "passed": true
         },
         {
@@ -768,8 +1093,20 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 637.5150000000001
+            "provider_propagation_ms": 376.06600000000003
           },
+          "request_latencies_ms": [
+            214.02130000024044,
+            212.7304000005097,
+            221.5861999993649,
+            215.57490000122925,
+            224.6806999992259,
+            258.15850000071805,
+            289.50280000026396,
+            352.4479000006977,
+            320.17780000023777,
+            381.56399999934365
+          ],
           "passed": true
         },
         {
@@ -783,8 +1120,20 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 600.644
+            "provider_propagation_ms": 375.12600000000003
           },
+          "request_latencies_ms": [
+            209.04669999981706,
+            208.62009999837028,
+            216.9768000003387,
+            211.82150000095135,
+            221.2282000000414,
+            254.49440000011236,
+            285.08770000007644,
+            315.943800000241,
+            376.8751000006887,
+            346.782799999346
+          ],
           "passed": true
         },
         {
@@ -798,8 +1147,20 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 645.6899999999999
+            "provider_propagation_ms": 382.24399999999997
           },
+          "request_latencies_ms": [
+            214.42479999859643,
+            217.3984000000928,
+            213.725900001009,
+            225.25900000073307,
+            220.4994000003353,
+            257.83420000152546,
+            288.9044000003196,
+            354.5347999988735,
+            321.7186000001675,
+            383.8196999986394
+          ],
           "passed": true
         },
         {
@@ -813,8 +1174,20 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 532.698
+            "provider_propagation_ms": 372.574
           },
+          "request_latencies_ms": [
+            208.9417000006506,
+            209.61069999975734,
+            212.1556000001874,
+            216.77640000052634,
+            220.9287999994558,
+            315.3330000004644,
+            254.48429999960354,
+            284.4552000005933,
+            345.49409999999625,
+            375.599200000579
+          ],
           "passed": true
         },
         {
@@ -828,8 +1201,20 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 553.556
+            "provider_propagation_ms": 385.293
           },
+          "request_latencies_ms": [
+            211.30440000160888,
+            222.24249999999302,
+            211.08640000056766,
+            214.12700000109908,
+            217.3118999999133,
+            255.2789000001212,
+            294.3178000004991,
+            324.8666999988927,
+            356.11880000033125,
+            387.09879999987606
+          ],
           "passed": true
         },
         {
@@ -843,8 +1228,20 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 556.905
+            "provider_propagation_ms": 382.641
           },
+          "request_latencies_ms": [
+            218.7906999988627,
+            221.77950000150304,
+            217.1619999990071,
+            226.52520000156073,
+            230.93250000056287,
+            265.0704000006954,
+            296.4340999988053,
+            326.5972999997757,
+            356.42969999935303,
+            386.22680000116816
+          ],
           "passed": true
         },
         {
@@ -858,8 +1255,20 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 606.0790000000001
+            "provider_propagation_ms": 378.226
           },
+          "request_latencies_ms": [
+            209.18609999898763,
+            207.74929999970482,
+            211.99629999864555,
+            221.19300000122166,
+            216.51520000159508,
+            255.15160000031756,
+            319.9741999997059,
+            350.7365999994363,
+            288.6405000008381,
+            380.4536999996344
+          ],
           "passed": true
         },
         {
@@ -873,8 +1282,20 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 560.422
+            "provider_propagation_ms": 381.505
           },
+          "request_latencies_ms": [
+            216.13609999985783,
+            227.95570000016596,
+            215.39099999972677,
+            217.3891000002186,
+            224.02899999906367,
+            261.4086000012321,
+            322.97380000090925,
+            292.03899999993155,
+            353.71029999987513,
+            383.8063000002876
+          ],
           "passed": true
         },
         {
@@ -888,8 +1309,20 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 578.737
+            "provider_propagation_ms": 373.78299999999996
           },
+          "request_latencies_ms": [
+            207.1658999993815,
+            208.01159999973606,
+            220.61219999886816,
+            211.45679999972344,
+            216.98099999957776,
+            253.90400000105728,
+            284.0304000001197,
+            314.7214000000531,
+            376.66150000040943,
+            345.7751999994798
+          ],
           "passed": true
         },
         {
@@ -903,8 +1336,20 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 551.12
+            "provider_propagation_ms": 378.344
           },
+          "request_latencies_ms": [
+            209.66219999900204,
+            213.09950000068056,
+            209.05859999948007,
+            217.3318000004656,
+            222.24669999923208,
+            256.45409999924595,
+            318.7097000009089,
+            287.641300001269,
+            348.9066999991337,
+            379.89790000028734
+          ],
           "passed": true
         },
         {
@@ -918,8 +1363,20 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 548.987
+            "provider_propagation_ms": 374.136
           },
+          "request_latencies_ms": [
+            223.14080000069225,
+            218.38220000063302,
+            209.84710000084306,
+            212.93490000061865,
+            210.56599999974424,
+            255.95000000066648,
+            287.51610000108485,
+            317.5826999995479,
+            348.56480000053125,
+            377.1840000008524
+          ],
           "passed": true
         },
         {
@@ -933,8 +1390,20 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 542.659
+            "provider_propagation_ms": 371.988
           },
+          "request_latencies_ms": [
+            209.3170000007376,
+            218.45419999954174,
+            212.31129999978293,
+            208.91990000018268,
+            221.2921999998798,
+            254.6009999987291,
+            314.85220000104164,
+            283.92060000078345,
+            345.2537000011944,
+            375.06410000059986
+          ],
           "passed": true
         },
         {
@@ -948,8 +1417,20 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 549.48
+            "provider_propagation_ms": 379.70500000000004
           },
+          "request_latencies_ms": [
+            211.69670000017504,
+            214.91129999958503,
+            210.87609999995038,
+            219.219399999929,
+            222.44850000060978,
+            256.7185999996582,
+            320.9177000007912,
+            289.094899999327,
+            351.112500000454,
+            381.802299998526
+          ],
           "passed": true
         },
         {
@@ -963,8 +1444,20 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 545.6370000000001
+            "provider_propagation_ms": 372.727
           },
+          "request_latencies_ms": [
+            215.72179999930086,
+            208.25549999972282,
+            210.66530000098282,
+            208.22320000115724,
+            219.76419999919017,
+            253.40590000087104,
+            314.42490000154066,
+            283.6161000013817,
+            375.9066000002349,
+            345.23129999979574
+          ],
           "passed": true
         },
         {
@@ -978,8 +1471,20 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 543.377
+            "provider_propagation_ms": 372.14799999999997
           },
+          "request_latencies_ms": [
+            211.1961999999039,
+            212.99919999910344,
+            209.73210000011022,
+            222.08239999963553,
+            217.32309999970312,
+            254.0512999985367,
+            315.182399999685,
+            285.16709999894374,
+            345.03200000108336,
+            373.21780000092986
+          ],
           "passed": true
         },
         {
@@ -993,8 +1498,20 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 561.851
+            "provider_propagation_ms": 393.29900000000004
           },
+          "request_latencies_ms": [
+            226.22579999915615,
+            225.71629999947618,
+            227.92329999901995,
+            234.07569999835687,
+            237.30999999861524,
+            302.21529999835184,
+            270.8873000010499,
+            332.55430000099295,
+            363.2283999995707,
+            396.18719999998575
+          ],
           "passed": true
         },
         {
@@ -1008,8 +1525,20 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 579.5649999999999
+            "provider_propagation_ms": 374.25
           },
+          "request_latencies_ms": [
+            210.49740000125894,
+            210.4414999994333,
+            212.08049999950163,
+            217.36699999928533,
+            221.12290000040957,
+            255.20200000028126,
+            315.4359000000113,
+            284.89380000064557,
+            345.5835000004299,
+            376.4147000001685
+          ],
           "passed": true
         },
         {
@@ -1023,8 +1552,20 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 552.785
+            "provider_propagation_ms": 376.738
           },
+          "request_latencies_ms": [
+            217.2085000001971,
+            214.49719999873196,
+            221.350199999506,
+            213.8788000011118,
+            225.2879000006942,
+            259.4272999995155,
+            288.953200000833,
+            319.8415000006207,
+            350.2588999999716,
+            379.91880000117817
+          ],
           "passed": true
         },
         {
@@ -1038,8 +1579,20 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 537.714
+            "provider_propagation_ms": 373.149
           },
+          "request_latencies_ms": [
+            209.7382000010839,
+            218.4151000001293,
+            209.5277000007627,
+            212.6137999985076,
+            221.3049999991199,
+            255.2624999989348,
+            315.3256000005058,
+            284.36599999986356,
+            346.44250000019383,
+            376.03520000084245
+          ],
           "passed": true
         },
         {
@@ -1053,8 +1606,20 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 570.3040000000001
+            "provider_propagation_ms": 378.289
           },
+          "request_latencies_ms": [
+            210.72500000082073,
+            210.6835000013234,
+            213.74050000122224,
+            217.04209999916202,
+            221.5715000002092,
+            254.96799999928044,
+            314.8304999995162,
+            283.48319999895466,
+            346.73040000052424,
+            376.4919999994163
+          ],
           "passed": true
         },
         {
@@ -1068,8 +1633,20 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 551.868
+            "provider_propagation_ms": 374.11100000000005
           },
+          "request_latencies_ms": [
+            207.8789000006509,
+            210.88009999948554,
+            207.67519999935757,
+            215.43070000006992,
+            219.6377999989636,
+            253.7212000006548,
+            284.7356000002037,
+            376.0473999991518,
+            314.6407000003819,
+            345.1721000001271
+          ],
           "passed": true
         }
       ]
@@ -1082,18 +1659,46 @@
       "transaction_latency_ms": {
         "scope": "HTTP request through committed transaction",
         "n": 1500,
-        "mean": 1206.0671806000173,
-        "p50": 1250.7945000106702,
-        "p95": 1571.5092999889748,
-        "p99": 2103.4445999976015
+        "mean": 818.7451502000076,
+        "p50": 860.244600000442,
+        "p95": 1028.801200000089,
+        "p99": 1093.9903999988019,
+        "cluster_bootstrap_ci95_ms": {
+          "p50": {
+            "lower_95": 848.1449999999313,
+            "upper_95": 878.3125000009022
+          },
+          "p95": {
+            "lower_95": 979.0654999997059,
+            "upper_95": 1068.384199999855
+          },
+          "p99": {
+            "lower_95": 1044.0167999986443,
+            "upper_95": 1134.4637000001967
+          }
+        }
       },
       "notification_propagation_latency_ms": {
         "scope": "outbox creation to processed_at; not database consistency",
         "n": 30,
-        "mean": 1324.6461333333334,
-        "p50": 1300.716,
-        "p95": 1520.9379999999999,
-        "p99": 1748.875
+        "mean": 913.3498333333333,
+        "p50": 897.021,
+        "p95": 1003.384,
+        "p99": 1034.99,
+        "cluster_bootstrap_ci95_ms": {
+          "p50": {
+            "lower_95": 892.034,
+            "upper_95": 905.494
+          },
+          "p95": {
+            "lower_95": 930.53,
+            "upper_95": 1034.99
+          },
+          "p99": {
+            "lower_95": 974.382,
+            "upper_95": 1034.99
+          }
+        }
       },
       "raw": [
         {
@@ -1107,8 +1712,60 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 1307.8300000000002
+            "provider_propagation_ms": 888.606
           },
+          "request_latencies_ms": [
+            458.2285000014963,
+            471.3119000007282,
+            474.47439999996277,
+            457.3837999996613,
+            465.04619999905117,
+            536.259999998947,
+            566.7435999985173,
+            504.0748999999778,
+            627.6756999995996,
+            596.1666999992303,
+            687.9594000001816,
+            718.0903000007675,
+            779.7467000000324,
+            656.2654000008479,
+            747.9373999995005,
+            966.366200000266,
+            785.590499999671,
+            792.2604999985197,
+            795.940399999381,
+            801.429700000881,
+            807.5587000002997,
+            811.9919000000664,
+            817.90490000094,
+            822.6928999993106,
+            827.8196000010212,
+            833.1447999989905,
+            837.7527000011469,
+            843.7935000001744,
+            849.4520000003831,
+            853.3094999984314,
+            859.4628999999259,
+            865.2548000009119,
+            869.1197000007378,
+            875.284499999907,
+            880.3414999983943,
+            884.6338000003016,
+            889.7157000010338,
+            892.8054999996675,
+            898.1205000000045,
+            902.3455999995349,
+            907.240799999272,
+            916.3171000000148,
+            921.6347000001406,
+            926.4382000001206,
+            931.7083999994793,
+            936.7106999998214,
+            942.1133999985614,
+            946.2832000008348,
+            949.9663999995391,
+            955.2139000006719
+          ],
           "passed": true
         },
         {
@@ -1122,8 +1779,60 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 1334.19
+            "provider_propagation_ms": 913.976
           },
+          "request_latencies_ms": [
+            457.5425000002724,
+            458.5214000017004,
+            465.6402000000526,
+            469.61300000111805,
+            473.395499999242,
+            503.7724000012531,
+            533.5228000003553,
+            564.1691000000719,
+            595.07179999855,
+            625.3443000005063,
+            654.0239000005386,
+            753.078199999436,
+            682.6633000000584,
+            783.7856999994983,
+            713.1374000000505,
+            994.5459000009578,
+            791.3931999992201,
+            795.8725000007689,
+            802.1051999985502,
+            808.9455000008456,
+            813.9473000010184,
+            818.8829999999143,
+            824.2785000002186,
+            831.2850999991497,
+            835.7078999997611,
+            840.9381999990728,
+            846.8238999994355,
+            852.6578999990306,
+            859.9056000002747,
+            864.0059999997902,
+            870.4662000000098,
+            875.8834000000206,
+            883.1408000005467,
+            889.1003999997338,
+            894.9440000014874,
+            899.6587000001455,
+            904.7972999997,
+            908.3516000009695,
+            913.4758999989572,
+            917.9516999993211,
+            923.469400000613,
+            932.4292000001151,
+            938.4076000005734,
+            943.7347999992198,
+            950.7082000000082,
+            957.6204000004509,
+            965.7920999998169,
+            973.6953999999969,
+            979.0634000000864,
+            984.0957000014896
+          ],
           "passed": true
         },
         {
@@ -1137,8 +1846,60 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 1294.566
+            "provider_propagation_ms": 884.728
           },
+          "request_latencies_ms": [
+            472.30469999885827,
+            459.98580000014044,
+            458.15269999911834,
+            467.2246999998606,
+            475.3339999988384,
+            535.8398000007583,
+            564.9545000014768,
+            504.22769999931916,
+            594.8951000009401,
+            683.8779999998224,
+            653.0149999998685,
+            713.2983999999851,
+            622.1181999990222,
+            773.7856000003376,
+            742.065399999774,
+            965.306199999759,
+            779.581099999632,
+            786.4340000014636,
+            790.6781000001502,
+            797.5991000002978,
+            802.8601999994862,
+            807.858699999997,
+            813.1458999996539,
+            818.1690999990678,
+            822.7246999995259,
+            829.0271999994729,
+            834.0512000013405,
+            839.7363000003679,
+            844.8279000003822,
+            849.3847999998252,
+            854.6466000007058,
+            860.2788000007422,
+            865.7991000000038,
+            871.130000001358,
+            876.8987000003108,
+            882.1141000007628,
+            887.5176000001375,
+            892.0553000007203,
+            895.5678000002081,
+            900.631099999373,
+            905.8982000005926,
+            914.9561000012909,
+            920.9019999998418,
+            926.4822000004642,
+            931.9147000005614,
+            937.4076000003697,
+            941.4753000000928,
+            945.8395999990898,
+            950.1049999998941,
+            956.180499999391
+          ],
           "passed": true
         },
         {
@@ -1152,8 +1913,60 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 1748.875
+            "provider_propagation_ms": 890.717
           },
+          "request_latencies_ms": [
+            463.9092999987042,
+            463.1243000003451,
+            471.13339999850723,
+            475.25150000001304,
+            481.15750000033586,
+            510.77600000098755,
+            602.6151000005484,
+            541.4491000010457,
+            571.426499998779,
+            631.9814999988012,
+            692.3373999998148,
+            784.8778999996284,
+            721.275500000047,
+            660.5485000000044,
+            751.2999000009586,
+            972.3260000009759,
+            789.5081999995455,
+            795.374899998933,
+            799.5852000003651,
+            805.2320999995572,
+            812.1351999998296,
+            816.281400000662,
+            821.5754000011657,
+            826.5234999998938,
+            831.0457000006863,
+            837.8225999986171,
+            842.5090999990061,
+            848.145799998747,
+            853.6141000004136,
+            858.8638000001083,
+            863.5546999994403,
+            869.4402000000991,
+            874.5742999999493,
+            878.3125000009022,
+            884.2367000015656,
+            890.5543000000762,
+            894.696199999089,
+            899.0849999991042,
+            902.878500000952,
+            907.871300001716,
+            912.7426999984891,
+            921.0999999995693,
+            926.5355999996245,
+            931.7697000005865,
+            937.4649000001227,
+            943.5119000008854,
+            948.6180000003515,
+            952.0992999987357,
+            956.7249000010634,
+            962.1258000006492
+          ],
           "passed": true
         },
         {
@@ -1167,8 +1980,60 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 1383.5949999999998
+            "provider_propagation_ms": 898.443
           },
+          "request_latencies_ms": [
+            463.3795999998256,
+            462.329599999066,
+            469.07699999974284,
+            473.05820000110543,
+            478.00350000034086,
+            508.43799999893236,
+            537.0394999990822,
+            566.9799000006606,
+            597.4387999995088,
+            627.8395999997883,
+            687.6646000000619,
+            719.0933000001678,
+            781.4149000005273,
+            748.8774000012199,
+            654.8780000011902,
+            975.2238000000943,
+            787.6810999987356,
+            792.1772999998211,
+            798.7448999992921,
+            802.9848999995011,
+            808.8243000001967,
+            814.9245000004157,
+            820.6081000007543,
+            826.3480000005075,
+            831.7901000009442,
+            836.3850000005186,
+            841.5820999998687,
+            847.5225000001956,
+            853.166599999895,
+            857.1073000002798,
+            862.8349999999045,
+            868.2157999992342,
+            873.8543999988906,
+            880.3732999986096,
+            885.51009999901,
+            890.5000000013388,
+            895.9740999998758,
+            899.5075000002544,
+            904.3371000007028,
+            909.173500000179,
+            913.9881999999488,
+            922.6010000002134,
+            927.2005000002537,
+            932.8989999994519,
+            938.4059000003617,
+            944.0230999989581,
+            948.5297999999602,
+            951.4413999986573,
+            956.5219999985857,
+            962.224500000957
+          ],
           "passed": true
         },
         {
@@ -1182,8 +2047,60 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 1356.991
+            "provider_propagation_ms": 890.946
           },
+          "request_latencies_ms": [
+            457.50090000001364,
+            465.62810000068566,
+            456.6076000010071,
+            473.4898000006069,
+            469.21389999988605,
+            503.5895000000892,
+            533.9081999991322,
+            564.3595000001369,
+            625.9007000007841,
+            718.2468999999401,
+            748.5586000002513,
+            594.6574000008695,
+            654.801700000462,
+            779.7453999992285,
+            685.0601999994979,
+            973.5016000013275,
+            786.2408000000869,
+            790.945599999759,
+            795.9843999997247,
+            803.3381000004738,
+            808.7254000001849,
+            814.0160000002652,
+            818.5228000002098,
+            823.8863999995374,
+            830.401700000948,
+            834.2714999998861,
+            839.5156999995379,
+            845.2878999996756,
+            851.4838999999483,
+            856.0973999992711,
+            862.8478999999061,
+            867.7993000001152,
+            873.2015999994474,
+            878.3423000004404,
+            884.5033999987209,
+            888.061600000583,
+            893.6627999992197,
+            896.7513000006875,
+            901.4578999995138,
+            906.6755999992893,
+            911.6607999985717,
+            920.2423000006092,
+            926.2775999995938,
+            930.5578000003152,
+            935.9432000001107,
+            940.4097000006004,
+            947.4989999998797,
+            952.3748999999953,
+            958.2482000005257,
+            963.3130000001984
+          ],
           "passed": true
         },
         {
@@ -1197,8 +2114,60 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 1300.716
+            "provider_propagation_ms": 901.8399999999999
           },
+          "request_latencies_ms": [
+            481.25599999912083,
+            484.70910000105505,
+            469.3832000011753,
+            468.4794000004331,
+            474.85129999950004,
+            514.3963000009535,
+            543.8218999988749,
+            574.3038000000524,
+            605.0807999999961,
+            729.4067000002542,
+            698.002400000405,
+            635.5978999999934,
+            665.5456000007689,
+            759.2471999996633,
+            790.4478999989806,
+            985.4507000000012,
+            797.2441000001709,
+            803.5844000005454,
+            808.008100000734,
+            815.1930000003631,
+            820.0958000015817,
+            823.7100000005739,
+            829.9060999997891,
+            834.0258999996877,
+            839.2167999991216,
+            846.2097000010544,
+            850.9346999999252,
+            855.6918000012956,
+            861.5723999992042,
+            867.1176999996533,
+            871.9996999989235,
+            878.3629999998084,
+            884.6442000012757,
+            890.3743999999278,
+            895.9790999997495,
+            902.6805000012246,
+            907.0235999988654,
+            910.1927000010619,
+            915.6444000000192,
+            920.5884000002698,
+            924.6539999985544,
+            933.5249999985535,
+            939.0827999995963,
+            944.8144000016327,
+            949.7462999988784,
+            954.1807999994489,
+            959.8994000007224,
+            964.3950000008772,
+            969.2683000012039,
+            974.5609000001423
+          ],
           "passed": true
         },
         {
@@ -1212,8 +2181,60 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 1270.298
+            "provider_propagation_ms": 930.53
           },
+          "request_latencies_ms": [
+            467.8143999990425,
+            468.7599999997474,
+            475.9783999998035,
+            479.57189999942784,
+            484.0313000004244,
+            514.3607999998494,
+            544.7432000000845,
+            605.7839000004606,
+            575.285700000677,
+            667.4027999997634,
+            636.3132000005862,
+            729.1933000014978,
+            757.9719999994268,
+            788.8053000006039,
+            696.3094999991881,
+            1009.4774999997753,
+            795.7160999994812,
+            800.1741999996739,
+            806.8179000001692,
+            812.1839000014006,
+            817.0131999995647,
+            822.5432999988698,
+            829.5128000008845,
+            834.6013000009407,
+            840.2014000002964,
+            844.1705000004731,
+            849.1601000005176,
+            858.7047999990318,
+            869.4242000001395,
+            879.4326000006549,
+            885.5834000005416,
+            895.258599999579,
+            900.3355999993801,
+            906.3428000008571,
+            913.8929000000644,
+            919.8625000008178,
+            924.3650000007619,
+            927.7595000003203,
+            933.3639000014955,
+            938.2714999992459,
+            942.8970000008121,
+            952.5111999992077,
+            958.4394000012253,
+            964.1408000006777,
+            968.9025999996375,
+            975.4919000006339,
+            980.7221999999456,
+            987.3772000009922,
+            992.2356999995827,
+            998.4655999996903
+          ],
           "passed": true
         },
         {
@@ -1227,8 +2248,60 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 1364.093
+            "provider_propagation_ms": 974.382
           },
+          "request_latencies_ms": [
+            629.2828999994526,
+            609.9758000000293,
+            619.4830000004004,
+            624.9986000002536,
+            609.2283000016323,
+            658.6770000012621,
+            689.0152000014496,
+            719.449899999745,
+            750.5321000007825,
+            891.1172000007355,
+            788.6865000000398,
+            826.3643999998749,
+            857.5233999999909,
+            921.327599999131,
+            951.8769000005705,
+            1169.0061999997852,
+            957.6370000013412,
+            963.214200000948,
+            969.4288999999117,
+            975.6014999984473,
+            980.086499999743,
+            986.3802999989275,
+            991.729999999734,
+            996.9752999986667,
+            1003.2169999994949,
+            1007.4580000000424,
+            1014.1200999987632,
+            1019.5554000001721,
+            1027.8951000000234,
+            1033.245700000407,
+            1037.0247999999265,
+            1044.2374000012933,
+            1050.9989000001951,
+            1057.6622999997198,
+            1061.9511000004422,
+            1068.384199999855,
+            1073.8736999992398,
+            1079.5799999996234,
+            1084.1577000010147,
+            1091.344399999798,
+            1098.0028999983915,
+            1108.7841000007757,
+            1116.0872000000381,
+            1121.8052999993233,
+            1127.5468000003457,
+            1134.4637000001967,
+            1139.6985999999742,
+            1145.204600001307,
+            1150.0668999997288,
+            1156.2193000008847
+          ],
           "passed": true
         },
         {
@@ -1242,8 +2315,60 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 1231.94
+            "provider_propagation_ms": 911.7579999999999
           },
+          "request_latencies_ms": [
+            562.1488000015233,
+            559.7012999987783,
+            566.567900001246,
+            572.6515000005747,
+            575.2054000004136,
+            635.9233999992284,
+            605.123100000128,
+            666.5617999988172,
+            696.9324999990931,
+            727.6316999996197,
+            789.4363999985217,
+            758.2960999989155,
+            816.7713999991975,
+            878.9861999994173,
+            846.9103000006726,
+            1069.2457000004651,
+            884.2798000005132,
+            890.047400000185,
+            896.1052999984531,
+            901.7944999995962,
+            907.0257000003039,
+            912.4341999995522,
+            917.343000000983,
+            922.1746000002895,
+            927.4138000000676,
+            932.6665000007779,
+            938.8015000004089,
+            942.4276000008831,
+            947.2141000005649,
+            953.5049999994953,
+            957.3424999998679,
+            963.6284000007436,
+            969.4140999999945,
+            973.4615999987,
+            979.0654999997059,
+            984.1675000006944,
+            989.1445000012027,
+            992.3251999989589,
+            996.7622999993182,
+            1003.0313999995997,
+            1006.4072000004671,
+            1015.0973000017984,
+            1019.7453999990103,
+            1024.4134000004124,
+            1029.3646000009176,
+            1034.9272000003111,
+            1038.8691999996809,
+            1043.254700000034,
+            1049.5375000009517,
+            1052.8573999999935
+          ],
           "passed": true
         },
         {
@@ -1257,8 +2382,60 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 1216.962
+            "provider_propagation_ms": 932.774
           },
+          "request_latencies_ms": [
+            464.3541000004916,
+            461.29970000038156,
+            481.2602000001789,
+            471.9129000004614,
+            476.24290000021574,
+            542.2952999997506,
+            511.40379999924335,
+            572.2599999990052,
+            635.1426000001084,
+            667.6659999993717,
+            602.6226000012684,
+            700.6634999997914,
+            765.077800000654,
+            731.7138999987947,
+            797.6247999995394,
+            1015.6661000000895,
+            806.1882000001788,
+            812.2767000004387,
+            820.6630000004225,
+            827.5880999990477,
+            834.838500000842,
+            841.6348000009748,
+            848.6432999998215,
+            854.366100000334,
+            860.9766999998101,
+            867.9053999985626,
+            875.7968999998411,
+            883.0907999999908,
+            887.1383999994578,
+            894.3416000001889,
+            898.3647000004567,
+            902.4859000001015,
+            909.0388000004168,
+            914.0987999999197,
+            920.3068999995594,
+            925.5152000005182,
+            930.3658999997424,
+            933.0515000001469,
+            938.7255999990884,
+            943.6206999998831,
+            953.3387000010407,
+            962.6067999997758,
+            968.2591000000684,
+            974.4362000001274,
+            979.2638999988412,
+            985.4010999988532,
+            991.4068999987649,
+            996.0535999998683,
+            1000.1408999996784,
+            1005.3139999999985
+          ],
           "passed": true
         },
         {
@@ -1272,8 +2449,60 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 1250.4409999999998
+            "provider_propagation_ms": 893.5269999999999
           },
+          "request_latencies_ms": [
+            474.34310000062396,
+            471.306999999797,
+            480.68119999879855,
+            487.11069999990286,
+            490.43799999890325,
+            550.188100000014,
+            580.7408000000578,
+            612.1973000008438,
+            519.5647999989887,
+            641.8798000013339,
+            672.0187999999325,
+            737.8726999995706,
+            703.6007000006066,
+            767.2322999987955,
+            797.5602999995317,
+            986.5111999988585,
+            804.3431999994937,
+            811.164299999291,
+            816.8739000011556,
+            822.3175999992236,
+            827.6781000004121,
+            832.7219999991939,
+            838.1879000007757,
+            843.5494000004837,
+            848.1449999999313,
+            854.0100999998685,
+            858.5958999992727,
+            864.73979999937,
+            869.2575999994006,
+            875.1747000005707,
+            880.9192999997322,
+            885.6847999995807,
+            890.6280999999581,
+            895.4286000007414,
+            901.3972000011563,
+            905.0338999986707,
+            909.773800000039,
+            913.1029000000126,
+            918.0359000001772,
+            922.4454999985028,
+            927.4824000003719,
+            935.752200000934,
+            941.1660000005213,
+            946.295599998848,
+            951.6173000010895,
+            956.8061000009038,
+            961.4108999994642,
+            967.5986999991437,
+            971.0612999988371,
+            975.8867000000464
+          ],
           "passed": true
         },
         {
@@ -1287,8 +2516,60 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 1256.471
+            "provider_propagation_ms": 901.58
           },
+          "request_latencies_ms": [
+            466.94230000139214,
+            455.93559999906574,
+            458.08320000105596,
+            471.4144999998098,
+            474.97809999913443,
+            536.554199999955,
+            568.1260999990627,
+            504.78149999980815,
+            628.7892999989708,
+            597.8959999993094,
+            659.2715000006137,
+            689.7482999993372,
+            719.0024000010453,
+            747.7144000004046,
+            778.951500000403,
+            964.6238000004814,
+            784.7567000007984,
+            791.0854000001564,
+            794.8899999992136,
+            801.1907000000065,
+            805.2586000012525,
+            812.2383999998419,
+            817.0122000010451,
+            822.8830999996717,
+            828.1688999995822,
+            833.3385999994789,
+            838.1513000003906,
+            842.3005000004196,
+            848.3016000009229,
+            852.357399999164,
+            857.3636000000988,
+            861.7675000004965,
+            868.3949000005668,
+            874.1616000006616,
+            879.0986999993038,
+            883.5787999996683,
+            887.8055999994103,
+            890.8482000006188,
+            896.0755000007339,
+            901.0636000002705,
+            904.7763999988092,
+            913.4396999997989,
+            918.7889999993786,
+            923.0913999999757,
+            929.3359000002965,
+            933.9350999998715,
+            939.8238999983732,
+            944.2361000001256,
+            947.7621999994881,
+            953.386799999862
+          ],
           "passed": true
         },
         {
@@ -1302,8 +2583,60 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 1248.534
+            "provider_propagation_ms": 896.598
           },
+          "request_latencies_ms": [
+            467.0575000000099,
+            468.08059999966645,
+            476.48430000117514,
+            485.05089999889606,
+            481.1095999993995,
+            514.5344000011391,
+            547.109699999055,
+            607.3218000001361,
+            576.8382999995083,
+            636.7313000009744,
+            665.4510000007576,
+            725.5754999987403,
+            756.5214999995078,
+            787.1408000009978,
+            694.2742999999609,
+            974.684900000284,
+            793.9943999990646,
+            798.8400000012916,
+            804.9037999990105,
+            809.6697999990283,
+            815.3643999994529,
+            821.114000000307,
+            826.0991999995895,
+            829.8828999995749,
+            836.7203999987396,
+            841.0722999997233,
+            846.6152000000875,
+            850.563100000727,
+            855.6048999998893,
+            862.2076000010566,
+            867.4967999995715,
+            872.869200000423,
+            877.9217000010249,
+            882.4682000013127,
+            888.6323000006087,
+            894.6029000017006,
+            898.4866000009788,
+            901.6572000000451,
+            906.4151000002312,
+            911.2954000011086,
+            915.7634000002872,
+            924.5933000001969,
+            929.8472999998921,
+            935.254600000917,
+            940.3018000011798,
+            946.0396999984368,
+            950.0217999993765,
+            955.5232000002434,
+            960.5565999991086,
+            964.7282999994786
+          ],
           "passed": true
         },
         {
@@ -1317,8 +2650,60 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 1253.557
+            "provider_propagation_ms": 894.721
           },
+          "request_latencies_ms": [
+            470.40560000095866,
+            454.265000000305,
+            456.6307000004599,
+            464.33040000010806,
+            474.0043000001606,
+            504.19329999931506,
+            566.979099998207,
+            534.7736000003351,
+            596.9344999994064,
+            657.2405000006256,
+            626.8080999998347,
+            719.8494999993272,
+            751.3963999990665,
+            781.7393000004813,
+            687.8728000010597,
+            971.1633000006259,
+            789.197800000693,
+            794.5956000003207,
+            800.0354999985575,
+            804.9444000007497,
+            810.3723999993235,
+            815.6481999994867,
+            820.2323000004981,
+            826.1051999998017,
+            832.744499999535,
+            837.0778999997128,
+            842.4197000003915,
+            847.6181000005454,
+            852.366200000688,
+            856.6912999995111,
+            862.9242000006343,
+            869.0265000004729,
+            872.7269999999407,
+            878.0804999987595,
+            884.40140000057,
+            889.3064000003505,
+            894.9099000001297,
+            897.0122999999148,
+            902.5830000009591,
+            907.2974999999133,
+            912.5096000007034,
+            920.8428000001732,
+            926.1232000008022,
+            931.5358000003471,
+            937.4205999993137,
+            942.9265999988274,
+            948.1687000006787,
+            951.7093000013119,
+            957.2172000007413,
+            961.662300000171
+          ],
           "passed": true
         },
         {
@@ -1332,8 +2717,60 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 1259.009
+            "provider_propagation_ms": 905.494
           },
+          "request_latencies_ms": [
+            456.15709999947285,
+            456.0678999987431,
+            464.6412000001874,
+            468.87690000039584,
+            472.38000000106695,
+            535.0207000010414,
+            565.6622999995307,
+            503.120499999568,
+            595.819099999062,
+            626.447200000257,
+            657.4886999987939,
+            687.8840000008495,
+            718.7582999995357,
+            748.6139000011462,
+            779.9635999999737,
+            982.8371999992669,
+            786.8099999996048,
+            793.267700000797,
+            798.8074999993842,
+            802.9351999994105,
+            809.6198000002914,
+            814.9276000003738,
+            820.5499000014242,
+            825.1918000005389,
+            831.2502999997378,
+            835.9923999996681,
+            840.1532999996562,
+            847.6845000004687,
+            852.9386999998678,
+            859.954799998377,
+            864.4982000005257,
+            869.2984999997861,
+            875.8375999987038,
+            879.8066999988805,
+            887.0888000001287,
+            892.6494000006642,
+            896.4716999998927,
+            899.365499999476,
+            903.8098999990325,
+            909.2608999999356,
+            915.3949000010471,
+            923.848899999939,
+            929.7538000009808,
+            935.7902999981889,
+            942.2244999987015,
+            950.0451999992947,
+            956.357899998693,
+            962.8489999995509,
+            966.4541999991343,
+            972.3640000011073
+          ],
           "passed": true
         },
         {
@@ -1347,8 +2784,60 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 1242.226
+            "provider_propagation_ms": 1034.99
           },
+          "request_latencies_ms": [
+            600.8012000002054,
+            600.214699999924,
+            607.1993999994447,
+            616.7622000011761,
+            612.0835000001534,
+            650.3322000007756,
+            681.416999999783,
+            744.4951999987097,
+            839.2117000003054,
+            711.9717000005039,
+            777.4267000004329,
+            900.738199999978,
+            806.2225000012404,
+            867.1384000008402,
+            929.8268000002281,
+            1119.028499999331,
+            935.1714000003994,
+            940.9357000004093,
+            945.7781999990402,
+            952.7729999990697,
+            956.4257000001817,
+            962.6417999988917,
+            968.2773999993515,
+            973.8936000012473,
+            978.6323000007542,
+            983.7664999995468,
+            989.0699999996286,
+            993.3504000000539,
+            999.4147999987035,
+            1003.399500001251,
+            1008.417199998803,
+            1014.5565000002534,
+            1018.6488999988796,
+            1024.0427999997337,
+            1029.5224000001326,
+            1034.9202000015794,
+            1038.3773000012297,
+            1041.6435999995883,
+            1046.301600001243,
+            1051.9548000011127,
+            1056.7658999989362,
+            1065.895300000193,
+            1070.5182999990939,
+            1076.034300000174,
+            1081.0681999992084,
+            1087.2431000007055,
+            1091.4994999984629,
+            1095.5008000000817,
+            1101.5389999993204,
+            1105.480300000636
+          ],
           "passed": true
         },
         {
@@ -1362,8 +2851,60 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 1230.344
+            "provider_propagation_ms": 886.378
           },
+          "request_latencies_ms": [
+            474.5205999988684,
+            454.5985999993718,
+            464.9245000000519,
+            456.7038000004686,
+            468.76460000021325,
+            533.3058000014717,
+            502.9164000006858,
+            563.293799999883,
+            593.61379999973,
+            715.1193000008789,
+            623.8009999997303,
+            684.2482000010932,
+            743.1529000004957,
+            773.7858000000415,
+            652.5804000011703,
+            962.703799999872,
+            780.9054999997898,
+            784.9174999992101,
+            790.5737000000954,
+            796.8800999988161,
+            802.1032000015111,
+            807.9778999999689,
+            812.4288999988494,
+            817.8231000001688,
+            823.2174000004306,
+            828.7002999986726,
+            833.8487000000896,
+            839.2584000011993,
+            843.277300000409,
+            848.6250999994809,
+            855.0420999999915,
+            860.1768000007723,
+            865.5278000005637,
+            871.0594000003766,
+            876.42009999945,
+            880.7170999989467,
+            885.973099999319,
+            889.9252000010165,
+            893.6212999997224,
+            898.5761999992974,
+            903.2587000001513,
+            912.1132000000216,
+            916.7852999999013,
+            921.879399998943,
+            927.6647000006051,
+            935.2076000013767,
+            938.4649999992689,
+            942.9509000001417,
+            947.3417999997764,
+            952.1746999998868
+          ],
           "passed": true
         },
         {
@@ -1377,8 +2918,60 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 1348.812
+            "provider_propagation_ms": 982.9830000000001
           },
+          "request_latencies_ms": [
+            553.6542000008922,
+            552.9466999996657,
+            565.1705999989645,
+            559.1041999996378,
+            568.5399000012694,
+            599.1262000006827,
+            631.5756000003603,
+            661.7810000007012,
+            721.9679999998334,
+            752.4637000005896,
+            692.0169000004535,
+            782.2225999989314,
+            810.9607000005781,
+            873.2799999997951,
+            841.4348000005702,
+            1060.0919999997132,
+            878.6800999987463,
+            885.109900000316,
+            890.682299999753,
+            894.935100001021,
+            901.31029999975,
+            906.3341000000946,
+            912.7502999999706,
+            917.311700000937,
+            922.1692999999505,
+            927.6958000009472,
+            931.4140000005864,
+            938.4715000014694,
+            943.6045000002196,
+            948.8306000002922,
+            953.4031000002869,
+            959.0981000001193,
+            964.0335999993113,
+            968.8936999991711,
+            974.8545000002196,
+            979.7542999986035,
+            983.6811000004673,
+            987.1198000000732,
+            991.8923999994149,
+            997.8745999997045,
+            1001.5363999991678,
+            1009.8173000005772,
+            1015.5857999998261,
+            1020.4092000003584,
+            1026.1805999998614,
+            1030.9985999992932,
+            1035.7366999996884,
+            1041.4213000003656,
+            1045.8109999999579,
+            1050.0253999998677
+          ],
           "passed": true
         },
         {
@@ -1392,8 +2985,60 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 1240.988
+            "provider_propagation_ms": 893.1179999999999
           },
+          "request_latencies_ms": [
+            467.182700000194,
+            457.276199998887,
+            475.54649999983667,
+            458.3129000002373,
+            470.15769999961776,
+            505.37029999941296,
+            538.7707999998383,
+            604.0456999999151,
+            573.437200000626,
+            633.605400000306,
+            664.5472000000154,
+            724.9730000003183,
+            753.8150000000314,
+            693.6774999994668,
+            784.2762000000221,
+            971.9965000003867,
+            792.813500000193,
+            798.2186999997793,
+            803.3653000002232,
+            808.9146000002074,
+            813.8873999996576,
+            819.1344999995636,
+            824.0532999989227,
+            828.1141000006755,
+            835.2556999998342,
+            840.4400999988866,
+            846.625000000131,
+            851.312599999801,
+            855.8904999990773,
+            861.2026000009791,
+            866.7046000009577,
+            871.6165000005276,
+            876.4989000010246,
+            882.400399999824,
+            886.4116000004287,
+            892.4450999984401,
+            896.7953000010311,
+            899.8406000009709,
+            904.234900001029,
+            909.1392999998789,
+            913.9297999990958,
+            922.8781000001618,
+            927.7541999999812,
+            932.5524000014411,
+            937.9293999991205,
+            942.4856000005093,
+            948.5729999996693,
+            952.1968999997625,
+            956.9078999993508,
+            962.4865999994654
+          ],
           "passed": true
         },
         {
@@ -1407,8 +3052,60 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 1246.077
+            "provider_propagation_ms": 913.136
           },
+          "request_latencies_ms": [
+            479.60869999951683,
+            478.48510000039823,
+            495.3941000003397,
+            485.4704000008496,
+            491.0197999997763,
+            524.9550999997155,
+            554.9560999988898,
+            585.8604999993986,
+            618.2351000006747,
+            680.6407000003674,
+            649.9715000009019,
+            711.4168999996764,
+            741.6358000009495,
+            772.4914000009449,
+            803.4831999993912,
+            993.2927000008931,
+            809.564400000454,
+            814.9369999991904,
+            821.9320000007428,
+            826.6126999988046,
+            832.3514000003343,
+            837.4094000009791,
+            843.1373000003077,
+            848.0272999986482,
+            853.1120000006922,
+            859.1405999995914,
+            864.4342000006873,
+            869.4519000000582,
+            875.1222000009875,
+            878.0342999998538,
+            884.0481999995973,
+            889.3303999993805,
+            895.2623999994103,
+            899.879200000214,
+            905.0230999982887,
+            910.3966999991826,
+            915.5441999992036,
+            918.7738000000536,
+            924.0399999998772,
+            929.8190999998042,
+            933.3134999997128,
+            941.7583999984345,
+            947.417300001689,
+            952.7526000001671,
+            957.5175999998464,
+            963.4490000007645,
+            968.3475000001636,
+            971.715800000311,
+            977.754499999719,
+            982.0377999985794
+          ],
           "passed": true
         },
         {
@@ -1422,8 +3119,60 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 1281.097
+            "provider_propagation_ms": 888.517
           },
+          "request_latencies_ms": [
+            479.03839999889897,
+            462.7258000000438,
+            461.52170000095794,
+            469.97429999828455,
+            474.9164999993809,
+            539.8600000007718,
+            508.6467000000994,
+            569.6413999994547,
+            599.2492999994283,
+            630.1694000012503,
+            690.7998000006046,
+            660.27799999938,
+            780.8101999999053,
+            719.3760999998631,
+            749.1931000004115,
+            966.9505999991088,
+            787.9526000015176,
+            792.4481999998534,
+            796.4577000002464,
+            802.8952999993635,
+            808.1498999999894,
+            812.4502999999095,
+            818.8141000009637,
+            824.1995000007591,
+            829.5985999993718,
+            834.1584999998304,
+            839.6151999986614,
+            845.3765000012936,
+            849.6775999992678,
+            855.7154999998602,
+            860.0590000005468,
+            865.4746000011073,
+            870.9765999992669,
+            876.5808000007382,
+            881.5950000007433,
+            886.8700999992143,
+            891.085799999928,
+            894.1795000009733,
+            899.6495999999752,
+            903.4163999986049,
+            908.2280000002356,
+            916.6464999998425,
+            922.7289999998902,
+            927.2369000009348,
+            933.3842999985791,
+            939.1391999997722,
+            944.095599999855,
+            948.4876000005897,
+            954.7158000004856,
+            957.1796000000177
+          ],
           "passed": true
         },
         {
@@ -1437,8 +3186,60 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 1406.283
+            "provider_propagation_ms": 891.262
           },
+          "request_latencies_ms": [
+            458.27269999972486,
+            459.1944000003423,
+            470.5167000010988,
+            474.23499999968044,
+            465.88060000067344,
+            504.36440000157745,
+            535.6517000000167,
+            597.0770999992965,
+            565.6369999996969,
+            689.4673999995575,
+            627.7156999985891,
+            657.6784999997471,
+            748.8376000001153,
+            717.8469999998924,
+            780.064599999605,
+            968.557400001373,
+            786.7943000001105,
+            792.3031999998784,
+            796.5908999995008,
+            801.9782999999734,
+            808.481699999902,
+            813.4657999999035,
+            817.861499999708,
+            824.6153999989474,
+            829.2760000003909,
+            833.8198000001285,
+            839.9711999991268,
+            844.8718999989069,
+            850.5374999986088,
+            855.7185000008758,
+            860.9847999996418,
+            865.3343999994831,
+            869.8953000002803,
+            876.395200000843,
+            880.7845000010275,
+            886.5544000000227,
+            891.3135000002512,
+            895.761699999639,
+            899.9781000002258,
+            904.6017000000575,
+            909.7397000005003,
+            918.0037999994966,
+            923.800200000187,
+            928.1972000007954,
+            934.1053999996802,
+            939.9482999997417,
+            943.4105000000272,
+            949.2739999986952,
+            953.0221000004531,
+            957.9278000001068
+          ],
           "passed": true
         },
         {
@@ -1452,8 +3253,60 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 1328.695
+            "provider_propagation_ms": 892.034
           },
+          "request_latencies_ms": [
+            464.49089999987336,
+            465.85899999990943,
+            476.7725999990944,
+            472.04210000018065,
+            480.1406999995379,
+            539.6369000009145,
+            509.19510000130686,
+            600.2671999995073,
+            569.5742999996583,
+            630.6273999998666,
+            754.1272999987996,
+            692.0642000004591,
+            659.9280000009458,
+            783.6908999997831,
+            721.1017999998148,
+            972.7192000009381,
+            790.4146000000765,
+            795.9467000000586,
+            802.42250000083,
+            806.6041999991285,
+            813.5163999995711,
+            818.8062999997783,
+            824.2434000003414,
+            829.5013000006293,
+            835.0075999987894,
+            839.6062000010716,
+            843.6196000002383,
+            850.6049000006897,
+            855.4473000003782,
+            861.4957000008872,
+            867.6092000005156,
+            872.9538000006869,
+            877.017300001171,
+            882.8248999998323,
+            887.9909999996016,
+            893.3082999992621,
+            895.1610000003711,
+            900.3816999993433,
+            906.0462000015832,
+            909.3989000011788,
+            914.6653000007063,
+            922.9343000006338,
+            928.7553999984084,
+            933.4607999990112,
+            938.376000000062,
+            943.0771000006644,
+            947.8708000006009,
+            953.025400000115,
+            957.7930999985256,
+            963.1728000003932
+          ],
           "passed": true
         },
         {
@@ -1467,8 +3320,60 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 1377.7649999999999
+            "provider_propagation_ms": 903.843
           },
+          "request_latencies_ms": [
+            469.8972000005597,
+            466.50659999977506,
+            486.6091999992932,
+            477.11679999883927,
+            482.7322000001004,
+            579.1988999990281,
+            548.2738999999128,
+            515.1292999998986,
+            640.4795999987982,
+            670.2077000009012,
+            608.9171999992686,
+            733.4085000002233,
+            700.8571000005759,
+            762.9028999999719,
+            793.5844000003272,
+            985.0566999994044,
+            807.0141000007425,
+            800.7156000003306,
+            811.9016999989981,
+            817.8164000000834,
+            822.9554999998072,
+            829.2165000002569,
+            832.8688000001421,
+            839.3580000010843,
+            844.8841999997967,
+            849.9013000000559,
+            854.8984999997629,
+            860.6122999990475,
+            865.9478000008676,
+            868.3273999995436,
+            873.8851999987673,
+            879.0298999992956,
+            885.5996000002051,
+            890.8780999990995,
+            896.1658999996871,
+            900.9959000013623,
+            905.2565999991202,
+            908.5433000000194,
+            913.7740000005579,
+            918.6386999990646,
+            923.2393000002048,
+            932.5616000005539,
+            938.0539999983739,
+            943.405600000915,
+            949.3070999997144,
+            953.5871000007319,
+            959.2375999982323,
+            963.1367000001774,
+            969.1822000004322,
+            972.9331999988062
+          ],
           "passed": true
         },
         {
@@ -1482,8 +3387,60 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 1354.632
+            "provider_propagation_ms": 889.405
           },
+          "request_latencies_ms": [
+            586.236099999951,
+            598.155300000144,
+            594.5890000002692,
+            587.4969999986206,
+            602.6779000003444,
+            631.6867000005004,
+            662.106899999344,
+            692.062199999782,
+            722.8473000013764,
+            753.2216999989032,
+            783.8021999996272,
+            907.7976000007766,
+            874.5380000000296,
+            812.8073000007134,
+            843.5778000002756,
+            1092.951799999355,
+            912.1695000012551,
+            918.0116999996244,
+            921.6491000006499,
+            926.8864999994548,
+            932.6102999984869,
+            937.9892999986623,
+            944.7766000012052,
+            950.4496000008658,
+            955.2585000001272,
+            960.5117000010068,
+            965.8593999993172,
+            970.6376000012824,
+            975.8209000010538,
+            980.5804000006901,
+            985.8844999998837,
+            990.8345999992889,
+            995.1277000000118,
+            1001.2580000002345,
+            1007.498899998609,
+            1012.2953999998572,
+            1017.0245000008435,
+            1020.5110999995668,
+            1024.204600000303,
+            1028.801200000089,
+            1033.5697999998956,
+            1042.1292000009998,
+            1047.8670000011334,
+            1052.773999999772,
+            1057.5926000001346,
+            1063.1630000007135,
+            1067.9789000005258,
+            1073.6300999997184,
+            1077.7808999991976,
+            1083.062499999869
+          ],
           "passed": true
         },
         {
@@ -1497,8 +3454,60 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 1304.292
+            "provider_propagation_ms": 885.8829999999999
           },
+          "request_latencies_ms": [
+            453.2214999999269,
+            454.39599999917846,
+            460.4385000002367,
+            465.1143000010052,
+            469.28049999951327,
+            499.16920000032405,
+            530.9037000006356,
+            561.2357999998494,
+            684.1609000002791,
+            590.9905999997136,
+            621.5957999993407,
+            651.8163000000641,
+            774.8597000008886,
+            743.059299999004,
+            712.5414000001911,
+            961.7616000014095,
+            780.9961999992083,
+            786.3876999999775,
+            791.1136999991868,
+            796.3783999985026,
+            801.9395999999688,
+            808.8164999990113,
+            814.0724000004411,
+            818.6506000001827,
+            824.2759999993723,
+            829.4247000012547,
+            834.0226999989682,
+            839.4936000004236,
+            844.6954999999434,
+            850.5758000010246,
+            856.1608999989403,
+            860.589699999764,
+            867.5934000002599,
+            871.8275999999605,
+            876.9909999991796,
+            882.3840000004566,
+            886.2284999995609,
+            889.822400000412,
+            894.4218999986333,
+            899.4199999997363,
+            904.0319000014279,
+            911.9303000006767,
+            917.8945000003296,
+            923.6091000002489,
+            927.9501000000892,
+            933.2210999982635,
+            939.3755000000965,
+            943.868600001224,
+            947.5048000003881,
+            953.2173000006878
+          ],
           "passed": true
         },
         {
@@ -1512,8 +3521,60 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 1313.249
+            "provider_propagation_ms": 1003.384
           },
+          "request_latencies_ms": [
+            499.951300000248,
+            480.1123999986885,
+            496.22719999933906,
+            482.5736999991932,
+            489.3437000009726,
+            559.7412000006443,
+            529.304100000445,
+            590.5727000008483,
+            621.1923999999271,
+            704.6066000002611,
+            658.1967000001896,
+            758.4563000000344,
+            860.244600000442,
+            901.2944000005518,
+            803.2714000000851,
+            1089.5951999991667,
+            1093.9903999988019,
+            907.6955999989877,
+            913.6589000008826,
+            917.690300000686,
+            924.2209999993065,
+            929.0424000009807,
+            935.7145000012679,
+            941.6148999989673,
+            946.2980999996944,
+            952.5936000009096,
+            957.8827000004821,
+            963.8802999998006,
+            967.9159000006621,
+            974.2315000003146,
+            979.8193999995419,
+            985.5999000010343,
+            991.309100001672,
+            997.7205000013782,
+            1002.1419000004244,
+            1007.2791000002326,
+            1012.7850999997463,
+            1018.378800001301,
+            1020.7501000004413,
+            1025.2961999995023,
+            1030.3721999989648,
+            1036.1816999993607,
+            1044.0167999986443,
+            1049.2976000005,
+            1053.7721000000602,
+            1059.324600000764,
+            1064.9444999999105,
+            1069.7681999990891,
+            1075.414599999931,
+            1079.2712000002211
+          ],
           "passed": true
         },
         {
@@ -1527,8 +3588,60 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 1520.9379999999999
+            "provider_propagation_ms": 897.021
           },
+          "request_latencies_ms": [
+            466.9102000007115,
+            466.7948999995133,
+            483.78349999984493,
+            474.2860999995173,
+            480.28879999947094,
+            513.1927999991603,
+            543.980599999486,
+            574.0679999998974,
+            634.7950999988825,
+            603.8884000008693,
+            666.4595000002009,
+            794.5824999987963,
+            760.341300001528,
+            694.4368999993458,
+            728.7407000003441,
+            982.9688999998325,
+            798.6528000001272,
+            804.2587999989337,
+            809.5744000002014,
+            814.5703000009235,
+            820.2244000003702,
+            824.366499999087,
+            829.4941999993171,
+            836.2297000003309,
+            841.1837999992713,
+            846.8617999988055,
+            852.5576000010915,
+            858.8789999994333,
+            865.6840000003285,
+            870.2871000004961,
+            876.1338000003889,
+            881.195599999046,
+            886.0765999997966,
+            890.7884999989619,
+            896.7759999995906,
+            901.9047000001592,
+            906.0678999994707,
+            909.619299998667,
+            914.2621999999392,
+            919.1418000009435,
+            924.3514999998297,
+            932.7281000005314,
+            938.0284000017127,
+            942.5823000001401,
+            948.809400000755,
+            954.6941000007791,
+            959.6310000015364,
+            962.8854999991745,
+            968.4407000004285,
+            973.0445000004693
+          ],
           "passed": true
         },
         {
@@ -1542,8 +3655,60 @@
           "idempotency_mismatch_rejected": true,
           "outbox": {
             "processed": true,
-            "provider_propagation_ms": 1465.9180000000001
+            "provider_propagation_ms": 927.921
           },
+          "request_latencies_ms": [
+            465.26189999894996,
+            465.9648000015295,
+            478.98239999994985,
+            473.33980000075826,
+            482.2848999992857,
+            512.7981000005093,
+            545.7361999997374,
+            575.9352000004583,
+            606.6971999989619,
+            705.7767000005697,
+            736.7231999996875,
+            767.7313999993203,
+            800.0623999996606,
+            672.6323999992019,
+            641.1359999983688,
+            1005.1317999987077,
+            808.469999999943,
+            816.1729000003106,
+            824.1756999996142,
+            833.7529999989783,
+            838.4535999994114,
+            843.6122000002797,
+            851.085400001466,
+            855.6010000011156,
+            860.5351999995037,
+            866.1369999990711,
+            872.3415000004024,
+            879.2216000001645,
+            885.0527000013244,
+            888.6717999994289,
+            894.9351999999635,
+            900.7774999990943,
+            905.82379999978,
+            910.9915999997611,
+            916.7256000000634,
+            921.2784000010288,
+            927.2064999986469,
+            929.0717000003497,
+            933.7402999990445,
+            939.9049000003288,
+            943.4781999989355,
+            953.836799999408,
+            959.5769999996264,
+            965.6614999985322,
+            970.6477999989147,
+            976.0970999996061,
+            980.7466000002023,
+            986.2188000006427,
+            990.3254999990168,
+            995.3175999999075
+          ],
           "passed": true
         }
       ]
@@ -1552,6 +3717,7 @@
   "passed": true,
   "limitations": [
     "Outbox processed_at measures application delivery processing, not a user's network rendering time.",
+    "Latency bootstrap intervals describe run-to-run variability under this fixture workload; they do not estimate deployed capacity or eliminate host-specific measurement bias.",
     "All identities and appointment records in this fixture are synthetic."
   ]
 }

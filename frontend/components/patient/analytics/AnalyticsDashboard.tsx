@@ -1,19 +1,9 @@
 ﻿"use client";
 
 import * as React from "react";
-import dynamic from "next/dynamic";
 import { Activity, AlertCircle, BellRing, Eye, EyeOff, FlaskConical, Footprints, Heart, MoonStar, ShieldCheck, TrendingDown, TrendingUp, UserCheck, Waves, Minus } from "lucide-react";
 
-import { AdherenceHeatmap, HeatmapDay } from "@/components/patient/analytics/AdherenceHeatmap";
-import { AdherenceStats } from "@/components/patient/analytics/AdherenceStats";
 import { MedicationItem, MedicationStatus } from "@/components/patient/analytics/MedicationTimelineItem";
-import type { MissedDosePoint } from "@/components/patient/analytics/MissedDoseChart";
-import { SmartInsight } from "@/components/patient/analytics/SmartInsight";
-
-const MissedDoseChart = dynamic(
-  () => import("@/components/patient/analytics/MissedDoseChart").then((m) => m.MissedDoseChart),
-  { ssr: false, loading: () => <div className="h-64 animate-pulse rounded-xl border border-border/60 bg-card p-4" /> },
-);
 import { TodaySchedule } from "@/components/patient/analytics/TodaySchedule";
 import { AppBackground } from "@/components/ui/app-background";
 import { Button } from "@/components/ui/button";
@@ -29,7 +19,6 @@ import { getReminders } from "@/lib/reminder-actions";
 import { formatMeridiemTime } from "@/lib/utils";
 import { useAppI18n, useT } from "@/i18n/client";
 
-const WEEKDAY_KEYS = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"] as const;
 const REMINDER_POLL_VISIBLE_MS = 10 * 60_000;
 const REMINDER_POLL_HIDDEN_MS = 60 * 60_000;
 
@@ -43,12 +32,6 @@ const DATE_RANGE_OPTIONS: DateRangeOption[] = [
   { labelKey: "analytics.dateRanges.oneYear", days: 365, key: "1yr" },
   { labelKey: "analytics.dateRanges.twoYears", days: 730, key: "2yr" },
 ];
-
-type DailyDoseSummary = {
-  date: Date;
-  taken: number;
-  total: number;
-};
 
 type MetricCardConfig = {
   key: "steps" | "sleep_hours" | "heart_rate" | "blood_pressure_systolic";
@@ -381,82 +364,6 @@ export default function AnalyticsDashboard({
     [medications],
   );
 
-  const dailySummaries = React.useMemo<DailyDoseSummary[]>(() => {
-    const now = new Date(clock);
-    const baseline = Array.from({ length: 30 }, (_, index) => {
-      const dayOffset = 29 - index;
-      const date = addDays(now, -dayOffset);
-      return { date, taken: 0, total: 0 };
-    });
-
-    baseline[baseline.length - 1] = {
-      date: now,
-      taken: medications.filter((item) => item.status === "taken").length,
-      total: medications.length,
-    };
-
-    return baseline;
-  }, [clock, medications]);
-
-  const adherenceScore = React.useMemo(() => {
-    const totals = dailySummaries.reduce(
-      (acc, item) => {
-        acc.taken += item.taken;
-        acc.total += item.total;
-        return acc;
-      },
-      { taken: 0, total: 0 },
-    );
-    if (totals.total === 0) return 0;
-    return Math.round((totals.taken / totals.total) * 100);
-  }, [dailySummaries]);
-
-  const perfectDays = React.useMemo(
-    () => dailySummaries.filter((item) => item.total > 0 && item.taken === item.total).length,
-    [dailySummaries],
-  );
-
-  const currentStreak = React.useMemo(() => {
-    let streak = 0;
-    for (let index = dailySummaries.length - 1; index >= 0; index -= 1) {
-      const day = dailySummaries[index];
-      if (day.total > 0 && day.taken === day.total) {
-        streak += 1;
-      } else {
-        break;
-      }
-    }
-    return streak;
-  }, [dailySummaries]);
-
-  const heatmapDays = React.useMemo<HeatmapDay[]>(() => {
-    const recentDays = dailySummaries.slice(-13).map((item) => ({
-      id: formatDateId(item.date),
-      dayNumber: item.date.getDate(),
-      weekday: tCommon(`analytics.weekdays.${WEEKDAY_KEYS[item.date.getDay()]}`),
-      displayDate: formatDisplayDate(item.date, locale),
-      level: getHeatLevel(item),
-    }));
-
-    const futureDate = addDays(new Date(), 1);
-    recentDays.push({
-      id: `${formatDateId(futureDate)}-future`,
-      dayNumber: futureDate.getDate(),
-      weekday: tCommon(`analytics.weekdays.${WEEKDAY_KEYS[futureDate.getDay()]}`),
-      displayDate: formatDisplayDate(futureDate, locale),
-      level: "future",
-    });
-
-    return recentDays;
-  }, [dailySummaries, locale, tCommon]);
-
-  const missedDoseData = React.useMemo<MissedDosePoint[]>(() => {
-    return dailySummaries.map((item) => ({
-      label: `${item.date.getDate()} ${tCommon(`analytics.weekdays.${WEEKDAY_KEYS[item.date.getDay()]}`)}`,
-      missed: Math.max(0, item.total - item.taken),
-    }));
-  }, [dailySummaries, tCommon]);
-
   const takeMedication = (id: string) => setStatusOverrides((c) => ({ ...c, [id]: "taken" }));
   const skipMedication = (id: string) => setStatusOverrides((c) => ({ ...c, [id]: "skipped" }));
   const remindMedication = (id: string) => { setStatusOverrides((c) => ({ ...c, [id]: "due" })); setHideDueAlert(false); };
@@ -644,19 +551,8 @@ export default function AnalyticsDashboard({
             })}
           </section>
 
-          {/* Adherence Stats */}
-          <AdherenceStats
-            adherenceScore={adherenceScore}
-            perfectDays={perfectDays}
-            activeMedications={medications.length}
-            currentStreak={currentStreak}
-          />
-
-          <AdherenceHeatmap days={heatmapDays} />
-
-          {/* Schedule + Missed doses grid */}
-          <section className="grid grid-cols-1 gap-4 xl:grid-cols-2">
-            <MissedDoseChart data={missedDoseData} />
+          {/* The medication checklist is a user-marked reminder aid, not adherence evidence. */}
+          <section className="grid grid-cols-1 gap-4">
             <TodaySchedule
               medications={medications}
               onTake={takeMedication}
@@ -664,14 +560,6 @@ export default function AnalyticsDashboard({
               onRemind={remindMedication}
             />
           </section>
-
-          <SmartInsight
-            message={buildInsightMessage({
-              total: medications.length,
-              due: medications.filter((item) => item.status === "due" || item.status === "snoozed").length,
-              skipped: medications.filter((item) => item.status === "skipped").length,
-            }, tCommon)}
-          />
 
           {/* Detailed Health Metrics Breakdown */}
           <section className="space-y-3">
@@ -926,12 +814,6 @@ export default function AnalyticsDashboard({
   );
 }
 
-function addDays(date: Date, amount: number) {
-  const nextDate = new Date(date);
-  nextDate.setDate(nextDate.getDate() + amount);
-  return nextDate;
-}
-
 function parseHHMMToMinutes(value: string): number | null {
   const [hourString, minuteString] = value.split(":");
   const hour = Number(hourString);
@@ -960,33 +842,7 @@ function getMondayBasedDayIndex(currentDate: Date): number {
   return currentDate.getDay() === 0 ? 6 : currentDate.getDay() - 1;
 }
 
-function buildInsightMessage(
-  { total, due, skipped }: { total: number; due: number; skipped: number },
-  tCommon: TranslateFn,
-): string {
-  if (total === 0) return tCommon("analytics.insight.empty");
-  if (skipped > 0) return tCommon("analytics.insight.skipped", { count: skipped });
-  if (due > 0) return tCommon("analytics.insight.due", { count: due });
-  return tCommon("analytics.insight.onTrack");
-}
-
-function formatDateId(date: Date) {
-  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-}
-
-function formatDisplayDate(date: Date, locale: string) {
-  return date.toLocaleDateString(getLocaleTag(locale), { month: "short", day: "numeric" });
-}
-
 function getLocaleTag(locale: string) {
   return locale === "bn" ? "bn-BD" : "en-US";
-}
-
-function getHeatLevel(day: DailyDoseSummary): HeatmapDay["level"] {
-  if (day.total === 0) return "future";
-  const adherence = day.taken / day.total;
-  if (adherence >= 1) return "perfect";
-  if (adherence >= 0.5) return "partial";
-  return "missed";
 }
 

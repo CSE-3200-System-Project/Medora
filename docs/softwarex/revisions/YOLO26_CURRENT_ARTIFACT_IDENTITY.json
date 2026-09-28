@@ -1,0 +1,34 @@
+{
+  "recorded_on": "2026-09-28",
+  "scope": "Identity of supplied existing files, recorded now; not a retrospective training-to-export attestation",
+  "artifacts": [
+    {
+      "filename": "Yolo26s-prescription-5.pt",
+      "sha256": "5976dfe367bc4586b9c4c908570b03af17bfbacd1240ae52b8a615e9292f33a2",
+      "size_bytes": 20319045
+    },
+    {
+      "filename": "Yolo26s-prescription-5.onnx",
+      "sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8",
+      "size_bytes": 38176529
+    },
+    {
+      "filename": "train_yolo26s_object_detection_on_custom_dataset2.ipynb",
+      "sha256": "12f9afb0a406f9802b4c5b7830757d46283f9ac0b3ed1083d7b05d2811c0e0e3",
+      "size_bytes": 1864599,
+      "distribution_note": "Keep privately: embedded prescription imagery is not cleared for public release. Publish only a separately sanitized recipe/log summary."
+    }
+  ],
+  "author_identified_dataset": "https://app.roboflow.com/sarwads-workspace/prescription-oeiss-f5hvb-v8dd2/2",
+  "notebook_observation": "Corrected notebook records dataset version 2 and validation metrics on 513 images. These are validation, not held-out test metrics.",
+  "unresolved_link": "The author-reported v2 dataset linkage is not independently established: no historical dataset/checkpoint manifest, PT embedded date precedes the supplied v2 generation date, and notebook/checkpoint metrics differ. Current named parameter correspondence is now verified separately.",
+  "next_evidence": "No mandatory new detector accuracy experiment for the retained experimental-pipeline claim. Freeze current files, include output-free recipe, AGPL notice/full corresponding source and current verification reports in the final release.",
+  "rights_note": "Author states author/institution decision permits weight release. Private research-consented prescription images and notebook outputs remain excluded; no invented ethics committee approval.",
+  "current_linkage": {
+    "evidence": "docs/softwarex/generated/detector_pair_verification.json",
+    "matched_named_parameters": 204,
+    "all_exact": true,
+    "scope": "Current learned-parameter correspondence after PT fusion; not full prediction equivalence or historical dataset attestation"
+  },
+  "author_distribution_decision": "ai_service/models/Yolo26s/AUTHOR_DISTRIBUTION_DECISION.md"
+}

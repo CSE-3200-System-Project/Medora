@@ -1,0 +1,32 @@
+{
+  "previous": {
+    "counts": {
+      "brand_names": 52117,
+      "brands": 67001,
+      "drugs": 7389,
+      "generic_names": 5242,
+      "rows": 71795,
+      "search_terms": 74390
+    },
+    "exact_normalized_identities_retained": 19012,
+    "identities_only_in_previous": 52652,
+    "identities_only_in_rebuild": 1433,
+    "sha256": "476a0acfc76c4722a164c309937331c9e2bbb7f3a88babedc1628343ad59b0cc",
+    "warning": "Set differences are changes, not independently established errors/corrections"
+  },
+  "profile": "mendeley-public",
+  "rules": [
+    "preserve substance/bracket text and manufacturer suffixes",
+    "whitespace normalization only; casefold only for matching keys",
+    "do not collapse distinct strengths, forms or manufacturers",
+    "merge exact normalized identities only; preserve all contributor records",
+    "medicine_type is blank when absent; fill only from an explicit agreeing contributor; quarantine conflicting types",
+    "prefer S5 then S1 then S2 then S4 for duplicate display values",
+    "quarantine S4 combinations/unparseable generic-strength strings",
+    "quarantine every contradictory brand/manufacturer-to-generic mapping, rather than choose a winner",
+    "omit all inferred/generative/common-use descriptions and S3 Indian indications",
+    "append stable record_id/source_refs; legacy seed columns preserved",
+    "no price emission, clinical safety inference, or automatic database reseeding"
+  ],
+  "version": "medicine-reference-v2"
+}

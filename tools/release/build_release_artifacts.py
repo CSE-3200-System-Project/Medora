@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import os
 import subprocess
 from pathlib import Path
@@ -33,6 +34,27 @@ def percent(value: float | None) -> str:
     return "--" if value is None else f"{100 * value:.1f}"
 
 
+def wilson_95(successes: int, trials: int) -> tuple[float | None, float | None]:
+    """Two-sided Wilson interval for a binomial fixture proportion."""
+    if trials == 0:
+        return None, None
+    z = 1.959963984540054
+    proportion = successes / trials
+    denominator = 1 + z * z / trials
+    center = (proportion + z * z / (2 * trials)) / denominator
+    margin = z * math.sqrt(
+        proportion * (1 - proportion) / trials + z * z / (4 * trials * trials)
+    ) / denominator
+    return center - margin, center + margin
+
+
+def interval_text(successes: int, trials: int) -> str:
+    lower, upper = wilson_95(successes, trials)
+    if lower is None or upper is None:
+        return "--"
+    return f"{100 * lower:.1f}--{100 * upper:.1f}\\%"
+
+
 def render_ocr(report: dict) -> str:
     lines = [
         r"\begin{table}[!h]", r"\centering\small", r"\begin{tabular}{@{}lrrrr@{}}", r"\toprule",
@@ -47,34 +69,85 @@ def render_ocr(report: dict) -> str:
 
 def render_booking(report: dict) -> str:
     lines = [
-        r"\begin{table}[!h]", r"\centering\small", r"\resizebox{\linewidth}{!}{%", r"\begin{tabular}{@{}rrrrr@{}}", r"\toprule",
-        r"Concurrency & Passed / 30 & Transaction p95 (ms) & Outbox p95 (ms) & Unique commit \\", r"\midrule",
+        r"\begin{table}[!h]", r"\centering\small", r"\resizebox{\linewidth}{!}{%", r"\begin{tabular}{@{}rrrll@{}}", r"\toprule",
+        r"Attempts & Passed trials & HTTP n & Transaction p50/p95/p99 (ms) & Outbox n; p50/p95/p99 (ms) \\", r"\midrule",
     ]
     for item in report["results"]:
-        tx = item["transaction_latency_ms"]["p95"]
-        delivery = item["notification_propagation_latency_ms"]["p95"]
-        lines.append(f"{item['concurrency']} & {item['passed_repetitions']} / 30 & {tx:.1f} & {delivery:.1f} & {'yes' if item['passed'] else 'no'} \\\\")
-    lines.extend([r"\bottomrule", r"\end{tabular}%", r"}", r"\caption{Booking contention. Transaction and post-commit outbox propagation latency are distinct measurements.}", r"\label{tab:booking-results}", r"\end{table}"])
+        tx = item["transaction_latency_ms"]
+        delivery = item["notification_propagation_latency_ms"]
+        tx_summary = f"{tx['p50']:.1f} / {tx['p95']:.1f} / {tx['p99']:.1f}"
+        delivery_summary = f"{delivery['n']}; {delivery['p50']:.1f} / {delivery['p95']:.1f} / {delivery['p99']:.1f}"
+        lines.append(
+            f"{item['concurrency']} & {item['passed_repetitions']} / {item['repetitions']} & "
+            f"{tx['n']} & {tx_summary} & {delivery_summary} \\\\"
+        )
+    lines.extend([
+        r"\bottomrule", r"\end{tabular}%", r"}",
+        r"\caption{Each independent fresh-slot trial sends N simultaneous attempts; one warm-up trial per level is excluded. Pass requires one persisted winner, correct conflicts, idempotent replay, mismatch rejection, and processed outbox. Transaction and post-commit propagation latency are distinct; nearest-rank p50/p95/p99 are descriptive and topology-specific.}",
+        r"\label{tab:booking-results}", r"\end{table}",
+    ])
     return "\n".join(lines) + "\n"
 
 
 def render_safety_summary(report: dict) -> str:
     pii, nav, summary = report["privacy"], report["navigation"], report["summaries"]
+    recall_interval = interval_text(pii["true_positives"], pii["expected_identifier_spans"])
+    emergency_cases = sum(bool(item["expected_emergency"]) for item in nav["raw"])
+    emergency_detected = emergency_cases - nav["emergency_false_negatives"]
+    emergency_interval = interval_text(emergency_detected, emergency_cases)
     return "\n".join([
-        r"\begin{table}[!h]", r"\centering\small", r"\begin{tabular}{@{}lrrl@{}}", r"\toprule",
-        r"Suite & Cases & No undisclosed failure & Review state \\", r"\midrule",
-        f"Bilingual privacy & {pii['cases']} & {pii['passed']} & synthetic \\\\",
-        f"Symptom navigation & {nav['cases']} & {nav['passed']} & {tex_escape(nav['review_state'])} \\\\",
-        f"Source-grounded summaries & {summary['cases']} & {summary['passed']} & fixtures \\\\",
-        r"\bottomrule", r"\end{tabular}",
-        r"\caption{Safety fixture results. A case passes when it exposes no \emph{undisclosed} "
-        r"failure. Detection rates are in Table~\ref{tab:privacy-span-results}.}",
+        r"\begin{table}[!h]", r"\centering\small", r"\resizebox{\linewidth}{!}{%",
+        r"\begin{tabular}{@{}lrll@{}}", r"\toprule",
+        r"Suite & Cases & Reported measurement & Scope \\", r"\midrule",
+        f"Bilingual privacy & {pii['cases']} & recall {percent(pii['recall'])}\\% (95\\% CI {recall_interval}); TP={pii['true_positives']}, FP={pii['false_positives']}, FN={pii['false_negatives']} & synthetic \\\\",
+        f"Symptom navigation & {nav['cases']} & emergency sensitivity {emergency_detected}/{emergency_cases} (95\\% CI {emergency_interval}); FP={nav['emergency_false_positives']} & {tex_escape(nav['review_state'])} \\\\",
+        f"Source-grounded summaries & {summary['cases']} & {summary['passed']}/{summary['cases']} fixture assertions & deterministic mock \\\\",
+        r"\bottomrule", r"\end{tabular}%", r"}",
+        r"\caption{Fixture measurements. Privacy counts are span-level; intervals are two-sided "
+        r"Wilson 95\% intervals on fixture denominators, not population or clinical-performance "
+        r"estimates. Fixture assertions and documented limitations are release-audit properties, "
+        r"not evidence that all cases were correct. Detection rates are in "
+        r"Table~\ref{tab:privacy-span-results}.}",
         r"\label{tab:safety-results}", r"\end{table}",
     ]) + "\n"
 
 
+def navigation_confusion(nav: dict) -> dict[str, int]:
+    counts = {"tp": 0, "fn": 0, "fp": 0, "tn": 0}
+    for item in nav["raw"]:
+        expected = bool(item["expected_emergency"])
+        detected = bool(item["emergency_rule_fired"])
+        key = "tp" if expected and detected else "fn" if expected else "fp" if detected else "tn"
+        counts[key] += 1
+    return counts
+
+
 def render_navigation(report: dict) -> str:
     nav = report["navigation"]
+    matrix = navigation_confusion(nav)
+    metrics = (
+        ("Sensitivity", matrix["tp"], matrix["tp"] + matrix["fn"]),
+        ("Specificity", matrix["tn"], matrix["tn"] + matrix["fp"]),
+        ("Positive predictive value", matrix["tp"], matrix["tp"] + matrix["fp"]),
+        ("Negative predictive value", matrix["tn"], matrix["tn"] + matrix["fn"]),
+    )
+    matrix_lines = [
+        r"\begin{table}[!h]", r"\centering\small",
+        r"\begin{tabular}{@{}lrrl@{}}", r"\toprule",
+        r"Measure & n & N & Estimate (95\% Wilson CI) \\",
+        r"\midrule",
+    ]
+    for label, successes, trials in metrics:
+        lower, upper = wilson_95(successes, trials)
+        estimate = f"{100 * successes / trials:.1f}\\%" if trials else "--"
+        interval = f"{100 * lower:.1f}--{100 * upper:.1f}\\%" if lower is not None and upper is not None else "--"
+        matrix_lines.append(f"{label} & {successes} & {trials} & {estimate} ({interval}) " + r"\\")
+    matrix_lines.extend([
+        r"\bottomrule", r"\end{tabular}",
+        r"\caption{Deterministic emergency screen on 30 clinician-reviewed fixtures: "
+        f"TP={matrix['tp']}, FN={matrix['fn']}, FP={matrix['fp']}, TN={matrix['tn']}. Wilson intervals describe fixtures only, not clinical triage performance.}}",
+        r"\label{tab:navigation-emergency-results}", r"\end{table}",
+    ])
     rows: dict[str, dict[str, int]] = {}
     for item in nav["raw"]:
         bucket = rows.setdefault(
@@ -85,7 +158,7 @@ def render_navigation(report: dict) -> str:
         bucket["mock"] += item["mock_candidate_source"] == item["expected_candidate_source"]
         bucket["documented"] += bool(item["limitation_class"])
 
-    lines = [
+    lines = matrix_lines + [
         r"\begin{table}[!h]",
         r"\centering\small",
         r"\begin{tabular}{@{}lrrrr@{}}",
@@ -99,14 +172,11 @@ def render_navigation(report: dict) -> str:
             f"{bucket['mock']} & {bucket['documented']}" + r" \\"
         )
     lines.extend([
-        r"\midrule",
-        f"Emergency false positives & {nav['emergency_false_positives']} & -- & -- & --" + r" \\",
-        f"Emergency false negatives & {nav['emergency_false_negatives']} & -- & -- & --" + r" \\",
         r"\bottomrule",
         r"\end{tabular}",
-        r"\caption{Symptom-navigation fixtures. \emph{Recorded} and \emph{Mock} count agreement "
-        r"with the labelled class on the two scored paths, and are measurements, not pass/fail.}",
-        r"\label{tab:navigation-results}",
+        r"\caption{Provider-dependent specialty outcomes are separated from the deterministic emergency screen. "
+        r"Recorded and Mock are fixture paths and do not represent a live-provider comparison.}",
+        r"\label{tab:navigation-agreement-results}",
         r"\end{table}",
     ])
     return "\n".join(lines) + "\n"
@@ -183,17 +253,19 @@ def main() -> int:
             raise SystemExit(f"missing required source: {source}")
     GENERATED.mkdir(parents=True, exist_ok=True)
 
-    # The DOI macros describe the deposit, not the evaluation, so they are emitted as soon
-    # as the metadata is complete. Gating them behind the full evidence set meant the
-    # manuscript could not cite its own archive while the licensed clinical review was
-    # outstanding, even though the archive existed and had a DOI. The evaluation gate
-    # still lives in check_softwarex_release.py, which fails on the same safety report.
+    # The paper needs the version DOI/date before the source commit. The exact commit hash,
+    # capsule run receipt, and archive checksum are post-commit/post-deposit values and
+    # must not block generating the manuscript macros or pre-commit evidence manifest.
     if args.metadata.exists():
         metadata = json.loads(args.metadata.read_text(encoding="utf-8"))
-        if "RELEASE_PENDING" in json.dumps(metadata):
-            if not args.pre_archive:
-                raise SystemExit("release metadata is incomplete")
-        else:
+        required_paper_identity = ("version", "zenodo_doi", "release_date")
+        paper_identity_complete = all(
+            metadata.get(field) and "RELEASE_PENDING" not in str(metadata.get(field))
+            for field in required_paper_identity
+        )
+        if not paper_identity_complete and not args.pre_archive:
+            raise SystemExit("release version, reserved Zenodo DOI, and release date are required to build final paper metadata")
+        if paper_identity_complete:
             # A 40-character hash in the code-metadata table overflows the column by
             # 26pt and there is no break opportunity inside \url in a tabularx cell.
             # Twelve characters resolve unambiguously on GitHub and in git; the full
@@ -201,7 +273,6 @@ def main() -> int:
             macros = {
                 "ReleaseVersion": metadata["version"],
                 "ReleaseDOI": metadata["zenodo_doi"],
-                "ReleaseCommit": str(metadata["git_commit"])[:12],
                 "ReleaseDate": metadata["release_date"],
             }
             (GENERATED / "release_metadata.tex").write_text("".join(f"\\newcommand{{\\{name}}}{{{tex_escape(value)}}}\n" for name, value in macros.items()), encoding="utf-8")
@@ -269,6 +340,66 @@ def main() -> int:
         "container_images": containers,
     }
     (GENERATED / "dependency_container_model_checksums.json").write_text(json.dumps(inventory, indent=2) + "\n", encoding="utf-8")
+
+    evidence_paths = [
+        ROOT / "docs/softwarex/release_metadata.json",
+        ROOT / "tests/benchmarks/provider_manifest.json",
+        ROOT / "docs/softwarex/generated/safety_results.json",
+        ROOT / "docs/softwarex/generated/safety_results.tex",
+        ROOT / "docs/softwarex/generated/booking_results.json",
+        ROOT / "docs/softwarex/generated/booking_results.tex",
+        ROOT / "docs/softwarex/generated/dependency_container_model_checksums.json",
+        ROOT / "docs/softwarex/medora_softwarex.tex",
+        ROOT / "docs/REPRODUCING.md",
+        ROOT / "docs/softwarex/response_to_revision.md",
+        ROOT / "docs/softwarex/CODE_OCEAN_CAPSULE.md",
+        ROOT / "docs/softwarex/FINAL_HUMAN_GATES.md",
+        ROOT / "docs/INTEROPERABILITY.md",
+        ROOT / "docs/THREAT_MODEL.md",
+        ROOT / "tools/release/render_softwarex_tables.py",
+        ROOT / "tools/release/run_softwarex_capsule.sh",
+        ROOT / "run",
+        ROOT / "data/medicine_reference/PROVENANCE.md",
+        ROOT / "data/medicine_reference/UPDATE_POLICY.md",
+        ROOT / "data/medicine_reference/SOURCE_PERMISSION_RECORD.json",
+        ROOT / "THIRD_PARTY_NOTICES.md",
+        ROOT / "docs/softwarex/generated/dashboard_capture_receipt.json",
+        ROOT / "docs/softwarex/generated/detector_metadata_inspection.json",
+        ROOT / "docs/softwarex/generated/detector_pair_verification.json",
+        ROOT / "docs/softwarex/generated/medicine_v2_full_build_manifest.json",
+        ROOT / "docs/softwarex/generated/medicine_v2_full_quality_report.json",
+        ROOT / "docs/softwarex/generated/medicine_v2_full_change_report.json",
+        ROOT / "docs/softwarex/generated/medicine_v2_full_verification.json",
+        ROOT / "ai_service/models/Yolo26s/AUTHOR_DISTRIBUTION_DECISION.md",
+        ROOT / "ai_service/models/Yolo26s/MODEL_CARD.md",
+        ROOT / "ai_service/models/Yolo26s/DISTRIBUTION.md",
+    ]
+    code_ocean_manifest = (metadata.get("code_ocean") or {}).get("manifest_path") if "metadata" in locals() else None
+    if code_ocean_manifest:
+        evidence_paths.append(ROOT / str(code_ocean_manifest))
+    release_identity = (
+        {
+            field: metadata.get(field)
+            for field in ("version", "git_commit", "zenodo_doi", "archive_sha256")
+        }
+        if args.metadata.exists() and "metadata" in locals()
+        else {}
+    )
+    evidence_manifest = {
+        "schema_version": "1.0.0",
+        "release_identity": release_identity,
+        "artifacts": {
+            str(path.relative_to(ROOT)).replace("\\", "/"): {
+                "sha256": sha256(path),
+                "bytes": path.stat().st_size,
+            }
+            for path in evidence_paths
+            if path.is_file()
+        },
+    }
+    (GENERATED / "evidence_manifest.json").write_text(
+        json.dumps(evidence_manifest, indent=2) + "\n", encoding="utf-8"
+    )
     print(
         "generated manuscript inputs and "
         f"{len(checksums) + len(external_models)} file/model checksums plus {len(containers)} container records"

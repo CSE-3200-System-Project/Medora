@@ -1,0 +1,48 @@
+# SoftwareX screenshot session. Uses the existing Supabase auth/database, not a
+# separate local database. No secrets are embedded here or baked into the images.
+# docker compose -p medora-screenshots -f docker-compose.screenshots.yml up -d --build
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: medora-backend:softwarex-screenshots
+    env_file:
+      - ./backend/.env
+    environment:
+      PORT: "8000"
+      ENVIRONMENT: development
+      ALLOWED_ORIGINS: http://localhost:3000,http://127.0.0.1:3000
+      RUN_MIGRATIONS: "false"
+      WAIT_FOR_DB: "false"
+      PRELOAD_WHISPER_ON_STARTUP: "false"
+      REMINDER_DISPATCH_ENABLED: "false"
+      LOCAL_SCREENSHOT_MODE: "true"
+    ports:
+      - "127.0.0.1:8000:8000"
+    restart: unless-stopped
+  frontend:
+    image: node:22-alpine
+    working_dir: /app
+    depends_on:
+      - backend
+    env_file:
+      - ./frontend/.env
+    environment:
+      BACKEND_URL: http://backend:8000
+      NEXT_PUBLIC_BACKEND_URL: http://localhost:8000
+      NEXT_TELEMETRY_DISABLED: "1"
+      PUPPETEER_SKIP_DOWNLOAD: "true"
+    ports:
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - ./frontend:/app
+      - frontend-node-modules:/app/node_modules
+      - frontend-next:/app/.next
+      - frontend-npm-cache:/root/.npm
+    command: sh -c "npm ci --no-audit --no-fund && npm run dev -- --hostname 0.0.0.0"
+    restart: unless-stopped
+volumes:
+  frontend-node-modules:
+  frontend-next:
+  frontend-npm-cache:

@@ -1,0 +1,57 @@
+{
+  "origin": "http://localhost:3000/patient/home",
+  "synthetic_record": false,
+  "record": "Consenting author demonstration account; paper frames include frontend context and author account header; other health records outside frame",
+  "captures": [
+    {
+      "locale": "en",
+      "path": "docs/softwarex/imagesui/patient/dashboard.png",
+      "sha256": "22c9e69b36448899d56e16504cec4062326a95a487a103ff153cdd17fa6c06f5",
+      "captured_at": "2026-09-28T15:59:09.080Z",
+      "disclosure": "open",
+      "browser_preference": "prefers-reduced-motion: reduce",
+      "capture": "Unmodified screenshot pixels, clip limited to coverage/status cards; no page header, greeting, profile or other health records"
+    },
+    {
+      "locale": "en",
+      "path": "docs/softwarex/imagesui/patient/dashboard_frontend.png",
+      "sha256": "5c4fa53bdc13ea3a7f2979279a1aba266a808f7adbebd39eb8a2185c44c82519",
+      "captured_at": "2026-09-28T15:59:09.306Z",
+      "disclosure": "closed",
+      "capture": "Actual frontend navigation, heading, coverage and measurement-group panels; consenting author account; other health records outside frame"
+    },
+    {
+      "locale": "en",
+      "path": "docs/softwarex/imagesui/patient/dashboard_coverage_card.png",
+      "sha256": "fd571685b10b6c7f9bef1f477196a415648a590a54e4436e4725c4a6cc70c6a8",
+      "captured_at": "2026-09-28T15:59:09.420Z",
+      "disclosure": "closed",
+      "capture": "Authentic compact coverage-card state for legible journal panel; no text or values altered"
+    },
+    {
+      "locale": "bn",
+      "path": "docs/softwarex/imagesui/patient/dashboard_bangla.png",
+      "sha256": "9802d82fa104f9f60620291001db55c007af76553b943d3e24ccb0de6781991f",
+      "captured_at": "2026-09-28T15:59:11.787Z",
+      "disclosure": "open",
+      "browser_preference": "prefers-reduced-motion: reduce",
+      "capture": "Unmodified screenshot pixels, clip limited to coverage/status cards; no page header, greeting, profile or other health records"
+    },
+    {
+      "locale": "bn",
+      "path": "docs/softwarex/imagesui/patient/dashboard_frontend_bangla.png",
+      "sha256": "9b55c61b13d3d2ae04b2aaefa5f0025766254a7f5afe0e47d88f92acbcd818b3",
+      "captured_at": "2026-09-28T15:59:12.002Z",
+      "disclosure": "closed",
+      "capture": "Actual frontend navigation, heading, coverage and measurement-group panels; consenting author account; other health records outside frame"
+    },
+    {
+      "locale": "bn",
+      "path": "docs/softwarex/imagesui/patient/dashboard_coverage_card_bangla.png",
+      "sha256": "8158e4771cba65dc3ae1ca663ed766e168bdc0c89cbb4d0aa118e47ad9c45c67",
+      "captured_at": "2026-09-28T15:59:12.123Z",
+      "disclosure": "closed",
+      "capture": "Authentic compact coverage-card state for legible journal panel; no text or values altered"
+    }
+  ]
+}

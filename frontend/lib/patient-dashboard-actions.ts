@@ -15,36 +15,9 @@ async function getAuthHeaders() {
   };
 }
 
-export type PatientDashboardScoreFactor = {
-  label: string;
-  points: number;
-  max_points: number;
-  status: "good" | "warning" | "missing";
-  detail: string;
-};
-
-export type PatientDashboardScoreBreakdown = {
-  total: number;
-  max_total: number;
-  factors: PatientDashboardScoreFactor[];
-  summary: string;
-};
-
-export type PatientDashboardBMI = {
-  value: number | null;
-  category: string | null;
-  height_cm: number | null;
-  weight_kg: number | null;
-};
-
 export type PatientDashboardPayload = {
   user_name: string;
-  health_score: number;
-  score_breakdown?: PatientDashboardScoreBreakdown | null;
-  bmi?: PatientDashboardBMI | null;
-  chronic_conditions_count?: number;
-  chronic_conditions?: string[];
-  active_medications_count?: number;
+  record_coverage?: PatientDashboardRecordCoverage | null;
   upcoming_appointments: Array<{
     id: string;
     doctor_name: string;
@@ -54,29 +27,25 @@ export type PatientDashboardPayload = {
     reason?: string | null;
     doctor_photo_url?: string | null;
   }>;
-  medication_adherence_trend: {
-    labels: string[];
-    values: number[];
-    adherence_rate: number;
-    delta_percent: number;
-  };
   today_health_stats: Array<{
     label: string;
     value: string;
-    trend: string;
-    trend_type: "up" | "down" | "neutral";
-  }>;
-  ai_insights: Array<{
-    title: string;
-    description: string;
-    tone: "success" | "warning" | "info" | "danger";
-    icon?: string | null;
   }>;
   device_connection_status: {
     title: string;
     last_synced: string;
     connected: boolean;
   };
+};
+
+export type PatientDashboardRecordCoverage = {
+  recorded_groups: number;
+  total_groups: number;
+  coverage_percent: number;
+  groups: Array<{ key: string; recorded: boolean }>;
+  window_start_utc: string;
+  window_end_utc: string;
+  as_of_utc: string;
 };
 
 export async function getPatientDashboard() {
