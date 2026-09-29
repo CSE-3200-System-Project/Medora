@@ -15,6 +15,8 @@ detector documentation, ethics/privacy, interoperability, references, and dashbo
 See `revisions/MANUSCRIPT_COMMUNICATION_CHECK.md` for the merge/evidence map.
 `FINAL_REVISION_REPORT.md` consolidates the retained results, all-reviewer status and
 complete remaining revision-only sequence. `response_to_revision.md` maps all 32 items.
+`FIGURE_WORKFLOW.md` documents the scientific-figure-making skill installed for Codex
+and Claude Code, its relevant plotting uses and its separate upstream licence.
 
 Build from this directory:
 
