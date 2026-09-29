@@ -2,3 +2,7 @@
 # whitespace hygiene, so exclude it from whitespace checks rather than editing the logs.
 tests/benchmarks/reports/**/*.log -whitespace
 tests/benchmarks/reports/**/*.out.log -whitespace
+
+# Linux capsule entry points must also remain LF in Windows git-archive exports.
+run text eol=lf
+*.sh text eol=lf
