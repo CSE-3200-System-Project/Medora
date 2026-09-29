@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import gzip
 import hashlib
 import json
 import tempfile
@@ -38,7 +39,12 @@ def main() -> None:
                 raise SystemExit(f"capsule medicine output differs: {name}")
             archived = (ROOT / "data/medicine_reference/Final_Medicine_Dataset.csv" if name == "Final_Medicine_Dataset.csv"
                         else ROOT / "data/medicine_reference/release-build" / name)
-            if sha(archived) != actual:
+            if name == "row_provenance.jsonl":
+                with gzip.open(archived.with_name(name + ".gz"), "rb") as stream:
+                    archived_sha = hashlib.sha256(stream.read()).hexdigest()
+            else:
+                archived_sha = sha(archived)
+            if archived_sha != actual:
                 raise SystemExit(f"capsule packaged medicine output differs: {name}")
         if sha(ROOT / "data/medicine_reference/Final_Medicine_Dataset.csv") != manifest["outputs"]["Final_Medicine_Dataset.csv"]["sha256"]:
             raise SystemExit("committed public medicine CSV differs")

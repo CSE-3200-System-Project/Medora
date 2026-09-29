@@ -10,6 +10,7 @@ synthetic fixtures and frozen machine-readable reports.
 from __future__ import annotations
 
 import argparse
+import gzip
 import hashlib
 import io
 import json
@@ -96,20 +97,21 @@ def environment_postinstall(included: list[tuple[str, bytes, int]], detector: bo
              "  printf 'Types: deb\\nURIs: https://apt.postgresql.org/pub/repos/apt\\nSuites: %s-pgdg\\nComponents: main\\nSigned-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\\n' \"$VERSION_CODENAME\" > /etc/apt/sources.list.d/pgdg.sources",
              "  apt-get update && apt-get install -y --no-install-recommends postgresql-16",
              "fi",
-             "apt-get update && apt-get install -y --no-install-recommends libgl1 libglib2.0-0",
+             "apt-get update && apt-get install -y --no-install-recommends libgl1 libglib2.0-0 libxcb1",
              "python3.11 -m venv /opt/medora-python",
-             "/opt/medora-python/bin/python -m pip install pip==25.3",
-             "/opt/medora-python/bin/python -m pip install " + " ".join(map(shlex.quote, main_pins)),
+             "/opt/medora-python/bin/python -m pip install --no-cache-dir pip==25.3",
+             "/opt/medora-python/bin/python -m pip install --no-cache-dir " + " ".join(map(shlex.quote, main_pins)),
              "/opt/medora-python/bin/python -m pip check"]
     if detector:
         detector_pins = pins("tools/softwarex/requirements-detector-verification.txt")
         lines += ["python3.11 -m venv /opt/medora-detector",
-                  "/opt/medora-detector/bin/python -m pip install pip==25.3",
-                  "/opt/medora-detector/bin/python -m pip install --index-url https://download.pytorch.org/whl/cpu "
+                  "/opt/medora-detector/bin/python -m pip install --no-cache-dir pip==25.3",
+                  "/opt/medora-detector/bin/python -m pip install --no-cache-dir --index-url https://download.pytorch.org/whl/cpu "
                   "--extra-index-url https://pypi.org/simple torch==2.10.0+cpu torchvision==0.25.0+cpu",
-                  "/opt/medora-detector/bin/python -m pip install " + " ".join(map(shlex.quote, detector_pins)),
+                  "/opt/medora-detector/bin/python -m pip install --no-cache-dir " + " ".join(map(shlex.quote, detector_pins)),
                   "/opt/medora-detector/bin/python -m pip check"]
-    lines += ["test -x /usr/lib/postgresql/16/bin/initdb || { echo 'PostgreSQL 16 missing after environment build' >&2; exit 2; }"]
+    lines += ["apt-get clean",
+              "test -x /usr/lib/postgresql/16/bin/initdb || { echo 'PostgreSQL 16 missing after environment build' >&2; exit 2; }"]
     return ("\n".join(lines) + "\n").encode("utf-8")
 
 
@@ -213,8 +215,16 @@ def main() -> int:
             payload = (args.medicine_build / name).read_bytes()
             if hashlib.sha256(payload).hexdigest() != info["sha256"] or len(payload) != info["size_bytes"]:
                 raise SystemExit(f"medicine output mismatch: {name}")
-            destination = "data/medicine_reference/release-build/" + name
-            data_assets[destination] = {"sha256": info["sha256"], "bytes": len(payload), "source": "S4/S5 build"}
+            if name == "row_provenance.jsonl":
+                # Code Ocean's capsule Git repository rejects individual files >100 MB.
+                payload = gzip.compress(payload, compresslevel=6, mtime=0)
+                destination = "data/medicine_reference/release-build/" + name + ".gz"
+                data_assets[destination] = {"sha256": hashlib.sha256(payload).hexdigest(),
+                                            "bytes": len(payload), "uncompressed_sha256": info["sha256"],
+                                            "source": "S4/S5 build; deterministic gzip"}
+            else:
+                destination = "data/medicine_reference/release-build/" + name
+                data_assets[destination] = {"sha256": info["sha256"], "bytes": len(payload), "source": "S4/S5 build"}
             included.append(("code/" + destination, payload, 0o644))
     if args.phi_bundle:
         archived = json.loads(next(data for name, data, _ in included
@@ -236,6 +246,9 @@ def main() -> int:
             destination = "upstream-source/" + name
             data_assets[destination] = {"sha256": hashlib.sha256(payload).hexdigest(), "bytes": len(payload)}
             included.append(("code/" + destination, payload, 0o644))
+    oversized = [(name, len(payload)) for name, payload, _ in included if len(payload) > 100_000_000]
+    if oversized:
+        raise SystemExit(f"Code Ocean's 100 MB per-file Git limit would be exceeded: {oversized}")
     metadata = next(data for name, data, _ in included if name == "code/codeocean/metadata/metadata.yml")
     capsule_commit_file = (commit + "\n").encode("ascii")
     release_metadata = json.loads(next(data for name, data, _ in included
@@ -285,6 +298,8 @@ remain outside this run.
 The exact paths and reasons are recorded in
 `/code/CAPSULE_SOURCE_MANIFEST.json`. Do not add omitted assets until the author/institution
 has documented clearance and the reproduction scope is intentionally updated.
+The 140 MB medicine provenance JSONL is stored as deterministic gzip below Code Ocean's
+100 MB individual Git-file limit and is decompressed/hashed during the run.
 
 Selected optional profiles: detector={bool(args.detector_source_dir)}, PHI inference={bool(args.phi_bundle)}, medicine={bool(args.medicine_build)}.
 The detector profile includes approved assets, AGPL and pinned corresponding source.
