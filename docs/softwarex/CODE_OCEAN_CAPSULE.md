@@ -76,6 +76,27 @@ commit marker before testing. Model profiles named in the manifest are required:
 their files are missing, the run fails instead of silently claiming an archival-only
 result. The version is a candidate identifier, not a minted Zenodo DOI.
 
+## Open Science Library/free-account fit
+
+Code Ocean's [OSL quota guide](https://docs.codeocean.com/osl-guide/account-management/quota-measurement-usage)
+lists **1 computation hour per month and 5 GB account storage for most users**;
+the account menu shows the actual remaining quota and collaborating publishers
+may allocate more. Its [Git-file guide](https://docs.codeocean.com/user-guide/v2.11.0/faq/faq-general)
+states a **100 MB individual Git-file** and **2 GB repository** limit; the
+[workspace guide](https://docs.codeocean.com/user-guide/v2.21.0/compute-capsule-basics/the-capsule-interface/file-navigation-app-builder-panel)
+states a **5 GB workspace** limit. The selected package now rejects files above
+100 MB. Its 140 MB medicine-provenance JSONL is transported as deterministic
+gzip and decompressed/hashed during the run; private images and the unapproved
+optional MuRIL bundle are not in the recommended free-account capsule.
+
+The two virtual environments occupy about 2.8 GB together in the local Debian
+test, before base-image/system packages. The environment script disables pip
+caches and uses CPU-only detector dependencies. The author must check the
+actual account quota and available CPU starter/slot before uploading: these
+local size checks cannot certify account-specific capacity or platform success.
+Avoid repeated trial runs until configuration is complete because run time
+counts toward the monthly allowance.
+
 ## Author-side platform steps
 
 1. Sign in to the author-owned Code Ocean account in the browser. Do not share passwords,
