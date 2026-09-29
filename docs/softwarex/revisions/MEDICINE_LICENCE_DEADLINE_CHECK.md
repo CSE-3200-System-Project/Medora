@@ -1,0 +1,35 @@
+# Medicine licences and this week's revision deadline
+
+Checked 29 September 2026. SoftwareX revision only. This is a source-evidence check, not a legal opinion or a finding that any dataset is unlawful. No messages were sent and no corpus distribution decision was changed.
+
+## The correction to our earlier advice
+
+A valid public licence already supplies permission for the uses it covers. A separate email reply is **not automatically required** for every CC0, CC BY or MIT dataset. Our earlier instruction to obtain three replies as an unconditional submission requirement was too broad. The problem to resolve is a documented upstream conflict or uncertain provenance, not the absence of a fresh email alone. Creative Commons distinguishes the permissions a licensor can grant from third-party rights, and also recognizes uses for which copyright permission is unnecessary. [CC0 legal code](https://creativecommons.org/publicdomain/zero/1.0/legalcode.en), [CC BY 4.0 legal code](https://creativecommons.org/licenses/by/4.0/legalcode.en).
+
+## What was actually verified
+
+Kaggle's public dataset-view API was retrieved directly today; page rendering alone returned no readable body. These are publisher declarations, not findings about the applicable rights in each medicine identity field.
+
+| Source | First-party licence/version evidence | Specific unresolved issue |
+| --- | --- | --- |
+| S1: Assorted Medicine Dataset of Bangladesh | [Kaggle API](https://www.kaggle.com/api/v1/datasets/view/ahmedshahriarsakib/assorted-medicine-dataset-of-bangladesh): CC0, v5, updated 24 July 2022. The uploader expressly describes scraping MedEx. | [Current MedEx terms](https://medex.com.bd/terms-of-use) restrict reproduction/distribution without approval and extraction without written consent. This is a concrete provenance/terms conflict to review, not proof that current terms governed the historical collection or that every factual identity field is protected. |
+| S2: All medicine data (20k), Bangladesh | [Kaggle API](https://www.kaggle.com/api/v1/datasets/view/toriqulstu/all-medicine-and-drug-price-data20k-bangladesh): CC0, v1, updated 26 August 2023. | The card describes MedEasy services but does not identify an extraction method or exact row origin. Do **not** assert that MedEasy is verified upstream provenance. If its materials are the source, [current MedEasy terms](https://medeasy.health/terms-and-conditions), items 7–8, assert intellectual-property rights and require prior written consent for copying/distribution/derivatives. Their applicability to this CSV is unresolved. |
+| S4: Drug Pharma New Dataset | [Kaggle API](https://www.kaggle.com/api/v1/datasets/view/shuvokumarbasak2030/drug-pharma-new-dataset): MIT, v1, updated 28 February 2025; uploader claims DGDA and links a legacy register URL. | Upstream DGDA export identity/date remains unverified. This check did **not** establish a conflicting DGDA redistribution restriction. Do not equate a missing DGDA letter with an established prohibition, or describe the derived corpus as officially validated. Retain supplied MIT notices; its [licence text](https://opensource.org/license/mit) permits redistribution subject to its notice condition. |
+| S5: Medicinal Products in Bangladesh | [Mendeley Data v1](https://data.mendeley.com/datasets/zhtvkny53n/1): CC BY 4.0; published 18 September 2024; Md Mahmudur Rahman and Md M KHAN; DOI 10.17632/zhtvkny53n.1. Licence was verified in the current page's visible text and structured metadata. | No specific contrary upstream restriction was identified in this check. Existing source attribution and change notices should remain; no new permission email is required merely because CC BY is used. |
+
+Local file hashes, field scope and transformations are already recorded in [`SOURCE_PERMISSION_RECORD.json`](../../../data/medicine_reference/SOURCE_PERMISSION_RECORD.json) and [`medicine_v2_full_build_manifest.json`](../generated/medicine_v2_full_build_manifest.json). Today’s metadata does not establish which historical download version/date produced each local file. Do not silently replace that uncertainty with today’s access date.
+
+## What the reviewers required—not an extra gate we invented
+
+The original Reviewer 1 report, comment 5, requests explanations/evidence for medicine quality, currency, mappings and versioning. A meaningful manual audit or authoritative comparison would strengthen it. Reviewer 3 comment 8 requests source roles, cleaning, conflicts and validation. Neither specifically requires three new permission emails or their replies. They do require an accurate account of what is reusable and reproducible. See the original review PDF and the source-by-source interpretation in [`CLAIM_AND_ARTIFACT_SCOPE.md`](CLAIM_AND_ARTIFACT_SCOPE.md).
+
+A doctor's content/source review and the prescription-image ethics record answer different questions; they do not grant third-party data rights. Conversely, the authors reporting those tasks complete should not be sent to perform them again: obtain their approved, non-identifying scope summaries for the manuscript/evidence record.
+
+## Practical deadline route
+
+1. **Keep the documented licences and the attributed multi-source build.** Finish the code, deterministic fixture checks, reconstruction scripts and result-verification capsule now. No waiting for emails is needed to prepare these materials.
+2. **Resolve the concrete public-distribution decision, not an arbitrary reply requirement.** Ask the authors' competent institutional rights contact to assess the exact identity-only output and recorded provenance/licences, particularly S1. An applicable existing authorization or a documented conclusion that the intended fields/use need no additional permission can establish a basis; a newly returned email is only one possible form of evidence. This note cannot supply that conclusion.
+3. **If that cannot be established before submission, choose an explicit alternative rather than claiming clearance.** Either seek a short extension, or ask the handling editor to approve a revision with publicly released software, synthetic fixture inputs, full reconstruction code, hashes and source links, while the unresolved derived corpus is withheld. Explain that exact full-corpus reconstruction then requires user-supplied hashed inputs; do not label this as turnkey reproduction of the withheld corpus. Public S5-only release is another available option but requires the author's approval because it changes the selected multi-source release and its counts.
+4. **Non-response is not the authors' fault, but it is not affirmative clearance.** Keep a request record if one is sent; do not state that a reply was obtained or promise a future reply. The editor decides whether an availability change/extension meets the conditional acceptance—not this audit.
+
+There is no basis here to guarantee rejection or acceptance. No compulsory new clinical study, all-row doctor review, or publication of private prescription images follows from these licensing findings.

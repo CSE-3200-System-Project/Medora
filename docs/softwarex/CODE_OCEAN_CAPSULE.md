@@ -1,16 +1,19 @@
 # Code Ocean capsule handoff
 
 This is a narrow SoftwareX reproduction capsule, not a deployment of the full Medora
-application. Its headless run executes the focused synthetic fixture tests and regenerates
-the safety and booking tables from the frozen machine-readable reports. It does not
-rescore the development privacy data as held-out evidence, rerun the host-specific booking
-timing experiment, call hosted AI providers, or establish clinical validity. The run needs
+application. Its headless run executes synthetic fixture tests, recomputes archived safety
+counts/booking statistics, scores current mock/rule safety and runs 90 fresh-slot booking
+trials against a new native PostgreSQL 16 cluster. New reports are separate from the historical
+tables. It does not treat development data as independent evidence, call hosted AI providers,
+or establish clinical validity. The run needs
 no patient account, provider key, clinical dataset, or live booking.
 
 The runner also copies the archived privacy-extension and consent-scope reports and
-regenerates `extended_results.tex`. Those experiments are not executed again in this run;
-their original observations, dates and qualifications are preserved. No optional MuRIL
-model download or hosted-provider key is required.
+regenerates `extended_results.tex`. Model-enabled profiles additionally execute MuRIL
+inference at threshold 0.30 and the approved PT/ONNX synthetic-input parameter diagnostics.
+`model_execution_coverage.json` states which profiles actually ran. No model is silently
+downloaded, substituted or marked reproduced when absent. The archived consent-scope
+provider experiment is not rerun; no hosted-provider key is required.
 
 See `CAPSULE_RESULT_COVERAGE.md` for the result-by-result execution gap. The current
 run is not a claim that all paper experiments were rerun. Expanding that computational
@@ -33,6 +36,8 @@ After the final candidate is committed to a clean Git tree, create the prepared 
 ```powershell
 python tools/release/package_softwarex_capsule.py --dry-run
 python tools/release/package_softwarex_capsule.py
+# Model-enabled local transport bundle (do not publish uncleared assets):
+python tools/release/package_softwarex_capsule.py --detector-source-dir F:/CODE/System-Project/Medora/dist/detector-upstream-source --phi-bundle F:/CODE/System-Project/Medora/data/medora-phi-ner-muril
 ```
 
 The builder creates `dist/Medora-SoftwareX-CodeOcean-<commit>.zip` with this layout:
@@ -52,6 +57,12 @@ choice, not a request for another author approval. The full list and reasons are
 `/code/CAPSULE_SOURCE_MANIFEST.json`. This scoped capsule is not a substitute for resolving the separate
 public-release decisions listed in `FINAL_HUMAN_GATES.md`.
 
+The detector profile includes approved weights, sanitized recipe, AGPL licence and both
+pinned Ultralytics source archives. The optional PHI profile includes four exact hashed
+inference assets, not the full training corpus; author/publication rights are a separate
+decision. Additional asset hashes are distinguished from committed application-source hashes.
+Private image exports and the medicine corpus remain excluded by default.
+
 The builder refuses a dirty worktree, so the bundle cannot silently contain an uncommitted
 mix of files. It stamps the commit into `/code/CAPSULE_SOURCE_COMMIT`; the run manifest
 uses that stamp instead of borrowing an unrelated commit from the old release metadata.
@@ -69,7 +80,12 @@ uses that stamp instead of borrowing an unrelated commit from the old release me
    the bundle's `code/` contents in `/code` and enter `metadata/metadata.yml` in the
    metadata editor. The source commit and omissions are recorded in
    `/code/CAPSULE_SOURCE_MANIFEST.json`.
-4. In the Environment Editor, select a CPU environment with Python 3.11 and allow network
+4. Use `codeocean/environment/Dockerfile` as the tested Linux environment recipe: Python
+   3.11 plus native PostgreSQL 16. The Environment Editor supports a manually unlocked
+   Dockerfile, but doing so disables its visual editing; confirm the account's custom-image
+   support if it restricts base images. See [Code Ocean environment guidance](https://docs.codeocean.com/user-guide/v4.3.0/setting-up-the-environment/starter-environment).
+   Retain platform-required environment configuration rather than assuming local Docker
+   success is a platform verification receipt. Allow network
    access to install the pinned requirements used by the run. The entry script installs
    `backend/requirements-release.txt` and `tests/requirements-release.txt`; no hosted
    provider credentials should be configured. Mark `/code/run` as the run file.

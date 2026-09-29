@@ -34,6 +34,10 @@ DEFAULT_EXCLUSIONS: tuple[tuple[str, str], ...] = (
 REQUIRED_PATHS = (
     "run",
     "tools/release/run_softwarex_capsule.sh",
+    "tools/release/run_capsule_booking.sh",
+    "tools/release/verify_capsule_observations.py",
+    "tools/release/run_capsule_models.py",
+    "codeocean/environment/Dockerfile",
     "tools/release/render_softwarex_tables.py",
     "backend/requirements-release.txt",
     "tests/requirements-release.txt",
@@ -63,6 +67,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--commit", default="HEAD", help="committed source ref to package (default: HEAD)")
     parser.add_argument("--output-dir", type=Path, default=ROOT / "dist")
     parser.add_argument("--dry-run", action="store_true", help="list included/excluded files without writing")
+    parser.add_argument("--detector-source-dir", type=Path, help="include approved detector and pinned Ultralytics source archives")
+    parser.add_argument("--phi-bundle", type=Path, help="include exact local MuRIL inference assets; not an authorization for public publication")
     return parser.parse_args()
 
 
@@ -103,7 +109,13 @@ def main() -> int:
                     print(f"unsafe archive path: {member.name}", file=sys.stderr)
                     return 2
                 relative = str(path.relative_to("code"))
-                reason = excluded(relative)
+                detector_names = {"Yolo26s-prescription-5.pt", "Yolo26s-prescription-5.onnx", "MODEL_CARD.md",
+                                  "AUTHOR_DISTRIBUTION_DECISION.md", "DISTRIBUTION.md", "COPYING.AGPL-3.0",
+                                  "training_recipe.sanitized.ipynb"}
+                approved_detector = (args.detector_source_dir and relative.startswith("ai_service/models/Yolo26s/")
+                                     and path.name in detector_names)
+                public_summary = relative == "docs/softwarex/author-evidence/COMPLETED_REVIEW_SUMMARIES.md"
+                reason = None if approved_detector or public_summary else excluded(relative)
                 if reason:
                     excluded_files.append({"path": relative, "reason": reason, "bytes": member.size})
                     continue
@@ -126,15 +138,39 @@ def main() -> int:
         name.removeprefix("code/"): {"sha256": hashlib.sha256(data).hexdigest(), "bytes": len(data)}
         for name, data, _ in included
     }
+    data_assets = {}
+    if args.phi_bundle:
+        archived = json.loads(next(data for name, data, _ in included
+                                   if name == "code/docs/softwarex/generated/privacy_extension_results.json"))
+        for name, expected in archived["release_gate"]["bundle_files"].items():
+            if name not in {"model.onnx", "model.onnx.data", "tokenizer.json", "labels.json"}:
+                raise SystemExit("unexpected model asset filename")
+            payload = (args.phi_bundle / name).read_bytes()
+            if hashlib.sha256(payload).hexdigest() != expected:
+                raise SystemExit(f"MuRIL asset hash mismatch: {name}")
+            destination = "data/medora-phi-ner-muril/" + name
+            data_assets[destination] = {"sha256": expected, "bytes": len(payload),
+                                       "status": "local inference asset; public publication basis remains separately recorded"}
+            included.append(("code/" + destination, payload, 0o644))
+    if args.detector_source_dir:
+        for version in ("8.4.21", "8.4.19"):
+            name = f"ultralytics-v{version}.tar.gz"
+            payload = (args.detector_source_dir / name).read_bytes()
+            destination = "upstream-source/" + name
+            data_assets[destination] = {"sha256": hashlib.sha256(payload).hexdigest(), "bytes": len(payload)}
+            included.append(("code/" + destination, payload, 0o644))
     metadata = next(data for name, data, _ in included if name == "code/codeocean/metadata/metadata.yml")
     capsule_commit_file = (commit + "\n").encode("ascii")
     capsule_manifest = {
         "schema_version": "1.0.0",
         "source_commit": commit,
         "source_tree": tree,
-        "scope": "SoftwareX deterministic fixture checks and frozen-table regeneration",
+        "scope": "SoftwareX current safety scoring, isolated PostgreSQL booking rerun, archived-observation checks and table regeneration",
         "omissions": excluded_files,
         "included_source_files": source_files,
+        "additional_data_assets": data_assets,
+        "profiles": {"detector": bool(args.detector_source_dir), "phi_inference": bool(args.phi_bundle)},
+        "combined_distribution_licence": "AGPL-3.0 with original MIT/third-party notices" if args.detector_source_dir else "retain individual source licences",
     }
     readme = f"""# Medora SoftwareX Code Ocean upload bundle
 
@@ -143,13 +179,14 @@ Git tree: `{tree}`
 
 This bundle is laid out for a Code Ocean capsule: upload `code/` to `/code` and enter
 `metadata/metadata.yml` in the capsule metadata editor. Configure a CPU environment with
-Python 3.11 in Code Ocean, then mark `/code/run` as the run file. The run installs the
+Python 3.11 and PostgreSQL 16 using `code/codeocean/environment/Dockerfile`, then mark `/code/run` as the run file. The run installs the
 pinned requirements and writes its outputs under `/results`.
 
 Only the focused SoftwareX reproduction scope is claimed. The run checks synthetic
-fixtures, copies the frozen safety/booking and privacy/consent component reports, and
-regenerates their tables; it does
-not perform a new clinical, held-out privacy, OCR, or host-specific booking evaluation.
+fixtures, recomputes archived observation statistics, scores current mock/rule safety,
+and runs 90 fresh-slot booking trials against a new capsule-local PostgreSQL cluster.
+Historical reports/tables remain separate from new measurements. It does not perform
+a new clinical, independent held-out privacy, OCR accuracy or live-provider evaluation.
 See `/code/docs/softwarex/CODE_OCEAN_CAPSULE.md`.
 
 The capsule omits the listed medicine corpus, YOLO weights, BCOLBD-only dataset, raw UI
@@ -158,6 +195,12 @@ needed by this run or have unresolved rights/privacy or publication-scope decisi
 The exact paths and reasons are recorded in
 `/code/CAPSULE_SOURCE_MANIFEST.json`. Do not add omitted assets until the author/institution
 has documented clearance and the reproduction scope is intentionally updated.
+
+Selected optional profiles: detector={bool(args.detector_source_dir)}, PHI inference={bool(args.phi_bundle)}.
+The detector profile includes approved assets, AGPL and pinned corresponding source.
+The PHI profile includes exact inference files with Apache base-model notice; this local
+transport option is not a public-publication clearance. See `tools/phi_ner/INFERENCE_ASSET_NOTICE.md`.
+The manifest's actual file inventory overrides the default omission description above.
 
 The full source snapshot and SHA-256 file manifest are recorded in
 `/code/CAPSULE_SOURCE_MANIFEST.json`; `/code/CAPSULE_SOURCE_COMMIT` is consumed by the run
@@ -180,7 +223,8 @@ manifest so the capsule does not misidentify the source as the old Zenodo releas
         print("output directory must be inside this repository", file=sys.stderr)
         return 2
     output_dir.mkdir(parents=True, exist_ok=True)
-    output_path = output_dir / f"Medora-SoftwareX-CodeOcean-{commit[:12]}.zip"
+    profile = ("-detector" if args.detector_source_dir else "") + ("-phi" if args.phi_bundle else "")
+    output_path = output_dir / f"Medora-SoftwareX-CodeOcean-{commit[:12]}{profile}.zip"
     if output_path.exists():
         print(f"refusing to overwrite existing bundle: {output_path}", file=sys.stderr)
         return 2
@@ -192,6 +236,8 @@ manifest so the capsule does not misidentify the source as the old Zenodo releas
             info.external_attr = (mode & 0xFFFF) << 16
             bundle.writestr(info, data)
         bundle.writestr("metadata/metadata.yml", metadata)
+        environment_recipe = next(data for name, data, _ in included if name == "code/codeocean/environment/Dockerfile")
+        bundle.writestr("environment/Dockerfile", environment_recipe)
         bundle.writestr("code/CAPSULE_SOURCE_COMMIT", capsule_commit_file)
         bundle.writestr(
             "code/CAPSULE_SOURCE_MANIFEST.json",

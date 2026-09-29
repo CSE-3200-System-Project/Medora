@@ -245,6 +245,7 @@ def main(argv: list[str] | None = None) -> int:
                 "status": "measured",
                 "metrics": with_intervals(metrics, args.iterations, args.seed),
                 "latency": latency_summary(latencies),
+                "raw": rows,
             }
             if note:
                 block["note"] = note
@@ -270,8 +271,9 @@ def main(argv: list[str] | None = None) -> int:
         "component": "phi-span-recogniser",
         "evaluated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "selection": "production-path cases only (known-identifier group excluded)",
-        "held_out": "Neither population is trained or tuned on; the corpus generator rejects "
-                    "any synthetic sentence containing an identifier from either file.",
+        "held_out": "The 134-case population was used to develop the rules. The separate "
+                    "36-case synthetic probe uses novel identifiers. Training-corpus identifier "
+                    "exclusion does not make the development population independent.",
         "bootstrap": {"iterations": args.iterations, "seed": args.seed,
                       "note": "Populations are small. Intervals are wide; they are reported, "
                               "not narrowed."},

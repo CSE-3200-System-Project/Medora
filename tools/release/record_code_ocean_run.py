@@ -22,6 +22,12 @@ REQUIRED_OUTPUTS = {
     "privacy_extension_results.json",
     "consent_scope_results.json",
     "extended_results.tex",
+    "archived_observation_verification.json",
+    "current_safety_results.json",
+    "current_booking_results.json",
+    "booking-tests.xml",
+    "model_execution_coverage.json",
+    "requirements-resolved.txt",
 }
 
 
@@ -58,6 +64,15 @@ def main() -> int:
     missing = sorted(REQUIRED_OUTPUTS - set(manifest.get("artifacts", {})))
     if missing:
         raise SystemExit("Code Ocean manifest is missing output hashes: " + ", ".join(missing))
+    for name, expected in manifest["artifacts"].items():
+        path = (manifest_path.parent / name).resolve()
+        if path.parent != manifest_path.parent or not path.is_file():
+            raise SystemExit("download all /results files beside the manifest; missing/unsafe artifact: " + name)
+        if hashlib.sha256(path.read_bytes()).hexdigest() != expected:
+            raise SystemExit("downloaded artifact hash mismatch: " + name)
+    booking = json.loads((manifest_path.parent / "current_booking_results.json").read_text(encoding="utf-8"))
+    if not booking.get("passed") or len(booking.get("results", [])) != 3:
+        raise SystemExit("current booking experiment did not complete")
 
     metadata = json.loads(METADATA.read_text(encoding="utf-8"))
     citation = (ROOT / "CITATION.cff").read_text(encoding="utf-8")

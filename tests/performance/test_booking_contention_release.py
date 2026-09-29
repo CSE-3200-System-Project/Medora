@@ -139,6 +139,11 @@ async def _capture_environment(backend_engine) -> dict:
         git_head = None
         git_dirty = None
 
+    native = bool(os.getenv("MEDORA_CAPSULE_POSTGRES_URL"))
+    marker = repo_root / "CAPSULE_SOURCE_COMMIT"
+    if marker.is_file():
+        git_head = marker.read_text(encoding="utf-8").strip()
+        git_dirty = None
     return {
         "host": {
             "os": platform.platform(),
@@ -151,9 +156,12 @@ async def _capture_environment(backend_engine) -> dict:
             "python_version": platform.python_version(),
         },
         "database": {key: str(value) for key, value in row.items()},
-        "postgres_container_image": os.getenv("MEDORA_TEST_POSTGRES_IMAGE", "postgres:16-alpine"),
-        "docker_server_version": _docker_server_version(),
+        "postgres_container_image": None if native else os.getenv("MEDORA_TEST_POSTGRES_IMAGE", "postgres:16-alpine"),
+        "docker_server_version": None if native else _docker_server_version(),
         "topology": (
+            "Pytest client and FastAPI ASGI app run in-process; PostgreSQL runs in a fresh "
+            "capsule-local cluster on loopback. No deployed capacity is measured."
+        ) if native else (
             "Pytest client and FastAPI ASGI app run in-process on the recorded host; PostgreSQL "
             "runs in an isolated local Testcontainers container reached through its mapped port. "
             "Client, app, and database are colocated on one workstation. This is not deployed capacity."
@@ -162,7 +170,7 @@ async def _capture_environment(backend_engine) -> dict:
             "request_clock": "time.perf_counter (monotonic); starts immediately before ASGI POST and ends after response JSON decoding; includes application processing and database commit, excludes external network/TLS.",
             "outbox_clock": "processed_at minus created_at; PostgreSQL server timestamp to application UTC timestamp on the same workstation; measured after the request in a separate session; not user-visible delivery latency.",
             "timer_resolution_seconds": time.get_clock_info("perf_counter").resolution,
-            "locality": "test client and FastAPI process on host; PostgreSQL in a local Docker container on the same workstation.",
+            "locality": "capsule-local application and native PostgreSQL" if native else "test client and FastAPI process on host; PostgreSQL in a local Docker container on the same workstation.",
         },
         "source": {"git_head": git_head, "working_tree_dirty": git_dirty},
     }

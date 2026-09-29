@@ -1,5 +1,31 @@
 # SoftwareX revision readiness report
 
+## Update after the authors' completed records and capsule upgrade
+
+The authors' edited notes were found in the extracted evidence kit under `dist/`, not
+in the repository's blank templates. The qualified physician reviewed four sources and
+approximately 100 targeted entries on 29 September 2026. The public scope/result summary
+is `author-evidence/COMPLETED_REVIEW_SUMMARIES.md`; the reviewer does not permit identification.
+No repeat physician task or all-row audit is prescribed. The image record documents verbal
+research consent, no image redistribution and no formal institutional review obtained;
+supervisor reassurance is not represented as approval/exemption. The working manuscripts
+now contain that truthful disclosure. Storage/platform visibility fields remain unspecified.
+
+`revisions/MEDICINE_LICENCE_DEADLINE_CHECK.md` corrects the blanket three-email requirement:
+applicable public licences already grant covered reuse; fresh replies are not mandatory.
+The specific S1 terms conflict and S2 origin uncertainty remain source-distribution decisions.
+The selected multi-source corpus has not been silently replaced or marked cleared.
+
+The upgraded capsule executes archived-observation verification, current safety scoring,
+26 focused tests and 90 fresh-slot native PostgreSQL 16 booking trials. Linux execution
+of these stages passed. Explicit model profiles add MuRIL inference and detector diagnostics;
+local reruns reproduce all six privacy rows and 204 matched parameter checks. Historical
+tables remain separate. The final Code Ocean receipt and new release/archive identities
+are still required. The aggregate-only hosted-summary archive cannot supply missing paired
+outputs; full historical provider replay is not claimed. See `CAPSULE_RESULT_COVERAGE.md`
+for actual per-result execution coverage; older baseline descriptions below should be read
+with this update.
+
 Checked 29 September 2026 against the three reviews for SOFTX-D-26-01036.
 This report covers SoftwareX only. Already completed competition-related experiments
 are reused where they support the paper; no new BCOLBD development is requested.

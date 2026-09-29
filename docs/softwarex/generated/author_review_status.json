@@ -1,0 +1,27 @@
+{
+  "recorded_on": "2026-09-29",
+  "evidence": "docs/softwarex/author-evidence/COMPLETED_REVIEW_SUMMARIES.md",
+  "medicine_content_review": {
+    "status": "recorded",
+    "review_date": "2026-09-29",
+    "sources": ["S1", "S2", "S4", "S5"],
+    "entries_checked_approximately": 100,
+    "selection": "targeted commonly used and potentially confusing identity records",
+    "findings": "Most mappings appeared reasonable; duplicates and missing strengths noted",
+    "reviewer_identification": "not permitted publicly",
+    "evidence": "docs/softwarex/author-evidence/COMPLETED_REVIEW_SUMMARIES.md",
+    "scope": "Author-supplied physician source/content note, not whole-corpus accuracy or prescribing validation"
+  },
+  "prescription_image_ethics": {
+    "status": "documented",
+    "formal_institutional_review": "not obtained",
+    "reported_supervisor_position": "reassurance reported; not represented as committee approval or exemption",
+    "consent": "author-obtained verbal academic/research-use consent",
+    "image_distribution": "not permitted; private originals excluded",
+    "reported_collection_period": "December 2025 to June 2026",
+    "reported_source_proportions": "approximately 98% public / 2% personal; exact original counts not supplied",
+    "not_documented": ["authorized review-requirement determination", "storage/access safeguards", "Roboflow/Colab project visibility"],
+    "evidence": "docs/softwarex/author-evidence/COMPLETED_REVIEW_SUMMARIES.md"
+  },
+  "release_binding": "Current author evidence only; does not rewrite historical v1.0.2 metadata or grant upstream dataset rights"
+}
