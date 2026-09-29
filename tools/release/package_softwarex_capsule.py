@@ -123,7 +123,12 @@ def main() -> int:
                 if extracted is None:
                     print(f"could not read archived source entry: {member.name}", file=sys.stderr)
                     return 2
-                included.append((member.name, extracted.read(), member.mode))
+                payload = extracted.read()
+                if (relative == "run" or relative.endswith(".sh")) and b"\r\n" in payload:
+                    # Preserve source identity: fix/commit the source, not the ZIP bytes.
+                    if relative in {"run", "tools/release/run_softwarex_capsule.sh", "tools/release/run_capsule_booking.sh"}:
+                        raise SystemExit(f"Linux run entry point has CRLF line endings; renormalize and commit {relative}")
+                included.append((member.name, payload, member.mode))
     except (OSError, tarfile.TarError) as exc:
         print(f"cannot inspect archived source tree: {exc}", file=sys.stderr)
         return 2
