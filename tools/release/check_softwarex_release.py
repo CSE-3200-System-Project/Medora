@@ -396,6 +396,7 @@ def main() -> int:
     required_generated = (
         "booking_results.json",
         "booking_results.tex", "safety_results.json", "safety_results.tex",
+        "privacy_extension_results.json", "consent_scope_results.json", "extended_results.tex",
         "release_metadata.tex", "dependency_container_model_checksums.json", "evidence_manifest.json",
         "verification.json",
     )

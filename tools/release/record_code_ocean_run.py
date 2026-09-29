@@ -19,6 +19,9 @@ REQUIRED_OUTPUTS = {
     "safety_results.tex",
     "booking_results.tex",
     "fixture-tests.xml",
+    "privacy_extension_results.json",
+    "consent_scope_results.json",
+    "extended_results.tex",
 }
 
 

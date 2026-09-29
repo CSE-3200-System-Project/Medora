@@ -70,6 +70,16 @@ Confirm that the ethics wording reflects the authors' actual consent/institution
 without asserting an unavailable ethics approval number. No new public prescription-image
 release is requested. Review the compiled PDF and point-by-point response; Figure 4 is done.
 
+Separately record the institutional-review determination for the **original identifiable
+image collection and research/training use**: approval, exemption, waiver, or absence of
+formal review, who determined it, and a reference only if one exists. Research-use consent
+and approval to release derived weights do not by themselves establish that status.
+Private images and consent records do not need to be uploaded to provide this scope statement.
+
+`FINAL_REVISION_REPORT.md` lists every remaining mandatory gate and the later agent-doable
+promotion, final testing, packaging and response updates; this file is not a claim that
+only human work remains.
+
 Sign in to the author-owned Code Ocean account. Create the capsule draft and return its stable
 reader-accessible citation URL/version, or coordinate an editor-approved review link if that
 is the journal's requested form. Never put account credentials or an owner-only private URL

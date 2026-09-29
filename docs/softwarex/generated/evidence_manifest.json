@@ -20,56 +20,88 @@
       "bytes": 164128
     },
     "docs/softwarex/generated/safety_results.tex": {
-      "sha256": "753e16d4c00e275b9a1c105ed39bbc77834589edb2eb58719947ea4c8c1ea205",
-      "bytes": 3399
+      "sha256": "c0839a824b9f1e3f9113b017eea73a822ce834b40e867703fd11b4118682f624",
+      "bytes": 3379
     },
     "docs/softwarex/generated/booking_results.json": {
       "sha256": "e0ae90c2d1ad38c9ad86ee24382bb21ee967a24c4c2ef39f25c64d10e8529908",
       "bytes": 113938
     },
     "docs/softwarex/generated/booking_results.tex": {
-      "sha256": "51a05a47780cea894ba6eccbb79b668314068e844a94f9640ef10e118b0a8e19",
-      "bytes": 869
+      "sha256": "17f7aa169f793ca4d2b1db15a8750a3a879c2b583fe7213ddf4410ddf1f36c5a",
+      "bytes": 917
+    },
+    "docs/softwarex/generated/privacy_extension_results.json": {
+      "sha256": "2b20b8c548c83b418b2a728fba7d3f92c1019b65f3fee6e195fdd4e67c51d45a",
+      "bytes": 29404
+    },
+    "docs/softwarex/generated/consent_scope_results.json": {
+      "sha256": "6065965c21a2983950d48a76ad0ce8e25fce221b134fede9a96c0b78dea01bf0",
+      "bytes": 4788
+    },
+    "docs/softwarex/generated/extended_results.tex": {
+      "sha256": "ee4168a7f7b4ba23da45ddc00340c5683b41500902c3f3043333da8de05eccb2",
+      "bytes": 1694
+    },
+    "docs/softwarex/generated/extended_evidence_verification.json": {
+      "sha256": "3f57a3ac08cc57bc80d0a057773614ed9ea48df92caf6f18931a84686c63290b",
+      "bytes": 836
     },
     "docs/softwarex/generated/dependency_container_model_checksums.json": {
       "sha256": "b0aa48fefbba2750bfc738f9b104eb628e7dd150b5097fc855169c586bdf00d3",
       "bytes": 4708
     },
     "docs/softwarex/medora_softwarex.tex": {
-      "sha256": "e483ad053065f58c676fc515789e61543d72c37f57c9ad6184aacb9c456c3d12",
-      "bytes": 40520
+      "sha256": "3bd49561364fa11eab6e33b9b38d35032e56f7f3d83ec467a43e1f61a386f68e",
+      "bytes": 41568
+    },
+    "docs/softwarex/Medora-Overleaf-First-Submission.tex": {
+      "sha256": "3bd49561364fa11eab6e33b9b38d35032e56f7f3d83ec467a43e1f61a386f68e",
+      "bytes": 41568
+    },
+    "docs/softwarex/figures-src/consent_flow.tex": {
+      "sha256": "8c278fa65dac41bcbab3c38e181e825171ea88409c8537ab15d73343f73a7a43",
+      "bytes": 1300
     },
     "docs/REPRODUCING.md": {
-      "sha256": "b15766a356a2832145a34d1423ceb8100835432c98b53023ec112ebc3a532892",
-      "bytes": 6780
+      "sha256": "3ee1c5316db4a1dbd08854c8aeff8ab416b88c1a58463d7cb124f3d8a81237ad",
+      "bytes": 7168
     },
     "docs/softwarex/response_to_revision.md": {
-      "sha256": "28784c8d905014dfb8dfbe0aaf1c8e6f63bf1225833ef005cae2322d25d2b743",
-      "bytes": 14028
+      "sha256": "c7d23c0577d19ea943b2c98b377f48712e8d0e301dc8c53242cebae8e95dc588",
+      "bytes": 16056
     },
     "docs/softwarex/CODE_OCEAN_CAPSULE.md": {
-      "sha256": "f4d5f6cf2756a2ec1beca823d04c959d7dfba8a1b1c3bb35eddadf55f5972f4d",
-      "bytes": 7595
+      "sha256": "8b7e76888fc4ec2ca6e9b4c1b19d7066c6244548b843aec064c5fe248722ba08",
+      "bytes": 8094
     },
     "docs/softwarex/FINAL_HUMAN_GATES.md": {
-      "sha256": "b840f69324bf308f9306e6d2ce9072721a79608fb0e5bb62f28f2ad5bfb573b6",
-      "bytes": 8761
+      "sha256": "76ea3afd8cab6153cab2bbb6b09d95a9951bc8826091dceb12c398ccae0992aa",
+      "bytes": 9415
+    },
+    "docs/softwarex/FINAL_REVISION_REPORT.md": {
+      "sha256": "f97756e1d8b9234a91fd1fdc134899c81a7bfd4c896e81fcc990ac50c6520927",
+      "bytes": 12776
+    },
+    "tools/softwarex/build_revision_evidence.py": {
+      "sha256": "df9042ec606ee250e252bf24053d02e081de9f7d6a0cf50883c7013873f21104",
+      "bytes": 5844
     },
     "docs/INTEROPERABILITY.md": {
-      "sha256": "5a89c3b9ebc38e6d37729c0f90253f690365378fa06f7656a914784bf5832bd4",
-      "bytes": 3386
+      "sha256": "b998b1c95d94b3fb25f2a47e57aab92eb005a6db742834f765ea5f5d98a8ad2d",
+      "bytes": 4314
     },
     "docs/THREAT_MODEL.md": {
       "sha256": "aa7ceb51e590a2e2a32180f38be33de074da4ea5fefc398700081ddd5b7c2321",
       "bytes": 3515
     },
     "tools/release/render_softwarex_tables.py": {
-      "sha256": "cb44a4a87f4be7252774c001db59d099a1f8b71ca2a7558a6694cb3c785ffd6d",
-      "bytes": 1345
+      "sha256": "708be3b41dc646a52d2dc6532cf3499baf76a611d401861234daacfd3ed74445",
+      "bytes": 2004
     },
     "tools/release/run_softwarex_capsule.sh": {
-      "sha256": "afaef90ca7e55d43c8badf511a9f319c8f58952507a49efb2967f7ba3427b34c",
-      "bytes": 3501
+      "sha256": "0834b64f8a6753e6c839224a27832be63c3513a4362feeed772172b87ff4396d",
+      "bytes": 4041
     },
     "run": {
       "sha256": "584872bf29029b4ab31d6549861a0d92b3ed313fa945eb88ceedf0b2ff97c501",

@@ -1,0 +1,833 @@
+{
+  "component": "phi-span-recogniser",
+  "evaluated_at": "2026-08-27T14:51:04+00:00",
+  "selection": "production-path cases only (known-identifier group excluded)",
+  "held_out": "Neither population is trained or tuned on; the corpus generator rejects any synthetic sentence containing an identifier from either file.",
+  "bootstrap": {
+    "iterations": 2000,
+    "seed": 20260821,
+    "note": "Populations are small. Intervals are wide; they are reported, not narrowed."
+  },
+  "published_baseline": {
+    "precision": 0.947,
+    "recall": 0.755,
+    "false_redaction_rate": 0.032,
+    "source": "Medora v1.0.2 archived safety benchmark"
+  },
+  "headline_population": "novel_identifier_probe",
+  "populations": {
+    "pii_safety_134": {
+      "path": "tests/benchmarks/datasets/pii_safety_cases.jsonl",
+      "role": "continuity with the published v1.0.2 baseline",
+      "caveat": "The rules were extended against this set, so their recall here is a development figure. Check the reported recall before drawing from it: at 1.000 the population is saturated and cannot separate the three systems.",
+      "cases": 134,
+      "identifier_spans": 94,
+      "benign_spans": 124,
+      "saturated_by_rules": true,
+      "systems": {
+        "rules": {
+          "status": "measured",
+          "metrics": {
+            "cases": 134,
+            "passed": 134,
+            "matched_expected": 131,
+            "expected_identifier_spans": 94,
+            "benign_spans": 124,
+            "true_positives": 94,
+            "false_positives": 3,
+            "false_negatives": 0,
+            "precision": 0.9690721649484536,
+            "recall": 1.0,
+            "false_redaction_rate": 0.024193548387096774,
+            "residual_known_identifier_rate": 0.0,
+            "expected_residual_risk_cases": 10,
+            "documented_limitations": 20,
+            "undisclosed_misses": 0,
+            "undisclosed_over_redactions": 0,
+            "stale_limitations": 0,
+            "recall_ci": {
+              "n": 94,
+              "estimate": 1.0,
+              "ci_low": 1.0,
+              "ci_high": 1.0
+            },
+            "precision_ci": {
+              "n": 97,
+              "estimate": 0.9690721649484536,
+              "ci_low": 0.9278350515463918,
+              "ci_high": 1.0
+            },
+            "false_redaction_rate_ci": {
+              "n": 124,
+              "estimate": 0.024193548387096774,
+              "ci_low": 0.0,
+              "ci_high": 0.056451612903225805
+            },
+            "f1": 0.9842931937172774
+          },
+          "latency": {
+            "n": 134,
+            "mean_ms": 0.136,
+            "median_ms": 0.14,
+            "p95_ms": 0.202,
+            "max_ms": 0.265,
+            "note": "Wall clock for the whole redaction call on this machine's CPU, not GPU inference time. The component runs locally, so this is the number that matters."
+          },
+          "per_script": {
+            "bengali": {
+              "cases": 27,
+              "passed": 27,
+              "matched_expected": 27,
+              "expected_identifier_spans": 24,
+              "benign_spans": 27,
+              "true_positives": 24,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "false_redaction_rate": 0.0,
+              "residual_known_identifier_rate": 0.0,
+              "expected_residual_risk_cases": 0,
+              "documented_limitations": 1,
+              "undisclosed_misses": 0,
+              "undisclosed_over_redactions": 0,
+              "stale_limitations": 0,
+              "recall_ci": {
+                "n": 24,
+                "estimate": 1.0,
+                "ci_low": 1.0,
+                "ci_high": 1.0
+              },
+              "precision_ci": {
+                "n": 24,
+                "estimate": 1.0,
+                "ci_low": 1.0,
+                "ci_high": 1.0
+              },
+              "false_redaction_rate_ci": {
+                "n": 27,
+                "estimate": 0.0,
+                "ci_low": 0.0,
+                "ci_high": 0.0
+              },
+              "f1": 1.0
+            },
+            "english": {
+              "cases": 107,
+              "passed": 107,
+              "matched_expected": 104,
+              "expected_identifier_spans": 70,
+              "benign_spans": 97,
+              "true_positives": 70,
+              "false_positives": 3,
+              "false_negatives": 0,
+              "precision": 0.958904109589041,
+              "recall": 1.0,
+              "false_redaction_rate": 0.030927835051546393,
+              "residual_known_identifier_rate": 0.0,
+              "expected_residual_risk_cases": 10,
+              "documented_limitations": 19,
+              "undisclosed_misses": 0,
+              "undisclosed_over_redactions": 0,
+              "stale_limitations": 0,
+              "recall_ci": {
+                "n": 70,
+                "estimate": 1.0,
+                "ci_low": 1.0,
+                "ci_high": 1.0
+              },
+              "precision_ci": {
+                "n": 73,
+                "estimate": 0.958904109589041,
+                "ci_low": 0.9041095890410958,
+                "ci_high": 1.0
+              },
+              "false_redaction_rate_ci": {
+                "n": 97,
+                "estimate": 0.030927835051546393,
+                "ci_low": 0.0,
+                "ci_high": 0.07216494845360824
+              },
+              "f1": 0.9790209790209791
+            }
+          }
+        },
+        "model": {
+          "status": "measured",
+          "metrics": {
+            "cases": 134,
+            "passed": 130,
+            "matched_expected": 127,
+            "expected_identifier_spans": 94,
+            "benign_spans": 124,
+            "true_positives": 94,
+            "false_positives": 7,
+            "false_negatives": 0,
+            "precision": 0.9306930693069307,
+            "recall": 1.0,
+            "false_redaction_rate": 0.056451612903225805,
+            "residual_known_identifier_rate": 0.0,
+            "expected_residual_risk_cases": 10,
+            "documented_limitations": 20,
+            "undisclosed_misses": 0,
+            "undisclosed_over_redactions": 4,
+            "stale_limitations": 0,
+            "recall_ci": {
+              "n": 94,
+              "estimate": 1.0,
+              "ci_low": 1.0,
+              "ci_high": 1.0
+            },
+            "precision_ci": {
+              "n": 101,
+              "estimate": 0.9306930693069307,
+              "ci_low": 0.8811881188118812,
+              "ci_high": 0.9702970297029703
+            },
+            "false_redaction_rate_ci": {
+              "n": 124,
+              "estimate": 0.056451612903225805,
+              "ci_low": 0.016129032258064516,
+              "ci_high": 0.10483870967741936
+            },
+            "f1": 0.9641025641025642
+          },
+          "latency": {
+            "n": 134,
+            "mean_ms": 37.447,
+            "median_ms": 36.271,
+            "p95_ms": 51.713,
+            "max_ms": 62.92,
+            "note": "Wall clock for the whole redaction call on this machine's CPU, not GPU inference time. The component runs locally, so this is the number that matters."
+          },
+          "note": "the learned recogniser alone",
+          "per_script": {
+            "bengali": {
+              "cases": 27,
+              "passed": 27,
+              "matched_expected": 27,
+              "expected_identifier_spans": 24,
+              "benign_spans": 27,
+              "true_positives": 24,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "false_redaction_rate": 0.0,
+              "residual_known_identifier_rate": 0.0,
+              "expected_residual_risk_cases": 0,
+              "documented_limitations": 1,
+              "undisclosed_misses": 0,
+              "undisclosed_over_redactions": 0,
+              "stale_limitations": 0,
+              "recall_ci": {
+                "n": 24,
+                "estimate": 1.0,
+                "ci_low": 1.0,
+                "ci_high": 1.0
+              },
+              "precision_ci": {
+                "n": 24,
+                "estimate": 1.0,
+                "ci_low": 1.0,
+                "ci_high": 1.0
+              },
+              "false_redaction_rate_ci": {
+                "n": 27,
+                "estimate": 0.0,
+                "ci_low": 0.0,
+                "ci_high": 0.0
+              },
+              "f1": 1.0
+            },
+            "english": {
+              "cases": 107,
+              "passed": 103,
+              "matched_expected": 100,
+              "expected_identifier_spans": 70,
+              "benign_spans": 97,
+              "true_positives": 70,
+              "false_positives": 7,
+              "false_negatives": 0,
+              "precision": 0.9090909090909091,
+              "recall": 1.0,
+              "false_redaction_rate": 0.07216494845360824,
+              "residual_known_identifier_rate": 0.0,
+              "expected_residual_risk_cases": 10,
+              "documented_limitations": 19,
+              "undisclosed_misses": 0,
+              "undisclosed_over_redactions": 4,
+              "stale_limitations": 0,
+              "recall_ci": {
+                "n": 70,
+                "estimate": 1.0,
+                "ci_low": 1.0,
+                "ci_high": 1.0
+              },
+              "precision_ci": {
+                "n": 77,
+                "estimate": 0.9090909090909091,
+                "ci_low": 0.8441558441558441,
+                "ci_high": 0.961038961038961
+              },
+              "false_redaction_rate_ci": {
+                "n": 97,
+                "estimate": 0.07216494845360824,
+                "ci_low": 0.020618556701030927,
+                "ci_high": 0.13402061855670103
+              },
+              "f1": 0.9523809523809523
+            }
+          }
+        },
+        "union": {
+          "status": "measured",
+          "metrics": {
+            "cases": 134,
+            "passed": 130,
+            "matched_expected": 127,
+            "expected_identifier_spans": 94,
+            "benign_spans": 124,
+            "true_positives": 94,
+            "false_positives": 7,
+            "false_negatives": 0,
+            "precision": 0.9306930693069307,
+            "recall": 1.0,
+            "false_redaction_rate": 0.056451612903225805,
+            "residual_known_identifier_rate": 0.0,
+            "expected_residual_risk_cases": 10,
+            "documented_limitations": 20,
+            "undisclosed_misses": 0,
+            "undisclosed_over_redactions": 4,
+            "stale_limitations": 0,
+            "recall_ci": {
+              "n": 94,
+              "estimate": 1.0,
+              "ci_low": 1.0,
+              "ci_high": 1.0
+            },
+            "precision_ci": {
+              "n": 101,
+              "estimate": 0.9306930693069307,
+              "ci_low": 0.8811881188118812,
+              "ci_high": 0.9702970297029703
+            },
+            "false_redaction_rate_ci": {
+              "n": 124,
+              "estimate": 0.056451612903225805,
+              "ci_low": 0.016129032258064516,
+              "ci_high": 0.10483870967741936
+            },
+            "f1": 0.9641025641025642
+          },
+          "latency": {
+            "n": 134,
+            "mean_ms": 44.755,
+            "median_ms": 43.042,
+            "p95_ms": 62.208,
+            "max_ms": 94.202,
+            "note": "Wall clock for the whole redaction call on this machine's CPU, not GPU inference time. The component runs locally, so this is the number that matters."
+          },
+          "note": "the shipped configuration when PHI_NER_ENABLED is set",
+          "per_script": {
+            "bengali": {
+              "cases": 27,
+              "passed": 27,
+              "matched_expected": 27,
+              "expected_identifier_spans": 24,
+              "benign_spans": 27,
+              "true_positives": 24,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "false_redaction_rate": 0.0,
+              "residual_known_identifier_rate": 0.0,
+              "expected_residual_risk_cases": 0,
+              "documented_limitations": 1,
+              "undisclosed_misses": 0,
+              "undisclosed_over_redactions": 0,
+              "stale_limitations": 0,
+              "recall_ci": {
+                "n": 24,
+                "estimate": 1.0,
+                "ci_low": 1.0,
+                "ci_high": 1.0
+              },
+              "precision_ci": {
+                "n": 24,
+                "estimate": 1.0,
+                "ci_low": 1.0,
+                "ci_high": 1.0
+              },
+              "false_redaction_rate_ci": {
+                "n": 27,
+                "estimate": 0.0,
+                "ci_low": 0.0,
+                "ci_high": 0.0
+              },
+              "f1": 1.0
+            },
+            "english": {
+              "cases": 107,
+              "passed": 103,
+              "matched_expected": 100,
+              "expected_identifier_spans": 70,
+              "benign_spans": 97,
+              "true_positives": 70,
+              "false_positives": 7,
+              "false_negatives": 0,
+              "precision": 0.9090909090909091,
+              "recall": 1.0,
+              "false_redaction_rate": 0.07216494845360824,
+              "residual_known_identifier_rate": 0.0,
+              "expected_residual_risk_cases": 10,
+              "documented_limitations": 19,
+              "undisclosed_misses": 0,
+              "undisclosed_over_redactions": 4,
+              "stale_limitations": 0,
+              "recall_ci": {
+                "n": 70,
+                "estimate": 1.0,
+                "ci_low": 1.0,
+                "ci_high": 1.0
+              },
+              "precision_ci": {
+                "n": 77,
+                "estimate": 0.9090909090909091,
+                "ci_low": 0.8441558441558441,
+                "ci_high": 0.961038961038961
+              },
+              "false_redaction_rate_ci": {
+                "n": 97,
+                "estimate": 0.07216494845360824,
+                "ci_low": 0.020618556701030927,
+                "ci_high": 0.13402061855670103
+              },
+              "f1": 0.9523809523809523
+            }
+          }
+        }
+      }
+    },
+    "novel_identifier_probe": {
+      "path": "tests/benchmarks/datasets/pii_holdout_cases.jsonl",
+      "role": "generalisation to identifiers the rules were never written against",
+      "caveat": "Small (n is printed beside every metric) and synthetic in construction, but disjoint from the rules by design. This is the discriminating population.",
+      "cases": 36,
+      "identifier_spans": 36,
+      "benign_spans": 36,
+      "saturated_by_rules": false,
+      "systems": {
+        "rules": {
+          "status": "measured",
+          "metrics": {
+            "cases": 36,
+            "passed": 36,
+            "matched_expected": 27,
+            "expected_identifier_spans": 36,
+            "benign_spans": 36,
+            "true_positives": 27,
+            "false_positives": 0,
+            "false_negatives": 9,
+            "precision": 1.0,
+            "recall": 0.75,
+            "false_redaction_rate": 0.0,
+            "residual_known_identifier_rate": 0.25,
+            "expected_residual_risk_cases": 9,
+            "documented_limitations": 9,
+            "undisclosed_misses": 0,
+            "undisclosed_over_redactions": 0,
+            "stale_limitations": 0,
+            "recall_ci": {
+              "n": 36,
+              "estimate": 0.75,
+              "ci_low": 0.5833333333333334,
+              "ci_high": 0.8888888888888888
+            },
+            "precision_ci": {
+              "n": 27,
+              "estimate": 1.0,
+              "ci_low": 1.0,
+              "ci_high": 1.0
+            },
+            "false_redaction_rate_ci": {
+              "n": 36,
+              "estimate": 0.0,
+              "ci_low": 0.0,
+              "ci_high": 0.0
+            },
+            "f1": 0.8571428571428571
+          },
+          "latency": {
+            "n": 36,
+            "mean_ms": 0.113,
+            "median_ms": 0.111,
+            "p95_ms": 0.138,
+            "max_ms": 0.147,
+            "note": "Wall clock for the whole redaction call on this machine's CPU, not GPU inference time. The component runs locally, so this is the number that matters."
+          },
+          "per_script": {
+            "bengali": {
+              "cases": 3,
+              "passed": 3,
+              "matched_expected": 0,
+              "expected_identifier_spans": 3,
+              "benign_spans": 3,
+              "true_positives": 0,
+              "false_positives": 0,
+              "false_negatives": 3,
+              "precision": null,
+              "recall": 0.0,
+              "false_redaction_rate": 0.0,
+              "residual_known_identifier_rate": 1.0,
+              "expected_residual_risk_cases": 3,
+              "documented_limitations": 3,
+              "undisclosed_misses": 0,
+              "undisclosed_over_redactions": 0,
+              "stale_limitations": 0,
+              "recall_ci": {
+                "n": 3,
+                "estimate": 0.0,
+                "ci_low": 0.0,
+                "ci_high": 0.0
+              },
+              "precision_ci": null,
+              "false_redaction_rate_ci": {
+                "n": 3,
+                "estimate": 0.0,
+                "ci_low": 0.0,
+                "ci_high": 0.0
+              },
+              "f1": null
+            },
+            "english": {
+              "cases": 33,
+              "passed": 33,
+              "matched_expected": 27,
+              "expected_identifier_spans": 33,
+              "benign_spans": 33,
+              "true_positives": 27,
+              "false_positives": 0,
+              "false_negatives": 6,
+              "precision": 1.0,
+              "recall": 0.8181818181818182,
+              "false_redaction_rate": 0.0,
+              "residual_known_identifier_rate": 0.18181818181818182,
+              "expected_residual_risk_cases": 6,
+              "documented_limitations": 6,
+              "undisclosed_misses": 0,
+              "undisclosed_over_redactions": 0,
+              "stale_limitations": 0,
+              "recall_ci": {
+                "n": 33,
+                "estimate": 0.8181818181818182,
+                "ci_low": 0.6666666666666666,
+                "ci_high": 0.9393939393939394
+              },
+              "precision_ci": {
+                "n": 27,
+                "estimate": 1.0,
+                "ci_low": 1.0,
+                "ci_high": 1.0
+              },
+              "false_redaction_rate_ci": {
+                "n": 33,
+                "estimate": 0.0,
+                "ci_low": 0.0,
+                "ci_high": 0.0
+              },
+              "f1": 0.9
+            }
+          }
+        },
+        "model": {
+          "status": "measured",
+          "metrics": {
+            "cases": 36,
+            "passed": 35,
+            "matched_expected": 35,
+            "expected_identifier_spans": 36,
+            "benign_spans": 36,
+            "true_positives": 35,
+            "false_positives": 0,
+            "false_negatives": 1,
+            "precision": 1.0,
+            "recall": 0.9722222222222222,
+            "false_redaction_rate": 0.0,
+            "residual_known_identifier_rate": 0.027777777777777776,
+            "expected_residual_risk_cases": 9,
+            "documented_limitations": 9,
+            "undisclosed_misses": 1,
+            "undisclosed_over_redactions": 0,
+            "stale_limitations": 9,
+            "recall_ci": {
+              "n": 36,
+              "estimate": 0.9722222222222222,
+              "ci_low": 0.9166666666666666,
+              "ci_high": 1.0
+            },
+            "precision_ci": {
+              "n": 35,
+              "estimate": 1.0,
+              "ci_low": 1.0,
+              "ci_high": 1.0
+            },
+            "false_redaction_rate_ci": {
+              "n": 36,
+              "estimate": 0.0,
+              "ci_low": 0.0,
+              "ci_high": 0.0
+            },
+            "f1": 0.9859154929577464
+          },
+          "latency": {
+            "n": 36,
+            "mean_ms": 41.872,
+            "median_ms": 41.437,
+            "p95_ms": 50.334,
+            "max_ms": 52.595,
+            "note": "Wall clock for the whole redaction call on this machine's CPU, not GPU inference time. The component runs locally, so this is the number that matters."
+          },
+          "note": "the learned recogniser alone",
+          "per_script": {
+            "bengali": {
+              "cases": 3,
+              "passed": 3,
+              "matched_expected": 3,
+              "expected_identifier_spans": 3,
+              "benign_spans": 3,
+              "true_positives": 3,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "false_redaction_rate": 0.0,
+              "residual_known_identifier_rate": 0.0,
+              "expected_residual_risk_cases": 3,
+              "documented_limitations": 3,
+              "undisclosed_misses": 0,
+              "undisclosed_over_redactions": 0,
+              "stale_limitations": 3,
+              "recall_ci": {
+                "n": 3,
+                "estimate": 1.0,
+                "ci_low": 1.0,
+                "ci_high": 1.0
+              },
+              "precision_ci": {
+                "n": 3,
+                "estimate": 1.0,
+                "ci_low": 1.0,
+                "ci_high": 1.0
+              },
+              "false_redaction_rate_ci": {
+                "n": 3,
+                "estimate": 0.0,
+                "ci_low": 0.0,
+                "ci_high": 0.0
+              },
+              "f1": 1.0
+            },
+            "english": {
+              "cases": 33,
+              "passed": 32,
+              "matched_expected": 32,
+              "expected_identifier_spans": 33,
+              "benign_spans": 33,
+              "true_positives": 32,
+              "false_positives": 0,
+              "false_negatives": 1,
+              "precision": 1.0,
+              "recall": 0.9696969696969697,
+              "false_redaction_rate": 0.0,
+              "residual_known_identifier_rate": 0.030303030303030304,
+              "expected_residual_risk_cases": 6,
+              "documented_limitations": 6,
+              "undisclosed_misses": 1,
+              "undisclosed_over_redactions": 0,
+              "stale_limitations": 6,
+              "recall_ci": {
+                "n": 33,
+                "estimate": 0.9696969696969697,
+                "ci_low": 0.9090909090909091,
+                "ci_high": 1.0
+              },
+              "precision_ci": {
+                "n": 32,
+                "estimate": 1.0,
+                "ci_low": 1.0,
+                "ci_high": 1.0
+              },
+              "false_redaction_rate_ci": {
+                "n": 33,
+                "estimate": 0.0,
+                "ci_low": 0.0,
+                "ci_high": 0.0
+              },
+              "f1": 0.9846153846153847
+            }
+          }
+        },
+        "union": {
+          "status": "measured",
+          "metrics": {
+            "cases": 36,
+            "passed": 36,
+            "matched_expected": 36,
+            "expected_identifier_spans": 36,
+            "benign_spans": 36,
+            "true_positives": 36,
+            "false_positives": 0,
+            "false_negatives": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "false_redaction_rate": 0.0,
+            "residual_known_identifier_rate": 0.0,
+            "expected_residual_risk_cases": 9,
+            "documented_limitations": 9,
+            "undisclosed_misses": 0,
+            "undisclosed_over_redactions": 0,
+            "stale_limitations": 9,
+            "recall_ci": {
+              "n": 36,
+              "estimate": 1.0,
+              "ci_low": 1.0,
+              "ci_high": 1.0
+            },
+            "precision_ci": {
+              "n": 36,
+              "estimate": 1.0,
+              "ci_low": 1.0,
+              "ci_high": 1.0
+            },
+            "false_redaction_rate_ci": {
+              "n": 36,
+              "estimate": 0.0,
+              "ci_low": 0.0,
+              "ci_high": 0.0
+            },
+            "f1": 1.0
+          },
+          "latency": {
+            "n": 36,
+            "mean_ms": 41.552,
+            "median_ms": 41.782,
+            "p95_ms": 50.845,
+            "max_ms": 51.401,
+            "note": "Wall clock for the whole redaction call on this machine's CPU, not GPU inference time. The component runs locally, so this is the number that matters."
+          },
+          "note": "the shipped configuration when PHI_NER_ENABLED is set",
+          "per_script": {
+            "bengali": {
+              "cases": 3,
+              "passed": 3,
+              "matched_expected": 3,
+              "expected_identifier_spans": 3,
+              "benign_spans": 3,
+              "true_positives": 3,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "false_redaction_rate": 0.0,
+              "residual_known_identifier_rate": 0.0,
+              "expected_residual_risk_cases": 3,
+              "documented_limitations": 3,
+              "undisclosed_misses": 0,
+              "undisclosed_over_redactions": 0,
+              "stale_limitations": 3,
+              "recall_ci": {
+                "n": 3,
+                "estimate": 1.0,
+                "ci_low": 1.0,
+                "ci_high": 1.0
+              },
+              "precision_ci": {
+                "n": 3,
+                "estimate": 1.0,
+                "ci_low": 1.0,
+                "ci_high": 1.0
+              },
+              "false_redaction_rate_ci": {
+                "n": 3,
+                "estimate": 0.0,
+                "ci_low": 0.0,
+                "ci_high": 0.0
+              },
+              "f1": 1.0
+            },
+            "english": {
+              "cases": 33,
+              "passed": 33,
+              "matched_expected": 33,
+              "expected_identifier_spans": 33,
+              "benign_spans": 33,
+              "true_positives": 33,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "false_redaction_rate": 0.0,
+              "residual_known_identifier_rate": 0.0,
+              "expected_residual_risk_cases": 6,
+              "documented_limitations": 6,
+              "undisclosed_misses": 0,
+              "undisclosed_over_redactions": 0,
+              "stale_limitations": 6,
+              "recall_ci": {
+                "n": 33,
+                "estimate": 1.0,
+                "ci_low": 1.0,
+                "ci_high": 1.0
+              },
+              "precision_ci": {
+                "n": 33,
+                "estimate": 1.0,
+                "ci_low": 1.0,
+                "ci_high": 1.0
+              },
+              "false_redaction_rate_ci": {
+                "n": 33,
+                "estimate": 0.0,
+                "ci_low": 0.0,
+                "ci_high": 0.0
+              },
+              "f1": 1.0
+            }
+          }
+        }
+      }
+    }
+  },
+  "bundle": "data/medora-phi-ner-muril",
+  "release_gate": {
+    "admission_version": "phi-ner-admission-1.1",
+    "status": "passed",
+    "passed": true,
+    "checks": {
+      "novel_recall_minimum": true,
+      "recall_improves_on_rules": true,
+      "precision_minimum": true,
+      "over_redaction_cap": true
+    },
+    "threshold": 0.3,
+    "bundle_files": {
+      "model.onnx": "56ddbe65bf90edf0d8a819d6d85ecd59c1a51c328e4e07f000a4d494cfb323b1",
+      "model.onnx.data": "aebcbfb5fea2638cd5d2124f3a0170e8e4c0a7c2cebe51a714e29834a16e0218",
+      "tokenizer.json": "7167a1ef04cfe3f48a70da3a7165892b49e936efcfdaa3877991a881ac75ed5a",
+      "labels.json": "618b79ef89c83fbd77e87a74c53900f213dd22824dca8b53b9c86150206b688f"
+    },
+    "datasets": {
+      "pii_safety_134": "b72dc7b8f1bcd7552b4c0ecf753a6f410892468e3cc5e23b9b034b991bc904e4",
+      "novel_identifier_probe": "663528bdec8f00b983605cdf3b926f911188965fd2b0c5a7b85921eae18e4960"
+    },
+    "headline_metrics": {
+      "population": "novel_identifier_probe",
+      "rules_recall": 0.75,
+      "union_recall": 1.0,
+      "union_precision": 1.0,
+      "union_over_redaction": 0.0
+    }
+  }
+}

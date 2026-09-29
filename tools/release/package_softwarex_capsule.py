@@ -38,6 +38,9 @@ REQUIRED_PATHS = (
     "tests/requirements-release.txt",
     "docs/softwarex/generated/safety_results.json",
     "docs/softwarex/generated/booking_results.json",
+    "docs/softwarex/generated/privacy_extension_results.json",
+    "docs/softwarex/generated/consent_scope_results.json",
+    "tools/softwarex/build_revision_evidence.py",
     "codeocean/metadata/metadata.yml",
 )
 
@@ -142,7 +145,8 @@ Python 3.11 in Code Ocean, then mark `/code/run` as the run file. The run instal
 pinned requirements and writes its outputs under `/results`.
 
 Only the focused SoftwareX reproduction scope is claimed. The run checks synthetic
-fixtures, copies the frozen safety/booking reports, and regenerates their tables; it does
+fixtures, copies the frozen safety/booking and privacy/consent component reports, and
+regenerates their tables; it does
 not perform a new clinical, held-out privacy, OCR, or host-specific booking evaluation.
 See `/code/docs/softwarex/CODE_OCEAN_CAPSULE.md`.
 

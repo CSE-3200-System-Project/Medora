@@ -79,6 +79,12 @@ not end-to-end capacity.
 
 ## 4. Published scope
 
+The revised manuscript also presents archived privacy-component and consent-scope
+comparisons. Frozen report copies and `extended_results.tex` are in
+`docs/softwarex/generated/`; the table-generation command and population qualifications
+are in `docs/softwarex/FINAL_REVISION_REPORT.md`. The capsule regenerates those tables,
+not model inference or the credentialed-provider experiment.
+
 The SoftwareX manuscript does not report an OCR accuracy benchmark. The prescription-image
 corpus, OCR annotation workflow, and multi-configuration OCR scorer are repository utilities
 for future work, not prerequisites for reproducing the published tables. Do not treat their

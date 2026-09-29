@@ -1,6 +1,6 @@
 # SoftwareX manuscript communication check
 
-Checked 28 September 2026. This is an internal revision note, not manuscript content.
+Checked 29 September 2026. This is an internal revision note, not manuscript content.
 
 ## Teacher-first source merge
 
@@ -23,9 +23,13 @@ for the revised paper's current evidence.
 
 The academic-writing and humanizer passes keep the teacher's direct language, remove repeated
 or promotional claims, and preserve measured errors and reviewer-requested qualifications.
-The checked merge has **2,990 words including captions and six figures**, using the existing
-release checker. Figures 4–6 were inspected in the compiled PDF; the figure barrier prevents
-Impact paragraphs being interrupted by late screenshots. Both TeX entry points are buildable.
+The checked merge has **2,994 words including captions, six figures and twelve tables**,
+using the existing release checker. Both TeX entry points compile to 20 pages. Figures 4–6
+and the results tables were inspected in the PDF. Restrictive float barriers were removed;
+tables use top captions, flexible placement and consistent spacing instead of isolated
+partly empty pages. The body remains 12-point Elsevier preprint text with normal margins.
+The completed privacy-component and consent-scope experiments are included with every
+comparator, population boundaries and measured trade-offs; planned competition work is not.
 
 ## Section outline and paragraph roles
 
@@ -49,6 +53,7 @@ Impact paragraphs being interrupted by late screenshots. Both TeX entry points a
 | Current PT/ONNX parameter correspondence | 204 matched named tensors, exact agreement after fusion | Supported; not accuracy/full prediction equivalence |
 | Historical training dataset linkage | Author v2 attribution plus metadata/date/log discrepancy record | Author-reported, not independently reconstructed |
 | Privacy/navigation/summary fixture outcomes | Frozen reports and current boundary tests, separate provider conditions | Supported within described fixture scope |
+| Extended privacy and consent-scope comparisons | Archived component reports, fixture/model hash verification and deterministic table regeneration | Synthetic/development scope; not an independent naturalistic or full-system causal evaluation |
 | Booking latency/correctness | Raw 30-trial component observations and environment/clustered summaries | Topology-specific; immutable release binding pending |
 | Published capsule/final archive identity | Runner and identity gates prepared; platform receipts not yet supplied | Pending, never described as completed |
 

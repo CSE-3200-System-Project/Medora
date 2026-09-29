@@ -13,6 +13,8 @@ structure, patient/clinician workflows, reference deployment, voice features, an
 reuse discussion. Review-required changes cover claim scope, measurements, provenance,
 detector documentation, ethics/privacy, interoperability, references, and dashboard figures.
 See `revisions/MANUSCRIPT_COMMUNICATION_CHECK.md` for the merge/evidence map.
+`FINAL_REVISION_REPORT.md` consolidates the retained results, all-reviewer status and
+complete remaining revision-only sequence. `response_to_revision.md` maps all 32 items.
 
 Build from this directory:
 
