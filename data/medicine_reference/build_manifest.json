@@ -1,5 +1,5 @@
 {
-  "builder_sha256": "bac17ac6100f0f69d3cf2be69a0edea01200cb3f8f8964d0a2ee8ed38af65f1f",
+  "builder_sha256": "59f6b493347b85df4c2f78acda65d050e380104b91989d38c42845fd7ce4a852",
   "counts": {
     "brand_names": 32461,
     "brands": 44226,
@@ -15,12 +15,12 @@
       "size_bytes": 9417517
     },
     "change_report.json": {
-      "sha256": "edf18a1daa7364bbee9b3713f7735dfccd5c98ca73c529f478cb60651b574f15",
-      "size_bytes": 1006
+      "sha256": "2dd935f7611429034e3ac94ac35e17030851a09f37b6495dc83ed90b93413431",
+      "size_bytes": 989
     },
     "quality_report.json": {
-      "sha256": "005e926662c039eb822b704ae8e0572b6b3d7d667efe035d2bb675b894d2b1e4",
-      "size_bytes": 963
+      "sha256": "d89f65edc104eed7e3e101baa0fe184289a1bdae75e202d40663e8722ade1eba",
+      "size_bytes": 934
     },
     "quarantine.jsonl": {
       "sha256": "ab43579c756755820229975d6b29837932b17f31e3b7b6a7b4d838111ae0f7fa",

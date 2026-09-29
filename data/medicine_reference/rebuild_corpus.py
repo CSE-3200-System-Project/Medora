@@ -82,7 +82,8 @@ def split_strength(value):
 
 
 def json_write(path, value):
-    Path(path).write_text(json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True)+'\n', encoding='utf-8')
+    with Path(path).open('w', encoding='utf-8', newline='\n') as stream:
+        stream.write(json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True)+'\n')
 
 
 def csv_write(path, fields, rows):

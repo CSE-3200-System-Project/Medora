@@ -37,6 +37,7 @@ def test_build_is_deterministic_and_has_field_provenance(tmp_path):
     builder.build(tmp_path/'raw', b, 'mendeley-public')
     for name in ['Final_Medicine_Dataset.csv','row_provenance.jsonl','build_manifest.json','quality_report.json']:
         assert (a/name).read_bytes() == (b/name).read_bytes()
+        assert b'\r\n' not in (a/name).read_bytes()
     rows = list(csv.DictReader((a/'Final_Medicine_Dataset.csv').open(encoding='utf-8')))
     assert len(rows) == 2
     assert all(not row['common_uses'] for row in rows)
