@@ -21,6 +21,7 @@ from zipfile import ZIP_DEFLATED, ZipFile, ZipInfo
 
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_EXCLUSIONS: tuple[tuple[str, str], ...] = (
+    ("docs/softwarex/author-evidence/", "blank author worksheets, not computational inputs; completed evidence belongs in private author storage"),
     ("docs/softwarex/submission-history/", "historical submission text, not current reproducibility evidence"),
     ("ai_service/models/", "approved detector has a separate AGPL/source bundle; this focused fixture/table run does not consume model assets"),
     ("data/medicine_reference/Final_Medicine_Dataset.csv", "medicine corpus redistribution rights pending"),
@@ -42,6 +43,7 @@ REQUIRED_PATHS = (
     "docs/softwarex/generated/consent_scope_results.json",
     "tools/softwarex/build_revision_evidence.py",
     "codeocean/metadata/metadata.yml",
+    "docs/softwarex/CAPSULE_RESULT_COVERAGE.md",
 )
 
 

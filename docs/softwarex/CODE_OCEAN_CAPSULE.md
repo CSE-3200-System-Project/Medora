@@ -12,6 +12,10 @@ regenerates `extended_results.tex`. Those experiments are not executed again in 
 their original observations, dates and qualifications are preserved. No optional MuRIL
 model download or hosted-provider key is required.
 
+See `CAPSULE_RESULT_COVERAGE.md` for the result-by-result execution gap. The current
+run is not a claim that all paper experiments were rerun. Expanding that computational
+scope requires the permitted inputs, dependencies and actual analysis steps listed there.
+
 The Code Ocean source check is mechanical: it verifies that the declared run can execute
 and produce outputs. It does not independently verify that the paper's scientific claims
 follow from those outputs.

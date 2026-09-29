@@ -80,6 +80,12 @@ Private images and consent records do not need to be uploaded to provide this sc
 promotion, final testing, packaging and response updates; this file is not a claim that
 only human work remains.
 
+Exact author-sendable worksheets are in `author-evidence/`: three source-specific
+permission requests, the short actual doctor source-review note, and the original image
+research ethics-status record. Keep completed originals privately. See
+`CAPSULE_RESULT_COVERAGE.md` before describing the capsule as reproducing every measurement;
+the current fixture/table runner is not an originating-experiment rerun.
+
 Sign in to the author-owned Code Ocean account. Create the capsule draft and return its stable
 reader-accessible citation URL/version, or coordinate an editor-approved review link if that
 is the journal's requested form. Never put account credentials or an owner-only private URL
