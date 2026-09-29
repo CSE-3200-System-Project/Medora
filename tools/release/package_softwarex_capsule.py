@@ -87,7 +87,7 @@ def environment_postinstall(included: list[tuple[str, bytes, int]], detector: bo
     main_pins = list(dict.fromkeys(pins("backend/requirements-release.txt") + pins("tests/requirements-release.txt")))
     lines = ["#!/usr/bin/env bash", "set -euo pipefail",
              "# Keep Code Ocean's supported starter image and platform configuration.",
-             "# Select a Python 3.11 starter. Build phase has network; run phase does not need it.",
+             "# Use Code Ocean's Ubuntu 24.04 CPU starter; install the pinned Python runtime below.",
              "if [[ ! -x /usr/lib/postgresql/16/bin/initdb ]]; then",
              "  . /etc/os-release",
              "  [[ \"$ID\" == debian || \"$ID\" == ubuntu ]] || { echo 'Need Debian/Ubuntu PostgreSQL 16 environment' >&2; exit 2; }",
@@ -97,7 +97,7 @@ def environment_postinstall(included: list[tuple[str, bytes, int]], detector: bo
              "  printf 'Types: deb\\nURIs: https://apt.postgresql.org/pub/repos/apt\\nSuites: %s-pgdg\\nComponents: main\\nSigned-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\\n' \"$VERSION_CODENAME\" > /etc/apt/sources.list.d/pgdg.sources",
              "  apt-get update && apt-get install -y --no-install-recommends postgresql-16",
              "fi",
-             "apt-get update && apt-get install -y --no-install-recommends libgl1 libglib2.0-0 libxcb1",
+             "apt-get update && apt-get install -y --no-install-recommends python3.11 python3.11-venv libgl1 libglib2.0-0 libxcb1",
              "python3.11 -m venv /opt/medora-python",
              "/opt/medora-python/bin/python -m pip install --no-cache-dir pip==25.3",
              "/opt/medora-python/bin/python -m pip install --no-cache-dir " + " ".join(map(shlex.quote, main_pins)),
@@ -272,8 +272,9 @@ Source commit: `{commit}`
 Git tree: `{tree}`
 
 This bundle is laid out for a Code Ocean capsule: upload `code/` to `/code` and enter
-`metadata/metadata.yml` in the capsule metadata editor. Configure a CPU environment with
-Python 3.11 and PostgreSQL 16, then mark `/code/run` as the run file. The supplied
+`metadata/metadata.yml` in the capsule metadata editor. Select the Ubuntu Linux 24.04 CPU
+starter; `environment/postInstall` installs Python 3.11 and PostgreSQL 16. Then mark
+`/code/run` as the run file. The supplied
 `environment/Dockerfile` is a tested local reference, not a guaranteed supported Code Ocean
 starter image. Preserve platform-required configuration when adapting it. Prepare the pinned
 Python requirements and separate CPU detector environment before Reproducible Run, as

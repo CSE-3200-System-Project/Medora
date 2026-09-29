@@ -110,12 +110,13 @@ counts toward the monthly allowance.
    the bundle's `code/` contents in `/code` and enter `metadata/metadata.yml` in the
    metadata editor. The source commit and omissions are recorded in
    `/code/CAPSULE_SOURCE_MANIFEST.json`.
-4. Select a Code Ocean-supported **Python 3.11 CPU starter** and preserve its
-   platform-generated Dockerfile and base image. Do not replace its `FROM` with the
-   supplied PostgreSQL-image recipe merely because that recipe passed locally. Paste
-   the bundled `environment/postInstall` into the Environment Editor's post-install
-   script, or adapt its commands to the supported starter. It installs PostgreSQL 16,
-   the exact main Python dependency pins, and (for a selected detector profile) a
+4. Select the **Ubuntu Linux 24.04 CPU starter** and preserve its platform-generated
+   Dockerfile and base image. The Code Ocean account may not list a Python 3.11 starter;
+   the bundled `environment/postInstall` installs Ubuntu's Python 3.11 and venv packages
+   alongside PostgreSQL 16. Do not select the Python 3.10.12 starter or replace the
+   platform `FROM` with the supplied PostgreSQL-image recipe. Paste the bundled
+   `environment/postInstall` into the Environment Editor's post-install script. It installs
+   the exact main Python dependency pins and (for a selected detector profile) a
    separate CPU PyTorch environment under `/opt/medora-detector`. The build needs
    internet for package indexes; the **Reproducible Run needs no package-index access**.
    Code Ocean's post-install build cannot access `/code` or `/data`, so the generated
