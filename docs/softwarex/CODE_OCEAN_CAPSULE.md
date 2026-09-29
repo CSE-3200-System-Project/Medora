@@ -15,9 +15,9 @@ inference at threshold 0.30 and the approved PT/ONNX synthetic-input parameter d
 downloaded, substituted or marked reproduced when absent. The archived consent-scope
 provider experiment is not rerun; no hosted-provider key is required.
 
-See `CAPSULE_RESULT_COVERAGE.md` for the result-by-result execution gap. The current
-run is not a claim that all paper experiments were rerun. Expanding that computational
-scope requires the permitted inputs, dependencies and actual analysis steps listed there.
+See `CAPSULE_RESULT_COVERAGE.md` for the result-by-result execution boundary. The
+archived hosted-provider consent study is presented as an archived observation, not
+as a fresh Code Ocean provider call.
 
 The Code Ocean source check is mechanical: it verifies that the declared run can execute
 and produce outputs. It does not independently verify that the paper's scientific claims
@@ -36,24 +36,28 @@ After the final candidate is committed to a clean Git tree, create the prepared 
 ```powershell
 python tools/release/package_softwarex_capsule.py --dry-run
 python tools/release/package_softwarex_capsule.py
-# Model-enabled local transport bundle (do not publish uncleared assets):
-python tools/release/package_softwarex_capsule.py --detector-source-dir F:/CODE/System-Project/Medora/dist/detector-upstream-source --phi-bundle F:/CODE/System-Project/Medora/data/medora-phi-ner-muril
+# Selected public S4/S5 corpus + approved detector assets:
+python tools/release/package_softwarex_capsule.py --medicine-build F:/CODE/System-Project/Medora/dist/softwarex-medicine-v2-licensed-public-release --medicine-source-root F:/CODE/System-Project/Medora-Datasets/Medicine --detector-source-dir F:/CODE/System-Project/Medora/dist/detector-upstream-source
 ```
 
-The builder creates `dist/Medora-SoftwareX-CodeOcean-<commit>.zip` with this layout:
+The builder creates a commit-bound ZIP; detector and PHI suffixes reflect included model
+profiles. The name and content hash change with the
+final commit. The bundle layout is:
 
 - `code/`: the committed project snapshot, focused tests, synthetic fixtures, frozen
   reports, run entry point, and a manifest recording the exact source commit and hashes;
 - `metadata/metadata.yml`: the capsule metadata draft;
+- `environment/postInstall`: self-contained pinned environment build script;
+- `environment/Dockerfile`: locally tested reference, not automatically a valid
+  Code Ocean starter Dockerfile;
 - `README_UPLOAD.md`: upload and scope notes.
 
-The bundle deliberately withholds the consolidated medicine CSV, YOLO weights, BCOLBD-only
-materials, raw and derived UI screenshots, and review correspondence. Those files are not needed
-for this run. Medicine-source permissions still need evidence; private prescription
-images are intentionally not distributable. The authors/institution have approved
-derived detector-weight distribution, and a separate AGPL/corresponding-source bundle
-is prepared. Omitting that optional model from this focused CPU fixture run is a scope
-choice, not a request for another author approval. The full list and reasons are in
+The base bundle withholds the medicine CSV and detector weights; the selected public
+S4/S5 and approved-detector flags add those exact inputs and source notices. It also
+withholds BCOLBD-only materials, raw and derived UI screenshots, and review
+correspondence. Private prescription images remain excluded in every profile. The
+authors/institution have approved derived detector-weight distribution; an
+AGPL/corresponding-source bundle is prepared. The full list and reasons are in
 `/code/CAPSULE_SOURCE_MANIFEST.json`. This scoped capsule is not a substitute for resolving the separate
 public-release decisions listed in `FINAL_HUMAN_GATES.md`.
 
@@ -61,11 +65,16 @@ The detector profile includes approved weights, sanitized recipe, AGPL licence a
 pinned Ultralytics source archives. The optional PHI profile includes four exact hashed
 inference assets, not the full training corpus; author/publication rights are a separate
 decision. Additional asset hashes are distinguished from committed application-source hashes.
-Private image exports and the medicine corpus remain excluded by default.
+Private image exports remain excluded. The medicine profile packages exact S4/S5 raw
+inputs and build outputs, then reconstructs all five hashed core outputs during the run.
 
-The builder refuses a dirty worktree, so the bundle cannot silently contain an uncommitted
-mix of files. It stamps the commit into `/code/CAPSULE_SOURCE_COMMIT`; the run manifest
-uses that stamp instead of borrowing an unrelated commit from the old release metadata.
+The builder refuses a dirty worktree. It stamps the commit into
+`/code/CAPSULE_SOURCE_COMMIT` and records the complete included-file inventory, byte
+counts, SHA-256 values, Git tree, and candidate release version in
+`/code/CAPSULE_SOURCE_MANIFEST.json`. The run verifies every declared byte and the
+commit marker before testing. Model profiles named in the manifest are required: if
+their files are missing, the run fails instead of silently claiming an archival-only
+result. The version is a candidate identifier, not a minted Zenodo DOI.
 
 ## Author-side platform steps
 
@@ -80,19 +89,39 @@ uses that stamp instead of borrowing an unrelated commit from the old release me
    the bundle's `code/` contents in `/code` and enter `metadata/metadata.yml` in the
    metadata editor. The source commit and omissions are recorded in
    `/code/CAPSULE_SOURCE_MANIFEST.json`.
-4. Use `codeocean/environment/Dockerfile` as the tested Linux environment recipe: Python
-   3.11 plus native PostgreSQL 16. The Environment Editor supports a manually unlocked
-   Dockerfile, but doing so disables its visual editing; confirm the account's custom-image
-   support if it restricts base images. See [Code Ocean environment guidance](https://docs.codeocean.com/user-guide/v4.3.0/setting-up-the-environment/starter-environment).
-   Retain platform-required environment configuration rather than assuming local Docker
-   success is a platform verification receipt. Allow network
-   access to install the pinned requirements used by the run. The entry script installs
-   `backend/requirements-release.txt` and `tests/requirements-release.txt`; no hosted
-   provider credentials should be configured. Mark `/code/run` as the run file.
+4. Select a Code Ocean-supported **Python 3.11 CPU starter** and preserve its
+   platform-generated Dockerfile and base image. Do not replace its `FROM` with the
+   supplied PostgreSQL-image recipe merely because that recipe passed locally. Paste
+   the bundled `environment/postInstall` into the Environment Editor's post-install
+   script, or adapt its commands to the supported starter. It installs PostgreSQL 16,
+   the exact main Python dependency pins, and (for a selected detector profile) a
+   separate CPU PyTorch environment under `/opt/medora-detector`. The build needs
+   internet for package indexes; the **Reproducible Run needs no package-index access**.
+   Code Ocean's post-install build cannot access `/code` or `/data`, so the generated
+   script embeds the committed pins. Do not replace it with a command referring to
+   `/code/backend/requirements-release.txt`. Set these environment variables for the run:
+
+   ```text
+   PATH=/opt/medora-python/bin:/usr/lib/postgresql/16/bin:<keep-existing-PATH>
+   MEDORA_CAPSULE_DEPENDENCY_MODE=preinstalled
+   MEDORA_CAPSULE_DETECTOR_PYTHON=/opt/medora-detector/bin/python  # detector profile only
+   ```
+
+   Configure PATH in the Environment Editor without literally storing the
+   `<keep-existing-PATH>` placeholder: prepend both paths to the image's actual PATH.
+   `run` checks Python 3.11, every pinned main dependency, `pip check`, and the
+   detector environment's pins before computation. Do not configure hosted-provider,
+   patient, or production database credentials. Mark `/code/run` as the run file.
+   The [Environment Editor guide](https://docs.codeocean.com/user-guide/v4.3.0/setting-up-the-environment/starter-environment)
+   explains its starter/Dockerfile workflow; the [post-install guidance](https://docs.codeocean.com/user-guide/v4.1.0/setting-up-the-environment/the-post-install-script)
+   explains why `/code` is unavailable during environment build. If a selected starter
+   does not permit PostgreSQL 16 package installation or sufficient memory/storage for
+   the model profile, choose another supported starter and rebuild; a local Docker pass
+   does not substitute for this platform check.
 5. Click **Reproducible Run**. Inspect the complete `/results` output and preserve the
-   Code Ocean capsule ID/URL, capsule version, computation/run ID, and the source commit
-   shown in `reproduction_manifest.json`. The manifest must identify the packaged commit,
-   not the current v1.0.2 release by fallback.
+   Code Ocean capsule ID/URL, capsule version, computation/run ID, and the source commit,
+   Git tree and release candidate version shown in `reproduction_manifest.json`. The
+   manifest must identify the packaged final commit, not historical v1.0.2 metadata.
 6. If any code, data, environment, or metadata that affects execution changes, commit the
    capsule changes and perform another Reproducible Run. Use the run from the final
    committed capsule version for the revision response.
@@ -113,27 +142,35 @@ uses that stamp instead of borrowing an unrelated commit from the old release me
    Omit `--doi` if Code Ocean has not minted one. This stores the manifest hash and run
    identity in the detached release receipt; it does not alter the candidate source commit.
 
-The manuscript C3 field uses the stable capsule URL. A capsule DOI is minted only after
-publication, so the URL/DOI choice must be coordinated with the editor before freezing
-the paper. If the DOI is only known after publication and the manuscript is changed to add
-it, freeze and rerun the final capsule from the resulting source snapshot.
+The planned application release is **v1.0.3**; this is not an assigned Zenodo version
+DOI, Code Ocean capsule version, or public URL. The manuscript C3 field uses the
+reader-accessible capsule URL. A capsule DOI is minted only after capsule publication;
+coordinate the URL/DOI choice before freezing the paper. If changing the paper later
+changes the source commit, package and run again from that final commit.
 
 ## Expected run outputs
 
 `/results` must contain:
 
+- `capsule_input_verification.json` — every packaged input verified against its hash
+  and source commit marker before the tests;
 - `fixture-tests.xml` — all focused tests passed;
 - `safety_results.json` and `booking_results.json` — exact copies of the frozen reports;
 - `safety_results.tex` and `booking_results.tex` — regenerated paper tables;
 - `privacy_extension_results.json`, `consent_scope_results.json` and `extended_results.tex`
-  — copied archived component reports and regenerated comparison tables, without inference;
-- `reproduction_manifest.json` — source commit, scope statement, and SHA-256 for each
-  output.
+  — copied archived component reports and regenerated comparison tables;
+- `current_safety_results.json`, `current_booking_results.json`, and their test XMLs —
+  fresh current-code measurements, separate from the archived tables;
+- `current_privacy_extension_results.json` and `current_detector_verification.json` —
+  fresh inference/conversion diagnostics only when those profiles are selected;
+- `model_execution_coverage.json` — executed-profile evidence;
+- `reproduction_manifest.json` — source commit/tree, release candidate, verification
+  status, scope statements, and SHA-256 for each output.
 
-The booking table is regenerated from recorded observations, not remeasured on the Code
-Ocean host. The privacy/navigation metrics are not rescored because the development cases
-are not an untouched evaluation set. The output manifest is a computation receipt, not new
-performance or clinical evidence.
+The archived booking table is regenerated from recorded observations; a fresh 90-trial
+booking experiment is stored separately. Development privacy cases can be rescored
+with the selected MuRIL profile but remain development cases, not an independent
+untouched evaluation. The output manifest is a computation receipt, not clinical evidence.
 
 ## Local sanity run
 
@@ -142,11 +179,12 @@ sanity run, keep results inside a task-specific directory rather than writing to
 platform-only `/results` path:
 
 ```bash
-RESULTS_DIR="$PWD/dist/softwarex-capsule-results" bash run
+MEDORA_CAPSULE_DEPENDENCY_MODE=install RESULTS_DIR="$PWD/dist/softwarex-capsule-results" bash run
 ```
 
-The local run installs pinned direct dependencies from package indexes. A successful local
-run is useful preparation but does not replace the Code Ocean Reproducible Run.
+`install` is a local-only fallback that downloads dependencies during the run. The
+platform default is `preinstalled`, matching the prepared environment. A local pass
+is useful preparation but does not replace the Code Ocean Reproducible Run.
 
 ## Author returns
 

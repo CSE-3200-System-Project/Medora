@@ -1,156 +1,66 @@
-# SoftwareX final human gates
+# SoftwareX revision: final author and platform gates
 
-This is the active revision-only handoff for SOFTX-D-26-01036. No new BCOLBD work,
-216-case privacy study, two-reviewer study or whole-corpus doctor audit is prescribed here.
-The paper uses limited fixture/experimental claims rather than claiming clinical validation.
+This handoff is only for SOFTX-D-26-01036. No BCOLBD work, 216-case privacy
+study, two-reviewer study, whole-corpus physician audit, or public release of
+prescription images is required for the limited claims in the revised paper.
 
-## Prepared and checked
+## Prepared in the repository
 
-- Both working TeX files contain the teacher-first merge, retaining all four authors,
-  the teacher's workflow/Impact descriptions and latest review artifacts. The unchanged
-  submitted text is preserved under `submission-history/`. See `README.md` for entry points.
-- Local Docker frontend/backend run at http://localhost:3000 and http://localhost:8000.
-  The database is shared Supabase, not disposable; startup maintenance/workers are disabled.
-- Figure 4 now uses authentic English/Bengali frontend views, retaining navigation,
-  dashboard heading, coverage and measurement-group panels. The consenting author's
-  account header remains visible, as in the author-supplied screenshots. Other health
-  records are outside the frame. Separate open-disclosure captures preserve readable timestamps
-  and calculation. The figure was rebuilt and inspected in the compiled PDF. The six other
-  existing panels do not automatically require recapture; inspect their final readability
-  and privacy when approving the submission.
-- The multi-source medicine candidate has 46,614 rows, 6,153 projected drugs and 52,767
-  search terms. All rows and 72,969 contributor links were independently checked against
-  hashed raw inputs. Repeat builds agree byte for byte. Per-row/field changes, exclusions,
-  manifests, seed dry-run and an optional 30-case offline review packet are prepared.
-  Historical CSV/runtime evidence and the shared database have not been replaced.
-- Current PT/ONNX identities, sanitized training recipe, model card and parameter check
-  are prepared: 204 matched named tensors agree exactly after fusion. Historical dataset
-  dates/metrics are explicitly unresolved, not retrospectively invented. No held-out
-  detector accuracy or complete prediction equivalence is claimed.
-- The authors' stated research-use image consent and author/institution weight-release
-  decision are recorded. Private images/exports and image-bearing original notebook are
-  excluded. No image-publication task or invented ethics-committee approval is required.
-  The combined detector/source bundle uses AGPL-3.0 with preserved MIT/third-party notices.
-- Code Ocean runner, source packager, pinned direct dependencies, frozen-table renderer,
-  run-receipt recorder and release/archive identity checks are prepared.
+- The teacher-first manuscript and companion Overleaf source agree; four authors,
+  six figures, twelve tables, authentic bilingual UI captures and the bounded
+  experimental results are retained. The unchanged original submission is in
+  `submission-history/`.
+- The public medicine reconstruction uses only S4 Kaggle version 1 (publisher-
+  declared MIT) and S5 Mendeley version 1 (CC BY 4.0). It has **44,226 rows,
+  4,994 drug identities, 49,220 search terms and 45,135 source-row links**.
+  Raw S4 bytes were matched to the publisher's version-1 archive. The selected
+  build and field/row lineage passed structural verification. S1/S2 contributions
+  were excluded by rebuilding from the two selected inputs, not by relabeling
+  merged records. See `revisions/PUBLIC_CORPUS_RELEASE_BASIS.md` and
+  `data/medicine_reference/PUBLIC_SOURCE_NOTICES.md`. No permission email is
+  needed for this selected publisher-licence profile.
+- The physician's approximately 100 targeted source/identity checks are recorded
+  without their identity. They are not a row-by-row accuracy certificate.
+- The authors report verbal research-use image consent, private Roboflow
+  processing, otherwise local original files, and no image-file upload to Colab
+  or public Google Drive. Images and identifiable exports remain private. **No
+  formal institutional ethics review was obtained**; no approval or exemption
+  number is asserted. The recorded author/institution decision permits derived
+  detector weights, accompanied by AGPL/corresponding-source notices.
+- The capsule runner checks source/data hashes before execution, reruns current
+  fixture safety and fresh isolated PostgreSQL booking trials, and has optional
+  approved detector and licensed-public medicine profiles. It distinguishes
+  archived hosted-provider results from rerun evidence. No live keys or private
+  images are needed. See `CODE_OCEAN_CAPSULE.md` and
+  `CAPSULE_RESULT_COVERAGE.md`.
+- The production/shared Supabase medicine tables were not reseeded: deployed
+  historical counts in the paper are deliberately separate from the new public
+  reconstruction. Do not use the destructive seed writer against that database.
 
-## 1. Supply actual medicine evidence, not thousands of signatures
+## What authors must do
 
-The author selected **retain the multi-source public corpus after documenting permissions**.
-The Mendeley-only alternative is not the chosen release.
+1. Approve the exact public wording on the limited physician review, absence of
+   formal ethics review, private-image handling, and S4/S5 publisher-licence
+   selection. Inspect the final compiled figure framing and four-author CRediT.
+   If the editor requests an institutional policy determination, provide an
+   actual authorized one; do not invent it.
+2. In the author-owned Code Ocean account, upload the final commit-bound bundle
+   using `CODE_OCEAN_CAPSULE.md`, configure its supported environment, and run
+   **Reproducible Run**. Return the reader-accessible capsule/version URL, run ID,
+   downloaded `/results` manifest and outputs (and DOI if one is minted).
+3. Reserve/publish a new Zenodo version DOI under concept DOI
+   `10.5281/zenodo.21844459`; do not reuse v1.0.2 DOI
+   `10.5281/zenodo.21846125`. Push the same GitHub source tag and have the exact
+   released archive downloaded back for the identity/hash check. GitHub/Zenodo
+   credentials remain with the authors.
+4. Approve and submit the final compiled manuscript and point-by-point response
+   after their actual capsule and archive links/page references are inserted.
 
-Applicable licences can supply the reuse basis; three new replies are not a mandatory
-review requirement. See `revisions/MEDICINE_LICENCE_DEADLINE_CHECK.md`. Resolve the actual
-S1 current terms conflict and S2 origin question without assuming S4 is prohibited.
-Provide the applicable collection/redistribution basis for S1 (MedEx), S2 (MedEasy-described
-source) and S4 (DGDA-described source). S5 Mendeley CC BY 4.0 attribution/change notice is
-documented. Platform uploader licence labels alone do not establish upstream authorization.
-S3 Indian indication prose is excluded from the new candidate. Keep correspondence/contacts
-private and approve only a non-secret summary in
-`data/medicine_reference/SOURCE_PERMISSION_RECORD.json`. A draft request is in
-`revisions/MEDICINE_PERMISSION_REQUEST.md`; it has not been sent on the authors' behalf.
+## Agent actions after those identifiers are supplied
 
-The completed author-supplied doctor note is now recorded in
-`author-evidence/COMPLETED_REVIEW_SUMMARIES.md`: approximately 100 targeted checks on
-29 September 2026. Do not repeat this task or publish the doctor's identity. Most mappings
-appeared reasonable; duplicate entries and missing strengths were noted, not a whole-corpus
-accuracy certification. The paper and response use that limited scope.
-
-A new 30-case content spot-check is **optional for the limited claims**, about 40–70 minutes,
-not population-accuracy evidence. The prepared private packet is
-`dist/softwarex-medicine-v2-full-finalized/reviewer/`: open `OPEN_ME.html`, load the bundle,
-select verdicts and export. Authors can do reference lookup beforehand. Instructions and
-the export-summary command are in `revisions/MEDICINE_REVISION_REBUILD.md`.
-
-Once actual permissions and review scope/corrections are recorded, the repository-side pass
-can promote the chosen CSV together with provenance, build manifest and notices, update
-counts/tests, and rebuild paper/response. Do not run the seed writer on the shared database:
-it clears reference tables. Any live migration must preserve existing medication references.
-Completeness, current DGDA registration and obsolescence remain unknown without actual checks.
-
-## 2. Approve the final text and capsule citation
-
-Confirm that the ethics wording reflects the authors' actual consent/institutional decision,
-without asserting an unavailable ethics approval number. No new public prescription-image
-release is requested. Review the compiled PDF and point-by-point response; Figure 4 is done.
-
-The supplied image record documents verbal research consent and **no formal institutional
-review obtained**, with supervisor reassurance. The manuscript now discloses absence of
-formal review; no exemption or approval is invented. Approve this truthful wording and,
-if requested by the editor, obtain an actual authorized policy determination. Storage/access
-and Roboflow/Colab visibility fields remain unspecified in the supplied note.
-Private images and consent records do not need to be uploaded to provide this scope statement.
-
-`FINAL_REVISION_REPORT.md` lists every remaining mandatory gate and the later agent-doable
-promotion, final testing, packaging and response updates; this file is not a claim that
-only human work remains.
-
-Exact author-sendable worksheets are in `author-evidence/`: three source-specific
-permission requests, the short actual doctor source-review note, and the original image
-research ethics-status record. Keep completed originals privately. See
-`CAPSULE_RESULT_COVERAGE.md` before describing the capsule as reproducing every measurement;
-the runner now performs current safety and native booking reruns; explicit model profiles
-perform actual inference/parameter diagnostics. Historical hosted-summary aggregates remain
-archive-only, not a replay of missing paired outputs.
-
-Sign in to the author-owned Code Ocean account. Create the capsule draft and return its stable
-reader-accessible citation URL/version, or coordinate an editor-approved review link if that
-is the journal's requested form. Never put account credentials or an owner-only private URL
-in public manuscript metadata. Insert the citation before freezing the final source.
-See `CODE_OCEAN_CAPSULE.md` for platform layout and the bounded reproduction claim.
-
-## 3. Freeze and verify the exact capsule candidate
-
-After corpus decisions/promotion, manuscript/response, version, reserved Zenodo version DOI
-and capsule citation are final, align `CITATION.cff`, `codemeta.json` and
-`release_metadata.json`, commit the clean candidate and record verification receipts.
-Match the approved manuscript title, four-author list and contributions in new-release
-citation/capsule metadata; do not rewrite historical release identities or author records.
-
-```powershell
-python tools/release/package_softwarex_capsule.py --dry-run
-python tools/release/package_softwarex_capsule.py
-```
-
-Upload `dist/Medora-SoftwareX-CodeOcean-<commit>.zip` with `code/` in `/code`, enter
-`metadata/metadata.yml`, choose CPU Python 3.11 and mark `/code/run` as the run file.
-This run scores current synthetic safety and executes fresh native PostgreSQL booking trials;
-model profiles perform actual inference/parameter checks. Historical tables remain separate.
-It needs no live AI credentials, private images or clinical/detector-accuracy evaluation.
-The approved detector is distributed separately with AGPL/corresponding source; its omission
-from this fixture capsule is a scope choice, not another permission decision.
-
-Perform Code Ocean's Reproducible Run. Preserve the capsule/version URL, DOI if minted,
-run ID, source commit and downloaded `reproduction_manifest.json`. Record it using:
-
-```powershell
-python tools/release/record_code_ocean_run.py <downloaded-manifest> --capsule-url <url> --capsule-version <version> --run-id <run-id>
-```
-
-The receipt must refer to the exact candidate. Any source/data/manuscript/environment change
-after the run needs a new candidate and run. The Code Ocean run is a computation receipt,
-not new clinical or independent held-out performance evidence.
-
-## 4. Publish one consistent new release
-
-The existing v1.0.2 tag/Zenodo record has an archive that embeds v1.0.1 identity. Editing
-current files cannot repair those published bytes. Use a new version (expected next patch
-v1.0.3, confirm tags before release), not the old DOI `10.5281/zenodo.21846125`.
-
-1. Complete the nine required verification checks and save receipts/logs on the final source
-   commit, including its Code Ocean run. Do not silently retitle historical benchmarks as
-   fresh measurements of the rebuilt corpus.
-2. Push the corresponding new GitHub tag/release, resolving to that commit.
-3. Run `python tools/release/build_zenodo_deposit.py` from the tagged candidate. The builder
-   binds exact identity and detached verification/capsule receipts into the archive; its
-   checksum is recorded externally, not self-referentially inside the ZIP. A combined
-   detector-containing deposit must not be labelled blanket MIT.
-4. Upload that exact archive to its reserved Zenodo version DOI. Download the published file
-   and run `python tools/release/record_zenodo_archive.py <downloaded-zip>`.
-5. Run `python tools/release/check_softwarex_release.py`. Tag, commit, DOI, capsule,
-   internal metadata, artifact hashes and downloaded file must agree. Compile the frozen
-   paper and verify the final response's page references.
-
-The final check is intentionally not green before these platform receipts and permissions
-exist. Do not edit old IDs or claim a completed capsule/deposit to bypass it. If published
-bytes are wrong, correct the source/package and make another version under the concept DOI.
+Bind the real capsule/version and reserved Zenodo DOI to the v1.0.3 candidate;
+rerun the full release gate and package from the immutable tag; record the Code
+Ocean and downloaded-Zenodo receipts; rebuild the Overleaf upload ZIP; and check
+all paper/response citations and pages. A source or environment change after the
+capsule run requires a new run. An old capsule URL, DOI, or synthetic result must
+not be presented as the final platform receipt.

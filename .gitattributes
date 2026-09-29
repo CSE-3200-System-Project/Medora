@@ -6,3 +6,7 @@ tests/benchmarks/reports/**/*.out.log -whitespace
 # Linux capsule entry points must also remain LF in Windows git-archive exports.
 run text eol=lf
 *.sh text eol=lf
+
+# These two bytes are bound by the public medicine build manifest and capsule.
+data/medicine_reference/rebuild_corpus.py text eol=lf
+data/medicine_reference/Final_Medicine_Dataset.csv -text

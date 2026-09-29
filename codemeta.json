@@ -1,12 +1,12 @@
 {
   "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
-  "name": "Medora: A Bilingual, consent-gated AI-native healthcare management & consultation platform for Bangladesh",
-  "description": "Medora is open-source research software that joins bilingual English and Bengali patient-held records and appointment coordination to a consent-gated assistive-AI layer of twenty-one endpoints. Its safety properties are structural rather than prompt-dependent: external model calls need a purpose-specific revocable grant and pass bilingual redaction and pseudonymisation, assistant navigation resolves through an immutable role-scoped registry that holds no administrative routes, and summary items can cite only records the backend supplied. Routing, consent, and red-flag detection involve no model. Underneath sits an open Bangladesh medicine reference of 7,389 drugs and 67,001 brands, built from five published datasets by a single script. Medora is not clinically validated and is not a medical device.",
+  "name": "Medora: A Consent-Aware Bilingual Platform for Healthcare Management and Consultation with Assistive AI",
+  "description": "Medora joins bilingual patient-held records, booking and consent-gated assistive workflows. The public medicine reconstruction has 44,226 attributed rows from S4 and S5, separate from historical deployed counts. Private prescription images are excluded. The software has not been clinically validated.",
   "identifier": "medora",
   "codeRepository": "https://github.com/CSE-3200-System-Project/Medora",
-  "license": "https://spdx.org/licenses/MIT",
-  "version": "1.0.2",
+  "license": "https://spdx.org/licenses/AGPL-3.0-only",
+  "version": "1.0.3",
   "programmingLanguage": [
     "Python",
     "TypeScript",
@@ -47,6 +47,11 @@
       "givenName": "Kazi Saeed",
       "familyName": "Alam",
       "email": "saeed.alam@cse.kuet.ac.bd"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Sk. Imran",
+      "familyName": "Hossain"
     }
   ],
   "softwareRequirements": [

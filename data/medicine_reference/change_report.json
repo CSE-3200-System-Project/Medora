@@ -1,0 +1,17 @@
+{
+  "profile": "licensed-public",
+  "rules": [
+    "preserve substance/bracket text and manufacturer suffixes",
+    "whitespace normalization only; casefold only for matching keys",
+    "do not collapse distinct strengths, forms or manufacturers",
+    "merge exact normalized identities only; preserve all contributor records",
+    "medicine_type is blank when absent; fill only from an explicit agreeing contributor; quarantine conflicting types",
+    "prefer earlier selected sources for duplicate display values: S5, S4",
+    "quarantine S4 combinations/unparseable generic-strength strings",
+    "quarantine every contradictory brand/manufacturer-to-generic mapping, rather than choose a winner",
+    "omit all inferred/generative/common-use descriptions and S3 Indian indications",
+    "append stable record_id/source_refs; legacy seed columns preserved",
+    "no price emission, clinical safety inference, or automatic database reseeding"
+  ],
+  "version": "medicine-reference-v2"
+}

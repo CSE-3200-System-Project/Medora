@@ -18,9 +18,10 @@
     "reported_supervisor_position": "reassurance reported; not represented as committee approval or exemption",
     "consent": "author-obtained verbal academic/research-use consent",
     "image_distribution": "not permitted; private originals excluded",
+    "reported_storage_and_processing": "Author reports private Roboflow workspace processing and otherwise local image-file storage; no image-file uploads to Colab, public Google Drive, or a public repository",
     "reported_collection_period": "December 2025 to June 2026",
     "reported_source_proportions": "approximately 98% public / 2% personal; exact original counts not supplied",
-    "not_documented": ["authorized review-requirement determination", "storage/access safeguards", "Roboflow/Colab project visibility"],
+    "not_documented": ["authorized review-requirement determination", "independently verified platform access and retention safeguards"],
     "evidence": "docs/softwarex/author-evidence/COMPLETED_REVIEW_SUMMARIES.md"
   },
   "release_binding": "Current author evidence only; does not rewrite historical v1.0.2 metadata or grant upstream dataset rights"

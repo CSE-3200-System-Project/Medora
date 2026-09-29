@@ -1,8 +1,8 @@
 cff-version: 1.2.0
-message: "If you use Medora, please cite the archived v1.0.2 release and the SoftwareX article."
-title: "Medora: A Bilingual, consent-gated AI-native healthcare management & consultation platform for Bangladesh"
+message: "If you use Medora, please cite the v1.0.3 release when published and the SoftwareX article."
+title: "Medora: A Consent-Aware Bilingual Platform for Healthcare Management and Consultation with Assistive AI"
 type: software
-version: 1.0.2
+version: 1.0.3
 authors:
   - family-names: Siddiqui
     given-names: Sarwad Hasan
@@ -11,8 +11,10 @@ authors:
   - family-names: Alam
     given-names: Kazi Saeed
     email: saeed.alam@cse.kuet.ac.bd
+  - family-names: Hossain
+    given-names: Sk. Imran
 repository-code: "https://github.com/CSE-3200-System-Project/Medora"
-license: MIT
+license: AGPL-3.0-only
 keywords:
   - digital health
   - assistive AI
@@ -21,15 +23,10 @@ keywords:
   - deterministic intent routing
   - bilingual software
 abstract: >-
-  Medora is open-source research software that joins bilingual English and
-  Bengali patient-held records and appointment coordination to a consent-gated
-  assistive-AI layer of twenty-one endpoints. Its safety properties are
-  structural rather than prompt-dependent: external model calls need a
-  purpose-specific revocable grant and pass bilingual redaction and
-  pseudonymisation, assistant navigation resolves through an immutable
-  role-scoped registry that holds no administrative routes, and summary items
-  can cite only records the backend supplied. Routing, consent, and red-flag
-  detection involve no model. Underneath sits an open Bangladesh medicine
-  reference of 7,389 drugs and 67,001 brands, built from five published
-  datasets by a single script. Medora is not clinically validated and is not a
-  medical device.
+  Medora joins bilingual patient-held records, booking, and consent-gated
+  assistive workflows. A historical deployed medicine reference remains distinct
+  from the 44,226-row public S4/S5 reconstruction with row and field provenance.
+  The combined optional detector/source bundle uses AGPL-3.0; publisher MIT and
+  CC BY 4.0 notices remain attached to the medicine inputs. Private prescription
+  images are excluded. Fixture and component results do not establish clinical
+  effectiveness, national medicine-register completeness, or device approval.

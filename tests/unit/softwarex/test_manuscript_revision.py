@@ -39,7 +39,7 @@ def test_manuscript_meets_existing_length_and_figure_gates():
 
 def test_revision_artifacts_and_measurement_scope_are_explicit():
     source = (DOCS / "medora_softwarex.tex").read_text(encoding="utf-8")
-    for evidence in ("46,614", "72,969", "204", "94.7", "75.5", "Code Ocean", "AGPL-3.0"):
+    for evidence in ("44,226", "45,135", "204", "94.7", "75.5", "Code Ocean", "AGPL-3.0"):
         assert evidence in source
     assert "application navigation" in source
     assert "All 21 endpoints receive contract" not in source

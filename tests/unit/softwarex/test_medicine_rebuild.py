@@ -64,3 +64,26 @@ def test_later_type_attribution_does_not_mutate_original_contributor(tmp_path, m
     assert p['fields']['medicine_type']['source_ref']=='S1:1'
     assert p['contributors'][0]['fields']['medicine_type']['source_ref'] is None
     assert p['contributors'][0]['fields']['medicine_type']['source_field'] is None
+
+
+def test_licensed_public_uses_only_s4_s5(tmp_path):
+    root = tmp_path / 'raw'
+    entries = [
+        ('S5', ['genericName','brandName','dosageType','strength','manufacturer'],
+         ['Drug A','Brand A','Tablet','5 mg','Maker']),
+        ('S4', ['Brand Name','Dosages Description','Name of the Manufacturer','Type','Generic Name and Strength'],
+         ['Brand B','Tablet','Maker','Allopathic','Drug B 10 mg']),
+    ]
+    for sid, headings, values in entries:
+        path = root / builder.SOURCES[sid]['file']
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open('w', encoding='utf-8', newline='') as stream:
+            writer = csv.writer(stream)
+            writer.writerow(headings)
+            writer.writerow(values)
+    output = tmp_path / 'output'
+    manifest = builder.build(root, output, 'licensed-public')
+    assert set(manifest['sources']) == {'S4', 'S5'}
+    rows = list(csv.DictReader((output/'Final_Medicine_Dataset.csv').open(encoding='utf-8')))
+    assert len(rows) == 2
+    assert all(set(ref.split(':')[0] for ref in row['source_refs'].split(';')) <= {'S4', 'S5'} for row in rows)

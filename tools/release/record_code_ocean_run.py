@@ -27,6 +27,7 @@ REQUIRED_OUTPUTS = {
     "current_booking_results.json",
     "booking-tests.xml",
     "model_execution_coverage.json",
+    "capsule_input_verification.json",
     "requirements-resolved.txt",
 }
 
@@ -59,9 +60,18 @@ def main() -> int:
     commit = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
     if manifest.get("source_commit") != commit:
         raise SystemExit("Code Ocean manifest source_commit does not match the final candidate HEAD")
+    tree = subprocess.check_output(["git", "rev-parse", "HEAD^{tree}"], cwd=ROOT, text=True).strip()
+    if manifest.get("source_tree") != tree:
+        raise SystemExit("Code Ocean manifest source_tree does not match the final candidate")
+    metadata = json.loads(METADATA.read_text(encoding="utf-8"))
+    if manifest.get("release_version") != metadata.get("version"):
+        raise SystemExit("Code Ocean manifest release_version does not match the final candidate")
     if manifest.get("ai_provider") != "deterministic mock":
         raise SystemExit("the SoftwareX capsule run must use the deterministic mock")
     missing = sorted(REQUIRED_OUTPUTS - set(manifest.get("artifacts", {})))
+    selected_profiles = (manifest.get("input_verification") or {}).get("profiles", {})
+    if selected_profiles.get("medicine") and "current_medicine_rebuild.json" not in manifest.get("artifacts", {}):
+        raise SystemExit("selected medicine profile did not produce a fresh reconstruction report")
     if missing:
         raise SystemExit("Code Ocean manifest is missing output hashes: " + ", ".join(missing))
     for name, expected in manifest["artifacts"].items():
@@ -74,7 +84,6 @@ def main() -> int:
     if not booking.get("passed") or len(booking.get("results", [])) != 3:
         raise SystemExit("current booking experiment did not complete")
 
-    metadata = json.loads(METADATA.read_text(encoding="utf-8"))
     citation = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
     citation_version = re.search(r'^version:\s*"?([^"\s]+)"?\s*$', citation, re.M)
     if not citation_version or metadata.get("version") != f"v{citation_version.group(1)}":
