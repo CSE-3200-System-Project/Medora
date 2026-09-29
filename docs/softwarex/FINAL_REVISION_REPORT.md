@@ -127,6 +127,9 @@ authorize us to mark missing permissions, ethics records, platform runs or archi
    final provider/artifact binding. Upload the exact prepared capsule and execute its
    Reproducible Run. Return its version/run ID and downloaded reproduction manifest. The
    agent records and checks the receipt. Source changes require a refreshed candidate/run.
+   Before claiming all reported experiments rerun, complete the per-result coverage pass
+   in `CAPSULE_RESULT_COVERAGE.md`. The existing runner only regenerates frozen tables
+   and runs focused boundary tests; extending its analyses remains agent work.
 7. **New GitHub/Zenodo release — authorized author account, agent packaging/checks.** Push
    the final commit/tag, build the exact archive, publish under the reserved new DOI, download
    and verify it. Record detached receipts and run the identity gate. GitHub authentication

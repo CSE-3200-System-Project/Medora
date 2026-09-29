@@ -392,6 +392,7 @@ def main() -> int:
         ROOT / "docs/softwarex/CODE_OCEAN_CAPSULE.md",
         ROOT / "docs/softwarex/FINAL_HUMAN_GATES.md",
         ROOT / "docs/softwarex/FINAL_REVISION_REPORT.md",
+        ROOT / "docs/softwarex/CAPSULE_RESULT_COVERAGE.md",
         ROOT / "tools/softwarex/build_revision_evidence.py",
         ROOT / "docs/INTEROPERABILITY.md",
         ROOT / "docs/THREAT_MODEL.md",

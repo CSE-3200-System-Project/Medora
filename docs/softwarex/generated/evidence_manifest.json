@@ -72,16 +72,20 @@
       "bytes": 16056
     },
     "docs/softwarex/CODE_OCEAN_CAPSULE.md": {
-      "sha256": "8b7e76888fc4ec2ca6e9b4c1b19d7066c6244548b843aec064c5fe248722ba08",
-      "bytes": 8094
+      "sha256": "062e1e70fbddb2ca9626365362f9cacca92117cbdbd7f6830373a2fc350a1a6e",
+      "bytes": 8357
     },
     "docs/softwarex/FINAL_HUMAN_GATES.md": {
-      "sha256": "76ea3afd8cab6153cab2bbb6b09d95a9951bc8826091dceb12c398ccae0992aa",
-      "bytes": 9415
+      "sha256": "40f231a1e7f2bc416de4d1899192af0470e2d58de292f6d4d131ae5624292f85",
+      "bytes": 9823
     },
     "docs/softwarex/FINAL_REVISION_REPORT.md": {
-      "sha256": "f97756e1d8b9234a91fd1fdc134899c81a7bfd4c896e81fcc990ac50c6520927",
-      "bytes": 12776
+      "sha256": "28835b53c5b214d6db5afec1d4c181a1d361efd843f915eeb10af1412cb7e4bf",
+      "bytes": 13031
+    },
+    "docs/softwarex/CAPSULE_RESULT_COVERAGE.md": {
+      "sha256": "b78bd13b7699cbe2276cb9e7c9cfb71cf32b95ca0fb0bf200eeb4a16ed7cd05a",
+      "bytes": 6374
     },
     "tools/softwarex/build_revision_evidence.py": {
       "sha256": "df9042ec606ee250e252bf24053d02e081de9f7d6a0cf50883c7013873f21104",
