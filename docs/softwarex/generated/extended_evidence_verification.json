@@ -1,0 +1,18 @@
+{
+  "checked_at": "2026-09-29T13:19:41.202493+00:00",
+  "passed": true,
+  "local_model_hashes_checked": true,
+  "checks": {
+    "tests/benchmarks/datasets/pii_safety_cases.jsonl": true,
+    "tests/benchmarks/datasets/pii_holdout_cases.jsonl": true,
+    "data/medora-phi-ner-muril/model.onnx": true,
+    "data/medora-phi-ner-muril/model.onnx.data": true,
+    "data/medora-phi-ner-muril/tokenizer.json": true,
+    "data/medora-phi-ner-muril/labels.json": true
+  },
+  "scope": "Artifact identity and metric arithmetic, not a new model or clinical evaluation",
+  "report_sha256": {
+    "tools/phi_ner/reports/phi_ner_eval.json": "2b20b8c548c83b418b2a728fba7d3f92c1019b65f3fee6e195fdd4e67c51d45a",
+    "tests/benchmarks/reports/shimana_report.json": "6065965c21a2983950d48a76ad0ce8e25fce221b134fede9a96c0b78dea01bf0"
+  }
+}

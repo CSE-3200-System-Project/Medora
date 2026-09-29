@@ -37,7 +37,7 @@ for Medora activity; it is not an interoperable provenance exchange.
 
 | Medora field/control | Closest FHIR R5 concept | Current gap |
 | --- | --- | --- |
-| subject_id | Consent.patient | No FHIR resource serialization |
+| subject_id | Consent.subject | No FHIR resource serialization |
 | recipient_id and provider | Consent.grantee / provision actor | Local strings, not referenced actors |
 | purpose | provision purpose | Local enum, not a bound value set |
 | valid_from, valid_until, revoked_at | Consent status and provision period | Prospective revocation only; no FHIR lifecycle operation |
@@ -49,6 +49,19 @@ its profiles, transactions, terminology bindings, actors, or conformance tests. 
 adapter would need to serialize a FHIR Consent resource, map local categories to a governed
 terminology, and validate profile-specific exchange behavior. This document is a mapping
 and implementation boundary, not a conformance statement.
+
+## Reviewer-requested comparisons
+
+[Bialke et al. (2022)](https://doi.org/10.1186/s12911-022-02081-4) describe gICS and a
+FHIR gateway for standardized informed-consent exchange. Their exchange profiles and
+integration validation are not implemented by Medora's local consent guard.
+[Bialke et al. (2024)](https://doi.org/10.2196/65784) describe the Greifswald trusted-third-party
+dispatcher and modular identity, pseudonymization and consent services. Medora's authorization
+and pseudonymization stages expose a possible adapter seam, not an equivalent trusted-third-party
+service. The 2024 publication is a perspective letter, not comparative performance evidence.
+[Stäubert et al. (2025)](https://doi.org/10.3233/SHTI251389) discuss consent-management
+terminology and patient decisions. These motivate governed terminology bindings before
+future FHIR/IHE exchange; local enum names alone do not establish interoperability.
 
 ## Deployment and regulatory scope
 

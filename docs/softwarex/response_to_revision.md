@@ -60,19 +60,48 @@ patient/clinician workflows and research reuse discussion are retained.
 
 ## Current manuscript locations
 
-These refer to the checked 21-page revision draft, not the eventual frozen submission.
+These refer to the checked 20-page revision draft compiled on 29 September 2026,
+not the eventual frozen submission.
 Recheck them after inserting capsule/release metadata and approved corpus evidence.
 
 | Review topics | Current location |
 | --- | --- |
 | Recent related work and system positioning | Section 1, pp. 2–4; Table 2 |
-| Consent, database boundaries, FHIR/IHE and EU applicability | Section 2.1, pp. 4–5; Figures 1–2 |
-| Historical corpus and attributed rebuild | Section 2.2, p. 6; Table 3; ethics, p. 18 |
-| Endpoint scope and deterministic/model distinction | Section 2.2, pp. 6–10; Tables 4–5 |
-| Privacy, navigation, summaries, booking and reproduction scope | Section 2.3, pp. 10–13; Tables 6–10 |
-| Detector artifacts and experimental OCR scope | Section 2.3, p. 13; model card and verification reports |
-| Record coverage and authentic interface figures | Section 3, pp. 13–17; Figures 4–6 on pp. 14–16 |
-| Ethics, private images, clinician review and competing interest | Unnumbered statements, pp. 18–19 |
+| Consent, database boundaries, FHIR/IHE and EU applicability | Section 2.1, pp. 4–6; Figures 1–2 on p. 5 |
+| Historical corpus and attributed rebuild | Section 2.2, p. 6; Table 3 on p. 6; ethics, p. 17 |
+| Endpoint scope and deterministic/model distinction | Section 2.2, pp. 6–9; Tables 4–5 on pp. 7–8 |
+| Privacy, navigation, summaries, booking and reproduction scope | Section 2.3, pp. 9–13; Tables 6–12 on pp. 10–12 |
+| Completed privacy/consent component comparisons | Section 2.3, p. 10; Tables 11–12 on p. 12; FINAL_REVISION_REPORT.md |
+| Detector artifacts and experimental OCR scope | Section 2.3, pp. 10–13; model card and verification reports |
+| Record coverage and authentic interface figures | Section 3 starts p. 13; Figures 4–6 on pp. 14–16 |
+| Ethics, private images, clinician review and competing interest | Unnumbered statements, pp. 17–18 |
+
+## Completed evidence and reviewer-specific additions
+
+R1-03, R3-01 and R3-06 now also receive the existing rules/MuRIL/union comparison
+(Table 11), retaining all systems and both distinct populations. Development-set tuning
+and the separate probe's limited Bengali representation are disclosed; the optional
+216-case candidate is still not presented as validated evidence. Table 12 adds all five
+consent-scope configurations, with source-accounting utility distinguished from clinical
+summary quality and U distinguished from actual provider disclosure. These are component
+experiments, not a controlled full-system LLM-only/hybrid ablation.
+
+R2-03 now cites the two specifically suggested gICS and Greifswald dispatcher papers
+(DOIs 10.1186/s12911-022-02081-4 and 10.2196/65784) and explains the adapter boundary.
+R2-04 names the human-to-machine grant path and HTTP 403 denial in the paper.
+R2-05 includes the suggested Consent Management 2.0 paper (DOI 10.3233/SHTI251389)
+without claiming implemented FHIR/IHE conformance. R1-08 also receives a concise
+threat-model paragraph distinguishing audit logging from tamper-proof auditing.
+
+R1-09 still needs the authors' actual determination concerning **original identifiable-image
+collection and research/training use** (approval/exemption/waiver or absence of formal review).
+Research-use consent and the reported institution decision to distribute derived weights
+do not establish that separate status. Private images remain excluded; no image-publication
+task or invented approval is prescribed.
+
+R1-16/R2-00 received a further compiled-layout pass: top table captions, wrapped safety
+columns, readable booking rows, flexible float placement and consistent spacing. Six figures
+and twelve tables fit the original Elsevier preprint format without shrinking the body font.
 
 ## Release blockers
 

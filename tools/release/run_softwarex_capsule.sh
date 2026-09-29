@@ -24,9 +24,13 @@ python -m pytest -c tests/pytest.backend.ini -q \
 
 cp docs/softwarex/generated/safety_results.json "$RESULTS_DIR/safety_results.json"
 cp docs/softwarex/generated/booking_results.json "$RESULTS_DIR/booking_results.json"
+cp docs/softwarex/generated/privacy_extension_results.json "$RESULTS_DIR/privacy_extension_results.json"
+cp docs/softwarex/generated/consent_scope_results.json "$RESULTS_DIR/consent_scope_results.json"
 python tools/release/render_softwarex_tables.py \
   --safety "$RESULTS_DIR/safety_results.json" \
   --booking "$RESULTS_DIR/booking_results.json" \
+  --privacy-extension "$RESULTS_DIR/privacy_extension_results.json" \
+  --consent-scope "$RESULTS_DIR/consent_scope_results.json" \
   --output "$RESULTS_DIR"
 
 python - "$ROOT" "$RESULTS_DIR" <<'PY'
@@ -65,6 +69,9 @@ files = (
     "booking_results.json",
     "safety_results.tex",
     "booking_results.tex",
+    "privacy_extension_results.json",
+    "consent_scope_results.json",
+    "extended_results.tex",
     "fixture-tests.xml",
 )
 manifest = {
@@ -76,6 +83,7 @@ manifest = {
     ).get("executed_at"),
     "safety_metrics": "frozen report copied from the source snapshot; focused tests check current code separately",
     "booking_scope": "table regenerated from the frozen report; latency experiment not rerun",
+    "extended_scope": "archived privacy/consent component tables regenerated; model inference not rerun",
     "artifacts": {
         name: hashlib.sha256((results / name).read_bytes()).hexdigest()
         for name in files

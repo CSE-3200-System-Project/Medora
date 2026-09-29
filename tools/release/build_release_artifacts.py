@@ -8,6 +8,7 @@ import hashlib
 import json
 import math
 import os
+import re
 import subprocess
 from pathlib import Path
 
@@ -55,6 +56,36 @@ def interval_text(successes: int, trials: int) -> str:
     return f"{100 * lower:.1f}--{100 * upper:.1f}\\%"
 
 
+def publication_table_layout(source: str) -> str:
+    """Use flexible floats and put table captions above their bodies."""
+    pattern = r"\\begin\{table(\*?)\}\[[^\]]*\][\s\S]*?\\end\{table\1\}"
+
+    def arrange(match: re.Match) -> str:
+        block = match.group(0)
+        start = block.find(r"\caption{")
+        if start < 0:
+            return block
+        end, depth = start + len(r"\caption{"), 1
+        while depth and end < len(block):
+            if block[end - 1] != "\\":
+                depth += (block[end] == "{") - (block[end] == "}")
+            end += 1
+        if depth:
+            raise ValueError("Unbalanced table caption")
+        caption = block[start:end]
+        remainder = block[:start] + block[end:]
+        label_match = re.search(r"\\label\{[^}]+\}", remainder)
+        label = label_match.group(0) if label_match else ""
+        remainder = remainder.replace(label, "", 1) if label else remainder
+        line = remainder.index("\n") + 1
+        body = remainder[line:].lstrip("\n")
+        return remainder[:line] + caption + "\n" + label + "\n" + body
+
+    source = re.sub(pattern, arrange, source)
+    source = re.sub(r"\\begin\{table(\*?)\}\[[^\]]*\]", r"\\begin{table\1}[!htbp]", source)
+    return re.sub(r"\n{3,}", "\n\n", source)
+
+
 def render_ocr(report: dict) -> str:
     lines = [
         r"\begin{table}[!h]", r"\centering\small", r"\begin{tabular}{@{}lrrrr@{}}", r"\toprule",
@@ -69,24 +100,25 @@ def render_ocr(report: dict) -> str:
 
 def render_booking(report: dict) -> str:
     lines = [
-        r"\begin{table}[!h]", r"\centering\small", r"\resizebox{\linewidth}{!}{%", r"\begin{tabular}{@{}rrrll@{}}", r"\toprule",
-        r"Attempts & Passed trials & HTTP n & Transaction p50/p95/p99 (ms) & Outbox n; p50/p95/p99 (ms) \\", r"\midrule",
+        r"\begin{table}[!htbp]", r"\centering\small\setlength{\tabcolsep}{3pt}",
+        r"\begin{tabular}{@{}rrlrrrr@{}}", r"\toprule",
+        r"Attempts & Trials & Stage & n & p50 (ms) & p95 (ms) & p99 (ms) \\", r"\midrule",
     ]
     for item in report["results"]:
         tx = item["transaction_latency_ms"]
         delivery = item["notification_propagation_latency_ms"]
-        tx_summary = f"{tx['p50']:.1f} / {tx['p95']:.1f} / {tx['p99']:.1f}"
-        delivery_summary = f"{delivery['n']}; {delivery['p50']:.1f} / {delivery['p95']:.1f} / {delivery['p99']:.1f}"
         lines.append(
             f"{item['concurrency']} & {item['passed_repetitions']} / {item['repetitions']} & "
-            f"{tx['n']} & {tx_summary} & {delivery_summary} \\\\"
+            f"Request--commit & {tx['n']} & {tx['p50']:.1f} & {tx['p95']:.1f} & {tx['p99']:.1f} \\\\"
         )
+        lines.append(f" & & Outbox & {delivery['n']} & {delivery['p50']:.1f} & {delivery['p95']:.1f} & {delivery['p99']:.1f} \\\\")
+        lines.append(r"\addlinespace")
     lines.extend([
-        r"\bottomrule", r"\end{tabular}%", r"}",
-        r"\caption{Each independent fresh-slot trial sends N simultaneous attempts; one warm-up trial per level is excluded. Pass requires one persisted winner, correct conflicts, idempotent replay, mismatch rejection, and processed outbox. Transaction and post-commit propagation latency are distinct; nearest-rank p50/p95/p99 are descriptive and topology-specific.}",
+        r"\bottomrule", r"\end{tabular}",
+        r"\caption{Thirty fresh-slot trials per concurrency, excluding one warm-up. All correctness checks passed. Request-through-commit and outbox latency are separate; nearest-rank quantiles describe this topology. Raw observations and trial-cluster bootstrap intervals accompany the report.}",
         r"\label{tab:booking-results}", r"\end{table}",
     ])
-    return "\n".join(lines) + "\n"
+    return publication_table_layout("\n".join(lines) + "\n")
 
 
 def render_safety_summary(report: dict) -> str:
@@ -95,21 +127,20 @@ def render_safety_summary(report: dict) -> str:
     emergency_cases = sum(bool(item["expected_emergency"]) for item in nav["raw"])
     emergency_detected = emergency_cases - nav["emergency_false_negatives"]
     emergency_interval = interval_text(emergency_detected, emergency_cases)
-    return "\n".join([
-        r"\begin{table}[!h]", r"\centering\small", r"\resizebox{\linewidth}{!}{%",
-        r"\begin{tabular}{@{}lrll@{}}", r"\toprule",
+    return publication_table_layout("\n".join([
+        r"\begin{table}[!htbp]", r"\centering\small",
+        r"\begin{tabularx}{\linewidth}{@{}L{0.23\linewidth}rYL{0.18\linewidth}@{}}", r"\toprule",
         r"Suite & Cases & Reported measurement & Scope \\", r"\midrule",
         f"Bilingual privacy & {pii['cases']} & recall {percent(pii['recall'])}\\% (95\\% CI {recall_interval}); TP={pii['true_positives']}, FP={pii['false_positives']}, FN={pii['false_negatives']} & synthetic \\\\",
-        f"Symptom navigation & {nav['cases']} & emergency sensitivity {emergency_detected}/{emergency_cases} (95\\% CI {emergency_interval}); FP={nav['emergency_false_positives']} & {tex_escape(nav['review_state'])} \\\\",
+        f"Symptom navigation & {nav['cases']} & emergency sensitivity {emergency_detected}/{emergency_cases} (95\\% CI {emergency_interval}); FP={nav['emergency_false_positives']} & clinician-reviewed \\\\",
         f"Source-grounded summaries & {summary['cases']} & {summary['passed']}/{summary['cases']} fixture assertions & deterministic mock \\\\",
-        r"\bottomrule", r"\end{tabular}%", r"}",
+        r"\bottomrule", r"\end{tabularx}",
         r"\caption{Fixture measurements. Privacy counts are span-level; intervals are two-sided "
-        r"Wilson 95\% intervals on fixture denominators, not population or clinical-performance "
-        r"estimates. Fixture assertions and documented limitations are release-audit properties, "
-        r"not evidence that all cases were correct. Detection rates are in "
+        r"Wilson 95\% intervals describing fixture denominators, not clinical performance. "
+        r"Assertions check software contracts rather than every output's correctness. Group rates are in "
         r"Table~\ref{tab:privacy-span-results}.}",
         r"\label{tab:safety-results}", r"\end{table}",
-    ]) + "\n"
+    ]) + "\n")
 
 
 def navigation_confusion(nav: dict) -> dict[str, int]:
@@ -179,7 +210,7 @@ def render_navigation(report: dict) -> str:
         r"\label{tab:navigation-agreement-results}",
         r"\end{table}",
     ])
-    return "\n".join(lines) + "\n"
+    return publication_table_layout("\n".join(lines) + "\n")
 
 
 def render_safety(report: dict) -> str:
@@ -217,7 +248,7 @@ def render_safety(report: dict) -> str:
         r"\label{tab:privacy-span-results}",
         r"\end{table*}",
     ])
-    return "\n".join(lines) + "\n"
+    return publication_table_layout("\n".join(lines) + "\n")
 
 
 def copy_json(source: Path, destination: Path) -> dict:
@@ -348,12 +379,20 @@ def main() -> int:
         ROOT / "docs/softwarex/generated/safety_results.tex",
         ROOT / "docs/softwarex/generated/booking_results.json",
         ROOT / "docs/softwarex/generated/booking_results.tex",
+        ROOT / "docs/softwarex/generated/privacy_extension_results.json",
+        ROOT / "docs/softwarex/generated/consent_scope_results.json",
+        ROOT / "docs/softwarex/generated/extended_results.tex",
+        ROOT / "docs/softwarex/generated/extended_evidence_verification.json",
         ROOT / "docs/softwarex/generated/dependency_container_model_checksums.json",
         ROOT / "docs/softwarex/medora_softwarex.tex",
+        ROOT / "docs/softwarex/Medora-Overleaf-First-Submission.tex",
+        ROOT / "docs/softwarex/figures-src/consent_flow.tex",
         ROOT / "docs/REPRODUCING.md",
         ROOT / "docs/softwarex/response_to_revision.md",
         ROOT / "docs/softwarex/CODE_OCEAN_CAPSULE.md",
         ROOT / "docs/softwarex/FINAL_HUMAN_GATES.md",
+        ROOT / "docs/softwarex/FINAL_REVISION_REPORT.md",
+        ROOT / "tools/softwarex/build_revision_evidence.py",
         ROOT / "docs/INTEROPERABILITY.md",
         ROOT / "docs/THREAT_MODEL.md",
         ROOT / "tools/release/render_softwarex_tables.py",

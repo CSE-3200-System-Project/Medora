@@ -1,20 +1,21 @@
-\begin{table}[!h]
+\begin{table}[!htbp]
+\caption{Fixture measurements. Privacy counts are span-level; intervals are two-sided Wilson 95\% intervals describing fixture denominators, not clinical performance. Assertions check software contracts rather than every output's correctness. Group rates are in Table~\ref{tab:privacy-span-results}.}
+\label{tab:safety-results}
 \centering\small
-\resizebox{\linewidth}{!}{%
-\begin{tabular}{@{}lrll@{}}
+\begin{tabularx}{\linewidth}{@{}L{0.23\linewidth}rYL{0.18\linewidth}@{}}
 \toprule
 Suite & Cases & Reported measurement & Scope \\
 \midrule
 Bilingual privacy & 134 & recall 75.5\% (95\% CI 66.0--83.1\%); TP=71, FP=4, FN=23 & synthetic \\
-Symptom navigation & 30 & emergency sensitivity 7/7 (95\% CI 64.6--100.0\%); FP=5 & complete \\
+Symptom navigation & 30 & emergency sensitivity 7/7 (95\% CI 64.6--100.0\%); FP=5 & clinician-reviewed \\
 Source-grounded summaries & 12 & 12/12 fixture assertions & deterministic mock \\
 \bottomrule
-\end{tabular}%
-}
-\caption{Fixture measurements. Privacy counts are span-level; intervals are two-sided Wilson 95\% intervals on fixture denominators, not population or clinical-performance estimates. Fixture assertions and documented limitations are release-audit properties, not evidence that all cases were correct. Detection rates are in Table~\ref{tab:privacy-span-results}.}
-\label{tab:safety-results}
+\end{tabularx}
+
 \end{table}
-\begin{table}[!h]
+\begin{table}[!htbp]
+\caption{Deterministic emergency screen on 30 clinician-reviewed fixtures: TP=7, FN=0, FP=5, TN=18. Wilson intervals describe fixtures only, not clinical triage performance.}
+\label{tab:navigation-emergency-results}
 \centering\small
 \begin{tabular}{@{}lrrl@{}}
 \toprule
@@ -26,10 +27,11 @@ Positive predictive value & 7 & 12 & 58.3\% (32.0--80.7\%) \\
 Negative predictive value & 18 & 18 & 100.0\% (82.4--100.0\%) \\
 \bottomrule
 \end{tabular}
-\caption{Deterministic emergency screen on 30 clinician-reviewed fixtures: TP=7, FN=0, FP=5, TN=18. Wilson intervals describe fixtures only, not clinical triage performance.}
-\label{tab:navigation-emergency-results}
+
 \end{table}
-\begin{table}[!h]
+\begin{table}[!htbp]
+\caption{Provider-dependent specialty outcomes are separated from the deterministic emergency screen. Recorded and Mock are fixture paths and do not represent a live-provider comparison.}
+\label{tab:navigation-agreement-results}
 \centering\small
 \begin{tabular}{@{}lrrrr@{}}
 \toprule
@@ -41,10 +43,11 @@ specialty\_candidates & 16 & 10 & 6 & 5 \\
 uncertain & 5 & 2 & 2 & 0 \\
 \bottomrule
 \end{tabular}
-\caption{Provider-dependent specialty outcomes are separated from the deterministic emergency screen. Recorded and Mock are fixture paths and do not represent a live-provider comparison.}
-\label{tab:navigation-agreement-results}
+
 \end{table}
-\begin{table*}[!ht]
+\begin{table*}[!htbp]
+\caption{Span-level privacy metrics on the production call path, which supplies the redactor with no known identifiers. A dash means the group annotates no span for that denominator. The undetected identifier forms are named in the text.}
+\label{tab:privacy-span-results}
 \centering\scriptsize
 \begin{tabular}{@{}lrrrrr@{}}
 \toprule
@@ -70,6 +73,5 @@ phone & 11 & 100.0\% & 100.0\% & 0.0\% & 0 \\
 All production-path cases & 134 & 94.7\% & 75.5\% & 3.2\% & 43 \\
 \bottomrule
 \end{tabular}
-\caption{Span-level privacy metrics on the production call path, which supplies the redactor with no known identifiers. A dash means the group annotates no span for that denominator. The undetected identifier forms are named in the text.}
-\label{tab:privacy-span-results}
+
 \end{table*}

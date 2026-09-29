@@ -7,6 +7,11 @@ rescore the development privacy data as held-out evidence, rerun the host-specif
 timing experiment, call hosted AI providers, or establish clinical validity. The run needs
 no patient account, provider key, clinical dataset, or live booking.
 
+The runner also copies the archived privacy-extension and consent-scope reports and
+regenerates `extended_results.tex`. Those experiments are not executed again in this run;
+their original observations, dates and qualifications are preserved. No optional MuRIL
+model download or hosted-provider key is required.
+
 The Code Ocean source check is mechanical: it verifies that the declared run can execute
 and produce outputs. It does not independently verify that the paper's scientific claims
 follow from those outputs.
@@ -100,6 +105,8 @@ it, freeze and rerun the final capsule from the resulting source snapshot.
 - `fixture-tests.xml` — all focused tests passed;
 - `safety_results.json` and `booking_results.json` — exact copies of the frozen reports;
 - `safety_results.tex` and `booking_results.tex` — regenerated paper tables;
+- `privacy_extension_results.json`, `consent_scope_results.json` and `extended_results.tex`
+  — copied archived component reports and regenerated comparison tables, without inference;
 - `reproduction_manifest.json` — source commit, scope statement, and SHA-256 for each
   output.
 

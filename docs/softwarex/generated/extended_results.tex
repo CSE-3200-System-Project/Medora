@@ -1,0 +1,29 @@
+\begin{table}[!htbp]
+\caption{Archived privacy-component comparison. Development results reuse the 134-case tuning set; the separate probe has 36 synthetic cases, 36 identifier spans and 36 benign spans. Recall intervals are two-sided Wilson 95\% intervals. These populations are not pooled or treated as clinical evidence.}
+\label{tab:privacy-extension}
+\centering\small\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}llrrr@{}}\toprule
+Population & System & \shortstack{Precision\\(\%)} & \shortstack{Recall (\%)\\95\% CI} & \shortstack{False redaction\\(\%)} \\
+\midrule
+Development & Rules & 96.9 & 100.0 (96.1--100.0\%) & 2.4 \\
+Development & MuRIL & 93.1 & 100.0 (96.1--100.0\%) & 5.6 \\
+Development & Union & 93.1 & 100.0 (96.1--100.0\%) & 5.6 \\
+\addlinespace
+Separate probe & Rules & 100.0 & 75.0 (58.9--86.2\%) & 0.0 \\
+Separate probe & MuRIL & 100.0 & 97.2 (85.8--99.5\%) & 0.0 \\
+Separate probe & Union & 100.0 & 100.0 (90.4--100.0\%) & 0.0 \\
+\bottomrule\end{tabular}
+\end{table}
+\begin{table}[!htbp]
+\caption{Archived consent-scope experiment on 24 synthetic summaries. Utility is a binary source-accounting contract, not clinical quality. Exposure counts surviving identifiers offline per 1,000 requests; U is an offline exposure counterfactual, not unredacted provider disclosure. Aggregate-only observations do not support paired or causal inference.}
+\label{tab:consent-scope}
+\centering\small\begin{tabular}{@{}lrr@{}}\toprule
+Configuration & Contract utility (\%) & Exposure /1,000 requests \\
+\midrule
+L & 0.0 & 0.0 \\
+L+K & 0.0 & 0.0 \\
+L+K+R & 33.3 & 958.3 \\
+L+K+R+H & 12.5 & 1958.3 \\
+U & 8.3 & 6000.0 \\
+\bottomrule\end{tabular}
+\end{table}
