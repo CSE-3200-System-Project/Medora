@@ -17,7 +17,7 @@ contributions are excluded by rebuilding from raw S4/S5 inputs only.
 The public CSV SHA-256 is
 `9dcf59f339679f3b0f7256e3cfd76ffc0839601511fbc16255c4c3d54ee9cf66`.
 There are 45,135 row-contributor links. The public build directory is
-`dist/softwarex-medicine-v2-licensed-public-release/`; its five core outputs,
+`dist/softwarex-medicine-v2-licensed-public-portable/`; its five core outputs,
 raw-input hashes, manifest, quality and change report are packaged by the
 selected Code Ocean profile and replayed during its run. The tracked public
 CSV/manifest/notice are under `data/medicine_reference/`. The earlier

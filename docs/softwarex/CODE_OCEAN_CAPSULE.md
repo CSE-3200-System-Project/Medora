@@ -37,7 +37,7 @@ After the final candidate is committed to a clean Git tree, create the prepared 
 python tools/release/package_softwarex_capsule.py --dry-run
 python tools/release/package_softwarex_capsule.py
 # Selected public S4/S5 corpus + approved detector assets:
-python tools/release/package_softwarex_capsule.py --medicine-build F:/CODE/System-Project/Medora/dist/softwarex-medicine-v2-licensed-public-release --medicine-source-root F:/CODE/System-Project/Medora-Datasets/Medicine --detector-source-dir F:/CODE/System-Project/Medora/dist/detector-upstream-source
+python tools/release/package_softwarex_capsule.py --medicine-build F:/CODE/System-Project/Medora/dist/softwarex-medicine-v2-licensed-public-portable --medicine-source-root F:/CODE/System-Project/Medora-Datasets/Medicine --detector-source-dir F:/CODE/System-Project/Medora/dist/detector-upstream-source
 ```
 
 The builder creates a commit-bound ZIP; detector and PHI suffixes reflect included model
