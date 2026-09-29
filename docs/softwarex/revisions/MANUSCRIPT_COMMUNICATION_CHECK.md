@@ -23,7 +23,7 @@ for the revised paper's current evidence.
 
 The academic-writing and humanizer passes keep the teacher's direct language, remove repeated
 or promotional claims, and preserve measured errors and reviewer-requested qualifications.
-The checked merge has **2,994 words including captions, six figures and twelve tables**,
+The checked merge has **3,000 words including captions, six figures and twelve tables**,
 using the existing release checker. Both TeX entry points compile to 20 pages. Figures 4–6
 and the results tables were inspected in the PDF. Restrictive float barriers were removed;
 tables use top captions, flexible placement and consistent spacing instead of isolated

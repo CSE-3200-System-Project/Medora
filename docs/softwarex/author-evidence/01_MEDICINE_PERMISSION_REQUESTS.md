@@ -1,4 +1,11 @@
-# Three source-specific permission requests
+# Optional source-specific clarification requests
+
+A valid applicable public licence already grants the uses it covers. These emails are
+one way to resolve specific provenance/terms questions, not a requirement to collect three
+new replies before submitting. See `../revisions/MEDICINE_LICENCE_DEADLINE_CHECK.md`:
+S1 has a documented current MedEx terms conflict; S2's origin is uncertain; no contrary
+DGDA redistribution restriction was established for S4. An applicable existing rights
+basis or competent institutional assessment can answer the question without a new email.
 
 These are unsent templates, not evidence of permission. Send from an author email account.
 Keep replies and any private attachments outside the public repository. Return a redacted

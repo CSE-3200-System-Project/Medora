@@ -128,9 +128,18 @@ def postgres_container():
 
 
 @pytest.fixture(scope="session")
-def postgres_async_url(postgres_container) -> str:
+def postgres_async_url(request) -> str:
     from sqlalchemy.engine import make_url
 
+    native_url = os.getenv("MEDORA_CAPSULE_POSTGRES_URL")
+    if native_url:
+        url = make_url(native_url)
+        # These tests drop/create tables. Never accept a production/shared database.
+        if (url.host != "127.0.0.1" or url.username != "medora_capsule"
+                or not (url.database or "").startswith("medora_capsule_")):
+            pytest.fail("capsule database must be a dedicated loopback medora_capsule database")
+        return url.set(drivername="postgresql+asyncpg").render_as_string(hide_password=False)
+    postgres_container = request.getfixturevalue("postgres_container")
     sync_url = postgres_container.get_connection_url()
     return make_url(sync_url).set(drivername="postgresql+asyncpg").render_as_string(
         hide_password=False

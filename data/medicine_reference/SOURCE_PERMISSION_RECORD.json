@@ -3,7 +3,8 @@
   "author_selected_release": "retain multi-source public corpus after documenting source permissions",
   "candidate_profile": "full-local",
   "candidate_sha256": "84539c102b313833e10108576e5b346611882d796f2e562db61226d63e1a548d",
-  "release_clearance": "pending for S1/S2/S4; do not equate an uploader licence label with upstream approval",
+  "release_clearance": "multi-source release basis under assessment; fresh permission replies are not an unconditional requirement; S1 current upstream terms conflict and S2 origin uncertainty remain",
+  "licence_recheck": "2026-09-29: publisher licences verified S1 CC0 v5, S2 CC0 v1, S4 MIT v1, S5 CC BY 4.0 v1; see docs/softwarex/revisions/MEDICINE_LICENCE_DEADLINE_CHECK.md",
   "scope": "generic, brand, strength, dosage form, manufacturer, explicit medicine type and source attribution; no prices, indication prose or prescription images",
   "sources": {
     "S1": {
@@ -18,12 +19,12 @@
       "platform_licence": "CC0 as uploader-declared",
       "upstream": "Uploader describes MedEasy; exact collection/permission chain not supplied",
       "status": "collection/redistribution basis not documented",
-      "needed_record": "Uploader/source statement establishing collection origin and applicable onward distribution authorization"
+      "needed_record": "Clarify exact row origin and applicable licence/right basis; do not assert MedEasy provenance from a service description alone"
     },
     "S4": {
       "platform_licence": "MIT as uploader-declared",
       "upstream": "Uploader claims DGDA; local file has DAR identifiers",
-      "status": "official export identity and upstream reuse basis not documented",
+      "status": "MIT declaration verified; official export identity not verified; no contrary DGDA redistribution restriction established in current check",
       "needed_record": "Applicable official reuse terms or source authorization/provenance; do not treat DAR-looking identifiers as independent register verification"
     },
     "S5": {

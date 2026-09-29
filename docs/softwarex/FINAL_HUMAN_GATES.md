@@ -39,6 +39,9 @@ The paper uses limited fixture/experimental claims rather than claiming clinical
 The author selected **retain the multi-source public corpus after documenting permissions**.
 The Mendeley-only alternative is not the chosen release.
 
+Applicable licences can supply the reuse basis; three new replies are not a mandatory
+review requirement. See `revisions/MEDICINE_LICENCE_DEADLINE_CHECK.md`. Resolve the actual
+S1 current terms conflict and S2 origin question without assuming S4 is prohibited.
 Provide the applicable collection/redistribution basis for S1 (MedEx), S2 (MedEasy-described
 source) and S4 (DGDA-described source). S5 Mendeley CC BY 4.0 attribution/change notice is
 documented. Platform uploader licence labels alone do not establish upstream authorization.
@@ -47,10 +50,11 @@ private and approve only a non-secret summary in
 `data/medicine_reference/SOURCE_PERMISSION_RECORD.json`. A draft request is in
 `revisions/MEDICINE_PERMISSION_REQUEST.md`; it has not been sent on the authors' behalf.
 
-For the reported qualified-doctor source review, obtain one dated scope/result note:
-qualification/role, source versions, what was actually checked, concerns and limited
-conclusion. This is approximately 10–15 minutes, not row-by-row approval. If a doctor already
-reviewed sources, do not relabel that as whole-corpus validation.
+The completed author-supplied doctor note is now recorded in
+`author-evidence/COMPLETED_REVIEW_SUMMARIES.md`: approximately 100 targeted checks on
+29 September 2026. Do not repeat this task or publish the doctor's identity. Most mappings
+appeared reasonable; duplicate entries and missing strengths were noted, not a whole-corpus
+accuracy certification. The paper and response use that limited scope.
 
 A new 30-case content spot-check is **optional for the limited claims**, about 40–70 minutes,
 not population-accuracy evidence. The prepared private packet is
@@ -70,10 +74,11 @@ Confirm that the ethics wording reflects the authors' actual consent/institution
 without asserting an unavailable ethics approval number. No new public prescription-image
 release is requested. Review the compiled PDF and point-by-point response; Figure 4 is done.
 
-Separately record the institutional-review determination for the **original identifiable
-image collection and research/training use**: approval, exemption, waiver, or absence of
-formal review, who determined it, and a reference only if one exists. Research-use consent
-and approval to release derived weights do not by themselves establish that status.
+The supplied image record documents verbal research consent and **no formal institutional
+review obtained**, with supervisor reassurance. The manuscript now discloses absence of
+formal review; no exemption or approval is invented. Approve this truthful wording and,
+if requested by the editor, obtain an actual authorized policy determination. Storage/access
+and Roboflow/Colab visibility fields remain unspecified in the supplied note.
 Private images and consent records do not need to be uploaded to provide this scope statement.
 
 `FINAL_REVISION_REPORT.md` lists every remaining mandatory gate and the later agent-doable
@@ -84,7 +89,9 @@ Exact author-sendable worksheets are in `author-evidence/`: three source-specifi
 permission requests, the short actual doctor source-review note, and the original image
 research ethics-status record. Keep completed originals privately. See
 `CAPSULE_RESULT_COVERAGE.md` before describing the capsule as reproducing every measurement;
-the current fixture/table runner is not an originating-experiment rerun.
+the runner now performs current safety and native booking reruns; explicit model profiles
+perform actual inference/parameter diagnostics. Historical hosted-summary aggregates remain
+archive-only, not a replay of missing paired outputs.
 
 Sign in to the author-owned Code Ocean account. Create the capsule draft and return its stable
 reader-accessible citation URL/version, or coordinate an editor-approved review link if that
@@ -107,8 +114,9 @@ python tools/release/package_softwarex_capsule.py
 
 Upload `dist/Medora-SoftwareX-CodeOcean-<commit>.zip` with `code/` in `/code`, enter
 `metadata/metadata.yml`, choose CPU Python 3.11 and mark `/code/run` as the run file.
-This focused run uses synthetic boundary tests and frozen reports, not live AI credentials,
-medicine data, private images, detector accuracy or freshly measured host-specific latency.
+This run scores current synthetic safety and executes fresh native PostgreSQL booking trials;
+model profiles perform actual inference/parameter checks. Historical tables remain separate.
+It needs no live AI credentials, private images or clinical/detector-accuracy evaluation.
 The approved detector is distributed separately with AGPL/corresponding source; its omission
 from this fixture capsule is a scope choice, not another permission decision.
 

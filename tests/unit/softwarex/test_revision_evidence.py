@@ -41,10 +41,11 @@ def test_generated_tables_have_top_captions_and_flexible_float_placement():
         assert publication_table_layout(rendered) == rendered
 
 
-def test_capsule_includes_extended_frozen_reports_without_model_inference():
+def test_capsule_preserves_archived_tables_and_records_actual_model_profiles():
     runner = (ROOT / "tools/release/run_softwarex_capsule.sh").read_text(encoding="utf-8")
     assert "--privacy-extension" in runner and "--consent-scope" in runner
-    assert "model inference not rerun" in runner
+    assert "run_capsule_models.py" in runner
+    assert "model_execution_coverage" in runner
     assert "--verify-local-model" not in runner
 
 
