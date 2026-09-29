@@ -4,6 +4,8 @@
 The eleven legacy seed columns are retained; attribution columns are appended.
 The full-local profile is a controlled research artifact, NOT a rights clearance.
 The mendeley-public profile contains only the attributed CC BY 4.0 source.
+The licensed-public profile contains Kaggle S4 (MIT declaration) and
+Mendeley S5 (CC BY 4.0); it makes no official-registry or clinical claim.
 """
 from __future__ import annotations
 
@@ -32,7 +34,9 @@ SOURCES = {
            'version': 'local bytes identified by SHA-256; historical download version/date unknown', 'licence': 'uploader-declared CC0; upstream collection permissions unresolved'},
     'S4': {'file': '4_Drug_Pharma_New_Dataset/Drug_Database_5_Data Concatenation.csv',
            'url': 'https://www.kaggle.com/datasets/shuvokumarbasak2030/drug-pharma-new-dataset',
-           'version': 'local bytes identified by SHA-256; official DGDA export version unverified', 'licence': 'uploader-declared MIT; upstream provenance/permissions unresolved'},
+           'version': 'Kaggle dataset version 1; archive CSV SHA-256 matched to local bytes; official DGDA export version unverified',
+           'licence': 'Kaggle publisher-declared MIT; DGDA origin is uploader-reported, not independently authenticated',
+           'attribution': 'Shuvo Kumar Basak, Drug Pharma New Dataset (Kaggle version 1)'},
     'S3': {'file': '3_Medicines_Dataset/medicines.csv',
            'url': 'https://www.kaggle.com/datasets/drowsyng/medicines-dataset',
            'version': 'local bytes identified by SHA-256; historical download version/date unknown',
@@ -148,13 +152,17 @@ def counts(rows):
 
 
 def build(source_root, output, profile, previous=None):
+    profiles = {'full-local':['S5','S1','S2','S4','S3'],
+                'mendeley-public':['S5'], 'licensed-public':['S5','S4']}
+    if profile not in profiles:
+        raise ValueError(f'Unknown profile: {profile}')
     source_root, output = Path(source_root).resolve(), Path(output).resolve()
     if output == source_root or output in source_root.parents or output.is_relative_to(source_root):
         raise ValueError('Output must be outside the raw source tree')
     if output.exists() and any(output.iterdir()):
         raise ValueError('Choose an empty output directory; existing evidence is never overwritten')
     output.mkdir(parents=True, exist_ok=True)
-    selected = ['S5'] if profile == 'mendeley-public' else ['S5','S1','S2','S4','S3']
+    selected = profiles[profile]
     source_manifest, registry, rejected, disposition = {}, {}, [], collections.Counter()
     for sid in selected:
         definition = SOURCES[sid]
@@ -228,7 +236,7 @@ def build(source_root, output, profile, previous=None):
                    duplicate_identity_rows=0,provenance_coverage=len(provenance),
                    indications_emitted=0,clinical_validation=False,regulator_concordance=False,
                    currency='Not established from historical snapshots; absence of an exact current official match is not proof of obsolescence',
-                   human_review='pending; machine flags are not clinical decisions')
+                   human_review='Limited physician source review documented separately; not row-by-row validation. Machine flags are not clinical decisions')
     json_write(output/'quality_report.json',quality)
     changes = dict(version=VERSION,profile=profile,
                    rules=['preserve substance/bracket text and manufacturer suffixes',
@@ -236,7 +244,7 @@ def build(source_root, output, profile, previous=None):
                           'do not collapse distinct strengths, forms or manufacturers',
                           'merge exact normalized identities only; preserve all contributor records',
                           'medicine_type is blank when absent; fill only from an explicit agreeing contributor; quarantine conflicting types',
-                          'prefer S5 then S1 then S2 then S4 for duplicate display values',
+                          'prefer earlier selected sources for duplicate display values: '+', '.join(selected),
                           'quarantine S4 combinations/unparseable generic-strength strings',
                           'quarantine every contradictory brand/manufacturer-to-generic mapping, rather than choose a winner',
                           'omit all inferred/generative/common-use descriptions and S3 Indian indications',
@@ -256,7 +264,10 @@ def build(source_root, output, profile, previous=None):
     json_write(output/'change_report.json',changes)
     manifest = dict(version=VERSION,profile=profile,schema=FIELDS,source_record_number='one-based CSV data record, excluding header; not physical line number',
                     builder_sha256=digest(__file__),sources=source_manifest,counts=quality['counts'],
-                    distribution='CC BY 4.0 with source attribution' if profile=='mendeley-public' else 'controlled local use; source redistribution decisions unresolved',
+                    distribution=('S4 publisher-declared MIT and S5 CC BY 4.0; retain source-specific attribution and notices'
+                                  if profile=='licensed-public' else
+                                  'CC BY 4.0 with source attribution' if profile=='mendeley-public' else
+                                  'controlled local use; source redistribution decisions unresolved'),
                     outputs={name:dict(sha256=digest(output/name),size_bytes=(output/name).stat().st_size) for name in ['Final_Medicine_Dataset.csv','row_provenance.jsonl','quarantine.jsonl','quality_report.json','change_report.json']})
     json_write(output/'build_manifest.json',manifest)
     prepare_review(output, rows, provenance, manifest)
@@ -307,7 +318,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--source-root',required=True,type=Path)
     parser.add_argument('--output',required=True,type=Path)
-    parser.add_argument('--profile',choices=['full-local','mendeley-public'],default='full-local')
+    parser.add_argument('--profile',choices=['full-local','mendeley-public','licensed-public'],default='full-local')
     parser.add_argument('--previous',type=Path)
     args = parser.parse_args()
     manifest = build(args.source_root,args.output,args.profile,args.previous)

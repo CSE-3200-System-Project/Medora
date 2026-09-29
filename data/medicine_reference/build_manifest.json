@@ -1,0 +1,78 @@
+{
+  "builder_sha256": "bac17ac6100f0f69d3cf2be69a0edea01200cb3f8f8964d0a2ee8ed38af65f1f",
+  "counts": {
+    "brand_names": 32461,
+    "brands": 44226,
+    "drugs": 4994,
+    "generic_names": 1988,
+    "rows": 44226,
+    "search_terms": 49220
+  },
+  "distribution": "S4 publisher-declared MIT and S5 CC BY 4.0; retain source-specific attribution and notices",
+  "outputs": {
+    "Final_Medicine_Dataset.csv": {
+      "sha256": "9dcf59f339679f3b0f7256e3cfd76ffc0839601511fbc16255c4c3d54ee9cf66",
+      "size_bytes": 9417517
+    },
+    "change_report.json": {
+      "sha256": "edf18a1daa7364bbee9b3713f7735dfccd5c98ca73c529f478cb60651b574f15",
+      "size_bytes": 1006
+    },
+    "quality_report.json": {
+      "sha256": "005e926662c039eb822b704ae8e0572b6b3d7d667efe035d2bb675b894d2b1e4",
+      "size_bytes": 963
+    },
+    "quarantine.jsonl": {
+      "sha256": "ab43579c756755820229975d6b29837932b17f31e3b7b6a7b4d838111ae0f7fa",
+      "size_bytes": 16577596
+    },
+    "row_provenance.jsonl": {
+      "sha256": "294cf2af4aa8322991509838608b77adb91217d0cfb2e08adc8f2fcab0e7fba2",
+      "size_bytes": 140773179
+    }
+  },
+  "profile": "licensed-public",
+  "schema": [
+    "drug_key",
+    "generic_name",
+    "strength",
+    "dosage_form",
+    "brand_name",
+    "manufacturer",
+    "usage_type",
+    "country_code",
+    "common_uses",
+    "medicine_type",
+    "common_uses_disclaimer",
+    "record_id",
+    "source_refs"
+  ],
+  "source_record_number": "one-based CSV data record, excluding header; not physical line number",
+  "sources": {
+    "S4": {
+      "attribution": "Shuvo Kumar Basak, Drug Pharma New Dataset (Kaggle version 1)",
+      "file": "4_Drug_Pharma_New_Dataset/Drug_Database_5_Data Concatenation.csv",
+      "licence": "Kaggle publisher-declared MIT; DGDA origin is uploader-reported, not independently authenticated",
+      "locally_recorded_on": "2026-09-28",
+      "records": 53584,
+      "retrieval_date": null,
+      "sha256": "81e3257da9e3735fefbb39ee0c12dbb516826e9b6dc4866d0d14e567acbc4613",
+      "size_bytes": 5371449,
+      "url": "https://www.kaggle.com/datasets/shuvokumarbasak2030/drug-pharma-new-dataset",
+      "version": "Kaggle dataset version 1; archive CSV SHA-256 matched to local bytes; official DGDA export version unverified"
+    },
+    "S5": {
+      "attribution": "Md Mahmudur Rahman and Md M KHAN (2024), DOI 10.17632/zhtvkny53n.1",
+      "file": "5_Medicinal_Products_in_Bangladesh/Medicinal Products in Bangladesh A Dataset of Generic and Brand Names, Dosages, and Manufacturers.csv",
+      "licence": "CC BY 4.0",
+      "locally_recorded_on": "2026-09-28",
+      "records": 21361,
+      "retrieval_date": null,
+      "sha256": "293036d5c24268c6526df4ae9ba59e3d80f40380b79bdf40859c83419b52a8fd",
+      "size_bytes": 2177882,
+      "url": "https://data.mendeley.com/datasets/zhtvkny53n/1",
+      "version": "1"
+    }
+  },
+  "version": "medicine-reference-v2"
+}

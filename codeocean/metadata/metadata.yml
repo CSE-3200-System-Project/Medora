@@ -3,10 +3,11 @@ name: Medora SoftwareX revision reproducibility
 research_field: Computer Science
 description: >-
   Reproduces Medora's focused SoftwareX revision checks using deterministic synthetic
-  fixtures and regenerates the published safety and booking summary tables from their
-  frozen machine-readable reports. The capsule does not run hosted providers, rescore
-  development data as held-out evidence, rerun host-specific booking timings, or establish
-  clinical validity. No patient or provider credentials are required.
+  fixtures, fresh isolated PostgreSQL booking trials, and selected S4/S5 medicine
+  reconstruction. It also regenerates historical tables from frozen reports and can
+  check approved detector artifacts. The capsule does not run hosted providers,
+  rescore development data as held-out evidence, claim equivalence between Linux and
+  original host timings, or establish clinical validity. No patient credentials are required.
 authors:
   - name: Sarwad Hasan Siddiqui
     affiliations:

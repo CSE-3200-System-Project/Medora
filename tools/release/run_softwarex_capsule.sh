@@ -5,6 +5,14 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 RESULTS_DIR="${RESULTS_DIR:-/results}"
 cd "$ROOT"
 mkdir -p "$RESULTS_DIR"
+python tools/release/run_capsule_models.py --results "$RESULTS_DIR" --preflight
+if [[ -f CAPSULE_SOURCE_MANIFEST.json ]] && python - <<'PY'
+import json
+raise SystemExit(0 if json.load(open('CAPSULE_SOURCE_MANIFEST.json', encoding='utf-8'))['profiles'].get('medicine') else 1)
+PY
+then
+  python tools/release/run_capsule_medicine.py --results "$RESULTS_DIR"
+fi
 
 export AI_PROVIDER=mock
 export CHORUI_PRIVACY_MODE=strict_local
@@ -16,9 +24,18 @@ export SUPABASE_URL="${SUPABASE_URL:-https://placeholder.supabase.co}"
 export SUPABASE_KEY="${SUPABASE_KEY:-placeholder}"
 export SUPABASE_STORAGE_BUCKET="${SUPABASE_STORAGE_BUCKET:-placeholder}"
 
-python -m pip install --disable-pip-version-check \
-  -r backend/requirements-release.txt \
-  -r tests/requirements-release.txt
+export MEDORA_CAPSULE_DEPENDENCY_MODE="${MEDORA_CAPSULE_DEPENDENCY_MODE:-preinstalled}"
+case "$MEDORA_CAPSULE_DEPENDENCY_MODE" in
+  install)
+    python -m pip install --disable-pip-version-check \
+      -r backend/requirements-release.txt \
+      -r tests/requirements-release.txt
+    ;;
+  preinstalled) ;;
+  *) echo "MEDORA_CAPSULE_DEPENDENCY_MODE must be preinstalled or install" >&2; exit 2 ;;
+esac
+python -m pip check
+python tools/release/run_capsule_models.py --results "$RESULTS_DIR" --check-dependencies
 python -m pip freeze > "$RESULTS_DIR/requirements-resolved.txt"
 
 python -m pytest -c tests/pytest.backend.ini -q \
@@ -75,6 +92,8 @@ if any(value != commit for _, value in commit_candidates[1:]):
     raise SystemExit("capsule source commit marker and MEDORA_CAPSULE_SOURCE_COMMIT disagree")
 if not re.fullmatch(r"[0-9a-f]{40}", commit):
     raise SystemExit(f"capsule source commit is not a full Git SHA-1: {commit!r}")
+input_verification = json.loads((results / "capsule_input_verification.json").read_text(encoding="utf-8"))
+release_metadata = json.loads((root / "docs/softwarex/release_metadata.json").read_text(encoding="utf-8"))
 
 files = (
     "safety_results.json",
@@ -91,16 +110,25 @@ files = (
     "booking-tests.xml",
     "model_execution_coverage.json",
     "requirements-resolved.txt",
+    "capsule_input_verification.json",
 )
 model_coverage = json.loads((results / "model_execution_coverage.json").read_text())
 files = list(files)
+if (results / "current_medicine_rebuild.json").is_file():
+    files.append("current_medicine_rebuild.json")
 for profile, filename in (("phi_inference", "current_privacy_extension_results.json"),
                           ("detector", "current_detector_verification.json")):
     if model_coverage[profile]["status"] == "executed":
         files.append(filename)
+        if profile == "detector":
+            files.append("detector-requirements-resolved.txt")
 manifest = {
     "scope": "SoftwareX revision evidence only",
     "source_commit": commit,
+    "source_tree": input_verification.get("source_tree"),
+    "release_version": release_metadata["version"],
+    "input_verification": input_verification,
+    "dependency_mode": os.environ["MEDORA_CAPSULE_DEPENDENCY_MODE"],
     "ai_provider": "deterministic mock",
     "frozen_safety_report_executed_at": json.loads(
         (results / "safety_results.json").read_text(encoding="utf-8")

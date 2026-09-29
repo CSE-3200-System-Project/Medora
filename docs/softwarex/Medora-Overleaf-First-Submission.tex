@@ -65,14 +65,14 @@
 \begin{abstract}
 Medora is an English/Bengali, consent-aware platform combining patient-held records,
 appointment coordination, and 21 assistive-AI endpoints in an installable progressive web
-application. Patients describe concerns by text or voice to discover doctors; clinicians
-receive structured intake, source-linked histories, speech-to-notes, and reviewable drafts.
-Chorui guides both roles through registered workflows. External processing requires
+application. Patients describe concerns to discover doctors; clinicians receive
+structured intake, source-linked histories, and reviewable drafts.
+Chorui guides both roles. External processing requires
 purpose-specific revocable consent, redaction, and pseudonymization. These controls reduce
-exposure without establishing anonymity. Transactional booking
+exposure without anonymity. Transactional booking
 coordinates concurrent requests and post-commit notifications. The historical Bangladesh
-medicine reference contains 7,389 drugs and 67,001 brands; a revision rebuild adds row-level
-source attribution and change records. A prescription prototype integrates region detection,
+medicine reference contains 7,389 drugs and 67,001 brands; a separately reconstructed
+public reference adds source attribution and change records. A prescription prototype integrates region detection,
 OCR, parsing, and catalog matching. Reproducibility artifacts document privacy, navigation,
 summary, and booking behaviour. Medora supports software research and human-reviewed
 workflows; clinical effectiveness is outside this evaluation.
@@ -132,8 +132,8 @@ bilingual search, appointments, and record views under user control.
 
 First, a shared Bangladesh medicine reference supports lookup, prescribing, histories
 and OCR matching. RxNorm does not cover Bangladesh~\cite{rxnorm}. The revision builder
-consolidates four of five inventoried sources into generic, brand and typo-tolerant
-search tables, preserving source rows and transformations.
+historically consolidated four of five inventoried sources into generic, brand and typo-tolerant
+search tables. The public reconstruction uses two licensed inputs and records their transformations.
 
 
 Second, patients describe conditions by text or voice to obtain specialty-oriented
@@ -252,17 +252,15 @@ call, and outputs return as review-ready drafts.}
 trigram-based typo tolerance. Search, prescribing, histories, and OCR matching use this
 identity layer.
 
-The revision rebuild yields 46,614 rows, 6,153 drug identities, 52,767 search terms, and
-72,969 source-row links. It records file hashes, row numbers, field contributors, and exact
-transformations. Conservative whitespace normalization and duplicate reconciliation
-preserve ingredient and strength text; conflicting identities and unparsed records are
-quarantined. Indication prose is excluded. Independent replay reproduces all output hashes.
-This prospective rebuild documents its own lineage, not the historical CSV's missing links.
-Historical runtime counts remain distinct. Multi-source publication follows source-permission
-documentation; dosage recommendations and interaction checking remain separate extensions.
+The public reconstruction yields 44,226 rows, 4,994 drug identities, 49,220 search terms, and
+45,135 source-row links. It records hashes, source rows, field contributors and changes.
+Whitespace normalization preserves ingredient and strength text; ambiguous/conflicting
+records are quarantined. Indication prose is excluded. Replay matches all output hashes.
+It documents its own lineage, not the historical CSV's missing links.
+Runtime counts differ. It uses licensed S4/S5.
 
 \begin{table}[!htbp]
-\caption{Historical medicine reference as loaded. Canonical keys collapse brand duplicates. The separately attributed revision rebuild has 46,614 rows and 6,153 drug identities; it has not replaced this runtime corpus.}
+\caption{Historical deployed medicine reference. Canonical keys collapse brand duplicates. The separate S4/S5 public reconstruction has 44,226 rows and 4,994 drug identities; the deployed database has not been reseeded.}
 \label{tab:corpus}
 \centering
 \small
@@ -663,17 +661,19 @@ fixtures and aggregate results use CC BY 4.0. The interface figures come from a 
 deployment: the patient record belongs to a consenting author and the clinician entries are
 test accounts.
 
-The revision medicine build inventories five sources, using four for identity fields,
-including Mendeley Data V1 under CC BY 4.0~\cite{bdmeds}. It excludes indication prose
-and preserves row-level attribution and changes. The authors select multi-source public
-distribution with documented reuse terms. A physician reviewed four sources and approximately
+The historical build inventoried five sources. The public identity-only reconstruction uses
+Kaggle S4 version 1 (publisher-declared MIT) and Mendeley Data V1 under CC BY 4.0~\cite{bdmeds};
+S1/S2 contributions and indication prose are excluded. It preserves row-level attribution
+and changes. A physician reviewed four candidate sources and approximately
 100 targeted entries on 29 September 2026: most mappings appeared reasonable; duplicates
 and missing strengths were noted. This supports identity lookup, not prescribing,
 whole-corpus accuracy, national completeness or current DGDA concordance.
 
-The prescription image corpus is not deposited. Authors report public MedicalImage
-Roboflow material and friend/family contributions consented for research, not image
-redistribution. The authors report an author/institution decision permitting derived-weight release.
+The prescription image corpus is not deposited. Authors report public-source material
+and friend/family contributions consented for research, not image redistribution.
+They report processing images in a private Roboflow workspace, with originals otherwise
+stored locally and no image-file upload to Colab or public Google Drive.
+The authors report an author/institution decision permitting derived-weight release.
 Verbal research consent was obtained; no formal institutional ethics review was obtained.
 Images, private exports, and original notebook outputs remain excluded.
 The model card distinguishes author-reported workspace version 2 from directly inspected

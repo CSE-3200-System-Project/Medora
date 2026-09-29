@@ -32,8 +32,11 @@ image redistribution was not permitted. No withdrawal requests were reported.
 The record states **no formal institutional ethics review was obtained** and reports
 supervisor reassurance. No committee approval, formal exemption, waiver, policy reference
 or authorized determination of review requirements is documented. Do not convert that
-reassurance into any of those claims. Storage/access arrangements and actual
-Roboflow/Colab visibility remain unfilled in the supplied record, not established facts.
+reassurance into any of those claims. The authors subsequently report that images were
+uploaded to and processed in a private Roboflow workspace; image files were not uploaded
+to Colab, Google Drive, or a public image repository, and the other originals are stored
+locally. These are author-reported access/storage facts, not an independently audited
+retention or platform-security assessment.
 
 Private images, participant identities and original image-bearing exports/notebooks remain
 excluded. The separately recorded author/institution decision permits derived detector

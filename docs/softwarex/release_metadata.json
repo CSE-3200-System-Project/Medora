@@ -1,28 +1,55 @@
 {
-  "version": "v1.0.2",
-  "release_date": "2026-08-08",
-  "git_commit": "7a7dae6c7fd4924aab6be5f93980e441c0b3aa78",
-  "zenodo_doi": "10.5281/zenodo.21846125",
-  "zenodo_url": "https://zenodo.org/records/21846125",
-  "archive_sha256": "608002bfae65004db01ac45d0512c0e80b6b117e68f4c24dfd7efdeaf6850a73",
+  "version": "v1.0.3",
+  "release_date": null,
+  "git_commit": null,
+  "zenodo_doi": null,
+  "zenodo_url": null,
+  "archive_sha256": null,
   "source_repository": "https://github.com/CSE-3200-System-Project/Medora",
-  "approval": {
-    "authority": "Not applicable",
-    "date": "2026-08-08",
-    "reference": "The prescription image corpus is not deposited in this release, so no image-redistribution approval is cited. See samples/DATA_USE_NOTICE.md and response_to_revision.md C9.",
-    "scope": "Source code and derived evaluation artifacts only; no prescription images are archived"
+  "code_ocean": {
+    "capsule_url": null,
+    "doi": null,
+    "version": null,
+    "run_id": null,
+    "source_commit": null,
+    "manifest_path": null,
+    "manifest_sha256": null
+  },
+  "author_decisions": {
+    "medicine_content_review": {
+      "status": "recorded",
+      "evidence": "docs/softwarex/author-evidence/COMPLETED_REVIEW_SUMMARIES.md",
+      "scope": "Approximately 100 targeted identity checks across four candidate sources; no whole-corpus or current-register validation"
+    },
+    "medicine_corpus_distribution": {
+      "decision": "cleared",
+      "evidence": "docs/softwarex/revisions/PUBLIC_CORPUS_RELEASE_BASIS.md",
+      "profile": "licensed-public",
+      "csv_sha256": "9dcf59f339679f3b0f7256e3cfd76ffc0839601511fbc16255c4c3d54ee9cf66",
+      "scope": "S4 publisher-declared MIT plus S5 CC BY 4.0; not an official DGDA register or clinical validation"
+    },
+    "detector_distribution": {
+      "decision": "cleared",
+      "evidence": "ai_service/models/Yolo26s/AUTHOR_DISTRIBUTION_DECISION.md",
+      "sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+    },
+    "prescription_image_ethics": {
+      "status": "documented",
+      "evidence": "docs/softwarex/author-evidence/COMPLETED_REVIEW_SUMMARIES.md",
+      "scope": "Author-reported research consent and private Roboflow/local image storage; no image redistribution; no formal institutional ethics review obtained"
+    }
   },
   "verification_artifact": "docs/softwarex/generated/verification.json",
-  "pending": [],
+  "distribution_license": "AGPL-3.0-only",
   "zenodo_concept_doi": "10.5281/zenodo.21844459",
   "superseded_release": {
     "version": "v1.0.1",
     "zenodo_doi": "10.5281/zenodo.21844743",
     "zenodo_url": "https://zenodo.org/records/21844743",
     "git_commit": "48692aad6632e03c1c77b4c2fda82fd15c0dc409",
-    "archive_sha256": "174683107fd63255ea9c96fea830a2da88fbb4d50c7558cfb9111f2324b54225",
-    "note": "Superseded by v1.0.2. Its archive predates the licensed navigation review and the retitle."
+    "archive_sha256": "608002bfae65004db01ac45d0512c0e80b6b117e68f4c24dfd7efdeaf6850a73",
+    "note": "Historical immutable v1.0.2 record; new candidate must use its own DOI"
   },
-  "archive_note": "Deposited by the GitHub integration from tag v1.0.2. archive_path is the file downloaded back from Zenodo, so the checksum describes exactly what is published.",
-  "archive_path": "dist/zenodo-v1.0.2-deposited.zip"
+  "archive_note": null,
+  "archive_path": null
 }
