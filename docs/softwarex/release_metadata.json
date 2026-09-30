@@ -43,10 +43,10 @@
   "distribution_license": "AGPL-3.0-only",
   "zenodo_concept_doi": "10.5281/zenodo.21844459",
   "superseded_release": {
-    "version": "v1.0.1",
-    "zenodo_doi": "10.5281/zenodo.21844743",
-    "zenodo_url": "https://zenodo.org/records/21844743",
-    "git_commit": "48692aad6632e03c1c77b4c2fda82fd15c0dc409",
+    "version": "v1.0.2",
+    "zenodo_doi": "10.5281/zenodo.21846125",
+    "zenodo_url": "https://zenodo.org/records/21846125",
+    "git_commit": "7a7dae6c7fd4924aab6be5f93980e441c0b3aa78",
     "archive_sha256": "608002bfae65004db01ac45d0512c0e80b6b117e68f4c24dfd7efdeaf6850a73",
     "note": "Historical immutable v1.0.2 record; new candidate must use its own DOI"
   },
