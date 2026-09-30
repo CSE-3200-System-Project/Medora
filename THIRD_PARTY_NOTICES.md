@@ -1,7 +1,7 @@
 # Third-party notices and combined distribution
 
 Project-authored Medora source files retain the MIT licence grant and copyright notice
-in `LICENSE`. Third-party data and trained models are not covered by that grant.
+in `LICENSE.txt`. Third-party data and trained models are not covered by that grant.
 
 **When Medora is distributed with the bundled Ultralytics YOLO26s detector, the combined
 distribution is under AGPL-3.0, with the complete corresponding application/training/

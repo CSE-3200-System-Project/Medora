@@ -105,7 +105,7 @@ and twelve tables fit the original Elsevier preprint format without shrinking th
 
 ## Release blockers
 
-The final response must be updated with page numbers, the Code Ocean capsule link, final
+The Code Ocean capsule is at https://codeocean.com/capsule/6708964. The final response must be updated with page numbers and the final
 DOI/version, archive checksum, and links to frozen evidence. It cannot close items requiring
 actual source permissions/review-scope records, author approval, the Code Ocean run, and
 a consistent immutable release. The author-supplied weight-release decision and authentic

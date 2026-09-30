@@ -34,6 +34,7 @@ DEFAULT_EXCLUSIONS: tuple[tuple[str, str], ...] = (
     ("docs/softwarex/revisions/", "review correspondence and working audits are not capsule inputs"),
 )
 REQUIRED_PATHS = (
+    "LICENSE.txt",
     "run",
     "tools/release/run_softwarex_capsule.sh",
     "tools/release/run_capsule_booking.sh",
@@ -97,6 +98,12 @@ def environment_postinstall(included: list[tuple[str, bytes, int]], detector: bo
              "  printf 'Types: deb\\nURIs: https://apt.postgresql.org/pub/repos/apt\\nSuites: %s-pgdg\\nComponents: main\\nSigned-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\\n' \"$VERSION_CODENAME\" > /etc/apt/sources.list.d/pgdg.sources",
              "  apt-get update && apt-get install -y --no-install-recommends postgresql-16",
              "fi",
+             "# Ubuntu 24.04 does not provide Python 3.11 venv in its default packages.",
+             ". /etc/os-release",
+             "if [[ \"$ID\" == ubuntu ]]; then",
+             "  apt-get update && apt-get install -y --no-install-recommends software-properties-common",
+             "  add-apt-repository -y ppa:deadsnakes/ppa",
+             "fi",
              "apt-get update && apt-get install -y --no-install-recommends python3.11 python3.11-venv libgl1 libglib2.0-0 libxcb1",
              "python3.11 -m venv /opt/medora-python",
              "/opt/medora-python/bin/python -m pip install --no-cache-dir pip==25.3",
@@ -155,6 +162,11 @@ def main() -> int:
                     print(f"unsafe archive path: {member.name}", file=sys.stderr)
                     return 2
                 relative = str(path.relative_to("code"))
+                if relative == "LICENSE":
+                    # Code Ocean generates /code/LICENSE from its Code license selector.
+                    # Keep the source's MIT notice in LICENSE.txt instead.
+                    excluded_files.append({"path": relative, "reason": "Code Ocean manages /code/LICENSE from capsule metadata; source notice is LICENSE.txt", "bytes": member.size})
+                    continue
                 detector_names = {"Yolo26s-prescription-5.pt", "Yolo26s-prescription-5.onnx", "MODEL_CARD.md",
                                   "AUTHOR_DISTRIBUTION_DECISION.md", "DISTRIBUTION.md", "COPYING.AGPL-3.0",
                                   "training_recipe.sanitized.ipynb"}
@@ -280,6 +292,12 @@ starter image. Preserve platform-required configuration when adapting it. Prepar
 Python requirements and separate CPU detector environment before Reproducible Run, as
 described in `code/docs/softwarex/CODE_OCEAN_CAPSULE.md`. The default run does not install
 dependencies or fetch models and writes its outputs under `/results`.
+
+Code Ocean owns `/code/LICENSE` and rewrites it when the Code license selector changes.
+Do not upload that path or include it in the source hash inventory. The committed Medora
+MIT notice is `/code/LICENSE.txt`; the detector's AGPL notice remains at
+`/code/ai_service/models/Yolo26s/COPYING.AGPL-3.0`. For the combined detector capsule,
+select AGPL-3.0 in Code Ocean's Code license field (Custom License if needed).
 
 Application release candidate: `{release_metadata['version']}`. This is not a minted
 Zenodo DOI or a published Code Ocean version. Bind the real identifiers only after the

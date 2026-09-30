@@ -55,5 +55,7 @@ def test_environment_script_embeds_pins_without_referring_to_code_at_build_time(
     assert "torch==2.10.0+cpu" in script
     assert "/code/" not in script and "/data/" not in script
     assert "postgresql-16" in script
+    assert "ppa:deadsnakes/ppa" in script
+    assert "software-properties-common" in script
     assert "libxcb1" in script
     assert "--no-cache-dir" in script

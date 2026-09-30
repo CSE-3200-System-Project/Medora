@@ -109,11 +109,16 @@ counts toward the monthly allowance.
 3. Create the capsule, then use the platform's current file-import/upload workflow to put
    the bundle's `code/` contents in `/code` and enter `metadata/metadata.yml` in the
    metadata editor. The source commit and omissions are recorded in
-   `/code/CAPSULE_SOURCE_MANIFEST.json`.
+   `/code/CAPSULE_SOURCE_MANIFEST.json`. Code Ocean generates `/code/LICENSE` from the
+   Metadata Editor's Code license selection; do not upload or hash that managed file.
+   `/code/LICENSE.txt` preserves the committed MIT notice for Medora source. For the
+   detector-containing capsule select AGPL-3.0 (use Custom License if the exact AGPL
+   option is absent, rather than ordinary GPL). The detector's own AGPL text is in
+   `/code/ai_service/models/Yolo26s/COPYING.AGPL-3.0`.
 4. Select the **Ubuntu Linux 24.04 CPU starter** and preserve its platform-generated
    Dockerfile and base image. The Code Ocean account may not list a Python 3.11 starter;
-   the bundled `environment/postInstall` installs Ubuntu's Python 3.11 and venv packages
-   alongside PostgreSQL 16. Do not select the Python 3.10.12 starter or replace the
+   the bundled `environment/postInstall` installs Python 3.11 and venv from the
+   Deadsnakes Ubuntu PPA, alongside PostgreSQL 16. Do not select the Python 3.10.12 starter or replace the
    platform `FROM` with the supplied PostgreSQL-image recipe. Paste the bundled
    `environment/postInstall` into the Environment Editor's post-install script. It installs
    the exact main Python dependency pins and (for a selected detector profile) a
@@ -124,13 +129,13 @@ counts toward the monthly allowance.
    `/code/backend/requirements-release.txt`. Set these environment variables for the run:
 
    ```text
-   PATH=/opt/medora-python/bin:/usr/lib/postgresql/16/bin:<keep-existing-PATH>
+   PATH=/opt/medora-python/bin:/usr/lib/postgresql/16/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
    MEDORA_CAPSULE_DEPENDENCY_MODE=preinstalled
    MEDORA_CAPSULE_DETECTOR_PYTHON=/opt/medora-detector/bin/python  # detector profile only
    ```
 
-   Configure PATH in the Environment Editor without literally storing the
-   `<keep-existing-PATH>` placeholder: prepend both paths to the image's actual PATH.
+   Configure PATH in the Environment Editor with all the system paths shown above;
+   replacing PATH with only the two added directories hides `bash` and `apt-get`.
    `run` checks Python 3.11, every pinned main dependency, `pip check`, and the
    detector environment's pins before computation. Do not configure hosted-provider,
    patient, or production database credentials. Mark `/code/run` as the run file.

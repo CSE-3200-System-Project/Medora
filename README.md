@@ -13,7 +13,7 @@
 <p align="center">
   <a href="https://medorahealth.vercel.app"><img src="https://img.shields.io/badge/demo-medorahealth.vercel.app-0B6EDE" alt="Live demo"></a>
   <a href="https://doi.org/10.5281/zenodo.21846125"><img src="https://img.shields.io/badge/archived_release-v1.0.2-17365D" alt="Archived release v1.0.2"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/code_license-MIT-2E8B57" alt="MIT license"></a>
+  <a href="LICENSE.txt"><img src="https://img.shields.io/badge/code_license-MIT-2E8B57" alt="MIT license"></a>
   <a href="docs/BCOLBD/Whitepaper/medora_bcolbd_whitepaper.pdf"><img src="https://img.shields.io/badge/whitepaper-Medora_2.0-7251B5" alt="Medora 2.0 whitepaper"></a>
 </p>
 
@@ -322,7 +322,7 @@ See [data governance](docs/DATA_GOVERNANCE.md), the
 
 ## Citation and licensing
 
-Code is licensed under the [MIT License](LICENSE). Authored annotations,
+Code is licensed under the [MIT License](LICENSE.txt). Authored annotations,
 synthetic fixtures, and generated results use CC BY 4.0. Identifiable prescription
 images are excluded from both blanket licenses; see
 [`samples/DATA_USE_NOTICE.md`](samples/DATA_USE_NOTICE.md).

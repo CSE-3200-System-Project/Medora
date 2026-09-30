@@ -1,6 +1,6 @@
 # Data licensing
 
-Code in this repository is [MIT-licensed](LICENSE). Data is not — data licensing here is
+Code in this repository is [MIT-licensed](LICENSE.txt). Data is not — data licensing here is
 split by what the data is, and each of the two data licence files below applies to a
 different subset:
 

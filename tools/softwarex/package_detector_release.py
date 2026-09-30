@@ -15,7 +15,7 @@ ROOT=Path(__file__).resolve().parents[2]
 MODEL='ai_service/models/Yolo26s/'
 INCLUDE=('backend/','frontend/','ai_service/','tools/','codeocean/')
 SUFFIXES={'.py','.ts','.tsx','.js','.jsx','.cjs','.mjs','.css','.scss','.html','.sh','.json','.yaml','.yml','.toml','.ini','.txt','.sql','.mako','.md','.lock'}
-ROOT_FILES={'LICENSE','THIRD_PARTY_NOTICES.md','README.md','CITATION.cff','codemeta.json','docker-compose.yml','docker-compose.screenshots.yml','pyproject.toml','pytest.ini','pytest.backend.ini','pytest.ai.ini','run'}
+ROOT_FILES={'LICENSE.txt','THIRD_PARTY_NOTICES.md','README.md','CITATION.cff','codemeta.json','docker-compose.yml','docker-compose.screenshots.yml','pyproject.toml','pytest.ini','pytest.backend.ini','pytest.ai.ini','run'}
 
 
 def allowed(path):
