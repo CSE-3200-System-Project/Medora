@@ -21,10 +21,12 @@ MedicalImage, *Prescription Dataset*, Roboflow Universe, CC BY 4.0,
 https://universe.roboflow.com/medicalimage-z4t5b/prescription-oeiss . See the model card
 for the boundary between author-reported lineage and directly inspected artifacts.
 
-Medicine records have separate source-specific terms. The author's selected v2
-multi-source candidate is prepared locally, pending documented source permissions.
-See `data/medicine_reference/DATA_LICENSE.md` and `SOURCE_PERMISSION_RECORD.json`.
-No blanket CC BY/MIT licence is asserted over the multi-source corpus.
+Medicine records have separate source-specific terms. The distributed
+`Final_Medicine_Dataset.csv` is the 44,226-row licensed-public reconstruction from
+Kaggle S4 (publisher-declared MIT) and Mendeley Data S5 (CC BY 4.0) only; S1/S2/S3
+contributions are excluded. Their notices and changes are in
+`data/medicine_reference/PUBLIC_SOURCE_NOTICES.md`; see also
+`data/medicine_reference/DATA_LICENSE.md` and `SOURCE_PERMISSION_RECORD.json`.
 
 ## Other runtime dependencies and services
 

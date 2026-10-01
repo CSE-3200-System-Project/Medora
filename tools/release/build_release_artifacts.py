@@ -104,15 +104,17 @@ def render_booking(report: dict) -> str:
         r"\begin{tabular}{@{}rrlrrrr@{}}", r"\toprule",
         r"Attempts & Trials & Stage & n & p50 (ms) & p95 (ms) & p99 (ms) \\", r"\midrule",
     ]
-    for item in report["results"]:
+    for row_index, item in enumerate(report["results"]):
         tx = item["transaction_latency_ms"]
         delivery = item["notification_propagation_latency_ms"]
         lines.append(
             f"{item['concurrency']} & {item['passed_repetitions']} / {item['repetitions']} & "
             f"Request--commit & {tx['n']} & {tx['p50']:.1f} & {tx['p95']:.1f} & {tx['p99']:.1f} \\\\"
         )
+        lines.append(r"\midrule")
         lines.append(f" & & Outbox & {delivery['n']} & {delivery['p50']:.1f} & {delivery['p95']:.1f} & {delivery['p99']:.1f} \\\\")
-        lines.append(r"\addlinespace")
+        if row_index < len(report["results"]) - 1:
+            lines.append(r"\midrule")
     lines.extend([
         r"\bottomrule", r"\end{tabular}",
         r"\caption{Thirty fresh-slot trials per concurrency, excluding one warm-up. All correctness checks passed. Request-through-commit and outbox latency are separate; nearest-rank quantiles describe this topology. Raw observations and trial-cluster bootstrap intervals accompany the report.}",
@@ -132,7 +134,9 @@ def render_safety_summary(report: dict) -> str:
         r"\begin{tabularx}{\linewidth}{@{}L{0.23\linewidth}rYL{0.18\linewidth}@{}}", r"\toprule",
         r"Suite & Cases & Reported measurement & Scope \\", r"\midrule",
         f"Bilingual privacy & {pii['cases']} & recall {percent(pii['recall'])}\\% (95\\% CI {recall_interval}); TP={pii['true_positives']}, FP={pii['false_positives']}, FN={pii['false_negatives']} & synthetic \\\\",
+        r"\midrule",
         f"Symptom navigation & {nav['cases']} & emergency sensitivity {emergency_detected}/{emergency_cases} (95\\% CI {emergency_interval}); FP={nav['emergency_false_positives']} & clinician-reviewed \\\\",
+        r"\midrule",
         f"Source-grounded summaries & {summary['cases']} & {summary['passed']}/{summary['cases']} fixture assertions & deterministic mock \\\\",
         r"\bottomrule", r"\end{tabularx}",
         r"\caption{Fixture measurements. Privacy counts are span-level; intervals are two-sided "
@@ -168,11 +172,13 @@ def render_navigation(report: dict) -> str:
         r"Measure & n & N & Estimate (95\% Wilson CI) \\",
         r"\midrule",
     ]
-    for label, successes, trials in metrics:
+    for row_index, (label, successes, trials) in enumerate(metrics):
         lower, upper = wilson_95(successes, trials)
         estimate = f"{100 * successes / trials:.1f}\\%" if trials else "--"
         interval = f"{100 * lower:.1f}--{100 * upper:.1f}\\%" if lower is not None and upper is not None else "--"
         matrix_lines.append(f"{label} & {successes} & {trials} & {estimate} ({interval}) " + r"\\")
+        if row_index < len(metrics) - 1:
+            matrix_lines.append(r"\midrule")
     matrix_lines.extend([
         r"\bottomrule", r"\end{tabular}",
         r"\caption{Deterministic emergency screen on 30 clinician-reviewed fixtures: "
@@ -197,11 +203,14 @@ def render_navigation(report: dict) -> str:
         r"Expected class & Cases & Recorded & Mock & Documented \\",
         r"\midrule",
     ]
-    for label, bucket in sorted(rows.items()):
+    ordered_rows = sorted(rows.items())
+    for row_index, (label, bucket) in enumerate(ordered_rows):
         lines.append(
             f"{tex_escape(label)} & {bucket['cases']} & {bucket['recorded']} & "
             f"{bucket['mock']} & {bucket['documented']}" + r" \\"
         )
+        if row_index < len(ordered_rows) - 1:
+            lines.append(r"\midrule")
     lines.extend([
         r"\bottomrule",
         r"\end{tabular}",
@@ -229,12 +238,15 @@ def render_safety(report: dict) -> str:
         r"Identifier group & Cases & Precision & Recall & False redaction & Documented limitations \\",
         r"\midrule",
     ]
-    for group, metrics in pii["by_report_group"].items():
+    ordered_groups = list(pii["by_report_group"].items())
+    for row_index, (group, metrics) in enumerate(ordered_groups):
         lines.append(
             f"{tex_escape(group)} & {metrics['cases']} & {percent(metrics['precision'])} & "
             f"{percent(metrics['recall'])} & {percent(metrics['false_redaction_rate'])} & "
             f"{metrics['documented_limitations']}" + r" \\"
         )
+        if row_index < len(ordered_groups) - 1:
+            lines.append(r"\midrule")
     lines.extend([
         r"\midrule",
         f"All production-path cases & {pii['cases']} & {percent(pii['precision'])} & "

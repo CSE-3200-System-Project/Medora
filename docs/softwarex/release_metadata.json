@@ -1,5 +1,5 @@
 {
-  "version": "v1.0.3",
+  "version": "v1.0.4",
   "release_date": null,
   "git_commit": null,
   "zenodo_doi": null,
@@ -43,12 +43,14 @@
   "distribution_license": "AGPL-3.0-only",
   "zenodo_concept_doi": "10.5281/zenodo.21844459",
   "superseded_release": {
-    "version": "v1.0.2",
-    "zenodo_doi": "10.5281/zenodo.21846125",
-    "zenodo_url": "https://zenodo.org/records/21846125",
-    "git_commit": "7a7dae6c7fd4924aab6be5f93980e441c0b3aa78",
-    "archive_sha256": "608002bfae65004db01ac45d0512c0e80b6b117e68f4c24dfd7efdeaf6850a73",
-    "note": "Historical immutable v1.0.2 record; new candidate must use its own DOI"
+    "version": "v1.0.3",
+    "zenodo_doi": "10.5281/zenodo.23091669",
+    "zenodo_url": "https://zenodo.org/records/23091669",
+    "git_commit": "e5172d5562b6e56693fda4d4149eafa0e2f193d9",
+    "archive_sha256": "4fdf8be57f697c5dece0007c60ba11c4671b02c7f33f4b759eb363eec100a512",
+    "code_ocean_doi": "10.24433/CO.6708964.v1",
+    "code_ocean_run_id": "799661",
+    "note": "Immutable v1.0.3 record; superseded because its medicine/licence notice files predated the S4/S5 clearance. Code, data and results are unchanged in v1.0.4."
   },
   "archive_note": null,
   "archive_path": null

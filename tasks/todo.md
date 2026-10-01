@@ -1,3 +1,28 @@
+# Task — Medora v1.0.4: licence/notice consistency release + new Code Ocean capsule version
+
+Why: the v1.0.3 archive (commit e5172d5, Zenodo 10.5281/zenodo.23091669, capsule
+10.24433/CO.6708964.v1) ships the cleared 44,226-row S4/S5 medicine CSV, but four notice
+files still describe the old 71,795-row snapshot as "redistribution unresolved", and the
+README/DATA_LICENSE call the whole distribution MIT although it includes the AGPL-3.0
+YOLO26s detector. Author chose: v1.0.4 + new capsule version.
+
+- [x] Fix licence/notice text: README, DATA_LICENSE.md, THIRD_PARTY_NOTICES.md,
+      data/medicine_reference/{DATA_LICENSE,README}.md, samples/MEDICINE_CORPUS_NOTICE.md
+- [x] Paper C4 + ethics/detector licence sentences: AGPL-3.0-only release, MIT notices kept
+- [ ] Bump version identity to v1.0.4: CITATION.cff, codemeta.json, release_metadata.json
+      (v1.0.3 moved to superseded_release), paper macros (DOI pending until Zenodo)
+- [ ] Commit tracked changes only (no untracked MuRIL weights / reviewer files) and push main
+- [ ] Build capsule bundle from a clean git worktree at the new commit
+- [ ] Author: Code Ocean "Edit Original Capsule" -> replace /code, Reproducible Run
+- [ ] Verify downloaded run: source commit/tree and every result-manifest hash
+- [ ] Author: GitHub release v1.0.4 at that commit -> Zenodo auto-archive
+- [ ] Verify Zenodo ZIP against commit; record DOI/SHA-256
+- [ ] Author: publish capsule new version (Code Ocean review, ~5 business days)
+- [ ] Bind final identifiers into paper, Overleaf ZIP, reviewer response; rebuild + visual check
+
+
+---
+
 # Task — Implement the BCOLBD whitepaper's specified/planned commitments in code
 
 **Source of truth:** `docs/BCOLBD/Whitepaper/medora_bcolbd_whitepaper.tex`, plus

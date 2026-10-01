@@ -1,13 +1,19 @@
 # Medicine corpus licence and redistribution scope
 
-The root MIT licence applies to project-authored code, not automatically to the third-party
-medicine data in this directory. The source-platform licence labels and upstream website
-terms do not establish a complete permission chain for the consolidated CSV.
+The project code licence does not automatically cover the third-party medicine data in
+this directory.
 
-**Redistribution clearance is unresolved. Do not include the medicine corpus in a public
-capsule or release until the authors/institution document applicable permissions or remove
-the affected source-derived material.** This is a provenance and rights-review hold, not a
-legal opinion.
+**Current distributed CSV (cleared 28-29 September 2026).** `Final_Medicine_Dataset.csv`
+is the `licensed-public` reconstruction: 44,226 rows from S4 (publisher-declared MIT) and
+S5 (CC BY 4.0) only, SHA-256
+`9dcf59f339679f3b0f7256e3cfd76ffc0839601511fbc16255c4c3d54ee9cf66`. No S1, S2 or S3
+record, price or indication prose is included. The S4/S5 notices, attribution and changes
+are in [PUBLIC_SOURCE_NOTICES.md](PUBLIC_SOURCE_NOTICES.md); the decision is in
+`SOURCE_PERMISSION_RECORD.json`. This is a publisher-licence basis, not a legal opinion
+or official DGDA authentication.
+
+The sections below record the rights review of all five inventoried sources. Their holds
+apply to any future build that reintroduces S1, S2 or S3, not to the distributed CSV.
 
 ## Source declarations and current evidence
 
@@ -43,8 +49,9 @@ The separately prepared Mendeley-only alternative preserves its CC BY 4.0 attrib
 and records changes; it is not the author's selected replacement. Do not label the full
 multi-source candidate CC BY 4.0 solely because source 5 uses that licence.
 
-`Final_Medicine_Dataset.csv` combines contributions from all five sources. Do not assume
-that labelling the aggregate CC BY 4.0 clears each contribution: source-level terms and
+The earlier historical snapshot combined contributions from all five sources and is no
+longer the distributed CSV. For any such multi-source build, do not assume that labelling
+the aggregate CC BY 4.0 clears each contribution: source-level terms and
 rights may impose separate conditions, and a platform licence label is not proof of
 permission from a scraped-site operator. Resolve upstream permission before redistribution.
 

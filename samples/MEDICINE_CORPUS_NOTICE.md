@@ -1,5 +1,10 @@
 # Medicine reference corpus — provenance and licence notice
 
+> **Current distributed CSV.** `data/medicine_reference/Final_Medicine_Dataset.csv` is now
+> the 44,226-row S4/S5 `licensed-public` reconstruction (publisher MIT and CC BY 4.0; see
+> `data/medicine_reference/PUBLIC_SOURCE_NOTICES.md`). The counts below describe the
+> historical snapshot it replaced, which is no longer distributed.
+
 The counts and source roles below describe the **historical application snapshot**, not a
 verified reproduction of its undocumented original transformation. The prospective v2
 multi-source builder now emits 46,614 identity-only rows with per-row/field provenance,

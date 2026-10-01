@@ -68,8 +68,8 @@ def render_privacy(report: dict) -> str:
             ci = interval_text(metrics["true_positives"], metrics["expected_identifier_spans"])
             lines.append(f"{label} & {system_label} & {100*metrics['precision']:.1f} & "
                          f"{100*metrics['recall']:.1f} ({ci}) & {100*metrics['false_redaction_rate']:.1f} " + r"\\")
-        if name == "pii_safety_134":
-            lines.append(r"\addlinespace")
+            lines.append(r"\midrule")
+    lines.pop()
     lines += [r"\bottomrule\end{tabular}", r"\end{table}"]
     return "\n".join(lines) + "\n"
 
@@ -85,6 +85,8 @@ def render_consent(report: dict) -> str:
     ]
     for point in report["points"]:
         lines.append(f"{point['config']} & {100*point['utility']:.1f} & {point['exposure_per_1000']:.1f} " + r"\\")
+        lines.append(r"\midrule")
+    lines.pop()
     lines += [r"\bottomrule\end{tabular}", r"\end{table}"]
     return "\n".join(lines) + "\n"
 

@@ -1,6 +1,8 @@
 # Data licensing
 
-Code in this repository is [MIT-licensed](LICENSE.txt). Data is not — data licensing here is
+Medora as distributed is AGPL-3.0-only because it includes the YOLO26s detector;
+project-authored code also keeps its [MIT notice](LICENSE.txt) (see
+[`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md)). Data is not — data licensing here is
 split by what the data is, and each of the two data licence files below applies to a
 different subset:
 

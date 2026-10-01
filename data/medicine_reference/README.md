@@ -1,11 +1,15 @@
 # Medicine reference: historical snapshot and revision rebuild
 
-The root `Final_Medicine_Dataset.csv` is the historical application snapshot, not
-the output of the revision builder. It has 71,795 rows, SHA-256
-`476a0acfc76c4722a164c309937331c9e2bbb7f3a88babedc1628343ad59b0cc`, and projects to
-7,389 drugs, 67,001 brands and 74,390 search terms. Its original source-to-row lineage
-cannot be recovered by rerunning the incompatible old script. It is preserved for
-historical evidence; it has not been silently replaced or reseeded into Supabase.
+The root `Final_Medicine_Dataset.csv` is the `licensed-public` revision rebuild:
+44,226 rows from S4 and S5 only, SHA-256
+`9dcf59f339679f3b0f7256e3cfd76ffc0839601511fbc16255c4c3d54ee9cf66`, with
+`source_refs` on every row. Licence notices are in
+[PUBLIC_SOURCE_NOTICES.md](PUBLIC_SOURCE_NOTICES.md).
+
+The historical application snapshot it replaced (71,795 rows, SHA-256
+`476a0acfc76c4722a164c309937331c9e2bbb7f3a88babedc1628343ad59b0cc`; 7,389 drugs,
+67,001 brands, 74,390 search terms) combined all five sources and is no longer
+distributed. The deployed Supabase tables were seeded from it and have not been reseeded.
 
 ## Verified prospective rebuild
 
@@ -15,14 +19,16 @@ Every row has JSONL provenance identifying the hashed input file, one-based CSV 
 original field value and transformation. Exact normalized identities are deduplicated
 without stripping substance names or guessing manufacturer equivalence.
 
-Two profiles are prepared:
+Three profiles are prepared:
 
 - `full-local`: Bangladesh identity fields from S5, S1, S2 and conservatively parsed S4.
   S3 is inventoried but excluded: Indian indications do not validate Bangladesh products.
   Multi-source redistribution rights are not cleared by the build.
 - `mendeley-public`: Rahman and Khan's Mendeley Data V1, DOI
   [10.17632/zhtvkny53n.1](https://data.mendeley.com/datasets/zhtvkny53n/1), CC BY 4.0,
-  with attribution and explicit changes. This is the prepared public-data alternative.
+  with attribution and explicit changes.
+- `licensed-public`: S5 plus S4 (publisher-declared MIT). This is the selected,
+  distributed profile.
 
 Neither profile emits prices, invented common uses, or unvalidated clinical indications.
 Missing medicine type is not inferred. Contradictory brand/manufacturer mappings,

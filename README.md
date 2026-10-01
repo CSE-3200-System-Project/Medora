@@ -12,8 +12,8 @@
 
 <p align="center">
   <a href="https://medorahealth.vercel.app"><img src="https://img.shields.io/badge/demo-medorahealth.vercel.app-0B6EDE" alt="Live demo"></a>
-  <a href="https://doi.org/10.5281/zenodo.21846125"><img src="https://img.shields.io/badge/archived_release-v1.0.2-17365D" alt="Archived release v1.0.2"></a>
-  <a href="LICENSE.txt"><img src="https://img.shields.io/badge/code_license-MIT-2E8B57" alt="MIT license"></a>
+  <a href="https://doi.org/10.5281/zenodo.23091669"><img src="https://img.shields.io/badge/archived_release-v1.0.3-17365D" alt="Archived release v1.0.3"></a>
+  <a href="THIRD_PARTY_NOTICES.md"><img src="https://img.shields.io/badge/license-AGPL--3.0--only-2E8B57" alt="AGPL-3.0-only license"></a>
   <a href="docs/BCOLBD/Whitepaper/medora_bcolbd_whitepaper.pdf"><img src="https://img.shields.io/badge/whitepaper-Medora_2.0-7251B5" alt="Medora 2.0 whitepaper"></a>
 </p>
 
@@ -322,11 +322,20 @@ See [data governance](docs/DATA_GOVERNANCE.md), the
 
 ## Citation and licensing
 
-Code is licensed under the [MIT License](LICENSE.txt). Authored annotations,
-synthetic fixtures, and generated results use CC BY 4.0. Identifiable prescription
-images are excluded from both blanket licenses; see
+Medora is distributed under **AGPL-3.0-only**, because the repository and every
+archived release include the Ultralytics YOLO26s detector weights. Project-authored
+source files also keep their original [MIT notice](LICENSE.txt); see
+[`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
+
+The medicine reference CSV is the 44,226-row S4/S5 reconstruction; it keeps the
+publishers' MIT (S4) and CC BY 4.0 (S5) notices in
+[`data/medicine_reference/PUBLIC_SOURCE_NOTICES.md`](data/medicine_reference/PUBLIC_SOURCE_NOTICES.md).
+Authored annotations, synthetic fixtures, and generated results use CC BY 4.0.
+Identifiable prescription images are not distributed; see
 [`samples/DATA_USE_NOTICE.md`](samples/DATA_USE_NOTICE.md).
 
 Citation metadata is provided in [`CITATION.cff`](CITATION.cff). For work that
-depends on the submitted SoftwareX artifact, cite the immutable `v1.0.2` archive
+depends on the SoftwareX artifact, cite the immutable `v1.0.3` archive
+([10.5281/zenodo.23091669](https://doi.org/10.5281/zenodo.23091669)) and the
+Code Ocean capsule ([10.24433/CO.6708964.v1](https://doi.org/10.24433/CO.6708964.v1))
 rather than the moving `main` branch.

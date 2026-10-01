@@ -7,7 +7,9 @@
 Suite & Cases & Reported measurement & Scope \\
 \midrule
 Bilingual privacy & 134 & recall 75.5\% (95\% CI 66.0--83.1\%); TP=71, FP=4, FN=23 & synthetic \\
+\midrule
 Symptom navigation & 30 & emergency sensitivity 7/7 (95\% CI 64.6--100.0\%); FP=5 & clinician-reviewed \\
+\midrule
 Source-grounded summaries & 12 & 12/12 fixture assertions & deterministic mock \\
 \bottomrule
 \end{tabularx}
@@ -22,8 +24,11 @@ Source-grounded summaries & 12 & 12/12 fixture assertions & deterministic mock \
 Measure & n & N & Estimate (95\% Wilson CI) \\
 \midrule
 Sensitivity & 7 & 7 & 100.0\% (64.6--100.0\%) \\
+\midrule
 Specificity & 18 & 23 & 78.3\% (58.1--90.3\%) \\
+\midrule
 Positive predictive value & 7 & 12 & 58.3\% (32.0--80.7\%) \\
+\midrule
 Negative predictive value & 18 & 18 & 100.0\% (82.4--100.0\%) \\
 \bottomrule
 \end{tabular}
@@ -38,8 +43,11 @@ Negative predictive value & 18 & 18 & 100.0\% (82.4--100.0\%) \\
 Expected class & Cases & Recorded & Mock & Documented \\
 \midrule
 emergency & 7 & 7 & 7 & 0 \\
+\midrule
 manual\_browse & 2 & 0 & 0 & 2 \\
+\midrule
 specialty\_candidates & 16 & 10 & 6 & 5 \\
+\midrule
 uncertain & 5 & 2 & 2 & 0 \\
 \bottomrule
 \end{tabular}
@@ -54,20 +62,35 @@ uncertain & 5 & 2 & 2 & 0 \\
 Identifier group & Cases & Precision & Recall & False redaction & Documented limitations \\
 \midrule
 account\_id & 7 & 100.0\% & 71.4\% & 0.0\% & 3 \\
+\midrule
 address & 7 & 100.0\% & 71.4\% & 0.0\% & 2 \\
+\midrule
 benign & 21 & -- & -- & 14.3\% & 3 \\
+\midrule
 clinician & 4 & 100.0\% & 20.0\% & 0.0\% & 3 \\
+\midrule
 consent & 10 & -- & -- & -- & 0 \\
+\midrule
 date & 6 & 100.0\% & 50.0\% & 0.0\% & 3 \\
+\midrule
 email & 9 & 100.0\% & 55.6\% & 0.0\% & 4 \\
+\midrule
 injection & 10 & 100.0\% & 100.0\% & 0.0\% & 0 \\
+\midrule
 limitation & 10 & -- & -- & 0.0\% & 10 \\
+\midrule
 mixed\_script & 4 & 100.0\% & 100.0\% & 0.0\% & 0 \\
+\midrule
 name\_labeled & 11 & 90.9\% & 90.9\% & 9.1\% & 3 \\
+\midrule
 name\_unlabeled & 5 & -- & 0.0\% & 0.0\% & 5 \\
+\midrule
 national\_id & 9 & 100.0\% & 100.0\% & 0.0\% & 5 \\
+\midrule
 opaque\_id & 4 & 100.0\% & 100.0\% & 0.0\% & 0 \\
+\midrule
 passport & 6 & 100.0\% & 66.7\% & 0.0\% & 2 \\
+\midrule
 phone & 11 & 100.0\% & 100.0\% & 0.0\% & 0 \\
 \midrule
 All production-path cases & 134 & 94.7\% & 75.5\% & 3.2\% & 43 \\
