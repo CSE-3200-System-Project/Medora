@@ -13,7 +13,7 @@
 <p align="center">
   <a href="https://medorahealth.vercel.app"><img src="https://img.shields.io/badge/demo-medorahealth.vercel.app-0B6EDE" alt="Live demo"></a>
   <a href="https://doi.org/10.5281/zenodo.23091669"><img src="https://img.shields.io/badge/archived_release-v1.0.3-17365D" alt="Archived release v1.0.3"></a>
-  <a href="THIRD_PARTY_NOTICES.md"><img src="https://img.shields.io/badge/license-AGPL--3.0--only-2E8B57" alt="AGPL-3.0-only license"></a>
+  <a href="LICENSE.txt"><img src="https://img.shields.io/badge/license-AGPL--3.0--only-2E8B57" alt="AGPL-3.0-only license"></a>
   <a href="docs/BCOLBD/Whitepaper/medora_bcolbd_whitepaper.pdf"><img src="https://img.shields.io/badge/whitepaper-Medora_2.0-7251B5" alt="Medora 2.0 whitepaper"></a>
 </p>
 
@@ -322,10 +322,10 @@ See [data governance](docs/DATA_GOVERNANCE.md), the
 
 ## Citation and licensing
 
-Medora is distributed under **AGPL-3.0-only**, because the repository and every
-archived release include the Ultralytics YOLO26s detector weights. Project-authored
-source files also keep their original [MIT notice](LICENSE.txt); see
-[`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
+Copyright (C) 2025-2026 Sarwad Hasan Siddiqui, Adiba Tahsin, Kazi Saeed Alam and
+Sk. Imran Hossain. Medora is licensed under the
+[GNU Affero General Public License v3.0 only](LICENSE.txt) (AGPL-3.0-only). Third-party
+components keep their own licences; see [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
 
 The medicine reference CSV is the 44,226-row S4/S5 reconstruction; it keeps the
 publishers' MIT (S4) and CC BY 4.0 (S5) notices in

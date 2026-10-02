@@ -180,7 +180,8 @@ decision rather than a correctness one, so it is yours to make.
 Everything else the Guide asks for is present: `README.md` with install, run, and test
 instructions, `CITATION.cff`, `CHANGELOG.md`, `codemeta.json`, `CONTRIBUTING.md`,
 `CODE_OF_CONDUCT.md`, `SECURITY.md`, `THIRD_PARTY_NOTICES.md`, `DATA_LICENSE.md`, and the
-MIT licence, which is on the Open Source Initiative list.
+licence in `LICENSE.txt` (MIT through v1.0.2, AGPL-3.0-only from v1.0.3), both on the
+Open Source Initiative list.
 
 ## Reference verification
 

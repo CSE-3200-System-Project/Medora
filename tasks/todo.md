@@ -9,10 +9,10 @@ YOLO26s detector. Author chose: v1.0.4 + new capsule version.
 - [x] Fix licence/notice text: README, DATA_LICENSE.md, THIRD_PARTY_NOTICES.md,
       data/medicine_reference/{DATA_LICENSE,README}.md, samples/MEDICINE_CORPUS_NOTICE.md
 - [x] Paper C4 + ethics/detector licence sentences: AGPL-3.0-only release, MIT notices kept
-- [ ] Bump version identity to v1.0.4: CITATION.cff, codemeta.json, release_metadata.json
+- [x] Bump version identity to v1.0.4: CITATION.cff, codemeta.json, release_metadata.json
       (v1.0.3 moved to superseded_release), paper macros (DOI pending until Zenodo)
-- [ ] Commit tracked changes only (no untracked MuRIL weights / reviewer files) and push main
-- [ ] Build capsule bundle from a clean git worktree at the new commit
+- [x] Commit tracked changes only (no untracked MuRIL weights / reviewer files) and push main
+- [x] Build capsule bundle from a clean git worktree at the new commit
 - [ ] Author: Code Ocean "Edit Original Capsule" -> replace /code, Reproducible Run
 - [ ] Verify downloaded run: source commit/tree and every result-manifest hash
 - [ ] Author: GitHub release v1.0.4 at that commit -> Zenodo auto-archive

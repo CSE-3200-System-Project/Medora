@@ -22,8 +22,6 @@ project's exact forked version/export hash and the private export's historical h
 not supplied. Source-project counts and workspace-generated image counts must not be
 treated as the same dataset snapshot.
 
-Weights are **not MIT-licensed** merely because the surrounding repository contains an
-MIT licence. The supplied artifacts themselves identify Ultralytics AGPL-3.0. The prepared
-distribution uses AGPL-3.0 with corresponding application/training/inference source and
-preserves the original permissive notices. See DISTRIBUTION.md. No change is made to the
-licence grants on existing independently authored MIT code.
+The supplied artifacts identify Ultralytics AGPL-3.0. Medora is therefore distributed
+under AGPL-3.0-only with corresponding application/training/inference source; see
+DISTRIBUTION.md and the root `LICENSE.txt`.

@@ -13,7 +13,7 @@ authors:
     given-names: Kazi Saeed
     email: saeed.alam@cse.kuet.ac.bd
 repository-code: "https://github.com/CSE-3200-System-Project/Medora"
-license: MIT
+license: CC-BY-4.0
 keywords:
   - clinical AI safety
   - de-identification

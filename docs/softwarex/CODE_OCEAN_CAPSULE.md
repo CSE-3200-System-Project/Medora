@@ -111,10 +111,9 @@ counts toward the monthly allowance.
    metadata editor. The source commit and omissions are recorded in
    `/code/CAPSULE_SOURCE_MANIFEST.json`. Code Ocean generates `/code/LICENSE` from the
    Metadata Editor's Code license selection; do not upload or hash that managed file.
-   `/code/LICENSE.txt` preserves the committed MIT notice for Medora source. For the
-   detector-containing capsule select AGPL-3.0 (use Custom License if the exact AGPL
-   option is absent, rather than ordinary GPL). The detector's own AGPL text is in
-   `/code/ai_service/models/Yolo26s/COPYING.AGPL-3.0`.
+   `/code/LICENSE.txt` is the committed AGPL-3.0-only licence. Select AGPL-3.0 in the
+   Code license field (use Custom License with the AGPL text if the exact option is
+   absent, rather than ordinary GPL).
 4. Select the **Ubuntu Linux 24.04 CPU starter** and preserve its platform-generated
    Dockerfile and base image. The Code Ocean account may not list a Python 3.11 starter;
    the bundled `environment/postInstall` installs Python 3.11 and venv from the

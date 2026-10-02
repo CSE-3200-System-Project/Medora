@@ -164,7 +164,7 @@ def main() -> int:
                 relative = str(path.relative_to("code"))
                 if relative == "LICENSE":
                     # Code Ocean generates /code/LICENSE from its Code license selector.
-                    # Keep the source's MIT notice in LICENSE.txt instead.
+                    # The committed AGPL-3.0-only licence stays in LICENSE.txt.
                     excluded_files.append({"path": relative, "reason": "Code Ocean manages /code/LICENSE from capsule metadata; source notice is LICENSE.txt", "bytes": member.size})
                     continue
                 detector_names = {"Yolo26s-prescription-5.pt", "Yolo26s-prescription-5.onnx", "MODEL_CARD.md",
@@ -276,7 +276,7 @@ def main() -> int:
         "additional_data_assets": data_assets,
         "profiles": {"detector": bool(args.detector_source_dir), "phi_inference": bool(args.phi_bundle),
                      "medicine": bool(args.medicine_build)},
-        "combined_distribution_licence": "AGPL-3.0 with original MIT/third-party notices" if args.detector_source_dir else "retain individual source licences",
+        "combined_distribution_licence": "AGPL-3.0-only; third-party notices retained",
     }
     readme = f"""# Medora SoftwareX Code Ocean upload bundle
 
@@ -294,10 +294,9 @@ described in `code/docs/softwarex/CODE_OCEAN_CAPSULE.md`. The default run does n
 dependencies or fetch models and writes its outputs under `/results`.
 
 Code Ocean owns `/code/LICENSE` and rewrites it when the Code license selector changes.
-Do not upload that path or include it in the source hash inventory. The committed Medora
-MIT notice is `/code/LICENSE.txt`; the detector's AGPL notice remains at
-`/code/ai_service/models/Yolo26s/COPYING.AGPL-3.0`. For the combined detector capsule,
-select AGPL-3.0 in Code Ocean's Code license field (Custom License if needed).
+Do not upload that path or include it in the source hash inventory. The committed
+AGPL-3.0-only licence is `/code/LICENSE.txt`. Select AGPL-3.0 in Code Ocean's Code
+license field (Custom License with the AGPL text if needed).
 
 Application release candidate: `{release_metadata['version']}`. This is not a minted
 Zenodo DOI or a published Code Ocean version. Bind the real identifiers only after the

@@ -51,11 +51,11 @@ def main():
             contents['upstream-source/'+p.name]=p.read_bytes()
     manifest=dict(status='working-source preparation, not final release',source_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
                   working_tree_changes_present=bool(subprocess.check_output(['git','status','--porcelain'],cwd=ROOT,text=True).strip()),
-                  combined_distribution_licence='AGPL-3.0; retain all existing MIT and third-party notices',
+                  combined_distribution_licence='AGPL-3.0-only; retain third-party notices',
                   excluded=['private prescription images/exports','original image-bearing notebook','medicine records','credentials','review correspondence'],
                   files={p:dict(sha256=hashlib.sha256(b).hexdigest(),size_bytes=len(b)) for p,b in contents.items()})
     contents['ARTIFACT_MANIFEST.json']=(json.dumps(manifest,indent=2)+'\n').encode()
-    contents['README_DISTRIBUTION.md']=b'# Prepared Medora + detector distribution\n\nCombined distribution: AGPL-3.0. Preserve existing MIT/third-party notices. Full corresponding working application source, sanitized training recipe and verification reports are included. No private prescription images or raw notebook outputs. This is not the final tagged release: bind one frozen source commit and repeat the final release checks before publication. See ai_service/models/Yolo26s/MODEL_CARD.md and DISTRIBUTION.md.\n'
+    contents['README_DISTRIBUTION.md']=b'# Prepared Medora + detector distribution\n\nDistribution licence: AGPL-3.0-only. Preserve third-party notices. Full corresponding working application source, sanitized training recipe and verification reports are included. No private prescription images or raw notebook outputs. This is not the final tagged release: bind one frozen source commit and repeat the final release checks before publication. See ai_service/models/Yolo26s/MODEL_CARD.md and DISTRIBUTION.md.\n'
     args.output.parent.mkdir(parents=True,exist_ok=True)
     with ZipFile(args.output,'x',compression=ZIP_DEFLATED,compresslevel=6) as archive:
         for p,b in contents.items():archive.writestr(p,b)

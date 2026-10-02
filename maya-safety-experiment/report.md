@@ -30,7 +30,7 @@ Not a model.<br>This object is an evaluation/governance protocol applied to a pa
 
 #### Licence and terms
 
-The Medora repository declares the MIT License, which covers the local evaluation software subject to its notice and disclaimer.<br>HealthBench and openai/simple-evals declare MIT; preserve the license and pin the cited revisions.<br>A software or dataset licence does not establish permission to process patient data, clinician-identifying metadata, provider outputs, or self-harm material.<br>Dataset terms, API provider terms, institutional research rules, and Bangladesh privacy/medical obligations must be reviewed separately before external processing or publication.<br>No legal or regulatory clearance is inferred from this protocol.
+The Medora repository declares AGPL-3.0-only, which covers the local evaluation software subject to its notice and disclaimer.<br>HealthBench and openai/simple-evals declare MIT; preserve the license and pin the cited revisions.<br>A software or dataset licence does not establish permission to process patient data, clinician-identifying metadata, provider outputs, or self-harm material.<br>Dataset terms, API provider terms, institutional research rules, and Bangladesh privacy/medical obligations must be reviewed separately before external processing or publication.<br>No legal or regulatory clearance is inferred from this protocol.
 
 #### Deployment eligibility
 

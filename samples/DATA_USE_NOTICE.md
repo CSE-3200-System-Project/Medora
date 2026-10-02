@@ -74,7 +74,7 @@ redistribution and must be recorded and honoured separately.
 
 ## Scope of permitted use
 
-These images are **not** covered by Medora's MIT software license or by the open license
+These images are **not** covered by Medora's AGPL-3.0-only software licence or by the open license
 applied to release-reviewed annotations and aggregate benchmark results. Raw OCR or
 provider responses, prelabels, crops, bounding boxes, and other derived artifacts that
 reproduce or reveal identifiers are governed by this same notice.

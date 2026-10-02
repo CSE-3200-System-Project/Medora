@@ -1,6 +1,6 @@
 # Akkhor — Bangladesh medicine identity
 
-**Release `akkhor-2026.08` · data CC BY 4.0 · code MIT · no authentication**
+**Release `akkhor-2026.08` · data CC BY 4.0 · code AGPL-3.0-only · no authentication**
 
 RxNorm does not cover Bangladesh. Akkhor is the canonical drug-identity layer Medora built
 to work around that, published as a versioned HTTP API so anyone else can use it: a

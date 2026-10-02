@@ -1,13 +1,11 @@
 # Distribution scope and source
 
-The provided detector weights carry Ultralytics' AGPL-3.0 notice. The optional combined
-Medora+detector distribution must be conveyed under AGPL-3.0, with the full corresponding
-application, training/inference scripts and configuration source, and existing copyright
-and MIT notices preserved. Merely attaching an AGPL notice to weights in a blanket-MIT
-archive is not the prepared route. No enterprise licence is asserted.
+The provided detector weights carry Ultralytics' AGPL-3.0 notice. Medora and the
+detector are therefore distributed together under AGPL-3.0-only (root `LICENSE.txt`), with
+the full corresponding application, training/inference scripts and configuration source.
+No enterprise licence is asserted.
 
-The source-only Medora modules retain their existing notices. `COPYING.AGPL-3.0` contains
-the full model/combined-distribution licence. The final combined archive needs one exact
+`COPYING.AGPL-3.0` is a copy of the same licence text kept beside the weights. The final combined archive needs one exact
 source commit, the weight files and their hashes, this model card, the sanitized recipe,
 verification scripts/reports, dependency pins and an explicit combined-distribution
 licence notice. `tools/softwarex/package_detector_release.py` prepares a local working

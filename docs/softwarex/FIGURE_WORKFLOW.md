@@ -56,4 +56,4 @@ directories with their licence and provenance. No upstream scripts, demo figures
 assets are added to Medora's application, capsule or public release by this installation.
 If code or assets are later adapted for redistribution, retain the required attribution,
 identify modifications and resolve applicable licensing before inclusion; do not label
-copied material as project-authored MIT code.
+copied material as project-authored code.

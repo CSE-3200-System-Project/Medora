@@ -20,7 +20,7 @@ from pydantic import BaseModel, Field
 #: Bumped when the loaded corpus changes, not when this file changes. Consumers pin it.
 AKKHOR_RELEASE = "akkhor-2026.08"
 AKKHOR_DATA_LICENCE = "CC BY 4.0"
-AKKHOR_CODE_LICENCE = "MIT"
+AKKHOR_CODE_LICENCE = "AGPL-3.0-only"
 
 
 class AkkhorBrand(BaseModel):

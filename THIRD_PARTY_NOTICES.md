@@ -1,15 +1,13 @@
 # Third-party notices and combined distribution
 
-Project-authored Medora source files retain the MIT licence grant and copyright notice
-in `LICENSE.txt`. Third-party data and trained models are not covered by that grant.
+Medora, including the bundled Ultralytics YOLO26s detector, is licensed under
+**AGPL-3.0-only** (full text in `LICENSE.txt`), with the complete corresponding
+application/training/inference source and configuration available. Releases v1.0.0 to
+v1.0.2 were published under MIT; from v1.0.3 the whole distribution is AGPL-3.0-only.
+Third-party data, models and dependencies keep their own licences and notices, listed below.
 
-**When Medora is distributed with the bundled Ultralytics YOLO26s detector, the combined
-distribution is under AGPL-3.0, with the complete corresponding application/training/
-inference source and configuration available.** Preserve all existing MIT and other
-copyright/permission notices; the aggregate licence does not erase those original grants.
-Do not describe the detector-containing archive as blanket MIT.
-
-The full AGPL text is `ai_service/models/Yolo26s/COPYING.AGPL-3.0`. That directory also
+A copy of the AGPL text also sits beside the weights in
+`ai_service/models/Yolo26s/COPYING.AGPL-3.0`. That directory also
 contains the author/institution release decision, model card and output-free training
 recipe. Pinned upstream versions are Ultralytics 8.4.21 (checkpoint/training metadata)
 and 8.4.19 (ONNX export metadata). The prepared local distribution includes both upstream
@@ -46,4 +44,4 @@ upstream notices and consult the exact package/model/provider terms.
 | Vapi | External live audio | Vapi service terms |
 
 Prescription-image restrictions also remain in `samples/DATA_USE_NOTICE.md`; neither the
-MIT grant nor an annotation-data licence permits identifiable-image distribution.
+software licence nor an annotation-data licence permits identifiable-image distribution.
