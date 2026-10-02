@@ -318,6 +318,16 @@ def main() -> int:
                 "ReleaseDOI": metadata["zenodo_doi"],
                 "ReleaseDate": metadata["release_date"],
             }
+            capsule = metadata.get("code_ocean") or {}
+            commit = str(metadata.get("git_commit") or "pending-commit")
+            macros.update({
+                "ReleaseCommit": commit,
+                "ReleaseCommitShort": commit[:12],
+                "ReleaseCapsuleURL": str(capsule.get("capsule_url") or "https://codeocean.com/capsule/7570240"),
+                "ReleaseCapsuleDOI": str(capsule.get("doi") or "pending-capsule-doi"),
+                "ReleaseCapsuleVersion": str(capsule.get("version") or "pending"),
+                "ReleaseCapsuleRun": str(capsule.get("run_id") or "pending"),
+            })
             (GENERATED / "release_metadata.tex").write_text("".join(f"\\newcommand{{\\{name}}}{{{tex_escape(value)}}}\n" for name, value in macros.items()), encoding="utf-8")
     elif not args.pre_archive:
         raise SystemExit(f"missing required source: {args.metadata}")

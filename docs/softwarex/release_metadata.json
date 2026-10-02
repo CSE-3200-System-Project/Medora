@@ -1,9 +1,9 @@
 {
-  "version": "v1.0.4",
-  "release_date": null,
+  "version": "v1.0.5",
+  "release_date": "2026-10-03",
   "git_commit": null,
-  "zenodo_doi": null,
-  "zenodo_url": null,
+  "zenodo_doi": "10.5281/zenodo.23108532",
+  "zenodo_url": "https://zenodo.org/records/23108532",
   "archive_sha256": null,
   "source_repository": "https://github.com/CSE-3200-System-Project/Medora",
   "code_ocean": {
@@ -43,15 +43,16 @@
   "distribution_license": "AGPL-3.0-only",
   "zenodo_concept_doi": "10.5281/zenodo.21844459",
   "superseded_release": {
-    "version": "v1.0.3",
-    "zenodo_doi": "10.5281/zenodo.23091669",
-    "zenodo_url": "https://zenodo.org/records/23091669",
-    "git_commit": "e5172d5562b6e56693fda4d4149eafa0e2f193d9",
-    "archive_sha256": "4fdf8be57f697c5dece0007c60ba11c4671b02c7f33f4b759eb363eec100a512",
-    "code_ocean_doi": "10.24433/CO.6708964.v1",
-    "code_ocean_run_id": "799661",
-    "note": "Immutable v1.0.3 record; superseded because its medicine/licence notice files predated the S4/S5 clearance. Code, data and results are unchanged in v1.0.4."
+    "version": "v1.0.4",
+    "zenodo_doi": "10.5281/zenodo.23105782",
+    "zenodo_url": "https://zenodo.org/records/23105782",
+    "git_commit": "662c0b40f24f7b4ab3b7f89959d1c23743a8c833",
+    "archive_sha256": "3c3add6fa1027782db9b0c98b6f6dd327963deda1ec4cf452c52dae2201714da",
+    "code_ocean_doi": "10.24433/CO.6708964.v2",
+    "code_ocean_run_id": "953279",
+    "note": "Immutable v1.0.4 GitHub/Zenodo archive and matching Code Ocean v2 run; superseded because the auto-imported archive retained stale internal release metadata and historical receipts."
   },
-  "archive_note": null,
-  "archive_path": null
+  "archive_note": "archive_path is the file downloaded back from the published Zenodo record; SHA-256 and the public Zenodo MD5 were verified by record_zenodo_archive.py.",
+  "archive_path": null,
+  "zenodo_file_md5": null
 }

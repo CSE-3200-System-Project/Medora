@@ -1,8 +1,8 @@
 cff-version: 1.2.0
-message: "If you use Medora, please cite the v1.0.4 release and the SoftwareX article."
+message: "If you use Medora, please cite the v1.0.5 release and the SoftwareX article."
 title: "Medora: A Consent-Aware Bilingual Platform for Healthcare Management and Consultation with Assistive AI"
 type: software
-version: 1.0.4
+version: 1.0.5
 authors:
   - family-names: Siddiqui
     given-names: Sarwad Hasan

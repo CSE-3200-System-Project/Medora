@@ -7,7 +7,7 @@ from zipfile import ZIP_DEFLATED, ZipFile
 
 from tools.release.check_softwarex_release import check_archive_contents
 from tools.release import build_zenodo_deposit as deposit_builder
-from tools.release.build_zenodo_deposit import archive_prefix
+from tools.release.build_zenodo_deposit import archive_prefix, release_tex
 import pytest
 
 
@@ -45,6 +45,12 @@ def _write_archive(path: Path, *, version: str, commit: str, doi: str) -> dict[s
             f"\\newcommand{{\\ReleaseVersion}}{{{version}}}\n"
             f"\\newcommand{{\\ReleaseDOI}}{{{doi}}}\n"
             "\\newcommand{\\ReleaseDate}{2026-09-23}\n"
+            f"\\newcommand{{\\ReleaseCommit}}{{{commit}}}\n"
+            f"\\newcommand{{\\ReleaseCommitShort}}{{{commit[:12]}}}\n"
+            "\\newcommand{\\ReleaseCapsuleURL}{https://codeocean.com/capsule/abc123}\n"
+            "\\newcommand{\\ReleaseCapsuleDOI}{10.24433/CO.example.v1}\n"
+            "\\newcommand{\\ReleaseCapsuleVersion}{v1}\n"
+            "\\newcommand{\\ReleaseCapsuleRun}{12345}\n"
         ),
         "CITATION.cff": f"cff-version: 1.2.0\nversion: {version.removeprefix('v')}\n",
         "codemeta.json": {"version": version.removeprefix("v")},
@@ -82,6 +88,9 @@ def test_release_archive_identity_matches_tag_and_generated_metadata(tmp_path: P
         "release_date": "2026-09-23",
         "code_ocean": {
             "capsule_url": "https://codeocean.com/capsule/abc123",
+            "doi": "10.24433/CO.example.v1",
+            "version": "v1",
+            "run_id": "12345",
             "source_commit": commit,
         },
     }
@@ -92,6 +101,23 @@ def test_release_archive_identity_matches_tag_and_generated_metadata(tmp_path: P
     check_archive_contents(archive, metadata, commit, errors)
 
     assert errors == []
+
+
+def test_release_tex_binds_source_and_capsule_receipt() -> None:
+    commit = "a" * 40
+    metadata = {
+        "code_ocean": {
+            "capsule_url": "https://codeocean.com/capsule/abc123",
+            "doi": "10.24433/CO.example.v1",
+            "version": "v1",
+            "run_id": "12345",
+            "source_commit": commit,
+        }
+    }
+    rendered = release_tex("v1.0.5", "10.5281/zenodo.123456", "2026-10-03", metadata, commit).decode()
+    assert f"\\newcommand{{\\ReleaseCommit}}{{{commit}}}" in rendered
+    assert "\\newcommand{\\ReleaseCommitShort}{aaaaaaaaaaaa}" in rendered
+    assert "\\newcommand{\\ReleaseCapsuleDOI}{10.24433/CO.example.v1}" in rendered
 
 
 def test_v1_0_2_style_archive_with_previous_identity_is_rejected(tmp_path: Path) -> None:
@@ -118,6 +144,33 @@ def test_v1_0_2_style_archive_with_previous_identity_is_rejected(tmp_path: Path)
     assert any("archive internal zenodo_doi" in error for error in errors)
     assert any("archive generated TeX macro ReleaseVersion" in error for error in errors)
     assert any("archive verification receipt" in error for error in errors)
+
+
+def test_nested_component_citation_does_not_shadow_root_citation(tmp_path: Path) -> None:
+    commit = "a" * 40
+    version = "v1.0.3"
+    doi = "10.5281/zenodo.123456"
+    archive = tmp_path / "nested-citation.zip"
+    _write_archive(archive, version=version, commit=commit, doi=doi)
+    with ZipFile(archive, "a", compression=ZIP_DEFLATED) as output:
+        output.writestr(f"medora-{version}/benchmark/lokkhon/CITATION.cff", "version: 0.1\n")
+
+    metadata = {
+        "version": version,
+        "git_commit": commit,
+        "zenodo_doi": doi,
+        "release_date": "2026-09-23",
+        "code_ocean": {
+            "capsule_url": "https://codeocean.com/capsule/abc123",
+            "doi": "10.24433/CO.example.v1",
+            "version": "v1",
+            "run_id": "12345",
+            "source_commit": commit,
+        },
+    }
+    errors: list[str] = []
+    check_archive_contents(archive, metadata, commit, errors)
+    assert errors == []
 
 
 def test_archive_finalizer_binds_detached_receipts_and_embedded_hashes(
@@ -179,6 +232,9 @@ def test_archive_finalizer_binds_detached_receipts_and_embedded_hashes(
         "zenodo_url": "https://zenodo.org/records/123456",
         "code_ocean": {
             "capsule_url": "https://codeocean.com/capsule/abc123",
+            "doi": "10.24433/CO.example.v1",
+            "version": "v1",
+            "run_id": "12345",
             "source_commit": commit,
             "manifest_path": capsule_rel.as_posix(),
             "manifest_sha256": hashlib.sha256(capsule_bytes).hexdigest(),
@@ -196,6 +252,9 @@ def test_archive_finalizer_binds_detached_receipts_and_embedded_hashes(
         assert archived_metadata["git_commit"] == commit
         assert archived_metadata["zenodo_doi"] == doi
         assert "archive_sha256" not in archived_metadata
+        archived_tex = result.read(prefix + "docs/softwarex/generated/release_metadata.tex").decode()
+        assert f"\\newcommand{{\\ReleaseCommit}}{{{commit}}}" in archived_tex
+        assert "\\newcommand{\\ReleaseCapsuleDOI}{10.24433/CO.example.v1}" in archived_tex
         evidence = json.loads(result.read(prefix + "docs/softwarex/generated/evidence_manifest.json"))
         for relative, receipt in evidence["artifacts"].items():
             data = result.read(prefix + relative)

@@ -10,13 +10,13 @@ def test_overleaf_package_contains_every_live_dependency_and_no_private_assets(t
     archive = build_package(ROOT, tmp_path)
     with ZipFile(archive) as bundle:
         names = set(bundle.namelist())
-        assert "main.tex" in names and "generated/extended_results.tex" in names
+        assert "medora_softwarex.tex" in names and "generated/extended_results.tex" in names
         assert "figures-src/consent_flow.tex" in names
         assert "figures-src/chorui_architecture.pdf" in names
         assert len([n for n in names if n.endswith(".png")]) == 8
         assert not any(n.endswith((".onnx", ".pt", ".csv", ".ipynb")) for n in names)
         assert not any("submission-history" in n or "imagesui" in n or ".env" in n for n in names)
-        assert "bibliography is inside main.tex" in bundle.read("README_UPLOAD.txt").decode()
+        assert "bibliography is inside medora_softwarex.tex" in bundle.read("README_UPLOAD.txt").decode()
     before = archive.read_bytes()
     assert build_package(ROOT, tmp_path).read_bytes() == before
 

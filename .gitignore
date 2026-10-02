@@ -54,6 +54,9 @@ docs/softwarex/generated/*
 !docs/softwarex/generated/*.json
 !docs/softwarex/generated/*.tex
 !docs/softwarex/generated/*.md
+!docs/softwarex/generated/code_ocean/
+docs/softwarex/generated/code_ocean/*
+!docs/softwarex/generated/code_ocean/reproduction_manifest_*.json
 
 # Human annotation workspaces can contain reviewer identity and drafts.
 tools/ocr_annotation/workspace/

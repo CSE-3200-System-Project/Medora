@@ -12,7 +12,7 @@
 
 <p align="center">
   <a href="https://medorahealth.vercel.app"><img src="https://img.shields.io/badge/demo-medorahealth.vercel.app-0B6EDE" alt="Live demo"></a>
-  <a href="https://doi.org/10.5281/zenodo.23091669"><img src="https://img.shields.io/badge/archived_release-v1.0.3-17365D" alt="Archived release v1.0.3"></a>
+  <a href="https://doi.org/10.5281/zenodo.21844459"><img src="https://img.shields.io/badge/archived_release-Zenodo-17365D" alt="Zenodo release versions"></a>
   <a href="LICENSE.txt"><img src="https://img.shields.io/badge/license-AGPL--3.0--only-2E8B57" alt="AGPL-3.0-only license"></a>
   <a href="docs/BCOLBD/Whitepaper/medora_bcolbd_whitepaper.pdf"><img src="https://img.shields.io/badge/whitepaper-Medora_2.0-7251B5" alt="Medora 2.0 whitepaper"></a>
 </p>
@@ -335,7 +335,7 @@ Identifiable prescription images are not distributed; see
 [`samples/DATA_USE_NOTICE.md`](samples/DATA_USE_NOTICE.md).
 
 Citation metadata is provided in [`CITATION.cff`](CITATION.cff). For work that
-depends on the SoftwareX artifact, cite the immutable `v1.0.3` archive
-([10.5281/zenodo.23091669](https://doi.org/10.5281/zenodo.23091669)) and the
-Code Ocean capsule ([10.24433/CO.6708964.v1](https://doi.org/10.24433/CO.6708964.v1))
-rather than the moving `main` branch.
+depends on the SoftwareX artifact, cite the **specific** archived software version
+and matching Code Ocean capsule version named in the paper, not the moving `main`
+branch. The [Zenodo version list](https://doi.org/10.5281/zenodo.21844459) is a
+discovery link; use a version DOI in the actual citation.

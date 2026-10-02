@@ -107,9 +107,12 @@ the paper; changing the paper after the capsule run would require a new candidat
 
 After committing the candidate, run the Code Ocean capsule against that exact commit and
 record its detached manifest/run receipt. Run all nine required release checks on the same
-commit, create its GitHub tag/release, build the Zenodo archive with
-`python tools/release/build_zenodo_deposit.py`, and upload that exact archive to the reserved
-Zenodo version DOI. Download the published file, run
+commit, create its Git tag, build the finalized ZIP with
+`python tools/release/build_zenodo_deposit.py`, and upload **that exact ZIP** to a manually
+reserved Zenodo new-version draft. Do not use GitHub auto-import for this version: it
+archives the raw tag snapshot without the post-commit receipts and caused the v1.0.4
+internal mismatch. Publish the matching GitHub release only with that repository's
+Zenodo auto-import disabled, or it may create a second record. Download the published file, run
 `python tools/release/record_zenodo_archive.py <downloaded-zip>`, and finish with
 `python tools/release/check_softwarex_release.py`. The gate compares the public records,
 tagged source, internal archive metadata, generated paper metadata, capsule run, and hashes.

@@ -21,8 +21,8 @@ def sha256(data: bytes) -> str:
 
 def collect_files(source: Path) -> dict[str, bytes]:
     """Resolve TeX dependencies; fail instead of silently omitting optional tables."""
-    files = {"main.tex": (source / MAIN).read_bytes()}
-    pending = ["main.tex"]
+    files = {MAIN: (source / MAIN).read_bytes()}
+    pending = [MAIN]
     while pending:
         current = pending.pop()
         text = files[current].decode("utf-8")
@@ -54,23 +54,39 @@ def collect_files(source: Path) -> dict[str, bytes]:
 
 def build_package(root: Path, output_dir: Path) -> Path:
     source = root / SOURCE
+    metadata = json.loads((source / "release_metadata.json").read_text(encoding="utf-8"))
+    capsule = metadata.get("code_ocean") or {}
+    if capsule.get("doi") and capsule.get("capsule_url"):
+        capsule_status = (
+            f"Code Ocean capsule DOI: {capsule['doi']}\n"
+            f"Code Ocean capsule URL: {capsule['capsule_url']}\n"
+            f"Verified run: {capsule.get('run_id') or 'recorded in the capsule'}\n"
+        )
+    else:
+        capsule_status = (
+            f"Code Ocean run {capsule.get('run_id') or 'pending'} completed against source commit "
+            f"{capsule.get('source_commit') or 'pending'}, but capsule publication and its public DOI are pending.\n"
+        )
     canonical = (source / MAIN).read_text(encoding="utf-8")
     if canonical != (source / "Medora-Overleaf-First-Submission.tex").read_text(encoding="utf-8"):
         raise ValueError("The two working manuscript sources differ; resolve before packaging")
     files = collect_files(source)
     files["README_UPLOAD.txt"] = (
         "MEDORA SOFTWAREX OVERLEAF UPLOAD\n\n"
-        "Overleaf: New Project > Upload Project > select this ZIP.\n"
-        "Main document: main.tex. Compiler: pdfLaTeX. Select the newest available TeX Live.\n"
-        "Keep the generated/, figures-src/ and figures-ui/ directory structure unchanged.\n"
-        "The bibliography is inside main.tex; no separate .bib file is required.\n"
+        "OVERLEAF EXISTING-PROJECT UPDATE\n\n"
+        "Extract this ZIP, then upload its files into the existing Overleaf project,\n"
+        "preserving the generated/, figures-src/ and figures-ui/ folder structure.\n"
+        "Allow these package files to replace files with the same paths. Do not delete\n"
+        "other project files. The main document remains medora_softwarex.tex.\n"
+        "Compiler: pdfLaTeX. Select the newest available TeX Live.\n"
+        f"The bibliography is inside {MAIN}; no separate .bib file is required.\n"
         "Uses standard elsarticle and LaTeX packages; no shell escape or custom font install.\n"
         "Chorui is included as PDF; its editable TikZ sources are also supplied.\n\n"
-        "This is the current SoftwareX revision draft, not the final deposited paper.\n"
-        "It describes candidate release v1.0.4 and Code Ocean run 799661. The Code Ocean\n"
-        "capsule is still under verification; its DOI is provisional. Zenodo DOI and\n"
-        "publication date remain pending. Replace release metadata only after the\n"
-        "corresponding public records are issued, then rebuild this ZIP.\n"
+        f"This SoftwareX manuscript describes archived release {metadata['version']} "
+        f"(Zenodo DOI {metadata.get('zenodo_doi') or 'pending'}; "
+        f"publication date {metadata.get('release_date') or 'pending'}).\n"
+        + capsule_status
+        + "The GitHub, Zenodo and Code Ocean release identifiers are recorded in the manuscript.\n"
         "Rebuild this ZIP after final manuscript, figure, table or identifier changes.\n"
         "TeX distribution/class versions may change pagination: check final response pages.\n\n"
         "This ZIP contains no model weights, medicine corpus, private prescription images,\n"
@@ -79,7 +95,7 @@ def build_package(root: Path, output_dir: Path) -> Path:
     inventory = {name: {"sha256": sha256(data), "bytes": len(data)} for name, data in sorted(files.items())}
     manifest = {
         "scope": "Current SoftwareX revision manuscript compilation, not application reproduction",
-        "main_document": "main.tex",
+        "main_document": MAIN,
         "original_source": f"{SOURCE.as_posix()}/{MAIN}",
         "files": inventory,
     }
@@ -148,13 +164,13 @@ def main() -> None:
             bundle.extractall(checkout)
         for _ in range(2):
             subprocess.run(
-                ["pdflatex", "-no-shell-escape", "-interaction=nonstopmode", "-halt-on-error", "main.tex"],
+                ["pdflatex", "-no-shell-escape", "-interaction=nonstopmode", "-halt-on-error", MAIN],
                 cwd=checkout, stdout=subprocess.DEVNULL, check=True,
             )
-        log = (checkout / "main.log").read_text(encoding="utf-8", errors="replace")
+        log = (checkout / (Path(MAIN).stem + ".log")).read_text(encoding="utf-8", errors="replace")
         if "Overfull" in log or "There were undefined" in log:
             raise ValueError(f"Extracted project has layout/reference warnings: {checkout / 'main.log'}")
-        print(f"Extracted ZIP compiled twice successfully: {checkout / 'main.pdf'}")
+        print(f"Extracted ZIP compiled twice successfully: {checkout / (Path(MAIN).stem + '.pdf')}")
 
 
 if __name__ == "__main__":

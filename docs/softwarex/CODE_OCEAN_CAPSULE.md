@@ -168,11 +168,12 @@ counts toward the monthly allowance.
    Omit `--doi` if Code Ocean has not minted one. This stores the manifest hash and run
    identity in the detached release receipt; it does not alter the candidate source commit.
 
-The planned application release is **v1.0.3**; this is not an assigned Zenodo version
-DOI, Code Ocean capsule version, or public URL. The manuscript C3 field uses the
-reader-accessible capsule URL. A capsule DOI is minted only after capsule publication;
-coordinate the URL/DOI choice before freezing the paper. If changing the paper later
-changes the source commit, package and run again from that final commit.
+The published v1.0.4 evidence is Code Ocean capsule v2, run 953279, bound to source
+commit `662c0b40f24f7b4ab3b7f89959d1c23743a8c833`. It does not verify a future
+v1.0.5 commit. For a new exact-commit release claim, package the final committed source,
+run it again, and record the new version/run receipt before finalizing the release ZIP.
+The manuscript must cite the actual reader-accessible capsule version. A capsule DOI
+is minted only after capsule publication; do not invent or pre-label a future version.
 
 ## Expected run outputs
 

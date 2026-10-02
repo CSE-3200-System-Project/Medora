@@ -144,13 +144,18 @@ def fetch_json(url: str, label: str, errors: list[str]) -> dict:
 
 
 def archive_member(archive: zipfile.ZipFile, relative_path: str, errors: list[str]) -> bytes | None:
-    suffix = "/" + relative_path.replace("\\", "/")
-    matches = [name for name in archive.namelist() if name.endswith(suffix)]
-    if len(matches) != 1:
-        fail(errors, f"archive must contain exactly one {relative_path}")
+    members = [name for name in archive.namelist() if not name.endswith("/")]
+    roots = {name.split("/", 1)[0] for name in members}
+    if len(roots) != 1 or any("/" not in name for name in members):
+        fail(errors, "archive must have exactly one versioned root directory")
+        return None
+    root = next(iter(roots))
+    target = root + "/" + relative_path.replace("\\", "/")
+    if target not in members:
+        fail(errors, f"archive must contain {relative_path} at its root")
         return None
     try:
-        return archive.read(matches[0])
+        return archive.read(target)
     except (OSError, KeyError, zipfile.BadZipFile) as exc:
         fail(errors, f"archive member {relative_path} is unreadable: {exc}")
         return None
@@ -192,13 +197,20 @@ def check_archive_contents(archive_path: Path, metadata: dict, release_commit: s
                     "ReleaseVersion": str(metadata.get("version", "")),
                     "ReleaseDOI": str(metadata.get("zenodo_doi", "")),
                     "ReleaseDate": str(metadata.get("release_date", "")),
+                    "ReleaseCommit": release_commit,
+                    "ReleaseCommitShort": release_commit[:12],
                 }
+                if current_capsule:
+                    expected_macros.update({
+                        "ReleaseCapsuleURL": str(current_capsule.get("capsule_url") or ""),
+                        "ReleaseCapsuleDOI": str(current_capsule.get("doi") or ""),
+                        "ReleaseCapsuleVersion": str(current_capsule.get("version") or ""),
+                        "ReleaseCapsuleRun": str(current_capsule.get("run_id") or ""),
+                    })
                 for macro, value in expected_macros.items():
                     match = re.search(rf"\\newcommand\{{\\{macro}\}}\{{([^}}]*)\}}", tex)
                     if not match or match.group(1) != value:
                         fail(errors, f"archive generated TeX macro {macro} does not match the released identity")
-                if re.search(r"\\newcommand\{\\ReleaseCommit\}", tex):
-                    fail(errors, "archive release_metadata.tex must link the version tag, not embed a self-referential commit hash")
 
             citation_data = archive_member(archive, "CITATION.cff", errors)
             if citation_data is not None:
@@ -470,7 +482,7 @@ def main() -> int:
         if capsule_manifest.get("ai_provider") != "deterministic mock":
             fail(errors, "Code Ocean reproduction did not use the deterministic mock")
     manuscript_text = manuscript.read_text(encoding="utf-8") if manuscript.exists() else ""
-    if capsule_url and capsule_url not in manuscript_text:
+    if capsule_url and capsule_url not in manuscript_text and "\\ReleaseCapsuleURL" not in manuscript_text:
         fail(errors, "manuscript does not contain the recorded Code Ocean capsule URL")
     response_path = DOCS / "response_to_revision.md"
     if capsule_url and response_path.is_file() and capsule_url not in response_path.read_text(encoding="utf-8"):

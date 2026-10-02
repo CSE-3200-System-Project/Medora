@@ -38,16 +38,16 @@
       "bytes": 111590
     },
     "ai_service/models/Yolo26s/AUTHOR_DISTRIBUTION_DECISION.md": {
-      "sha256": "b075f706b9edcf4a4c698627a405a0a44c44a340a13f25697992ede3446ff941",
-      "bytes": 1946
+      "sha256": "340a957c0499c014a8623d3ebeb45e77c130760373c2696aa7396149d84166b1",
+      "bytes": 1743
     },
     "ai_service/models/Yolo26s/COPYING.AGPL-3.0": {
       "sha256": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0",
       "bytes": 34523
     },
     "ai_service/models/Yolo26s/DISTRIBUTION.md": {
-      "sha256": "5ce893571bd282c126c7da6bd5fec65bc79a228aa805054dff8bbd8999a20a42",
-      "bytes": 1866
+      "sha256": "5c83768d9fd9d08b708b37cc741112f7ab6a36fe748b8a7a5de50f56a3e7b73c",
+      "bytes": 1681
     },
     "ai_service/models/Yolo26s/MODEL_CARD.md": {
       "sha256": "4d71724288dcf750b7c41a3f89e59f0a4b2340f19e63301524bc4cf55569ae5b",

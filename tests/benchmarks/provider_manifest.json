@@ -1,6 +1,7 @@
 {
   "schema_version": "1.0.0",
   "release": "v1.0.2",
+  "release_field_meaning": "Historical originating observation release; carried forward as archived configuration evidence, not a claim of live-provider execution in a later release",
   "execution_date": "2026-08-08",
   "providers": [
     {

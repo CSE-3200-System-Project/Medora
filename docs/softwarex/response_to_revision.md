@@ -1,80 +1,91 @@
-# Draft point-by-point response to SoftwareX reviewers
+# Point-by-point response to SoftwareX reviewers
 
-This is a working revision record, not a final submission letter. A row marked
-Implemented names a completed repository/manuscript change. A row marked Pending evidence
-needs a frozen run, data audit, or independent review. A row marked External decision needs
-an authorized human or publication service. No row should be presented as closed until the
-replacement immutable release is published.
+Manuscript SOFTX-D-26-01036. This response is tied to GitHub release `v1.0.5`,
+its Zenodo archive (version DOI <https://doi.org/10.5281/zenodo.23108532>) and the
+Code Ocean capsule version <https://codeocean.com/capsule/7570240/tree/v3>, whose
+reproducible run executed against the same source commit as the `v1.0.5` tag. The
+exact commit, run ID and result-manifest hash are recorded in the archive's
+`docs/softwarex/release_metadata.json` and in Table 1 of the manuscript; the published
+ZIP's SHA-256 is recorded on the Zenodo record. The release supersedes v1.0.4, whose
+automatically imported archive contained stale internal release metadata.
 
-The revised manuscript now uses the actual teacher-revised Overleaf submission as its
-narrative baseline. Both working TeX sources agree; the submitted original is preserved
-under `submission-history/`. The four-author list, CRediT roles, deployment information,
-patient/clinician workflows and research reuse discussion are retained.
+The revised manuscript retains the submitted paper's four-author list, CRediT roles,
+deployment information, patient/clinician workflows and research reuse discussion.
+Page numbers below refer to the 21-page revised manuscript PDF. The original
+reviewer comments are paraphrased by topic in each response ID; the text and
+limits of the response are stated explicitly for each point.
+
+The principal limits of the revision are unchanged: no formal institutional
+ethics review was obtained for the private prescription-image research; the
+optional detector is not clinically validated; most assistive endpoint groups
+have no task-level evaluation; and the full historical safety report was not
+rerun on the published capsule. The response below identifies where the paper
+narrows claims instead of claiming these studies were performed.
 
 ## Reviewer 1
 
 | ID | Response and evidence | Status |
 | --- | --- | --- |
-| R1-01 | The release gate now reads archived metadata and an evidence-manifest hash inventory, comparing version, commit, and DOI to the release record. It exposes the existing v1.0.2 archive inconsistency rather than masking it. A consistent replacement archive is still required. | External decision |
+| R1-01 | **Release identity.** The v1.0.4 archive was imported automatically from the raw Git tag and retained null DOI/commit fields, a `v1.0.4 candidate` Table 1 and a verification receipt for an earlier commit; we do not claim it satisfied this request. v1.0.5 replaces it. Its ZIP is built from the tagged commit by `tools/release/build_zenodo_deposit.py`, which injects the release version, Zenodo DOI, commit, Code Ocean capsule/run identifiers and a fresh nine-check verification receipt for that same commit, and refuses to build if any disagree. `tools/release/check_softwarex_release.py` compares the public Zenodo record, the downloaded ZIP's hash, the tagged source, the archive's internal metadata, the generated manuscript metadata and the capsule manifest. The capsule verifies only its named focused checks, not the whole suite; the full-suite receipt is the separate verification file. | Release gate applied to v1.0.5; see the submitted record for the verified identifiers |
 | R1-02 | The manuscript now labels unmeasured endpoint groups as capability only and explicitly disclaims their accuracy or content validity; no task score is inferred from contract tests. | Addressed by narrowing the claims; no additional endpoint evaluation is claimed |
-| R1-03 | The manuscript and threat model identify 23/94 misses in the frozen v1.0.2 report, name residual identifier types that may reach an authorized provider, and call the operation redaction/pseudonymisation rather than anonymisation. Later source changes are not presented as independently evaluated on the saturated fixture set. The optional expansion requested "if possible" is not claimed as completed; the 216-case candidate is excluded from validated performance evidence. | Limited fixture interpretation and residual-risk wording implemented; expanded bilingual evaluation is optional for these limited claims, not a mandatory two-reviewer gate; final editorial assessment remains |
-| R1-04 | The generated tables separate the deterministic emergency screen from recorded-provider/mock specialty outcomes and report TP=7, FN=0, FP=5, TN=18 with sensitivity, specificity, PPV, and NPV plus two-sided Wilson 95% fixture intervals. The manuscript calls the 30-case, one-reviewer sample preliminary software validation, using the reviewer's expressly permitted limited-scope route. | Statistical reporting and preliminary-fixture qualification implemented; an additional clinical reviewer/larger set is optional for these limited claims, not a mandatory gate; final editorial assessment remains |
-| R1-05 | The selected S4/S5 public reconstruction links all 44,226 rows to exact source files and 45,135 contributors, with field changes, exclusions and quarantines. S1/S2 were not used in this output; the historical deployed counts remain separate. A physician reviewed approximately 100 targeted entries across four candidate sources on 29 September 2026; most checked mappings appeared reasonable, with duplicates and missing strengths noted. This is not a population-accuracy estimate. S4/S5 publisher licences, notices and hashes are recorded. | Lineage and limited physician scope recorded; final capsule/release publication pending; no whole-corpus/current-national-register claim |
-| R1-06 | YOLO26s architecture, seven labels, input/output schema, author-reported v2 origin/split/preprocessing and observed checkpoint parameters are documented. PT 8.4.21 agrees with notebook settings; all 204 matched named ONNX parameter tensors agree exactly after fusion, despite ONNX export metadata 8.4.19. Historical dataset/date/metric discrepancies and nonmatching raw top-k rows are disclosed; no accuracy/full-equivalence claim is made. Output-free recipe, PT/ONNX and AGPL/corresponding-source bundle are prepared under the recorded author/institution weight-release decision. | Experimental-pipeline documentation and current-artifact verification completed; final immutable packaging remains, not private-image publication or mandatory new accuracy evaluation |
+| R1-03 | **Privacy recall and residual exposure.** The manuscript reports 23 missed spans among 94 expected spans (75.5% recall) in the frozen synthetic suite and names the identifier types that may reach an authorized provider despite redaction. It calls this redaction and pseudonymisation, not anonymisation (pp. 10–12). The 216-case candidate was not accepted as independent validation; no new naturalistic bilingual privacy claim is made. | Risk disclosed; larger independent evaluation remains unperformed |
+| R1-04 | **Navigation and emergency uncertainty.** Tables 7–8 (p. 11) separate deterministic emergency screening from recorded-provider/mock specialty outcomes. For 30 clinician-reviewed fixtures the screen has TP=7, FN=0, FP=5 and TN=18; the table reports sensitivity, specificity, PPV and NPV with two-sided Wilson 95% intervals. The seven positive cases and single reviewer cannot establish clinical triage performance. | Fixture statistics supplied; external clinical validation remains unperformed |
+| R1-05 | Section 2.2 now identifies all five source roles, separates the historical deployed counts from the 44,226-row S4/S5 reconstruction, and specifies a versioned update procedure. The public rebuild records 45,135 contributor links, field changes and quarantines; the capsule run hash-verified its selected inputs and outputs. A physician reviewed approximately 100 targeted entries across four candidate sources on 29 September 2026; duplicates and missing strengths were noted. This is not a statistically representative audit, current-register comparison, or validation of completeness, obsolescence, strength, form and manufacturer fields. The manuscript explicitly limits use to identity lookup. | Provenance and update policy supplied; authoritative/currentness validation remains unperformed |
+| R1-06 | **Detector reproducibility.** The manuscript and model card give the YOLO26s architecture, seven labels, inputs, reported split/preprocessing and available checkpoint settings. The capsule run checked 204 named PT/ONNX parameter correspondences; the raw predictions were not identical. Historical dataset/date/metric discrepancies and missing complete original training logs remain documented. The private prescription images and annotations are excluded; no fresh detector accuracy or full inference-equivalence claim is made (pp. 8–11). | Artifact diagnostics reproducible; original training and external accuracy study not fully reproducible |
 | R1-07 | Dashboard/API now show stored-record coverage and group status, not a clinical score, AI advice or reminder-derived adherence. Formula, inputs, finite-value/UTC-window rules and readable date/snapshot labels are exposed in both locales. Matching authentic English/Bengali frontend views replace Figure 4, retaining navigation, dashboard heading and both feature panels; separate open-disclosure captures are archived. The consenting author account header is visible, while unrelated records remain outside the frame. Capture receipt is archived. | UI/API and authentic Figure 4 replacements implemented and inspected in the compiled PDF; final submission approval remains |
-| R1-08 | docs/THREAT_MODEL.md now records assets, boundaries, controls, residual risks, and unverified deployment responsibilities. | Implemented; deployment verification remains pending |
-| R1-09 | The author record states verbal academic/research consent, no image redistribution, private Roboflow processing and otherwise local original-image storage; the authors report no image-file upload to Colab or public Google Drive. No formal institutional ethics review was obtained, and supervisor reassurance is not described as committee approval or exemption. Approved derived weights have AGPL/corresponding-source documentation; originals, identifying exports and image-bearing notebooks stay private. | Scope and storage declaration recorded; authors approve final wording; no image-publication task or invented ethics authority |
-| R1-10 | The manuscript and docs/INTEROPERABILITY.md state the private JSON/REST boundary, export limitation, and absence of FHIR/IHE conformance. Related work now includes recent clinical summarization, clinician-AI workflow, Bengali medical NLP, clinical text privacy, and prompt-injection studies. | Manuscript/document changes implemented; final bibliography/layout check remains |
-| R1-11 | The booking protocol was rerun with 30 independent trials at 2/10/50 simultaneous attempts after a per-level warm-up. The archived JSON records Windows 11 host/kernel/build, CPU/RAM, Python 3.13.14, Docker and PostgreSQL 16.15, database settings, client/app/database locality, monotonic request timer and event-timestamp definitions, source commit/dirty state, raw latencies, and correctness assertions. The manuscript limits interpretation to in-process ASGI/PostgreSQL component timing. A clean immutable-release rerun remains pending. | Host-run evidence recorded; final release-bound run pending |
+| R1-08 | docs/THREAT_MODEL.md now records assets, boundaries, controls, residual risks, and unverified deployment responsibilities. | Implemented; deployment verification remains the deployer's responsibility |
+| R1-09 | **Prescription-image ethics and release scope.** The authors report verbal consent for research processing from friends and family, private Roboflow processing, and local storage of originals, with no image redistribution or upload to Colab/public Google Drive. No formal institutional ethics review, exemption or waiver was obtained. The paper says so on pp. 17–18 and excludes the original images, annotations and image-bearing notebooks. The derived detector weights remain publicly distributed under the recorded author/institution decision; that decision is not an ethics-board determination. | Factual disclosure and image exclusion completed; editor/institution may still require additional determination |
+| R1-10 | The manuscript and `docs/INTEROPERABILITY.md` state the private JSON/REST boundary, export limitation, and absence of FHIR/IHE conformance. Related work now contrasts Medora with Discovery's patient-facing EHR exploration and the Standard Health Consent prototype, alongside clinical AI, Bengali NLP, privacy and prompt-injection studies. It locates the contribution in integration and containment, not novelty of the individual techniques. | Manuscript and document changes implemented; no interoperability conformance claimed |
+| R1-11 | The historical booking protocol used 30 independent trials at 2/10/50 simultaneous attempts after per-level warm-up. Its archived JSON records the Windows host, CPU/RAM, Python, Docker, PostgreSQL, database settings, locality, timer definitions, raw latencies and correctness assertions. The manuscript limits interpretation to in-process ASGI/PostgreSQL component timing. Separately, the Code Ocean capsule run executed 90 fresh-slot trials against an isolated PostgreSQL 16 cluster from the frozen source commit. The Linux capsule results do not replace or claim timing equivalence with the historical Windows host. | Historical and source-bound capsule trials documented in the published release records |
 | R1-12 | AI-native was replaced with assistive-AI terminology in the manuscript. | Implemented |
 | R1-13 | The generated safety summary now uses conventional measurements and explicitly says fixture assertions do not establish correctness. | Implemented |
-| R1-14 | Redaction, pseudonymisation, residual risk, prospective revocation, and clinical-validation limits were harmonised in the manuscript and governance docs. | Implemented; final global release audit pending |
-| R1-15 | The provider manifest identifies the archived configurations and the manuscript now states that other configured adapters are not evaluated. The manifest still needs binding to the replacement release commit and final evidence. | Scope clarification implemented; final release binding remains |
-| R1-16 | The figures have been rebuilt at journal widths and inspected in the compiled PDF. Figure 4 uses authentic bilingual frontend views with navigation and both feature panels; existing consent and assistant panels retain their wider interface context. | Layout/readability pass implemented; final author approval remains |
+| R1-14 | Redaction, pseudonymisation, residual risk, prospective revocation, and clinical-validation limits were harmonised in the manuscript and governance docs. | Wording implemented; archive receipt limitation disclosed in R1-01 |
+| R1-15 | The provider manifest identifies the archived configurations, and the manuscript states that other configured adapters are not evaluated. The capsule run is bound to the replacement source commit and records a deterministic mock provider; it does not replay live providers. | Scope and capsule binding documented; Zenodo archive published |
+| R1-16 | **Figure readability.** Figure 4 (p. 14) now shows matching English/Bengali frontend captures, including navigation and the record-coverage panels. Figures 5–6 (pp. 15–16) show consent and assistant workflows. The full-screen captures still contain small interface text at printed A4 size; their captions and the adjacent prose state the controls and outcomes needed to follow the argument. | Layout improved; screenshot microtext remains a print-legibility limitation |
 
 ## Reviewer 2
 
 | ID | Response and evidence | Status |
 | --- | --- | --- |
-| R2-00 | Figures 4–6 were inspected in the compiled teacher-first revision; screenshot legibility is coupled to R1-16. | Layout/readability pass implemented; final author approval remains |
+| R2-00 | **Small screenshot text.** Figures 4–6 (pp. 14–16) were checked in the compiled 21-page PDF. The main panels and headings are readable at page scale; incidental interface text remains small. Captions and prose identify the relevant controls. | Main UI evidence readable; incidental text remains small |
 | R2-01 | The manuscript and interoperability document provide bounded GDPR, MDR, and German AMG applicability text, explicitly without compliance or legal-advice claims. | Implemented; legal review remains optional/external |
 | R2-02 | The Wallace et al. reference now includes DOI 10.1038/s41746-022-00667-w. | Implemented |
 | R2-03 | docs/INTEROPERABILITY.md documents purpose/provider/scope/versioned grants, enforcement, denial, revocation, and post-disclosure limitation. | Implemented |
-| R2-04 | The same document traces the patient sharing decision to stored fields, policy check, payload authorization, and patient-visible receipt, with a non-production JSON example. | Implemented |
+| R2-04 | Section 2.1 now gives a concrete human-to-machine example: a patient's selected recipient, purpose and record categories become a versioned, time-bounded local grant; unchecked categories are withheld and absent permission returns HTTP 403. `docs/INTEROPERABILITY.md` supplies a non-production JSON example. These are local terms, not FHIR-coded consent semantics. | Implemented at the local-contract level; standards conformance not claimed |
 | R2-05 | The manuscript and document map the local grant conceptually to FHIR Consent and state the IHE PCF/FHIR non-conformance boundary. | Implemented; adapter/conformance testing is not claimed |
 
 ## Reviewer 3
 
 | ID | Response and evidence | Status |
 | --- | --- | --- |
-| R3-01 | The paper explicitly narrows the measured contribution to the fixture-backed behaviors, labels unmeasured groups as capabilities, and disclaims clinical/content-performance evidence for them. | Addressed by claim narrowing |
-| R3-02 | The headless capsule now checks archived case-level observations, scores current mock/rule safety, runs focused coverage/safety tests and executes 90 booking trials using a fresh native PostgreSQL 16 cluster. Explicit model profiles execute the supplied MuRIL and approved detector diagnostics. Historical tables remain separately identified; clinical evaluation and live-provider historical replay are not claimed. | Local execution verified; final candidate Code Ocean run/citation remains |
-| R3-03 | Privacy recall and the emergency screen include denominator-specific two-sided Wilson 95% intervals; the emergency table reports the full confusion matrix and derived rates. Booking reports sample counts and descriptive nearest-rank p50/p95/p99 for request-through-commit and outbox propagation separately. Its JSON includes 95% percentile cluster-bootstrap intervals resampling the 30 independent fresh-slot trials (fixed seed; simultaneous requests remain clustered), plus every raw observation and environment detail. No deployed-capacity inference is made. A clean immutable-release rerun remains pending. | Fixture uncertainty and host-run booking summaries recorded; final release-bound run pending |
+| R3-01 | **Breadth of AI evaluation.** Table 5 (p. 9) distinguishes three fixture-backed groups from six groups listed only as implemented capabilities. The abstract and Evaluation avoid quantitative claims about the latter. No additional task-level evaluation of those six groups was performed. | Claims narrowed; broader quantitative evaluation remains unperformed |
+| R3-02 | **Independent reproduction.** the Code Ocean capsule run verifies its source commit/tree, checks archived observations, scores current mock/rule safety, passes 26 focused tests, and reruns 90 fresh booking trials in isolated PostgreSQL 16. Selected medicine and detector checks execute. MuRIL/PHI inference, original detector training and live-provider calls are not rerun; their historical evidence is identified separately (pp. 9–13 and capsule manifest). | Focused source-bound reproduction supplied; historical model/provider experiments are not fully replayed |
+| R3-03 | Privacy recall and the emergency screen include denominator-specific two-sided Wilson 95% intervals; the emergency table reports the full confusion matrix and derived rates. Historical booking results report sample counts and descriptive nearest-rank p50/p95/p99 for request-through-commit and outbox propagation separately, with 95% cluster-bootstrap intervals across the 30 independent fresh-slot trials. Raw observations and environment details are preserved. the Code Ocean capsule run adds 90 source-bound fresh-slot trials in its own result file. These environments are reported separately; no deployed-capacity or cross-host timing equivalence is inferred. | Fixture uncertainty and historical and capsule booking evidence recorded in the public v1.0.4 records |
 | R3-04 | Residual provider disclosure is now stated plainly in the abstract, software description, evaluation, and threat model. | Implemented |
 | R3-05 | Global safety wording was replaced with control-specific claims, and navigation fixtures are not presented as clinical triage validation. | Implemented |
-| R3-06 | No controlled LLM-only/deterministic-only/hybrid ablation is claimed. The paper now says consent, redaction, route allowlisting, and schema checks are authorization/validation invariants, not comparative performance components. | Limitation and rationale stated; no ablation result is claimed |
-| R3-07 | The Motivation section now cites and distinguishes clinical summarization, clinician-AI workflow evaluation, Bengali medical NLP, residual re-identification risk, and medical prompt-injection studies. Each citation has a DOI or stable article URL. | Manuscript writing implemented; final bibliography/layout check remains |
-| R3-08 | The selected S4/S5 rebuild records row/field lineage and changes; 44,226 rows and 45,135 links pass input/field checks. The author-supplied physician note covers four candidate sources and approximately 100 targeted identity checks: most mappings appeared reasonable, with duplicates and missing strengths noted. No whole-corpus accuracy or national-register completeness is claimed. S4/S5 are selected on their documented publisher MIT/CC BY 4.0 licences, while S1/S2 contributions are excluded. | Physician scope and public source basis recorded without new permission-email dependency; final capsule/release publication pending |
-| R3-09 | docs/REPRODUCING.md and docs/softwarex/CODE_OCEAN_CAPSULE.md give Code Ocean commands, outputs, hashes, and limits of frozen-table regeneration. The selected medicine profile reconstructs S4/S5 data from exact inputs; approved detector assets are optional. The final platform execution record is not yet available. | Preparation implemented; final Code Ocean run and clean-release execution remain |
-| R3-10 | The manuscript was compacted while retaining the reviewer-requested caveats; the current gate count is below 3,000 words including captions. | Implemented |
+| R3-06 | **Comparative baselines.** Table 11 (p. 13) compares privacy rules, MuRIL and their union on a development set and a separate synthetic probe. No controlled LLM-only/deterministic-only/full-hybrid ablation was performed. Consent, route allowlisting and schema checks are authorization/validation controls, so the paper does not claim a measured performance gain from their combination. | Component comparison supplied; requested full-system ablation remains unperformed |
+| R3-07 | The Motivation section (pp. 2–4) cites and distinguishes patient-facing records, consent architecture, clinical AI, Bengali medical NLP, residual re-identification risk, and medical prompt-injection studies. Each citation has a DOI or stable article URL in the reference list (pp. 18–21). | Manuscript citations and layout checked |
+| R3-08 | **Medicine-source provenance and validation.** Section 2.2 now names the roles of S1--S5, specifies S4/S5-only public reconstruction, normalization/quarantine, 44,226 rows and 45,135 source links, and a versioned update procedure. The capsule run checks selected inputs and outputs. The physician note covers about 100 targeted identity checks across four candidate sources and reports duplicate/missing-strength issues. It is not a stratified accuracy estimate, currency check or regulator validation. | Source lineage and targeted review supplied; authoritative/currentness validation remains unperformed |
+| R3-09 | `docs/REPRODUCING.md` and `docs/softwarex/CODE_OCEAN_CAPSULE.md` give commands and the limits of frozen-table regeneration. The capsule run used the selected medicine and detector profiles, verified its packaged source commit/tree and wrote current-run outputs to `/results`; the safety baseline remains a frozen historical report. The v1.0.5 instructions and metadata name only the v1.0.5 release and its capsule version; the v1.0.4 text that mentioned older planned versions was corrected. | Instructions and versioning corrected in v1.0.5; verified by the release gate |
+| R3-10 | Repetition across the Motivation, Evaluation, Impact and Conclusions was reduced while retaining the reviewer-requested limitations. The 21-page PDF has been checked for table separation, figure placement and readable body text. | Editorial pass implemented |
 
-## Current manuscript locations
+## Manuscript locations
 
-These refer to the checked 20-page revision draft compiled on 29 September 2026,
-not the eventual frozen submission.
-Recheck them after inserting capsule/release metadata and approved corpus evidence.
+Page numbers below refer to the 21-page manuscript PDF compiled from the updated local
+TeX source. They must be rechecked after any new release DOI is inserted.
 
-| Review topics | Current location |
-| --- | --- |
-| Recent related work and system positioning | Section 1, pp. 2–4; Table 2 |
-| Consent, database boundaries, FHIR/IHE and EU applicability | Section 2.1, pp. 4–6; Figures 1–2 on p. 5 |
-| Historical corpus and attributed rebuild | Section 2.2, p. 6; Table 3 on p. 6; ethics, p. 17 |
-| Endpoint scope and deterministic/model distinction | Section 2.2, pp. 6–9; Tables 4–5 on pp. 7–8 |
-| Privacy, navigation, summaries, booking and reproduction scope | Section 2.3, pp. 9–13; Tables 6–12 on pp. 10–12 |
-| Completed privacy/consent component comparisons | Section 2.3, p. 10; Tables 11–12 on p. 12; FINAL_REVISION_REPORT.md |
-| Detector artifacts and experimental OCR scope | Section 2.3, pp. 10–13; model card and verification reports |
-| Record coverage and authentic interface figures | Section 3 starts p. 13; Figures 4–6 on pp. 14–16 |
-| Ethics, private images, clinician review and competing interest | Unnumbered statements, pp. 17–18 |
+| Reviewer comments | Manuscript location | Printed pages |
+| --- | --- | --- |
+| R1-01 | Code metadata, Table 1 | 2 |
+| R1-02, R1-12, R1-15, R3-01 | Abstract; endpoint scope and deterministic/model distinction, Tables 4–5 | 1, 8–10 |
+| R1-03, R1-04, R1-13, R1-14, R3-04–06 | Privacy, emergency screen, navigation, summaries, and component evaluation, Sections 2.3 and Tables 6–12 | 10–13 |
+| R1-05, R3-08 | Historical corpus and attributed rebuild, Section 2.2 and Table 3; ethics statement | 5–6, 17–18 |
+| R1-06 | Detector architecture and evaluation, Table 4 and Section 2.3; model card and detector verification report | 8–11 |
+| R1-07, R1-16, R2-00 | Record coverage and authentic interface views, Section 3 and Figures 4–6 | 13–16 |
+| R1-08, R2-01, R2-03–05 | Trust boundaries, consent workflow, interoperability and regulatory scope, Section 2.1 and Figures 1–2 | 3–6 |
+| R1-09 | Research ethics and image handling statement | 17–18 |
+| R1-10, R2-02, R3-07 | Related work, Section 1 and Table 2; references | 2–4, 18–21 |
+| R1-11, R3-02–03, R3-09 | Reproducibility and booking evaluation, Section 2.3 and Tables 6–12 | 10–13 |
 
 ## Completed evidence and reviewer-specific additions
 
@@ -93,20 +104,21 @@ R2-05 includes the suggested Consent Management 2.0 paper (DOI 10.3233/SHTI25138
 without claiming implemented FHIR/IHE conformance. R1-08 also receives a concise
 threat-model paragraph distinguishing audit logging from tamper-proof auditing.
 
-R1-09 still needs the authors' actual determination concerning **original identifiable-image
-collection and research/training use** (approval/exemption/waiver or absence of formal review).
-Research-use consent and the reported institution decision to distribute derived weights
-do not establish that separate status. Private images remain excluded; no image-publication
-task or invented approval is prescribed.
+R1-09 is addressed through an explicit author disclosure: friends and family gave
+verbal consent for research use but not image redistribution; images were processed
+in a private Roboflow workspace and originals otherwise stayed local. The authors
+report that no formal institutional ethics review was obtained. The paper does not
+call this an approval, exemption or waiver. Original prescription images remain
+private and are not part of the public capsule or release.
 
 R1-16/R2-00 received a further compiled-layout pass: top table captions, wrapped safety
 columns, readable booking rows, flexible float placement and consistent spacing. Six figures
 and twelve tables fit the original Elsevier preprint format without shrinking the body font.
 
-## Release blockers
+## Publication record
 
-The Code Ocean capsule is at https://codeocean.com/capsule/6708964. The final response must be updated with page numbers and the final
-DOI/version, archive checksum, and links to frozen evidence. It cannot close items requiring
-actual source permissions/review-scope records, author approval, the Code Ocean run, and
-a consistent immutable release. The author-supplied weight-release decision and authentic
-Figure 4 replacement are already recorded; private-image publication is not required.
+The v1.0.5 source release, its Zenodo archive and the Code Ocean capsule version
+named above are the artifacts cited in the revised manuscript. Source licences, the
+limited physician-review scope, image-consent/ethics disclosure and weight-release
+decision are documented; private images are not included. The v1.0.4 release and
+Code Ocean v2 remain public as superseded records.

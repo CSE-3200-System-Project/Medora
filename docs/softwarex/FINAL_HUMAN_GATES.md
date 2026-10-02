@@ -48,17 +48,20 @@ prescription images is required for the limited claims in the revised paper.
    using `CODE_OCEAN_CAPSULE.md`, configure its supported environment, and run
    **Reproducible Run**. Return the reader-accessible capsule/version URL, run ID,
    downloaded `/results` manifest and outputs (and DOI if one is minted).
-3. Reserve/publish a new Zenodo version DOI under concept DOI
-   `10.5281/zenodo.21844459`; do not reuse v1.0.2 DOI
-   `10.5281/zenodo.21846125`. Push the same GitHub source tag and have the exact
-   released archive downloaded back for the identity/hash check. GitHub/Zenodo
-   credentials remain with the authors.
+3. From the existing Zenodo v1.0.4 record, create a **new version draft** and reserve
+   its version DOI under concept DOI `10.5281/zenodo.21844459`. Do not publish the
+   draft or import v1.0.4 files. The finalized ZIP produced by
+   `tools/release/build_zenodo_deposit.py` must be uploaded to that draft manually.
+   Zenodo's GitHub auto-import of the raw tag ZIP caused the v1.0.4 internal-metadata
+   mismatch; disable auto-import for the repository before publishing the GitHub
+   release, or a duplicate Zenodo record may be created. Download the deposited ZIP
+   and check its SHA-256. GitHub/Zenodo credentials remain with the authors.
 4. Approve and submit the final compiled manuscript and point-by-point response
    after their actual capsule and archive links/page references are inserted.
 
 ## Agent actions after those identifiers are supplied
 
-Bind the real capsule/version and reserved Zenodo DOI to the v1.0.3 candidate;
+Bind the real capsule/version and reserved Zenodo DOI to the v1.0.5 candidate;
 rerun the full release gate and package from the immutable tag; record the Code
 Ocean and downloaded-Zenodo receipts; rebuild the Overleaf upload ZIP; and check
 all paper/response citations and pages. A source or environment change after the

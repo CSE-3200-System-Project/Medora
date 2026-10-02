@@ -5,7 +5,9 @@ The candidate commit must already contain its final paper/capsule URL and a rese
 version DOI. Run all verification checks on that commit, create/push its GitHub tag, then
 run this command. It injects build-time release identity and fresh verification receipts
 into the archive, computes the ZIP hash, and records the detached receipt in the working
-tree. It never publishes to Zenodo or GitHub.
+tree. It never publishes to Zenodo or GitHub. Upload its output to a manually
+reserved Zenodo new-version draft; GitHub auto-import archives the unfinalized
+tag snapshot and cannot substitute for this release ZIP.
 """
 
 from __future__ import annotations
@@ -80,11 +82,20 @@ def read_citation() -> dict:
     return citation
 
 
-def release_tex(version: str, doi: str, release_date: str) -> bytes:
+def release_tex(version: str, doi: str, release_date: str, metadata: dict, commit: str) -> bytes:
+    capsule = metadata.get("code_ocean") or {}
+    if capsule.get("source_commit") != commit:
+        raise ValueError("capsule source commit does not match release source commit")
     macros = {
         "ReleaseVersion": version,
         "ReleaseDOI": doi,
         "ReleaseDate": release_date,
+        "ReleaseCommit": commit,
+        "ReleaseCommitShort": commit[:12],
+        "ReleaseCapsuleURL": str(capsule.get("capsule_url") or ""),
+        "ReleaseCapsuleDOI": str(capsule.get("doi") or ""),
+        "ReleaseCapsuleVersion": str(capsule.get("version") or ""),
+        "ReleaseCapsuleRun": str(capsule.get("run_id") or ""),
     }
     return "".join(f"\\newcommand{{\\{name}}}{{{value}}}\n" for name, value in macros.items()).encode("utf-8")
 
@@ -142,7 +153,10 @@ def finalize_archive_identity(archive_path: Path, version: str, commit: str, met
     release_tex_path = member_path("docs/softwarex/generated/release_metadata.tex")
     if release_tex_path not in members:
         raise SystemExit("release archive is missing docs/softwarex/generated/release_metadata.tex")
-    members[release_tex_path] = (members[release_tex_path][0], release_tex(version, metadata["zenodo_doi"], release_date))
+    members[release_tex_path] = (
+        members[release_tex_path][0],
+        release_tex(version, metadata["zenodo_doi"], release_date, metadata, commit),
+    )
 
     verification_path = ROOT / "docs/softwarex/generated/verification.json"
     if not verification_path.is_file():
@@ -262,7 +276,9 @@ def main() -> int:
 
     # Not git(): its .strip() would eat the leading status column of the first line, and
     # the path offset would then be wrong for exactly that entry.
-    porcelain = subprocess.check_output(["git", "status", "--porcelain"], cwd=ROOT, text=True)
+    porcelain = subprocess.check_output(
+        ["git", "status", "--porcelain", "--untracked-files=all"], cwd=ROOT, text=True
+    )
     dirty = []
     for line in porcelain.splitlines():
         if not line:
@@ -394,7 +410,8 @@ def main() -> int:
         return 2
     manuscript_source = (DOCS / "medora_softwarex.tex").read_text(encoding="utf-8")
     response_source = (DOCS / "response_to_revision.md").read_text(encoding="utf-8")
-    if capsule_url not in manuscript_source or capsule_url not in response_source:
+    manuscript_uses_capsule_macro = "\\ReleaseCapsuleURL" in manuscript_source
+    if (capsule_url not in manuscript_source and not manuscript_uses_capsule_macro) or capsule_url not in response_source:
         print("the stable Code Ocean URL must be present in both manuscript and response before release", file=sys.stderr)
         return 2
 
@@ -452,10 +469,10 @@ def main() -> int:
     print(f"deposition  {(DOCS / 'zenodo_deposition.json').relative_to(ROOT)}")
     print()
     print("Next author actions:")
-    print("  1. Confirm the matching GitHub release/tag is public at this exact commit.")
-    print("  2. Upload this exact ZIP to the reserved Zenodo version DOI (or confirm the configured integration used it).")
-    print("  3. Download the published Zenodo file and verify its SHA-256 equals the value above.")
-    print("  4. Point release_metadata.json archive_path at that downloaded copy; regenerate evidence, build the PDF, and run check_softwarex_release.py.")
+    print("  1. Upload this exact ZIP to the manually reserved Zenodo new-version draft; do not use GitHub auto-import for this version.")
+    print("  2. Publish the Zenodo draft, download its ZIP, and verify its SHA-256 equals the value above.")
+    print("  3. Publish the matching GitHub release/tag only with Zenodo GitHub auto-import disabled, to avoid a duplicate record.")
+    print("  4. Point release_metadata.json archive_path at the downloaded ZIP; regenerate evidence, build the PDF, and run check_softwarex_release.py.")
     return 0
 
 
